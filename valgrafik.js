@@ -232,7 +232,7 @@ async function start() {
     KONFIG.ar.forEach((a, i) => { state.data[a] = valdata[i]; });
     if (!state.data[state.ar]) state.ar = KONFIG.ar[0];
     state.bakgrund = await laddaSkript("bakgrund").catch(() => null);
-    for (const a of KONFIG.ar) state.swing[a] = await laddaSkript("swing_" + a).catch(() => null);
+    for (const a of KONFIG.ar) state.swing[a] = a === [...KONFIG.ar].sort()[0] ? null : await laddaSkript("swing_" + a).catch(() => null);   // basåret har ingen swing
   } catch (e) {
     $("header.topp").append(h("p", { class: "fel" }, "Datafilerna kunde inte laddas: " + e.message + ". Kör scripts/bygg_data.py och kontrollera att data/ ligger bredvid valgrafik.js."));
     return;

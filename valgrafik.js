@@ -2,7 +2,7 @@
    Renderar hela grafiken inuti <div class="mp-val" id="valgrafik"></div>. Datafiler och konfig läses från
    mappen data/ bredvid den här filen (adressen tas ur skriptets egen src). Inga globala stilar, inga vh-mått:
    filen kan ligga i ett HTML-block i Beehiivs sajtbyggare eller i det tunna skalet index.html.
-   Konfig: data/konfig.js (ar, standardAr, valnatt, prenumerera, adress, inbaddad, skrivUrl). */
+   Konfig: data/konfig.js (ar, standardAr, valnatt, adress, inbaddad, skrivUrl). */
 (function () {
 "use strict";
 const rot = (document.currentScript && document.currentScript.closest && document.currentScript.closest(".mp-val")) || document.getElementsByClassName("mp-val")[0];
@@ -74,7 +74,6 @@ const MARKUP = `
   <section id="fakta" aria-labelledby="fakta-rubrik">
     <h2 id="fakta-rubrik">Om siffrorna</h2>
     <ul id="faktalista"></ul>
-    <p><a class="cta" id="prenumerera" href="#">Prenumerera på Majposten</a></p>
   </section>
 
   <footer id="fot"></footer>
@@ -84,7 +83,7 @@ const MARKUP = `
    data/valdata_<år>.js (och swing_<år>.js) skrivs av scripts/uppdatera_2026.py. */
 const KONFIG = {   // standardvärden, skrivs över av data/konfig.js
   ar: ["2022"], standardAr: "2022", valnatt: false,
-  prenumerera: "https://www.majposten.se/subscribe", adress: "https://val.majposten.se/",
+  adress: "https://majposten.se/val2026",
   inbaddad: false, skrivUrl: true
 };
 
@@ -315,7 +314,7 @@ function renderRiksdag() {
   const fordelning = state.mandatLage === "majorna" ? egen : verklig;
   const antal = Object.values(fordelning).reduce((a, b) => a + b, 0);
   const platser = halvcirkelPlatser(antal), ordning = mandatOrdning(fordelning);
-  const svg = s("svg", { viewBox: "-1.08 -1.08 2.16 1.2", role: "img", "aria-label": `${antal} mandat. ` + Object.entries(fordelning).map(([p, n]) => `${p} ${n}`).join(", ") + "." });
+  const svg = s("svg", { viewBox: "-1.08 -1.08 2.16 1.26", role: "img", "aria-label": `${antal} mandat. ` + Object.entries(fordelning).map(([p, n]) => `${p} ${n}`).join(", ") + "." });
   platser.forEach((pl, i) => svg.append(s("circle", { cx: pl.x.toFixed(4), cy: pl.y.toFixed(4), r: 0.026, fill: parti(ordning[i]).farg, style: `--i:${i}`, "data-i": i })));
   svg.append(s("text", { x: 0, y: 0.06, "text-anchor": "middle", "font-size": 0.1, "font-family": "Georgia, serif", "font-weight": 700, fill: FARG.black }, `${antal} mandat`));
   $("#halvcirkel").replaceChildren(svg);
@@ -384,7 +383,8 @@ const PLATSNAMN = { mobil: ["Eriksberg", "Slottsberget", "Stigberget", "Högsboh
 // typstorlekar i viewBox-enheter (1000 bred). Mobil: 1 enhet = 0,39 px. Desktop: 0,69 px.
 const STORLEK = { mobil: { etikett: 28, vald: 31, namn: 26, namnRad2: 22, kontur: 6, hallplats: 22, plats: 22 },
                   desktop: { etikett: 24, vald: 27, namn: 24, namnRad2: 20, kontur: 5, hallplats: 18, plats: 21 } };
-const arDesktop = () => rot.getBoundingClientRect().width >= 600;   // containerns bredd, inte fönstrets: rätt även inbäddad i en annan sida
+const arDesktop = () => rot.getBoundingClientRect().width >= 600;
+const arBred = () => rot.getBoundingClientRect().width >= 900;   // kortet ligger bredvid kartan   // containerns bredd, inte fönstrets: rätt även inbäddad i en annan sida
 let senastDesktop = null;
 if ("ResizeObserver" in window) new ResizeObserver(() => {
   const nu = arDesktop();
@@ -577,7 +577,7 @@ function valjDistrikt(kod, franKartan) {
   if (!franKartan) return;
   const p = $(`#karta path.distrikt[data-kod="${kod}"]`);
   if (p) p.focus({ preventScroll: true });   // omrenderingen tappar annars tangentbordsfokus
-  if (!state.vald) return;
+  if (!state.vald || arBred()) return;
   const svg = $("#karta svg").getBoundingClientRect();
   if (svg.height + 80 < innerHeight) $("#panel-topp").scrollIntoView({ block: "nearest", behavior: lugn() ? "auto" : "smooth" });
 }
@@ -626,7 +626,7 @@ function renderPanel() {
     for (const a of andelar(d[val], d.giltiga[val])) if (a.andel >= 0.01)
       staplar.append(stapelRad(a.p, a.andel, markorer.map(x => ({ ...x, andel: m.giltiga ? (m.roster[a.p] || 0) / m.giltiga : undefined })), swing ? swing[a.p] : null));
     knappar.append(h("button", { type: "button", onclick: () => valjDistrikt(state.vald) }, "Visa hela Majorna"),
-                   h("button", { type: "button", onclick: () => $("#karta").scrollIntoView({ block: "start", behavior: lugn() ? "auto" : "smooth" }) }, "Tillbaka till kartan"));
+                   h("button", { type: "button", class: "till-kartan", onclick: () => $("#karta").scrollIntoView({ block: "start", behavior: lugn() ? "auto" : "smooth" }) }, "Tillbaka till kartan"));
   } else {
     rubrik.textContent = "Hela Majorna";
     if (!majornaRaknat(val)) {
@@ -817,7 +817,6 @@ function renderFakta() {
   li.push(`Källa: ${meta.kalla}. ${meta.status === "slutlig" ? "Slutligt resultat." : "Preliminärt resultat."} Andel = partiets röster delat med giltiga röster.`);
   li.push("Byggd av Majposten.");
   $("#faktalista").replaceChildren(...li.map(t => h("li", {}, t)));
-  $("#prenumerera").href = KONFIG.prenumerera;
   $("#fot").replaceChildren(h("p", {}, "Så röstade Majorna - en valgrafik från Majposten. Valdata: Valmyndigheten." + (state.bakgrund ? " Kartunderlag © OpenStreetMaps bidragsgivare (ODbL)." : "")));
 }
 

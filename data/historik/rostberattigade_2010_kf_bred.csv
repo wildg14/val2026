@@ -1,0 +1,283 @@
+ar;val;län_id;län_namn;kommun_id;kommun_namn;kommunvalkrets_id;kommunvalkrets_namn;valdistrikt_id;valdistrikt_namn;Män/Svenska medborgare/18-29 förstagångsväljare;Kvinnor/Svenska medborgare/18-29 förstagångsväljare;Män/Ej svenska medborgare/18-29 förstagångsväljare;Kvinnor/Ej svenska medborgare/18-29 förstagångsväljare;Män/Svenska medborgare/18-29 ej förstagångsväljare;Kvinnor/Svenska medborgare/18-29 ej förstagångsväljare;Män/Ej svenska medborgare/18-29 ej förstagångsväljare;Kvinnor/Ej svenska medborgare/18-29 ej förstagångsväljare;Män/Svenska medborgare/30-49;Kvinnor/Svenska medborgare/30-49;Män/Ej svenska medborgare/30-49;Kvinnor/Ej svenska medborgare/30-49;Män/Svenska medborgare/50-64;Kvinnor/Svenska medborgare/50-64;Män/Ej svenska medborgare/50-64;Kvinnor/Ej svenska medborgare/50-64;Män/Svenska medborgare/65-;Kvinnor/Svenska medborgare/65-;Män/Ej svenska medborgare/65-;Kvinnor/Ej svenska medborgare/65-;totalt
+2010;kf;14;Västra Götalands län;1480;Göteborg;148002;Göteborg, Öster;14800111;Gunnared, Lövgärdets Centrum;42;44;9;5;64;78;24;21;159;157;73;46;138;133;29;30;78;91;9;12;1242
+2010;kf;14;Västra Götalands län;1480;Göteborg;148002;Göteborg, Öster;14800112;Gunnared, Övre Lövgärdet;51;61;8;8;128;121;28;35;258;241;80;58;149;139;26;28;77;109;18;15;1638
+2010;kf;14;Västra Götalands län;1480;Göteborg;148002;Göteborg, Öster;14800113;Gunnared, Nedre Lövgärdet;72;88;13;13;124;126;41;47;276;264;106;69;224;210;47;27;130;119;22;25;2043
+2010;kf;14;Västra Götalands län;1480;Göteborg;148002;Göteborg, Öster;14800121;Gunnared, Södra Rannebergen;37;44;10;6;102;112;31;25;246;225;62;59;144;156;27;27;114;153;18;11;1609
+2010;kf;14;Västra Götalands län;1480;Göteborg;148002;Göteborg, Öster;14800122;Gunnared, Norra Rannebergen;88;73;2;3;96;78;8;11;242;230;25;28;253;250;31;29;114;123;10;15;1709
+2010;kf;14;Västra Götalands län;1480;Göteborg;148002;Göteborg, Öster;14800131;Gunnared, Västra Gårdsten;36;29;12;6;60;48;38;28;134;158;86;62;109;103;53;44;71;87;21;15;1200
+2010;kf;14;Västra Götalands län;1480;Göteborg;148002;Göteborg, Öster;14800132;Gunnared, Norra Gårdsten;54;52;19;21;117;106;80;79;263;225;180;101;156;143;68;36;93;71;13;17;1894
+2010;kf;14;Västra Götalands län;1480;Göteborg;148002;Göteborg, Öster;14800133;Gunnared, Östra Gårdsten;60;60;14;6;99;83;32;35;169;200;84;63;160;143;45;25;88;109;12;16;1503
+2010;kf;14;Västra Götalands län;1480;Göteborg;148002;Göteborg, Öster;14800134;Gunnared, Södra Gårdsten;32;24;4;5;68;64;17;18;188;155;66;34;79;59;26;14;49;46;3;7;958
+2010;kf;14;Västra Götalands län;1480;Göteborg;148002;Göteborg, Öster;14800141;Gunnared, Angereds Centrum;75;69;4;6;81;81;16;12;204;233;22;17;172;206;24;20;103;128;10;10;1493
+2010;kf;14;Västra Götalands län;1480;Göteborg;148002;Göteborg, Öster;14800142;Gunnared, Trädgårdsgärdet;51;55;4;2;83;79;12;10;140;192;22;20;157;173;14;21;80;79;11;7;1212
+2010;kf;14;Västra Götalands län;1480;Göteborg;148002;Göteborg, Öster;14800211;Lärjedalen, Agnesberg;22;29;0;2;45;37;8;10;107;78;21;14;109;100;15;11;81;89;8;15;801
+2010;kf;14;Västra Götalands län;1480;Göteborg;148002;Göteborg, Öster;14800221;Lärjedalen, Västra Hammarkullen;78;79;16;14;106;124;31;31;240;288;98;79;152;161;26;23;81;89;18;14;1748
+2010;kf;14;Västra Götalands län;1480;Göteborg;148002;Göteborg, Öster;14800222;Lärjedalen, Östra Hammarkullen;67;55;9;15;121;113;55;42;273;267;86;56;159;140;28;29;121;155;23;23;1837
+2010;kf;14;Västra Götalands län;1480;Göteborg;148002;Göteborg, Öster;14800223;Lärjedalen, Sandeslätt;60;59;8;5;97;107;22;24;196;200;60;45;153;155;13;27;88;96;7;15;1437
+2010;kf;14;Västra Götalands län;1480;Göteborg;148002;Göteborg, Öster;14800231;Lärjedalen, Gunnilse-Linnarhult;55;45;4;0;60;49;3;4;244;253;25;18;225;192;14;15;140;110;8;8;1472
+2010;kf;14;Västra Götalands län;1480;Göteborg;148002;Göteborg, Öster;14800251;Lärjedalen, Björsared-Knipared;64;55;1;0;67;49;2;4;311;314;18;21;202;166;12;13;86;71;8;3;1467
+2010;kf;14;Västra Götalands län;1480;Göteborg;148002;Göteborg, Öster;14800252;Lärjedalen, Olofstorp;73;73;2;1;69;51;3;4;402;404;31;33;180;159;7;7;120;129;9;11;1768
+2010;kf;14;Västra Götalands län;1480;Göteborg;148002;Göteborg, Öster;14800261;Lärjedalen, Södra Hjällbo;54;42;2;6;65;72;22;21;112;152;73;29;64;66;10;9;38;45;5;9;896
+2010;kf;14;Västra Götalands län;1480;Göteborg;148002;Göteborg, Öster;14800262;Lärjedalen, Skolspåret;41;49;8;5;73;63;23;22;149;181;43;21;87;118;12;12;51;70;7;17;1052
+2010;kf;14;Västra Götalands län;1480;Göteborg;148002;Göteborg, Öster;14800263;Lärjedalen, Norra Hjällbo;64;66;10;4;110;96;24;30;176;247;66;31;132;121;8;13;69;85;7;9;1368
+2010;kf;14;Västra Götalands län;1480;Göteborg;148002;Göteborg, Öster;14800264;Lärjedalen, Bläsebo;59;47;4;4;89;100;20;17;251;229;35;24;139;137;18;18;74;67;12;11;1355
+2010;kf;14;Västra Götalands län;1480;Göteborg;148002;Göteborg, Öster;14800271;Lärjedalen, Eriksbo;48;80;19;13;115;115;48;34;242;247;95;89;131;130;37;29;74;96;7;13;1662
+2010;kf;14;Västra Götalands län;1480;Göteborg;148002;Göteborg, Öster;14800311;Kortedala, Gamlestaden;58;65;4;1;279;312;35;24;354;275;58;34;94;78;15;7;53;63;9;6;1824
+2010;kf;14;Västra Götalands län;1480;Göteborg;148002;Göteborg, Öster;14800312;Kortedala, Nylöse;28;38;3;3;161;186;16;11;302;226;71;27;189;113;30;12;78;91;9;13;1607
+2010;kf;14;Västra Götalands län;1480;Göteborg;148002;Göteborg, Öster;14800313;Kortedala, Kviberg;92;118;3;4;228;259;18;16;133;132;16;26;111;136;8;3;138;268;7;12;1728
+2010;kf;14;Västra Götalands län;1480;Göteborg;148002;Göteborg, Öster;14800314;Kortedala, Bellevue;28;42;1;3;171;209;14;5;221;161;27;16;77;67;7;7;62;78;7;6;1209
+2010;kf;14;Västra Götalands län;1480;Göteborg;148002;Göteborg, Öster;14800321;Kortedala, Utbynäs;53;49;1;0;37;43;0;1;206;196;6;10;136;114;3;9;105;113;4;6;1092
+2010;kf;14;Västra Götalands län;1480;Göteborg;148002;Göteborg, Öster;14800322;Kortedala, Utby;65;60;1;2;41;43;0;1;278;314;17;9;170;155;10;11;134;148;3;1;1463
+2010;kf;14;Västra Götalands län;1480;Göteborg;148002;Göteborg, Öster;14800323;Kortedala, Fjällbo;46;45;2;1;71;69;11;4;331;335;26;13;141;126;12;8;106;141;4;6;1498
+2010;kf;14;Västra Götalands län;1480;Göteborg;148002;Göteborg, Öster;14800331;Kortedala, Gregorianska gatan m fl;23;27;9;3;135;122;24;23;201;167;67;39;153;121;15;15;82;118;5;14;1363
+2010;kf;14;Västra Götalands län;1480;Göteborg;148002;Göteborg, Öster;14800332;Kortedala, Västra Kortedala;42;28;1;1;109;122;10;11;175;164;26;17;138;137;11;18;169;266;13;13;1471
+2010;kf;14;Västra Götalands län;1480;Göteborg;148002;Göteborg, Öster;14800333;Kortedala, Östra Kortedala;30;35;0;5;159;195;48;23;244;162;78;38;114;147;25;19;135;190;12;20;1679
+2010;kf;14;Västra Götalands län;1480;Göteborg;148002;Göteborg, Öster;14800334;Kortedala, Kortedala Centrum;25;35;4;5;107;156;25;17;209;183;58;39;136;115;17;16;107;205;8;11;1478
+2010;kf;14;Västra Götalands län;1480;Göteborg;148002;Göteborg, Öster;14800335;Kortedala, Södra Kortedala;36;42;3;2;90;102;3;8;242;255;21;17;115;130;4;12;80;139;2;2;1305
+2010;kf;14;Västra Götalands län;1480;Göteborg;148002;Göteborg, Öster;14800341;Kortedala, Adventsparken;21;39;0;2;94;106;18;10;197;196;37;24;140;147;13;23;157;253;10;13;1500
+2010;kf;14;Västra Götalands län;1480;Göteborg;148002;Göteborg, Öster;14800342;Kortedala, Norra Kortedala;57;58;7;4;153;198;36;24;275;261;52;39;159;167;18;16;101;122;8;14;1769
+2010;kf;14;Västra Götalands län;1480;Göteborg;148002;Göteborg, Öster;14800343;Kortedala, Månadsgatorna m fl;41;49;2;5;136;189;31;23;254;244;74;44;156;141;17;15;102;129;8;12;1672
+2010;kf;14;Västra Götalands län;1480;Göteborg;148002;Göteborg, Öster;14800411;Bergsjön, Gärdsås;28;39;1;3;60;55;6;4;128;146;22;20;127;111;7;10;104;115;4;7;997
+2010;kf;14;Västra Götalands län;1480;Göteborg;148002;Göteborg, Öster;14800412;Bergsjön, Siriusgatan;36;50;12;15;125;120;65;48;269;236;156;83;143;138;33;29;95;96;10;17;1776
+2010;kf;14;Västra Götalands län;1480;Göteborg;148002;Göteborg, Öster;14800413;Bergsjön, Gärdsmosse;41;46;18;15;132;126;68;44;213;142;147;89;111;92;43;34;74;86;17;18;1556
+2010;kf;14;Västra Götalands län;1480;Göteborg;148002;Göteborg, Öster;14800414;Bergsjön, Norra Bergsjön;23;34;4;4;116;119;8;12;139;128;33;19;73;75;14;11;73;95;11;10;1001
+2010;kf;14;Västra Götalands län;1480;Göteborg;148002;Göteborg, Öster;14800421;Bergsjön, Södra Bergsjön;65;62;16;14;80;75;38;39;201;232;95;69;130;112;24;17;63;89;10;15;1446
+2010;kf;14;Västra Götalands län;1480;Göteborg;148002;Göteborg, Öster;14800422;Bergsjön, Östra Bergsjön;75;70;19;14;80;78;43;42;204;255;108;117;111;119;34;29;52;70;13;17;1550
+2010;kf;14;Västra Götalands län;1480;Göteborg;148002;Göteborg, Öster;14800423;Bergsjön, Rymdtorget;16;23;5;5;70;71;33;30;166;118;83;41;89;61;26;15;42;65;9;11;979
+2010;kf;14;Västra Götalands län;1480;Göteborg;148002;Göteborg, Öster;14800424;Bergsjön, Komettorget;54;55;7;3;109;94;57;21;164;140;71;46;160;121;32;15;154;88;26;20;1437
+2010;kf;14;Västra Götalands län;1480;Göteborg;148002;Göteborg, Öster;14800511;Härlanda, Härlanda;53;44;0;0;86;103;2;2;218;231;15;13;152;140;5;3;65;85;4;2;1223
+2010;kf;14;Västra Götalands län;1480;Göteborg;148002;Göteborg, Öster;14800521;Härlanda, Södra Kålltorp;43;52;0;2;148;181;4;6;271;253;17;13;155;165;6;6;103;208;6;1;1640
+2010;kf;14;Västra Götalands län;1480;Göteborg;148002;Göteborg, Öster;14800522;Härlanda, Västra Kålltorp;22;29;1;1;115;155;3;3;193;214;11;7;99;101;2;5;47;53;2;2;1065
+2010;kf;14;Västra Götalands län;1480;Göteborg;148002;Göteborg, Öster;14800523;Härlanda, Östra Kålltorp;28;24;1;1;130;162;6;3;223;217;13;6;79;73;4;5;43;51;4;1;1074
+2010;kf;14;Västra Götalands län;1480;Göteborg;148002;Göteborg, Öster;14800524;Härlanda, Vidkärr;26;36;1;2;135;177;5;6;293;278;28;12;114;111;6;4;63;86;5;3;1391
+2010;kf;14;Västra Götalands län;1480;Göteborg;148002;Göteborg, Öster;14800525;Härlanda, Munkebäck;26;28;0;2;226;245;9;11;314;285;21;15;104;140;1;3;88;174;4;5;1701
+2010;kf;14;Västra Götalands län;1480;Göteborg;148002;Göteborg, Öster;14800531;Härlanda, Torpa;66;55;3;0;151;158;5;2;259;316;21;22;187;187;3;2;130;210;4;2;1783
+2010;kf;14;Västra Götalands län;1480;Göteborg;148002;Göteborg, Öster;14800532;Härlanda, Fräntorp;53;32;0;2;36;36;2;1;200;201;6;5;150;148;5;3;102;102;2;1;1087
+2010;kf;14;Västra Götalands län;1480;Göteborg;148002;Göteborg, Öster;14800541;Härlanda, Södra Björkekärr;51;49;0;0;72;73;5;3;268;288;17;15;194;219;3;4;233;335;8;5;1842
+2010;kf;14;Västra Götalands län;1480;Göteborg;148002;Göteborg, Öster;14800542;Härlanda, Västra Björkekärr;69;71;2;5;219;217;45;30;173;179;59;33;126;152;8;8;117;252;3;6;1774
+2010;kf;14;Västra Götalands län;1480;Göteborg;148002;Göteborg, Öster;14800543;Härlanda, Norra Björkekärr;22;20;0;0;44;69;3;1;125;130;8;6;78;93;2;2;76;178;1;1;859
+2010;kf;14;Västra Götalands län;1480;Göteborg;148002;Göteborg, Öster;14800544;Härlanda, Robertshöjd;51;72;6;5;160;166;10;18;244;269;35;18;159;164;15;9;120;220;4;5;1750
+2010;kf;14;Västra Götalands län;1480;Göteborg;148003;Göteborg, Centrum;14800611;Örgryte, Gubbero;17;31;0;0;252;300;14;15;368;300;29;19;92;130;7;5;81;180;3;1;1844
+2010;kf;14;Västra Götalands län;1480;Göteborg;148003;Göteborg, Centrum;14800612;Örgryte, Olskroken;28;29;1;2;108;121;4;5;252;210;26;22;122;126;8;5;103;175;1;3;1351
+2010;kf;14;Västra Götalands län;1480;Göteborg;148003;Göteborg, Centrum;14800613;Örgryte, Redberget;40;31;1;0;190;223;5;5;342;311;26;24;128;151;9;2;97;151;4;3;1743
+2010;kf;14;Västra Götalands län;1480;Göteborg;148002;Göteborg, Öster;14800621;Örgryte, Bagaregården;35;20;0;0;92;108;2;4;220;229;16;15;88;115;8;3;26;37;1;1;1020
+2010;kf;14;Västra Götalands län;1480;Göteborg;148002;Göteborg, Öster;14800622;Örgryte, Ånäs;21;29;0;0;133;166;2;3;257;220;14;21;73;101;5;4;41;35;3;1;1129
+2010;kf;14;Västra Götalands län;1480;Göteborg;148002;Göteborg, Öster;14800631;Örgryte, Strömmensberg;30;32;0;0;139;176;10;2;256;222;14;10;122;109;4;3;79;169;3;1;1381
+2010;kf;14;Västra Götalands län;1480;Göteborg;148002;Göteborg, Öster;14800632;Örgryte, Redbergslid;35;46;1;1;154;195;8;7;286;233;30;11;144;131;10;5;77;112;4;2;1492
+2010;kf;14;Västra Götalands län;1480;Göteborg;148002;Göteborg, Öster;14800641;Örgryte, Västra Kallebäck;50;46;6;2;209;192;68;51;223;166;55;21;90;115;7;4;119;207;0;1;1632
+2010;kf;14;Västra Götalands län;1480;Göteborg;148002;Göteborg, Öster;14800642;Örgryte, Östra Kallebäck;32;28;1;1;150;197;5;4;214;177;15;9;106;136;3;2;125;237;2;4;1448
+2010;kf;14;Västra Götalands län;1480;Göteborg;148002;Göteborg, Öster;14800651;Örgryte, Södra Skår;46;59;1;3;66;60;5;3;171;211;19;19;169;148;2;4;92;101;4;3;1186
+2010;kf;14;Västra Götalands län;1480;Göteborg;148002;Göteborg, Öster;14800652;Örgryte, Jakobsdal;25;48;0;1;102;107;1;3;244;229;12;9;127;184;2;4;104;129;1;3;1335
+2010;kf;14;Västra Götalands län;1480;Göteborg;148002;Göteborg, Öster;14800653;Örgryte, Norra Skår;54;57;0;1;49;58;5;3;151;167;16;14;157;162;3;6;97;103;2;2;1107
+2010;kf;14;Västra Götalands län;1480;Göteborg;148002;Göteborg, Öster;14800661;Örgryte, Örgryte;39;46;1;1;46;61;4;10;106;133;16;9;114;129;2;1;112;133;2;2;967
+2010;kf;14;Västra Götalands län;1480;Göteborg;148002;Göteborg, Öster;14800662;Örgryte, Bö;29;38;0;0;44;58;1;2;147;176;7;9;103;110;2;2;87;116;1;1;933
+2010;kf;14;Västra Götalands län;1480;Göteborg;148002;Göteborg, Öster;14800671;Örgryte, Torp;34;48;0;0;149;156;7;3;283;302;13;15;155;206;3;2;138;279;1;11;1805
+2010;kf;14;Västra Götalands län;1480;Göteborg;148003;Göteborg, Centrum;14800681;Örgryte, Överås;42;48;0;1;218;242;8;13;346;253;17;18;134;149;4;3;107;139;2;5;1749
+2010;kf;14;Västra Götalands län;1480;Göteborg;148003;Göteborg, Centrum;14800682;Örgryte, Gamla Lunden;27;32;3;2;212;242;6;2;320;263;15;12;84;102;6;6;54;81;4;6;1479
+2010;kf;14;Västra Götalands län;1480;Göteborg;148003;Göteborg, Centrum;14800683;Örgryte, Nobelplatsen;25;35;0;1;182;218;6;6;271;228;14;10;88;85;5;2;58;77;4;2;1317
+2010;kf;14;Västra Götalands län;1480;Göteborg;148003;Göteborg, Centrum;14800684;Örgryte, Sankt Pauli;31;35;1;1;116;140;3;2;228;218;9;7;99;117;8;6;91;210;4;0;1326
+2010;kf;14;Västra Götalands län;1480;Göteborg;148003;Göteborg, Centrum;14800685;Örgryte, Nya Lunden-Prästgårdsängen;30;41;0;0;197;144;4;7;267;204;12;10;111;112;2;5;178;262;7;5;1598
+2010;kf;14;Västra Götalands län;1480;Göteborg;148003;Göteborg, Centrum;14800686;Örgryte, Kärralund;75;69;3;0;114;152;8;10;249;267;20;17;188;201;4;7;104;121;2;4;1615
+2010;kf;14;Västra Götalands län;1480;Göteborg;148003;Göteborg, Centrum;14800711;Centrum, Burås;42;46;2;1;152;137;9;10;225;219;24;14;125;141;5;4;110;194;5;4;1469
+2010;kf;14;Västra Götalands län;1480;Göteborg;148003;Göteborg, Centrum;14800712;Centrum, Mossen;84;59;2;1;432;274;86;36;123;100;57;32;56;56;2;3;35;74;3;1;1516
+2010;kf;14;Västra Götalands län;1480;Göteborg;148003;Göteborg, Centrum;14800713;Centrum, Framnäs;45;50;0;3;258;278;21;13;307;279;33;24;121;104;4;8;88;204;4;7;1851
+2010;kf;14;Västra Götalands län;1480;Göteborg;148003;Göteborg, Centrum;14800714;Centrum, Olofshöjd;118;79;8;3;343;156;137;90;48;21;95;31;15;14;1;0;8;10;0;0;1177
+2010;kf;14;Västra Götalands län;1480;Göteborg;148003;Göteborg, Centrum;14800715;Centrum, Krokslätt;38;54;2;0;188;191;7;11;294;264;30;13;167;168;6;9;134;175;4;4;1759
+2010;kf;14;Västra Götalands län;1480;Göteborg;148003;Göteborg, Centrum;14800716;Centrum, Kristinehöjd;21;28;0;1;167;190;7;5;261;221;19;22;88;108;4;6;77;125;3;1;1354
+2010;kf;14;Västra Götalands län;1480;Göteborg;148003;Göteborg, Centrum;14800717;Centrum, Getebergsäng;22;30;0;0;89;110;8;7;211;183;12;10;92;118;1;5;77;103;1;3;1082
+2010;kf;14;Västra Götalands län;1480;Göteborg;148003;Göteborg, Centrum;14800721;Centrum, Nedre Johanneberg;85;73;1;1;345;245;41;23;225;200;25;16;151;184;5;3;116;158;2;1;1900
+2010;kf;14;Västra Götalands län;1480;Göteborg;148003;Göteborg, Centrum;14800722;Centrum, Övre Johanneberg;63;50;1;0;239;224;66;48;233;173;38;16;73;106;1;2;61;117;2;1;1514
+2010;kf;14;Västra Götalands län;1480;Göteborg;148003;Göteborg, Centrum;14800723;Centrum, Eklanda;28;51;1;1;260;244;47;29;301;216;44;26;98;104;3;3;61;131;3;1;1652
+2010;kf;14;Västra Götalands län;1480;Göteborg;148003;Göteborg, Centrum;14800724;Centrum, Södra Johanneberg;29;32;0;3;226;232;9;4;287;224;22;15;89;92;1;2;59;98;1;1;1426
+2010;kf;14;Västra Götalands län;1480;Göteborg;148003;Göteborg, Centrum;14800731;Centrum, Landalabergen m fl;38;49;2;0;156;188;8;7;262;251;14;14;133;233;14;4;134;226;8;6;1747
+2010;kf;14;Västra Götalands län;1480;Göteborg;148003;Göteborg, Centrum;14800732;Centrum, Landala;23;38;0;0;115;137;11;9;226;208;13;12;114;165;6;7;87;143;3;4;1321
+2010;kf;14;Västra Götalands län;1480;Göteborg;148003;Göteborg, Centrum;14800733;Centrum, Landalagången m fl;18;35;0;0;142;152;15;9;126;91;13;12;71;68;4;3;71;167;1;6;1004
+2010;kf;14;Västra Götalands län;1480;Göteborg;148003;Göteborg, Centrum;14800741;Centrum, Guldheden vattentornet;32;21;0;0;141;149;13;9;255;260;26;11;155;166;5;3;101;190;6;2;1545
+2010;kf;14;Västra Götalands län;1480;Göteborg;148003;Göteborg, Centrum;14800742;Centrum, Centrala Guldheden;32;37;3;1;132;134;10;7;203;179;9;11;92;110;4;4;68;140;0;0;1176
+2010;kf;14;Västra Götalands län;1480;Göteborg;148003;Göteborg, Centrum;14800743;Centrum, Norra Guldheden;31;30;2;0;153;163;6;4;277;230;26;16;92;124;2;3;77;173;2;4;1415
+2010;kf;14;Västra Götalands län;1480;Göteborg;148003;Göteborg, Centrum;14800744;Centrum, Landala Egnahem;32;37;0;0;178;177;7;11;210;185;15;8;90;114;3;1;77;125;0;3;1273
+2010;kf;14;Västra Götalands län;1480;Göteborg;148003;Göteborg, Centrum;14800745;Centrum, Södra Guldheden;27;30;0;2;147;146;6;5;233;209;15;17;84;104;5;4;86;169;1;6;1296
+2010;kf;14;Västra Götalands län;1480;Göteborg;148003;Göteborg, Centrum;14800746;Centrum, Doktor Forselius gata m fl;55;35;1;1;122;111;9;11;164;173;14;18;96;114;6;3;104;179;3;0;1219
+2010;kf;14;Västra Götalands län;1480;Göteborg;148003;Göteborg, Centrum;14800751;Centrum, Lorensberg;42;35;2;0;101;117;14;14;211;184;26;16;188;208;8;5;176;213;4;4;1568
+2010;kf;14;Västra Götalands län;1480;Göteborg;148003;Göteborg, Centrum;14800761;Centrum, Södra Vasastaden;39;48;1;1;154;144;3;5;282;242;24;13;160;213;9;8;129;166;5;2;1648
+2010;kf;14;Västra Götalands län;1480;Göteborg;148003;Göteborg, Centrum;14800762;Centrum, Norra Vasastaden;27;24;0;0;192;156;11;10;350;234;30;17;162;139;8;6;74;109;3;2;1554
+2010;kf;14;Västra Götalands län;1480;Göteborg;148003;Göteborg, Centrum;14800763;Centrum, Valand;23;33;0;0;91;122;5;0;203;152;14;15;126;121;1;5;90;102;2;2;1107
+2010;kf;14;Västra Götalands län;1480;Göteborg;148003;Göteborg, Centrum;14800764;Centrum, Östra Vasastaden;40;46;0;0;129;147;7;13;309;248;21;23;159;148;11;8;83;97;4;4;1497
+2010;kf;14;Västra Götalands län;1480;Göteborg;148003;Göteborg, Centrum;14800771;Centrum, Inom Vallgraven;34;34;0;1;148;175;6;4;380;263;20;18;225;181;11;12;81;80;1;4;1678
+2010;kf;14;Västra Götalands län;1480;Göteborg;148003;Göteborg, Centrum;14800772;Centrum, Nordstan-Otterhällan;34;35;1;0;188;174;10;5;299;231;20;19;198;183;9;8;113;132;2;2;1663
+2010;kf;14;Västra Götalands län;1480;Göteborg;148003;Göteborg, Centrum;14800781;Centrum, Odinsgatan-Stampen;37;45;1;2;183;185;15;8;250;167;22;14;158;178;3;6;122;189;2;2;1589
+2010;kf;14;Västra Götalands län;1480;Göteborg;148003;Göteborg, Centrum;14800782;Centrum, Gullbergsvass-Svingeln;55;66;2;2;309;325;13;12;340;270;25;24;140;143;13;6;56;55;2;1;1859
+2010;kf;14;Västra Götalands län;1480;Göteborg;148003;Göteborg, Centrum;14800783;Centrum, Friggagatan-Stampen;27;32;1;1;160;152;6;10;280;225;21;17;132;147;6;6;99;158;4;7;1491
+2010;kf;14;Västra Götalands län;1480;Göteborg;148003;Göteborg, Centrum;14800791;Centrum, Hedås-Gårda;39;46;0;0;159;161;13;8;294;245;26;16;175;187;6;11;145;229;6;6;1772
+2010;kf;14;Västra Götalands län;1480;Göteborg;148003;Göteborg, Centrum;14800792;Centrum, Södra Heden;34;38;2;1;105;108;4;6;225;222;14;14;175;185;12;6;131;167;2;1;1452
+2010;kf;14;Västra Götalands län;1480;Göteborg;148003;Göteborg, Centrum;14800793;Centrum, Norra Heden-Gårda;44;40;1;1;185;172;9;11;289;250;18;23;221;246;9;6;155;224;4;5;1913
+2010;kf;14;Västra Götalands län;1480;Göteborg;148003;Göteborg, Centrum;14800811;Linnéstaden, Övre Masthugget;26;36;0;0;121;160;4;5;307;313;15;15;159;174;7;8;60;78;3;1;1492
+2010;kf;14;Västra Götalands län;1480;Göteborg;148003;Göteborg, Centrum;14800812;Linnéstaden, Stigberget;45;28;4;0;143;168;21;14;302;236;34;15;143;154;5;4;81;121;4;3;1525
+2010;kf;14;Västra Götalands län;1480;Göteborg;148003;Göteborg, Centrum;14800813;Linnéstaden, Masthuggstorget;36;32;3;0;143;142;5;8;285;222;25;24;129;128;6;8;79;92;2;2;1371
+2010;kf;14;Västra Götalands län;1480;Göteborg;148003;Göteborg, Centrum;14800814;Linnéstaden, Nedre Masthugget;36;50;2;1;118;118;5;10;187;167;12;15;187;198;3;8;82;117;0;7;1323
+2010;kf;14;Västra Götalands län;1480;Göteborg;148003;Göteborg, Centrum;14800815;Linnéstaden, Oscar Fredrik;29;38;0;0;124;126;9;2;262;236;11;18;144;157;6;8;42;78;3;2;1295
+2010;kf;14;Västra Götalands län;1480;Göteborg;148003;Göteborg, Centrum;14800816;Linnéstaden, Vegastaden;34;29;2;4;107;109;2;3;237;198;14;15;107;153;7;4;65;109;3;4;1206
+2010;kf;14;Västra Götalands län;1480;Göteborg;148003;Göteborg, Centrum;14800817;Linnéstaden, Slottsskogen;27;29;0;1;70;88;5;4;188;172;11;11;103;119;1;4;98;176;3;5;1115
+2010;kf;14;Västra Götalands län;1480;Göteborg;148003;Göteborg, Centrum;14800821;Linnéstaden, Änggården;55;48;3;4;67;54;16;8;140;148;34;25;159;166;4;8;113;173;2;1;1228
+2010;kf;14;Västra Götalands län;1480;Göteborg;148003;Göteborg, Centrum;14800831;Linnéstaden, Skansberget;46;51;0;3;89;116;12;5;341;362;29;17;170;201;13;7;58;73;0;4;1597
+2010;kf;14;Västra Götalands län;1480;Göteborg;148003;Göteborg, Centrum;14800832;Linnéstaden, Haga;47;54;2;1;93;113;4;7;328;338;30;25;211;272;9;10;98;128;4;4;1778
+2010;kf;14;Västra Götalands län;1480;Göteborg;148003;Göteborg, Centrum;14800841;Linnéstaden, Annedal;40;33;2;0;170;192;9;5;293;295;17;14;123;199;9;7;105;254;2;4;1773
+2010;kf;14;Västra Götalands län;1480;Göteborg;148003;Göteborg, Centrum;14800842;Linnéstaden, Nilssonsberg;33;27;5;2;147;153;6;9;303;251;19;17;189;206;7;6;142;233;6;4;1765
+2010;kf;14;Västra Götalands län;1480;Göteborg;148003;Göteborg, Centrum;14800851;Linnéstaden, Linnéplatsen;23;23;1;0;80;94;4;5;182;183;19;12;110;139;3;5;73;90;0;0;1046
+2010;kf;14;Västra Götalands län;1480;Göteborg;148003;Göteborg, Centrum;14800852;Linnéstaden, Olivedal;55;41;3;0;118;149;12;10;310;312;23;25;153;211;11;5;95;95;3;4;1635
+2010;kf;14;Västra Götalands län;1480;Göteborg;148003;Göteborg, Centrum;14800853;Linnéstaden, Långgatorna;29;30;3;2;205;203;12;7;348;305;29;34;148;142;8;5;63;88;2;2;1665
+2010;kf;14;Västra Götalands län;1480;Göteborg;148003;Göteborg, Centrum;14800854;Linnéstaden, Linné;26;24;0;0;125;129;5;4;319;289;31;11;139;173;5;6;90;124;5;2;1507
+2010;kf;14;Västra Götalands län;1480;Göteborg;148003;Göteborg, Centrum;14800855;Linnéstaden, Risåsen;21;24;0;1;170;161;9;6;248;216;22;13;100;95;2;4;43;72;0;0;1207
+2010;kf;14;Västra Götalands län;1480;Göteborg;148003;Göteborg, Centrum;14800856;Linnéstaden, Kommendantsängen;14;18;1;1;103;116;6;7;279;231;22;11;121;161;6;5;68;78;1;1;1250
+2010;kf;14;Västra Götalands län;1480;Göteborg;148003;Göteborg, Centrum;14800857;Linnéstaden, Sveaplan;17;32;0;0;81;85;4;4;204;177;19;13;169;185;3;5;134;208;4;7;1351
+2010;kf;14;Västra Götalands län;1480;Göteborg;148004;Göteborg, Väster;14800911;Majorna, Svalebo;29;31;1;0;104;120;4;4;217;171;20;13;134;124;2;0;82;132;3;4;1195
+2010;kf;14;Västra Götalands län;1480;Göteborg;148004;Göteborg, Väster;14800912;Majorna, Skytteskogen;57;51;2;1;149;200;14;9;251;249;21;13;206;183;10;8;110;146;6;2;1688
+2010;kf;14;Västra Götalands län;1480;Göteborg;148004;Göteborg, Väster;14800913;Majorna, Kungsladugård;42;32;1;0;138;183;11;7;306;322;18;13;109;122;8;7;44;60;0;1;1424
+2010;kf;14;Västra Götalands län;1480;Göteborg;148004;Göteborg, Väster;14800914;Majorna, Mariaplan;31;37;0;0;111;137;4;5;292;319;21;10;115;125;8;6;38;39;1;2;1301
+2010;kf;14;Västra Götalands län;1480;Göteborg;148004;Göteborg, Väster;14800915;Majorna, Silverkällan;41;53;0;2;115;156;6;5;321;361;24;14;137;136;3;7;42;57;3;3;1486
+2010;kf;14;Västra Götalands län;1480;Göteborg;148004;Göteborg, Väster;14800916;Majorna, Klippan;49;46;0;1;168;182;8;10;320;369;26;15;167;200;9;6;76;74;9;4;1739
+2010;kf;14;Västra Götalands län;1480;Göteborg;148004;Göteborg, Väster;14800921;Majorna, Sandarne;40;35;1;1;199;241;8;18;331;322;20;11;112;123;5;2;92;152;6;1;1720
+2010;kf;14;Västra Götalands län;1480;Göteborg;148004;Göteborg, Väster;14800931;Majorna, Slottsskogsgatan m fl;33;24;0;1;146;209;6;3;292;221;18;17;165;181;5;4;173;237;4;8;1747
+2010;kf;14;Västra Götalands län;1480;Göteborg;148004;Göteborg, Väster;14800932;Majorna, Majorna;31;19;0;1;123;148;3;7;196;197;19;10;122;106;8;4;121;204;4;11;1334
+2010;kf;14;Västra Götalands län;1480;Göteborg;148004;Göteborg, Väster;14800933;Majorna, Hängmattan;35;27;0;1;70;87;5;3;248;258;17;11;97;120;7;4;58;89;4;4;1145
+2010;kf;14;Västra Götalands län;1480;Göteborg;148004;Göteborg, Väster;14800934;Majorna, Gråberget;19;21;2;3;129;157;4;12;307;212;14;15;164;166;8;8;144;246;5;3;1639
+2010;kf;14;Västra Götalands län;1480;Göteborg;148004;Göteborg, Väster;14800935;Majorna, Marieberg;65;45;1;0;154;183;7;12;365;366;43;22;179;185;9;4;72;92;8;4;1816
+2010;kf;14;Västra Götalands län;1480;Göteborg;148004;Göteborg, Väster;14800936;Majorna, Godhem;33;30;0;1;124;146;6;4;229;259;13;10;119;107;1;4;50;59;7;2;1204
+2010;kf;14;Västra Götalands län;1480;Göteborg;148003;Göteborg, Centrum;14800941;Majorna, Söderlingska ängen;46;33;0;1;120;150;4;4;273;306;19;20;105;126;5;3;57;89;6;6;1373
+2010;kf;14;Västra Götalands län;1480;Göteborg;148003;Göteborg, Centrum;14800942;Majorna, Karl Johans torg;43;46;2;2;184;203;5;9;356;385;27;16;159;189;13;7;60;53;3;3;1765
+2010;kf;14;Västra Götalands län;1480;Göteborg;148003;Göteborg, Centrum;14800943;Majorna, Djurgårdsgatan m fl;43;34;2;1;142;178;5;10;340;363;28;19;149;152;7;6;26;29;3;1;1538
+2010;kf;14;Västra Götalands län;1480;Göteborg;148003;Göteborg, Centrum;14800944;Majorna, Gatenhielmska;39;36;0;2;113;121;4;6;258;249;18;14;102;116;6;6;56;93;0;0;1239
+2010;kf;14;Västra Götalands län;1480;Göteborg;148004;Göteborg, Väster;14801011;Högsbo, Södra Kaverös;32;31;0;1;160;112;8;5;195;158;13;10;152;160;5;4;206;354;8;7;1621
+2010;kf;14;Västra Götalands län;1480;Göteborg;148004;Göteborg, Väster;14801012;Högsbo, Norra Kaverös;67;61;3;1;143;155;12;10;256;268;22;27;168;177;8;9;161;278;2;3;1831
+2010;kf;14;Västra Götalands län;1480;Göteborg;148004;Göteborg, Väster;14801021;Högsbo, Östra Flatås;39;38;0;2;105;118;5;2;221;232;25;15;117;97;8;3;91;139;3;5;1265
+2010;kf;14;Västra Götalands län;1480;Göteborg;148004;Göteborg, Väster;14801022;Högsbo, Västra Flatås;39;37;3;1;125;107;7;6;218;191;20;24;146;173;5;8;167;254;11;8;1550
+2010;kf;14;Västra Götalands län;1480;Göteborg;148004;Göteborg, Väster;14801031;Högsbo, Södra Högsbohöjd;34;38;0;1;126;141;9;12;271;258;36;29;109;106;6;3;107;218;2;7;1513
+2010;kf;14;Västra Götalands län;1480;Göteborg;148004;Göteborg, Väster;14801032;Högsbo, Norra Högsbohöjd;74;48;2;4;182;172;25;16;266;249;33;20;117;126;6;2;61;64;3;6;1476
+2010;kf;14;Västra Götalands län;1480;Göteborg;148004;Göteborg, Väster;14801041;Högsbo, Högsbo;17;17;2;1;106;125;8;8;189;147;16;12;123;142;3;3;158;269;3;4;1353
+2010;kf;14;Västra Götalands län;1480;Göteborg;148004;Göteborg, Väster;14801042;Högsbo, Västra Högsbotorp;22;27;1;0;175;172;10;14;232;213;11;9;118;117;5;7;86;170;5;2;1396
+2010;kf;14;Västra Götalands län;1480;Göteborg;148004;Göteborg, Väster;14801043;Högsbo, Marklandsgatan m fl;23;28;2;1;133;160;32;13;199;156;17;7;86;105;1;4;168;330;5;7;1477
+2010;kf;14;Västra Götalands län;1480;Göteborg;148004;Göteborg, Väster;14801044;Högsbo, Östra Högsbotorp;13;29;2;0;150;136;4;6;216;161;19;24;91;101;5;6;134;244;1;6;1348
+2010;kf;14;Västra Götalands län;1480;Göteborg;148004;Göteborg, Väster;14801111;Älvsborg, Södra Fiskebäck;29;36;1;0;38;29;2;1;139;141;10;8;99;110;2;3;148;171;4;2;973
+2010;kf;14;Västra Götalands län;1480;Göteborg;148004;Göteborg, Väster;14801112;Älvsborg, Norra Fiskebäck;55;53;0;0;36;56;0;0;236;252;7;10;185;171;3;2;164;177;4;2;1413
+2010;kf;14;Västra Götalands län;1480;Göteborg;148004;Göteborg, Väster;14801113;Älvsborg, Påvelund;63;46;0;0;41;26;1;2;246;292;10;12;179;179;6;8;208;224;2;1;1546
+2010;kf;14;Västra Götalands län;1480;Göteborg;148004;Göteborg, Väster;14801114;Älvsborg, Björnekulla;52;41;3;0;50;23;4;0;176;198;7;7;188;182;2;8;241;264;3;2;1451
+2010;kf;14;Västra Götalands län;1480;Göteborg;148004;Göteborg, Väster;14801121;Älvsborg, Långedrag;54;67;1;3;50;48;2;2;201;254;18;10;222;203;10;7;177;178;8;5;1520
+2010;kf;14;Västra Götalands län;1480;Göteborg;148004;Göteborg, Väster;14801131;Älvsborg, Tångudden;56;62;0;0;34;41;2;1;209;228;8;10;189;189;8;4;136;135;1;1;1314
+2010;kf;14;Västra Götalands län;1480;Göteborg;148004;Göteborg, Väster;14801132;Älvsborg, Nya Varvet;59;56;0;0;77;72;2;1;279;316;18;12;262;281;8;3;187;264;9;9;1915
+2010;kf;14;Västra Götalands län;1480;Göteborg;148004;Göteborg, Väster;14801133;Älvsborg, Hagen;35;43;0;1;38;40;1;1;150;161;10;8;164;162;6;3;90;86;7;3;1009
+2010;kf;14;Västra Götalands län;1480;Göteborg;148004;Göteborg, Väster;14801141;Älvsborg, Grimmered;60;72;0;0;64;45;1;2;255;278;18;12;247;247;7;9;168;151;6;2;1644
+2010;kf;14;Västra Götalands län;1480;Göteborg;148004;Göteborg, Väster;14801142;Älvsborg, Ekebäck;61;56;4;1;64;67;5;5;249;249;20;14;223;206;4;4;122;111;4;5;1474
+2010;kf;14;Västra Götalands län;1480;Göteborg;148004;Göteborg, Väster;14801211;Frölunda, Tofta;17;35;2;0;67;69;3;6;99;102;17;12;87;119;6;3;183;268;6;4;1105
+2010;kf;14;Västra Götalands län;1480;Göteborg;148004;Göteborg, Väster;14801212;Frölunda, Spinetten;19;19;1;2;52;71;7;7;106;106;20;10;92;108;3;6;99;170;2;3;903
+2010;kf;14;Västra Götalands län;1480;Göteborg;148004;Göteborg, Väster;14801221;Frölunda, Ruddalen;26;30;3;3;110;107;4;7;183;132;21;13;153;152;10;4;333;560;11;9;1871
+2010;kf;14;Västra Götalands län;1480;Göteborg;148004;Göteborg, Väster;14801231;Frölunda, Västra Järnbrott;47;31;0;0;69;85;3;5;222;238;20;12;172;168;6;4;129;185;4;2;1402
+2010;kf;14;Västra Götalands län;1480;Göteborg;148004;Göteborg, Väster;14801232;Frölunda, Östra Järnbrott;20;33;0;1;95;83;3;6;197;175;12;7;126;148;5;2;152;298;2;4;1369
+2010;kf;14;Västra Götalands län;1480;Göteborg;148004;Göteborg, Väster;14801241;Frölunda, Frölunda torg;27;29;1;1;71;90;81;33;152;127;26;13;91;152;13;6;123;212;5;8;1261
+2010;kf;14;Västra Götalands län;1480;Göteborg;148004;Göteborg, Väster;14801242;Frölunda, Gånglåten m fl;72;61;12;12;175;162;17;29;297;310;82;72;155;165;24;17;112;152;7;6;1939
+2010;kf;14;Västra Götalands län;1480;Göteborg;148004;Göteborg, Väster;14801243;Frölunda, Frölunda;26;20;3;1;46;66;8;8;75;85;17;9;79;95;7;2;177;300;8;7;1039
+2010;kf;14;Västra Götalands län;1480;Göteborg;148004;Göteborg, Väster;14801311;Askim, Hult;57;33;2;2;33;33;1;1;166;181;6;7;175;177;11;5;178;172;7;8;1255
+2010;kf;14;Västra Götalands län;1480;Göteborg;148004;Göteborg, Väster;14801312;Askim, Pilegården;38;35;0;1;120;123;5;7;216;214;14;11;105;145;1;5;67;97;1;6;1211
+2010;kf;14;Västra Götalands län;1480;Göteborg;148004;Göteborg, Väster;14801313;Askim, Askim;43;33;1;0;48;31;2;3;144;141;9;9;110;135;1;5;123;213;2;5;1058
+2010;kf;14;Västra Götalands län;1480;Göteborg;148004;Göteborg, Väster;14801314;Askim, Norra Sisjön;53;54;2;2;65;78;3;2;241;259;17;19;183;190;6;7;153;168;4;4;1510
+2010;kf;14;Västra Götalands län;1480;Göteborg;148004;Göteborg, Väster;14801315;Askim, Södra Sisjön;81;72;1;2;45;41;0;2;257;278;16;13;197;196;5;8;136;114;1;5;1470
+2010;kf;14;Västra Götalands län;1480;Göteborg;148004;Göteborg, Väster;14801316;Askim, Norra Hovås;40;32;3;3;33;32;3;5;156;169;7;12;174;167;5;7;121;119;6;4;1098
+2010;kf;14;Västra Götalands län;1480;Göteborg;148004;Göteborg, Väster;14801321;Askim, Södra Hovås;50;41;3;0;45;26;4;2;113;146;16;16;129;128;3;7;119;154;3;2;1007
+2010;kf;14;Västra Götalands län;1480;Göteborg;148004;Göteborg, Väster;14801322;Askim, Trollåsen;43;37;0;3;37;26;7;2;244;264;23;16;151;152;2;7;143;132;6;6;1301
+2010;kf;14;Västra Götalands län;1480;Göteborg;148004;Göteborg, Väster;14801331;Askim, Billdal;74;67;0;1;46;43;1;1;321;358;19;14;256;263;6;2;167;176;4;6;1825
+2010;kf;14;Västra Götalands län;1480;Göteborg;148004;Göteborg, Väster;14801332;Askim, Nygård;44;40;0;1;38;32;0;1;198;215;12;15;144;180;0;2;136;160;5;7;1230
+2010;kf;14;Västra Götalands län;1480;Göteborg;148004;Göteborg, Väster;14801333;Askim, Skintebo;53;35;0;1;29;41;1;0;247;272;11;9;120;163;0;1;76;138;1;1;1199
+2010;kf;14;Västra Götalands län;1480;Göteborg;148004;Göteborg, Väster;14801334;Askim, Brottkärr;25;33;1;2;30;18;1;0;136;148;8;13;115;127;3;3;92;72;2;3;832
+2010;kf;14;Västra Götalands län;1480;Göteborg;148004;Göteborg, Väster;14801335;Askim, Lyckhem;45;39;3;0;24;28;3;0;190;225;11;13;142;150;6;1;153;161;3;4;1201
+2010;kf;14;Västra Götalands län;1480;Göteborg;148004;Göteborg, Väster;14801336;Askim, Lindås;51;35;0;0;23;22;3;0;204;222;11;12;146;144;3;4;160;158;1;2;1201
+2010;kf;14;Västra Götalands län;1480;Göteborg;148004;Göteborg, Väster;14801411;Tynnered, Bratthammar;70;56;0;0;63;50;0;1;286;313;15;14;257;269;2;5;268;230;4;2;1905
+2010;kf;14;Västra Götalands län;1480;Göteborg;148004;Göteborg, Väster;14801421;Tynnered, Beryllgatan-Guldringen;74;53;0;0;162;121;8;5;249;261;15;14;163;227;1;3;186;275;5;10;1832
+2010;kf;14;Västra Götalands län;1480;Göteborg;148004;Göteborg, Väster;14801431;Tynnered, Tynnered;85;69;2;3;187;170;14;12;287;326;28;18;198;194;10;13;166;245;7;8;2042
+2010;kf;14;Västra Götalands län;1480;Göteborg;148004;Göteborg, Väster;14801441;Tynnered, Korsåsen;47;36;2;3;53;59;8;9;172;195;15;13;138;162;14;13;177;210;5;6;1337
+2010;kf;14;Västra Götalands län;1480;Göteborg;148004;Göteborg, Väster;14801442;Tynnered, Ängås;59;48;3;0;122;112;12;13;227;217;34;36;139;153;17;11;62;88;5;7;1365
+2010;kf;14;Västra Götalands län;1480;Göteborg;148004;Göteborg, Väster;14801451;Tynnered, Västra Önnered;48;50;0;0;42;25;0;1;198;232;3;6;151;135;2;3;177;259;1;7;1340
+2010;kf;14;Västra Götalands län;1480;Göteborg;148004;Göteborg, Väster;14801452;Tynnered, Östra Önnered;58;57;1;2;42;45;5;1;230;250;9;6;183;189;7;6;203;208;2;4;1508
+2010;kf;14;Västra Götalands län;1480;Göteborg;148004;Göteborg, Väster;14801461;Tynnered, Grevegården;58;58;2;8;130;145;12;11;181;217;38;37;88;89;5;6;75;125;3;9;1297
+2010;kf;14;Västra Götalands län;1480;Göteborg;148004;Göteborg, Väster;14801462;Tynnered, Skattegården;78;56;7;9;117;105;14;25;199;237;46;43;151;166;12;9;134;172;8;8;1596
+2010;kf;14;Västra Götalands län;1480;Göteborg;148004;Göteborg, Väster;14801471;Tynnered, Södra Näset;63;65;0;0;32;26;3;2;217;251;14;11;204;193;2;3;132;138;0;0;1356
+2010;kf;14;Västra Götalands län;1480;Göteborg;148004;Göteborg, Väster;14801472;Tynnered, Norra Näset;80;49;0;0;36;37;1;1;248;270;8;6;224;226;1;5;228;207;1;3;1631
+2010;kf;14;Västra Götalands län;1480;Göteborg;148004;Göteborg, Väster;14801473;Tynnered, Åkered;57;35;2;2;41;34;0;4;250;270;13;12;213;184;1;3;168;179;0;1;1469
+2010;kf;14;Västra Götalands län;1480;Göteborg;148004;Göteborg, Väster;14801481;Tynnered, Södra Opaltorget;34;40;4;2;65;58;6;9;163;166;11;24;95;95;8;5;87;108;7;4;991
+2010;kf;14;Västra Götalands län;1480;Göteborg;148004;Göteborg, Väster;14801482;Tynnered, Norra Opaltorget;43;44;1;1;130;99;7;8;209;177;24;21;126;154;5;6;133;179;6;6;1379
+2010;kf;14;Västra Götalands län;1480;Göteborg;148004;Göteborg, Väster;14801511;Södra Skärgården, Donsö-Vrångö;51;56;0;0;61;38;0;0;195;216;6;4;198;183;3;4;164;191;0;2;1372
+2010;kf;14;Västra Götalands län;1480;Göteborg;148004;Göteborg, Väster;14801512;Södra Skärgården, Styrsö-Köpstadsö;39;41;1;0;24;30;6;6;161;138;5;6;159;168;1;0;174;192;1;1;1153
+2010;kf;14;Västra Götalands län;1480;Göteborg;148004;Göteborg, Väster;14801513;Södra Skärgården, Brännö-Asperö;32;29;0;0;22;30;2;1;132;142;7;9;160;154;5;2;105;118;1;3;954
+2010;kf;14;Västra Götalands län;1480;Göteborg;148001;Göteborg, Hisingen;14801611;Torslanda, Hjuvik;74;55;4;1;39;39;1;1;309;346;17;16;200;183;12;7;131;109;3;4;1551
+2010;kf;14;Västra Götalands län;1480;Göteborg;148001;Göteborg, Hisingen;14801612;Torslanda, Hällsvik;68;44;0;0;41;35;0;1;279;307;9;5;226;208;5;4;106;93;4;1;1436
+2010;kf;14;Västra Götalands län;1480;Göteborg;148001;Göteborg, Hisingen;14801613;Torslanda, Andalen;61;69;0;0;46;33;2;1;416;456;19;15;185;168;7;3;106;104;2;6;1699
+2010;kf;14;Västra Götalands län;1480;Göteborg;148001;Göteborg, Hisingen;14801621;Torslanda, Tumlehed;49;53;0;0;66;50;0;3;259;262;12;9;196;198;8;4;149;170;5;5;1498
+2010;kf;14;Västra Götalands län;1480;Göteborg;148001;Göteborg, Hisingen;14801622;Torslanda, Domarringen m fl;54;71;0;1;57;45;1;0;259;306;5;8;202;194;10;7;139;110;4;3;1476
+2010;kf;14;Västra Götalands län;1480;Göteborg;148001;Göteborg, Hisingen;14801623;Torslanda, Torslanda;71;68;0;0;64;70;0;4;362;373;15;14;175;194;4;7;182;212;7;6;1828
+2010;kf;14;Västra Götalands län;1480;Göteborg;148001;Göteborg, Hisingen;14801624;Torslanda, Nolered;51;49;2;0;37;26;1;2;234;229;6;12;179;185;6;6;180;248;4;7;1464
+2010;kf;14;Västra Götalands län;1480;Göteborg;148001;Göteborg, Hisingen;14801625;Torslanda, Amhult-Arendal;27;30;2;2;71;59;6;3;328;299;34;13;120;102;11;3;131;165;2;5;1413
+2010;kf;14;Västra Götalands län;1480;Göteborg;148001;Göteborg, Hisingen;14801631;Torslanda, Lilleby;78;75;0;1;89;99;1;2;574;608;21;16;182;162;11;7;90;74;7;9;2106
+2010;kf;14;Västra Götalands län;1480;Göteborg;148001;Göteborg, Hisingen;14801632;Torslanda, Björlanda;56;57;0;0;49;38;2;0;366;368;12;13;224;176;4;5;114;87;4;2;1577
+2010;kf;14;Västra Götalands län;1480;Göteborg;148001;Göteborg, Hisingen;14801633;Torslanda, Kvisljungeby;54;56;3;0;56;42;2;1;354;377;11;10;170;140;4;4;81;66;4;4;1439
+2010;kf;14;Västra Götalands län;1480;Göteborg;148001;Göteborg, Hisingen;14801711;Biskopsgården, Svarte Mosse;59;53;6;8;125;119;44;57;297;262;118;47;124;129;19;14;65;61;6;12;1625
+2010;kf;14;Västra Götalands län;1480;Göteborg;148001;Göteborg, Hisingen;14801712;Biskopsgården, Norra Biskopsgården;51;44;5;7;162;112;33;37;195;175;63;44;118;77;18;7;68;68;14;12;1310
+2010;kf;14;Västra Götalands län;1480;Göteborg;148001;Göteborg, Hisingen;14801721;Biskopsgården, Södra Länsmansgården;31;43;8;7;65;77;26;25;149;153;38;30;83;101;11;10;58;104;3;4;1026
+2010;kf;14;Västra Götalands län;1480;Göteborg;148001;Göteborg, Hisingen;14801722;Biskopsgården, Länsmansgårdens Centr;35;39;5;3;107;97;17;19;212;179;60;40;98;125;25;16;76;107;15;9;1284
+2010;kf;14;Västra Götalands län;1480;Göteborg;148001;Göteborg, Hisingen;14801723;Biskopsgården, Norra Länsmansgården;47;26;1;1;60;79;10;11;184;172;29;36;123;123;21;19;90;117;6;4;1159
+2010;kf;14;Västra Götalands län;1480;Göteborg;148001;Göteborg, Hisingen;14801731;Biskopsgården, Stackmolnsgatan m fl;57;39;4;1;88;100;11;20;252;240;54;26;154;147;21;15;152;188;16;19;1604
+2010;kf;14;Västra Götalands län;1480;Göteborg;148001;Göteborg, Hisingen;14801732;Biskopsgården, Badvädersgatan m fl;30;30;0;2;91;75;15;11;141;108;17;15;112;125;17;14;199;251;17;25;1295
+2010;kf;14;Västra Götalands län;1480;Göteborg;148001;Göteborg, Hisingen;14801741;Biskopsgården, Södra Biskopsgården;24;31;1;0;73;92;14;15;155;158;41;15;111;129;20;11;126;145;8;14;1183
+2010;kf;14;Västra Götalands län;1480;Göteborg;148001;Göteborg, Hisingen;14801742;Biskopsgården, Väderlekstorget;21;33;3;1;160;171;24;14;166;136;29;23;60;41;9;6;44;41;4;6;992
+2010;kf;14;Västra Götalands län;1480;Göteborg;148001;Göteborg, Hisingen;14801743;Biskopsgården, Treröset;62;62;10;7;243;243;15;30;209;208;54;32;118;108;14;18;47;61;8;7;1556
+2010;kf;14;Västra Götalands län;1480;Göteborg;148001;Göteborg, Hisingen;14801744;Biskopsgården, Vårväderstorget;22;28;3;0;160;178;21;19;261;174;43;22;156;112;19;18;158;267;23;20;1704
+2010;kf;14;Västra Götalands län;1480;Göteborg;148001;Göteborg, Hisingen;14801751;Biskopsgården, Jättesten;29;51;2;7;104;110;17;19;220;213;31;23;192;187;20;20;218;269;23;25;1780
+2010;kf;14;Västra Götalands län;1480;Göteborg;148001;Göteborg, Hisingen;14801752;Biskopsgården, Svartedalen;55;62;4;4;130;149;7;17;218;217;30;22;126;137;10;21;112;188;10;7;1526
+2010;kf;14;Västra Götalands län;1480;Göteborg;148001;Göteborg, Hisingen;14801753;Biskopsgården, Kärrsmossen;78;63;6;6;114;88;31;12;339;301;56;25;207;140;21;7;136;132;11;7;1780
+2010;kf;14;Västra Götalands län;1480;Göteborg;148001;Göteborg, Hisingen;14801811;Lundby, Lindholmen;126;105;6;1;326;274;22;20;273;254;26;13;213;228;15;7;95;102;5;3;2114
+2010;kf;14;Västra Götalands län;1480;Göteborg;148001;Göteborg, Hisingen;14801812;Lundby, Västra Rambergsstaden;46;52;1;1;270;244;33;24;321;151;46;16;152;110;25;11;135;141;15;3;1797
+2010;kf;14;Västra Götalands län;1480;Göteborg;148001;Göteborg, Hisingen;14801813;Lundby, Östra Rambergsstaden;45;55;2;3;181;196;9;14;261;207;14;20;153;150;6;6;166;256;8;4;1756
+2010;kf;14;Västra Götalands län;1480;Göteborg;148001;Göteborg, Hisingen;14801814;Lundby, Västra Brämaregården;28;24;2;4;155;178;8;13;284;223;28;25;124;132;15;11;113;196;7;14;1584
+2010;kf;14;Västra Götalands län;1480;Göteborg;148001;Göteborg, Hisingen;14801815;Lundby, Östra Brämaregården;34;47;1;1;280;281;22;15;256;184;30;17;86;60;11;6;37;43;3;2;1416
+2010;kf;14;Västra Götalands län;1480;Göteborg;148001;Göteborg, Hisingen;14801816;Lundby, Lundbyvassen;21;17;3;0;107;107;7;8;142;105;17;10;59;41;3;1;26;21;5;1;701
+2010;kf;14;Västra Götalands län;1480;Göteborg;148001;Göteborg, Hisingen;14801821;Lundby, Flunsås;31;27;3;2;190;224;6;10;261;195;36;15;114;98;20;7;94;135;9;8;1485
+2010;kf;14;Västra Götalands län;1480;Göteborg;148001;Göteborg, Hisingen;14801822;Lundby, Bjurslätt;73;55;0;3;129;117;11;18;256;276;35;35;157;142;24;13;78;130;8;14;1574
+2010;kf;14;Västra Götalands län;1480;Göteborg;148001;Göteborg, Hisingen;14801823;Lundby, Norra Kvillebäcken;35;37;1;0;153;162;14;12;263;183;27;14;128;107;11;4;97;149;8;9;1414
+2010;kf;14;Västra Götalands län;1480;Göteborg;148001;Göteborg, Hisingen;14801824;Lundby, Wieselgrensplatsen;27;29;1;1;150;146;7;6;184;170;24;23;85;99;7;3;92;148;3;7;1212
+2010;kf;14;Västra Götalands län;1480;Göteborg;148001;Göteborg, Hisingen;14801825;Lundby, Södra Kvillebäcken;26;46;0;5;227;263;14;13;284;226;54;23;103;78;11;8;44;71;4;4;1504
+2010;kf;14;Västra Götalands län;1480;Göteborg;148001;Göteborg, Hisingen;14801831;Lundby, Hilldedal;46;47;1;2;150;141;10;6;317;286;31;29;143;137;8;10;117;141;6;6;1634
+2010;kf;14;Västra Götalands län;1480;Göteborg;148001;Göteborg, Hisingen;14801832;Lundby, Slätta Damm;28;31;0;2;184;176;2;7;233;194;21;20;122;109;9;2;107;183;3;6;1439
+2010;kf;14;Västra Götalands län;1480;Göteborg;148001;Göteborg, Hisingen;14801841;Lundby, Södra Tolered;44;44;1;2;35;23;5;4;216;241;22;13;130;134;5;4;99;98;6;5;1131
+2010;kf;14;Västra Götalands län;1480;Göteborg;148001;Göteborg, Hisingen;14801842;Lundby, Norra Tolered;44;31;1;2;43;38;2;5;185;210;21;15;135;131;8;9;107;112;8;7;1114
+2010;kf;14;Västra Götalands län;1480;Göteborg;148001;Göteborg, Hisingen;14801843;Lundby, Kärrdalen;59;39;2;4;41;31;2;5;247;270;21;14;160;138;8;10;157;166;14;3;1391
+2010;kf;14;Västra Götalands län;1480;Göteborg;148001;Göteborg, Hisingen;14801851;Lundby, Västra Eriksberg;48;49;0;0;122;141;7;5;319;304;39;27;256;270;7;8;182;184;2;1;1971
+2010;kf;14;Västra Götalands län;1480;Göteborg;148001;Göteborg, Hisingen;14801852;Lundby, Södra Bräcke;32;51;0;0;108;93;6;11;230;189;14;12;126;115;2;10;72;69;7;5;1152
+2010;kf;14;Västra Götalands län;1480;Göteborg;148001;Göteborg, Hisingen;14801853;Lundby, Norra Bräcke;35;41;2;4;79;79;5;3;258;235;17;12;149;126;17;14;111;133;6;7;1333
+2010;kf;14;Västra Götalands län;1480;Göteborg;148001;Göteborg, Hisingen;14801854;Lundby, Kyrkbyn;27;20;1;1;101;97;5;8;193;149;13;8;108;99;6;6;94;190;8;6;1140
+2010;kf;14;Västra Götalands län;1480;Göteborg;148001;Göteborg, Hisingen;14801855;Lundby, Norra Lundby;27;36;0;0;108;118;12;8;160;124;15;11;87;70;6;7;109;169;6;3;1076
+2010;kf;14;Västra Götalands län;1480;Göteborg;148001;Göteborg, Hisingen;14801856;Lundby, Södra Lundby;32;33;2;2;153;146;11;13;220;178;29;13;86;64;15;9;62;58;6;5;1137
+2010;kf;14;Västra Götalands län;1480;Göteborg;148001;Göteborg, Hisingen;14801857;Lundby, Östra Eriksberg;30;23;1;1;118;122;1;6;318;225;19;26;210;230;4;7;140;161;5;7;1654
+2010;kf;14;Västra Götalands län;1480;Göteborg;148001;Göteborg, Hisingen;14801858;Lundby, Sannegården;27;44;0;0;78;95;6;5;262;207;17;15;172;183;4;5;57;74;2;2;1255
+2010;kf;14;Västra Götalands län;1480;Göteborg;148001;Göteborg, Hisingen;14801911;Tuve-Säve, Tången;48;39;0;0;35;25;0;1;176;196;7;7;140;139;9;5;186;179;11;8;1211
+2010;kf;14;Västra Götalands län;1480;Göteborg;148001;Göteborg, Hisingen;14801912;Tuve-Säve, Tuve;41;47;6;0;57;49;3;7;256;263;21;11;158;175;13;14;209;260;14;4;1608
+2010;kf;14;Västra Götalands län;1480;Göteborg;148001;Göteborg, Hisingen;14801913;Tuve-Säve, Gunnestorp;45;54;3;1;62;64;2;9;307;287;19;29;149;153;15;16;157;195;16;19;1602
+2010;kf;14;Västra Götalands län;1480;Göteborg;148001;Göteborg, Hisingen;14801914;Tuve-Säve, Glöstorp;30;19;2;1;82;74;4;5;153;105;12;24;96;117;24;18;147;219;10;11;1153
+2010;kf;14;Västra Götalands län;1480;Göteborg;148001;Göteborg, Hisingen;14801915;Tuve-Säve, Norumshöjd;62;50;4;3;128;114;18;12;219;258;43;42;117;122;16;21;64;121;11;12;1437
+2010;kf;14;Västra Götalands län;1480;Göteborg;148001;Göteborg, Hisingen;14801921;Tuve-Säve, Säve;71;65;2;0;64;42;5;4;308;323;13;13;223;177;9;4;159;142;1;4;1629
+2010;kf;14;Västra Götalands län;1480;Göteborg;148001;Göteborg, Hisingen;14802011;Backa, Tingstad;49;48;0;0;89;65;8;8;228;209;15;14;179;182;9;11;155;164;4;8;1445
+2010;kf;14;Västra Götalands län;1480;Göteborg;148001;Göteborg, Hisingen;14802012;Backa, Brunnsbo;59;68;2;5;139;147;10;11;222;226;22;25;123;135;8;6;136;258;2;12;1616
+2010;kf;14;Västra Götalands län;1480;Göteborg;148001;Göteborg, Hisingen;14802013;Backa, Aröd;62;65;2;7;143;143;16;10;286;271;50;26;221;206;15;14;154;202;10;5;1908
+2010;kf;14;Västra Götalands län;1480;Göteborg;148001;Göteborg, Hisingen;14802021;Backa, Södra Backa;45;39;0;1;75;57;6;3;192;198;17;10;157;182;12;11;162;184;7;4;1362
+2010;kf;14;Västra Götalands län;1480;Göteborg;148001;Göteborg, Hisingen;14802022;Backa, Backa Röd;83;89;3;4;185;178;32;18;257;234;66;40;122;144;18;15;75;97;14;12;1686
+2010;kf;14;Västra Götalands län;1480;Göteborg;148001;Göteborg, Hisingen;14802023;Backa, Norra Backa;53;54;3;1;95;116;12;15;269;265;33;36;151;180;11;14;161;219;8;7;1703
+2010;kf;14;Västra Götalands län;1480;Göteborg;148001;Göteborg, Hisingen;14802024;Backa, Bällskär;39;26;2;0;37;27;3;1;164;164;15;9;136;145;8;7;108;111;3;4;1009
+2010;kf;14;Västra Götalands län;1480;Göteborg;148001;Göteborg, Hisingen;14802031;Backa, Bäckebol;22;30;0;1;60;69;2;3;118;112;11;12;106;135;8;12;124;168;5;5;1003
+2010;kf;14;Västra Götalands län;1480;Göteborg;148001;Göteborg, Hisingen;14802032;Backa, Backadalen;30;31;0;1;79;75;8;4;171;143;29;12;124;162;9;7;190;337;10;10;1432
+2010;kf;14;Västra Götalands län;1480;Göteborg;148001;Göteborg, Hisingen;14802033;Backa, Selma Lagerlöfs torg;32;35;7;1;105;97;31;15;156;123;45;25;101;66;10;7;81;120;7;4;1068
+2010;kf;14;Västra Götalands län;1480;Göteborg;148001;Göteborg, Hisingen;14802034;Backa, Skälltorp;43;34;3;2;91;93;3;7;244;193;12;15;187;213;16;21;204;273;32;27;1713
+2010;kf;14;Västra Götalands län;1480;Göteborg;148001;Göteborg, Hisingen;14802035;Backa, Åketorp;78;54;2;4;74;54;1;5;256;286;12;10;264;251;10;11;157;132;4;3;1668
+2010;kf;14;Västra Götalands län;1480;Göteborg;148001;Göteborg, Hisingen;14802041;Backa, Skogome-Sankt Jörgen;63;45;0;0;76;61;5;11;339;351;19;10;209;174;9;10;178;256;6;8;1830
+2010;kf;14;Västra Götalands län;1480;Göteborg;148001;Göteborg, Hisingen;14802111;Kärra-Rödbo, Mysterna-Svankällan;52;38;1;1;24;25;1;1;372;420;12;8;134;120;9;2;56;35;1;4;1316
+2010;kf;14;Västra Götalands län;1480;Göteborg;148001;Göteborg, Hisingen;14802112;Kärra-Rödbo, Gerrebacka-Ingebäck;44;42;0;1;76;75;1;4;391;395;12;15;106;88;8;5;54;46;3;2;1368
+2010;kf;14;Västra Götalands län;1480;Göteborg;148001;Göteborg, Hisingen;14802113;Kärra-Rödbo, Västra Kärra;44;48;0;3;55;46;1;6;201;201;5;12;152;160;10;7;119;151;3;7;1231
+2010;kf;14;Västra Götalands län;1480;Göteborg;148001;Göteborg, Hisingen;14802114;Kärra-Rödbo, Norra Kärra;27;31;0;0;52;55;2;2;139;130;6;4;122;149;3;5;163;248;9;6;1153
+2010;kf;14;Västra Götalands län;1480;Göteborg;148001;Göteborg, Hisingen;14802115;Kärra-Rödbo, Östra Kärra;56;45;2;0;57;48;3;2;194;220;12;8;139;155;4;6;154;223;4;7;1339
+2010;kf;14;Västra Götalands län;1480;Göteborg;148001;Göteborg, Hisingen;14802116;Kärra-Rödbo, Södra Kärra;61;37;1;2;63;59;2;1;215;187;9;13;150;180;5;5;131;164;3;5;1293
+2010;kf;14;Västra Götalands län;1480;Göteborg;148001;Göteborg, Hisingen;14802121;Kärra-Rödbo, Rödbo;19;25;0;0;20;25;0;2;137;123;11;5;98;82;3;2;60;58;2;1;673

@@ -1,0 +1,3433 @@
+ar;val;kod;namn;parti_kalla;parti;roster;andel
+2010;rd;14800111;Gunnared, Lövgärdets Centrum;M;M;70;11.04
+2010;rd;14800111;Gunnared, Lövgärdets Centrum;C;C;1;0.16
+2010;rd;14800111;Gunnared, Lövgärdets Centrum;FP;L;23;3.63
+2010;rd;14800111;Gunnared, Lövgärdets Centrum;KD;KD;19;3
+2010;rd;14800111;Gunnared, Lövgärdets Centrum;S;S;336;53
+2010;rd;14800111;Gunnared, Lövgärdets Centrum;V;V;83;13.09
+2010;rd;14800111;Gunnared, Lövgärdets Centrum;MP;MP;26;4.1
+2010;rd;14800111;Gunnared, Lövgärdets Centrum;SD;SD;63;9.94
+2010;rd;14800111;Gunnared, Lövgärdets Centrum;FI;FI;1;0.16
+2010;rd;14800111;Gunnared, Lövgärdets Centrum;PP;PP;9;1.42
+2010;rd;14800111;Gunnared, Lövgärdets Centrum;SPI;SPI;0;0
+2010;rd;14800111;Gunnared, Lövgärdets Centrum;OVR;OVR;3;0.48
+2010;rd;14800112;Gunnared, Övre Lövgärdet;M;M;75;8.14
+2010;rd;14800112;Gunnared, Övre Lövgärdet;C;C;5;0.54
+2010;rd;14800112;Gunnared, Övre Lövgärdet;FP;L;18;1.95
+2010;rd;14800112;Gunnared, Övre Lövgärdet;KD;KD;13;1.41
+2010;rd;14800112;Gunnared, Övre Lövgärdet;S;S;604;65.58
+2010;rd;14800112;Gunnared, Övre Lövgärdet;V;V;105;11.4
+2010;rd;14800112;Gunnared, Övre Lövgärdet;MP;MP;41;4.45
+2010;rd;14800112;Gunnared, Övre Lövgärdet;SD;SD;40;4.34
+2010;rd;14800112;Gunnared, Övre Lövgärdet;FI;FI;1;0.11
+2010;rd;14800112;Gunnared, Övre Lövgärdet;PP;PP;10;1.09
+2010;rd;14800112;Gunnared, Övre Lövgärdet;SPI;SPI;0;0
+2010;rd;14800112;Gunnared, Övre Lövgärdet;OVR;OVR;9;0.98
+2010;rd;14800113;Gunnared, Nedre Lövgärdet;M;M;138;12.47
+2010;rd;14800113;Gunnared, Nedre Lövgärdet;C;C;6;0.54
+2010;rd;14800113;Gunnared, Nedre Lövgärdet;FP;L;30;2.71
+2010;rd;14800113;Gunnared, Nedre Lövgärdet;KD;KD;26;2.35
+2010;rd;14800113;Gunnared, Nedre Lövgärdet;S;S;631;57
+2010;rd;14800113;Gunnared, Nedre Lövgärdet;V;V;121;10.93
+2010;rd;14800113;Gunnared, Nedre Lövgärdet;MP;MP;67;6.05
+2010;rd;14800113;Gunnared, Nedre Lövgärdet;SD;SD;72;6.5
+2010;rd;14800113;Gunnared, Nedre Lövgärdet;FI;FI;0;0
+2010;rd;14800113;Gunnared, Nedre Lövgärdet;PP;PP;9;0.81
+2010;rd;14800113;Gunnared, Nedre Lövgärdet;SPI;SPI;0;0
+2010;rd;14800113;Gunnared, Nedre Lövgärdet;OVR;OVR;7;0.63
+2010;rd;14800121;Gunnared, Södra Rannebergen;M;M;118;12.51
+2010;rd;14800121;Gunnared, Södra Rannebergen;C;C;7;0.74
+2010;rd;14800121;Gunnared, Södra Rannebergen;FP;L;32;3.39
+2010;rd;14800121;Gunnared, Södra Rannebergen;KD;KD;28;2.97
+2010;rd;14800121;Gunnared, Södra Rannebergen;S;S;436;46.24
+2010;rd;14800121;Gunnared, Södra Rannebergen;V;V;104;11.03
+2010;rd;14800121;Gunnared, Södra Rannebergen;MP;MP;60;6.36
+2010;rd;14800121;Gunnared, Södra Rannebergen;SD;SD;135;14.32
+2010;rd;14800121;Gunnared, Södra Rannebergen;FI;FI;3;0.32
+2010;rd;14800121;Gunnared, Södra Rannebergen;PP;PP;13;1.38
+2010;rd;14800121;Gunnared, Södra Rannebergen;SPI;SPI;0;0
+2010;rd;14800121;Gunnared, Södra Rannebergen;OVR;OVR;7;0.75
+2010;rd;14800122;Gunnared, Norra Rannebergen;M;M;252;20.59
+2010;rd;14800122;Gunnared, Norra Rannebergen;C;C;20;1.63
+2010;rd;14800122;Gunnared, Norra Rannebergen;FP;L;74;6.05
+2010;rd;14800122;Gunnared, Norra Rannebergen;KD;KD;52;4.25
+2010;rd;14800122;Gunnared, Norra Rannebergen;S;S;498;40.69
+2010;rd;14800122;Gunnared, Norra Rannebergen;V;V;135;11.03
+2010;rd;14800122;Gunnared, Norra Rannebergen;MP;MP;91;7.43
+2010;rd;14800122;Gunnared, Norra Rannebergen;SD;SD;84;6.86
+2010;rd;14800122;Gunnared, Norra Rannebergen;FI;FI;6;0.49
+2010;rd;14800122;Gunnared, Norra Rannebergen;PP;PP;8;0.65
+2010;rd;14800122;Gunnared, Norra Rannebergen;SPI;SPI;0;0
+2010;rd;14800122;Gunnared, Norra Rannebergen;OVR;OVR;4;0.33
+2010;rd;14800131;Gunnared, Västra Gårdsten;M;M;61;12.03
+2010;rd;14800131;Gunnared, Västra Gårdsten;C;C;3;0.59
+2010;rd;14800131;Gunnared, Västra Gårdsten;FP;L;11;2.17
+2010;rd;14800131;Gunnared, Västra Gårdsten;KD;KD;12;2.37
+2010;rd;14800131;Gunnared, Västra Gårdsten;S;S;298;58.78
+2010;rd;14800131;Gunnared, Västra Gårdsten;V;V;44;8.68
+2010;rd;14800131;Gunnared, Västra Gårdsten;MP;MP;25;4.93
+2010;rd;14800131;Gunnared, Västra Gårdsten;SD;SD;47;9.27
+2010;rd;14800131;Gunnared, Västra Gårdsten;FI;FI;0;0
+2010;rd;14800131;Gunnared, Västra Gårdsten;PP;PP;3;0.59
+2010;rd;14800131;Gunnared, Västra Gårdsten;SPI;SPI;0;0
+2010;rd;14800131;Gunnared, Västra Gårdsten;OVR;OVR;3;0.59
+2010;rd;14800132;Gunnared, Norra Gårdsten;M;M;78;9.48
+2010;rd;14800132;Gunnared, Norra Gårdsten;C;C;7;0.85
+2010;rd;14800132;Gunnared, Norra Gårdsten;FP;L;18;2.19
+2010;rd;14800132;Gunnared, Norra Gårdsten;KD;KD;17;2.07
+2010;rd;14800132;Gunnared, Norra Gårdsten;S;S;538;65.37
+2010;rd;14800132;Gunnared, Norra Gårdsten;V;V;62;7.53
+2010;rd;14800132;Gunnared, Norra Gårdsten;MP;MP;48;5.83
+2010;rd;14800132;Gunnared, Norra Gårdsten;SD;SD;45;5.47
+2010;rd;14800132;Gunnared, Norra Gårdsten;FI;FI;4;0.49
+2010;rd;14800132;Gunnared, Norra Gårdsten;PP;PP;5;0.61
+2010;rd;14800132;Gunnared, Norra Gårdsten;SPI;SPI;0;0
+2010;rd;14800132;Gunnared, Norra Gårdsten;OVR;OVR;1;0.12
+2010;rd;14800133;Gunnared, Östra Gårdsten;M;M;90;11.67
+2010;rd;14800133;Gunnared, Östra Gårdsten;C;C;4;0.52
+2010;rd;14800133;Gunnared, Östra Gårdsten;FP;L;37;4.8
+2010;rd;14800133;Gunnared, Östra Gårdsten;KD;KD;34;4.41
+2010;rd;14800133;Gunnared, Östra Gårdsten;S;S;448;58.11
+2010;rd;14800133;Gunnared, Östra Gårdsten;V;V;62;8.04
+2010;rd;14800133;Gunnared, Östra Gårdsten;MP;MP;35;4.54
+2010;rd;14800133;Gunnared, Östra Gårdsten;SD;SD;47;6.1
+2010;rd;14800133;Gunnared, Östra Gårdsten;FI;FI;2;0.26
+2010;rd;14800133;Gunnared, Östra Gårdsten;PP;PP;9;1.17
+2010;rd;14800133;Gunnared, Östra Gårdsten;SPI;SPI;0;0
+2010;rd;14800133;Gunnared, Östra Gårdsten;OVR;OVR;3;0.39
+2010;rd;14800134;Gunnared, Södra Gårdsten;M;M;62;13
+2010;rd;14800134;Gunnared, Södra Gårdsten;C;C;5;1.05
+2010;rd;14800134;Gunnared, Södra Gårdsten;FP;L;10;2.1
+2010;rd;14800134;Gunnared, Södra Gårdsten;KD;KD;11;2.31
+2010;rd;14800134;Gunnared, Södra Gårdsten;S;S;293;61.43
+2010;rd;14800134;Gunnared, Södra Gårdsten;V;V;55;11.53
+2010;rd;14800134;Gunnared, Södra Gårdsten;MP;MP;19;3.98
+2010;rd;14800134;Gunnared, Södra Gårdsten;SD;SD;19;3.98
+2010;rd;14800134;Gunnared, Södra Gårdsten;FI;FI;0;0
+2010;rd;14800134;Gunnared, Södra Gårdsten;PP;PP;2;0.42
+2010;rd;14800134;Gunnared, Södra Gårdsten;SPI;SPI;0;0
+2010;rd;14800134;Gunnared, Södra Gårdsten;OVR;OVR;1;0.21
+2010;rd;14800141;Gunnared, Angereds Centrum;M;M;131;12.98
+2010;rd;14800141;Gunnared, Angereds Centrum;C;C;5;0.5
+2010;rd;14800141;Gunnared, Angereds Centrum;FP;L;40;3.96
+2010;rd;14800141;Gunnared, Angereds Centrum;KD;KD;65;6.44
+2010;rd;14800141;Gunnared, Angereds Centrum;S;S;541;53.62
+2010;rd;14800141;Gunnared, Angereds Centrum;V;V;110;10.9
+2010;rd;14800141;Gunnared, Angereds Centrum;MP;MP;51;5.05
+2010;rd;14800141;Gunnared, Angereds Centrum;SD;SD;47;4.66
+2010;rd;14800141;Gunnared, Angereds Centrum;FI;FI;7;0.69
+2010;rd;14800141;Gunnared, Angereds Centrum;PP;PP;8;0.79
+2010;rd;14800141;Gunnared, Angereds Centrum;SPI;SPI;0;0
+2010;rd;14800141;Gunnared, Angereds Centrum;OVR;OVR;4;0.4
+2010;rd;14800142;Gunnared, Trädgårdsgärdet;M;M;129;15.87
+2010;rd;14800142;Gunnared, Trädgårdsgärdet;C;C;11;1.35
+2010;rd;14800142;Gunnared, Trädgårdsgärdet;FP;L;30;3.69
+2010;rd;14800142;Gunnared, Trädgårdsgärdet;KD;KD;49;6.03
+2010;rd;14800142;Gunnared, Trädgårdsgärdet;S;S;408;50.18
+2010;rd;14800142;Gunnared, Trädgårdsgärdet;V;V;84;10.33
+2010;rd;14800142;Gunnared, Trädgårdsgärdet;MP;MP;62;7.63
+2010;rd;14800142;Gunnared, Trädgårdsgärdet;SD;SD;33;4.06
+2010;rd;14800142;Gunnared, Trädgårdsgärdet;FI;FI;2;0.25
+2010;rd;14800142;Gunnared, Trädgårdsgärdet;PP;PP;1;0.12
+2010;rd;14800142;Gunnared, Trädgårdsgärdet;SPI;SPI;0;0
+2010;rd;14800142;Gunnared, Trädgårdsgärdet;OVR;OVR;4;0.49
+2010;rd;14800211;Lärjedalen, Agnesberg;M;M;131;25.84
+2010;rd;14800211;Lärjedalen, Agnesberg;C;C;14;2.76
+2010;rd;14800211;Lärjedalen, Agnesberg;FP;L;28;5.52
+2010;rd;14800211;Lärjedalen, Agnesberg;KD;KD;30;5.92
+2010;rd;14800211;Lärjedalen, Agnesberg;S;S;168;33.14
+2010;rd;14800211;Lärjedalen, Agnesberg;V;V;37;7.3
+2010;rd;14800211;Lärjedalen, Agnesberg;MP;MP;45;8.88
+2010;rd;14800211;Lärjedalen, Agnesberg;SD;SD;40;7.89
+2010;rd;14800211;Lärjedalen, Agnesberg;FI;FI;1;0.2
+2010;rd;14800211;Lärjedalen, Agnesberg;PP;PP;10;1.97
+2010;rd;14800211;Lärjedalen, Agnesberg;SPI;SPI;0;0
+2010;rd;14800211;Lärjedalen, Agnesberg;OVR;OVR;3;0.59
+2010;rd;14800221;Lärjedalen, Västra Hammarkullen;M;M;116;12.08
+2010;rd;14800221;Lärjedalen, Västra Hammarkullen;C;C;3;0.31
+2010;rd;14800221;Lärjedalen, Västra Hammarkullen;FP;L;23;2.4
+2010;rd;14800221;Lärjedalen, Västra Hammarkullen;KD;KD;36;3.75
+2010;rd;14800221;Lärjedalen, Västra Hammarkullen;S;S;595;61.98
+2010;rd;14800221;Lärjedalen, Västra Hammarkullen;V;V;79;8.23
+2010;rd;14800221;Lärjedalen, Västra Hammarkullen;MP;MP;56;5.83
+2010;rd;14800221;Lärjedalen, Västra Hammarkullen;SD;SD;22;2.29
+2010;rd;14800221;Lärjedalen, Västra Hammarkullen;FI;FI;5;0.52
+2010;rd;14800221;Lärjedalen, Västra Hammarkullen;PP;PP;5;0.52
+2010;rd;14800221;Lärjedalen, Västra Hammarkullen;SPI;SPI;0;0
+2010;rd;14800221;Lärjedalen, Västra Hammarkullen;OVR;OVR;20;2.08
+2010;rd;14800222;Lärjedalen, Östra Hammarkullen;M;M;83;8.52
+2010;rd;14800222;Lärjedalen, Östra Hammarkullen;C;C;3;0.31
+2010;rd;14800222;Lärjedalen, Östra Hammarkullen;FP;L;18;1.85
+2010;rd;14800222;Lärjedalen, Östra Hammarkullen;KD;KD;54;5.54
+2010;rd;14800222;Lärjedalen, Östra Hammarkullen;S;S;562;57.7
+2010;rd;14800222;Lärjedalen, Östra Hammarkullen;V;V;109;11.19
+2010;rd;14800222;Lärjedalen, Östra Hammarkullen;MP;MP;79;8.11
+2010;rd;14800222;Lärjedalen, Östra Hammarkullen;SD;SD;48;4.93
+2010;rd;14800222;Lärjedalen, Östra Hammarkullen;FI;FI;0;0
+2010;rd;14800222;Lärjedalen, Östra Hammarkullen;PP;PP;5;0.51
+2010;rd;14800222;Lärjedalen, Östra Hammarkullen;SPI;SPI;0;0
+2010;rd;14800222;Lärjedalen, Östra Hammarkullen;OVR;OVR;13;1.33
+2010;rd;14800223;Lärjedalen, Sandeslätt;M;M;75;8.49
+2010;rd;14800223;Lärjedalen, Sandeslätt;C;C;16;1.81
+2010;rd;14800223;Lärjedalen, Sandeslätt;FP;L;21;2.38
+2010;rd;14800223;Lärjedalen, Sandeslätt;KD;KD;55;6.23
+2010;rd;14800223;Lärjedalen, Sandeslätt;S;S;417;47.23
+2010;rd;14800223;Lärjedalen, Sandeslätt;V;V;142;16.08
+2010;rd;14800223;Lärjedalen, Sandeslätt;MP;MP;60;6.8
+2010;rd;14800223;Lärjedalen, Sandeslätt;SD;SD;46;5.21
+2010;rd;14800223;Lärjedalen, Sandeslätt;FI;FI;10;1.13
+2010;rd;14800223;Lärjedalen, Sandeslätt;PP;PP;7;0.79
+2010;rd;14800223;Lärjedalen, Sandeslätt;SPI;SPI;0;0
+2010;rd;14800223;Lärjedalen, Sandeslätt;OVR;OVR;34;3.85
+2010;rd;14800231;Lärjedalen, Gunnilse-Linnarhult;M;M;352;30.42
+2010;rd;14800231;Lärjedalen, Gunnilse-Linnarhult;C;C;41;3.54
+2010;rd;14800231;Lärjedalen, Gunnilse-Linnarhult;FP;L;88;7.61
+2010;rd;14800231;Lärjedalen, Gunnilse-Linnarhult;KD;KD;112;9.68
+2010;rd;14800231;Lärjedalen, Gunnilse-Linnarhult;S;S;313;27.05
+2010;rd;14800231;Lärjedalen, Gunnilse-Linnarhult;V;V;66;5.7
+2010;rd;14800231;Lärjedalen, Gunnilse-Linnarhult;MP;MP;73;6.31
+2010;rd;14800231;Lärjedalen, Gunnilse-Linnarhult;SD;SD;99;8.56
+2010;rd;14800231;Lärjedalen, Gunnilse-Linnarhult;FI;FI;6;0.52
+2010;rd;14800231;Lärjedalen, Gunnilse-Linnarhult;PP;PP;3;0.26
+2010;rd;14800231;Lärjedalen, Gunnilse-Linnarhult;SPI;SPI;0;0
+2010;rd;14800231;Lärjedalen, Gunnilse-Linnarhult;OVR;OVR;4;0.35
+2010;rd;14800251;Lärjedalen, Björsared-Knipared;M;M;347;30.31
+2010;rd;14800251;Lärjedalen, Björsared-Knipared;C;C;72;6.29
+2010;rd;14800251;Lärjedalen, Björsared-Knipared;FP;L;97;8.47
+2010;rd;14800251;Lärjedalen, Björsared-Knipared;KD;KD;57;4.98
+2010;rd;14800251;Lärjedalen, Björsared-Knipared;S;S;286;24.98
+2010;rd;14800251;Lärjedalen, Björsared-Knipared;V;V;81;7.07
+2010;rd;14800251;Lärjedalen, Björsared-Knipared;MP;MP;70;6.11
+2010;rd;14800251;Lärjedalen, Björsared-Knipared;SD;SD;123;10.74
+2010;rd;14800251;Lärjedalen, Björsared-Knipared;FI;FI;4;0.35
+2010;rd;14800251;Lärjedalen, Björsared-Knipared;PP;PP;8;0.7
+2010;rd;14800251;Lärjedalen, Björsared-Knipared;SPI;SPI;0;0
+2010;rd;14800251;Lärjedalen, Björsared-Knipared;OVR;OVR;0;0
+2010;rd;14800252;Lärjedalen, Olofstorp;M;M;440;30.6
+2010;rd;14800252;Lärjedalen, Olofstorp;C;C;51;3.55
+2010;rd;14800252;Lärjedalen, Olofstorp;FP;L;118;8.21
+2010;rd;14800252;Lärjedalen, Olofstorp;KD;KD;91;6.33
+2010;rd;14800252;Lärjedalen, Olofstorp;S;S;401;27.89
+2010;rd;14800252;Lärjedalen, Olofstorp;V;V;94;6.54
+2010;rd;14800252;Lärjedalen, Olofstorp;MP;MP;90;6.26
+2010;rd;14800252;Lärjedalen, Olofstorp;SD;SD;140;9.74
+2010;rd;14800252;Lärjedalen, Olofstorp;FI;FI;6;0.42
+2010;rd;14800252;Lärjedalen, Olofstorp;PP;PP;6;0.42
+2010;rd;14800252;Lärjedalen, Olofstorp;SPI;SPI;0;0
+2010;rd;14800252;Lärjedalen, Olofstorp;OVR;OVR;1;0.07
+2010;rd;14800261;Lärjedalen, Södra Hjällbo;M;M;75;16.82
+2010;rd;14800261;Lärjedalen, Södra Hjällbo;C;C;2;0.45
+2010;rd;14800261;Lärjedalen, Södra Hjällbo;FP;L;7;1.57
+2010;rd;14800261;Lärjedalen, Södra Hjällbo;KD;KD;24;5.38
+2010;rd;14800261;Lärjedalen, Södra Hjällbo;S;S;264;59.19
+2010;rd;14800261;Lärjedalen, Södra Hjällbo;V;V;33;7.4
+2010;rd;14800261;Lärjedalen, Södra Hjällbo;MP;MP;26;5.83
+2010;rd;14800261;Lärjedalen, Södra Hjällbo;SD;SD;9;2.02
+2010;rd;14800261;Lärjedalen, Södra Hjällbo;FI;FI;1;0.22
+2010;rd;14800261;Lärjedalen, Södra Hjällbo;PP;PP;1;0.22
+2010;rd;14800261;Lärjedalen, Södra Hjällbo;SPI;SPI;0;0
+2010;rd;14800261;Lärjedalen, Södra Hjällbo;OVR;OVR;4;0.9
+2010;rd;14800262;Lärjedalen, Skolspåret;M;M;41;7.43
+2010;rd;14800262;Lärjedalen, Skolspåret;C;C;1;0.18
+2010;rd;14800262;Lärjedalen, Skolspåret;FP;L;4;0.72
+2010;rd;14800262;Lärjedalen, Skolspåret;KD;KD;26;4.71
+2010;rd;14800262;Lärjedalen, Skolspåret;S;S;365;66.12
+2010;rd;14800262;Lärjedalen, Skolspåret;V;V;63;11.41
+2010;rd;14800262;Lärjedalen, Skolspåret;MP;MP;19;3.44
+2010;rd;14800262;Lärjedalen, Skolspåret;SD;SD;10;1.81
+2010;rd;14800262;Lärjedalen, Skolspåret;FI;FI;5;0.91
+2010;rd;14800262;Lärjedalen, Skolspåret;PP;PP;5;0.91
+2010;rd;14800262;Lärjedalen, Skolspåret;SPI;SPI;0;0
+2010;rd;14800262;Lärjedalen, Skolspåret;OVR;OVR;13;2.36
+2010;rd;14800263;Lärjedalen, Norra Hjällbo;M;M;65;8.72
+2010;rd;14800263;Lärjedalen, Norra Hjällbo;C;C;6;0.81
+2010;rd;14800263;Lärjedalen, Norra Hjällbo;FP;L;9;1.21
+2010;rd;14800263;Lärjedalen, Norra Hjällbo;KD;KD;46;6.17
+2010;rd;14800263;Lärjedalen, Norra Hjällbo;S;S;475;63.76
+2010;rd;14800263;Lärjedalen, Norra Hjällbo;V;V;76;10.2
+2010;rd;14800263;Lärjedalen, Norra Hjällbo;MP;MP;38;5.1
+2010;rd;14800263;Lärjedalen, Norra Hjällbo;SD;SD;17;2.28
+2010;rd;14800263;Lärjedalen, Norra Hjällbo;FI;FI;3;0.4
+2010;rd;14800263;Lärjedalen, Norra Hjällbo;PP;PP;3;0.4
+2010;rd;14800263;Lärjedalen, Norra Hjällbo;SPI;SPI;0;0
+2010;rd;14800263;Lärjedalen, Norra Hjällbo;OVR;OVR;7;0.94
+2010;rd;14800264;Lärjedalen, Bläsebo;M;M;73;9.06
+2010;rd;14800264;Lärjedalen, Bläsebo;C;C;6;0.74
+2010;rd;14800264;Lärjedalen, Bläsebo;FP;L;27;3.35
+2010;rd;14800264;Lärjedalen, Bläsebo;KD;KD;42;5.21
+2010;rd;14800264;Lärjedalen, Bläsebo;S;S;460;57.07
+2010;rd;14800264;Lärjedalen, Bläsebo;V;V;87;10.79
+2010;rd;14800264;Lärjedalen, Bläsebo;MP;MP;49;6.08
+2010;rd;14800264;Lärjedalen, Bläsebo;SD;SD;31;3.85
+2010;rd;14800264;Lärjedalen, Bläsebo;FI;FI;3;0.37
+2010;rd;14800264;Lärjedalen, Bläsebo;PP;PP;8;0.99
+2010;rd;14800264;Lärjedalen, Bläsebo;SPI;SPI;0;0
+2010;rd;14800264;Lärjedalen, Bläsebo;OVR;OVR;20;2.48
+2010;rd;14800271;Lärjedalen, Eriksbo;M;M;102;11.86
+2010;rd;14800271;Lärjedalen, Eriksbo;C;C;8;0.93
+2010;rd;14800271;Lärjedalen, Eriksbo;FP;L;25;2.91
+2010;rd;14800271;Lärjedalen, Eriksbo;KD;KD;27;3.14
+2010;rd;14800271;Lärjedalen, Eriksbo;S;S;438;50.93
+2010;rd;14800271;Lärjedalen, Eriksbo;V;V;103;11.98
+2010;rd;14800271;Lärjedalen, Eriksbo;MP;MP;53;6.16
+2010;rd;14800271;Lärjedalen, Eriksbo;SD;SD;79;9.19
+2010;rd;14800271;Lärjedalen, Eriksbo;FI;FI;3;0.35
+2010;rd;14800271;Lärjedalen, Eriksbo;PP;PP;5;0.58
+2010;rd;14800271;Lärjedalen, Eriksbo;SPI;SPI;0;0
+2010;rd;14800271;Lärjedalen, Eriksbo;OVR;OVR;17;1.98
+2010;rd;14800311;Kortedala, Gamlestaden;M;M;227;17.42
+2010;rd;14800311;Kortedala, Gamlestaden;C;C;35;2.69
+2010;rd;14800311;Kortedala, Gamlestaden;FP;L;53;4.07
+2010;rd;14800311;Kortedala, Gamlestaden;KD;KD;31;2.38
+2010;rd;14800311;Kortedala, Gamlestaden;S;S;351;26.94
+2010;rd;14800311;Kortedala, Gamlestaden;V;V;201;15.43
+2010;rd;14800311;Kortedala, Gamlestaden;MP;MP;291;22.33
+2010;rd;14800311;Kortedala, Gamlestaden;SD;SD;55;4.22
+2010;rd;14800311;Kortedala, Gamlestaden;FI;FI;32;2.46
+2010;rd;14800311;Kortedala, Gamlestaden;PP;PP;24;1.84
+2010;rd;14800311;Kortedala, Gamlestaden;SPI;SPI;0;0
+2010;rd;14800311;Kortedala, Gamlestaden;OVR;OVR;3;0.24
+2010;rd;14800312;Kortedala, Nylöse;M;M;152;14.92
+2010;rd;14800312;Kortedala, Nylöse;C;C;24;2.36
+2010;rd;14800312;Kortedala, Nylöse;FP;L;36;3.53
+2010;rd;14800312;Kortedala, Nylöse;KD;KD;27;2.65
+2010;rd;14800312;Kortedala, Nylöse;S;S;349;34.25
+2010;rd;14800312;Kortedala, Nylöse;V;V;184;18.06
+2010;rd;14800312;Kortedala, Nylöse;MP;MP;161;15.8
+2010;rd;14800312;Kortedala, Nylöse;SD;SD;59;5.79
+2010;rd;14800312;Kortedala, Nylöse;FI;FI;15;1.47
+2010;rd;14800312;Kortedala, Nylöse;PP;PP;8;0.79
+2010;rd;14800312;Kortedala, Nylöse;SPI;SPI;0;0
+2010;rd;14800312;Kortedala, Nylöse;OVR;OVR;4;0.4
+2010;rd;14800313;Kortedala, Kviberg;M;M;228;17.74
+2010;rd;14800313;Kortedala, Kviberg;C;C;48;3.74
+2010;rd;14800313;Kortedala, Kviberg;FP;L;92;7.16
+2010;rd;14800313;Kortedala, Kviberg;KD;KD;55;4.28
+2010;rd;14800313;Kortedala, Kviberg;S;S;450;35.02
+2010;rd;14800313;Kortedala, Kviberg;V;V;125;9.73
+2010;rd;14800313;Kortedala, Kviberg;MP;MP;190;14.79
+2010;rd;14800313;Kortedala, Kviberg;SD;SD;72;5.6
+2010;rd;14800313;Kortedala, Kviberg;FI;FI;9;0.7
+2010;rd;14800313;Kortedala, Kviberg;PP;PP;13;1.01
+2010;rd;14800313;Kortedala, Kviberg;SPI;SPI;0;0
+2010;rd;14800313;Kortedala, Kviberg;OVR;OVR;3;0.24
+2010;rd;14800314;Kortedala, Bellevue;M;M;142;16.51
+2010;rd;14800314;Kortedala, Bellevue;C;C;33;3.84
+2010;rd;14800314;Kortedala, Bellevue;FP;L;51;5.93
+2010;rd;14800314;Kortedala, Bellevue;KD;KD;29;3.37
+2010;rd;14800314;Kortedala, Bellevue;S;S;225;26.16
+2010;rd;14800314;Kortedala, Bellevue;V;V;137;15.93
+2010;rd;14800314;Kortedala, Bellevue;MP;MP;151;17.56
+2010;rd;14800314;Kortedala, Bellevue;SD;SD;58;6.74
+2010;rd;14800314;Kortedala, Bellevue;FI;FI;17;1.98
+2010;rd;14800314;Kortedala, Bellevue;PP;PP;13;1.51
+2010;rd;14800314;Kortedala, Bellevue;SPI;SPI;0;0
+2010;rd;14800314;Kortedala, Bellevue;OVR;OVR;4;0.47
+2010;rd;14800321;Kortedala, Utbynäs;M;M;296;31.62
+2010;rd;14800321;Kortedala, Utbynäs;C;C;41;4.38
+2010;rd;14800321;Kortedala, Utbynäs;FP;L;107;11.43
+2010;rd;14800321;Kortedala, Utbynäs;KD;KD;93;9.94
+2010;rd;14800321;Kortedala, Utbynäs;S;S;220;23.5
+2010;rd;14800321;Kortedala, Utbynäs;V;V;43;4.59
+2010;rd;14800321;Kortedala, Utbynäs;MP;MP;74;7.91
+2010;rd;14800321;Kortedala, Utbynäs;SD;SD;50;5.34
+2010;rd;14800321;Kortedala, Utbynäs;FI;FI;7;0.75
+2010;rd;14800321;Kortedala, Utbynäs;PP;PP;5;0.53
+2010;rd;14800321;Kortedala, Utbynäs;SPI;SPI;0;0
+2010;rd;14800321;Kortedala, Utbynäs;OVR;OVR;0;0
+2010;rd;14800322;Kortedala, Utby;M;M;368;29.37
+2010;rd;14800322;Kortedala, Utby;C;C;37;2.95
+2010;rd;14800322;Kortedala, Utby;FP;L;142;11.33
+2010;rd;14800322;Kortedala, Utby;KD;KD;146;11.65
+2010;rd;14800322;Kortedala, Utby;S;S;274;21.87
+2010;rd;14800322;Kortedala, Utby;V;V;86;6.86
+2010;rd;14800322;Kortedala, Utby;MP;MP;144;11.49
+2010;rd;14800322;Kortedala, Utby;SD;SD;49;3.91
+2010;rd;14800322;Kortedala, Utby;FI;FI;6;0.48
+2010;rd;14800322;Kortedala, Utby;PP;PP;1;0.08
+2010;rd;14800322;Kortedala, Utby;SPI;SPI;0;0
+2010;rd;14800322;Kortedala, Utby;OVR;OVR;0;0
+2010;rd;14800323;Kortedala, Fjällbo;M;M;343;28.61
+2010;rd;14800323;Kortedala, Fjällbo;C;C;44;3.67
+2010;rd;14800323;Kortedala, Fjällbo;FP;L;88;7.34
+2010;rd;14800323;Kortedala, Fjällbo;KD;KD;75;6.26
+2010;rd;14800323;Kortedala, Fjällbo;S;S;345;28.77
+2010;rd;14800323;Kortedala, Fjällbo;V;V;102;8.51
+2010;rd;14800323;Kortedala, Fjällbo;MP;MP;126;10.51
+2010;rd;14800323;Kortedala, Fjällbo;SD;SD;57;4.75
+2010;rd;14800323;Kortedala, Fjällbo;FI;FI;4;0.33
+2010;rd;14800323;Kortedala, Fjällbo;PP;PP;14;1.17
+2010;rd;14800323;Kortedala, Fjällbo;SPI;SPI;0;0
+2010;rd;14800323;Kortedala, Fjällbo;OVR;OVR;1;0.08
+2010;rd;14800331;Kortedala, Gregorianska gatan m fl;M;M;75;9.35
+2010;rd;14800331;Kortedala, Gregorianska gatan m fl;C;C;11;1.37
+2010;rd;14800331;Kortedala, Gregorianska gatan m fl;FP;L;25;3.12
+2010;rd;14800331;Kortedala, Gregorianska gatan m fl;KD;KD;24;2.99
+2010;rd;14800331;Kortedala, Gregorianska gatan m fl;S;S;370;46.13
+2010;rd;14800331;Kortedala, Gregorianska gatan m fl;V;V;131;16.33
+2010;rd;14800331;Kortedala, Gregorianska gatan m fl;MP;MP;87;10.85
+2010;rd;14800331;Kortedala, Gregorianska gatan m fl;SD;SD;49;6.11
+2010;rd;14800331;Kortedala, Gregorianska gatan m fl;FI;FI;13;1.62
+2010;rd;14800331;Kortedala, Gregorianska gatan m fl;PP;PP;14;1.75
+2010;rd;14800331;Kortedala, Gregorianska gatan m fl;SPI;SPI;0;0
+2010;rd;14800331;Kortedala, Gregorianska gatan m fl;OVR;OVR;3;0.37
+2010;rd;14800332;Kortedala, Västra Kortedala;M;M;163;15.61
+2010;rd;14800332;Kortedala, Västra Kortedala;C;C;14;1.34
+2010;rd;14800332;Kortedala, Västra Kortedala;FP;L;41;3.93
+2010;rd;14800332;Kortedala, Västra Kortedala;KD;KD;45;4.31
+2010;rd;14800332;Kortedala, Västra Kortedala;S;S;484;46.36
+2010;rd;14800332;Kortedala, Västra Kortedala;V;V;114;10.92
+2010;rd;14800332;Kortedala, Västra Kortedala;MP;MP;87;8.33
+2010;rd;14800332;Kortedala, Västra Kortedala;SD;SD;78;7.47
+2010;rd;14800332;Kortedala, Västra Kortedala;FI;FI;6;0.57
+2010;rd;14800332;Kortedala, Västra Kortedala;PP;PP;9;0.86
+2010;rd;14800332;Kortedala, Västra Kortedala;SPI;SPI;0;0
+2010;rd;14800332;Kortedala, Västra Kortedala;OVR;OVR;3;0.29
+2010;rd;14800333;Kortedala, Östra Kortedala;M;M;124;12.56
+2010;rd;14800333;Kortedala, Östra Kortedala;C;C;18;1.82
+2010;rd;14800333;Kortedala, Östra Kortedala;FP;L;46;4.66
+2010;rd;14800333;Kortedala, Östra Kortedala;KD;KD;36;3.65
+2010;rd;14800333;Kortedala, Östra Kortedala;S;S;429;43.47
+2010;rd;14800333;Kortedala, Östra Kortedala;V;V;141;14.29
+2010;rd;14800333;Kortedala, Östra Kortedala;MP;MP;98;9.93
+2010;rd;14800333;Kortedala, Östra Kortedala;SD;SD;67;6.79
+2010;rd;14800333;Kortedala, Östra Kortedala;FI;FI;7;0.71
+2010;rd;14800333;Kortedala, Östra Kortedala;PP;PP;12;1.22
+2010;rd;14800333;Kortedala, Östra Kortedala;SPI;SPI;0;0
+2010;rd;14800333;Kortedala, Östra Kortedala;OVR;OVR;9;0.91
+2010;rd;14800334;Kortedala, Kortedala Centrum;M;M;86;9.68
+2010;rd;14800334;Kortedala, Kortedala Centrum;C;C;9;1.01
+2010;rd;14800334;Kortedala, Kortedala Centrum;FP;L;25;2.82
+2010;rd;14800334;Kortedala, Kortedala Centrum;KD;KD;26;2.93
+2010;rd;14800334;Kortedala, Kortedala Centrum;S;S;446;50.23
+2010;rd;14800334;Kortedala, Kortedala Centrum;V;V;134;15.09
+2010;rd;14800334;Kortedala, Kortedala Centrum;MP;MP;77;8.67
+2010;rd;14800334;Kortedala, Kortedala Centrum;SD;SD;62;6.98
+2010;rd;14800334;Kortedala, Kortedala Centrum;FI;FI;7;0.79
+2010;rd;14800334;Kortedala, Kortedala Centrum;PP;PP;10;1.13
+2010;rd;14800334;Kortedala, Kortedala Centrum;SPI;SPI;0;0
+2010;rd;14800334;Kortedala, Kortedala Centrum;OVR;OVR;6;0.68
+2010;rd;14800335;Kortedala, Södra Kortedala;M;M;193;19.26
+2010;rd;14800335;Kortedala, Södra Kortedala;C;C;19;1.9
+2010;rd;14800335;Kortedala, Södra Kortedala;FP;L;63;6.29
+2010;rd;14800335;Kortedala, Södra Kortedala;KD;KD;45;4.49
+2010;rd;14800335;Kortedala, Södra Kortedala;S;S;380;37.92
+2010;rd;14800335;Kortedala, Södra Kortedala;V;V;114;11.38
+2010;rd;14800335;Kortedala, Södra Kortedala;MP;MP;116;11.58
+2010;rd;14800335;Kortedala, Södra Kortedala;SD;SD;54;5.39
+2010;rd;14800335;Kortedala, Södra Kortedala;FI;FI;12;1.2
+2010;rd;14800335;Kortedala, Södra Kortedala;PP;PP;6;0.6
+2010;rd;14800335;Kortedala, Södra Kortedala;SPI;SPI;0;0
+2010;rd;14800335;Kortedala, Södra Kortedala;OVR;OVR;0;0
+2010;rd;14800341;Kortedala, Adventsparken;M;M;136;14.12
+2010;rd;14800341;Kortedala, Adventsparken;C;C;10;1.04
+2010;rd;14800341;Kortedala, Adventsparken;FP;L;58;6.02
+2010;rd;14800341;Kortedala, Adventsparken;KD;KD;34;3.53
+2010;rd;14800341;Kortedala, Adventsparken;S;S;436;45.28
+2010;rd;14800341;Kortedala, Adventsparken;V;V;94;9.76
+2010;rd;14800341;Kortedala, Adventsparken;MP;MP;78;8.1
+2010;rd;14800341;Kortedala, Adventsparken;SD;SD;99;10.28
+2010;rd;14800341;Kortedala, Adventsparken;FI;FI;5;0.52
+2010;rd;14800341;Kortedala, Adventsparken;PP;PP;10;1.04
+2010;rd;14800341;Kortedala, Adventsparken;SPI;SPI;0;0
+2010;rd;14800341;Kortedala, Adventsparken;OVR;OVR;3;0.31
+2010;rd;14800342;Kortedala, Norra Kortedala;M;M;125;11.15
+2010;rd;14800342;Kortedala, Norra Kortedala;C;C;13;1.16
+2010;rd;14800342;Kortedala, Norra Kortedala;FP;L;34;3.03
+2010;rd;14800342;Kortedala, Norra Kortedala;KD;KD;28;2.5
+2010;rd;14800342;Kortedala, Norra Kortedala;S;S;519;46.3
+2010;rd;14800342;Kortedala, Norra Kortedala;V;V;178;15.88
+2010;rd;14800342;Kortedala, Norra Kortedala;MP;MP;117;10.44
+2010;rd;14800342;Kortedala, Norra Kortedala;SD;SD;70;6.24
+2010;rd;14800342;Kortedala, Norra Kortedala;FI;FI;13;1.16
+2010;rd;14800342;Kortedala, Norra Kortedala;PP;PP;16;1.43
+2010;rd;14800342;Kortedala, Norra Kortedala;SPI;SPI;0;0
+2010;rd;14800342;Kortedala, Norra Kortedala;OVR;OVR;8;0.72
+2010;rd;14800343;Kortedala, Månadsgatorna m fl;M;M;156;14.3
+2010;rd;14800343;Kortedala, Månadsgatorna m fl;C;C;13;1.19
+2010;rd;14800343;Kortedala, Månadsgatorna m fl;FP;L;52;4.77
+2010;rd;14800343;Kortedala, Månadsgatorna m fl;KD;KD;28;2.57
+2010;rd;14800343;Kortedala, Månadsgatorna m fl;S;S;470;43.08
+2010;rd;14800343;Kortedala, Månadsgatorna m fl;V;V;140;12.83
+2010;rd;14800343;Kortedala, Månadsgatorna m fl;MP;MP;97;8.89
+2010;rd;14800343;Kortedala, Månadsgatorna m fl;SD;SD;100;9.17
+2010;rd;14800343;Kortedala, Månadsgatorna m fl;FI;FI;14;1.28
+2010;rd;14800343;Kortedala, Månadsgatorna m fl;PP;PP;17;1.56
+2010;rd;14800343;Kortedala, Månadsgatorna m fl;SPI;SPI;0;0
+2010;rd;14800343;Kortedala, Månadsgatorna m fl;OVR;OVR;4;0.36
+2010;rd;14800411;Bergsjön, Gärdsås;M;M;155;21.99
+2010;rd;14800411;Bergsjön, Gärdsås;C;C;7;0.99
+2010;rd;14800411;Bergsjön, Gärdsås;FP;L;38;5.39
+2010;rd;14800411;Bergsjön, Gärdsås;KD;KD;41;5.82
+2010;rd;14800411;Bergsjön, Gärdsås;S;S;305;43.26
+2010;rd;14800411;Bergsjön, Gärdsås;V;V;56;7.94
+2010;rd;14800411;Bergsjön, Gärdsås;MP;MP;43;6.1
+2010;rd;14800411;Bergsjön, Gärdsås;SD;SD;47;6.67
+2010;rd;14800411;Bergsjön, Gärdsås;FI;FI;0;0
+2010;rd;14800411;Bergsjön, Gärdsås;PP;PP;8;1.13
+2010;rd;14800411;Bergsjön, Gärdsås;SPI;SPI;0;0
+2010;rd;14800411;Bergsjön, Gärdsås;OVR;OVR;5;0.71
+2010;rd;14800412;Bergsjön, Siriusgatan;M;M;64;7.39
+2010;rd;14800412;Bergsjön, Siriusgatan;C;C;7;0.81
+2010;rd;14800412;Bergsjön, Siriusgatan;FP;L;21;2.42
+2010;rd;14800412;Bergsjön, Siriusgatan;KD;KD;27;3.12
+2010;rd;14800412;Bergsjön, Siriusgatan;S;S;517;59.7
+2010;rd;14800412;Bergsjön, Siriusgatan;V;V;87;10.05
+2010;rd;14800412;Bergsjön, Siriusgatan;MP;MP;64;7.39
+2010;rd;14800412;Bergsjön, Siriusgatan;SD;SD;49;5.66
+2010;rd;14800412;Bergsjön, Siriusgatan;FI;FI;7;0.81
+2010;rd;14800412;Bergsjön, Siriusgatan;PP;PP;11;1.27
+2010;rd;14800412;Bergsjön, Siriusgatan;SPI;SPI;0;0
+2010;rd;14800412;Bergsjön, Siriusgatan;OVR;OVR;12;1.39
+2010;rd;14800413;Bergsjön, Gärdsmosse;M;M;39;6.41
+2010;rd;14800413;Bergsjön, Gärdsmosse;C;C;3;0.49
+2010;rd;14800413;Bergsjön, Gärdsmosse;FP;L;13;2.14
+2010;rd;14800413;Bergsjön, Gärdsmosse;KD;KD;19;3.13
+2010;rd;14800413;Bergsjön, Gärdsmosse;S;S;341;56.09
+2010;rd;14800413;Bergsjön, Gärdsmosse;V;V;60;9.87
+2010;rd;14800413;Bergsjön, Gärdsmosse;MP;MP;54;8.88
+2010;rd;14800413;Bergsjön, Gärdsmosse;SD;SD;45;7.4
+2010;rd;14800413;Bergsjön, Gärdsmosse;FI;FI;7;1.15
+2010;rd;14800413;Bergsjön, Gärdsmosse;PP;PP;16;2.63
+2010;rd;14800413;Bergsjön, Gärdsmosse;SPI;SPI;0;0
+2010;rd;14800413;Bergsjön, Gärdsmosse;OVR;OVR;11;1.81
+2010;rd;14800414;Bergsjön, Norra Bergsjön;M;M;74;11.95
+2010;rd;14800414;Bergsjön, Norra Bergsjön;C;C;12;1.94
+2010;rd;14800414;Bergsjön, Norra Bergsjön;FP;L;28;4.52
+2010;rd;14800414;Bergsjön, Norra Bergsjön;KD;KD;36;5.82
+2010;rd;14800414;Bergsjön, Norra Bergsjön;S;S;228;36.83
+2010;rd;14800414;Bergsjön, Norra Bergsjön;V;V;93;15.02
+2010;rd;14800414;Bergsjön, Norra Bergsjön;MP;MP;79;12.76
+2010;rd;14800414;Bergsjön, Norra Bergsjön;SD;SD;39;6.3
+2010;rd;14800414;Bergsjön, Norra Bergsjön;FI;FI;11;1.78
+2010;rd;14800414;Bergsjön, Norra Bergsjön;PP;PP;13;2.1
+2010;rd;14800414;Bergsjön, Norra Bergsjön;SPI;SPI;0;0
+2010;rd;14800414;Bergsjön, Norra Bergsjön;OVR;OVR;6;0.97
+2010;rd;14800421;Bergsjön, Södra Bergsjön;M;M;63;8.69
+2010;rd;14800421;Bergsjön, Södra Bergsjön;C;C;4;0.55
+2010;rd;14800421;Bergsjön, Södra Bergsjön;FP;L;24;3.31
+2010;rd;14800421;Bergsjön, Södra Bergsjön;KD;KD;26;3.59
+2010;rd;14800421;Bergsjön, Södra Bergsjön;S;S;504;69.52
+2010;rd;14800421;Bergsjön, Södra Bergsjön;V;V;56;7.72
+2010;rd;14800421;Bergsjön, Södra Bergsjön;MP;MP;18;2.48
+2010;rd;14800421;Bergsjön, Södra Bergsjön;SD;SD;19;2.62
+2010;rd;14800421;Bergsjön, Södra Bergsjön;FI;FI;3;0.41
+2010;rd;14800421;Bergsjön, Södra Bergsjön;PP;PP;4;0.55
+2010;rd;14800421;Bergsjön, Södra Bergsjön;SPI;SPI;0;0
+2010;rd;14800421;Bergsjön, Södra Bergsjön;OVR;OVR;4;0.55
+2010;rd;14800422;Bergsjön, Östra Bergsjön;M;M;63;8.65
+2010;rd;14800422;Bergsjön, Östra Bergsjön;C;C;1;0.14
+2010;rd;14800422;Bergsjön, Östra Bergsjön;FP;L;10;1.37
+2010;rd;14800422;Bergsjön, Östra Bergsjön;KD;KD;28;3.85
+2010;rd;14800422;Bergsjön, Östra Bergsjön;S;S;510;70.05
+2010;rd;14800422;Bergsjön, Östra Bergsjön;V;V;42;5.77
+2010;rd;14800422;Bergsjön, Östra Bergsjön;MP;MP;38;5.22
+2010;rd;14800422;Bergsjön, Östra Bergsjön;SD;SD;19;2.61
+2010;rd;14800422;Bergsjön, Östra Bergsjön;FI;FI;7;0.96
+2010;rd;14800422;Bergsjön, Östra Bergsjön;PP;PP;7;0.96
+2010;rd;14800422;Bergsjön, Östra Bergsjön;SPI;SPI;0;0
+2010;rd;14800422;Bergsjön, Östra Bergsjön;OVR;OVR;3;0.41
+2010;rd;14800423;Bergsjön, Rymdtorget;M;M;27;6.47
+2010;rd;14800423;Bergsjön, Rymdtorget;C;C;3;0.72
+2010;rd;14800423;Bergsjön, Rymdtorget;FP;L;5;1.2
+2010;rd;14800423;Bergsjön, Rymdtorget;KD;KD;18;4.32
+2010;rd;14800423;Bergsjön, Rymdtorget;S;S;284;68.11
+2010;rd;14800423;Bergsjön, Rymdtorget;V;V;41;9.83
+2010;rd;14800423;Bergsjön, Rymdtorget;MP;MP;21;5.04
+2010;rd;14800423;Bergsjön, Rymdtorget;SD;SD;12;2.88
+2010;rd;14800423;Bergsjön, Rymdtorget;FI;FI;2;0.48
+2010;rd;14800423;Bergsjön, Rymdtorget;PP;PP;2;0.48
+2010;rd;14800423;Bergsjön, Rymdtorget;SPI;SPI;0;0
+2010;rd;14800423;Bergsjön, Rymdtorget;OVR;OVR;2;0.48
+2010;rd;14800424;Bergsjön, Komettorget;M;M;76;10.31
+2010;rd;14800424;Bergsjön, Komettorget;C;C;1;0.14
+2010;rd;14800424;Bergsjön, Komettorget;FP;L;23;3.12
+2010;rd;14800424;Bergsjön, Komettorget;KD;KD;23;3.12
+2010;rd;14800424;Bergsjön, Komettorget;S;S;444;60.24
+2010;rd;14800424;Bergsjön, Komettorget;V;V;74;10.04
+2010;rd;14800424;Bergsjön, Komettorget;MP;MP;50;6.78
+2010;rd;14800424;Bergsjön, Komettorget;SD;SD;24;3.26
+2010;rd;14800424;Bergsjön, Komettorget;FI;FI;2;0.27
+2010;rd;14800424;Bergsjön, Komettorget;PP;PP;13;1.76
+2010;rd;14800424;Bergsjön, Komettorget;SPI;SPI;0;0
+2010;rd;14800424;Bergsjön, Komettorget;OVR;OVR;7;0.96
+2010;rd;14800511;Härlanda, Härlanda;M;M;343;33.73
+2010;rd;14800511;Härlanda, Härlanda;C;C;65;6.39
+2010;rd;14800511;Härlanda, Härlanda;FP;L;125;12.29
+2010;rd;14800511;Härlanda, Härlanda;KD;KD;68;6.69
+2010;rd;14800511;Härlanda, Härlanda;S;S;161;15.83
+2010;rd;14800511;Härlanda, Härlanda;V;V;64;6.29
+2010;rd;14800511;Härlanda, Härlanda;MP;MP;136;13.37
+2010;rd;14800511;Härlanda, Härlanda;SD;SD;32;3.15
+2010;rd;14800511;Härlanda, Härlanda;FI;FI;13;1.28
+2010;rd;14800511;Härlanda, Härlanda;PP;PP;8;0.79
+2010;rd;14800511;Härlanda, Härlanda;SPI;SPI;0;0
+2010;rd;14800511;Härlanda, Härlanda;OVR;OVR;2;0.2
+2010;rd;14800521;Härlanda, Södra Kålltorp;M;M;419;31.94
+2010;rd;14800521;Härlanda, Södra Kålltorp;C;C;89;6.78
+2010;rd;14800521;Härlanda, Södra Kålltorp;FP;L;147;11.2
+2010;rd;14800521;Härlanda, Södra Kålltorp;KD;KD;65;4.95
+2010;rd;14800521;Härlanda, Södra Kålltorp;S;S;224;17.07
+2010;rd;14800521;Härlanda, Södra Kålltorp;V;V;104;7.93
+2010;rd;14800521;Härlanda, Södra Kålltorp;MP;MP;193;14.71
+2010;rd;14800521;Härlanda, Södra Kålltorp;SD;SD;56;4.27
+2010;rd;14800521;Härlanda, Södra Kålltorp;FI;FI;11;0.84
+2010;rd;14800521;Härlanda, Södra Kålltorp;PP;PP;3;0.23
+2010;rd;14800521;Härlanda, Södra Kålltorp;SPI;SPI;0;0
+2010;rd;14800521;Härlanda, Södra Kålltorp;OVR;OVR;1;0.08
+2010;rd;14800522;Härlanda, Västra Kålltorp;M;M;255;28.91
+2010;rd;14800522;Härlanda, Västra Kålltorp;C;C;41;4.65
+2010;rd;14800522;Härlanda, Västra Kålltorp;FP;L;78;8.84
+2010;rd;14800522;Härlanda, Västra Kålltorp;KD;KD;37;4.2
+2010;rd;14800522;Härlanda, Västra Kålltorp;S;S;171;19.39
+2010;rd;14800522;Härlanda, Västra Kålltorp;V;V;76;8.62
+2010;rd;14800522;Härlanda, Västra Kålltorp;MP;MP;173;19.61
+2010;rd;14800522;Härlanda, Västra Kålltorp;SD;SD;38;4.31
+2010;rd;14800522;Härlanda, Västra Kålltorp;FI;FI;9;1.02
+2010;rd;14800522;Härlanda, Västra Kålltorp;PP;PP;3;0.34
+2010;rd;14800522;Härlanda, Västra Kålltorp;SPI;SPI;0;0
+2010;rd;14800522;Härlanda, Västra Kålltorp;OVR;OVR;1;0.11
+2010;rd;14800523;Härlanda, Östra Kålltorp;M;M;177;20.92
+2010;rd;14800523;Härlanda, Östra Kålltorp;C;C;29;3.43
+2010;rd;14800523;Härlanda, Östra Kålltorp;FP;L;71;8.39
+2010;rd;14800523;Härlanda, Östra Kålltorp;KD;KD;33;3.9
+2010;rd;14800523;Härlanda, Östra Kålltorp;S;S;222;26.24
+2010;rd;14800523;Härlanda, Östra Kålltorp;V;V;102;12.06
+2010;rd;14800523;Härlanda, Östra Kålltorp;MP;MP;149;17.61
+2010;rd;14800523;Härlanda, Östra Kålltorp;SD;SD;36;4.26
+2010;rd;14800523;Härlanda, Östra Kålltorp;FI;FI;13;1.54
+2010;rd;14800523;Härlanda, Östra Kålltorp;PP;PP;8;0.95
+2010;rd;14800523;Härlanda, Östra Kålltorp;SPI;SPI;0;0
+2010;rd;14800523;Härlanda, Östra Kålltorp;OVR;OVR;6;0.72
+2010;rd;14800524;Härlanda, Vidkärr;M;M;309;28.07
+2010;rd;14800524;Härlanda, Vidkärr;C;C;48;4.36
+2010;rd;14800524;Härlanda, Vidkärr;FP;L;97;8.81
+2010;rd;14800524;Härlanda, Vidkärr;KD;KD;65;5.9
+2010;rd;14800524;Härlanda, Vidkärr;S;S;246;22.34
+2010;rd;14800524;Härlanda, Vidkärr;V;V;94;8.54
+2010;rd;14800524;Härlanda, Vidkärr;MP;MP;182;16.53
+2010;rd;14800524;Härlanda, Vidkärr;SD;SD;35;3.18
+2010;rd;14800524;Härlanda, Vidkärr;FI;FI;13;1.18
+2010;rd;14800524;Härlanda, Vidkärr;PP;PP;12;1.09
+2010;rd;14800524;Härlanda, Vidkärr;SPI;SPI;0;0
+2010;rd;14800524;Härlanda, Vidkärr;OVR;OVR;0;0
+2010;rd;14800525;Härlanda, Munkebäck;M;M;403;30.28
+2010;rd;14800525;Härlanda, Munkebäck;C;C;49;3.68
+2010;rd;14800525;Härlanda, Munkebäck;FP;L;129;9.69
+2010;rd;14800525;Härlanda, Munkebäck;KD;KD;66;4.96
+2010;rd;14800525;Härlanda, Munkebäck;S;S;323;24.27
+2010;rd;14800525;Härlanda, Munkebäck;V;V;102;7.66
+2010;rd;14800525;Härlanda, Munkebäck;MP;MP;155;11.65
+2010;rd;14800525;Härlanda, Munkebäck;SD;SD;74;5.56
+2010;rd;14800525;Härlanda, Munkebäck;FI;FI;19;1.43
+2010;rd;14800525;Härlanda, Munkebäck;PP;PP;10;0.75
+2010;rd;14800525;Härlanda, Munkebäck;SPI;SPI;0;0
+2010;rd;14800525;Härlanda, Munkebäck;OVR;OVR;1;0.08
+2010;rd;14800531;Härlanda, Torpa;M;M;301;21.32
+2010;rd;14800531;Härlanda, Torpa;C;C;49;3.47
+2010;rd;14800531;Härlanda, Torpa;FP;L;116;8.22
+2010;rd;14800531;Härlanda, Torpa;KD;KD;81;5.74
+2010;rd;14800531;Härlanda, Torpa;S;S;410;29.04
+2010;rd;14800531;Härlanda, Torpa;V;V;147;10.41
+2010;rd;14800531;Härlanda, Torpa;MP;MP;191;13.53
+2010;rd;14800531;Härlanda, Torpa;SD;SD;86;6.09
+2010;rd;14800531;Härlanda, Torpa;FI;FI;18;1.27
+2010;rd;14800531;Härlanda, Torpa;PP;PP;13;0.92
+2010;rd;14800531;Härlanda, Torpa;SPI;SPI;0;0
+2010;rd;14800531;Härlanda, Torpa;OVR;OVR;0;0
+2010;rd;14800532;Härlanda, Fräntorp;M;M;272;29.28
+2010;rd;14800532;Härlanda, Fräntorp;C;C;26;2.8
+2010;rd;14800532;Härlanda, Fräntorp;FP;L;112;12.06
+2010;rd;14800532;Härlanda, Fräntorp;KD;KD;67;7.21
+2010;rd;14800532;Härlanda, Fräntorp;S;S;235;25.3
+2010;rd;14800532;Härlanda, Fräntorp;V;V;66;7.1
+2010;rd;14800532;Härlanda, Fräntorp;MP;MP;92;9.9
+2010;rd;14800532;Härlanda, Fräntorp;SD;SD;49;5.27
+2010;rd;14800532;Härlanda, Fräntorp;FI;FI;6;0.65
+2010;rd;14800532;Härlanda, Fräntorp;PP;PP;4;0.43
+2010;rd;14800532;Härlanda, Fräntorp;SPI;SPI;0;0
+2010;rd;14800532;Härlanda, Fräntorp;OVR;OVR;0;0
+2010;rd;14800541;Härlanda, Södra Björkekärr;M;M;519;32.44
+2010;rd;14800541;Härlanda, Södra Björkekärr;C;C;80;5
+2010;rd;14800541;Härlanda, Södra Björkekärr;FP;L;203;12.69
+2010;rd;14800541;Härlanda, Södra Björkekärr;KD;KD;136;8.5
+2010;rd;14800541;Härlanda, Södra Björkekärr;S;S;270;16.88
+2010;rd;14800541;Härlanda, Södra Björkekärr;V;V;98;6.13
+2010;rd;14800541;Härlanda, Södra Björkekärr;MP;MP;228;14.25
+2010;rd;14800541;Härlanda, Södra Björkekärr;SD;SD;48;3
+2010;rd;14800541;Härlanda, Södra Björkekärr;FI;FI;12;0.75
+2010;rd;14800541;Härlanda, Södra Björkekärr;PP;PP;5;0.31
+2010;rd;14800541;Härlanda, Södra Björkekärr;SPI;SPI;0;0
+2010;rd;14800541;Härlanda, Södra Björkekärr;OVR;OVR;1;0.06
+2010;rd;14800542;Härlanda, Västra Björkekärr;M;M;253;19.37
+2010;rd;14800542;Härlanda, Västra Björkekärr;C;C;72;5.51
+2010;rd;14800542;Härlanda, Västra Björkekärr;FP;L;124;9.49
+2010;rd;14800542;Härlanda, Västra Björkekärr;KD;KD;93;7.12
+2010;rd;14800542;Härlanda, Västra Björkekärr;S;S;264;20.21
+2010;rd;14800542;Härlanda, Västra Björkekärr;V;V;172;13.17
+2010;rd;14800542;Härlanda, Västra Björkekärr;MP;MP;248;18.99
+2010;rd;14800542;Härlanda, Västra Björkekärr;SD;SD;43;3.29
+2010;rd;14800542;Härlanda, Västra Björkekärr;FI;FI;15;1.15
+2010;rd;14800542;Härlanda, Västra Björkekärr;PP;PP;18;1.38
+2010;rd;14800542;Härlanda, Västra Björkekärr;SPI;SPI;0;0
+2010;rd;14800542;Härlanda, Västra Björkekärr;OVR;OVR;4;0.32
+2010;rd;14800543;Härlanda, Norra Björkekärr;M;M;174;24.1
+2010;rd;14800543;Härlanda, Norra Björkekärr;C;C;29;4.02
+2010;rd;14800543;Härlanda, Norra Björkekärr;FP;L;61;8.45
+2010;rd;14800543;Härlanda, Norra Björkekärr;KD;KD;37;5.12
+2010;rd;14800543;Härlanda, Norra Björkekärr;S;S;182;25.21
+2010;rd;14800543;Härlanda, Norra Björkekärr;V;V;49;6.79
+2010;rd;14800543;Härlanda, Norra Björkekärr;MP;MP;125;17.31
+2010;rd;14800543;Härlanda, Norra Björkekärr;SD;SD;55;7.62
+2010;rd;14800543;Härlanda, Norra Björkekärr;FI;FI;5;0.69
+2010;rd;14800543;Härlanda, Norra Björkekärr;PP;PP;4;0.55
+2010;rd;14800543;Härlanda, Norra Björkekärr;SPI;SPI;0;0
+2010;rd;14800543;Härlanda, Norra Björkekärr;OVR;OVR;1;0.14
+2010;rd;14800544;Härlanda, Robertshöjd;M;M;235;18.97
+2010;rd;14800544;Härlanda, Robertshöjd;C;C;32;2.58
+2010;rd;14800544;Härlanda, Robertshöjd;FP;L;69;5.57
+2010;rd;14800544;Härlanda, Robertshöjd;KD;KD;65;5.25
+2010;rd;14800544;Härlanda, Robertshöjd;S;S;420;33.9
+2010;rd;14800544;Härlanda, Robertshöjd;V;V;138;11.14
+2010;rd;14800544;Härlanda, Robertshöjd;MP;MP;159;12.83
+2010;rd;14800544;Härlanda, Robertshöjd;SD;SD;92;7.43
+2010;rd;14800544;Härlanda, Robertshöjd;FI;FI;14;1.13
+2010;rd;14800544;Härlanda, Robertshöjd;PP;PP;9;0.73
+2010;rd;14800544;Härlanda, Robertshöjd;SPI;SPI;0;0
+2010;rd;14800544;Härlanda, Robertshöjd;OVR;OVR;6;0.48
+2010;rd;14800611;Örgryte, Gubbero;M;M;461;31.86
+2010;rd;14800611;Örgryte, Gubbero;C;C;78;5.39
+2010;rd;14800611;Örgryte, Gubbero;FP;L;124;8.57
+2010;rd;14800611;Örgryte, Gubbero;KD;KD;91;6.29
+2010;rd;14800611;Örgryte, Gubbero;S;S;292;20.18
+2010;rd;14800611;Örgryte, Gubbero;V;V;111;7.67
+2010;rd;14800611;Örgryte, Gubbero;MP;MP;211;14.58
+2010;rd;14800611;Örgryte, Gubbero;SD;SD;51;3.52
+2010;rd;14800611;Örgryte, Gubbero;FI;FI;11;0.76
+2010;rd;14800611;Örgryte, Gubbero;PP;PP;13;0.9
+2010;rd;14800611;Örgryte, Gubbero;SPI;SPI;0;0
+2010;rd;14800611;Örgryte, Gubbero;OVR;OVR;4;0.28
+2010;rd;14800612;Örgryte, Olskroken;M;M;275;26.93
+2010;rd;14800612;Örgryte, Olskroken;C;C;34;3.33
+2010;rd;14800612;Örgryte, Olskroken;FP;L;61;5.97
+2010;rd;14800612;Örgryte, Olskroken;KD;KD;35;3.43
+2010;rd;14800612;Örgryte, Olskroken;S;S;358;35.06
+2010;rd;14800612;Örgryte, Olskroken;V;V;103;10.09
+2010;rd;14800612;Örgryte, Olskroken;MP;MP;88;8.62
+2010;rd;14800612;Örgryte, Olskroken;SD;SD;51;5
+2010;rd;14800612;Örgryte, Olskroken;FI;FI;9;0.88
+2010;rd;14800612;Örgryte, Olskroken;PP;PP;4;0.39
+2010;rd;14800612;Örgryte, Olskroken;SPI;SPI;0;0
+2010;rd;14800612;Örgryte, Olskroken;OVR;OVR;3;0.3
+2010;rd;14800613;Örgryte, Redberget;M;M;392;28.72
+2010;rd;14800613;Örgryte, Redberget;C;C;48;3.52
+2010;rd;14800613;Örgryte, Redberget;FP;L;100;7.33
+2010;rd;14800613;Örgryte, Redberget;KD;KD;52;3.81
+2010;rd;14800613;Örgryte, Redberget;S;S;336;24.62
+2010;rd;14800613;Örgryte, Redberget;V;V;156;11.43
+2010;rd;14800613;Örgryte, Redberget;MP;MP;187;13.7
+2010;rd;14800613;Örgryte, Redberget;SD;SD;69;5.05
+2010;rd;14800613;Örgryte, Redberget;FI;FI;14;1.03
+2010;rd;14800613;Örgryte, Redberget;PP;PP;10;0.73
+2010;rd;14800613;Örgryte, Redberget;SPI;SPI;0;0
+2010;rd;14800613;Örgryte, Redberget;OVR;OVR;1;0.07
+2010;rd;14800621;Örgryte, Bagaregården;M;M;249;29.33
+2010;rd;14800621;Örgryte, Bagaregården;C;C;47;5.54
+2010;rd;14800621;Örgryte, Bagaregården;FP;L;80;9.42
+2010;rd;14800621;Örgryte, Bagaregården;KD;KD;35;4.12
+2010;rd;14800621;Örgryte, Bagaregården;S;S;153;18.02
+2010;rd;14800621;Örgryte, Bagaregården;V;V;93;10.95
+2010;rd;14800621;Örgryte, Bagaregården;MP;MP;143;16.84
+2010;rd;14800621;Örgryte, Bagaregården;SD;SD;33;3.89
+2010;rd;14800621;Örgryte, Bagaregården;FI;FI;9;1.06
+2010;rd;14800621;Örgryte, Bagaregården;PP;PP;6;0.71
+2010;rd;14800621;Örgryte, Bagaregården;SPI;SPI;0;0
+2010;rd;14800621;Örgryte, Bagaregården;OVR;OVR;1;0.12
+2010;rd;14800622;Örgryte, Ånäs;M;M;291;31.63
+2010;rd;14800622;Örgryte, Ånäs;C;C;44;4.78
+2010;rd;14800622;Örgryte, Ånäs;FP;L;86;9.35
+2010;rd;14800622;Örgryte, Ånäs;KD;KD;35;3.8
+2010;rd;14800622;Örgryte, Ånäs;S;S;160;17.39
+2010;rd;14800622;Örgryte, Ånäs;V;V;91;9.89
+2010;rd;14800622;Örgryte, Ånäs;MP;MP;154;16.74
+2010;rd;14800622;Örgryte, Ånäs;SD;SD;32;3.48
+2010;rd;14800622;Örgryte, Ånäs;FI;FI;16;1.74
+2010;rd;14800622;Örgryte, Ånäs;PP;PP;11;1.2
+2010;rd;14800622;Örgryte, Ånäs;SPI;SPI;0;0
+2010;rd;14800622;Örgryte, Ånäs;OVR;OVR;0;0
+2010;rd;14800631;Örgryte, Strömmensberg;M;M;329;29.14
+2010;rd;14800631;Örgryte, Strömmensberg;C;C;45;3.99
+2010;rd;14800631;Örgryte, Strömmensberg;FP;L;103;9.12
+2010;rd;14800631;Örgryte, Strömmensberg;KD;KD;69;6.11
+2010;rd;14800631;Örgryte, Strömmensberg;S;S;212;18.78
+2010;rd;14800631;Örgryte, Strömmensberg;V;V;96;8.5
+2010;rd;14800631;Örgryte, Strömmensberg;MP;MP;193;17.09
+2010;rd;14800631;Örgryte, Strömmensberg;SD;SD;49;4.34
+2010;rd;14800631;Örgryte, Strömmensberg;FI;FI;16;1.42
+2010;rd;14800631;Örgryte, Strömmensberg;PP;PP;12;1.06
+2010;rd;14800631;Örgryte, Strömmensberg;SPI;SPI;0;0
+2010;rd;14800631;Örgryte, Strömmensberg;OVR;OVR;5;0.44
+2010;rd;14800632;Örgryte, Redbergslid;M;M;345;29.36
+2010;rd;14800632;Örgryte, Redbergslid;C;C;45;3.83
+2010;rd;14800632;Örgryte, Redbergslid;FP;L;108;9.19
+2010;rd;14800632;Örgryte, Redbergslid;KD;KD;43;3.66
+2010;rd;14800632;Örgryte, Redbergslid;S;S;276;23.49
+2010;rd;14800632;Örgryte, Redbergslid;V;V;111;9.45
+2010;rd;14800632;Örgryte, Redbergslid;MP;MP;170;14.47
+2010;rd;14800632;Örgryte, Redbergslid;SD;SD;54;4.6
+2010;rd;14800632;Örgryte, Redbergslid;FI;FI;11;0.94
+2010;rd;14800632;Örgryte, Redbergslid;PP;PP;9;0.77
+2010;rd;14800632;Örgryte, Redbergslid;SPI;SPI;0;0
+2010;rd;14800632;Örgryte, Redbergslid;OVR;OVR;3;0.26
+2010;rd;14800641;Örgryte, Västra Kallebäck;M;M;360;30.59
+2010;rd;14800641;Örgryte, Västra Kallebäck;C;C;45;3.82
+2010;rd;14800641;Örgryte, Västra Kallebäck;FP;L;116;9.86
+2010;rd;14800641;Örgryte, Västra Kallebäck;KD;KD;53;4.5
+2010;rd;14800641;Örgryte, Västra Kallebäck;S;S;280;23.79
+2010;rd;14800641;Örgryte, Västra Kallebäck;V;V;102;8.67
+2010;rd;14800641;Örgryte, Västra Kallebäck;MP;MP;138;11.72
+2010;rd;14800641;Örgryte, Västra Kallebäck;SD;SD;57;4.84
+2010;rd;14800641;Örgryte, Västra Kallebäck;FI;FI;6;0.51
+2010;rd;14800641;Örgryte, Västra Kallebäck;PP;PP;14;1.19
+2010;rd;14800641;Örgryte, Västra Kallebäck;SPI;SPI;0;0
+2010;rd;14800641;Örgryte, Västra Kallebäck;OVR;OVR;6;0.5
+2010;rd;14800642;Örgryte, Östra Kallebäck;M;M;395;34.23
+2010;rd;14800642;Örgryte, Östra Kallebäck;C;C;51;4.42
+2010;rd;14800642;Örgryte, Östra Kallebäck;FP;L;109;9.45
+2010;rd;14800642;Örgryte, Östra Kallebäck;KD;KD;61;5.29
+2010;rd;14800642;Örgryte, Östra Kallebäck;S;S;256;22.18
+2010;rd;14800642;Örgryte, Östra Kallebäck;V;V;75;6.5
+2010;rd;14800642;Örgryte, Östra Kallebäck;MP;MP;133;11.53
+2010;rd;14800642;Örgryte, Östra Kallebäck;SD;SD;56;4.85
+2010;rd;14800642;Örgryte, Östra Kallebäck;FI;FI;11;0.95
+2010;rd;14800642;Örgryte, Östra Kallebäck;PP;PP;5;0.43
+2010;rd;14800642;Örgryte, Östra Kallebäck;SPI;SPI;0;0
+2010;rd;14800642;Örgryte, Östra Kallebäck;OVR;OVR;2;0.17
+2010;rd;14800651;Örgryte, Södra Skår;M;M;573;55.31
+2010;rd;14800651;Örgryte, Södra Skår;C;C;73;7.05
+2010;rd;14800651;Örgryte, Södra Skår;FP;L;128;12.36
+2010;rd;14800651;Örgryte, Södra Skår;KD;KD;104;10.04
+2010;rd;14800651;Örgryte, Södra Skår;S;S;45;4.34
+2010;rd;14800651;Örgryte, Södra Skår;V;V;20;1.93
+2010;rd;14800651;Örgryte, Södra Skår;MP;MP;65;6.27
+2010;rd;14800651;Örgryte, Södra Skår;SD;SD;17;1.64
+2010;rd;14800651;Örgryte, Södra Skår;FI;FI;5;0.48
+2010;rd;14800651;Örgryte, Södra Skår;PP;PP;4;0.39
+2010;rd;14800651;Örgryte, Södra Skår;SPI;SPI;0;0
+2010;rd;14800651;Örgryte, Södra Skår;OVR;OVR;2;0.2
+2010;rd;14800652;Örgryte, Jakobsdal;M;M;578;51.11
+2010;rd;14800652;Örgryte, Jakobsdal;C;C;68;6.01
+2010;rd;14800652;Örgryte, Jakobsdal;FP;L;131;11.58
+2010;rd;14800652;Örgryte, Jakobsdal;KD;KD;92;8.13
+2010;rd;14800652;Örgryte, Jakobsdal;S;S;99;8.75
+2010;rd;14800652;Örgryte, Jakobsdal;V;V;39;3.45
+2010;rd;14800652;Örgryte, Jakobsdal;MP;MP;86;7.6
+2010;rd;14800652;Örgryte, Jakobsdal;SD;SD;27;2.39
+2010;rd;14800652;Örgryte, Jakobsdal;FI;FI;4;0.35
+2010;rd;14800652;Örgryte, Jakobsdal;PP;PP;6;0.53
+2010;rd;14800652;Örgryte, Jakobsdal;SPI;SPI;0;0
+2010;rd;14800652;Örgryte, Jakobsdal;OVR;OVR;1;0.09
+2010;rd;14800653;Örgryte, Norra Skår;M;M;518;52.86
+2010;rd;14800653;Örgryte, Norra Skår;C;C;60;6.12
+2010;rd;14800653;Örgryte, Norra Skår;FP;L;136;13.88
+2010;rd;14800653;Örgryte, Norra Skår;KD;KD;114;11.63
+2010;rd;14800653;Örgryte, Norra Skår;S;S;46;4.69
+2010;rd;14800653;Örgryte, Norra Skår;V;V;16;1.63
+2010;rd;14800653;Örgryte, Norra Skår;MP;MP;62;6.33
+2010;rd;14800653;Örgryte, Norra Skår;SD;SD;14;1.43
+2010;rd;14800653;Örgryte, Norra Skår;FI;FI;4;0.41
+2010;rd;14800653;Örgryte, Norra Skår;PP;PP;7;0.71
+2010;rd;14800653;Örgryte, Norra Skår;SPI;SPI;0;0
+2010;rd;14800653;Örgryte, Norra Skår;OVR;OVR;3;0.3
+2010;rd;14800661;Örgryte, Örgryte;M;M;455;56.31
+2010;rd;14800661;Örgryte, Örgryte;C;C;53;6.56
+2010;rd;14800661;Örgryte, Örgryte;FP;L;85;10.52
+2010;rd;14800661;Örgryte, Örgryte;KD;KD;71;8.79
+2010;rd;14800661;Örgryte, Örgryte;S;S;53;6.56
+2010;rd;14800661;Örgryte, Örgryte;V;V;15;1.86
+2010;rd;14800661;Örgryte, Örgryte;MP;MP;60;7.43
+2010;rd;14800661;Örgryte, Örgryte;SD;SD;11;1.36
+2010;rd;14800661;Örgryte, Örgryte;FI;FI;2;0.25
+2010;rd;14800661;Örgryte, Örgryte;PP;PP;2;0.25
+2010;rd;14800661;Örgryte, Örgryte;SPI;SPI;0;0
+2010;rd;14800661;Örgryte, Örgryte;OVR;OVR;1;0.12
+2010;rd;14800662;Örgryte, Bö;M;M;362;43.88
+2010;rd;14800662;Örgryte, Bö;C;C;48;5.82
+2010;rd;14800662;Örgryte, Bö;FP;L;112;13.58
+2010;rd;14800662;Örgryte, Bö;KD;KD;71;8.61
+2010;rd;14800662;Örgryte, Bö;S;S;82;9.94
+2010;rd;14800662;Örgryte, Bö;V;V;33;4
+2010;rd;14800662;Örgryte, Bö;MP;MP;98;11.88
+2010;rd;14800662;Örgryte, Bö;SD;SD;9;1.09
+2010;rd;14800662;Örgryte, Bö;FI;FI;3;0.36
+2010;rd;14800662;Örgryte, Bö;PP;PP;4;0.48
+2010;rd;14800662;Örgryte, Bö;SPI;SPI;0;0
+2010;rd;14800662;Örgryte, Bö;OVR;OVR;3;0.36
+2010;rd;14800671;Örgryte, Torp;M;M;603;39.59
+2010;rd;14800671;Örgryte, Torp;C;C;88;5.78
+2010;rd;14800671;Örgryte, Torp;FP;L;201;13.2
+2010;rd;14800671;Örgryte, Torp;KD;KD;113;7.42
+2010;rd;14800671;Örgryte, Torp;S;S;195;12.8
+2010;rd;14800671;Örgryte, Torp;V;V;75;4.92
+2010;rd;14800671;Örgryte, Torp;MP;MP;187;12.28
+2010;rd;14800671;Örgryte, Torp;SD;SD;39;2.56
+2010;rd;14800671;Örgryte, Torp;FI;FI;15;0.98
+2010;rd;14800671;Örgryte, Torp;PP;PP;2;0.13
+2010;rd;14800671;Örgryte, Torp;SPI;SPI;0;0
+2010;rd;14800671;Örgryte, Torp;OVR;OVR;5;0.34
+2010;rd;14800681;Örgryte, Överås;M;M;476;34.67
+2010;rd;14800681;Örgryte, Överås;C;C;66;4.81
+2010;rd;14800681;Örgryte, Överås;FP;L;115;8.38
+2010;rd;14800681;Örgryte, Överås;KD;KD;85;6.19
+2010;rd;14800681;Örgryte, Överås;S;S;261;19.01
+2010;rd;14800681;Örgryte, Överås;V;V;112;8.16
+2010;rd;14800681;Örgryte, Överås;MP;MP;170;12.38
+2010;rd;14800681;Örgryte, Överås;SD;SD;69;5.03
+2010;rd;14800681;Örgryte, Överås;FI;FI;9;0.66
+2010;rd;14800681;Örgryte, Överås;PP;PP;8;0.58
+2010;rd;14800681;Örgryte, Överås;SPI;SPI;0;0
+2010;rd;14800681;Örgryte, Överås;OVR;OVR;2;0.15
+2010;rd;14800682;Örgryte, Gamla Lunden;M;M;379;31.9
+2010;rd;14800682;Örgryte, Gamla Lunden;C;C;71;5.98
+2010;rd;14800682;Örgryte, Gamla Lunden;FP;L;103;8.67
+2010;rd;14800682;Örgryte, Gamla Lunden;KD;KD;65;5.47
+2010;rd;14800682;Örgryte, Gamla Lunden;S;S;229;19.28
+2010;rd;14800682;Örgryte, Gamla Lunden;V;V;105;8.84
+2010;rd;14800682;Örgryte, Gamla Lunden;MP;MP;157;13.22
+2010;rd;14800682;Örgryte, Gamla Lunden;SD;SD;56;4.71
+2010;rd;14800682;Örgryte, Gamla Lunden;FI;FI;15;1.26
+2010;rd;14800682;Örgryte, Gamla Lunden;PP;PP;5;0.42
+2010;rd;14800682;Örgryte, Gamla Lunden;SPI;SPI;0;0
+2010;rd;14800682;Örgryte, Gamla Lunden;OVR;OVR;3;0.24
+2010;rd;14800683;Örgryte, Nobelplatsen;M;M;253;24.47
+2010;rd;14800683;Örgryte, Nobelplatsen;C;C;59;5.71
+2010;rd;14800683;Örgryte, Nobelplatsen;FP;L;99;9.57
+2010;rd;14800683;Örgryte, Nobelplatsen;KD;KD;52;5.03
+2010;rd;14800683;Örgryte, Nobelplatsen;S;S;220;21.28
+2010;rd;14800683;Örgryte, Nobelplatsen;V;V;104;10.06
+2010;rd;14800683;Örgryte, Nobelplatsen;MP;MP;170;16.44
+2010;rd;14800683;Örgryte, Nobelplatsen;SD;SD;55;5.32
+2010;rd;14800683;Örgryte, Nobelplatsen;FI;FI;10;0.97
+2010;rd;14800683;Örgryte, Nobelplatsen;PP;PP;9;0.87
+2010;rd;14800683;Örgryte, Nobelplatsen;SPI;SPI;0;0
+2010;rd;14800683;Örgryte, Nobelplatsen;OVR;OVR;3;0.3
+2010;rd;14800684;Örgryte, Sankt Pauli;M;M;370;34.87
+2010;rd;14800684;Örgryte, Sankt Pauli;C;C;44;4.15
+2010;rd;14800684;Örgryte, Sankt Pauli;FP;L;100;9.43
+2010;rd;14800684;Örgryte, Sankt Pauli;KD;KD;69;6.5
+2010;rd;14800684;Örgryte, Sankt Pauli;S;S;194;18.28
+2010;rd;14800684;Örgryte, Sankt Pauli;V;V;72;6.79
+2010;rd;14800684;Örgryte, Sankt Pauli;MP;MP;139;13.1
+2010;rd;14800684;Örgryte, Sankt Pauli;SD;SD;57;5.37
+2010;rd;14800684;Örgryte, Sankt Pauli;FI;FI;7;0.66
+2010;rd;14800684;Örgryte, Sankt Pauli;PP;PP;9;0.85
+2010;rd;14800684;Örgryte, Sankt Pauli;SPI;SPI;0;0
+2010;rd;14800684;Örgryte, Sankt Pauli;OVR;OVR;0;0
+2010;rd;14800685;Örgryte, Nya Lunden-Prästgårdsängen;M;M;494;37.57
+2010;rd;14800685;Örgryte, Nya Lunden-Prästgårdsängen;C;C;65;4.94
+2010;rd;14800685;Örgryte, Nya Lunden-Prästgårdsängen;FP;L;138;10.49
+2010;rd;14800685;Örgryte, Nya Lunden-Prästgårdsängen;KD;KD;87;6.62
+2010;rd;14800685;Örgryte, Nya Lunden-Prästgårdsängen;S;S;204;15.51
+2010;rd;14800685;Örgryte, Nya Lunden-Prästgårdsängen;V;V;83;6.31
+2010;rd;14800685;Örgryte, Nya Lunden-Prästgårdsängen;MP;MP;181;13.76
+2010;rd;14800685;Örgryte, Nya Lunden-Prästgårdsängen;SD;SD;44;3.35
+2010;rd;14800685;Örgryte, Nya Lunden-Prästgårdsängen;FI;FI;7;0.53
+2010;rd;14800685;Örgryte, Nya Lunden-Prästgårdsängen;PP;PP;10;0.76
+2010;rd;14800685;Örgryte, Nya Lunden-Prästgårdsängen;SPI;SPI;0;0
+2010;rd;14800685;Örgryte, Nya Lunden-Prästgårdsängen;OVR;OVR;2;0.16
+2010;rd;14800686;Örgryte, Kärralund;M;M;512;37.67
+2010;rd;14800686;Örgryte, Kärralund;C;C;81;5.96
+2010;rd;14800686;Örgryte, Kärralund;FP;L;135;9.93
+2010;rd;14800686;Örgryte, Kärralund;KD;KD;91;6.7
+2010;rd;14800686;Örgryte, Kärralund;S;S;202;14.86
+2010;rd;14800686;Örgryte, Kärralund;V;V;90;6.62
+2010;rd;14800686;Örgryte, Kärralund;MP;MP;173;12.73
+2010;rd;14800686;Örgryte, Kärralund;SD;SD;49;3.61
+2010;rd;14800686;Örgryte, Kärralund;FI;FI;12;0.88
+2010;rd;14800686;Örgryte, Kärralund;PP;PP;13;0.96
+2010;rd;14800686;Örgryte, Kärralund;SPI;SPI;0;0
+2010;rd;14800686;Örgryte, Kärralund;OVR;OVR;1;0.07
+2010;rd;14800711;Centrum, Burås;M;M;396;33
+2010;rd;14800711;Centrum, Burås;C;C;81;6.75
+2010;rd;14800711;Centrum, Burås;FP;L;127;10.58
+2010;rd;14800711;Centrum, Burås;KD;KD;86;7.17
+2010;rd;14800711;Centrum, Burås;S;S;208;17.33
+2010;rd;14800711;Centrum, Burås;V;V;78;6.5
+2010;rd;14800711;Centrum, Burås;MP;MP;154;12.83
+2010;rd;14800711;Centrum, Burås;SD;SD;43;3.58
+2010;rd;14800711;Centrum, Burås;FI;FI;14;1.17
+2010;rd;14800711;Centrum, Burås;PP;PP;9;0.75
+2010;rd;14800711;Centrum, Burås;SPI;SPI;0;0
+2010;rd;14800711;Centrum, Burås;OVR;OVR;4;0.32
+2010;rd;14800712;Centrum, Mossen;M;M;302;27.73
+2010;rd;14800712;Centrum, Mossen;C;C;73;6.7
+2010;rd;14800712;Centrum, Mossen;FP;L;136;12.49
+2010;rd;14800712;Centrum, Mossen;KD;KD;47;4.32
+2010;rd;14800712;Centrum, Mossen;S;S;175;16.07
+2010;rd;14800712;Centrum, Mossen;V;V;69;6.34
+2010;rd;14800712;Centrum, Mossen;MP;MP;202;18.55
+2010;rd;14800712;Centrum, Mossen;SD;SD;41;3.76
+2010;rd;14800712;Centrum, Mossen;FI;FI;11;1.01
+2010;rd;14800712;Centrum, Mossen;PP;PP;30;2.75
+2010;rd;14800712;Centrum, Mossen;SPI;SPI;0;0
+2010;rd;14800712;Centrum, Mossen;OVR;OVR;3;0.28
+2010;rd;14800713;Centrum, Framnäs;M;M;489;33.86
+2010;rd;14800713;Centrum, Framnäs;C;C;76;5.26
+2010;rd;14800713;Centrum, Framnäs;FP;L;146;10.11
+2010;rd;14800713;Centrum, Framnäs;KD;KD;120;8.31
+2010;rd;14800713;Centrum, Framnäs;S;S;232;16.07
+2010;rd;14800713;Centrum, Framnäs;V;V;120;8.31
+2010;rd;14800713;Centrum, Framnäs;MP;MP;188;13.02
+2010;rd;14800713;Centrum, Framnäs;SD;SD;40;2.77
+2010;rd;14800713;Centrum, Framnäs;FI;FI;14;0.97
+2010;rd;14800713;Centrum, Framnäs;PP;PP;19;1.32
+2010;rd;14800713;Centrum, Framnäs;SPI;SPI;0;0
+2010;rd;14800713;Centrum, Framnäs;OVR;OVR;0;0
+2010;rd;14800714;Centrum, Olofshöjd;M;M;154;22.35
+2010;rd;14800714;Centrum, Olofshöjd;C;C;56;8.13
+2010;rd;14800714;Centrum, Olofshöjd;FP;L;58;8.42
+2010;rd;14800714;Centrum, Olofshöjd;KD;KD;27;3.92
+2010;rd;14800714;Centrum, Olofshöjd;S;S;92;13.35
+2010;rd;14800714;Centrum, Olofshöjd;V;V;73;10.6
+2010;rd;14800714;Centrum, Olofshöjd;MP;MP;167;24.24
+2010;rd;14800714;Centrum, Olofshöjd;SD;SD;14;2.03
+2010;rd;14800714;Centrum, Olofshöjd;FI;FI;13;1.89
+2010;rd;14800714;Centrum, Olofshöjd;PP;PP;33;4.79
+2010;rd;14800714;Centrum, Olofshöjd;SPI;SPI;0;0
+2010;rd;14800714;Centrum, Olofshöjd;OVR;OVR;2;0.3
+2010;rd;14800715;Centrum, Krokslätt;M;M;493;35.09
+2010;rd;14800715;Centrum, Krokslätt;C;C;73;5.2
+2010;rd;14800715;Centrum, Krokslätt;FP;L;147;10.46
+2010;rd;14800715;Centrum, Krokslätt;KD;KD;95;6.76
+2010;rd;14800715;Centrum, Krokslätt;S;S;267;19
+2010;rd;14800715;Centrum, Krokslätt;V;V;102;7.26
+2010;rd;14800715;Centrum, Krokslätt;MP;MP;150;10.68
+2010;rd;14800715;Centrum, Krokslätt;SD;SD;51;3.63
+2010;rd;14800715;Centrum, Krokslätt;FI;FI;14;1
+2010;rd;14800715;Centrum, Krokslätt;PP;PP;12;0.85
+2010;rd;14800715;Centrum, Krokslätt;SPI;SPI;0;0
+2010;rd;14800715;Centrum, Krokslätt;OVR;OVR;1;0.07
+2010;rd;14800716;Centrum, Kristinehöjd;M;M;401;37.62
+2010;rd;14800716;Centrum, Kristinehöjd;C;C;60;5.63
+2010;rd;14800716;Centrum, Kristinehöjd;FP;L;102;9.57
+2010;rd;14800716;Centrum, Kristinehöjd;KD;KD;72;6.75
+2010;rd;14800716;Centrum, Kristinehöjd;S;S;176;16.51
+2010;rd;14800716;Centrum, Kristinehöjd;V;V;66;6.19
+2010;rd;14800716;Centrum, Kristinehöjd;MP;MP;145;13.6
+2010;rd;14800716;Centrum, Kristinehöjd;SD;SD;28;2.63
+2010;rd;14800716;Centrum, Kristinehöjd;FI;FI;6;0.56
+2010;rd;14800716;Centrum, Kristinehöjd;PP;PP;9;0.84
+2010;rd;14800716;Centrum, Kristinehöjd;SPI;SPI;0;0
+2010;rd;14800716;Centrum, Kristinehöjd;OVR;OVR;1;0.09
+2010;rd;14800717;Centrum, Getebergsäng;M;M;392;42.61
+2010;rd;14800717;Centrum, Getebergsäng;C;C;52;5.65
+2010;rd;14800717;Centrum, Getebergsäng;FP;L;111;12.07
+2010;rd;14800717;Centrum, Getebergsäng;KD;KD;74;8.04
+2010;rd;14800717;Centrum, Getebergsäng;S;S;99;10.76
+2010;rd;14800717;Centrum, Getebergsäng;V;V;33;3.59
+2010;rd;14800717;Centrum, Getebergsäng;MP;MP;113;12.28
+2010;rd;14800717;Centrum, Getebergsäng;SD;SD;32;3.48
+2010;rd;14800717;Centrum, Getebergsäng;FI;FI;9;0.98
+2010;rd;14800717;Centrum, Getebergsäng;PP;PP;4;0.43
+2010;rd;14800717;Centrum, Getebergsäng;SPI;SPI;0;0
+2010;rd;14800717;Centrum, Getebergsäng;OVR;OVR;1;0.11
+2010;rd;14800721;Centrum, Nedre Johanneberg;M;M;727;46.39
+2010;rd;14800721;Centrum, Nedre Johanneberg;C;C;91;5.81
+2010;rd;14800721;Centrum, Nedre Johanneberg;FP;L;189;12.06
+2010;rd;14800721;Centrum, Nedre Johanneberg;KD;KD;114;7.28
+2010;rd;14800721;Centrum, Nedre Johanneberg;S;S;133;8.49
+2010;rd;14800721;Centrum, Nedre Johanneberg;V;V;66;4.21
+2010;rd;14800721;Centrum, Nedre Johanneberg;MP;MP;183;11.68
+2010;rd;14800721;Centrum, Nedre Johanneberg;SD;SD;32;2.04
+2010;rd;14800721;Centrum, Nedre Johanneberg;FI;FI;8;0.51
+2010;rd;14800721;Centrum, Nedre Johanneberg;PP;PP;20;1.28
+2010;rd;14800721;Centrum, Nedre Johanneberg;SPI;SPI;0;0
+2010;rd;14800721;Centrum, Nedre Johanneberg;OVR;OVR;4;0.25
+2010;rd;14800722;Centrum, Övre Johanneberg;M;M;413;35.98
+2010;rd;14800722;Centrum, Övre Johanneberg;C;C;71;6.18
+2010;rd;14800722;Centrum, Övre Johanneberg;FP;L;126;10.98
+2010;rd;14800722;Centrum, Övre Johanneberg;KD;KD;79;6.88
+2010;rd;14800722;Centrum, Övre Johanneberg;S;S;163;14.2
+2010;rd;14800722;Centrum, Övre Johanneberg;V;V;55;4.79
+2010;rd;14800722;Centrum, Övre Johanneberg;MP;MP;172;14.98
+2010;rd;14800722;Centrum, Övre Johanneberg;SD;SD;37;3.22
+2010;rd;14800722;Centrum, Övre Johanneberg;FI;FI;11;0.96
+2010;rd;14800722;Centrum, Övre Johanneberg;PP;PP;15;1.31
+2010;rd;14800722;Centrum, Övre Johanneberg;SPI;SPI;0;0
+2010;rd;14800722;Centrum, Övre Johanneberg;OVR;OVR;6;0.52
+2010;rd;14800723;Centrum, Eklanda;M;M;530;40.18
+2010;rd;14800723;Centrum, Eklanda;C;C;86;6.52
+2010;rd;14800723;Centrum, Eklanda;FP;L;142;10.77
+2010;rd;14800723;Centrum, Eklanda;KD;KD;74;5.61
+2010;rd;14800723;Centrum, Eklanda;S;S;184;13.95
+2010;rd;14800723;Centrum, Eklanda;V;V;74;5.61
+2010;rd;14800723;Centrum, Eklanda;MP;MP;158;11.98
+2010;rd;14800723;Centrum, Eklanda;SD;SD;40;3.03
+2010;rd;14800723;Centrum, Eklanda;FI;FI;17;1.29
+2010;rd;14800723;Centrum, Eklanda;PP;PP;14;1.06
+2010;rd;14800723;Centrum, Eklanda;SPI;SPI;0;0
+2010;rd;14800723;Centrum, Eklanda;OVR;OVR;0;0
+2010;rd;14800724;Centrum, Södra Johanneberg;M;M;440;37.61
+2010;rd;14800724;Centrum, Södra Johanneberg;C;C;78;6.67
+2010;rd;14800724;Centrum, Södra Johanneberg;FP;L;117;10
+2010;rd;14800724;Centrum, Södra Johanneberg;KD;KD;79;6.75
+2010;rd;14800724;Centrum, Södra Johanneberg;S;S;162;13.85
+2010;rd;14800724;Centrum, Södra Johanneberg;V;V;72;6.15
+2010;rd;14800724;Centrum, Södra Johanneberg;MP;MP;150;12.82
+2010;rd;14800724;Centrum, Södra Johanneberg;SD;SD;47;4.02
+2010;rd;14800724;Centrum, Södra Johanneberg;FI;FI;16;1.37
+2010;rd;14800724;Centrum, Södra Johanneberg;PP;PP;9;0.77
+2010;rd;14800724;Centrum, Södra Johanneberg;SPI;SPI;0;0
+2010;rd;14800724;Centrum, Södra Johanneberg;OVR;OVR;0;0
+2010;rd;14800731;Centrum, Landalabergen m fl;M;M;424;30.55
+2010;rd;14800731;Centrum, Landalabergen m fl;C;C;58;4.18
+2010;rd;14800731;Centrum, Landalabergen m fl;FP;L;137;9.87
+2010;rd;14800731;Centrum, Landalabergen m fl;KD;KD;77;5.55
+2010;rd;14800731;Centrum, Landalabergen m fl;S;S;286;20.61
+2010;rd;14800731;Centrum, Landalabergen m fl;V;V;131;9.44
+2010;rd;14800731;Centrum, Landalabergen m fl;MP;MP;176;12.68
+2010;rd;14800731;Centrum, Landalabergen m fl;SD;SD;62;4.47
+2010;rd;14800731;Centrum, Landalabergen m fl;FI;FI;21;1.51
+2010;rd;14800731;Centrum, Landalabergen m fl;PP;PP;15;1.08
+2010;rd;14800731;Centrum, Landalabergen m fl;SPI;SPI;0;0
+2010;rd;14800731;Centrum, Landalabergen m fl;OVR;OVR;1;0.07
+2010;rd;14800732;Centrum, Landala;M;M;453;42.06
+2010;rd;14800732;Centrum, Landala;C;C;59;5.48
+2010;rd;14800732;Centrum, Landala;FP;L;115;10.68
+2010;rd;14800732;Centrum, Landala;KD;KD;85;7.89
+2010;rd;14800732;Centrum, Landala;S;S;128;11.88
+2010;rd;14800732;Centrum, Landala;V;V;44;4.09
+2010;rd;14800732;Centrum, Landala;MP;MP;135;12.53
+2010;rd;14800732;Centrum, Landala;SD;SD;36;3.34
+2010;rd;14800732;Centrum, Landala;FI;FI;13;1.21
+2010;rd;14800732;Centrum, Landala;PP;PP;8;0.74
+2010;rd;14800732;Centrum, Landala;SPI;SPI;0;0
+2010;rd;14800732;Centrum, Landala;OVR;OVR;1;0.09
+2010;rd;14800733;Centrum, Landalagången m fl;M;M;172;23.31
+2010;rd;14800733;Centrum, Landalagången m fl;C;C;30;4.07
+2010;rd;14800733;Centrum, Landalagången m fl;FP;L;59;7.99
+2010;rd;14800733;Centrum, Landalagången m fl;KD;KD;28;3.79
+2010;rd;14800733;Centrum, Landalagången m fl;S;S;192;26.02
+2010;rd;14800733;Centrum, Landalagången m fl;V;V;72;9.76
+2010;rd;14800733;Centrum, Landalagången m fl;MP;MP;127;17.21
+2010;rd;14800733;Centrum, Landalagången m fl;SD;SD;39;5.28
+2010;rd;14800733;Centrum, Landalagången m fl;FI;FI;10;1.36
+2010;rd;14800733;Centrum, Landalagången m fl;PP;PP;9;1.22
+2010;rd;14800733;Centrum, Landalagången m fl;SPI;SPI;0;0
+2010;rd;14800733;Centrum, Landalagången m fl;OVR;OVR;0;0
+2010;rd;14800741;Centrum, Guldheden vattentornet;M;M;297;23.84
+2010;rd;14800741;Centrum, Guldheden vattentornet;C;C;60;4.82
+2010;rd;14800741;Centrum, Guldheden vattentornet;FP;L;115;9.23
+2010;rd;14800741;Centrum, Guldheden vattentornet;KD;KD;48;3.85
+2010;rd;14800741;Centrum, Guldheden vattentornet;S;S;260;20.87
+2010;rd;14800741;Centrum, Guldheden vattentornet;V;V;132;10.59
+2010;rd;14800741;Centrum, Guldheden vattentornet;MP;MP;227;18.22
+2010;rd;14800741;Centrum, Guldheden vattentornet;SD;SD;74;5.94
+2010;rd;14800741;Centrum, Guldheden vattentornet;FI;FI;13;1.04
+2010;rd;14800741;Centrum, Guldheden vattentornet;PP;PP;16;1.28
+2010;rd;14800741;Centrum, Guldheden vattentornet;SPI;SPI;0;0
+2010;rd;14800741;Centrum, Guldheden vattentornet;OVR;OVR;4;0.32
+2010;rd;14800742;Centrum, Centrala Guldheden;M;M;227;23.77
+2010;rd;14800742;Centrum, Centrala Guldheden;C;C;27;2.83
+2010;rd;14800742;Centrum, Centrala Guldheden;FP;L;78;8.17
+2010;rd;14800742;Centrum, Centrala Guldheden;KD;KD;46;4.82
+2010;rd;14800742;Centrum, Centrala Guldheden;S;S;206;21.57
+2010;rd;14800742;Centrum, Centrala Guldheden;V;V;129;13.51
+2010;rd;14800742;Centrum, Centrala Guldheden;MP;MP;165;17.28
+2010;rd;14800742;Centrum, Centrala Guldheden;SD;SD;47;4.92
+2010;rd;14800742;Centrum, Centrala Guldheden;FI;FI;12;1.26
+2010;rd;14800742;Centrum, Centrala Guldheden;PP;PP;15;1.57
+2010;rd;14800742;Centrum, Centrala Guldheden;SPI;SPI;0;0
+2010;rd;14800742;Centrum, Centrala Guldheden;OVR;OVR;3;0.3
+2010;rd;14800743;Centrum, Norra Guldheden;M;M;426;35.24
+2010;rd;14800743;Centrum, Norra Guldheden;C;C;113;9.35
+2010;rd;14800743;Centrum, Norra Guldheden;FP;L;174;14.39
+2010;rd;14800743;Centrum, Norra Guldheden;KD;KD;74;6.12
+2010;rd;14800743;Centrum, Norra Guldheden;S;S;128;10.59
+2010;rd;14800743;Centrum, Norra Guldheden;V;V;76;6.29
+2010;rd;14800743;Centrum, Norra Guldheden;MP;MP;170;14.06
+2010;rd;14800743;Centrum, Norra Guldheden;SD;SD;27;2.23
+2010;rd;14800743;Centrum, Norra Guldheden;FI;FI;7;0.58
+2010;rd;14800743;Centrum, Norra Guldheden;PP;PP;9;0.74
+2010;rd;14800743;Centrum, Norra Guldheden;SPI;SPI;0;0
+2010;rd;14800743;Centrum, Norra Guldheden;OVR;OVR;5;0.41
+2010;rd;14800744;Centrum, Landala Egnahem;M;M;314;29.24
+2010;rd;14800744;Centrum, Landala Egnahem;C;C;83;7.73
+2010;rd;14800744;Centrum, Landala Egnahem;FP;L;139;12.94
+2010;rd;14800744;Centrum, Landala Egnahem;KD;KD;60;5.59
+2010;rd;14800744;Centrum, Landala Egnahem;S;S;150;13.97
+2010;rd;14800744;Centrum, Landala Egnahem;V;V;98;9.12
+2010;rd;14800744;Centrum, Landala Egnahem;MP;MP;162;15.08
+2010;rd;14800744;Centrum, Landala Egnahem;SD;SD;37;3.45
+2010;rd;14800744;Centrum, Landala Egnahem;FI;FI;12;1.12
+2010;rd;14800744;Centrum, Landala Egnahem;PP;PP;18;1.68
+2010;rd;14800744;Centrum, Landala Egnahem;SPI;SPI;0;0
+2010;rd;14800744;Centrum, Landala Egnahem;OVR;OVR;1;0.09
+2010;rd;14800745;Centrum, Södra Guldheden;M;M;258;24.27
+2010;rd;14800745;Centrum, Södra Guldheden;C;C;50;4.7
+2010;rd;14800745;Centrum, Södra Guldheden;FP;L;92;8.65
+2010;rd;14800745;Centrum, Södra Guldheden;KD;KD;95;8.94
+2010;rd;14800745;Centrum, Södra Guldheden;S;S;200;18.81
+2010;rd;14800745;Centrum, Södra Guldheden;V;V;110;10.35
+2010;rd;14800745;Centrum, Södra Guldheden;MP;MP;177;16.65
+2010;rd;14800745;Centrum, Södra Guldheden;SD;SD;36;3.39
+2010;rd;14800745;Centrum, Södra Guldheden;FI;FI;10;0.94
+2010;rd;14800745;Centrum, Södra Guldheden;PP;PP;27;2.54
+2010;rd;14800745;Centrum, Södra Guldheden;SPI;SPI;0;0
+2010;rd;14800745;Centrum, Södra Guldheden;OVR;OVR;8;0.75
+2010;rd;14800746;Centrum, Doktor Forselius gata m fl;M;M;282;28.37
+2010;rd;14800746;Centrum, Doktor Forselius gata m fl;C;C;58;5.84
+2010;rd;14800746;Centrum, Doktor Forselius gata m fl;FP;L;103;10.36
+2010;rd;14800746;Centrum, Doktor Forselius gata m fl;KD;KD;71;7.14
+2010;rd;14800746;Centrum, Doktor Forselius gata m fl;S;S;192;19.32
+2010;rd;14800746;Centrum, Doktor Forselius gata m fl;V;V;91;9.15
+2010;rd;14800746;Centrum, Doktor Forselius gata m fl;MP;MP;144;14.49
+2010;rd;14800746;Centrum, Doktor Forselius gata m fl;SD;SD;27;2.72
+2010;rd;14800746;Centrum, Doktor Forselius gata m fl;FI;FI;16;1.61
+2010;rd;14800746;Centrum, Doktor Forselius gata m fl;PP;PP;9;0.91
+2010;rd;14800746;Centrum, Doktor Forselius gata m fl;SPI;SPI;0;0
+2010;rd;14800746;Centrum, Doktor Forselius gata m fl;OVR;OVR;1;0.1
+2010;rd;14800751;Centrum, Lorensberg;M;M;658;50.54
+2010;rd;14800751;Centrum, Lorensberg;C;C;84;6.45
+2010;rd;14800751;Centrum, Lorensberg;FP;L;163;12.52
+2010;rd;14800751;Centrum, Lorensberg;KD;KD;122;9.37
+2010;rd;14800751;Centrum, Lorensberg;S;S;101;7.76
+2010;rd;14800751;Centrum, Lorensberg;V;V;44;3.38
+2010;rd;14800751;Centrum, Lorensberg;MP;MP;93;7.14
+2010;rd;14800751;Centrum, Lorensberg;SD;SD;27;2.07
+2010;rd;14800751;Centrum, Lorensberg;FI;FI;6;0.46
+2010;rd;14800751;Centrum, Lorensberg;PP;PP;3;0.23
+2010;rd;14800751;Centrum, Lorensberg;SPI;SPI;0;0
+2010;rd;14800751;Centrum, Lorensberg;OVR;OVR;1;0.08
+2010;rd;14800761;Centrum, Södra Vasastaden;M;M;592;43.47
+2010;rd;14800761;Centrum, Södra Vasastaden;C;C;84;6.17
+2010;rd;14800761;Centrum, Södra Vasastaden;FP;L;153;11.23
+2010;rd;14800761;Centrum, Södra Vasastaden;KD;KD;95;6.98
+2010;rd;14800761;Centrum, Södra Vasastaden;S;S;150;11.01
+2010;rd;14800761;Centrum, Södra Vasastaden;V;V;72;5.29
+2010;rd;14800761;Centrum, Södra Vasastaden;MP;MP;164;12.04
+2010;rd;14800761;Centrum, Södra Vasastaden;SD;SD;33;2.42
+2010;rd;14800761;Centrum, Södra Vasastaden;FI;FI;15;1.1
+2010;rd;14800761;Centrum, Södra Vasastaden;PP;PP;3;0.22
+2010;rd;14800761;Centrum, Södra Vasastaden;SPI;SPI;0;0
+2010;rd;14800761;Centrum, Södra Vasastaden;OVR;OVR;1;0.07
+2010;rd;14800762;Centrum, Norra Vasastaden;M;M;564;45.56
+2010;rd;14800762;Centrum, Norra Vasastaden;C;C;55;4.44
+2010;rd;14800762;Centrum, Norra Vasastaden;FP;L;118;9.53
+2010;rd;14800762;Centrum, Norra Vasastaden;KD;KD;109;8.8
+2010;rd;14800762;Centrum, Norra Vasastaden;S;S;124;10.02
+2010;rd;14800762;Centrum, Norra Vasastaden;V;V;72;5.82
+2010;rd;14800762;Centrum, Norra Vasastaden;MP;MP;133;10.74
+2010;rd;14800762;Centrum, Norra Vasastaden;SD;SD;44;3.55
+2010;rd;14800762;Centrum, Norra Vasastaden;FI;FI;6;0.48
+2010;rd;14800762;Centrum, Norra Vasastaden;PP;PP;11;0.89
+2010;rd;14800762;Centrum, Norra Vasastaden;SPI;SPI;0;0
+2010;rd;14800762;Centrum, Norra Vasastaden;OVR;OVR;2;0.16
+2010;rd;14800763;Centrum, Valand;M;M;452;50.33
+2010;rd;14800763;Centrum, Valand;C;C;41;4.57
+2010;rd;14800763;Centrum, Valand;FP;L;107;11.92
+2010;rd;14800763;Centrum, Valand;KD;KD;68;7.57
+2010;rd;14800763;Centrum, Valand;S;S;77;8.57
+2010;rd;14800763;Centrum, Valand;V;V;37;4.12
+2010;rd;14800763;Centrum, Valand;MP;MP;67;7.46
+2010;rd;14800763;Centrum, Valand;SD;SD;35;3.9
+2010;rd;14800763;Centrum, Valand;FI;FI;7;0.78
+2010;rd;14800763;Centrum, Valand;PP;PP;7;0.78
+2010;rd;14800763;Centrum, Valand;SPI;SPI;0;0
+2010;rd;14800763;Centrum, Valand;OVR;OVR;0;0
+2010;rd;14800764;Centrum, Östra Vasastaden;M;M;641;52.33
+2010;rd;14800764;Centrum, Östra Vasastaden;C;C;79;6.45
+2010;rd;14800764;Centrum, Östra Vasastaden;FP;L;109;8.9
+2010;rd;14800764;Centrum, Östra Vasastaden;KD;KD;79;6.45
+2010;rd;14800764;Centrum, Östra Vasastaden;S;S;110;8.98
+2010;rd;14800764;Centrum, Östra Vasastaden;V;V;43;3.51
+2010;rd;14800764;Centrum, Östra Vasastaden;MP;MP;103;8.41
+2010;rd;14800764;Centrum, Östra Vasastaden;SD;SD;39;3.18
+2010;rd;14800764;Centrum, Östra Vasastaden;FI;FI;15;1.22
+2010;rd;14800764;Centrum, Östra Vasastaden;PP;PP;5;0.41
+2010;rd;14800764;Centrum, Östra Vasastaden;SPI;SPI;0;0
+2010;rd;14800764;Centrum, Östra Vasastaden;OVR;OVR;2;0.16
+2010;rd;14800771;Centrum, Inom Vallgraven;M;M;611;45.16
+2010;rd;14800771;Centrum, Inom Vallgraven;C;C;73;5.4
+2010;rd;14800771;Centrum, Inom Vallgraven;FP;L;151;11.16
+2010;rd;14800771;Centrum, Inom Vallgraven;KD;KD;73;5.4
+2010;rd;14800771;Centrum, Inom Vallgraven;S;S;154;11.38
+2010;rd;14800771;Centrum, Inom Vallgraven;V;V;79;5.84
+2010;rd;14800771;Centrum, Inom Vallgraven;MP;MP;152;11.23
+2010;rd;14800771;Centrum, Inom Vallgraven;SD;SD;30;2.22
+2010;rd;14800771;Centrum, Inom Vallgraven;FI;FI;15;1.11
+2010;rd;14800771;Centrum, Inom Vallgraven;PP;PP;13;0.96
+2010;rd;14800771;Centrum, Inom Vallgraven;SPI;SPI;0;0
+2010;rd;14800771;Centrum, Inom Vallgraven;OVR;OVR;2;0.15
+2010;rd;14800772;Centrum, Nordstan-Otterhällan;M;M;494;37.23
+2010;rd;14800772;Centrum, Nordstan-Otterhällan;C;C;62;4.67
+2010;rd;14800772;Centrum, Nordstan-Otterhällan;FP;L;123;9.27
+2010;rd;14800772;Centrum, Nordstan-Otterhällan;KD;KD;82;6.18
+2010;rd;14800772;Centrum, Nordstan-Otterhällan;S;S;200;15.07
+2010;rd;14800772;Centrum, Nordstan-Otterhällan;V;V;103;7.76
+2010;rd;14800772;Centrum, Nordstan-Otterhällan;MP;MP;166;12.51
+2010;rd;14800772;Centrum, Nordstan-Otterhällan;SD;SD;66;4.97
+2010;rd;14800772;Centrum, Nordstan-Otterhällan;FI;FI;18;1.36
+2010;rd;14800772;Centrum, Nordstan-Otterhällan;PP;PP;13;0.98
+2010;rd;14800772;Centrum, Nordstan-Otterhällan;SPI;SPI;0;0
+2010;rd;14800772;Centrum, Nordstan-Otterhällan;OVR;OVR;0;0
+2010;rd;14800781;Centrum, Odinsgatan-Stampen;M;M;498;39.15
+2010;rd;14800781;Centrum, Odinsgatan-Stampen;C;C;53;4.17
+2010;rd;14800781;Centrum, Odinsgatan-Stampen;FP;L;166;13.05
+2010;rd;14800781;Centrum, Odinsgatan-Stampen;KD;KD;61;4.8
+2010;rd;14800781;Centrum, Odinsgatan-Stampen;S;S;226;17.77
+2010;rd;14800781;Centrum, Odinsgatan-Stampen;V;V;82;6.45
+2010;rd;14800781;Centrum, Odinsgatan-Stampen;MP;MP;118;9.28
+2010;rd;14800781;Centrum, Odinsgatan-Stampen;SD;SD;46;3.62
+2010;rd;14800781;Centrum, Odinsgatan-Stampen;FI;FI;9;0.71
+2010;rd;14800781;Centrum, Odinsgatan-Stampen;PP;PP;12;0.94
+2010;rd;14800781;Centrum, Odinsgatan-Stampen;SPI;SPI;0;0
+2010;rd;14800781;Centrum, Odinsgatan-Stampen;OVR;OVR;1;0.08
+2010;rd;14800782;Centrum, Gullbergsvass-Svingeln;M;M;548;36.7
+2010;rd;14800782;Centrum, Gullbergsvass-Svingeln;C;C;85;5.69
+2010;rd;14800782;Centrum, Gullbergsvass-Svingeln;FP;L;151;10.11
+2010;rd;14800782;Centrum, Gullbergsvass-Svingeln;KD;KD;72;4.82
+2010;rd;14800782;Centrum, Gullbergsvass-Svingeln;S;S;290;19.42
+2010;rd;14800782;Centrum, Gullbergsvass-Svingeln;V;V;85;5.69
+2010;rd;14800782;Centrum, Gullbergsvass-Svingeln;MP;MP;184;12.32
+2010;rd;14800782;Centrum, Gullbergsvass-Svingeln;SD;SD;49;3.28
+2010;rd;14800782;Centrum, Gullbergsvass-Svingeln;FI;FI;12;0.8
+2010;rd;14800782;Centrum, Gullbergsvass-Svingeln;PP;PP;16;1.07
+2010;rd;14800782;Centrum, Gullbergsvass-Svingeln;SPI;SPI;0;0
+2010;rd;14800782;Centrum, Gullbergsvass-Svingeln;OVR;OVR;1;0.07
+2010;rd;14800783;Centrum, Friggagatan-Stampen;M;M;415;36.47
+2010;rd;14800783;Centrum, Friggagatan-Stampen;C;C;51;4.48
+2010;rd;14800783;Centrum, Friggagatan-Stampen;FP;L;116;10.19
+2010;rd;14800783;Centrum, Friggagatan-Stampen;KD;KD;63;5.54
+2010;rd;14800783;Centrum, Friggagatan-Stampen;S;S;250;21.97
+2010;rd;14800783;Centrum, Friggagatan-Stampen;V;V;68;5.98
+2010;rd;14800783;Centrum, Friggagatan-Stampen;MP;MP;119;10.46
+2010;rd;14800783;Centrum, Friggagatan-Stampen;SD;SD;47;4.13
+2010;rd;14800783;Centrum, Friggagatan-Stampen;FI;FI;4;0.35
+2010;rd;14800783;Centrum, Friggagatan-Stampen;PP;PP;5;0.44
+2010;rd;14800783;Centrum, Friggagatan-Stampen;SPI;SPI;0;0
+2010;rd;14800783;Centrum, Friggagatan-Stampen;OVR;OVR;0;0
+2010;rd;14800791;Centrum, Hedås-Gårda;M;M;656;46.72
+2010;rd;14800791;Centrum, Hedås-Gårda;C;C;55;3.92
+2010;rd;14800791;Centrum, Hedås-Gårda;FP;L;161;11.47
+2010;rd;14800791;Centrum, Hedås-Gårda;KD;KD;100;7.12
+2010;rd;14800791;Centrum, Hedås-Gårda;S;S;146;10.4
+2010;rd;14800791;Centrum, Hedås-Gårda;V;V;72;5.13
+2010;rd;14800791;Centrum, Hedås-Gårda;MP;MP;137;9.76
+2010;rd;14800791;Centrum, Hedås-Gårda;SD;SD;51;3.63
+2010;rd;14800791;Centrum, Hedås-Gårda;FI;FI;14;1
+2010;rd;14800791;Centrum, Hedås-Gårda;PP;PP;12;0.85
+2010;rd;14800791;Centrum, Hedås-Gårda;SPI;SPI;0;0
+2010;rd;14800791;Centrum, Hedås-Gårda;OVR;OVR;0;0
+2010;rd;14800792;Centrum, Södra Heden;M;M;589;48.64
+2010;rd;14800792;Centrum, Södra Heden;C;C;73;6.03
+2010;rd;14800792;Centrum, Södra Heden;FP;L;113;9.33
+2010;rd;14800792;Centrum, Södra Heden;KD;KD;101;8.34
+2010;rd;14800792;Centrum, Södra Heden;S;S;148;12.22
+2010;rd;14800792;Centrum, Södra Heden;V;V;47;3.88
+2010;rd;14800792;Centrum, Södra Heden;MP;MP;85;7.02
+2010;rd;14800792;Centrum, Södra Heden;SD;SD;41;3.39
+2010;rd;14800792;Centrum, Södra Heden;FI;FI;8;0.66
+2010;rd;14800792;Centrum, Södra Heden;PP;PP;6;0.5
+2010;rd;14800792;Centrum, Södra Heden;SPI;SPI;0;0
+2010;rd;14800792;Centrum, Södra Heden;OVR;OVR;0;0
+2010;rd;14800793;Centrum, Norra Heden-Gårda;M;M;653;41.36
+2010;rd;14800793;Centrum, Norra Heden-Gårda;C;C;58;3.67
+2010;rd;14800793;Centrum, Norra Heden-Gårda;FP;L;186;11.78
+2010;rd;14800793;Centrum, Norra Heden-Gårda;KD;KD;94;5.95
+2010;rd;14800793;Centrum, Norra Heden-Gårda;S;S;262;16.59
+2010;rd;14800793;Centrum, Norra Heden-Gårda;V;V;93;5.89
+2010;rd;14800793;Centrum, Norra Heden-Gårda;MP;MP;158;10.01
+2010;rd;14800793;Centrum, Norra Heden-Gårda;SD;SD;58;3.67
+2010;rd;14800793;Centrum, Norra Heden-Gårda;FI;FI;4;0.25
+2010;rd;14800793;Centrum, Norra Heden-Gårda;PP;PP;8;0.51
+2010;rd;14800793;Centrum, Norra Heden-Gårda;SPI;SPI;0;0
+2010;rd;14800793;Centrum, Norra Heden-Gårda;OVR;OVR;5;0.31
+2010;rd;14800811;Linnéstaden, Övre Masthugget;M;M;266;20.57
+2010;rd;14800811;Linnéstaden, Övre Masthugget;C;C;57;4.41
+2010;rd;14800811;Linnéstaden, Övre Masthugget;FP;L;102;7.89
+2010;rd;14800811;Linnéstaden, Övre Masthugget;KD;KD;43;3.33
+2010;rd;14800811;Linnéstaden, Övre Masthugget;S;S;211;16.32
+2010;rd;14800811;Linnéstaden, Övre Masthugget;V;V;216;16.71
+2010;rd;14800811;Linnéstaden, Övre Masthugget;MP;MP;319;24.67
+2010;rd;14800811;Linnéstaden, Övre Masthugget;SD;SD;35;2.71
+2010;rd;14800811;Linnéstaden, Övre Masthugget;FI;FI;37;2.86
+2010;rd;14800811;Linnéstaden, Övre Masthugget;PP;PP;6;0.46
+2010;rd;14800811;Linnéstaden, Övre Masthugget;SPI;SPI;0;0
+2010;rd;14800811;Linnéstaden, Övre Masthugget;OVR;OVR;1;0.08
+2010;rd;14800812;Linnéstaden, Stigberget;M;M;245;20.35
+2010;rd;14800812;Linnéstaden, Stigberget;C;C;44;3.65
+2010;rd;14800812;Linnéstaden, Stigberget;FP;L;106;8.8
+2010;rd;14800812;Linnéstaden, Stigberget;KD;KD;46;3.82
+2010;rd;14800812;Linnéstaden, Stigberget;S;S;224;18.6
+2010;rd;14800812;Linnéstaden, Stigberget;V;V;188;15.61
+2010;rd;14800812;Linnéstaden, Stigberget;MP;MP;261;21.68
+2010;rd;14800812;Linnéstaden, Stigberget;SD;SD;50;4.15
+2010;rd;14800812;Linnéstaden, Stigberget;FI;FI;25;2.08
+2010;rd;14800812;Linnéstaden, Stigberget;PP;PP;14;1.16
+2010;rd;14800812;Linnéstaden, Stigberget;SPI;SPI;0;0
+2010;rd;14800812;Linnéstaden, Stigberget;OVR;OVR;1;0.08
+2010;rd;14800813;Linnéstaden, Masthuggstorget;M;M;354;32.96
+2010;rd;14800813;Linnéstaden, Masthuggstorget;C;C;54;5.03
+2010;rd;14800813;Linnéstaden, Masthuggstorget;FP;L;93;8.66
+2010;rd;14800813;Linnéstaden, Masthuggstorget;KD;KD;43;4
+2010;rd;14800813;Linnéstaden, Masthuggstorget;S;S;186;17.32
+2010;rd;14800813;Linnéstaden, Masthuggstorget;V;V;116;10.8
+2010;rd;14800813;Linnéstaden, Masthuggstorget;MP;MP;157;14.62
+2010;rd;14800813;Linnéstaden, Masthuggstorget;SD;SD;42;3.91
+2010;rd;14800813;Linnéstaden, Masthuggstorget;FI;FI;15;1.4
+2010;rd;14800813;Linnéstaden, Masthuggstorget;PP;PP;10;0.93
+2010;rd;14800813;Linnéstaden, Masthuggstorget;SPI;SPI;0;0
+2010;rd;14800813;Linnéstaden, Masthuggstorget;OVR;OVR;4;0.37
+2010;rd;14800814;Linnéstaden, Nedre Masthugget;M;M;259;22.86
+2010;rd;14800814;Linnéstaden, Nedre Masthugget;C;C;43;3.8
+2010;rd;14800814;Linnéstaden, Nedre Masthugget;FP;L;110;9.71
+2010;rd;14800814;Linnéstaden, Nedre Masthugget;KD;KD;54;4.77
+2010;rd;14800814;Linnéstaden, Nedre Masthugget;S;S;198;17.48
+2010;rd;14800814;Linnéstaden, Nedre Masthugget;V;V;209;18.45
+2010;rd;14800814;Linnéstaden, Nedre Masthugget;MP;MP;202;17.83
+2010;rd;14800814;Linnéstaden, Nedre Masthugget;SD;SD;33;2.91
+2010;rd;14800814;Linnéstaden, Nedre Masthugget;FI;FI;16;1.41
+2010;rd;14800814;Linnéstaden, Nedre Masthugget;PP;PP;6;0.53
+2010;rd;14800814;Linnéstaden, Nedre Masthugget;SPI;SPI;0;0
+2010;rd;14800814;Linnéstaden, Nedre Masthugget;OVR;OVR;3;0.27
+2010;rd;14800815;Linnéstaden, Oscar Fredrik;M;M;250;23.81
+2010;rd;14800815;Linnéstaden, Oscar Fredrik;C;C;57;5.43
+2010;rd;14800815;Linnéstaden, Oscar Fredrik;FP;L;75;7.14
+2010;rd;14800815;Linnéstaden, Oscar Fredrik;KD;KD;34;3.24
+2010;rd;14800815;Linnéstaden, Oscar Fredrik;S;S;176;16.76
+2010;rd;14800815;Linnéstaden, Oscar Fredrik;V;V;197;18.76
+2010;rd;14800815;Linnéstaden, Oscar Fredrik;MP;MP;191;18.19
+2010;rd;14800815;Linnéstaden, Oscar Fredrik;SD;SD;40;3.81
+2010;rd;14800815;Linnéstaden, Oscar Fredrik;FI;FI;19;1.81
+2010;rd;14800815;Linnéstaden, Oscar Fredrik;PP;PP;11;1.05
+2010;rd;14800815;Linnéstaden, Oscar Fredrik;SPI;SPI;0;0
+2010;rd;14800815;Linnéstaden, Oscar Fredrik;OVR;OVR;0;0
+2010;rd;14800816;Linnéstaden, Vegastaden;M;M;278;28.25
+2010;rd;14800816;Linnéstaden, Vegastaden;C;C;40;4.07
+2010;rd;14800816;Linnéstaden, Vegastaden;FP;L;65;6.61
+2010;rd;14800816;Linnéstaden, Vegastaden;KD;KD;33;3.35
+2010;rd;14800816;Linnéstaden, Vegastaden;S;S;197;20.02
+2010;rd;14800816;Linnéstaden, Vegastaden;V;V;140;14.23
+2010;rd;14800816;Linnéstaden, Vegastaden;MP;MP;165;16.77
+2010;rd;14800816;Linnéstaden, Vegastaden;SD;SD;39;3.96
+2010;rd;14800816;Linnéstaden, Vegastaden;FI;FI;17;1.73
+2010;rd;14800816;Linnéstaden, Vegastaden;PP;PP;9;0.91
+2010;rd;14800816;Linnéstaden, Vegastaden;SPI;SPI;0;0
+2010;rd;14800816;Linnéstaden, Vegastaden;OVR;OVR;1;0.1
+2010;rd;14800817;Linnéstaden, Slottsskogen;M;M;239;26.79
+2010;rd;14800817;Linnéstaden, Slottsskogen;C;C;31;3.48
+2010;rd;14800817;Linnéstaden, Slottsskogen;FP;L;64;7.17
+2010;rd;14800817;Linnéstaden, Slottsskogen;KD;KD;49;5.49
+2010;rd;14800817;Linnéstaden, Slottsskogen;S;S;195;21.86
+2010;rd;14800817;Linnéstaden, Slottsskogen;V;V;120;13.45
+2010;rd;14800817;Linnéstaden, Slottsskogen;MP;MP;129;14.46
+2010;rd;14800817;Linnéstaden, Slottsskogen;SD;SD;49;5.49
+2010;rd;14800817;Linnéstaden, Slottsskogen;FI;FI;11;1.23
+2010;rd;14800817;Linnéstaden, Slottsskogen;PP;PP;1;0.11
+2010;rd;14800817;Linnéstaden, Slottsskogen;SPI;SPI;0;0
+2010;rd;14800817;Linnéstaden, Slottsskogen;OVR;OVR;4;0.45
+2010;rd;14800821;Linnéstaden, Änggården;M;M;352;38.39
+2010;rd;14800821;Linnéstaden, Änggården;C;C;60;6.54
+2010;rd;14800821;Linnéstaden, Änggården;FP;L;119;12.98
+2010;rd;14800821;Linnéstaden, Änggården;KD;KD;90;9.81
+2010;rd;14800821;Linnéstaden, Änggården;S;S;89;9.71
+2010;rd;14800821;Linnéstaden, Änggården;V;V;51;5.56
+2010;rd;14800821;Linnéstaden, Änggården;MP;MP;123;13.41
+2010;rd;14800821;Linnéstaden, Änggården;SD;SD;16;1.74
+2010;rd;14800821;Linnéstaden, Änggården;FI;FI;10;1.09
+2010;rd;14800821;Linnéstaden, Änggården;PP;PP;5;0.55
+2010;rd;14800821;Linnéstaden, Änggården;SPI;SPI;0;0
+2010;rd;14800821;Linnéstaden, Änggården;OVR;OVR;2;0.22
+2010;rd;14800831;Linnéstaden, Skansberget;M;M;396;29.95
+2010;rd;14800831;Linnéstaden, Skansberget;C;C;63;4.77
+2010;rd;14800831;Linnéstaden, Skansberget;FP;L;107;8.09
+2010;rd;14800831;Linnéstaden, Skansberget;KD;KD;52;3.93
+2010;rd;14800831;Linnéstaden, Skansberget;S;S;224;16.94
+2010;rd;14800831;Linnéstaden, Skansberget;V;V;170;12.86
+2010;rd;14800831;Linnéstaden, Skansberget;MP;MP;255;19.29
+2010;rd;14800831;Linnéstaden, Skansberget;SD;SD;32;2.42
+2010;rd;14800831;Linnéstaden, Skansberget;FI;FI;16;1.21
+2010;rd;14800831;Linnéstaden, Skansberget;PP;PP;4;0.3
+2010;rd;14800831;Linnéstaden, Skansberget;SPI;SPI;0;0
+2010;rd;14800831;Linnéstaden, Skansberget;OVR;OVR;3;0.24
+2010;rd;14800832;Linnéstaden, Haga;M;M;391;27.34
+2010;rd;14800832;Linnéstaden, Haga;C;C;47;3.29
+2010;rd;14800832;Linnéstaden, Haga;FP;L;125;8.74
+2010;rd;14800832;Linnéstaden, Haga;KD;KD;68;4.76
+2010;rd;14800832;Linnéstaden, Haga;S;S;264;18.46
+2010;rd;14800832;Linnéstaden, Haga;V;V;230;16.08
+2010;rd;14800832;Linnéstaden, Haga;MP;MP;232;16.22
+2010;rd;14800832;Linnéstaden, Haga;SD;SD;42;2.94
+2010;rd;14800832;Linnéstaden, Haga;FI;FI;16;1.12
+2010;rd;14800832;Linnéstaden, Haga;PP;PP;13;0.91
+2010;rd;14800832;Linnéstaden, Haga;SPI;SPI;0;0
+2010;rd;14800832;Linnéstaden, Haga;OVR;OVR;2;0.14
+2010;rd;14800841;Linnéstaden, Annedal;M;M;408;29.31
+2010;rd;14800841;Linnéstaden, Annedal;C;C;52;3.74
+2010;rd;14800841;Linnéstaden, Annedal;FP;L;142;10.2
+2010;rd;14800841;Linnéstaden, Annedal;KD;KD;76;5.46
+2010;rd;14800841;Linnéstaden, Annedal;S;S;295;21.19
+2010;rd;14800841;Linnéstaden, Annedal;V;V;140;10.06
+2010;rd;14800841;Linnéstaden, Annedal;MP;MP;198;14.22
+2010;rd;14800841;Linnéstaden, Annedal;SD;SD;49;3.52
+2010;rd;14800841;Linnéstaden, Annedal;FI;FI;19;1.36
+2010;rd;14800841;Linnéstaden, Annedal;PP;PP;12;0.86
+2010;rd;14800841;Linnéstaden, Annedal;SPI;SPI;0;0
+2010;rd;14800841;Linnéstaden, Annedal;OVR;OVR;1;0.07
+2010;rd;14800842;Linnéstaden, Nilssonsberg;M;M;573;38.95
+2010;rd;14800842;Linnéstaden, Nilssonsberg;C;C;85;5.78
+2010;rd;14800842;Linnéstaden, Nilssonsberg;FP;L;177;12.03
+2010;rd;14800842;Linnéstaden, Nilssonsberg;KD;KD;99;6.73
+2010;rd;14800842;Linnéstaden, Nilssonsberg;S;S;207;14.07
+2010;rd;14800842;Linnéstaden, Nilssonsberg;V;V;109;7.41
+2010;rd;14800842;Linnéstaden, Nilssonsberg;MP;MP;150;10.2
+2010;rd;14800842;Linnéstaden, Nilssonsberg;SD;SD;44;2.99
+2010;rd;14800842;Linnéstaden, Nilssonsberg;FI;FI;13;0.88
+2010;rd;14800842;Linnéstaden, Nilssonsberg;PP;PP;13;0.88
+2010;rd;14800842;Linnéstaden, Nilssonsberg;SPI;SPI;0;0
+2010;rd;14800842;Linnéstaden, Nilssonsberg;OVR;OVR;1;0.07
+2010;rd;14800851;Linnéstaden, Linnéplatsen;M;M;351;39.8
+2010;rd;14800851;Linnéstaden, Linnéplatsen;C;C;48;5.44
+2010;rd;14800851;Linnéstaden, Linnéplatsen;FP;L;106;12.02
+2010;rd;14800851;Linnéstaden, Linnéplatsen;KD;KD;47;5.33
+2010;rd;14800851;Linnéstaden, Linnéplatsen;S;S;104;11.79
+2010;rd;14800851;Linnéstaden, Linnéplatsen;V;V;73;8.28
+2010;rd;14800851;Linnéstaden, Linnéplatsen;MP;MP;114;12.93
+2010;rd;14800851;Linnéstaden, Linnéplatsen;SD;SD;29;3.29
+2010;rd;14800851;Linnéstaden, Linnéplatsen;FI;FI;6;0.68
+2010;rd;14800851;Linnéstaden, Linnéplatsen;PP;PP;3;0.34
+2010;rd;14800851;Linnéstaden, Linnéplatsen;SPI;SPI;0;0
+2010;rd;14800851;Linnéstaden, Linnéplatsen;OVR;OVR;1;0.11
+2010;rd;14800852;Linnéstaden, Olivedal;M;M;400;29.56
+2010;rd;14800852;Linnéstaden, Olivedal;C;C;73;5.4
+2010;rd;14800852;Linnéstaden, Olivedal;FP;L;125;9.24
+2010;rd;14800852;Linnéstaden, Olivedal;KD;KD;60;4.43
+2010;rd;14800852;Linnéstaden, Olivedal;S;S;246;18.18
+2010;rd;14800852;Linnéstaden, Olivedal;V;V;164;12.12
+2010;rd;14800852;Linnéstaden, Olivedal;MP;MP;220;16.26
+2010;rd;14800852;Linnéstaden, Olivedal;SD;SD;29;2.14
+2010;rd;14800852;Linnéstaden, Olivedal;FI;FI;25;1.85
+2010;rd;14800852;Linnéstaden, Olivedal;PP;PP;10;0.74
+2010;rd;14800852;Linnéstaden, Olivedal;SPI;SPI;1;0.07
+2010;rd;14800852;Linnéstaden, Olivedal;OVR;OVR;0;0
+2010;rd;14800853;Linnéstaden, Långgatorna;M;M;502;37.16
+2010;rd;14800853;Linnéstaden, Långgatorna;C;C;79;5.85
+2010;rd;14800853;Linnéstaden, Långgatorna;FP;L;126;9.33
+2010;rd;14800853;Linnéstaden, Långgatorna;KD;KD;50;3.7
+2010;rd;14800853;Linnéstaden, Långgatorna;S;S;171;12.66
+2010;rd;14800853;Linnéstaden, Långgatorna;V;V;127;9.4
+2010;rd;14800853;Linnéstaden, Långgatorna;MP;MP;231;17.1
+2010;rd;14800853;Linnéstaden, Långgatorna;SD;SD;32;2.37
+2010;rd;14800853;Linnéstaden, Långgatorna;FI;FI;22;1.63
+2010;rd;14800853;Linnéstaden, Långgatorna;PP;PP;7;0.52
+2010;rd;14800853;Linnéstaden, Långgatorna;SPI;SPI;0;0
+2010;rd;14800853;Linnéstaden, Långgatorna;OVR;OVR;4;0.28
+2010;rd;14800854;Linnéstaden, Linné;M;M;499;39.57
+2010;rd;14800854;Linnéstaden, Linné;C;C;61;4.84
+2010;rd;14800854;Linnéstaden, Linné;FP;L;153;12.13
+2010;rd;14800854;Linnéstaden, Linné;KD;KD;76;6.03
+2010;rd;14800854;Linnéstaden, Linné;S;S;151;11.97
+2010;rd;14800854;Linnéstaden, Linné;V;V;119;9.44
+2010;rd;14800854;Linnéstaden, Linné;MP;MP;148;11.74
+2010;rd;14800854;Linnéstaden, Linné;SD;SD;32;2.54
+2010;rd;14800854;Linnéstaden, Linné;FI;FI;13;1.03
+2010;rd;14800854;Linnéstaden, Linné;PP;PP;8;0.63
+2010;rd;14800854;Linnéstaden, Linné;SPI;SPI;0;0
+2010;rd;14800854;Linnéstaden, Linné;OVR;OVR;1;0.08
+2010;rd;14800855;Linnéstaden, Risåsen;M;M;386;38.64
+2010;rd;14800855;Linnéstaden, Risåsen;C;C;61;6.11
+2010;rd;14800855;Linnéstaden, Risåsen;FP;L;100;10.01
+2010;rd;14800855;Linnéstaden, Risåsen;KD;KD;57;5.71
+2010;rd;14800855;Linnéstaden, Risåsen;S;S;114;11.41
+2010;rd;14800855;Linnéstaden, Risåsen;V;V;91;9.11
+2010;rd;14800855;Linnéstaden, Risåsen;MP;MP;145;14.51
+2010;rd;14800855;Linnéstaden, Risåsen;SD;SD;23;2.3
+2010;rd;14800855;Linnéstaden, Risåsen;FI;FI;15;1.5
+2010;rd;14800855;Linnéstaden, Risåsen;PP;PP;5;0.5
+2010;rd;14800855;Linnéstaden, Risåsen;SPI;SPI;1;0.1
+2010;rd;14800855;Linnéstaden, Risåsen;OVR;OVR;1;0.1
+2010;rd;14800856;Linnéstaden, Kommendantsängen;M;M;391;37.42
+2010;rd;14800856;Linnéstaden, Kommendantsängen;C;C;60;5.74
+2010;rd;14800856;Linnéstaden, Kommendantsängen;FP;L;126;12.06
+2010;rd;14800856;Linnéstaden, Kommendantsängen;KD;KD;48;4.59
+2010;rd;14800856;Linnéstaden, Kommendantsängen;S;S;146;13.97
+2010;rd;14800856;Linnéstaden, Kommendantsängen;V;V;84;8.04
+2010;rd;14800856;Linnéstaden, Kommendantsängen;MP;MP;130;12.44
+2010;rd;14800856;Linnéstaden, Kommendantsängen;SD;SD;37;3.54
+2010;rd;14800856;Linnéstaden, Kommendantsängen;FI;FI;16;1.53
+2010;rd;14800856;Linnéstaden, Kommendantsängen;PP;PP;6;0.57
+2010;rd;14800856;Linnéstaden, Kommendantsängen;SPI;SPI;1;0.1
+2010;rd;14800856;Linnéstaden, Kommendantsängen;OVR;OVR;0;0
+2010;rd;14800857;Linnéstaden, Sveaplan;M;M;502;43.69
+2010;rd;14800857;Linnéstaden, Sveaplan;C;C;51;4.44
+2010;rd;14800857;Linnéstaden, Sveaplan;FP;L;151;13.14
+2010;rd;14800857;Linnéstaden, Sveaplan;KD;KD;81;7.05
+2010;rd;14800857;Linnéstaden, Sveaplan;S;S;154;13.4
+2010;rd;14800857;Linnéstaden, Sveaplan;V;V;69;6.01
+2010;rd;14800857;Linnéstaden, Sveaplan;MP;MP;98;8.53
+2010;rd;14800857;Linnéstaden, Sveaplan;SD;SD;25;2.18
+2010;rd;14800857;Linnéstaden, Sveaplan;FI;FI;15;1.31
+2010;rd;14800857;Linnéstaden, Sveaplan;PP;PP;2;0.17
+2010;rd;14800857;Linnéstaden, Sveaplan;SPI;SPI;0;0
+2010;rd;14800857;Linnéstaden, Sveaplan;OVR;OVR;1;0.09
+2010;rd;14800911;Majorna, Svalebo;M;M;177;18.77
+2010;rd;14800911;Majorna, Svalebo;C;C;40;4.24
+2010;rd;14800911;Majorna, Svalebo;FP;L;77;8.17
+2010;rd;14800911;Majorna, Svalebo;KD;KD;56;5.94
+2010;rd;14800911;Majorna, Svalebo;S;S;189;20.04
+2010;rd;14800911;Majorna, Svalebo;V;V;134;14.21
+2010;rd;14800911;Majorna, Svalebo;MP;MP;185;19.62
+2010;rd;14800911;Majorna, Svalebo;SD;SD;60;6.36
+2010;rd;14800911;Majorna, Svalebo;FI;FI;14;1.48
+2010;rd;14800911;Majorna, Svalebo;PP;PP;8;0.85
+2010;rd;14800911;Majorna, Svalebo;SPI;SPI;0;0
+2010;rd;14800911;Majorna, Svalebo;OVR;OVR;3;0.33
+2010;rd;14800912;Majorna, Skytteskogen;M;M;337;24.19
+2010;rd;14800912;Majorna, Skytteskogen;C;C;71;5.1
+2010;rd;14800912;Majorna, Skytteskogen;FP;L;124;8.9
+2010;rd;14800912;Majorna, Skytteskogen;KD;KD;76;5.46
+2010;rd;14800912;Majorna, Skytteskogen;S;S;170;12.2
+2010;rd;14800912;Majorna, Skytteskogen;V;V;218;15.65
+2010;rd;14800912;Majorna, Skytteskogen;MP;MP;323;23.19
+2010;rd;14800912;Majorna, Skytteskogen;SD;SD;39;2.8
+2010;rd;14800912;Majorna, Skytteskogen;FI;FI;25;1.79
+2010;rd;14800912;Majorna, Skytteskogen;PP;PP;9;0.65
+2010;rd;14800912;Majorna, Skytteskogen;SPI;SPI;0;0
+2010;rd;14800912;Majorna, Skytteskogen;OVR;OVR;1;0.07
+2010;rd;14800913;Majorna, Kungsladugård;M;M;179;15.5
+2010;rd;14800913;Majorna, Kungsladugård;C;C;37;3.2
+2010;rd;14800913;Majorna, Kungsladugård;FP;L;58;5.02
+2010;rd;14800913;Majorna, Kungsladugård;KD;KD;34;2.94
+2010;rd;14800913;Majorna, Kungsladugård;S;S;237;20.52
+2010;rd;14800913;Majorna, Kungsladugård;V;V;248;21.47
+2010;rd;14800913;Majorna, Kungsladugård;MP;MP;263;22.77
+2010;rd;14800913;Majorna, Kungsladugård;SD;SD;52;4.5
+2010;rd;14800913;Majorna, Kungsladugård;FI;FI;33;2.86
+2010;rd;14800913;Majorna, Kungsladugård;PP;PP;12;1.04
+2010;rd;14800913;Majorna, Kungsladugård;SPI;SPI;0;0
+2010;rd;14800913;Majorna, Kungsladugård;OVR;OVR;2;0.18
+2010;rd;14800914;Majorna, Mariaplan;M;M;160;15.18
+2010;rd;14800914;Majorna, Mariaplan;C;C;34;3.23
+2010;rd;14800914;Majorna, Mariaplan;FP;L;41;3.89
+2010;rd;14800914;Majorna, Mariaplan;KD;KD;22;2.09
+2010;rd;14800914;Majorna, Mariaplan;S;S;197;18.69
+2010;rd;14800914;Majorna, Mariaplan;V;V;252;23.91
+2010;rd;14800914;Majorna, Mariaplan;MP;MP;267;25.33
+2010;rd;14800914;Majorna, Mariaplan;SD;SD;44;4.17
+2010;rd;14800914;Majorna, Mariaplan;FI;FI;23;2.18
+2010;rd;14800914;Majorna, Mariaplan;PP;PP;12;1.14
+2010;rd;14800914;Majorna, Mariaplan;SPI;SPI;0;0
+2010;rd;14800914;Majorna, Mariaplan;OVR;OVR;2;0.19
+2010;rd;14800915;Majorna, Silverkällan;M;M;168;14.32
+2010;rd;14800915;Majorna, Silverkällan;C;C;41;3.5
+2010;rd;14800915;Majorna, Silverkällan;FP;L;55;4.69
+2010;rd;14800915;Majorna, Silverkällan;KD;KD;20;1.71
+2010;rd;14800915;Majorna, Silverkällan;S;S;246;20.97
+2010;rd;14800915;Majorna, Silverkällan;V;V;258;21.99
+2010;rd;14800915;Majorna, Silverkällan;MP;MP;302;25.75
+2010;rd;14800915;Majorna, Silverkällan;SD;SD;45;3.84
+2010;rd;14800915;Majorna, Silverkällan;FI;FI;29;2.47
+2010;rd;14800915;Majorna, Silverkällan;PP;PP;8;0.68
+2010;rd;14800915;Majorna, Silverkällan;SPI;SPI;0;0
+2010;rd;14800915;Majorna, Silverkällan;OVR;OVR;1;0.09
+2010;rd;14800916;Majorna, Klippan;M;M;305;21.55
+2010;rd;14800916;Majorna, Klippan;C;C;37;2.61
+2010;rd;14800916;Majorna, Klippan;FP;L;79;5.58
+2010;rd;14800916;Majorna, Klippan;KD;KD;36;2.54
+2010;rd;14800916;Majorna, Klippan;S;S;319;22.54
+2010;rd;14800916;Majorna, Klippan;V;V;271;19.15
+2010;rd;14800916;Majorna, Klippan;MP;MP;272;19.22
+2010;rd;14800916;Majorna, Klippan;SD;SD;59;4.17
+2010;rd;14800916;Majorna, Klippan;FI;FI;30;2.12
+2010;rd;14800916;Majorna, Klippan;PP;PP;7;0.49
+2010;rd;14800916;Majorna, Klippan;SPI;SPI;0;0
+2010;rd;14800916;Majorna, Klippan;OVR;OVR;0;0
+2010;rd;14800921;Majorna, Sandarne;M;M;222;17.05
+2010;rd;14800921;Majorna, Sandarne;C;C;33;2.53
+2010;rd;14800921;Majorna, Sandarne;FP;L;66;5.07
+2010;rd;14800921;Majorna, Sandarne;KD;KD;44;3.38
+2010;rd;14800921;Majorna, Sandarne;S;S;321;24.65
+2010;rd;14800921;Majorna, Sandarne;V;V;245;18.82
+2010;rd;14800921;Majorna, Sandarne;MP;MP;235;18.05
+2010;rd;14800921;Majorna, Sandarne;SD;SD;95;7.3
+2010;rd;14800921;Majorna, Sandarne;FI;FI;29;2.23
+2010;rd;14800921;Majorna, Sandarne;PP;PP;10;0.77
+2010;rd;14800921;Majorna, Sandarne;SPI;SPI;0;0
+2010;rd;14800921;Majorna, Sandarne;OVR;OVR;2;0.15
+2010;rd;14800931;Majorna, Slottsskogsgatan m fl;M;M;366;25.38
+2010;rd;14800931;Majorna, Slottsskogsgatan m fl;C;C;55;3.81
+2010;rd;14800931;Majorna, Slottsskogsgatan m fl;FP;L;96;6.66
+2010;rd;14800931;Majorna, Slottsskogsgatan m fl;KD;KD;62;4.3
+2010;rd;14800931;Majorna, Slottsskogsgatan m fl;S;S;318;22.05
+2010;rd;14800931;Majorna, Slottsskogsgatan m fl;V;V;187;12.97
+2010;rd;14800931;Majorna, Slottsskogsgatan m fl;MP;MP;248;17.2
+2010;rd;14800931;Majorna, Slottsskogsgatan m fl;SD;SD;64;4.44
+2010;rd;14800931;Majorna, Slottsskogsgatan m fl;FI;FI;28;1.94
+2010;rd;14800931;Majorna, Slottsskogsgatan m fl;PP;PP;14;0.97
+2010;rd;14800931;Majorna, Slottsskogsgatan m fl;SPI;SPI;0;0
+2010;rd;14800931;Majorna, Slottsskogsgatan m fl;OVR;OVR;4;0.28
+2010;rd;14800932;Majorna, Majorna;M;M;260;25.79
+2010;rd;14800932;Majorna, Majorna;C;C;27;2.68
+2010;rd;14800932;Majorna, Majorna;FP;L;82;8.13
+2010;rd;14800932;Majorna, Majorna;KD;KD;52;5.16
+2010;rd;14800932;Majorna, Majorna;S;S;232;23.02
+2010;rd;14800932;Majorna, Majorna;V;V;134;13.29
+2010;rd;14800932;Majorna, Majorna;MP;MP;153;15.18
+2010;rd;14800932;Majorna, Majorna;SD;SD;42;4.17
+2010;rd;14800932;Majorna, Majorna;FI;FI;16;1.59
+2010;rd;14800932;Majorna, Majorna;PP;PP;7;0.69
+2010;rd;14800932;Majorna, Majorna;SPI;SPI;0;0
+2010;rd;14800932;Majorna, Majorna;OVR;OVR;3;0.3
+2010;rd;14800933;Majorna, Hängmattan;M;M;185;19.72
+2010;rd;14800933;Majorna, Hängmattan;C;C;19;2.03
+2010;rd;14800933;Majorna, Hängmattan;FP;L;64;6.82
+2010;rd;14800933;Majorna, Hängmattan;KD;KD;36;3.84
+2010;rd;14800933;Majorna, Hängmattan;S;S;266;28.36
+2010;rd;14800933;Majorna, Hängmattan;V;V;143;15.25
+2010;rd;14800933;Majorna, Hängmattan;MP;MP;155;16.52
+2010;rd;14800933;Majorna, Hängmattan;SD;SD;37;3.94
+2010;rd;14800933;Majorna, Hängmattan;FI;FI;18;1.92
+2010;rd;14800933;Majorna, Hängmattan;PP;PP;10;1.07
+2010;rd;14800933;Majorna, Hängmattan;SPI;SPI;0;0
+2010;rd;14800933;Majorna, Hängmattan;OVR;OVR;5;0.54
+2010;rd;14800934;Majorna, Gråberget;M;M;341;25.7
+2010;rd;14800934;Majorna, Gråberget;C;C;50;3.77
+2010;rd;14800934;Majorna, Gråberget;FP;L;105;7.91
+2010;rd;14800934;Majorna, Gråberget;KD;KD;72;5.43
+2010;rd;14800934;Majorna, Gråberget;S;S;285;21.48
+2010;rd;14800934;Majorna, Gråberget;V;V;185;13.94
+2010;rd;14800934;Majorna, Gråberget;MP;MP;202;15.22
+2010;rd;14800934;Majorna, Gråberget;SD;SD;59;4.45
+2010;rd;14800934;Majorna, Gråberget;FI;FI;14;1.06
+2010;rd;14800934;Majorna, Gråberget;PP;PP;12;0.9
+2010;rd;14800934;Majorna, Gråberget;SPI;SPI;0;0
+2010;rd;14800934;Majorna, Gråberget;OVR;OVR;2;0.15
+2010;rd;14800935;Majorna, Marieberg;M;M;246;16.59
+2010;rd;14800935;Majorna, Marieberg;C;C;44;2.97
+2010;rd;14800935;Majorna, Marieberg;FP;L;84;5.66
+2010;rd;14800935;Majorna, Marieberg;KD;KD;44;2.97
+2010;rd;14800935;Majorna, Marieberg;S;S;302;20.36
+2010;rd;14800935;Majorna, Marieberg;V;V;309;20.84
+2010;rd;14800935;Majorna, Marieberg;MP;MP;340;22.93
+2010;rd;14800935;Majorna, Marieberg;SD;SD;49;3.3
+2010;rd;14800935;Majorna, Marieberg;FI;FI;45;3.03
+2010;rd;14800935;Majorna, Marieberg;PP;PP;14;0.94
+2010;rd;14800935;Majorna, Marieberg;SPI;SPI;0;0
+2010;rd;14800935;Majorna, Marieberg;OVR;OVR;6;0.41
+2010;rd;14800936;Majorna, Godhem;M;M;191;18.67
+2010;rd;14800936;Majorna, Godhem;C;C;40;3.91
+2010;rd;14800936;Majorna, Godhem;FP;L;75;7.33
+2010;rd;14800936;Majorna, Godhem;KD;KD;59;5.77
+2010;rd;14800936;Majorna, Godhem;S;S;219;21.41
+2010;rd;14800936;Majorna, Godhem;V;V;190;18.57
+2010;rd;14800936;Majorna, Godhem;MP;MP;197;19.26
+2010;rd;14800936;Majorna, Godhem;SD;SD;27;2.64
+2010;rd;14800936;Majorna, Godhem;FI;FI;16;1.56
+2010;rd;14800936;Majorna, Godhem;PP;PP;9;0.88
+2010;rd;14800936;Majorna, Godhem;SPI;SPI;0;0
+2010;rd;14800936;Majorna, Godhem;OVR;OVR;0;0
+2010;rd;14800941;Majorna, Söderlingska ängen;M;M;180;16.62
+2010;rd;14800941;Majorna, Söderlingska ängen;C;C;34;3.14
+2010;rd;14800941;Majorna, Söderlingska ängen;FP;L;57;5.26
+2010;rd;14800941;Majorna, Söderlingska ängen;KD;KD;28;2.59
+2010;rd;14800941;Majorna, Söderlingska ängen;S;S;241;22.25
+2010;rd;14800941;Majorna, Söderlingska ängen;V;V;224;20.68
+2010;rd;14800941;Majorna, Söderlingska ängen;MP;MP;243;22.44
+2010;rd;14800941;Majorna, Söderlingska ängen;SD;SD;53;4.89
+2010;rd;14800941;Majorna, Söderlingska ängen;FI;FI;15;1.39
+2010;rd;14800941;Majorna, Söderlingska ängen;PP;PP;6;0.55
+2010;rd;14800941;Majorna, Söderlingska ängen;SPI;SPI;0;0
+2010;rd;14800941;Majorna, Söderlingska ängen;OVR;OVR;2;0.18
+2010;rd;14800942;Majorna, Karl Johans torg;M;M;212;14.55
+2010;rd;14800942;Majorna, Karl Johans torg;C;C;41;2.81
+2010;rd;14800942;Majorna, Karl Johans torg;FP;L;84;5.77
+2010;rd;14800942;Majorna, Karl Johans torg;KD;KD;29;1.99
+2010;rd;14800942;Majorna, Karl Johans torg;S;S;326;22.37
+2010;rd;14800942;Majorna, Karl Johans torg;V;V;337;23.13
+2010;rd;14800942;Majorna, Karl Johans torg;MP;MP;331;22.72
+2010;rd;14800942;Majorna, Karl Johans torg;SD;SD;46;3.16
+2010;rd;14800942;Majorna, Karl Johans torg;FI;FI;35;2.4
+2010;rd;14800942;Majorna, Karl Johans torg;PP;PP;16;1.1
+2010;rd;14800942;Majorna, Karl Johans torg;SPI;SPI;0;0
+2010;rd;14800942;Majorna, Karl Johans torg;OVR;OVR;0;0
+2010;rd;14800943;Majorna, Djurgårdsgatan m fl;M;M;218;17.33
+2010;rd;14800943;Majorna, Djurgårdsgatan m fl;C;C;50;3.97
+2010;rd;14800943;Majorna, Djurgårdsgatan m fl;FP;L;62;4.93
+2010;rd;14800943;Majorna, Djurgårdsgatan m fl;KD;KD;28;2.23
+2010;rd;14800943;Majorna, Djurgårdsgatan m fl;S;S;233;18.52
+2010;rd;14800943;Majorna, Djurgårdsgatan m fl;V;V;277;22.02
+2010;rd;14800943;Majorna, Djurgårdsgatan m fl;MP;MP;310;24.64
+2010;rd;14800943;Majorna, Djurgårdsgatan m fl;SD;SD;34;2.7
+2010;rd;14800943;Majorna, Djurgårdsgatan m fl;FI;FI;35;2.78
+2010;rd;14800943;Majorna, Djurgårdsgatan m fl;PP;PP;8;0.64
+2010;rd;14800943;Majorna, Djurgårdsgatan m fl;SPI;SPI;0;0
+2010;rd;14800943;Majorna, Djurgårdsgatan m fl;OVR;OVR;3;0.24
+2010;rd;14800944;Majorna, Gatenhielmska;M;M;169;16.93
+2010;rd;14800944;Majorna, Gatenhielmska;C;C;46;4.61
+2010;rd;14800944;Majorna, Gatenhielmska;FP;L;73;7.31
+2010;rd;14800944;Majorna, Gatenhielmska;KD;KD;29;2.91
+2010;rd;14800944;Majorna, Gatenhielmska;S;S;239;23.95
+2010;rd;14800944;Majorna, Gatenhielmska;V;V;173;17.33
+2010;rd;14800944;Majorna, Gatenhielmska;MP;MP;202;20.24
+2010;rd;14800944;Majorna, Gatenhielmska;SD;SD;29;2.91
+2010;rd;14800944;Majorna, Gatenhielmska;FI;FI;25;2.51
+2010;rd;14800944;Majorna, Gatenhielmska;PP;PP;10;1
+2010;rd;14800944;Majorna, Gatenhielmska;SPI;SPI;0;0
+2010;rd;14800944;Majorna, Gatenhielmska;OVR;OVR;3;0.3
+2010;rd;14801011;Högsbo, Södra Kaverös;M;M;296;23.27
+2010;rd;14801011;Högsbo, Södra Kaverös;C;C;38;2.99
+2010;rd;14801011;Högsbo, Södra Kaverös;FP;L;121;9.51
+2010;rd;14801011;Högsbo, Södra Kaverös;KD;KD;82;6.45
+2010;rd;14801011;Högsbo, Södra Kaverös;S;S;395;31.05
+2010;rd;14801011;Högsbo, Södra Kaverös;V;V;102;8.02
+2010;rd;14801011;Högsbo, Södra Kaverös;MP;MP;129;10.14
+2010;rd;14801011;Högsbo, Södra Kaverös;SD;SD;95;7.47
+2010;rd;14801011;Högsbo, Södra Kaverös;FI;FI;3;0.24
+2010;rd;14801011;Högsbo, Södra Kaverös;PP;PP;7;0.55
+2010;rd;14801011;Högsbo, Södra Kaverös;SPI;SPI;0;0
+2010;rd;14801011;Högsbo, Södra Kaverös;OVR;OVR;4;0.32
+2010;rd;14801012;Högsbo, Norra Kaverös;M;M;328;22.16
+2010;rd;14801012;Högsbo, Norra Kaverös;C;C;62;4.19
+2010;rd;14801012;Högsbo, Norra Kaverös;FP;L;131;8.85
+2010;rd;14801012;Högsbo, Norra Kaverös;KD;KD;75;5.07
+2010;rd;14801012;Högsbo, Norra Kaverös;S;S;442;29.86
+2010;rd;14801012;Högsbo, Norra Kaverös;V;V;146;9.86
+2010;rd;14801012;Högsbo, Norra Kaverös;MP;MP;174;11.76
+2010;rd;14801012;Högsbo, Norra Kaverös;SD;SD;90;6.08
+2010;rd;14801012;Högsbo, Norra Kaverös;FI;FI;15;1.01
+2010;rd;14801012;Högsbo, Norra Kaverös;PP;PP;10;0.68
+2010;rd;14801012;Högsbo, Norra Kaverös;SPI;SPI;0;0
+2010;rd;14801012;Högsbo, Norra Kaverös;OVR;OVR;7;0.48
+2010;rd;14801021;Högsbo, Östra Flatås;M;M;251;26.62
+2010;rd;14801021;Högsbo, Östra Flatås;C;C;22;2.33
+2010;rd;14801021;Högsbo, Östra Flatås;FP;L;74;7.85
+2010;rd;14801021;Högsbo, Östra Flatås;KD;KD;32;3.39
+2010;rd;14801021;Högsbo, Östra Flatås;S;S;310;32.87
+2010;rd;14801021;Högsbo, Östra Flatås;V;V;69;7.32
+2010;rd;14801021;Högsbo, Östra Flatås;MP;MP;97;10.29
+2010;rd;14801021;Högsbo, Östra Flatås;SD;SD;68;7.21
+2010;rd;14801021;Högsbo, Östra Flatås;FI;FI;6;0.64
+2010;rd;14801021;Högsbo, Östra Flatås;PP;PP;9;0.95
+2010;rd;14801021;Högsbo, Östra Flatås;SPI;SPI;0;0
+2010;rd;14801021;Högsbo, Östra Flatås;OVR;OVR;5;0.54
+2010;rd;14801022;Högsbo, Västra Flatås;M;M;324;26.98
+2010;rd;14801022;Högsbo, Västra Flatås;C;C;36;3
+2010;rd;14801022;Högsbo, Västra Flatås;FP;L;131;10.91
+2010;rd;14801022;Högsbo, Västra Flatås;KD;KD;76;6.33
+2010;rd;14801022;Högsbo, Västra Flatås;S;S;324;26.98
+2010;rd;14801022;Högsbo, Västra Flatås;V;V;91;7.58
+2010;rd;14801022;Högsbo, Västra Flatås;MP;MP;121;10.07
+2010;rd;14801022;Högsbo, Västra Flatås;SD;SD;73;6.08
+2010;rd;14801022;Högsbo, Västra Flatås;FI;FI;10;0.83
+2010;rd;14801022;Högsbo, Västra Flatås;PP;PP;13;1.08
+2010;rd;14801022;Högsbo, Västra Flatås;SPI;SPI;0;0
+2010;rd;14801022;Högsbo, Västra Flatås;OVR;OVR;2;0.16
+2010;rd;14801031;Högsbo, Södra Högsbohöjd;M;M;227;19.67
+2010;rd;14801031;Högsbo, Södra Högsbohöjd;C;C;44;3.81
+2010;rd;14801031;Högsbo, Södra Högsbohöjd;FP;L;99;8.58
+2010;rd;14801031;Högsbo, Södra Högsbohöjd;KD;KD;63;5.46
+2010;rd;14801031;Högsbo, Södra Högsbohöjd;S;S;328;28.42
+2010;rd;14801031;Högsbo, Södra Högsbohöjd;V;V;156;13.52
+2010;rd;14801031;Högsbo, Södra Högsbohöjd;MP;MP;156;13.52
+2010;rd;14801031;Högsbo, Södra Högsbohöjd;SD;SD;53;4.59
+2010;rd;14801031;Högsbo, Södra Högsbohöjd;FI;FI;15;1.3
+2010;rd;14801031;Högsbo, Södra Högsbohöjd;PP;PP;12;1.04
+2010;rd;14801031;Högsbo, Södra Högsbohöjd;SPI;SPI;0;0
+2010;rd;14801031;Högsbo, Södra Högsbohöjd;OVR;OVR;1;0.09
+2010;rd;14801032;Högsbo, Norra Högsbohöjd;M;M;193;17.19
+2010;rd;14801032;Högsbo, Norra Högsbohöjd;C;C;21;1.87
+2010;rd;14801032;Högsbo, Norra Högsbohöjd;FP;L;66;5.88
+2010;rd;14801032;Högsbo, Norra Högsbohöjd;KD;KD;34;3.03
+2010;rd;14801032;Högsbo, Norra Högsbohöjd;S;S;335;29.83
+2010;rd;14801032;Högsbo, Norra Högsbohöjd;V;V;185;16.47
+2010;rd;14801032;Högsbo, Norra Högsbohöjd;MP;MP;175;15.58
+2010;rd;14801032;Högsbo, Norra Högsbohöjd;SD;SD;69;6.14
+2010;rd;14801032;Högsbo, Norra Högsbohöjd;FI;FI;18;1.6
+2010;rd;14801032;Högsbo, Norra Högsbohöjd;PP;PP;20;1.78
+2010;rd;14801032;Högsbo, Norra Högsbohöjd;SPI;SPI;0;0
+2010;rd;14801032;Högsbo, Norra Högsbohöjd;OVR;OVR;7;0.63
+2010;rd;14801041;Högsbo, Högsbo;M;M;138;13.9
+2010;rd;14801041;Högsbo, Högsbo;C;C;15;1.51
+2010;rd;14801041;Högsbo, Högsbo;FP;L;62;6.24
+2010;rd;14801041;Högsbo, Högsbo;KD;KD;37;3.73
+2010;rd;14801041;Högsbo, Högsbo;S;S;352;35.45
+2010;rd;14801041;Högsbo, Högsbo;V;V;148;14.9
+2010;rd;14801041;Högsbo, Högsbo;MP;MP;126;12.69
+2010;rd;14801041;Högsbo, Högsbo;SD;SD;84;8.46
+2010;rd;14801041;Högsbo, Högsbo;FI;FI;14;1.41
+2010;rd;14801041;Högsbo, Högsbo;PP;PP;10;1.01
+2010;rd;14801041;Högsbo, Högsbo;SPI;SPI;0;0
+2010;rd;14801041;Högsbo, Högsbo;OVR;OVR;7;0.7
+2010;rd;14801042;Högsbo, Västra Högsbotorp;M;M;224;20.14
+2010;rd;14801042;Högsbo, Västra Högsbotorp;C;C;45;4.05
+2010;rd;14801042;Högsbo, Västra Högsbotorp;FP;L;79;7.1
+2010;rd;14801042;Högsbo, Västra Högsbotorp;KD;KD;44;3.96
+2010;rd;14801042;Högsbo, Västra Högsbotorp;S;S;279;25.09
+2010;rd;14801042;Högsbo, Västra Högsbotorp;V;V;153;13.76
+2010;rd;14801042;Högsbo, Västra Högsbotorp;MP;MP;180;16.19
+2010;rd;14801042;Högsbo, Västra Högsbotorp;SD;SD;72;6.47
+2010;rd;14801042;Högsbo, Västra Högsbotorp;FI;FI;17;1.53
+2010;rd;14801042;Högsbo, Västra Högsbotorp;PP;PP;12;1.08
+2010;rd;14801042;Högsbo, Västra Högsbotorp;SPI;SPI;0;0
+2010;rd;14801042;Högsbo, Västra Högsbotorp;OVR;OVR;7;0.63
+2010;rd;14801043;Högsbo, Marklandsgatan m fl;M;M;306;26.04
+2010;rd;14801043;Högsbo, Marklandsgatan m fl;C;C;36;3.06
+2010;rd;14801043;Högsbo, Marklandsgatan m fl;FP;L;104;8.85
+2010;rd;14801043;Högsbo, Marklandsgatan m fl;KD;KD;69;5.87
+2010;rd;14801043;Högsbo, Marklandsgatan m fl;S;S;293;24.94
+2010;rd;14801043;Högsbo, Marklandsgatan m fl;V;V;115;9.79
+2010;rd;14801043;Högsbo, Marklandsgatan m fl;MP;MP;171;14.55
+2010;rd;14801043;Högsbo, Marklandsgatan m fl;SD;SD;48;4.09
+2010;rd;14801043;Högsbo, Marklandsgatan m fl;FI;FI;12;1.02
+2010;rd;14801043;Högsbo, Marklandsgatan m fl;PP;PP;14;1.19
+2010;rd;14801043;Högsbo, Marklandsgatan m fl;SPI;SPI;1;0.09
+2010;rd;14801043;Högsbo, Marklandsgatan m fl;OVR;OVR;6;0.53
+2010;rd;14801044;Högsbo, Östra Högsbotorp;M;M;316;28.65
+2010;rd;14801044;Högsbo, Östra Högsbotorp;C;C;41;3.72
+2010;rd;14801044;Högsbo, Östra Högsbotorp;FP;L;98;8.88
+2010;rd;14801044;Högsbo, Östra Högsbotorp;KD;KD;58;5.26
+2010;rd;14801044;Högsbo, Östra Högsbotorp;S;S;263;23.84
+2010;rd;14801044;Högsbo, Östra Högsbotorp;V;V;110;9.97
+2010;rd;14801044;Högsbo, Östra Högsbotorp;MP;MP;137;12.42
+2010;rd;14801044;Högsbo, Östra Högsbotorp;SD;SD;57;5.17
+2010;rd;14801044;Högsbo, Östra Högsbotorp;FI;FI;12;1.09
+2010;rd;14801044;Högsbo, Östra Högsbotorp;PP;PP;11;1
+2010;rd;14801044;Högsbo, Östra Högsbotorp;SPI;SPI;0;0
+2010;rd;14801044;Högsbo, Östra Högsbotorp;OVR;OVR;0;0
+2010;rd;14801111;Älvsborg, Södra Fiskebäck;M;M;363;44.16
+2010;rd;14801111;Älvsborg, Södra Fiskebäck;C;C;34;4.14
+2010;rd;14801111;Älvsborg, Södra Fiskebäck;FP;L;94;11.44
+2010;rd;14801111;Älvsborg, Södra Fiskebäck;KD;KD;212;25.79
+2010;rd;14801111;Älvsborg, Södra Fiskebäck;S;S;65;7.91
+2010;rd;14801111;Älvsborg, Södra Fiskebäck;V;V;12;1.46
+2010;rd;14801111;Älvsborg, Södra Fiskebäck;MP;MP;22;2.68
+2010;rd;14801111;Älvsborg, Södra Fiskebäck;SD;SD;17;2.07
+2010;rd;14801111;Älvsborg, Södra Fiskebäck;FI;FI;0;0
+2010;rd;14801111;Älvsborg, Södra Fiskebäck;PP;PP;2;0.24
+2010;rd;14801111;Älvsborg, Södra Fiskebäck;SPI;SPI;0;0
+2010;rd;14801111;Älvsborg, Södra Fiskebäck;OVR;OVR;1;0.12
+2010;rd;14801112;Älvsborg, Norra Fiskebäck;M;M;551;42.42
+2010;rd;14801112;Älvsborg, Norra Fiskebäck;C;C;68;5.23
+2010;rd;14801112;Älvsborg, Norra Fiskebäck;FP;L;168;12.93
+2010;rd;14801112;Älvsborg, Norra Fiskebäck;KD;KD;254;19.55
+2010;rd;14801112;Älvsborg, Norra Fiskebäck;S;S;113;8.7
+2010;rd;14801112;Älvsborg, Norra Fiskebäck;V;V;24;1.85
+2010;rd;14801112;Älvsborg, Norra Fiskebäck;MP;MP;70;5.39
+2010;rd;14801112;Älvsborg, Norra Fiskebäck;SD;SD;40;3.08
+2010;rd;14801112;Älvsborg, Norra Fiskebäck;FI;FI;6;0.46
+2010;rd;14801112;Älvsborg, Norra Fiskebäck;PP;PP;5;0.38
+2010;rd;14801112;Älvsborg, Norra Fiskebäck;SPI;SPI;0;0
+2010;rd;14801112;Älvsborg, Norra Fiskebäck;OVR;OVR;0;0
+2010;rd;14801113;Älvsborg, Påvelund;M;M;688;50.51
+2010;rd;14801113;Älvsborg, Påvelund;C;C;70;5.14
+2010;rd;14801113;Älvsborg, Påvelund;FP;L;155;11.38
+2010;rd;14801113;Älvsborg, Påvelund;KD;KD;170;12.48
+2010;rd;14801113;Älvsborg, Påvelund;S;S;126;9.25
+2010;rd;14801113;Älvsborg, Påvelund;V;V;35;2.57
+2010;rd;14801113;Älvsborg, Påvelund;MP;MP;67;4.92
+2010;rd;14801113;Älvsborg, Påvelund;SD;SD;39;2.86
+2010;rd;14801113;Älvsborg, Påvelund;FI;FI;4;0.29
+2010;rd;14801113;Älvsborg, Påvelund;PP;PP;6;0.44
+2010;rd;14801113;Älvsborg, Påvelund;SPI;SPI;0;0
+2010;rd;14801113;Älvsborg, Påvelund;OVR;OVR;2;0.15
+2010;rd;14801114;Älvsborg, Björnekulla;M;M;613;46.51
+2010;rd;14801114;Älvsborg, Björnekulla;C;C;61;4.63
+2010;rd;14801114;Älvsborg, Björnekulla;FP;L;149;11.31
+2010;rd;14801114;Älvsborg, Björnekulla;KD;KD;159;12.06
+2010;rd;14801114;Älvsborg, Björnekulla;S;S;175;13.28
+2010;rd;14801114;Älvsborg, Björnekulla;V;V;47;3.57
+2010;rd;14801114;Älvsborg, Björnekulla;MP;MP;75;5.69
+2010;rd;14801114;Älvsborg, Björnekulla;SD;SD;35;2.66
+2010;rd;14801114;Älvsborg, Björnekulla;FI;FI;3;0.23
+2010;rd;14801114;Älvsborg, Björnekulla;PP;PP;0;0
+2010;rd;14801114;Älvsborg, Björnekulla;SPI;SPI;0;0
+2010;rd;14801114;Älvsborg, Björnekulla;OVR;OVR;1;0.08
+2010;rd;14801121;Älvsborg, Långedrag;M;M;835;60.68
+2010;rd;14801121;Älvsborg, Långedrag;C;C;101;7.34
+2010;rd;14801121;Älvsborg, Långedrag;FP;L;149;10.83
+2010;rd;14801121;Älvsborg, Långedrag;KD;KD;136;9.88
+2010;rd;14801121;Älvsborg, Långedrag;S;S;49;3.56
+2010;rd;14801121;Älvsborg, Långedrag;V;V;13;0.94
+2010;rd;14801121;Älvsborg, Långedrag;MP;MP;63;4.58
+2010;rd;14801121;Älvsborg, Långedrag;SD;SD;21;1.53
+2010;rd;14801121;Älvsborg, Långedrag;FI;FI;6;0.44
+2010;rd;14801121;Älvsborg, Långedrag;PP;PP;3;0.22
+2010;rd;14801121;Älvsborg, Långedrag;SPI;SPI;0;0
+2010;rd;14801121;Älvsborg, Långedrag;OVR;OVR;0;0
+2010;rd;14801131;Älvsborg, Tångudden;M;M;598;50
+2010;rd;14801131;Älvsborg, Tångudden;C;C;97;8.11
+2010;rd;14801131;Älvsborg, Tångudden;FP;L;130;10.87
+2010;rd;14801131;Älvsborg, Tångudden;KD;KD;126;10.54
+2010;rd;14801131;Älvsborg, Tångudden;S;S;82;6.86
+2010;rd;14801131;Älvsborg, Tångudden;V;V;31;2.59
+2010;rd;14801131;Älvsborg, Tångudden;MP;MP;89;7.44
+2010;rd;14801131;Älvsborg, Tångudden;SD;SD;28;2.34
+2010;rd;14801131;Älvsborg, Tångudden;FI;FI;8;0.67
+2010;rd;14801131;Älvsborg, Tångudden;PP;PP;5;0.42
+2010;rd;14801131;Älvsborg, Tångudden;SPI;SPI;0;0
+2010;rd;14801131;Älvsborg, Tångudden;OVR;OVR;2;0.16
+2010;rd;14801132;Älvsborg, Nya Varvet;M;M;682;41.97
+2010;rd;14801132;Älvsborg, Nya Varvet;C;C;89;5.48
+2010;rd;14801132;Älvsborg, Nya Varvet;FP;L;173;10.65
+2010;rd;14801132;Älvsborg, Nya Varvet;KD;KD;158;9.72
+2010;rd;14801132;Älvsborg, Nya Varvet;S;S;193;11.88
+2010;rd;14801132;Älvsborg, Nya Varvet;V;V;83;5.11
+2010;rd;14801132;Älvsborg, Nya Varvet;MP;MP;158;9.72
+2010;rd;14801132;Älvsborg, Nya Varvet;SD;SD;66;4.06
+2010;rd;14801132;Älvsborg, Nya Varvet;FI;FI;18;1.11
+2010;rd;14801132;Älvsborg, Nya Varvet;PP;PP;4;0.25
+2010;rd;14801132;Älvsborg, Nya Varvet;SPI;SPI;0;0
+2010;rd;14801132;Älvsborg, Nya Varvet;OVR;OVR;1;0.06
+2010;rd;14801133;Älvsborg, Hagen;M;M;453;49.67
+2010;rd;14801133;Älvsborg, Hagen;C;C;46;5.04
+2010;rd;14801133;Älvsborg, Hagen;FP;L;117;12.83
+2010;rd;14801133;Älvsborg, Hagen;KD;KD;76;8.33
+2010;rd;14801133;Älvsborg, Hagen;S;S;84;9.21
+2010;rd;14801133;Älvsborg, Hagen;V;V;29;3.18
+2010;rd;14801133;Älvsborg, Hagen;MP;MP;69;7.57
+2010;rd;14801133;Älvsborg, Hagen;SD;SD;30;3.29
+2010;rd;14801133;Älvsborg, Hagen;FI;FI;5;0.55
+2010;rd;14801133;Älvsborg, Hagen;PP;PP;1;0.11
+2010;rd;14801133;Älvsborg, Hagen;SPI;SPI;0;0
+2010;rd;14801133;Älvsborg, Hagen;OVR;OVR;2;0.22
+2010;rd;14801141;Älvsborg, Grimmered;M;M;661;45.4
+2010;rd;14801141;Älvsborg, Grimmered;C;C;79;5.43
+2010;rd;14801141;Älvsborg, Grimmered;FP;L;174;11.95
+2010;rd;14801141;Älvsborg, Grimmered;KD;KD;145;9.96
+2010;rd;14801141;Älvsborg, Grimmered;S;S;194;13.32
+2010;rd;14801141;Älvsborg, Grimmered;V;V;35;2.4
+2010;rd;14801141;Älvsborg, Grimmered;MP;MP;129;8.86
+2010;rd;14801141;Älvsborg, Grimmered;SD;SD;26;1.79
+2010;rd;14801141;Älvsborg, Grimmered;FI;FI;3;0.21
+2010;rd;14801141;Älvsborg, Grimmered;PP;PP;10;0.69
+2010;rd;14801141;Älvsborg, Grimmered;SPI;SPI;0;0
+2010;rd;14801141;Älvsborg, Grimmered;OVR;OVR;0;0
+2010;rd;14801142;Älvsborg, Ekebäck;M;M;533;40.97
+2010;rd;14801142;Älvsborg, Ekebäck;C;C;71;5.46
+2010;rd;14801142;Älvsborg, Ekebäck;FP;L;168;12.91
+2010;rd;14801142;Älvsborg, Ekebäck;KD;KD;97;7.46
+2010;rd;14801142;Älvsborg, Ekebäck;S;S;129;9.92
+2010;rd;14801142;Älvsborg, Ekebäck;V;V;68;5.23
+2010;rd;14801142;Älvsborg, Ekebäck;MP;MP;169;12.99
+2010;rd;14801142;Älvsborg, Ekebäck;SD;SD;46;3.54
+2010;rd;14801142;Älvsborg, Ekebäck;FI;FI;10;0.77
+2010;rd;14801142;Älvsborg, Ekebäck;PP;PP;8;0.61
+2010;rd;14801142;Älvsborg, Ekebäck;SPI;SPI;0;0
+2010;rd;14801142;Älvsborg, Ekebäck;OVR;OVR;2;0.16
+2010;rd;14801211;Frölunda, Tofta;M;M;179;22.86
+2010;rd;14801211;Frölunda, Tofta;C;C;5;0.64
+2010;rd;14801211;Frölunda, Tofta;FP;L;46;5.87
+2010;rd;14801211;Frölunda, Tofta;KD;KD;53;6.77
+2010;rd;14801211;Frölunda, Tofta;S;S;280;35.76
+2010;rd;14801211;Frölunda, Tofta;V;V;87;11.11
+2010;rd;14801211;Frölunda, Tofta;MP;MP;48;6.13
+2010;rd;14801211;Frölunda, Tofta;SD;SD;74;9.45
+2010;rd;14801211;Frölunda, Tofta;FI;FI;3;0.38
+2010;rd;14801211;Frölunda, Tofta;PP;PP;4;0.51
+2010;rd;14801211;Frölunda, Tofta;SPI;SPI;0;0
+2010;rd;14801211;Frölunda, Tofta;OVR;OVR;4;0.52
+2010;rd;14801212;Frölunda, Spinetten;M;M;116;17.52
+2010;rd;14801212;Frölunda, Spinetten;C;C;7;1.06
+2010;rd;14801212;Frölunda, Spinetten;FP;L;49;7.4
+2010;rd;14801212;Frölunda, Spinetten;KD;KD;30;4.53
+2010;rd;14801212;Frölunda, Spinetten;S;S;267;40.33
+2010;rd;14801212;Frölunda, Spinetten;V;V;72;10.88
+2010;rd;14801212;Frölunda, Spinetten;MP;MP;46;6.95
+2010;rd;14801212;Frölunda, Spinetten;SD;SD;66;9.97
+2010;rd;14801212;Frölunda, Spinetten;FI;FI;2;0.3
+2010;rd;14801212;Frölunda, Spinetten;PP;PP;6;0.91
+2010;rd;14801212;Frölunda, Spinetten;SPI;SPI;0;0
+2010;rd;14801212;Frölunda, Spinetten;OVR;OVR;1;0.15
+2010;rd;14801221;Frölunda, Ruddalen;M;M;379;26.75
+2010;rd;14801221;Frölunda, Ruddalen;C;C;41;2.89
+2010;rd;14801221;Frölunda, Ruddalen;FP;L;114;8.05
+2010;rd;14801221;Frölunda, Ruddalen;KD;KD;109;7.69
+2010;rd;14801221;Frölunda, Ruddalen;S;S;460;32.46
+2010;rd;14801221;Frölunda, Ruddalen;V;V;95;6.7
+2010;rd;14801221;Frölunda, Ruddalen;MP;MP;91;6.42
+2010;rd;14801221;Frölunda, Ruddalen;SD;SD;115;8.12
+2010;rd;14801221;Frölunda, Ruddalen;FI;FI;5;0.35
+2010;rd;14801221;Frölunda, Ruddalen;PP;PP;7;0.49
+2010;rd;14801221;Frölunda, Ruddalen;SPI;SPI;0;0
+2010;rd;14801221;Frölunda, Ruddalen;OVR;OVR;1;0.07
+2010;rd;14801231;Frölunda, Västra Järnbrott;M;M;290;25.51
+2010;rd;14801231;Frölunda, Västra Järnbrott;C;C;34;2.99
+2010;rd;14801231;Frölunda, Västra Järnbrott;FP;L;102;8.97
+2010;rd;14801231;Frölunda, Västra Järnbrott;KD;KD;71;6.24
+2010;rd;14801231;Frölunda, Västra Järnbrott;S;S;340;29.9
+2010;rd;14801231;Frölunda, Västra Järnbrott;V;V;96;8.44
+2010;rd;14801231;Frölunda, Västra Järnbrott;MP;MP;95;8.36
+2010;rd;14801231;Frölunda, Västra Järnbrott;SD;SD;84;7.39
+2010;rd;14801231;Frölunda, Västra Järnbrott;FI;FI;11;0.97
+2010;rd;14801231;Frölunda, Västra Järnbrott;PP;PP;14;1.23
+2010;rd;14801231;Frölunda, Västra Järnbrott;SPI;SPI;0;0
+2010;rd;14801231;Frölunda, Västra Järnbrott;OVR;OVR;0;0
+2010;rd;14801232;Frölunda, Östra Järnbrott;M;M;269;24.7
+2010;rd;14801232;Frölunda, Östra Järnbrott;C;C;20;1.84
+2010;rd;14801232;Frölunda, Östra Järnbrott;FP;L;88;8.08
+2010;rd;14801232;Frölunda, Östra Järnbrott;KD;KD;47;4.32
+2010;rd;14801232;Frölunda, Östra Järnbrott;S;S;383;35.17
+2010;rd;14801232;Frölunda, Östra Järnbrott;V;V;90;8.26
+2010;rd;14801232;Frölunda, Östra Järnbrott;MP;MP;88;8.08
+2010;rd;14801232;Frölunda, Östra Järnbrott;SD;SD;80;7.35
+2010;rd;14801232;Frölunda, Östra Järnbrott;FI;FI;9;0.83
+2010;rd;14801232;Frölunda, Östra Järnbrott;PP;PP;13;1.19
+2010;rd;14801232;Frölunda, Östra Järnbrott;SPI;SPI;0;0
+2010;rd;14801232;Frölunda, Östra Järnbrott;OVR;OVR;2;0.18
+2010;rd;14801241;Frölunda, Frölunda torg;M;M;129;17.04
+2010;rd;14801241;Frölunda, Frölunda torg;C;C;7;0.92
+2010;rd;14801241;Frölunda, Frölunda torg;FP;L;28;3.7
+2010;rd;14801241;Frölunda, Frölunda torg;KD;KD;18;2.38
+2010;rd;14801241;Frölunda, Frölunda torg;S;S;393;51.92
+2010;rd;14801241;Frölunda, Frölunda torg;V;V;60;7.93
+2010;rd;14801241;Frölunda, Frölunda torg;MP;MP;49;6.47
+2010;rd;14801241;Frölunda, Frölunda torg;SD;SD;57;7.53
+2010;rd;14801241;Frölunda, Frölunda torg;FI;FI;3;0.4
+2010;rd;14801241;Frölunda, Frölunda torg;PP;PP;7;0.92
+2010;rd;14801241;Frölunda, Frölunda torg;SPI;SPI;0;0
+2010;rd;14801241;Frölunda, Frölunda torg;OVR;OVR;6;0.79
+2010;rd;14801242;Frölunda, Gånglåten m fl;M;M;161;13.35
+2010;rd;14801242;Frölunda, Gånglåten m fl;C;C;11;0.91
+2010;rd;14801242;Frölunda, Gånglåten m fl;FP;L;42;3.48
+2010;rd;14801242;Frölunda, Gånglåten m fl;KD;KD;66;5.47
+2010;rd;14801242;Frölunda, Gånglåten m fl;S;S;594;49.25
+2010;rd;14801242;Frölunda, Gånglåten m fl;V;V;133;11.03
+2010;rd;14801242;Frölunda, Gånglåten m fl;MP;MP;87;7.21
+2010;rd;14801242;Frölunda, Gånglåten m fl;SD;SD;89;7.38
+2010;rd;14801242;Frölunda, Gånglåten m fl;FI;FI;6;0.5
+2010;rd;14801242;Frölunda, Gånglåten m fl;PP;PP;13;1.08
+2010;rd;14801242;Frölunda, Gånglåten m fl;SPI;SPI;0;0
+2010;rd;14801242;Frölunda, Gånglåten m fl;OVR;OVR;4;0.34
+2010;rd;14801243;Frölunda, Frölunda;M;M;131;17.1
+2010;rd;14801243;Frölunda, Frölunda;C;C;20;2.61
+2010;rd;14801243;Frölunda, Frölunda;FP;L;45;5.87
+2010;rd;14801243;Frölunda, Frölunda;KD;KD;32;4.18
+2010;rd;14801243;Frölunda, Frölunda;S;S;342;44.65
+2010;rd;14801243;Frölunda, Frölunda;V;V;52;6.79
+2010;rd;14801243;Frölunda, Frölunda;MP;MP;61;7.96
+2010;rd;14801243;Frölunda, Frölunda;SD;SD;74;9.66
+2010;rd;14801243;Frölunda, Frölunda;FI;FI;4;0.52
+2010;rd;14801243;Frölunda, Frölunda;PP;PP;3;0.39
+2010;rd;14801243;Frölunda, Frölunda;SPI;SPI;0;0
+2010;rd;14801243;Frölunda, Frölunda;OVR;OVR;2;0.26
+2010;rd;14801311;Askim, Hult;M;M;597;53.3
+2010;rd;14801311;Askim, Hult;C;C;55;4.91
+2010;rd;14801311;Askim, Hult;FP;L;143;12.77
+2010;rd;14801311;Askim, Hult;KD;KD;117;10.45
+2010;rd;14801311;Askim, Hult;S;S;94;8.39
+2010;rd;14801311;Askim, Hult;V;V;16;1.43
+2010;rd;14801311;Askim, Hult;MP;MP;44;3.93
+2010;rd;14801311;Askim, Hult;SD;SD;48;4.29
+2010;rd;14801311;Askim, Hult;FI;FI;1;0.09
+2010;rd;14801311;Askim, Hult;PP;PP;4;0.36
+2010;rd;14801311;Askim, Hult;SPI;SPI;0;0
+2010;rd;14801311;Askim, Hult;OVR;OVR;1;0.09
+2010;rd;14801312;Askim, Pilegården;M;M;303;31.66
+2010;rd;14801312;Askim, Pilegården;C;C;20;2.09
+2010;rd;14801312;Askim, Pilegården;FP;L;59;6.17
+2010;rd;14801312;Askim, Pilegården;KD;KD;48;5.02
+2010;rd;14801312;Askim, Pilegården;S;S;292;30.51
+2010;rd;14801312;Askim, Pilegården;V;V;52;5.43
+2010;rd;14801312;Askim, Pilegården;MP;MP;90;9.4
+2010;rd;14801312;Askim, Pilegården;SD;SD;83;8.67
+2010;rd;14801312;Askim, Pilegården;FI;FI;1;0.1
+2010;rd;14801312;Askim, Pilegården;PP;PP;8;0.84
+2010;rd;14801312;Askim, Pilegården;SPI;SPI;0;0
+2010;rd;14801312;Askim, Pilegården;OVR;OVR;1;0.1
+2010;rd;14801313;Askim, Askim;M;M;509;55.03
+2010;rd;14801313;Askim, Askim;C;C;35;3.78
+2010;rd;14801313;Askim, Askim;FP;L;101;10.92
+2010;rd;14801313;Askim, Askim;KD;KD;78;8.43
+2010;rd;14801313;Askim, Askim;S;S;103;11.14
+2010;rd;14801313;Askim, Askim;V;V;16;1.73
+2010;rd;14801313;Askim, Askim;MP;MP;37;4
+2010;rd;14801313;Askim, Askim;SD;SD;36;3.89
+2010;rd;14801313;Askim, Askim;FI;FI;4;0.43
+2010;rd;14801313;Askim, Askim;PP;PP;5;0.54
+2010;rd;14801313;Askim, Askim;SPI;SPI;0;0
+2010;rd;14801313;Askim, Askim;OVR;OVR;1;0.11
+2010;rd;14801314;Askim, Norra Sisjön;M;M;543;42.49
+2010;rd;14801314;Askim, Norra Sisjön;C;C;68;5.32
+2010;rd;14801314;Askim, Norra Sisjön;FP;L;130;10.17
+2010;rd;14801314;Askim, Norra Sisjön;KD;KD;104;8.14
+2010;rd;14801314;Askim, Norra Sisjön;S;S;212;16.59
+2010;rd;14801314;Askim, Norra Sisjön;V;V;59;4.62
+2010;rd;14801314;Askim, Norra Sisjön;MP;MP;71;5.56
+2010;rd;14801314;Askim, Norra Sisjön;SD;SD;77;6.03
+2010;rd;14801314;Askim, Norra Sisjön;FI;FI;4;0.31
+2010;rd;14801314;Askim, Norra Sisjön;PP;PP;8;0.63
+2010;rd;14801314;Askim, Norra Sisjön;SPI;SPI;0;0
+2010;rd;14801314;Askim, Norra Sisjön;OVR;OVR;2;0.16
+2010;rd;14801315;Askim, Södra Sisjön;M;M;687;50.93
+2010;rd;14801315;Askim, Södra Sisjön;C;C;82;6.08
+2010;rd;14801315;Askim, Södra Sisjön;FP;L;182;13.49
+2010;rd;14801315;Askim, Södra Sisjön;KD;KD;127;9.41
+2010;rd;14801315;Askim, Södra Sisjön;S;S;127;9.41
+2010;rd;14801315;Askim, Södra Sisjön;V;V;21;1.56
+2010;rd;14801315;Askim, Södra Sisjön;MP;MP;75;5.56
+2010;rd;14801315;Askim, Södra Sisjön;SD;SD;39;2.89
+2010;rd;14801315;Askim, Södra Sisjön;FI;FI;3;0.22
+2010;rd;14801315;Askim, Södra Sisjön;PP;PP;6;0.44
+2010;rd;14801315;Askim, Södra Sisjön;SPI;SPI;0;0
+2010;rd;14801315;Askim, Södra Sisjön;OVR;OVR;0;0
+2010;rd;14801316;Askim, Norra Hovås;M;M;456;49.95
+2010;rd;14801316;Askim, Norra Hovås;C;C;58;6.35
+2010;rd;14801316;Askim, Norra Hovås;FP;L;109;11.94
+2010;rd;14801316;Askim, Norra Hovås;KD;KD;94;10.3
+2010;rd;14801316;Askim, Norra Hovås;S;S;91;9.97
+2010;rd;14801316;Askim, Norra Hovås;V;V;30;3.29
+2010;rd;14801316;Askim, Norra Hovås;MP;MP;38;4.16
+2010;rd;14801316;Askim, Norra Hovås;SD;SD;24;2.63
+2010;rd;14801316;Askim, Norra Hovås;FI;FI;0;0
+2010;rd;14801316;Askim, Norra Hovås;PP;PP;12;1.31
+2010;rd;14801316;Askim, Norra Hovås;SPI;SPI;0;0
+2010;rd;14801316;Askim, Norra Hovås;OVR;OVR;1;0.11
+2010;rd;14801321;Askim, Södra Hovås;M;M;549;63.91
+2010;rd;14801321;Askim, Södra Hovås;C;C;52;6.05
+2010;rd;14801321;Askim, Södra Hovås;FP;L;90;10.48
+2010;rd;14801321;Askim, Södra Hovås;KD;KD;128;14.9
+2010;rd;14801321;Askim, Södra Hovås;S;S;8;0.93
+2010;rd;14801321;Askim, Södra Hovås;V;V;2;0.23
+2010;rd;14801321;Askim, Södra Hovås;MP;MP;13;1.51
+2010;rd;14801321;Askim, Södra Hovås;SD;SD;14;1.63
+2010;rd;14801321;Askim, Södra Hovås;FI;FI;2;0.23
+2010;rd;14801321;Askim, Södra Hovås;PP;PP;1;0.12
+2010;rd;14801321;Askim, Södra Hovås;SPI;SPI;0;0
+2010;rd;14801321;Askim, Södra Hovås;OVR;OVR;0;0
+2010;rd;14801322;Askim, Trollåsen;M;M;743;64.72
+2010;rd;14801322;Askim, Trollåsen;C;C;84;7.32
+2010;rd;14801322;Askim, Trollåsen;FP;L;116;10.1
+2010;rd;14801322;Askim, Trollåsen;KD;KD;93;8.1
+2010;rd;14801322;Askim, Trollåsen;S;S;36;3.14
+2010;rd;14801322;Askim, Trollåsen;V;V;20;1.74
+2010;rd;14801322;Askim, Trollåsen;MP;MP;34;2.96
+2010;rd;14801322;Askim, Trollåsen;SD;SD;18;1.57
+2010;rd;14801322;Askim, Trollåsen;FI;FI;4;0.35
+2010;rd;14801322;Askim, Trollåsen;PP;PP;0;0
+2010;rd;14801322;Askim, Trollåsen;SPI;SPI;0;0
+2010;rd;14801322;Askim, Trollåsen;OVR;OVR;0;0
+2010;rd;14801331;Askim, Billdal;M;M;888;54.15
+2010;rd;14801331;Askim, Billdal;C;C;98;5.98
+2010;rd;14801331;Askim, Billdal;FP;L;190;11.59
+2010;rd;14801331;Askim, Billdal;KD;KD;169;10.3
+2010;rd;14801331;Askim, Billdal;S;S;118;7.2
+2010;rd;14801331;Askim, Billdal;V;V;24;1.46
+2010;rd;14801331;Askim, Billdal;MP;MP;109;6.65
+2010;rd;14801331;Askim, Billdal;SD;SD;35;2.13
+2010;rd;14801331;Askim, Billdal;FI;FI;5;0.3
+2010;rd;14801331;Askim, Billdal;PP;PP;3;0.18
+2010;rd;14801331;Askim, Billdal;SPI;SPI;0;0
+2010;rd;14801331;Askim, Billdal;OVR;OVR;1;0.06
+2010;rd;14801332;Askim, Nygård;M;M;574;52.47
+2010;rd;14801332;Askim, Nygård;C;C;63;5.76
+2010;rd;14801332;Askim, Nygård;FP;L;125;11.43
+2010;rd;14801332;Askim, Nygård;KD;KD;119;10.88
+2010;rd;14801332;Askim, Nygård;S;S;93;8.5
+2010;rd;14801332;Askim, Nygård;V;V;16;1.46
+2010;rd;14801332;Askim, Nygård;MP;MP;63;5.76
+2010;rd;14801332;Askim, Nygård;SD;SD;31;2.83
+2010;rd;14801332;Askim, Nygård;FI;FI;5;0.46
+2010;rd;14801332;Askim, Nygård;PP;PP;4;0.37
+2010;rd;14801332;Askim, Nygård;SPI;SPI;0;0
+2010;rd;14801332;Askim, Nygård;OVR;OVR;1;0.09
+2010;rd;14801333;Askim, Skintebo;M;M;510;47.18
+2010;rd;14801333;Askim, Skintebo;C;C;53;4.9
+2010;rd;14801333;Askim, Skintebo;FP;L;146;13.51
+2010;rd;14801333;Askim, Skintebo;KD;KD;78;7.22
+2010;rd;14801333;Askim, Skintebo;S;S;137;12.67
+2010;rd;14801333;Askim, Skintebo;V;V;32;2.96
+2010;rd;14801333;Askim, Skintebo;MP;MP;78;7.22
+2010;rd;14801333;Askim, Skintebo;SD;SD;39;3.61
+2010;rd;14801333;Askim, Skintebo;FI;FI;4;0.37
+2010;rd;14801333;Askim, Skintebo;PP;PP;2;0.19
+2010;rd;14801333;Askim, Skintebo;SPI;SPI;0;0
+2010;rd;14801333;Askim, Skintebo;OVR;OVR;2;0.18
+2010;rd;14801334;Askim, Brottkärr;M;M;484;64.53
+2010;rd;14801334;Askim, Brottkärr;C;C;57;7.6
+2010;rd;14801334;Askim, Brottkärr;FP;L;79;10.53
+2010;rd;14801334;Askim, Brottkärr;KD;KD;79;10.53
+2010;rd;14801334;Askim, Brottkärr;S;S;22;2.93
+2010;rd;14801334;Askim, Brottkärr;V;V;3;0.4
+2010;rd;14801334;Askim, Brottkärr;MP;MP;9;1.2
+2010;rd;14801334;Askim, Brottkärr;SD;SD;15;2
+2010;rd;14801334;Askim, Brottkärr;FI;FI;1;0.13
+2010;rd;14801334;Askim, Brottkärr;PP;PP;1;0.13
+2010;rd;14801334;Askim, Brottkärr;SPI;SPI;0;0
+2010;rd;14801334;Askim, Brottkärr;OVR;OVR;0;0
+2010;rd;14801335;Askim, Lyckhem;M;M;599;57.05
+2010;rd;14801335;Askim, Lyckhem;C;C;45;4.29
+2010;rd;14801335;Askim, Lyckhem;FP;L;120;11.43
+2010;rd;14801335;Askim, Lyckhem;KD;KD;98;9.33
+2010;rd;14801335;Askim, Lyckhem;S;S;99;9.43
+2010;rd;14801335;Askim, Lyckhem;V;V;14;1.33
+2010;rd;14801335;Askim, Lyckhem;MP;MP;37;3.52
+2010;rd;14801335;Askim, Lyckhem;SD;SD;35;3.33
+2010;rd;14801335;Askim, Lyckhem;FI;FI;1;0.1
+2010;rd;14801335;Askim, Lyckhem;PP;PP;2;0.19
+2010;rd;14801335;Askim, Lyckhem;SPI;SPI;0;0
+2010;rd;14801335;Askim, Lyckhem;OVR;OVR;0;0
+2010;rd;14801336;Askim, Lindås;M;M;587;54.3
+2010;rd;14801336;Askim, Lindås;C;C;55;5.09
+2010;rd;14801336;Askim, Lindås;FP;L;149;13.78
+2010;rd;14801336;Askim, Lindås;KD;KD;135;12.49
+2010;rd;14801336;Askim, Lindås;S;S;81;7.49
+2010;rd;14801336;Askim, Lindås;V;V;12;1.11
+2010;rd;14801336;Askim, Lindås;MP;MP;32;2.96
+2010;rd;14801336;Askim, Lindås;SD;SD;27;2.5
+2010;rd;14801336;Askim, Lindås;FI;FI;1;0.09
+2010;rd;14801336;Askim, Lindås;PP;PP;1;0.09
+2010;rd;14801336;Askim, Lindås;SPI;SPI;0;0
+2010;rd;14801336;Askim, Lindås;OVR;OVR;1;0.09
+2010;rd;14801411;Tynnered, Bratthammar;M;M;722;42.62
+2010;rd;14801411;Tynnered, Bratthammar;C;C;51;3.01
+2010;rd;14801411;Tynnered, Bratthammar;FP;L;189;11.16
+2010;rd;14801411;Tynnered, Bratthammar;KD;KD;286;16.88
+2010;rd;14801411;Tynnered, Bratthammar;S;S;241;14.23
+2010;rd;14801411;Tynnered, Bratthammar;V;V;47;2.77
+2010;rd;14801411;Tynnered, Bratthammar;MP;MP;90;5.31
+2010;rd;14801411;Tynnered, Bratthammar;SD;SD;52;3.07
+2010;rd;14801411;Tynnered, Bratthammar;FI;FI;9;0.53
+2010;rd;14801411;Tynnered, Bratthammar;PP;PP;6;0.35
+2010;rd;14801411;Tynnered, Bratthammar;SPI;SPI;0;0
+2010;rd;14801411;Tynnered, Bratthammar;OVR;OVR;1;0.06
+2010;rd;14801421;Tynnered, Beryllgatan-Guldringen;M;M;369;25.08
+2010;rd;14801421;Tynnered, Beryllgatan-Guldringen;C;C;31;2.11
+2010;rd;14801421;Tynnered, Beryllgatan-Guldringen;FP;L;118;8.02
+2010;rd;14801421;Tynnered, Beryllgatan-Guldringen;KD;KD;142;9.65
+2010;rd;14801421;Tynnered, Beryllgatan-Guldringen;S;S;474;32.22
+2010;rd;14801421;Tynnered, Beryllgatan-Guldringen;V;V;95;6.46
+2010;rd;14801421;Tynnered, Beryllgatan-Guldringen;MP;MP;96;6.53
+2010;rd;14801421;Tynnered, Beryllgatan-Guldringen;SD;SD;118;8.02
+2010;rd;14801421;Tynnered, Beryllgatan-Guldringen;FI;FI;6;0.41
+2010;rd;14801421;Tynnered, Beryllgatan-Guldringen;PP;PP;16;1.09
+2010;rd;14801421;Tynnered, Beryllgatan-Guldringen;SPI;SPI;1;0.07
+2010;rd;14801421;Tynnered, Beryllgatan-Guldringen;OVR;OVR;5;0.35
+2010;rd;14801431;Tynnered, Tynnered;M;M;350;22.83
+2010;rd;14801431;Tynnered, Tynnered;C;C;28;1.83
+2010;rd;14801431;Tynnered, Tynnered;FP;L;98;6.39
+2010;rd;14801431;Tynnered, Tynnered;KD;KD;158;10.31
+2010;rd;14801431;Tynnered, Tynnered;S;S;541;35.29
+2010;rd;14801431;Tynnered, Tynnered;V;V;98;6.39
+2010;rd;14801431;Tynnered, Tynnered;MP;MP;118;7.7
+2010;rd;14801431;Tynnered, Tynnered;SD;SD;115;7.5
+2010;rd;14801431;Tynnered, Tynnered;FI;FI;7;0.46
+2010;rd;14801431;Tynnered, Tynnered;PP;PP;15;0.98
+2010;rd;14801431;Tynnered, Tynnered;SPI;SPI;0;0
+2010;rd;14801431;Tynnered, Tynnered;OVR;OVR;5;0.34
+2010;rd;14801441;Tynnered, Korsåsen;M;M;227;23.09
+2010;rd;14801441;Tynnered, Korsåsen;C;C;20;2.03
+2010;rd;14801441;Tynnered, Korsåsen;FP;L;69;7.02
+2010;rd;14801441;Tynnered, Korsåsen;KD;KD;70;7.12
+2010;rd;14801441;Tynnered, Korsåsen;S;S;407;41.4
+2010;rd;14801441;Tynnered, Korsåsen;V;V;58;5.9
+2010;rd;14801441;Tynnered, Korsåsen;MP;MP;66;6.71
+2010;rd;14801441;Tynnered, Korsåsen;SD;SD;57;5.8
+2010;rd;14801441;Tynnered, Korsåsen;FI;FI;8;0.81
+2010;rd;14801441;Tynnered, Korsåsen;PP;PP;1;0.1
+2010;rd;14801441;Tynnered, Korsåsen;SPI;SPI;0;0
+2010;rd;14801441;Tynnered, Korsåsen;OVR;OVR;0;0
+2010;rd;14801442;Tynnered, Ängås;M;M;154;16.94
+2010;rd;14801442;Tynnered, Ängås;C;C;11;1.21
+2010;rd;14801442;Tynnered, Ängås;FP;L;33;3.63
+2010;rd;14801442;Tynnered, Ängås;KD;KD;34;3.74
+2010;rd;14801442;Tynnered, Ängås;S;S;430;47.3
+2010;rd;14801442;Tynnered, Ängås;V;V;95;10.45
+2010;rd;14801442;Tynnered, Ängås;MP;MP;76;8.36
+2010;rd;14801442;Tynnered, Ängås;SD;SD;58;6.38
+2010;rd;14801442;Tynnered, Ängås;FI;FI;4;0.44
+2010;rd;14801442;Tynnered, Ängås;PP;PP;11;1.21
+2010;rd;14801442;Tynnered, Ängås;SPI;SPI;0;0
+2010;rd;14801442;Tynnered, Ängås;OVR;OVR;3;0.33
+2010;rd;14801451;Tynnered, Västra Önnered;M;M;493;41.15
+2010;rd;14801451;Tynnered, Västra Önnered;C;C;33;2.75
+2010;rd;14801451;Tynnered, Västra Önnered;FP;L;115;9.6
+2010;rd;14801451;Tynnered, Västra Önnered;KD;KD;307;25.63
+2010;rd;14801451;Tynnered, Västra Önnered;S;S;148;12.35
+2010;rd;14801451;Tynnered, Västra Önnered;V;V;22;1.84
+2010;rd;14801451;Tynnered, Västra Önnered;MP;MP;36;3.01
+2010;rd;14801451;Tynnered, Västra Önnered;SD;SD;41;3.42
+2010;rd;14801451;Tynnered, Västra Önnered;FI;FI;2;0.17
+2010;rd;14801451;Tynnered, Västra Önnered;PP;PP;1;0.08
+2010;rd;14801451;Tynnered, Västra Önnered;SPI;SPI;0;0
+2010;rd;14801451;Tynnered, Västra Önnered;OVR;OVR;0;0
+2010;rd;14801452;Tynnered, Östra Önnered;M;M;520;39.1
+2010;rd;14801452;Tynnered, Östra Önnered;C;C;50;3.76
+2010;rd;14801452;Tynnered, Östra Önnered;FP;L;133;10
+2010;rd;14801452;Tynnered, Östra Önnered;KD;KD;169;12.71
+2010;rd;14801452;Tynnered, Östra Önnered;S;S;266;20
+2010;rd;14801452;Tynnered, Östra Önnered;V;V;64;4.81
+2010;rd;14801452;Tynnered, Östra Önnered;MP;MP;82;6.17
+2010;rd;14801452;Tynnered, Östra Önnered;SD;SD;35;2.63
+2010;rd;14801452;Tynnered, Östra Önnered;FI;FI;5;0.38
+2010;rd;14801452;Tynnered, Östra Önnered;PP;PP;4;0.3
+2010;rd;14801452;Tynnered, Östra Önnered;SPI;SPI;0;0
+2010;rd;14801452;Tynnered, Östra Önnered;OVR;OVR;2;0.16
+2010;rd;14801461;Tynnered, Grevegården;M;M;160;18.04
+2010;rd;14801461;Tynnered, Grevegården;C;C;17;1.92
+2010;rd;14801461;Tynnered, Grevegården;FP;L;48;5.41
+2010;rd;14801461;Tynnered, Grevegården;KD;KD;29;3.27
+2010;rd;14801461;Tynnered, Grevegården;S;S;375;42.28
+2010;rd;14801461;Tynnered, Grevegården;V;V;83;9.36
+2010;rd;14801461;Tynnered, Grevegården;MP;MP;92;10.37
+2010;rd;14801461;Tynnered, Grevegården;SD;SD;66;7.44
+2010;rd;14801461;Tynnered, Grevegården;FI;FI;8;0.9
+2010;rd;14801461;Tynnered, Grevegården;PP;PP;6;0.68
+2010;rd;14801461;Tynnered, Grevegården;SPI;SPI;0;0
+2010;rd;14801461;Tynnered, Grevegården;OVR;OVR;3;0.34
+2010;rd;14801462;Tynnered, Skattegården;M;M;165;15.82
+2010;rd;14801462;Tynnered, Skattegården;C;C;10;0.96
+2010;rd;14801462;Tynnered, Skattegården;FP;L;39;3.74
+2010;rd;14801462;Tynnered, Skattegården;KD;KD;68;6.52
+2010;rd;14801462;Tynnered, Skattegården;S;S;610;58.49
+2010;rd;14801462;Tynnered, Skattegården;V;V;63;6.04
+2010;rd;14801462;Tynnered, Skattegården;MP;MP;46;4.41
+2010;rd;14801462;Tynnered, Skattegården;SD;SD;34;3.26
+2010;rd;14801462;Tynnered, Skattegården;FI;FI;1;0.1
+2010;rd;14801462;Tynnered, Skattegården;PP;PP;3;0.29
+2010;rd;14801462;Tynnered, Skattegården;SPI;SPI;0;0
+2010;rd;14801462;Tynnered, Skattegården;OVR;OVR;4;0.39
+2010;rd;14801471;Tynnered, Södra Näset;M;M;657;55.03
+2010;rd;14801471;Tynnered, Södra Näset;C;C;60;5.03
+2010;rd;14801471;Tynnered, Södra Näset;FP;L;144;12.06
+2010;rd;14801471;Tynnered, Södra Näset;KD;KD;154;12.9
+2010;rd;14801471;Tynnered, Södra Näset;S;S;75;6.28
+2010;rd;14801471;Tynnered, Södra Näset;V;V;14;1.17
+2010;rd;14801471;Tynnered, Södra Näset;MP;MP;52;4.36
+2010;rd;14801471;Tynnered, Södra Näset;SD;SD;29;2.43
+2010;rd;14801471;Tynnered, Södra Näset;FI;FI;5;0.42
+2010;rd;14801471;Tynnered, Södra Näset;PP;PP;4;0.34
+2010;rd;14801471;Tynnered, Södra Näset;SPI;SPI;0;0
+2010;rd;14801471;Tynnered, Södra Näset;OVR;OVR;0;0
+2010;rd;14801472;Tynnered, Norra Näset;M;M;769;51.16
+2010;rd;14801472;Tynnered, Norra Näset;C;C;63;4.19
+2010;rd;14801472;Tynnered, Norra Näset;FP;L;196;13.04
+2010;rd;14801472;Tynnered, Norra Näset;KD;KD;177;11.78
+2010;rd;14801472;Tynnered, Norra Näset;S;S;156;10.38
+2010;rd;14801472;Tynnered, Norra Näset;V;V;29;1.93
+2010;rd;14801472;Tynnered, Norra Näset;MP;MP;74;4.92
+2010;rd;14801472;Tynnered, Norra Näset;SD;SD;33;2.2
+2010;rd;14801472;Tynnered, Norra Näset;FI;FI;3;0.2
+2010;rd;14801472;Tynnered, Norra Näset;PP;PP;3;0.2
+2010;rd;14801472;Tynnered, Norra Näset;SPI;SPI;0;0
+2010;rd;14801472;Tynnered, Norra Näset;OVR;OVR;0;0
+2010;rd;14801473;Tynnered, Åkered;M;M;658;50.19
+2010;rd;14801473;Tynnered, Åkered;C;C;71;5.42
+2010;rd;14801473;Tynnered, Åkered;FP;L;173;13.2
+2010;rd;14801473;Tynnered, Åkered;KD;KD;141;10.76
+2010;rd;14801473;Tynnered, Åkered;S;S;143;10.91
+2010;rd;14801473;Tynnered, Åkered;V;V;21;1.6
+2010;rd;14801473;Tynnered, Åkered;MP;MP;56;4.27
+2010;rd;14801473;Tynnered, Åkered;SD;SD;43;3.28
+2010;rd;14801473;Tynnered, Åkered;FI;FI;2;0.15
+2010;rd;14801473;Tynnered, Åkered;PP;PP;3;0.23
+2010;rd;14801473;Tynnered, Åkered;SPI;SPI;0;0
+2010;rd;14801473;Tynnered, Åkered;OVR;OVR;0;0
+2010;rd;14801481;Tynnered, Södra Opaltorget;M;M;201;26.8
+2010;rd;14801481;Tynnered, Södra Opaltorget;C;C;19;2.53
+2010;rd;14801481;Tynnered, Södra Opaltorget;FP;L;73;9.73
+2010;rd;14801481;Tynnered, Södra Opaltorget;KD;KD;81;10.8
+2010;rd;14801481;Tynnered, Södra Opaltorget;S;S;219;29.2
+2010;rd;14801481;Tynnered, Södra Opaltorget;V;V;45;6
+2010;rd;14801481;Tynnered, Södra Opaltorget;MP;MP;51;6.8
+2010;rd;14801481;Tynnered, Södra Opaltorget;SD;SD;55;7.33
+2010;rd;14801481;Tynnered, Södra Opaltorget;FI;FI;0;0
+2010;rd;14801481;Tynnered, Södra Opaltorget;PP;PP;5;0.67
+2010;rd;14801481;Tynnered, Södra Opaltorget;SPI;SPI;0;0
+2010;rd;14801481;Tynnered, Södra Opaltorget;OVR;OVR;1;0.13
+2010;rd;14801482;Tynnered, Norra Opaltorget;M;M;161;15.78
+2010;rd;14801482;Tynnered, Norra Opaltorget;C;C;20;1.96
+2010;rd;14801482;Tynnered, Norra Opaltorget;FP;L;48;4.71
+2010;rd;14801482;Tynnered, Norra Opaltorget;KD;KD;53;5.2
+2010;rd;14801482;Tynnered, Norra Opaltorget;S;S;442;43.33
+2010;rd;14801482;Tynnered, Norra Opaltorget;V;V;88;8.63
+2010;rd;14801482;Tynnered, Norra Opaltorget;MP;MP;89;8.73
+2010;rd;14801482;Tynnered, Norra Opaltorget;SD;SD;102;10
+2010;rd;14801482;Tynnered, Norra Opaltorget;FI;FI;5;0.49
+2010;rd;14801482;Tynnered, Norra Opaltorget;PP;PP;11;1.08
+2010;rd;14801482;Tynnered, Norra Opaltorget;SPI;SPI;0;0
+2010;rd;14801482;Tynnered, Norra Opaltorget;OVR;OVR;1;0.1
+2010;rd;14801511;Södra Skärgården, Donsö-Vrångö;M;M;302;25.51
+2010;rd;14801511;Södra Skärgården, Donsö-Vrångö;C;C;51;4.31
+2010;rd;14801511;Södra Skärgården, Donsö-Vrångö;FP;L;137;11.57
+2010;rd;14801511;Södra Skärgården, Donsö-Vrångö;KD;KD;487;41.13
+2010;rd;14801511;Södra Skärgården, Donsö-Vrångö;S;S;92;7.77
+2010;rd;14801511;Södra Skärgården, Donsö-Vrångö;V;V;28;2.36
+2010;rd;14801511;Södra Skärgården, Donsö-Vrångö;MP;MP;42;3.55
+2010;rd;14801511;Södra Skärgården, Donsö-Vrångö;SD;SD;38;3.21
+2010;rd;14801511;Södra Skärgården, Donsö-Vrångö;FI;FI;3;0.25
+2010;rd;14801511;Södra Skärgården, Donsö-Vrångö;PP;PP;3;0.25
+2010;rd;14801511;Södra Skärgården, Donsö-Vrångö;SPI;SPI;0;0
+2010;rd;14801511;Södra Skärgården, Donsö-Vrångö;OVR;OVR;1;0.08
+2010;rd;14801512;Södra Skärgården, Styrsö-Köpstadsö;M;M;316;33.23
+2010;rd;14801512;Södra Skärgården, Styrsö-Köpstadsö;C;C;57;5.99
+2010;rd;14801512;Södra Skärgården, Styrsö-Köpstadsö;FP;L;85;8.94
+2010;rd;14801512;Södra Skärgården, Styrsö-Köpstadsö;KD;KD;125;13.14
+2010;rd;14801512;Södra Skärgården, Styrsö-Köpstadsö;S;S;128;13.46
+2010;rd;14801512;Södra Skärgården, Styrsö-Köpstadsö;V;V;85;8.94
+2010;rd;14801512;Södra Skärgården, Styrsö-Köpstadsö;MP;MP;102;10.73
+2010;rd;14801512;Södra Skärgården, Styrsö-Köpstadsö;SD;SD;33;3.47
+2010;rd;14801512;Södra Skärgården, Styrsö-Köpstadsö;FI;FI;14;1.47
+2010;rd;14801512;Södra Skärgården, Styrsö-Köpstadsö;PP;PP;6;0.63
+2010;rd;14801512;Södra Skärgården, Styrsö-Köpstadsö;SPI;SPI;0;0
+2010;rd;14801512;Södra Skärgården, Styrsö-Köpstadsö;OVR;OVR;0;0
+2010;rd;14801513;Södra Skärgården, Brännö-Asperö;M;M;257;31.04
+2010;rd;14801513;Södra Skärgården, Brännö-Asperö;C;C;27;3.26
+2010;rd;14801513;Södra Skärgården, Brännö-Asperö;FP;L;81;9.78
+2010;rd;14801513;Södra Skärgården, Brännö-Asperö;KD;KD;71;8.57
+2010;rd;14801513;Södra Skärgården, Brännö-Asperö;S;S;140;16.91
+2010;rd;14801513;Södra Skärgården, Brännö-Asperö;V;V;75;9.06
+2010;rd;14801513;Södra Skärgården, Brännö-Asperö;MP;MP;133;16.06
+2010;rd;14801513;Södra Skärgården, Brännö-Asperö;SD;SD;20;2.42
+2010;rd;14801513;Södra Skärgården, Brännö-Asperö;FI;FI;15;1.81
+2010;rd;14801513;Södra Skärgården, Brännö-Asperö;PP;PP;5;0.6
+2010;rd;14801513;Södra Skärgården, Brännö-Asperö;SPI;SPI;2;0.24
+2010;rd;14801513;Södra Skärgården, Brännö-Asperö;OVR;OVR;2;0.24
+2010;rd;14801611;Torslanda, Hjuvik;M;M;714;52.15
+2010;rd;14801611;Torslanda, Hjuvik;C;C;89;6.5
+2010;rd;14801611;Torslanda, Hjuvik;FP;L;186;13.59
+2010;rd;14801611;Torslanda, Hjuvik;KD;KD;148;10.81
+2010;rd;14801611;Torslanda, Hjuvik;S;S;100;7.3
+2010;rd;14801611;Torslanda, Hjuvik;V;V;14;1.02
+2010;rd;14801611;Torslanda, Hjuvik;MP;MP;72;5.26
+2010;rd;14801611;Torslanda, Hjuvik;SD;SD;32;2.34
+2010;rd;14801611;Torslanda, Hjuvik;FI;FI;6;0.44
+2010;rd;14801611;Torslanda, Hjuvik;PP;PP;7;0.51
+2010;rd;14801611;Torslanda, Hjuvik;SPI;SPI;0;0
+2010;rd;14801611;Torslanda, Hjuvik;OVR;OVR;1;0.07
+2010;rd;14801612;Torslanda, Hällsvik;M;M;669;52.14
+2010;rd;14801612;Torslanda, Hällsvik;C;C;64;4.99
+2010;rd;14801612;Torslanda, Hällsvik;FP;L;139;10.83
+2010;rd;14801612;Torslanda, Hällsvik;KD;KD;101;7.87
+2010;rd;14801612;Torslanda, Hällsvik;S;S;147;11.46
+2010;rd;14801612;Torslanda, Hällsvik;V;V;38;2.96
+2010;rd;14801612;Torslanda, Hällsvik;MP;MP;64;4.99
+2010;rd;14801612;Torslanda, Hällsvik;SD;SD;50;3.9
+2010;rd;14801612;Torslanda, Hällsvik;FI;FI;6;0.47
+2010;rd;14801612;Torslanda, Hällsvik;PP;PP;5;0.39
+2010;rd;14801612;Torslanda, Hällsvik;SPI;SPI;0;0
+2010;rd;14801612;Torslanda, Hällsvik;OVR;OVR;0;0
+2010;rd;14801613;Torslanda, Andalen;M;M;797;52.43
+2010;rd;14801613;Torslanda, Andalen;C;C;68;4.47
+2010;rd;14801613;Torslanda, Andalen;FP;L;149;9.8
+2010;rd;14801613;Torslanda, Andalen;KD;KD;125;8.22
+2010;rd;14801613;Torslanda, Andalen;S;S;206;13.55
+2010;rd;14801613;Torslanda, Andalen;V;V;29;1.91
+2010;rd;14801613;Torslanda, Andalen;MP;MP;92;6.05
+2010;rd;14801613;Torslanda, Andalen;SD;SD;46;3.03
+2010;rd;14801613;Torslanda, Andalen;FI;FI;1;0.07
+2010;rd;14801613;Torslanda, Andalen;PP;PP;7;0.46
+2010;rd;14801613;Torslanda, Andalen;SPI;SPI;0;0
+2010;rd;14801613;Torslanda, Andalen;OVR;OVR;0;0
+2010;rd;14801621;Torslanda, Tumlehed;M;M;537;41.56
+2010;rd;14801621;Torslanda, Tumlehed;C;C;36;2.79
+2010;rd;14801621;Torslanda, Tumlehed;FP;L;134;10.37
+2010;rd;14801621;Torslanda, Tumlehed;KD;KD;91;7.04
+2010;rd;14801621;Torslanda, Tumlehed;S;S;270;20.9
+2010;rd;14801621;Torslanda, Tumlehed;V;V;48;3.72
+2010;rd;14801621;Torslanda, Tumlehed;MP;MP;75;5.8
+2010;rd;14801621;Torslanda, Tumlehed;SD;SD;84;6.5
+2010;rd;14801621;Torslanda, Tumlehed;FI;FI;5;0.39
+2010;rd;14801621;Torslanda, Tumlehed;PP;PP;11;0.85
+2010;rd;14801621;Torslanda, Tumlehed;SPI;SPI;1;0.08
+2010;rd;14801621;Torslanda, Tumlehed;OVR;OVR;0;0
+2010;rd;14801622;Torslanda, Domarringen m fl;M;M;501;37.95
+2010;rd;14801622;Torslanda, Domarringen m fl;C;C;60;4.55
+2010;rd;14801622;Torslanda, Domarringen m fl;FP;L;163;12.35
+2010;rd;14801622;Torslanda, Domarringen m fl;KD;KD;90;6.82
+2010;rd;14801622;Torslanda, Domarringen m fl;S;S;293;22.2
+2010;rd;14801622;Torslanda, Domarringen m fl;V;V;38;2.88
+2010;rd;14801622;Torslanda, Domarringen m fl;MP;MP;89;6.74
+2010;rd;14801622;Torslanda, Domarringen m fl;SD;SD;69;5.23
+2010;rd;14801622;Torslanda, Domarringen m fl;FI;FI;5;0.38
+2010;rd;14801622;Torslanda, Domarringen m fl;PP;PP;11;0.83
+2010;rd;14801622;Torslanda, Domarringen m fl;SPI;SPI;0;0
+2010;rd;14801622;Torslanda, Domarringen m fl;OVR;OVR;1;0.08
+2010;rd;14801623;Torslanda, Torslanda;M;M;573;36.8
+2010;rd;14801623;Torslanda, Torslanda;C;C;61;3.92
+2010;rd;14801623;Torslanda, Torslanda;FP;L;184;11.82
+2010;rd;14801623;Torslanda, Torslanda;KD;KD;109;7
+2010;rd;14801623;Torslanda, Torslanda;S;S;345;22.16
+2010;rd;14801623;Torslanda, Torslanda;V;V;69;4.43
+2010;rd;14801623;Torslanda, Torslanda;MP;MP;90;5.78
+2010;rd;14801623;Torslanda, Torslanda;SD;SD;104;6.68
+2010;rd;14801623;Torslanda, Torslanda;FI;FI;11;0.71
+2010;rd;14801623;Torslanda, Torslanda;PP;PP;10;0.64
+2010;rd;14801623;Torslanda, Torslanda;SPI;SPI;0;0
+2010;rd;14801623;Torslanda, Torslanda;OVR;OVR;1;0.06
+2010;rd;14801624;Torslanda, Nolered;M;M;509;40.62
+2010;rd;14801624;Torslanda, Nolered;C;C;60;4.79
+2010;rd;14801624;Torslanda, Nolered;FP;L;153;12.21
+2010;rd;14801624;Torslanda, Nolered;KD;KD;81;6.46
+2010;rd;14801624;Torslanda, Nolered;S;S;255;20.35
+2010;rd;14801624;Torslanda, Nolered;V;V;41;3.27
+2010;rd;14801624;Torslanda, Nolered;MP;MP;68;5.43
+2010;rd;14801624;Torslanda, Nolered;SD;SD;75;5.99
+2010;rd;14801624;Torslanda, Nolered;FI;FI;7;0.56
+2010;rd;14801624;Torslanda, Nolered;PP;PP;4;0.32
+2010;rd;14801624;Torslanda, Nolered;SPI;SPI;0;0
+2010;rd;14801624;Torslanda, Nolered;OVR;OVR;0;0
+2010;rd;14801625;Torslanda, Amhult-Arendal;M;M;437;39.44
+2010;rd;14801625;Torslanda, Amhult-Arendal;C;C;34;3.07
+2010;rd;14801625;Torslanda, Amhult-Arendal;FP;L;107;9.66
+2010;rd;14801625;Torslanda, Amhult-Arendal;KD;KD;62;5.6
+2010;rd;14801625;Torslanda, Amhult-Arendal;S;S;293;26.44
+2010;rd;14801625;Torslanda, Amhult-Arendal;V;V;31;2.8
+2010;rd;14801625;Torslanda, Amhult-Arendal;MP;MP;63;5.69
+2010;rd;14801625;Torslanda, Amhult-Arendal;SD;SD;72;6.5
+2010;rd;14801625;Torslanda, Amhult-Arendal;FI;FI;4;0.36
+2010;rd;14801625;Torslanda, Amhult-Arendal;PP;PP;4;0.36
+2010;rd;14801625;Torslanda, Amhult-Arendal;SPI;SPI;0;0
+2010;rd;14801625;Torslanda, Amhult-Arendal;OVR;OVR;1;0.09
+2010;rd;14801631;Torslanda, Lilleby;M;M;880;47.9
+2010;rd;14801631;Torslanda, Lilleby;C;C;96;5.23
+2010;rd;14801631;Torslanda, Lilleby;FP;L;197;10.72
+2010;rd;14801631;Torslanda, Lilleby;KD;KD;105;5.72
+2010;rd;14801631;Torslanda, Lilleby;S;S;268;14.59
+2010;rd;14801631;Torslanda, Lilleby;V;V;52;2.83
+2010;rd;14801631;Torslanda, Lilleby;MP;MP;109;5.93
+2010;rd;14801631;Torslanda, Lilleby;SD;SD;111;6.04
+2010;rd;14801631;Torslanda, Lilleby;FI;FI;4;0.22
+2010;rd;14801631;Torslanda, Lilleby;PP;PP;11;0.6
+2010;rd;14801631;Torslanda, Lilleby;SPI;SPI;0;0
+2010;rd;14801631;Torslanda, Lilleby;OVR;OVR;4;0.21
+2010;rd;14801632;Torslanda, Björlanda;M;M;594;43.61
+2010;rd;14801632;Torslanda, Björlanda;C;C;68;4.99
+2010;rd;14801632;Torslanda, Björlanda;FP;L;124;9.1
+2010;rd;14801632;Torslanda, Björlanda;KD;KD;92;6.75
+2010;rd;14801632;Torslanda, Björlanda;S;S;224;16.45
+2010;rd;14801632;Torslanda, Björlanda;V;V;67;4.92
+2010;rd;14801632;Torslanda, Björlanda;MP;MP;79;5.8
+2010;rd;14801632;Torslanda, Björlanda;SD;SD;104;7.64
+2010;rd;14801632;Torslanda, Björlanda;FI;FI;4;0.29
+2010;rd;14801632;Torslanda, Björlanda;PP;PP;6;0.44
+2010;rd;14801632;Torslanda, Björlanda;SPI;SPI;0;0
+2010;rd;14801632;Torslanda, Björlanda;OVR;OVR;0;0
+2010;rd;14801633;Torslanda, Kvisljungeby;M;M;539;43.12
+2010;rd;14801633;Torslanda, Kvisljungeby;C;C;62;4.96
+2010;rd;14801633;Torslanda, Kvisljungeby;FP;L;111;8.88
+2010;rd;14801633;Torslanda, Kvisljungeby;KD;KD;56;4.48
+2010;rd;14801633;Torslanda, Kvisljungeby;S;S;241;19.28
+2010;rd;14801633;Torslanda, Kvisljungeby;V;V;46;3.68
+2010;rd;14801633;Torslanda, Kvisljungeby;MP;MP;61;4.88
+2010;rd;14801633;Torslanda, Kvisljungeby;SD;SD;123;9.84
+2010;rd;14801633;Torslanda, Kvisljungeby;FI;FI;4;0.32
+2010;rd;14801633;Torslanda, Kvisljungeby;PP;PP;7;0.56
+2010;rd;14801633;Torslanda, Kvisljungeby;SPI;SPI;0;0
+2010;rd;14801633;Torslanda, Kvisljungeby;OVR;OVR;0;0
+2010;rd;14801711;Biskopsgården, Svarte Mosse;M;M;94;11.42
+2010;rd;14801711;Biskopsgården, Svarte Mosse;C;C;11;1.34
+2010;rd;14801711;Biskopsgården, Svarte Mosse;FP;L;16;1.94
+2010;rd;14801711;Biskopsgården, Svarte Mosse;KD;KD;24;2.92
+2010;rd;14801711;Biskopsgården, Svarte Mosse;S;S;455;55.29
+2010;rd;14801711;Biskopsgården, Svarte Mosse;V;V;138;16.77
+2010;rd;14801711;Biskopsgården, Svarte Mosse;MP;MP;49;5.95
+2010;rd;14801711;Biskopsgården, Svarte Mosse;SD;SD;27;3.28
+2010;rd;14801711;Biskopsgården, Svarte Mosse;FI;FI;1;0.12
+2010;rd;14801711;Biskopsgården, Svarte Mosse;PP;PP;6;0.73
+2010;rd;14801711;Biskopsgården, Svarte Mosse;SPI;SPI;0;0
+2010;rd;14801711;Biskopsgården, Svarte Mosse;OVR;OVR;2;0.24
+2010;rd;14801712;Biskopsgården, Norra Biskopsgården;M;M;41;6.1
+2010;rd;14801712;Biskopsgården, Norra Biskopsgården;C;C;4;0.6
+2010;rd;14801712;Biskopsgården, Norra Biskopsgården;FP;L;16;2.38
+2010;rd;14801712;Biskopsgården, Norra Biskopsgården;KD;KD;9;1.34
+2010;rd;14801712;Biskopsgården, Norra Biskopsgården;S;S;373;55.51
+2010;rd;14801712;Biskopsgården, Norra Biskopsgården;V;V;124;18.45
+2010;rd;14801712;Biskopsgården, Norra Biskopsgården;MP;MP;54;8.04
+2010;rd;14801712;Biskopsgården, Norra Biskopsgården;SD;SD;25;3.72
+2010;rd;14801712;Biskopsgården, Norra Biskopsgården;FI;FI;10;1.49
+2010;rd;14801712;Biskopsgården, Norra Biskopsgården;PP;PP;10;1.49
+2010;rd;14801712;Biskopsgården, Norra Biskopsgården;SPI;SPI;0;0
+2010;rd;14801712;Biskopsgården, Norra Biskopsgården;OVR;OVR;6;0.9
+2010;rd;14801721;Biskopsgården, Södra Länsmansgården;M;M;92;15.28
+2010;rd;14801721;Biskopsgården, Södra Länsmansgården;C;C;1;0.17
+2010;rd;14801721;Biskopsgården, Södra Länsmansgården;FP;L;11;1.83
+2010;rd;14801721;Biskopsgården, Södra Länsmansgården;KD;KD;13;2.16
+2010;rd;14801721;Biskopsgården, Södra Länsmansgården;S;S;330;54.82
+2010;rd;14801721;Biskopsgården, Södra Länsmansgården;V;V;71;11.79
+2010;rd;14801721;Biskopsgården, Södra Länsmansgården;MP;MP;21;3.49
+2010;rd;14801721;Biskopsgården, Södra Länsmansgården;SD;SD;50;8.31
+2010;rd;14801721;Biskopsgården, Södra Länsmansgården;FI;FI;1;0.17
+2010;rd;14801721;Biskopsgården, Södra Länsmansgården;PP;PP;11;1.83
+2010;rd;14801721;Biskopsgården, Södra Länsmansgården;SPI;SPI;0;0
+2010;rd;14801721;Biskopsgården, Södra Länsmansgården;OVR;OVR;1;0.17
+2010;rd;14801722;Biskopsgården, Länsmansgårdens Centr;M;M;95;13.09
+2010;rd;14801722;Biskopsgården, Länsmansgårdens Centr;C;C;12;1.65
+2010;rd;14801722;Biskopsgården, Länsmansgårdens Centr;FP;L;24;3.31
+2010;rd;14801722;Biskopsgården, Länsmansgårdens Centr;KD;KD;9;1.24
+2010;rd;14801722;Biskopsgården, Länsmansgårdens Centr;S;S;366;50.41
+2010;rd;14801722;Biskopsgården, Länsmansgårdens Centr;V;V;87;11.98
+2010;rd;14801722;Biskopsgården, Länsmansgårdens Centr;MP;MP;49;6.75
+2010;rd;14801722;Biskopsgården, Länsmansgårdens Centr;SD;SD;67;9.23
+2010;rd;14801722;Biskopsgården, Länsmansgårdens Centr;FI;FI;2;0.28
+2010;rd;14801722;Biskopsgården, Länsmansgårdens Centr;PP;PP;15;2.07
+2010;rd;14801722;Biskopsgården, Länsmansgårdens Centr;SPI;SPI;0;0
+2010;rd;14801722;Biskopsgården, Länsmansgårdens Centr;OVR;OVR;0;0
+2010;rd;14801723;Biskopsgården, Norra Länsmansgården;M;M;118;15.73
+2010;rd;14801723;Biskopsgården, Norra Länsmansgården;C;C;11;1.47
+2010;rd;14801723;Biskopsgården, Norra Länsmansgården;FP;L;33;4.4
+2010;rd;14801723;Biskopsgården, Norra Länsmansgården;KD;KD;21;2.8
+2010;rd;14801723;Biskopsgården, Norra Länsmansgården;S;S;369;49.2
+2010;rd;14801723;Biskopsgården, Norra Länsmansgården;V;V;86;11.47
+2010;rd;14801723;Biskopsgården, Norra Länsmansgården;MP;MP;26;3.47
+2010;rd;14801723;Biskopsgården, Norra Länsmansgården;SD;SD;67;8.93
+2010;rd;14801723;Biskopsgården, Norra Länsmansgården;FI;FI;5;0.67
+2010;rd;14801723;Biskopsgården, Norra Länsmansgården;PP;PP;12;1.6
+2010;rd;14801723;Biskopsgården, Norra Länsmansgården;SPI;SPI;0;0
+2010;rd;14801723;Biskopsgården, Norra Länsmansgården;OVR;OVR;2;0.27
+2010;rd;14801731;Biskopsgården, Stackmolnsgatan m fl;M;M;144;14.16
+2010;rd;14801731;Biskopsgården, Stackmolnsgatan m fl;C;C;11;1.08
+2010;rd;14801731;Biskopsgården, Stackmolnsgatan m fl;FP;L;31;3.05
+2010;rd;14801731;Biskopsgården, Stackmolnsgatan m fl;KD;KD;22;2.16
+2010;rd;14801731;Biskopsgården, Stackmolnsgatan m fl;S;S;522;51.33
+2010;rd;14801731;Biskopsgården, Stackmolnsgatan m fl;V;V;97;9.54
+2010;rd;14801731;Biskopsgården, Stackmolnsgatan m fl;MP;MP;68;6.69
+2010;rd;14801731;Biskopsgården, Stackmolnsgatan m fl;SD;SD;106;10.42
+2010;rd;14801731;Biskopsgården, Stackmolnsgatan m fl;FI;FI;3;0.29
+2010;rd;14801731;Biskopsgården, Stackmolnsgatan m fl;PP;PP;11;1.08
+2010;rd;14801731;Biskopsgården, Stackmolnsgatan m fl;SPI;SPI;0;0
+2010;rd;14801731;Biskopsgården, Stackmolnsgatan m fl;OVR;OVR;2;0.2
+2010;rd;14801732;Biskopsgården, Badvädersgatan m fl;M;M;160;19.83
+2010;rd;14801732;Biskopsgården, Badvädersgatan m fl;C;C;13;1.61
+2010;rd;14801732;Biskopsgården, Badvädersgatan m fl;FP;L;39;4.83
+2010;rd;14801732;Biskopsgården, Badvädersgatan m fl;KD;KD;24;2.97
+2010;rd;14801732;Biskopsgården, Badvädersgatan m fl;S;S;369;45.72
+2010;rd;14801732;Biskopsgården, Badvädersgatan m fl;V;V;83;10.29
+2010;rd;14801732;Biskopsgården, Badvädersgatan m fl;MP;MP;55;6.82
+2010;rd;14801732;Biskopsgården, Badvädersgatan m fl;SD;SD;57;7.06
+2010;rd;14801732;Biskopsgården, Badvädersgatan m fl;FI;FI;0;0
+2010;rd;14801732;Biskopsgården, Badvädersgatan m fl;PP;PP;6;0.74
+2010;rd;14801732;Biskopsgården, Badvädersgatan m fl;SPI;SPI;0;0
+2010;rd;14801732;Biskopsgården, Badvädersgatan m fl;OVR;OVR;1;0.12
+2010;rd;14801741;Biskopsgården, Södra Biskopsgården;M;M;132;17.62
+2010;rd;14801741;Biskopsgården, Södra Biskopsgården;C;C;9;1.2
+2010;rd;14801741;Biskopsgården, Södra Biskopsgården;FP;L;41;5.47
+2010;rd;14801741;Biskopsgården, Södra Biskopsgården;KD;KD;24;3.2
+2010;rd;14801741;Biskopsgården, Södra Biskopsgården;S;S;324;43.26
+2010;rd;14801741;Biskopsgården, Södra Biskopsgården;V;V;92;12.28
+2010;rd;14801741;Biskopsgården, Södra Biskopsgården;MP;MP;59;7.88
+2010;rd;14801741;Biskopsgården, Södra Biskopsgården;SD;SD;48;6.41
+2010;rd;14801741;Biskopsgården, Södra Biskopsgården;FI;FI;4;0.53
+2010;rd;14801741;Biskopsgården, Södra Biskopsgården;PP;PP;8;1.07
+2010;rd;14801741;Biskopsgården, Södra Biskopsgården;SPI;SPI;0;0
+2010;rd;14801741;Biskopsgården, Södra Biskopsgården;OVR;OVR;8;1.07
+2010;rd;14801742;Biskopsgården, Väderlekstorget;M;M;84;13.17
+2010;rd;14801742;Biskopsgården, Väderlekstorget;C;C;9;1.41
+2010;rd;14801742;Biskopsgården, Väderlekstorget;FP;L;30;4.7
+2010;rd;14801742;Biskopsgården, Väderlekstorget;KD;KD;15;2.35
+2010;rd;14801742;Biskopsgården, Väderlekstorget;S;S;184;28.84
+2010;rd;14801742;Biskopsgården, Väderlekstorget;V;V;137;21.47
+2010;rd;14801742;Biskopsgården, Väderlekstorget;MP;MP;97;15.2
+2010;rd;14801742;Biskopsgården, Väderlekstorget;SD;SD;30;4.7
+2010;rd;14801742;Biskopsgården, Väderlekstorget;FI;FI;24;3.76
+2010;rd;14801742;Biskopsgården, Väderlekstorget;PP;PP;21;3.29
+2010;rd;14801742;Biskopsgården, Väderlekstorget;SPI;SPI;0;0
+2010;rd;14801742;Biskopsgården, Väderlekstorget;OVR;OVR;7;1.09
+2010;rd;14801743;Biskopsgården, Treröset;M;M;125;12.65
+2010;rd;14801743;Biskopsgården, Treröset;C;C;18;1.82
+2010;rd;14801743;Biskopsgården, Treröset;FP;L;23;2.33
+2010;rd;14801743;Biskopsgården, Treröset;KD;KD;11;1.11
+2010;rd;14801743;Biskopsgården, Treröset;S;S;371;37.55
+2010;rd;14801743;Biskopsgården, Treröset;V;V;169;17.11
+2010;rd;14801743;Biskopsgården, Treröset;MP;MP;154;15.59
+2010;rd;14801743;Biskopsgården, Treröset;SD;SD;61;6.17
+2010;rd;14801743;Biskopsgården, Treröset;FI;FI;27;2.73
+2010;rd;14801743;Biskopsgården, Treröset;PP;PP;21;2.13
+2010;rd;14801743;Biskopsgården, Treröset;SPI;SPI;0;0
+2010;rd;14801743;Biskopsgården, Treröset;OVR;OVR;8;0.8
+2010;rd;14801744;Biskopsgården, Vårväderstorget;M;M;132;12.61
+2010;rd;14801744;Biskopsgården, Vårväderstorget;C;C;19;1.81
+2010;rd;14801744;Biskopsgården, Vårväderstorget;FP;L;42;4.01
+2010;rd;14801744;Biskopsgården, Vårväderstorget;KD;KD;26;2.48
+2010;rd;14801744;Biskopsgården, Vårväderstorget;S;S;482;46.04
+2010;rd;14801744;Biskopsgården, Vårväderstorget;V;V;168;16.05
+2010;rd;14801744;Biskopsgården, Vårväderstorget;MP;MP;84;8.02
+2010;rd;14801744;Biskopsgården, Vårväderstorget;SD;SD;71;6.78
+2010;rd;14801744;Biskopsgården, Vårväderstorget;FI;FI;8;0.76
+2010;rd;14801744;Biskopsgården, Vårväderstorget;PP;PP;8;0.76
+2010;rd;14801744;Biskopsgården, Vårväderstorget;SPI;SPI;0;0
+2010;rd;14801744;Biskopsgården, Vårväderstorget;OVR;OVR;7;0.67
+2010;rd;14801751;Biskopsgården, Jättesten;M;M;287;24.43
+2010;rd;14801751;Biskopsgården, Jättesten;C;C;16;1.36
+2010;rd;14801751;Biskopsgården, Jättesten;FP;L;73;6.21
+2010;rd;14801751;Biskopsgården, Jättesten;KD;KD;31;2.64
+2010;rd;14801751;Biskopsgården, Jättesten;S;S;483;41.11
+2010;rd;14801751;Biskopsgården, Jättesten;V;V;118;10.04
+2010;rd;14801751;Biskopsgården, Jättesten;MP;MP;81;6.89
+2010;rd;14801751;Biskopsgården, Jättesten;SD;SD;69;5.87
+2010;rd;14801751;Biskopsgården, Jättesten;FI;FI;4;0.34
+2010;rd;14801751;Biskopsgården, Jättesten;PP;PP;7;0.6
+2010;rd;14801751;Biskopsgården, Jättesten;SPI;SPI;0;0
+2010;rd;14801751;Biskopsgården, Jättesten;OVR;OVR;6;0.51
+2010;rd;14801752;Biskopsgården, Svartedalen;M;M;156;15.46
+2010;rd;14801752;Biskopsgården, Svartedalen;C;C;10;0.99
+2010;rd;14801752;Biskopsgården, Svartedalen;FP;L;44;4.36
+2010;rd;14801752;Biskopsgården, Svartedalen;KD;KD;23;2.28
+2010;rd;14801752;Biskopsgården, Svartedalen;S;S;437;43.31
+2010;rd;14801752;Biskopsgården, Svartedalen;V;V;111;11
+2010;rd;14801752;Biskopsgården, Svartedalen;MP;MP;105;10.41
+2010;rd;14801752;Biskopsgården, Svartedalen;SD;SD;97;9.61
+2010;rd;14801752;Biskopsgården, Svartedalen;FI;FI;8;0.79
+2010;rd;14801752;Biskopsgården, Svartedalen;PP;PP;16;1.59
+2010;rd;14801752;Biskopsgården, Svartedalen;SPI;SPI;0;0
+2010;rd;14801752;Biskopsgården, Svartedalen;OVR;OVR;2;0.2
+2010;rd;14801753;Biskopsgården, Kärrsmossen;M;M;371;29.7
+2010;rd;14801753;Biskopsgården, Kärrsmossen;C;C;59;4.72
+2010;rd;14801753;Biskopsgården, Kärrsmossen;FP;L;120;9.61
+2010;rd;14801753;Biskopsgården, Kärrsmossen;KD;KD;58;4.64
+2010;rd;14801753;Biskopsgården, Kärrsmossen;S;S;330;26.42
+2010;rd;14801753;Biskopsgården, Kärrsmossen;V;V;96;7.69
+2010;rd;14801753;Biskopsgården, Kärrsmossen;MP;MP;116;9.29
+2010;rd;14801753;Biskopsgården, Kärrsmossen;SD;SD;67;5.36
+2010;rd;14801753;Biskopsgården, Kärrsmossen;FI;FI;10;0.8
+2010;rd;14801753;Biskopsgården, Kärrsmossen;PP;PP;20;1.6
+2010;rd;14801753;Biskopsgården, Kärrsmossen;SPI;SPI;0;0
+2010;rd;14801753;Biskopsgården, Kärrsmossen;OVR;OVR;2;0.16
+2010;rd;14801811;Lundby, Lindholmen;M;M;611;34.48
+2010;rd;14801811;Lundby, Lindholmen;C;C;90;5.08
+2010;rd;14801811;Lundby, Lindholmen;FP;L;182;10.27
+2010;rd;14801811;Lundby, Lindholmen;KD;KD;87;4.91
+2010;rd;14801811;Lundby, Lindholmen;S;S;288;16.25
+2010;rd;14801811;Lundby, Lindholmen;V;V;149;8.41
+2010;rd;14801811;Lundby, Lindholmen;MP;MP;288;16.25
+2010;rd;14801811;Lundby, Lindholmen;SD;SD;44;2.48
+2010;rd;14801811;Lundby, Lindholmen;FI;FI;20;1.13
+2010;rd;14801811;Lundby, Lindholmen;PP;PP;11;0.62
+2010;rd;14801811;Lundby, Lindholmen;SPI;SPI;0;0
+2010;rd;14801811;Lundby, Lindholmen;OVR;OVR;2;0.11
+2010;rd;14801812;Lundby, Västra Rambergsstaden;M;M;192;16.28
+2010;rd;14801812;Lundby, Västra Rambergsstaden;C;C;29;2.46
+2010;rd;14801812;Lundby, Västra Rambergsstaden;FP;L;71;6.02
+2010;rd;14801812;Lundby, Västra Rambergsstaden;KD;KD;30;2.54
+2010;rd;14801812;Lundby, Västra Rambergsstaden;S;S;364;30.87
+2010;rd;14801812;Lundby, Västra Rambergsstaden;V;V;175;14.84
+2010;rd;14801812;Lundby, Västra Rambergsstaden;MP;MP;190;16.12
+2010;rd;14801812;Lundby, Västra Rambergsstaden;SD;SD;91;7.72
+2010;rd;14801812;Lundby, Västra Rambergsstaden;FI;FI;17;1.44
+2010;rd;14801812;Lundby, Västra Rambergsstaden;PP;PP;17;1.44
+2010;rd;14801812;Lundby, Västra Rambergsstaden;SPI;SPI;0;0
+2010;rd;14801812;Lundby, Västra Rambergsstaden;OVR;OVR;3;0.24
+2010;rd;14801813;Lundby, Östra Rambergsstaden;M;M;291;21.98
+2010;rd;14801813;Lundby, Östra Rambergsstaden;C;C;25;1.89
+2010;rd;14801813;Lundby, Östra Rambergsstaden;FP;L;86;6.5
+2010;rd;14801813;Lundby, Östra Rambergsstaden;KD;KD;67;5.06
+2010;rd;14801813;Lundby, Östra Rambergsstaden;S;S;402;30.36
+2010;rd;14801813;Lundby, Östra Rambergsstaden;V;V;165;12.46
+2010;rd;14801813;Lundby, Östra Rambergsstaden;MP;MP;165;12.46
+2010;rd;14801813;Lundby, Östra Rambergsstaden;SD;SD;88;6.65
+2010;rd;14801813;Lundby, Östra Rambergsstaden;FI;FI;11;0.83
+2010;rd;14801813;Lundby, Östra Rambergsstaden;PP;PP;20;1.51
+2010;rd;14801813;Lundby, Östra Rambergsstaden;SPI;SPI;0;0
+2010;rd;14801813;Lundby, Östra Rambergsstaden;OVR;OVR;4;0.32
+2010;rd;14801814;Lundby, Västra Brämaregården;M;M;230;20.21
+2010;rd;14801814;Lundby, Västra Brämaregården;C;C;32;2.81
+2010;rd;14801814;Lundby, Västra Brämaregården;FP;L;78;6.85
+2010;rd;14801814;Lundby, Västra Brämaregården;KD;KD;50;4.39
+2010;rd;14801814;Lundby, Västra Brämaregården;S;S;342;30.05
+2010;rd;14801814;Lundby, Västra Brämaregården;V;V;143;12.57
+2010;rd;14801814;Lundby, Västra Brämaregården;MP;MP;148;13.01
+2010;rd;14801814;Lundby, Västra Brämaregården;SD;SD;77;6.77
+2010;rd;14801814;Lundby, Västra Brämaregården;FI;FI;20;1.76
+2010;rd;14801814;Lundby, Västra Brämaregården;PP;PP;12;1.05
+2010;rd;14801814;Lundby, Västra Brämaregården;SPI;SPI;0;0
+2010;rd;14801814;Lundby, Västra Brämaregården;OVR;OVR;6;0.54
+2010;rd;14801815;Lundby, Östra Brämaregården;M;M;200;19.7
+2010;rd;14801815;Lundby, Östra Brämaregården;C;C;42;4.14
+2010;rd;14801815;Lundby, Östra Brämaregården;FP;L;57;5.62
+2010;rd;14801815;Lundby, Östra Brämaregården;KD;KD;30;2.96
+2010;rd;14801815;Lundby, Östra Brämaregården;S;S;237;23.35
+2010;rd;14801815;Lundby, Östra Brämaregården;V;V;146;14.38
+2010;rd;14801815;Lundby, Östra Brämaregården;MP;MP;211;20.79
+2010;rd;14801815;Lundby, Östra Brämaregården;SD;SD;43;4.24
+2010;rd;14801815;Lundby, Östra Brämaregården;FI;FI;24;2.36
+2010;rd;14801815;Lundby, Östra Brämaregården;PP;PP;22;2.17
+2010;rd;14801815;Lundby, Östra Brämaregården;SPI;SPI;0;0
+2010;rd;14801815;Lundby, Östra Brämaregården;OVR;OVR;3;0.3
+2010;rd;14801816;Lundby, Lundbyvassen;M;M;104;21.27
+2010;rd;14801816;Lundby, Lundbyvassen;C;C;18;3.68
+2010;rd;14801816;Lundby, Lundbyvassen;FP;L;33;6.75
+2010;rd;14801816;Lundby, Lundbyvassen;KD;KD;14;2.86
+2010;rd;14801816;Lundby, Lundbyvassen;S;S;146;29.86
+2010;rd;14801816;Lundby, Lundbyvassen;V;V;61;12.47
+2010;rd;14801816;Lundby, Lundbyvassen;MP;MP;60;12.27
+2010;rd;14801816;Lundby, Lundbyvassen;SD;SD;32;6.54
+2010;rd;14801816;Lundby, Lundbyvassen;FI;FI;6;1.23
+2010;rd;14801816;Lundby, Lundbyvassen;PP;PP;11;2.25
+2010;rd;14801816;Lundby, Lundbyvassen;SPI;SPI;0;0
+2010;rd;14801816;Lundby, Lundbyvassen;OVR;OVR;4;0.8
+2010;rd;14801821;Lundby, Flunsås;M;M;219;21.58
+2010;rd;14801821;Lundby, Flunsås;C;C;32;3.15
+2010;rd;14801821;Lundby, Flunsås;FP;L;66;6.5
+2010;rd;14801821;Lundby, Flunsås;KD;KD;39;3.84
+2010;rd;14801821;Lundby, Flunsås;S;S;300;29.56
+2010;rd;14801821;Lundby, Flunsås;V;V;108;10.64
+2010;rd;14801821;Lundby, Flunsås;MP;MP;152;14.98
+2010;rd;14801821;Lundby, Flunsås;SD;SD;63;6.21
+2010;rd;14801821;Lundby, Flunsås;FI;FI;18;1.77
+2010;rd;14801821;Lundby, Flunsås;PP;PP;11;1.08
+2010;rd;14801821;Lundby, Flunsås;SPI;SPI;1;0.1
+2010;rd;14801821;Lundby, Flunsås;OVR;OVR;6;0.6
+2010;rd;14801822;Lundby, Bjurslätt;M;M;202;19.73
+2010;rd;14801822;Lundby, Bjurslätt;C;C;28;2.73
+2010;rd;14801822;Lundby, Bjurslätt;FP;L;50;4.88
+2010;rd;14801822;Lundby, Bjurslätt;KD;KD;36;3.52
+2010;rd;14801822;Lundby, Bjurslätt;S;S;407;39.75
+2010;rd;14801822;Lundby, Bjurslätt;V;V;102;9.96
+2010;rd;14801822;Lundby, Bjurslätt;MP;MP;107;10.45
+2010;rd;14801822;Lundby, Bjurslätt;SD;SD;61;5.96
+2010;rd;14801822;Lundby, Bjurslätt;FI;FI;10;0.98
+2010;rd;14801822;Lundby, Bjurslätt;PP;PP;15;1.46
+2010;rd;14801822;Lundby, Bjurslätt;SPI;SPI;0;0
+2010;rd;14801822;Lundby, Bjurslätt;OVR;OVR;6;0.58
+2010;rd;14801823;Lundby, Norra Kvillebäcken;M;M;233;23.05
+2010;rd;14801823;Lundby, Norra Kvillebäcken;C;C;22;2.18
+2010;rd;14801823;Lundby, Norra Kvillebäcken;FP;L;66;6.53
+2010;rd;14801823;Lundby, Norra Kvillebäcken;KD;KD;35;3.46
+2010;rd;14801823;Lundby, Norra Kvillebäcken;S;S;315;31.16
+2010;rd;14801823;Lundby, Norra Kvillebäcken;V;V;131;12.96
+2010;rd;14801823;Lundby, Norra Kvillebäcken;MP;MP;104;10.29
+2010;rd;14801823;Lundby, Norra Kvillebäcken;SD;SD;83;8.21
+2010;rd;14801823;Lundby, Norra Kvillebäcken;FI;FI;10;0.99
+2010;rd;14801823;Lundby, Norra Kvillebäcken;PP;PP;9;0.89
+2010;rd;14801823;Lundby, Norra Kvillebäcken;SPI;SPI;0;0
+2010;rd;14801823;Lundby, Norra Kvillebäcken;OVR;OVR;3;0.3
+2010;rd;14801824;Lundby, Wieselgrensplatsen;M;M;162;20.02
+2010;rd;14801824;Lundby, Wieselgrensplatsen;C;C;17;2.1
+2010;rd;14801824;Lundby, Wieselgrensplatsen;FP;L;43;5.32
+2010;rd;14801824;Lundby, Wieselgrensplatsen;KD;KD;27;3.34
+2010;rd;14801824;Lundby, Wieselgrensplatsen;S;S;289;35.72
+2010;rd;14801824;Lundby, Wieselgrensplatsen;V;V;102;12.61
+2010;rd;14801824;Lundby, Wieselgrensplatsen;MP;MP;99;12.24
+2010;rd;14801824;Lundby, Wieselgrensplatsen;SD;SD;48;5.93
+2010;rd;14801824;Lundby, Wieselgrensplatsen;FI;FI;10;1.24
+2010;rd;14801824;Lundby, Wieselgrensplatsen;PP;PP;10;1.24
+2010;rd;14801824;Lundby, Wieselgrensplatsen;SPI;SPI;0;0
+2010;rd;14801824;Lundby, Wieselgrensplatsen;OVR;OVR;2;0.25
+2010;rd;14801825;Lundby, Södra Kvillebäcken;M;M;169;16.97
+2010;rd;14801825;Lundby, Södra Kvillebäcken;C;C;29;2.91
+2010;rd;14801825;Lundby, Södra Kvillebäcken;FP;L;67;6.73
+2010;rd;14801825;Lundby, Södra Kvillebäcken;KD;KD;23;2.31
+2010;rd;14801825;Lundby, Södra Kvillebäcken;S;S;271;27.21
+2010;rd;14801825;Lundby, Södra Kvillebäcken;V;V;169;16.97
+2010;rd;14801825;Lundby, Södra Kvillebäcken;MP;MP;170;17.07
+2010;rd;14801825;Lundby, Södra Kvillebäcken;SD;SD;64;6.43
+2010;rd;14801825;Lundby, Södra Kvillebäcken;FI;FI;17;1.71
+2010;rd;14801825;Lundby, Södra Kvillebäcken;PP;PP;14;1.41
+2010;rd;14801825;Lundby, Södra Kvillebäcken;SPI;SPI;0;0
+2010;rd;14801825;Lundby, Södra Kvillebäcken;OVR;OVR;3;0.3
+2010;rd;14801831;Lundby, Hilldedal;M;M;337;28.51
+2010;rd;14801831;Lundby, Hilldedal;C;C;32;2.71
+2010;rd;14801831;Lundby, Hilldedal;FP;L;91;7.7
+2010;rd;14801831;Lundby, Hilldedal;KD;KD;51;4.31
+2010;rd;14801831;Lundby, Hilldedal;S;S;354;29.95
+2010;rd;14801831;Lundby, Hilldedal;V;V;106;8.97
+2010;rd;14801831;Lundby, Hilldedal;MP;MP;101;8.54
+2010;rd;14801831;Lundby, Hilldedal;SD;SD;87;7.36
+2010;rd;14801831;Lundby, Hilldedal;FI;FI;9;0.76
+2010;rd;14801831;Lundby, Hilldedal;PP;PP;11;0.93
+2010;rd;14801831;Lundby, Hilldedal;SPI;SPI;0;0
+2010;rd;14801831;Lundby, Hilldedal;OVR;OVR;3;0.25
+2010;rd;14801832;Lundby, Slätta Damm;M;M;239;22.53
+2010;rd;14801832;Lundby, Slätta Damm;C;C;29;2.73
+2010;rd;14801832;Lundby, Slätta Damm;FP;L;83;7.82
+2010;rd;14801832;Lundby, Slätta Damm;KD;KD;46;4.34
+2010;rd;14801832;Lundby, Slätta Damm;S;S;357;33.65
+2010;rd;14801832;Lundby, Slätta Damm;V;V;105;9.9
+2010;rd;14801832;Lundby, Slätta Damm;MP;MP;96;9.05
+2010;rd;14801832;Lundby, Slätta Damm;SD;SD;84;7.92
+2010;rd;14801832;Lundby, Slätta Damm;FI;FI;10;0.94
+2010;rd;14801832;Lundby, Slätta Damm;PP;PP;11;1.04
+2010;rd;14801832;Lundby, Slätta Damm;SPI;SPI;0;0
+2010;rd;14801832;Lundby, Slätta Damm;OVR;OVR;1;0.09
+2010;rd;14801841;Lundby, Södra Tolered;M;M;273;29.87
+2010;rd;14801841;Lundby, Södra Tolered;C;C;35;3.83
+2010;rd;14801841;Lundby, Södra Tolered;FP;L;102;11.16
+2010;rd;14801841;Lundby, Södra Tolered;KD;KD;54;5.91
+2010;rd;14801841;Lundby, Södra Tolered;S;S;247;27.02
+2010;rd;14801841;Lundby, Södra Tolered;V;V;62;6.78
+2010;rd;14801841;Lundby, Södra Tolered;MP;MP;84;9.19
+2010;rd;14801841;Lundby, Södra Tolered;SD;SD;44;4.81
+2010;rd;14801841;Lundby, Södra Tolered;FI;FI;2;0.22
+2010;rd;14801841;Lundby, Södra Tolered;PP;PP;10;1.09
+2010;rd;14801841;Lundby, Södra Tolered;SPI;SPI;0;0
+2010;rd;14801841;Lundby, Södra Tolered;OVR;OVR;1;0.11
+2010;rd;14801842;Lundby, Norra Tolered;M;M;362;40.18
+2010;rd;14801842;Lundby, Norra Tolered;C;C;41;4.55
+2010;rd;14801842;Lundby, Norra Tolered;FP;L;72;7.99
+2010;rd;14801842;Lundby, Norra Tolered;KD;KD;62;6.88
+2010;rd;14801842;Lundby, Norra Tolered;S;S;201;22.31
+2010;rd;14801842;Lundby, Norra Tolered;V;V;65;7.21
+2010;rd;14801842;Lundby, Norra Tolered;MP;MP;63;6.99
+2010;rd;14801842;Lundby, Norra Tolered;SD;SD;31;3.44
+2010;rd;14801842;Lundby, Norra Tolered;FI;FI;3;0.33
+2010;rd;14801842;Lundby, Norra Tolered;PP;PP;1;0.11
+2010;rd;14801842;Lundby, Norra Tolered;SPI;SPI;0;0
+2010;rd;14801842;Lundby, Norra Tolered;OVR;OVR;0;0
+2010;rd;14801843;Lundby, Kärrdalen;M;M;484;41.72
+2010;rd;14801843;Lundby, Kärrdalen;C;C;30;2.59
+2010;rd;14801843;Lundby, Kärrdalen;FP;L;123;10.6
+2010;rd;14801843;Lundby, Kärrdalen;KD;KD;77;6.64
+2010;rd;14801843;Lundby, Kärrdalen;S;S;234;20.17
+2010;rd;14801843;Lundby, Kärrdalen;V;V;51;4.4
+2010;rd;14801843;Lundby, Kärrdalen;MP;MP;89;7.67
+2010;rd;14801843;Lundby, Kärrdalen;SD;SD;62;5.34
+2010;rd;14801843;Lundby, Kärrdalen;FI;FI;1;0.09
+2010;rd;14801843;Lundby, Kärrdalen;PP;PP;7;0.6
+2010;rd;14801843;Lundby, Kärrdalen;SPI;SPI;0;0
+2010;rd;14801843;Lundby, Kärrdalen;OVR;OVR;2;0.17
+2010;rd;14801851;Lundby, Västra Eriksberg;M;M;699;42.26
+2010;rd;14801851;Lundby, Västra Eriksberg;C;C;78;4.72
+2010;rd;14801851;Lundby, Västra Eriksberg;FP;L;216;13.06
+2010;rd;14801851;Lundby, Västra Eriksberg;KD;KD;107;6.47
+2010;rd;14801851;Lundby, Västra Eriksberg;S;S;268;16.2
+2010;rd;14801851;Lundby, Västra Eriksberg;V;V;68;4.11
+2010;rd;14801851;Lundby, Västra Eriksberg;MP;MP;149;9.01
+2010;rd;14801851;Lundby, Västra Eriksberg;SD;SD;55;3.33
+2010;rd;14801851;Lundby, Västra Eriksberg;FI;FI;7;0.42
+2010;rd;14801851;Lundby, Västra Eriksberg;PP;PP;7;0.42
+2010;rd;14801851;Lundby, Västra Eriksberg;SPI;SPI;0;0
+2010;rd;14801851;Lundby, Västra Eriksberg;OVR;OVR;0;0
+2010;rd;14801852;Lundby, Södra Bräcke;M;M;210;23.86
+2010;rd;14801852;Lundby, Södra Bräcke;C;C;21;2.39
+2010;rd;14801852;Lundby, Södra Bräcke;FP;L;63;7.16
+2010;rd;14801852;Lundby, Södra Bräcke;KD;KD;32;3.64
+2010;rd;14801852;Lundby, Södra Bräcke;S;S;259;29.43
+2010;rd;14801852;Lundby, Södra Bräcke;V;V;100;11.36
+2010;rd;14801852;Lundby, Södra Bräcke;MP;MP;88;10
+2010;rd;14801852;Lundby, Södra Bräcke;SD;SD;91;10.34
+2010;rd;14801852;Lundby, Södra Bräcke;FI;FI;7;0.8
+2010;rd;14801852;Lundby, Södra Bräcke;PP;PP;7;0.8
+2010;rd;14801852;Lundby, Södra Bräcke;SPI;SPI;0;0
+2010;rd;14801852;Lundby, Södra Bräcke;OVR;OVR;2;0.22
+2010;rd;14801853;Lundby, Norra Bräcke;M;M;270;25.81
+2010;rd;14801853;Lundby, Norra Bräcke;C;C;46;4.4
+2010;rd;14801853;Lundby, Norra Bräcke;FP;L;69;6.6
+2010;rd;14801853;Lundby, Norra Bräcke;KD;KD;59;5.64
+2010;rd;14801853;Lundby, Norra Bräcke;S;S;300;28.68
+2010;rd;14801853;Lundby, Norra Bräcke;V;V;103;9.85
+2010;rd;14801853;Lundby, Norra Bräcke;MP;MP;84;8.03
+2010;rd;14801853;Lundby, Norra Bräcke;SD;SD;93;8.89
+2010;rd;14801853;Lundby, Norra Bräcke;FI;FI;9;0.86
+2010;rd;14801853;Lundby, Norra Bräcke;PP;PP;12;1.15
+2010;rd;14801853;Lundby, Norra Bräcke;SPI;SPI;0;0
+2010;rd;14801853;Lundby, Norra Bräcke;OVR;OVR;1;0.1
+2010;rd;14801854;Lundby, Kyrkbyn;M;M;153;17.92
+2010;rd;14801854;Lundby, Kyrkbyn;C;C;14;1.64
+2010;rd;14801854;Lundby, Kyrkbyn;FP;L;41;4.8
+2010;rd;14801854;Lundby, Kyrkbyn;KD;KD;24;2.81
+2010;rd;14801854;Lundby, Kyrkbyn;S;S;318;37.24
+2010;rd;14801854;Lundby, Kyrkbyn;V;V;100;11.71
+2010;rd;14801854;Lundby, Kyrkbyn;MP;MP;104;12.18
+2010;rd;14801854;Lundby, Kyrkbyn;SD;SD;84;9.84
+2010;rd;14801854;Lundby, Kyrkbyn;FI;FI;7;0.82
+2010;rd;14801854;Lundby, Kyrkbyn;PP;PP;6;0.7
+2010;rd;14801854;Lundby, Kyrkbyn;SPI;SPI;0;0
+2010;rd;14801854;Lundby, Kyrkbyn;OVR;OVR;3;0.35
+2010;rd;14801855;Lundby, Norra Lundby;M;M;172;25.11
+2010;rd;14801855;Lundby, Norra Lundby;C;C;21;3.07
+2010;rd;14801855;Lundby, Norra Lundby;FP;L;40;5.84
+2010;rd;14801855;Lundby, Norra Lundby;KD;KD;34;4.96
+2010;rd;14801855;Lundby, Norra Lundby;S;S;202;29.49
+2010;rd;14801855;Lundby, Norra Lundby;V;V;65;9.49
+2010;rd;14801855;Lundby, Norra Lundby;MP;MP;85;12.41
+2010;rd;14801855;Lundby, Norra Lundby;SD;SD;52;7.59
+2010;rd;14801855;Lundby, Norra Lundby;FI;FI;3;0.44
+2010;rd;14801855;Lundby, Norra Lundby;PP;PP;8;1.17
+2010;rd;14801855;Lundby, Norra Lundby;SPI;SPI;0;0
+2010;rd;14801855;Lundby, Norra Lundby;OVR;OVR;3;0.44
+2010;rd;14801856;Lundby, Södra Lundby;M;M;165;21.15
+2010;rd;14801856;Lundby, Södra Lundby;C;C;37;4.74
+2010;rd;14801856;Lundby, Södra Lundby;FP;L;52;6.67
+2010;rd;14801856;Lundby, Södra Lundby;KD;KD;30;3.85
+2010;rd;14801856;Lundby, Södra Lundby;S;S;224;28.72
+2010;rd;14801856;Lundby, Södra Lundby;V;V;95;12.18
+2010;rd;14801856;Lundby, Södra Lundby;MP;MP;112;14.36
+2010;rd;14801856;Lundby, Södra Lundby;SD;SD;48;6.15
+2010;rd;14801856;Lundby, Södra Lundby;FI;FI;4;0.51
+2010;rd;14801856;Lundby, Södra Lundby;PP;PP;10;1.28
+2010;rd;14801856;Lundby, Södra Lundby;SPI;SPI;0;0
+2010;rd;14801856;Lundby, Södra Lundby;OVR;OVR;3;0.39
+2010;rd;14801857;Lundby, Östra Eriksberg;M;M;598;42.29
+2010;rd;14801857;Lundby, Östra Eriksberg;C;C;80;5.66
+2010;rd;14801857;Lundby, Östra Eriksberg;FP;L;168;11.88
+2010;rd;14801857;Lundby, Östra Eriksberg;KD;KD;89;6.29
+2010;rd;14801857;Lundby, Östra Eriksberg;S;S;240;16.97
+2010;rd;14801857;Lundby, Östra Eriksberg;V;V;58;4.1
+2010;rd;14801857;Lundby, Östra Eriksberg;MP;MP;113;7.99
+2010;rd;14801857;Lundby, Östra Eriksberg;SD;SD;51;3.61
+2010;rd;14801857;Lundby, Östra Eriksberg;FI;FI;5;0.35
+2010;rd;14801857;Lundby, Östra Eriksberg;PP;PP;9;0.64
+2010;rd;14801857;Lundby, Östra Eriksberg;SPI;SPI;0;0
+2010;rd;14801857;Lundby, Östra Eriksberg;OVR;OVR;3;0.21
+2010;rd;14801858;Lundby, Sannegården;M;M;481;45.04
+2010;rd;14801858;Lundby, Sannegården;C;C;51;4.78
+2010;rd;14801858;Lundby, Sannegården;FP;L;129;12.08
+2010;rd;14801858;Lundby, Sannegården;KD;KD;53;4.96
+2010;rd;14801858;Lundby, Sannegården;S;S;178;16.67
+2010;rd;14801858;Lundby, Sannegården;V;V;51;4.78
+2010;rd;14801858;Lundby, Sannegården;MP;MP;81;7.58
+2010;rd;14801858;Lundby, Sannegården;SD;SD;34;3.18
+2010;rd;14801858;Lundby, Sannegården;FI;FI;6;0.56
+2010;rd;14801858;Lundby, Sannegården;PP;PP;1;0.09
+2010;rd;14801858;Lundby, Sannegården;SPI;SPI;0;0
+2010;rd;14801858;Lundby, Sannegården;OVR;OVR;3;0.27
+2010;rd;14801911;Tuve-Säve, Tången;M;M;354;33.3
+2010;rd;14801911;Tuve-Säve, Tången;C;C;43;4.05
+2010;rd;14801911;Tuve-Säve, Tången;FP;L;120;11.29
+2010;rd;14801911;Tuve-Säve, Tången;KD;KD;71;6.68
+2010;rd;14801911;Tuve-Säve, Tången;S;S;306;28.79
+2010;rd;14801911;Tuve-Säve, Tången;V;V;38;3.57
+2010;rd;14801911;Tuve-Säve, Tången;MP;MP;73;6.87
+2010;rd;14801911;Tuve-Säve, Tången;SD;SD;50;4.7
+2010;rd;14801911;Tuve-Säve, Tången;FI;FI;4;0.38
+2010;rd;14801911;Tuve-Säve, Tången;PP;PP;4;0.38
+2010;rd;14801911;Tuve-Säve, Tången;SPI;SPI;0;0
+2010;rd;14801911;Tuve-Säve, Tången;OVR;OVR;0;0
+2010;rd;14801912;Tuve-Säve, Tuve;M;M;448;35.44
+2010;rd;14801912;Tuve-Säve, Tuve;C;C;31;2.45
+2010;rd;14801912;Tuve-Säve, Tuve;FP;L;131;10.36
+2010;rd;14801912;Tuve-Säve, Tuve;KD;KD;97;7.67
+2010;rd;14801912;Tuve-Säve, Tuve;S;S;296;23.42
+2010;rd;14801912;Tuve-Säve, Tuve;V;V;73;5.78
+2010;rd;14801912;Tuve-Säve, Tuve;MP;MP;102;8.07
+2010;rd;14801912;Tuve-Säve, Tuve;SD;SD;72;5.7
+2010;rd;14801912;Tuve-Säve, Tuve;FI;FI;5;0.4
+2010;rd;14801912;Tuve-Säve, Tuve;PP;PP;5;0.4
+2010;rd;14801912;Tuve-Säve, Tuve;SPI;SPI;0;0
+2010;rd;14801912;Tuve-Säve, Tuve;OVR;OVR;4;0.32
+2010;rd;14801913;Tuve-Säve, Gunnestorp;M;M;371;29.19
+2010;rd;14801913;Tuve-Säve, Gunnestorp;C;C;33;2.6
+2010;rd;14801913;Tuve-Säve, Gunnestorp;FP;L;128;10.07
+2010;rd;14801913;Tuve-Säve, Gunnestorp;KD;KD;52;4.09
+2010;rd;14801913;Tuve-Säve, Gunnestorp;S;S;439;34.54
+2010;rd;14801913;Tuve-Säve, Gunnestorp;V;V;76;5.98
+2010;rd;14801913;Tuve-Säve, Gunnestorp;MP;MP;90;7.08
+2010;rd;14801913;Tuve-Säve, Gunnestorp;SD;SD;71;5.59
+2010;rd;14801913;Tuve-Säve, Gunnestorp;FI;FI;6;0.47
+2010;rd;14801913;Tuve-Säve, Gunnestorp;PP;PP;5;0.39
+2010;rd;14801913;Tuve-Säve, Gunnestorp;SPI;SPI;0;0
+2010;rd;14801913;Tuve-Säve, Gunnestorp;OVR;OVR;0;0
+2010;rd;14801914;Tuve-Säve, Glöstorp;M;M;192;22.38
+2010;rd;14801914;Tuve-Säve, Glöstorp;C;C;15;1.75
+2010;rd;14801914;Tuve-Säve, Glöstorp;FP;L;63;7.34
+2010;rd;14801914;Tuve-Säve, Glöstorp;KD;KD;42;4.9
+2010;rd;14801914;Tuve-Säve, Glöstorp;S;S;346;40.33
+2010;rd;14801914;Tuve-Säve, Glöstorp;V;V;69;8.04
+2010;rd;14801914;Tuve-Säve, Glöstorp;MP;MP;44;5.13
+2010;rd;14801914;Tuve-Säve, Glöstorp;SD;SD;72;8.39
+2010;rd;14801914;Tuve-Säve, Glöstorp;FI;FI;1;0.12
+2010;rd;14801914;Tuve-Säve, Glöstorp;PP;PP;12;1.4
+2010;rd;14801914;Tuve-Säve, Glöstorp;SPI;SPI;2;0.23
+2010;rd;14801914;Tuve-Säve, Glöstorp;OVR;OVR;0;0
+2010;rd;14801915;Tuve-Säve, Norumshöjd;M;M;121;13.86
+2010;rd;14801915;Tuve-Säve, Norumshöjd;C;C;11;1.26
+2010;rd;14801915;Tuve-Säve, Norumshöjd;FP;L;30;3.44
+2010;rd;14801915;Tuve-Säve, Norumshöjd;KD;KD;13;1.49
+2010;rd;14801915;Tuve-Säve, Norumshöjd;S;S;436;49.94
+2010;rd;14801915;Tuve-Säve, Norumshöjd;V;V;94;10.77
+2010;rd;14801915;Tuve-Säve, Norumshöjd;MP;MP;57;6.53
+2010;rd;14801915;Tuve-Säve, Norumshöjd;SD;SD;94;10.77
+2010;rd;14801915;Tuve-Säve, Norumshöjd;FI;FI;5;0.57
+2010;rd;14801915;Tuve-Säve, Norumshöjd;PP;PP;9;1.03
+2010;rd;14801915;Tuve-Säve, Norumshöjd;SPI;SPI;0;0
+2010;rd;14801915;Tuve-Säve, Norumshöjd;OVR;OVR;3;0.33
+2010;rd;14801921;Tuve-Säve, Säve;M;M;528;38.48
+2010;rd;14801921;Tuve-Säve, Säve;C;C;118;8.6
+2010;rd;14801921;Tuve-Säve, Säve;FP;L;94;6.85
+2010;rd;14801921;Tuve-Säve, Säve;KD;KD;83;6.05
+2010;rd;14801921;Tuve-Säve, Säve;S;S;296;21.57
+2010;rd;14801921;Tuve-Säve, Säve;V;V;66;4.81
+2010;rd;14801921;Tuve-Säve, Säve;MP;MP;80;5.83
+2010;rd;14801921;Tuve-Säve, Säve;SD;SD;94;6.85
+2010;rd;14801921;Tuve-Säve, Säve;FI;FI;2;0.15
+2010;rd;14801921;Tuve-Säve, Säve;PP;PP;8;0.58
+2010;rd;14801921;Tuve-Säve, Säve;SPI;SPI;0;0
+2010;rd;14801921;Tuve-Säve, Säve;OVR;OVR;3;0.22
+2010;rd;14802011;Backa, Tingstad;M;M;339;30.62
+2010;rd;14802011;Backa, Tingstad;C;C;43;3.88
+2010;rd;14802011;Backa, Tingstad;FP;L;81;7.32
+2010;rd;14802011;Backa, Tingstad;KD;KD;86;7.77
+2010;rd;14802011;Backa, Tingstad;S;S;338;30.53
+2010;rd;14802011;Backa, Tingstad;V;V;78;7.05
+2010;rd;14802011;Backa, Tingstad;MP;MP;63;5.69
+2010;rd;14802011;Backa, Tingstad;SD;SD;57;5.15
+2010;rd;14802011;Backa, Tingstad;FI;FI;7;0.63
+2010;rd;14802011;Backa, Tingstad;PP;PP;15;1.36
+2010;rd;14802011;Backa, Tingstad;SPI;SPI;0;0
+2010;rd;14802011;Backa, Tingstad;OVR;OVR;0;0
+2010;rd;14802012;Backa, Brunnsbo;M;M;174;15.34
+2010;rd;14802012;Backa, Brunnsbo;C;C;11;0.97
+2010;rd;14802012;Backa, Brunnsbo;FP;L;57;5.03
+2010;rd;14802012;Backa, Brunnsbo;KD;KD;37;3.26
+2010;rd;14802012;Backa, Brunnsbo;S;S;525;46.3
+2010;rd;14802012;Backa, Brunnsbo;V;V;125;11.02
+2010;rd;14802012;Backa, Brunnsbo;MP;MP;85;7.5
+2010;rd;14802012;Backa, Brunnsbo;SD;SD;90;7.94
+2010;rd;14802012;Backa, Brunnsbo;FI;FI;6;0.53
+2010;rd;14802012;Backa, Brunnsbo;PP;PP;18;1.59
+2010;rd;14802012;Backa, Brunnsbo;SPI;SPI;0;0
+2010;rd;14802012;Backa, Brunnsbo;OVR;OVR;6;0.53
+2010;rd;14802013;Backa, Aröd;M;M;347;24.93
+2010;rd;14802013;Backa, Aröd;C;C;45;3.23
+2010;rd;14802013;Backa, Aröd;FP;L;84;6.03
+2010;rd;14802013;Backa, Aröd;KD;KD;65;4.67
+2010;rd;14802013;Backa, Aröd;S;S;449;32.26
+2010;rd;14802013;Backa, Aröd;V;V;148;10.63
+2010;rd;14802013;Backa, Aröd;MP;MP;118;8.48
+2010;rd;14802013;Backa, Aröd;SD;SD;113;8.12
+2010;rd;14802013;Backa, Aröd;FI;FI;10;0.72
+2010;rd;14802013;Backa, Aröd;PP;PP;10;0.72
+2010;rd;14802013;Backa, Aröd;SPI;SPI;0;0
+2010;rd;14802013;Backa, Aröd;OVR;OVR;3;0.21
+2010;rd;14802021;Backa, Södra Backa;M;M;312;29.63
+2010;rd;14802021;Backa, Södra Backa;C;C;27;2.56
+2010;rd;14802021;Backa, Södra Backa;FP;L;92;8.74
+2010;rd;14802021;Backa, Södra Backa;KD;KD;53;5.03
+2010;rd;14802021;Backa, Södra Backa;S;S;376;35.71
+2010;rd;14802021;Backa, Södra Backa;V;V;70;6.65
+2010;rd;14802021;Backa, Södra Backa;MP;MP;52;4.94
+2010;rd;14802021;Backa, Södra Backa;SD;SD;60;5.7
+2010;rd;14802021;Backa, Södra Backa;FI;FI;1;0.09
+2010;rd;14802021;Backa, Södra Backa;PP;PP;7;0.66
+2010;rd;14802021;Backa, Södra Backa;SPI;SPI;0;0
+2010;rd;14802021;Backa, Södra Backa;OVR;OVR;3;0.28
+2010;rd;14802022;Backa, Backa Röd;M;M;163;16.28
+2010;rd;14802022;Backa, Backa Röd;C;C;19;1.9
+2010;rd;14802022;Backa, Backa Röd;FP;L;50;5
+2010;rd;14802022;Backa, Backa Röd;KD;KD;31;3.1
+2010;rd;14802022;Backa, Backa Röd;S;S;453;45.25
+2010;rd;14802022;Backa, Backa Röd;V;V;93;9.29
+2010;rd;14802022;Backa, Backa Röd;MP;MP;93;9.29
+2010;rd;14802022;Backa, Backa Röd;SD;SD;72;7.19
+2010;rd;14802022;Backa, Backa Röd;FI;FI;5;0.5
+2010;rd;14802022;Backa, Backa Röd;PP;PP;16;1.6
+2010;rd;14802022;Backa, Backa Röd;SPI;SPI;0;0
+2010;rd;14802022;Backa, Backa Röd;OVR;OVR;6;0.6
+2010;rd;14802023;Backa, Norra Backa;M;M;198;17.66
+2010;rd;14802023;Backa, Norra Backa;C;C;15;1.34
+2010;rd;14802023;Backa, Norra Backa;FP;L;41;3.66
+2010;rd;14802023;Backa, Norra Backa;KD;KD;37;3.3
+2010;rd;14802023;Backa, Norra Backa;S;S;589;52.54
+2010;rd;14802023;Backa, Norra Backa;V;V;80;7.14
+2010;rd;14802023;Backa, Norra Backa;MP;MP;65;5.8
+2010;rd;14802023;Backa, Norra Backa;SD;SD;80;7.14
+2010;rd;14802023;Backa, Norra Backa;FI;FI;5;0.45
+2010;rd;14802023;Backa, Norra Backa;PP;PP;10;0.89
+2010;rd;14802023;Backa, Norra Backa;SPI;SPI;0;0
+2010;rd;14802023;Backa, Norra Backa;OVR;OVR;1;0.09
+2010;rd;14802024;Backa, Bällskär;M;M;248;30.17
+2010;rd;14802024;Backa, Bällskär;C;C;15;1.82
+2010;rd;14802024;Backa, Bällskär;FP;L;59;7.18
+2010;rd;14802024;Backa, Bällskär;KD;KD;25;3.04
+2010;rd;14802024;Backa, Bällskär;S;S;327;39.78
+2010;rd;14802024;Backa, Bällskär;V;V;48;5.84
+2010;rd;14802024;Backa, Bällskär;MP;MP;39;4.74
+2010;rd;14802024;Backa, Bällskär;SD;SD;48;5.84
+2010;rd;14802024;Backa, Bällskär;FI;FI;5;0.61
+2010;rd;14802024;Backa, Bällskär;PP;PP;3;0.36
+2010;rd;14802024;Backa, Bällskär;SPI;SPI;0;0
+2010;rd;14802024;Backa, Bällskär;OVR;OVR;5;0.6
+2010;rd;14802031;Backa, Bäckebol;M;M;132;19.27
+2010;rd;14802031;Backa, Bäckebol;C;C;6;0.88
+2010;rd;14802031;Backa, Bäckebol;FP;L;41;5.99
+2010;rd;14802031;Backa, Bäckebol;KD;KD;29;4.23
+2010;rd;14802031;Backa, Bäckebol;S;S;341;49.78
+2010;rd;14802031;Backa, Bäckebol;V;V;49;7.15
+2010;rd;14802031;Backa, Bäckebol;MP;MP;32;4.67
+2010;rd;14802031;Backa, Bäckebol;SD;SD;43;6.28
+2010;rd;14802031;Backa, Bäckebol;FI;FI;1;0.15
+2010;rd;14802031;Backa, Bäckebol;PP;PP;8;1.17
+2010;rd;14802031;Backa, Bäckebol;SPI;SPI;0;0
+2010;rd;14802031;Backa, Bäckebol;OVR;OVR;3;0.44
+2010;rd;14802032;Backa, Backadalen;M;M;209;21.37
+2010;rd;14802032;Backa, Backadalen;C;C;11;1.12
+2010;rd;14802032;Backa, Backadalen;FP;L;41;4.19
+2010;rd;14802032;Backa, Backadalen;KD;KD;40;4.09
+2010;rd;14802032;Backa, Backadalen;S;S;474;48.47
+2010;rd;14802032;Backa, Backadalen;V;V;63;6.44
+2010;rd;14802032;Backa, Backadalen;MP;MP;53;5.42
+2010;rd;14802032;Backa, Backadalen;SD;SD;67;6.85
+2010;rd;14802032;Backa, Backadalen;FI;FI;3;0.31
+2010;rd;14802032;Backa, Backadalen;PP;PP;9;0.92
+2010;rd;14802032;Backa, Backadalen;SPI;SPI;0;0
+2010;rd;14802032;Backa, Backadalen;OVR;OVR;8;0.82
+2010;rd;14802033;Backa, Selma Lagerlöfs torg;M;M;100;15.82
+2010;rd;14802033;Backa, Selma Lagerlöfs torg;C;C;4;0.63
+2010;rd;14802033;Backa, Selma Lagerlöfs torg;FP;L;14;2.22
+2010;rd;14802033;Backa, Selma Lagerlöfs torg;KD;KD;14;2.22
+2010;rd;14802033;Backa, Selma Lagerlöfs torg;S;S;310;49.05
+2010;rd;14802033;Backa, Selma Lagerlöfs torg;V;V;57;9.02
+2010;rd;14802033;Backa, Selma Lagerlöfs torg;MP;MP;52;8.23
+2010;rd;14802033;Backa, Selma Lagerlöfs torg;SD;SD;71;11.23
+2010;rd;14802033;Backa, Selma Lagerlöfs torg;FI;FI;1;0.16
+2010;rd;14802033;Backa, Selma Lagerlöfs torg;PP;PP;6;0.95
+2010;rd;14802033;Backa, Selma Lagerlöfs torg;SPI;SPI;0;0
+2010;rd;14802033;Backa, Selma Lagerlöfs torg;OVR;OVR;3;0.48
+2010;rd;14802034;Backa, Skälltorp;M;M;292;22.97
+2010;rd;14802034;Backa, Skälltorp;C;C;37;2.91
+2010;rd;14802034;Backa, Skälltorp;FP;L;89;7
+2010;rd;14802034;Backa, Skälltorp;KD;KD;66;5.19
+2010;rd;14802034;Backa, Skälltorp;S;S;500;39.34
+2010;rd;14802034;Backa, Skälltorp;V;V;111;8.73
+2010;rd;14802034;Backa, Skälltorp;MP;MP;69;5.43
+2010;rd;14802034;Backa, Skälltorp;SD;SD;96;7.55
+2010;rd;14802034;Backa, Skälltorp;FI;FI;4;0.31
+2010;rd;14802034;Backa, Skälltorp;PP;PP;5;0.39
+2010;rd;14802034;Backa, Skälltorp;SPI;SPI;0;0
+2010;rd;14802034;Backa, Skälltorp;OVR;OVR;2;0.16
+2010;rd;14802035;Backa, Åketorp;M;M;539;36.27
+2010;rd;14802035;Backa, Åketorp;C;C;39;2.62
+2010;rd;14802035;Backa, Åketorp;FP;L;124;8.34
+2010;rd;14802035;Backa, Åketorp;KD;KD;93;6.26
+2010;rd;14802035;Backa, Åketorp;S;S;415;27.93
+2010;rd;14802035;Backa, Åketorp;V;V;89;5.99
+2010;rd;14802035;Backa, Åketorp;MP;MP;89;5.99
+2010;rd;14802035;Backa, Åketorp;SD;SD;85;5.72
+2010;rd;14802035;Backa, Åketorp;FI;FI;4;0.27
+2010;rd;14802035;Backa, Åketorp;PP;PP;8;0.54
+2010;rd;14802035;Backa, Åketorp;SPI;SPI;0;0
+2010;rd;14802035;Backa, Åketorp;OVR;OVR;1;0.07
+2010;rd;14802041;Backa, Skogome-Sankt Jörgen;M;M;495;33.86
+2010;rd;14802041;Backa, Skogome-Sankt Jörgen;C;C;60;4.1
+2010;rd;14802041;Backa, Skogome-Sankt Jörgen;FP;L;123;8.41
+2010;rd;14802041;Backa, Skogome-Sankt Jörgen;KD;KD;86;5.88
+2010;rd;14802041;Backa, Skogome-Sankt Jörgen;S;S;407;27.84
+2010;rd;14802041;Backa, Skogome-Sankt Jörgen;V;V;113;7.73
+2010;rd;14802041;Backa, Skogome-Sankt Jörgen;MP;MP;92;6.29
+2010;rd;14802041;Backa, Skogome-Sankt Jörgen;SD;SD;71;4.86
+2010;rd;14802041;Backa, Skogome-Sankt Jörgen;FI;FI;5;0.34
+2010;rd;14802041;Backa, Skogome-Sankt Jörgen;PP;PP;6;0.41
+2010;rd;14802041;Backa, Skogome-Sankt Jörgen;SPI;SPI;0;0
+2010;rd;14802041;Backa, Skogome-Sankt Jörgen;OVR;OVR;4;0.28
+2010;rd;14802111;Kärra-Rödbo, Mysterna-Svankällan;M;M;484;42.09
+2010;rd;14802111;Kärra-Rödbo, Mysterna-Svankällan;C;C;29;2.52
+2010;rd;14802111;Kärra-Rödbo, Mysterna-Svankällan;FP;L;127;11.04
+2010;rd;14802111;Kärra-Rödbo, Mysterna-Svankällan;KD;KD;65;5.65
+2010;rd;14802111;Kärra-Rödbo, Mysterna-Svankällan;S;S;253;22
+2010;rd;14802111;Kärra-Rödbo, Mysterna-Svankällan;V;V;50;4.35
+2010;rd;14802111;Kärra-Rödbo, Mysterna-Svankällan;MP;MP;64;5.57
+2010;rd;14802111;Kärra-Rödbo, Mysterna-Svankällan;SD;SD;72;6.26
+2010;rd;14802111;Kärra-Rödbo, Mysterna-Svankällan;FI;FI;3;0.26
+2010;rd;14802111;Kärra-Rödbo, Mysterna-Svankällan;PP;PP;2;0.17
+2010;rd;14802111;Kärra-Rödbo, Mysterna-Svankällan;SPI;SPI;0;0
+2010;rd;14802111;Kärra-Rödbo, Mysterna-Svankällan;OVR;OVR;1;0.09
+2010;rd;14802112;Kärra-Rödbo, Gerrebacka-Ingebäck;M;M;436;38.01
+2010;rd;14802112;Kärra-Rödbo, Gerrebacka-Ingebäck;C;C;39;3.4
+2010;rd;14802112;Kärra-Rödbo, Gerrebacka-Ingebäck;FP;L;94;8.2
+2010;rd;14802112;Kärra-Rödbo, Gerrebacka-Ingebäck;KD;KD;50;4.36
+2010;rd;14802112;Kärra-Rödbo, Gerrebacka-Ingebäck;S;S;328;28.6
+2010;rd;14802112;Kärra-Rödbo, Gerrebacka-Ingebäck;V;V;56;4.88
+2010;rd;14802112;Kärra-Rödbo, Gerrebacka-Ingebäck;MP;MP;59;5.14
+2010;rd;14802112;Kärra-Rödbo, Gerrebacka-Ingebäck;SD;SD;77;6.71
+2010;rd;14802112;Kärra-Rödbo, Gerrebacka-Ingebäck;FI;FI;2;0.17
+2010;rd;14802112;Kärra-Rödbo, Gerrebacka-Ingebäck;PP;PP;5;0.44
+2010;rd;14802112;Kärra-Rödbo, Gerrebacka-Ingebäck;SPI;SPI;0;0
+2010;rd;14802112;Kärra-Rödbo, Gerrebacka-Ingebäck;OVR;OVR;1;0.09
+2010;rd;14802113;Kärra-Rödbo, Västra Kärra;M;M;252;25.69
+2010;rd;14802113;Kärra-Rödbo, Västra Kärra;C;C;20;2.04
+2010;rd;14802113;Kärra-Rödbo, Västra Kärra;FP;L;67;6.83
+2010;rd;14802113;Kärra-Rödbo, Västra Kärra;KD;KD;45;4.59
+2010;rd;14802113;Kärra-Rödbo, Västra Kärra;S;S;389;39.65
+2010;rd;14802113;Kärra-Rödbo, Västra Kärra;V;V;53;5.4
+2010;rd;14802113;Kärra-Rödbo, Västra Kärra;MP;MP;56;5.71
+2010;rd;14802113;Kärra-Rödbo, Västra Kärra;SD;SD;89;9.07
+2010;rd;14802113;Kärra-Rödbo, Västra Kärra;FI;FI;2;0.2
+2010;rd;14802113;Kärra-Rödbo, Västra Kärra;PP;PP;8;0.82
+2010;rd;14802113;Kärra-Rödbo, Västra Kärra;SPI;SPI;0;0
+2010;rd;14802113;Kärra-Rödbo, Västra Kärra;OVR;OVR;0;0
+2010;rd;14802114;Kärra-Rödbo, Norra Kärra;M;M;196;20.9
+2010;rd;14802114;Kärra-Rödbo, Norra Kärra;C;C;20;2.13
+2010;rd;14802114;Kärra-Rödbo, Norra Kärra;FP;L;65;6.93
+2010;rd;14802114;Kärra-Rödbo, Norra Kärra;KD;KD;48;5.12
+2010;rd;14802114;Kärra-Rödbo, Norra Kärra;S;S;399;42.54
+2010;rd;14802114;Kärra-Rödbo, Norra Kärra;V;V;65;6.93
+2010;rd;14802114;Kärra-Rödbo, Norra Kärra;MP;MP;63;6.72
+2010;rd;14802114;Kärra-Rödbo, Norra Kärra;SD;SD;71;7.57
+2010;rd;14802114;Kärra-Rödbo, Norra Kärra;FI;FI;3;0.32
+2010;rd;14802114;Kärra-Rödbo, Norra Kärra;PP;PP;7;0.75
+2010;rd;14802114;Kärra-Rödbo, Norra Kärra;SPI;SPI;0;0
+2010;rd;14802114;Kärra-Rödbo, Norra Kärra;OVR;OVR;1;0.11
+2010;rd;14802115;Kärra-Rödbo, Östra Kärra;M;M;252;25.05
+2010;rd;14802115;Kärra-Rödbo, Östra Kärra;C;C;16;1.59
+2010;rd;14802115;Kärra-Rödbo, Östra Kärra;FP;L;74;7.36
+2010;rd;14802115;Kärra-Rödbo, Östra Kärra;KD;KD;30;2.98
+2010;rd;14802115;Kärra-Rödbo, Östra Kärra;S;S;424;42.15
+2010;rd;14802115;Kärra-Rödbo, Östra Kärra;V;V;68;6.76
+2010;rd;14802115;Kärra-Rödbo, Östra Kärra;MP;MP;48;4.77
+2010;rd;14802115;Kärra-Rödbo, Östra Kärra;SD;SD;86;8.55
+2010;rd;14802115;Kärra-Rödbo, Östra Kärra;FI;FI;3;0.3
+2010;rd;14802115;Kärra-Rödbo, Östra Kärra;PP;PP;4;0.4
+2010;rd;14802115;Kärra-Rödbo, Östra Kärra;SPI;SPI;0;0
+2010;rd;14802115;Kärra-Rödbo, Östra Kärra;OVR;OVR;1;0.1
+2010;rd;14802116;Kärra-Rödbo, Södra Kärra;M;M;313;29.01
+2010;rd;14802116;Kärra-Rödbo, Södra Kärra;C;C;23;2.13
+2010;rd;14802116;Kärra-Rödbo, Södra Kärra;FP;L;72;6.67
+2010;rd;14802116;Kärra-Rödbo, Södra Kärra;KD;KD;53;4.91
+2010;rd;14802116;Kärra-Rödbo, Södra Kärra;S;S;392;36.33
+2010;rd;14802116;Kärra-Rödbo, Södra Kärra;V;V;54;5
+2010;rd;14802116;Kärra-Rödbo, Södra Kärra;MP;MP;56;5.19
+2010;rd;14802116;Kärra-Rödbo, Södra Kärra;SD;SD;101;9.36
+2010;rd;14802116;Kärra-Rödbo, Södra Kärra;FI;FI;4;0.37
+2010;rd;14802116;Kärra-Rödbo, Södra Kärra;PP;PP;10;0.93
+2010;rd;14802116;Kärra-Rödbo, Södra Kärra;SPI;SPI;0;0
+2010;rd;14802116;Kärra-Rödbo, Södra Kärra;OVR;OVR;1;0.09
+2010;rd;14802121;Kärra-Rödbo, Rödbo;M;M;221;41.31
+2010;rd;14802121;Kärra-Rödbo, Rödbo;C;C;33;6.17
+2010;rd;14802121;Kärra-Rödbo, Rödbo;FP;L;33;6.17
+2010;rd;14802121;Kärra-Rödbo, Rödbo;KD;KD;26;4.86
+2010;rd;14802121;Kärra-Rödbo, Rödbo;S;S;112;20.93
+2010;rd;14802121;Kärra-Rödbo, Rödbo;V;V;24;4.49
+2010;rd;14802121;Kärra-Rödbo, Rödbo;MP;MP;32;5.98
+2010;rd;14802121;Kärra-Rödbo, Rödbo;SD;SD;51;9.53
+2010;rd;14802121;Kärra-Rödbo, Rödbo;FI;FI;0;0
+2010;rd;14802121;Kärra-Rödbo, Rödbo;PP;PP;2;0.37
+2010;rd;14802121;Kärra-Rödbo, Rödbo;SPI;SPI;0;0
+2010;rd;14802121;Kärra-Rödbo, Rödbo;OVR;OVR;1;0.19
+2010;rd;14800001;Onsdagsdistrikt;M;M;645;28.78
+2010;rd;14800001;Onsdagsdistrikt;C;C;77;3.44
+2010;rd;14800001;Onsdagsdistrikt;FP;L;169;7.54
+2010;rd;14800001;Onsdagsdistrikt;KD;KD;82;3.66
+2010;rd;14800001;Onsdagsdistrikt;S;S;603;26.91
+2010;rd;14800001;Onsdagsdistrikt;V;V;210;9.37
+2010;rd;14800001;Onsdagsdistrikt;MP;MP;281;12.54
+2010;rd;14800001;Onsdagsdistrikt;SD;SD;106;4.73
+2010;rd;14800001;Onsdagsdistrikt;FI;FI;22;0.98
+2010;rd;14800001;Onsdagsdistrikt;PP;PP;40;1.78
+2010;rd;14800001;Onsdagsdistrikt;SPI;SPI;0;0
+2010;rd;14800001;Onsdagsdistrikt;OVR;OVR;6;0.25
+2010;rd;14800002;Onsdagsdistrikt;M;M;653;28.03
+2010;rd;14800002;Onsdagsdistrikt;C;C;90;3.86
+2010;rd;14800002;Onsdagsdistrikt;FP;L;156;6.7
+2010;rd;14800002;Onsdagsdistrikt;KD;KD;103;4.42
+2010;rd;14800002;Onsdagsdistrikt;S;S;653;28.03
+2010;rd;14800002;Onsdagsdistrikt;V;V;193;8.28
+2010;rd;14800002;Onsdagsdistrikt;MP;MP;345;14.81
+2010;rd;14800002;Onsdagsdistrikt;SD;SD;64;2.75
+2010;rd;14800002;Onsdagsdistrikt;FI;FI;34;1.46
+2010;rd;14800002;Onsdagsdistrikt;PP;PP;30;1.29
+2010;rd;14800002;Onsdagsdistrikt;SPI;SPI;0;0
+2010;rd;14800002;Onsdagsdistrikt;OVR;OVR;9;0.39
+2010;rd;14800003;Onsdagsdistrikt;M;M;1740;41.95
+2010;rd;14800003;Onsdagsdistrikt;C;C;227;5.47
+2010;rd;14800003;Onsdagsdistrikt;FP;L;340;8.2
+2010;rd;14800003;Onsdagsdistrikt;KD;KD;184;4.44
+2010;rd;14800003;Onsdagsdistrikt;S;S;536;12.92
+2010;rd;14800003;Onsdagsdistrikt;V;V;300;7.23
+2010;rd;14800003;Onsdagsdistrikt;MP;MP;610;14.71
+2010;rd;14800003;Onsdagsdistrikt;SD;SD;98;2.36
+2010;rd;14800003;Onsdagsdistrikt;FI;FI;58;1.4
+2010;rd;14800003;Onsdagsdistrikt;PP;PP;48;1.16
+2010;rd;14800003;Onsdagsdistrikt;SPI;SPI;1;0.02
+2010;rd;14800003;Onsdagsdistrikt;OVR;OVR;6;0.14
+2010;rd;14800004;Onsdagsdistrikt;M;M;918;38.09
+2010;rd;14800004;Onsdagsdistrikt;C;C;102;4.23
+2010;rd;14800004;Onsdagsdistrikt;FP;L;209;8.67
+2010;rd;14800004;Onsdagsdistrikt;KD;KD;134;5.56
+2010;rd;14800004;Onsdagsdistrikt;S;S;361;14.98
+2010;rd;14800004;Onsdagsdistrikt;V;V;171;7.1
+2010;rd;14800004;Onsdagsdistrikt;MP;MP;367;15.23
+2010;rd;14800004;Onsdagsdistrikt;SD;SD;79;3.28
+2010;rd;14800004;Onsdagsdistrikt;FI;FI;30;1.24
+2010;rd;14800004;Onsdagsdistrikt;PP;PP;32;1.33
+2010;rd;14800004;Onsdagsdistrikt;SPI;SPI;0;0
+2010;rd;14800004;Onsdagsdistrikt;OVR;OVR;7;0.28

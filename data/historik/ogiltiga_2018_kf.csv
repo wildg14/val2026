@@ -1,0 +1,352 @@
+ar;val;kod;namn;ogiltiga_ej_anmalda;blanka;ogiltiga_ovriga;kalla_fil
+2018;kf;14800000;Uppsamlingsdistrikt;22;107;27;2018_K_per_valdistrikt.xlsx
+2018;kf;14801011;Majorna-Linné, Gröna Vallen;0;10;3;2018_K_per_valdistrikt.xlsx
+2018;kf;14801012;Majorna-Linné, Klippan;1;9;2;2018_K_per_valdistrikt.xlsx
+2018;kf;14801013;Majorna-Linné, Kungsladugård, Västra;0;6;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14801014;Majorna-Linné, Kungsladugård, Östra;1;9;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14801015;Majorna-Linné, Mariaplan;0;8;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14801016;Majorna-Linné, Skytteskogen;0;7;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14801017;Majorna-Linné, Svalebo;2;9;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14801021;Majorna-Linné, Sandarne;1;8;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14801022;Majorna-Linné, Silverkällan;1;10;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14801031;Majorna-Linné, Chapmans Torg;0;6;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14801032;Majorna-Linné, Godhem;1;11;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14801033;Majorna-Linné, Gråberget, Västra;1;5;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14801034;Majorna-Linné, Gråberget, Östra;1;9;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14801035;Majorna-Linné, Hängmattan;1;8;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14801036;Majorna-Linné, Majorna;0;13;2;2018_K_per_valdistrikt.xlsx
+2018;kf;14801037;Majorna-Linné, Marieberg;1;1;2;2018_K_per_valdistrikt.xlsx
+2018;kf;14801038;Majorna-Linné, Slottsskogsgatan m fl;2;12;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14801041;Majorna-Linné, Djurgårdsgatan m fl;0;10;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14801042;Majorna-Linné, Gatenhielmska;1;7;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14801043;Majorna-Linné, Karl Johans torg;2;12;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14801044;Majorna-Linné, Klareborgsgatan m fl;3;8;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14801045;Majorna-Linné, Söderlingska ängen;0;11;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14801051;Majorna-Linné, Masthugget, Nedre;0;10;2;2018_K_per_valdistrikt.xlsx
+2018;kf;14801052;Majorna-Linné, Masthugget, Övre;0;9;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14801053;Majorna-Linné, Masthuggstorget;1;6;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14801054;Majorna-Linné, Oscar Fredrik;0;9;2;2018_K_per_valdistrikt.xlsx
+2018;kf;14801055;Majorna-Linné, Sjömansgatan m fl;0;6;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14801056;Majorna-Linné, Slottsskogen;2;8;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14801057;Majorna-Linné, Stigberget;2;9;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14801058;Majorna-Linné, Vegastaden;0;6;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14801061;Majorna-Linné, Änggården;0;5;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14801071;Majorna-Linné, Haga Västra;1;10;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14801072;Majorna-Linné, Haga Östra;0;5;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14801073;Majorna-Linné, Skansberget;0;4;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14801081;Majorna-Linné, Annedal, Norra;0;6;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14801082;Majorna-Linné, Annedal, Södra;1;10;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14801083;Majorna-Linné, Nilssonsberg;0;8;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14801091;Majorna-Linné, Kommendantsängen;0;5;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14801092;Majorna-Linné, Linné;2;10;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14801093;Majorna-Linné, Linnéplatsen;2;7;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14801094;Majorna-Linné, Långgatorna;0;11;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14801095;Majorna-Linné, Olivedal;0;6;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14801096;Majorna-Linné, Plantagegatan, m fl;0;3;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14801097;Majorna-Linné, Risåsen;1;6;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14801098;Majorna-Linné, Sveaplan;0;8;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14801100;Centrum, Framnäs;3;15;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14801101;Centrum, Fredriksdal;2;6;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14801102;Centrum, Fridkullagatan m fl;0;3;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14801103;Centrum, Getebergsäng;1;6;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14801104;Centrum, Kristinehöjd, Västra;0;11;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14801105;Centrum, Kristinehöjd, Östra;0;8;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14801106;Centrum, Krokslätt, Norra;2;5;8;2018_K_per_valdistrikt.xlsx
+2018;kf;14801107;Centrum, Krokslätt, Södra;0;4;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14801108;Centrum, Mossen;0;18;2;2018_K_per_valdistrikt.xlsx
+2018;kf;14801109;Centrum, Olofshöjd;0;13;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14801111;Centrum, Eklanda Norra;0;8;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14801112;Centrum, Eklanda Södra;0;10;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14801113;Centrum, Johanneberg, Nedre;1;8;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14801114;Centrum, Johanneberg, Västra;0;10;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14801115;Centrum, Johanneberg, Östra;1;7;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14801116;Centrum, Johanneberg, Övre;0;12;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14801121;Centrum, Landala;1;7;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14801122;Centrum, Landalabergen m fl;2;15;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14801123;Centrum, Landalagången m fl;0;12;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14801131;Centrum, Doktor Forselius Backe m fl;0;5;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14801132;Centrum, Guldheden Vattentornet;1;10;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14801133;Centrum, Guldheden Östra;3;8;2;2018_K_per_valdistrikt.xlsx
+2018;kf;14801134;Centrum, Guldheden, Centrala;0;12;2;2018_K_per_valdistrikt.xlsx
+2018;kf;14801135;Centrum, Guldheden, Norra;1;4;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14801136;Centrum, Guldheden, Södra;1;8;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14801137;Centrum, Landala Egnahem;1;6;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14801141;Centrum, Lorensberg;0;9;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14801151;Centrum, Fogelbergsparken;0;7;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14801152;Centrum, Valand;1;6;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14801153;Centrum, Vasastaden, Norra;0;13;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14801154;Centrum, Vasastaden, Södra;0;3;2;2018_K_per_valdistrikt.xlsx
+2018;kf;14801155;Centrum, Vasastaden, Östra;1;3;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14801161;Centrum, Inom Vallgraven;0;8;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14801162;Centrum, Nordstan;0;5;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14801163;Centrum, Otterhällan;0;9;3;2018_K_per_valdistrikt.xlsx
+2018;kf;14801171;Centrum, Friggagatan m fl;0;8;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14801172;Centrum, Gårda, Norra;0;6;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14801173;Centrum, Odinsgatan m fl;0;7;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14801174;Centrum, Stampen;1;15;2;2018_K_per_valdistrikt.xlsx
+2018;kf;14801175;Centrum, Svingeln;1;10;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14801181;Centrum, Bohusgatan m fl;1;10;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14801182;Centrum, Gårda, Södra;0;8;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14801183;Centrum, Heden;2;3;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14801184;Centrum, Hedås;1;6;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14801185;Centrum, Sten Sturegatan m fl;1;5;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14802011;Örgryte-Härlanda, Gubbero;0;9;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14802012;Örgryte-Härlanda, Olskroken;0;6;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14802013;Örgryte-Härlanda, Redberget;0;12;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14802014;Örgryte-Härlanda, Redbergsplatsen;1;7;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14802021;Örgryte-Härlanda, Bagaregården;2;6;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14802022;Örgryte-Härlanda, Ånäs;1;7;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14802031;Örgryte-Härlanda, Strömmensberg, V;0;10;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14802032;Örgryte-Härlanda, Strömmensberg, Ö;0;7;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14802041;Örgryte-Härlanda, Kallebäck, Norra;1;10;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14802042;Örgryte-Härlanda, Kallebäck, Västra;1;2;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14802043;Örgryte-Härlanda, Kallebäck, Östra;1;9;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14802051;Örgryte-Härlanda, Jakobsdal;0;5;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14802052;Örgryte-Härlanda, Skår, Norra;1;4;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14802053;Örgryte-Härlanda, Skår, Södra;1;6;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14802061;Örgryte-Härlanda, Bö;1;6;2;2018_K_per_valdistrikt.xlsx
+2018;kf;14802062;Örgryte-Härlanda, Örgryte;1;5;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14802071;Örgryte-Härlanda, Stora Torp;0;6;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14802072;Örgryte-Härlanda, Lilla Torp;0;6;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14802081;Örgryte-Härlanda, Danska vägen m fl;1;9;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14802082;Örgryte-Härlanda, Kärralund, Norra;1;6;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14802083;Örgryte-Härlanda, Kärralund, Södra;0;13;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14802084;Örgryte-Härlanda, Lunden, Gamla;0;12;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14802085;Örgryte-Härlanda, Lunden, Nya;1;14;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14802086;Örgryte-Härlanda, Nobelplatsen;0;12;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14802087;Örgryte-Härlanda, Sankt Pauli;2;10;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14802088;Örgryte-Härlanda, Överås;0;11;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14802091;Örgryte-Härlanda, Härlanda;2;10;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14802101;Örgryte-Härlanda, Kålltorp, Norra;0;13;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14802102;Örgryte-Härlanda, Kålltorp, Södra;1;6;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14802103;Örgryte-Härlanda, Kålltorp, Västra;0;8;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14802104;Örgryte-Härlanda, Kålltorp, Östra;0;10;2;2018_K_per_valdistrikt.xlsx
+2018;kf;14802105;Örgryte-Härlanda, Munkebäck, Norra;2;16;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14802106;Örgryte-Härlanda, Munkebäck, Södra;1;8;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14802111;Örgryte-Härlanda, Fräntorp;1;12;3;2018_K_per_valdistrikt.xlsx
+2018;kf;14802112;Örgryte-Härlanda, Torpa;5;6;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14802121;Örgryte-Härlanda, Björkekärr, Norra;0;9;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14802122;Örgryte-Härlanda, Björkekärr, Södra;0;11;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14802123;Örgryte-Härlanda, Björkekärr, Västra;0;6;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14802124;Örgryte-Härlanda, Björkekärr, Östra;1;7;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14802125;Örgryte-Härlanda, Robertshöjd m fl;3;6;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14803011;Östra Göteborg, Bellevue;0;4;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14803012;Östra Göteborg, Bellevue Park;0;10;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14803013;Östra Göteborg, Gamlestaden, Norra;0;6;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14803014;Östra Göteborg, Gamlestaden, Södra;0;14;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14803015;Östra Göteborg, Kviberg, Västra;2;13;2;2018_K_per_valdistrikt.xlsx
+2018;kf;14803016;Östra Göteborg, Kviberg, Östra;1;5;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14803017;Östra Göteborg, Nylöse;1;3;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14803021;Östra Göteborg, Fjällbo;0;8;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14803022;Östra Göteborg, Utby;0;9;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14803023;Östra Göteborg, Utbynäs;0;13;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14803031;Östra Göteborg, Förstamajgatan m fl;2;3;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14803032;Östra Göteborg, Gregorianska g. m fl;0;5;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14803033;Östra Göteborg, Kortedala Centrum;0;7;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14803034;Östra Göteborg, Kortedala, Södra;0;6;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14803035;Östra Göteborg, Kortedala, Västra;3;12;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14803036;Östra Göteborg, Kortedala, Östra;4;6;2;2018_K_per_valdistrikt.xlsx
+2018;kf;14803041;Östra Göteborg, Adventsparken, V;0;11;2;2018_K_per_valdistrikt.xlsx
+2018;kf;14803042;Östra Göteborg, Adventsparken, Ö;1;6;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14803043;Östra Göteborg, Kortedala, Norra;0;13;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14803044;Östra Göteborg, Månadsgatorna m fl;0;8;4;2018_K_per_valdistrikt.xlsx
+2018;kf;14803051;Östra Göteborg, Bergsjön, Norra;3;10;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14803052;Östra Göteborg, Gärdsmosse;0;5;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14803053;Östra Göteborg, Gärdsås;0;7;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14803054;Östra Göteborg, Siriusgatan;1;4;5;2018_K_per_valdistrikt.xlsx
+2018;kf;14803061;Östra Göteborg, Bergsjön, Södra;0;1;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14803062;Östra Göteborg, Bergsjön, Östra;2;2;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14803063;Östra Göteborg, Komettorget;2;5;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14803064;Östra Göteborg, Rymdtorget;0;6;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14804021;Lundby, Bjurslätt, Södra;2;7;2;2018_K_per_valdistrikt.xlsx
+2018;kf;14804022;Lundby, Flunsås;2;13;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14804023;Lundby, Kvillebäcken, Norra;2;20;2;2018_K_per_valdistrikt.xlsx
+2018;kf;14804024;Lundby, Kvillebäcken, Södra;2;12;2;2018_K_per_valdistrikt.xlsx
+2018;kf;14804025;Lundby, Kvillebäcken, Östra;0;11;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14804026;Lundby, Penselgatan m fl;1;12;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14804027;Lundby, Wieselgrensplatsen;3;18;2;2018_K_per_valdistrikt.xlsx
+2018;kf;14804028;Lundby, Vågmästarplatsen;1;2;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14804031;Lundby, Bjurslätt, Norra;2;11;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14804032;Lundby, Hilldedal;1;10;2;2018_K_per_valdistrikt.xlsx
+2018;kf;14804033;Lundby, Slätta Damm;0;6;2;2018_K_per_valdistrikt.xlsx
+2018;kf;14804041;Lundby, Kärrdalen;0;8;3;2018_K_per_valdistrikt.xlsx
+2018;kf;14804042;Lundby, Tolered, Norra;1;2;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14804043;Lundby, Tolered, Södra;1;5;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14804051;Norra Hisingen, Glöstorp;3;17;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14804052;Norra Hisingen, Gunnestorp;0;13;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14804053;Norra Hisingen, Norumshöjd;1;10;2;2018_K_per_valdistrikt.xlsx
+2018;kf;14804054;Norra Hisingen, Tuve, Norra;0;8;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14804055;Norra Hisingen, Tuve, Södra;0;14;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14804056;Norra Hisingen, Tången;0;8;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14804061;Norra Hisingen, Säve;0;12;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14804071;Norra Hisingen, Gerrebacka-Ingebäck;0;7;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14804072;Norra Hisingen, Kärra, Norra;0;8;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14804073;Norra Hisingen, Kärra, Södra;0;13;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14804074;Norra Hisingen, Kärra, Västra;1;9;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14804075;Norra Hisingen, Kärra, Östra;0;13;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14804076;Norra Hisingen, Mysterna-Svankälla;0;19;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14804081;Norra Hisingen, Rödbo;1;10;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14804091;Norra Hisingen, Sankt Jörgen;0;3;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14804092;Norra Hisingen, Skogome;0;8;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14804101;Norra Hisingen, Aröd;3;4;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14804102;Norra Hisingen, Brunnsbo, Norra;0;12;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14804103;Norra Hisingen, Brunnsbo, Södra;0;8;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14804104;Norra Hisingen, Tingstad;2;5;2;2018_K_per_valdistrikt.xlsx
+2018;kf;14804121;Norra Hisingen, Backa Röd;0;12;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14804122;Norra Hisingen, Backa, Norra;0;7;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14804123;Norra Hisingen, Backa, Södra;1;11;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14804124;Norra Hisingen, Bällskär;0;7;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14804125;Norra Hisingen, Wadköpingsgatan m fl;1;6;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14804131;Norra Hisingen, Backadalen;2;14;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14804132;Norra Hisingen, Bäckebol;0;14;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14804133;Norra Hisingen, Selma Lagerlöfs torg;0;7;3;2018_K_per_valdistrikt.xlsx
+2018;kf;14804134;Norra Hisingen, Skälltorp;0;13;3;2018_K_per_valdistrikt.xlsx
+2018;kf;14804135;Norra Hisingen, Åketorp;0;10;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14804141;Lundby, Bräcke, Norra;0;9;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14804142;Lundby, Bräcke, Södra;0;14;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14804143;Lundby, Kyrkbyn;3;15;2;2018_K_per_valdistrikt.xlsx
+2018;kf;14804144;Lundby, Lundby, Norra;0;9;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14804145;Lundby, Lundby, Södra;2;14;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14804151;Lundby, Brämaregården, Norra;1;14;2;2018_K_per_valdistrikt.xlsx
+2018;kf;14804152;Lundby, Brämaregården, Södra;0;8;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14804153;Lundby, Porslinsfabriken;1;7;2;2018_K_per_valdistrikt.xlsx
+2018;kf;14804154;Lundby, Rambergsstaden, Norra;3;18;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14804155;Lundby, Rambergsstaden, Södra;1;14;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14804156;Lundby, Rambergsstaden, Östra;1;16;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14804161;Lundby, Eriksberg, Västra;0;10;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14804162;Lundby, Eriksberg, Östra;1;7;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14804163;Lundby, Färjenäs;0;6;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14804164;Lundby, Pölsebo-Bratterås;1;9;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14804165;Lundby, Sannegården, Västra;0;8;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14804166;Lundby, Södhallsberget;0;4;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14804171;Lundby, Lindholmen;0;9;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14804172;Lundby, Lundbyvassen;0;7;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14804173;Lundby, Sannegården, Östra;0;2;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14805011;Västra Göteborg, Björnekulla;1;6;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14805012;Västra Göteborg, Fiskebäck,;0;3;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14805013;Västra Göteborg, Källängen;0;4;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14805014;Västra Göteborg, Osberget;0;4;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14805015;Västra Göteborg, Påvelund;0;6;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14805021;Västra Göteborg, Långedrag;0;4;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14805031;Västra Göteborg, Hagen;0;9;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14805032;Västra Göteborg, Nya Varvet;0;8;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14805033;Västra Göteborg, Tångudden;0;4;2;2018_K_per_valdistrikt.xlsx
+2018;kf;14805041;Västra Göteborg, Ekebäck;0;5;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14805042;Västra Göteborg, Grimmered;1;2;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14805043;Västra Göteborg, Kungsten;0;4;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14805051;Västra Göteborg, Brännö-Asperö;0;0;2;2018_K_per_valdistrikt.xlsx
+2018;kf;14805052;Västra Göteborg, Donsö-Vrångö;0;5;2;2018_K_per_valdistrikt.xlsx
+2018;kf;14805053;Västra Göteborg, Styrsö-Köpstadsö;1;2;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14805061;Västra Göteborg, Bratthammar;0;13;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14805071;Västra Göteborg, Guldringen m fl;0;21;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14805072;Västra Göteborg, Tynnered, Norra;1;19;2;2018_K_per_valdistrikt.xlsx
+2018;kf;14805081;Västra Göteborg, Tynnered Södra;0;10;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14805082;Västra Göteborg, Tynnered, Östra;0;18;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14805091;Askim-Frölunda-Högsbo, Kaverös, N;1;7;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14805092;Askim-Frölunda-Högsbo, Kaverös, S;0;9;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14805093;Askim-Frölunda-Högsbo, Kavås;1;14;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14805101;Askim-Frölunda-Högsbo, Flatås, S;2;7;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14805102;Askim-Frölunda-Högsbo, Flatås, V;1;5;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14805103;Askim-Frölunda-Högsbo, Flatås, Ö;2;15;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14805111;Askim-Frölunda-Högsbo, Högsbohöjd, N;1;14;4;2018_K_per_valdistrikt.xlsx
+2018;kf;14805112;Askim-Frölunda-Högsbo, Högsbohöjd, S;0;14;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14805121;Askim-Frölunda-Högsbo, Högsbo;0;4;2;2018_K_per_valdistrikt.xlsx
+2018;kf;14805122;Askim-Frölunda-Högsbo, Högsbotorp, S;0;11;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14805123;Askim-Frölunda-Högsbo, Högsbotorp, V;0;8;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14805124;Askim-Frölunda-Högsbo, Högsbotorp, Ö;0;12;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14805125;Askim-Frölunda-Högsbo, Marklandsgat.;1;3;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14805131;Askim-Frölunda-Högsbo, Spinetten;0;8;2;2018_K_per_valdistrikt.xlsx
+2018;kf;14805132;Askim-Frölunda-Högsbo, Tofta;1;10;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14805141;Askim-Frölunda-Högsbo, Altplatsen;0;6;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14805142;Askim-Frölunda-Högsbo, Ruddalen;0;12;3;2018_K_per_valdistrikt.xlsx
+2018;kf;14805151;Askim-Frölunda-Högsbo, Järnbrott, S;0;7;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14805152;Askim-Frölunda-Högsbo, Järnbrott, V;0;5;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14805153;Askim-Frölunda-Högsbo, Järnbrott, Ö;2;3;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14805171;Askim-Frölunda-Högsbo, Frölunda;1;5;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14805172;Askim-Frölunda-Högsbo, Frölunda Torg;2;7;2;2018_K_per_valdistrikt.xlsx
+2018;kf;14805173;Askim-Frölunda-Högsbo, Gånglåten;1;7;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14805174;Askim-Frölunda-Högsbo, Mandolingatan;0;9;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14805181;Västra Göteborg, Korsåsen;2;9;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14805182;Västra Göteborg, Ängås;0;18;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14805191;Västra Göteborg, Önnered, Västra;0;8;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14805192;Västra Göteborg, Önnered, Östra;0;6;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14805201;Västra Göteborg, Grevegården;2;11;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14805202;Västra Göteborg, Skattegården;4;11;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14805211;Västra Göteborg, Näset, Norra;0;6;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14805212;Västra Göteborg, Näset, Södra;0;6;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14805213;Västra Göteborg, Välen;0;7;2;2018_K_per_valdistrikt.xlsx
+2018;kf;14805214;Västra Göteborg, Åkered;1;2;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14805221;Västra Göteborg, Opaltorget, Norra;1;8;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14805222;Västra Göteborg, Opaltorget, Södra;0;10;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14805231;Askim-Frölunda-Högsbo, Askim;1;2;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14805232;Askim-Frölunda-Högsbo, Hovås, Norra;2;3;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14805233;Askim-Frölunda-Högsbo, Hult;0;8;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14805234;Askim-Frölunda-Högsbo, Pilegården;0;20;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14805235;Askim-Frölunda-Högsbo, Sisjön, N;0;4;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14805236;Askim-Frölunda-Högsbo, Sisjön, S;0;9;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14805237;Askim-Frölunda-Högsbo, Sisjön, V;0;12;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14805241;Askim-Frölunda-Högsbo, Hovås, Södra;2;0;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14805242;Askim-Frölunda-Högsbo, Trollåsen;1;0;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14805251;Askim-Frölunda-Högsbo, Billdal, N;0;4;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14805252;Askim-Frölunda-Högsbo, Billdal, S;0;3;2;2018_K_per_valdistrikt.xlsx
+2018;kf;14805253;Askim-Frölunda-Högsbo, Brottkärr;1;5;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14805254;Askim-Frölunda-Högsbo, Lindås;0;5;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14805255;Askim-Frölunda-Högsbo, Lyckhem;0;5;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14805256;Askim-Frölunda-Högsbo, Nygård;0;4;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14805257;Askim-Frölunda-Högsbo, Skintebo;0;4;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14805258;Askim-Frölunda-Högsbo, Uggleberget;0;1;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14806011;Angered, Lövgärdet, Nedre;0;0;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14806012;Angered, Lövgärdet, Övre;0;0;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14806013;Angered, Lövgärdets Centrum;0;6;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14806021;Angered, Rannebergen, Norra;0;9;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14806022;Angered, Rannebergen, Södra;0;4;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14806031;Angered, Gårdsten, Norra;1;2;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14806032;Angered, Gårdsten, Södra;1;2;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14806033;Angered, Gårdsten, Västra;1;6;2;2018_K_per_valdistrikt.xlsx
+2018;kf;14806034;Angered, Gårdsten, Östra;0;5;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14806041;Angered, Angereds Centrum;0;6;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14806042;Angered, Trägårdsgärdet;0;4;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14806051;Angered, Agnesberg;0;8;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14806061;Angered, Hammarkullen, Centrum;0;7;3;2018_K_per_valdistrikt.xlsx
+2018;kf;14806062;Angered, Hammarkullen, Västra;0;6;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14806063;Angered, Hammarkullen, Östra;0;5;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14806064;Angered, Sandeslätt;0;6;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14806101;Angered, Gunnilse-Linnarhult;0;6;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14806111;Angered, Bergum;0;12;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14806112;Angered, Björsared;1;8;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14806113;Angered, Olofstorp;0;13;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14806121;Angered, Bläsebo;0;2;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14806122;Angered, Hjällbo, Norra;1;9;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14806123;Angered, Hjällbo, Södra;0;2;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14806124;Angered, Skolspåret;2;5;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14806131;Angered, Eriksbo;0;13;3;2018_K_per_valdistrikt.xlsx
+2018;kf;14807011;Västra Hisingen, Biskopsgården, N;0;6;2;2018_K_per_valdistrikt.xlsx
+2018;kf;14807012;Västra Hisingen, Svarte Mosse;0;4;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14807021;Västra Hisingen, Länsmansgården, C;0;8;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14807022;Västra Hisingen, Länsmansgården, N;0;5;2;2018_K_per_valdistrikt.xlsx
+2018;kf;14807023;Västra Hisingen, Länsmansgården, S;0;9;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14807031;Västra Hisingen, Länsmansgården, Ö;0;8;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14807032;Västra Hisingen, Svartedalen, Norra;0;8;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14807041;Västra Hisingen, Andalen;0;11;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14807042;Västra Hisingen, Gossbydal-Trånget;1;7;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14807043;Västra Hisingen, Hjuvik;0;9;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14807044;Västra Hisingen, Hällsvik;0;5;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14807051;Västra Hisingen, Amhult-Arendal;0;16;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14807052;Västra Hisingen, Domarringen m fl;0;7;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14807053;Västra Hisingen, Nolered;1;10;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14807054;Västra Hisingen, Torslanda;0;13;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14807055;Västra Hisingen, Torslanda Torg;0;9;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14807056;Västra Hisingen, Tumlehed;0;6;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14807061;Västra Hisingen, Björlanda;2;5;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14807062;Västra Hisingen, Kvisljungeby;1;10;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14807063;Västra Hisingen, Lilleby;0;5;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14807064;Västra Hisingen, Nolvik;0;5;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14807065;Västra Hisingen, Älvegården m fl;0;0;2;2018_K_per_valdistrikt.xlsx
+2018;kf;14807081;Västra Hisingen, Biskopsgården, S;0;5;3;2018_K_per_valdistrikt.xlsx
+2018;kf;14807082;Västra Hisingen, Treröset;1;4;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14807083;Västra Hisingen, Vårväderstorget;0;4;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14807084;Västra Hisingen, Väderlekstorget;3;7;0;2018_K_per_valdistrikt.xlsx
+2018;kf;14807091;Västra Hisingen, Jättesten;1;15;2;2018_K_per_valdistrikt.xlsx
+2018;kf;14807092;Västra Hisingen, Kärrmossen;0;1;2;2018_K_per_valdistrikt.xlsx
+2018;kf;14807093;Västra Hisingen, Svartedalen, Södra;0;8;1;2018_K_per_valdistrikt.xlsx
+2018;kf;14807094;Västra Hisingen, Önskevädersg. m fl;0;4;0;2018_K_per_valdistrikt.xlsx

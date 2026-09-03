@@ -1,0 +1,603 @@
+val;kod_2014;namn_2014;indelning;kod_2010;namn_2010;matchning
+rd;14800001;Uppsamlingsdistrikt;Oförändrad;14800001;;exakt
+rd;14800002;Uppsamlingsdistrikt;Oförändrad;14800002;;exakt
+rd;14800003;Uppsamlingsdistrikt;Oförändrad;14800003;;exakt
+rd;14800004;Uppsamlingsdistrikt;Oförändrad;14800004;;exakt
+rd;14801011;Majorna-Linné, Klippan;Oförändrad;14800916;Majorna, Klippan;exakt
+rd;14801012;Majorna-Linné, Kungsladugård;Oförändrad;14800913;Majorna, Kungsladugård;exakt
+rd;14801013;Majorna-Linné, Mariaplan;Oförändrad;14800914;Majorna, Mariaplan;exakt
+rd;14801014;Majorna-Linné, Silverkällan;Oförändrad;14800915;Majorna, Silverkällan;exakt
+rd;14801015;Majorna-Linné, Skytteskogen;Oförändrad;14800912;Majorna, Skytteskogen;exakt
+rd;14801016;Majorna-Linné, Svalebo;Modifierad;;;ingen FGVAL
+rd;14801021;Majorna-Linné, Sandarne;Oförändrad;14800921;Majorna, Sandarne;exakt
+rd;14801031;Majorna-Linné, Godhem;Oförändrad;14800936;Majorna, Godhem;exakt
+rd;14801032;Majorna-Linné, Gråberget;Oförändrad;14800934;Majorna, Gråberget;exakt
+rd;14801033;Majorna-Linné, Hängmattan;Modifierad;;;ingen FGVAL
+rd;14801034;Majorna-Linné, Majorna;Modifierad;;;ingen FGVAL
+rd;14801035;Majorna-Linné, Marieberg;Modifierad;;;ingen FGVAL
+rd;14801036;Majorna-Linné, Slottsskogsgatan m fl;Modifierad;;;ingen FGVAL
+rd;14801041;Majorna-Linné, Djurgårdsgatan m fl;Oförändrad;14800943;Majorna, Djurgårdsgatan m fl;exakt
+rd;14801042;Majorna-Linné, Gatenhielmska;Oförändrad;14800944;Majorna, Gatenhielmska;exakt
+rd;14801043;Majorna-Linné, Karl Johans torg;Oförändrad;14800942;Majorna, Karl Johans torg;exakt
+rd;14801044;Majorna-Linné, Söderlingska ängen;Oförändrad;14800941;Majorna, Söderlingska ängen;exakt
+rd;14801051;Majorna-Linné, Masthugget, Nedre;Oförändrad;14800814;Linnéstaden, Nedre Masthugget;exakt
+rd;14801052;Majorna-Linné, Masthugget, Övre;Oförändrad;14800811;Linnéstaden, Övre Masthugget;exakt
+rd;14801053;Majorna-Linné, Masthuggstorget;Oförändrad;14800813;Linnéstaden, Masthuggstorget;exakt
+rd;14801054;Majorna-Linné, Oscar Fredrik;Oförändrad;14800815;Linnéstaden, Oscar Fredrik;exakt
+rd;14801055;Majorna-Linné, Slottsskogen;Oförändrad;14800817;Linnéstaden, Slottsskogen;exakt
+rd;14801056;Majorna-Linné, Stigberget;Oförändrad;14800812;Linnéstaden, Stigberget;exakt
+rd;14801057;Majorna-Linné, Vegastaden;Oförändrad;14800816;Linnéstaden, Vegastaden;exakt
+rd;14801061;Majorna-Linné, Änggården;Oförändrad;14800821;Linnéstaden, Änggården;exakt
+rd;14801071;Majorna-Linné, Haga;Modifierad;;;ingen FGVAL
+rd;14801072;Majorna-Linné, Skansberget;Modifierad;;;ingen FGVAL
+rd;14801081;Majorna-Linné, Annedal;Oförändrad;14800841;Linnéstaden, Annedal;exakt
+rd;14801082;Majorna-Linné, Nilssonsberg;Oförändrad;14800842;Linnéstaden, Nilssonsberg;exakt
+rd;14801091;Majorna-Linné, Kommendantsängen;Oförändrad;14800856;Linnéstaden, Kommendantsängen;exakt
+rd;14801092;Majorna-Linné, Linné;Oförändrad;14800854;Linnéstaden, Linné;exakt
+rd;14801093;Majorna-Linné, Linnéplatsen;Oförändrad;14800851;Linnéstaden, Linnéplatsen;exakt
+rd;14801094;Majorna-Linné, Långgatorna;Oförändrad;14800853;Linnéstaden, Långgatorna;exakt
+rd;14801095;Majorna-Linné, Olivedal;Oförändrad;14800852;Linnéstaden, Olivedal;exakt
+rd;14801096;Majorna-Linné, Risåsen;Oförändrad;14800855;Linnéstaden, Risåsen;exakt
+rd;14801097;Majorna-Linné, Sveaplan;Oförändrad;14800857;Linnéstaden, Sveaplan;exakt
+rd;14801101;Centrum, Framnäs;Modifierad;;;ingen FGVAL
+rd;14801102;Centrum, Fredriksdal;Modifierad;;;ingen FGVAL
+rd;14801103;Centrum, Fridkullagatan m fl;Modifierad;;;ingen FGVAL
+rd;14801104;Centrum, Getebergsäng;Modifierad;;;ingen FGVAL
+rd;14801105;Centrum, Kristinehöjd;Modifierad;;;ingen FGVAL
+rd;14801106;Centrum, Krokslätt;Modifierad;;;ingen FGVAL
+rd;14801107;Centrum, Mossen;Modifierad;;;ingen FGVAL
+rd;14801108;Centrum, Olofshöjd;Oförändrad;14800714;Centrum, Olofshöjd;exakt
+rd;14801111;Centrum, Eklanda;Oförändrad;14800723;Centrum, Eklanda;exakt
+rd;14801112;Centrum, Johanneberg, Nedre;Oförändrad;14800721;Centrum, Nedre Johanneberg;exakt
+rd;14801113;Centrum, Johanneberg, Södra;Oförändrad;14800724;Centrum, Södra Johanneberg;exakt
+rd;14801114;Centrum, Johanneberg, Övre;Oförändrad;14800722;Centrum, Övre Johanneberg;exakt
+rd;14801121;Centrum, Landala;Oförändrad;14800732;Centrum, Landala;exakt
+rd;14801122;Centrum, Landalabergen m fl;Modifierad;;;ingen FGVAL
+rd;14801123;Centrum, Landalagången m fl;Modifierad;;;ingen FGVAL
+rd;14801131;Centrum, Doktor Forselius gata m fl;Oförändrad;14800746;Centrum, Doktor Forselius gata m fl;exakt
+rd;14801132;Centrum, Guldheden vattentornet;Oförändrad;14800741;Centrum, Guldheden vattentornet;exakt
+rd;14801133;Centrum, Guldheden, Centrala;Oförändrad;14800742;Centrum, Centrala Guldheden;exakt
+rd;14801134;Centrum, Guldheden, Norra;Oförändrad;14800743;Centrum, Norra Guldheden;exakt
+rd;14801135;Centrum, Guldheden, Södra;Oförändrad;14800745;Centrum, Södra Guldheden;exakt
+rd;14801136;Centrum, Landala Egnahem;Oförändrad;14800744;Centrum, Landala Egnahem;exakt
+rd;14801141;Centrum, Lorensberg;Oförändrad;14800751;Centrum, Lorensberg;exakt
+rd;14801151;Centrum, Valand;Oförändrad;14800763;Centrum, Valand;exakt
+rd;14801152;Centrum, Vasastaden, Norra;Oförändrad;14800762;Centrum, Norra Vasastaden;exakt
+rd;14801153;Centrum, Vasastaden, Södra;Oförändrad;14800761;Centrum, Södra Vasastaden;exakt
+rd;14801154;Centrum, Vasastaden, Östra;Oförändrad;14800764;Centrum, Östra Vasastaden;exakt
+rd;14801161;Centrum, Inom Vallgraven;Oförändrad;14800771;Centrum, Inom Vallgraven;exakt
+rd;14801162;Centrum, Nordstan-Otterhällan;Oförändrad;14800772;Centrum, Nordstan-Otterhällan;exakt
+rd;14801171;Centrum, Friggagatan-Stampen;Oförändrad;14800783;Centrum, Friggagatan-Stampen;exakt
+rd;14801172;Centrum, Gullbergsvass-Svingeln;Modifierad;;;ingen FGVAL
+rd;14801173;Centrum, Gårda, Norra;Modifierad;;;ingen FGVAL
+rd;14801174;Centrum, Odinsgatan-Stampen;Oförändrad;14800781;Centrum, Odinsgatan-Stampen;exakt
+rd;14801181;Centrum, Bohusgatan m fl;Modifierad;;;ingen FGVAL
+rd;14801182;Centrum, Gårda, Södra;Modifierad;;;ingen FGVAL
+rd;14801183;Centrum, Heden;Modifierad;;;ingen FGVAL
+rd;14801184;Centrum, Hedås;Modifierad;;;ingen FGVAL
+rd;14802011;Örgryte-Härlanda, Gubbero;Modifierad;;;ingen FGVAL
+rd;14802012;Örgryte-Härlanda, Olskroken;Oförändrad;14800612;Örgryte, Olskroken;exakt
+rd;14802013;Örgryte-Härlanda, Redberget;Modifierad;;;ingen FGVAL
+rd;14802014;Örgryte-Härlanda, Redbergsplatsen;Modifierad;;;ingen FGVAL
+rd;14802021;Örgryte-Härlanda, Bagaregården;Oförändrad;14800621;Örgryte, Bagaregården;exakt
+rd;14802022;Örgryte-Härlanda, Ånäs;Oförändrad;14800622;Örgryte, Ånäs;exakt
+rd;14802031;Örgryte-Härlanda, Redbergslid;Oförändrad;14800632;Örgryte, Redbergslid;exakt
+rd;14802032;Örgryte-Härlanda, Strömmensberg;Oförändrad;14800631;Örgryte, Strömmensberg;exakt
+rd;14802041;Örgryte-Härlanda, Kallebäck, Västra;Modifierad;;;ingen FGVAL
+rd;14802042;Örgryte-Härlanda, Kallebäck, Östra;Modifierad;;;ingen FGVAL
+rd;14802051;Örgryte-Härlanda, Jakobsdal;Oförändrad;14800652;Örgryte, Jakobsdal;exakt
+rd;14802052;Örgryte-Härlanda, Skår, Norra;Oförändrad;14800653;Örgryte, Norra Skår;exakt
+rd;14802053;Örgryte-Härlanda, Skår, Södra;Oförändrad;14800651;Örgryte, Södra Skår;exakt
+rd;14802061;Örgryte-Härlanda, Bö;Oförändrad;14800662;Örgryte, Bö;exakt
+rd;14802062;Örgryte-Härlanda, Örgryte;Oförändrad;14800661;Örgryte, Örgryte;exakt
+rd;14802071;Örgryte-Härlanda, Torp;Oförändrad;14800671;Örgryte, Torp;exakt
+rd;14802081;Örgryte-Härlanda, Kärralund;Oförändrad;14800686;Örgryte, Kärralund;exakt
+rd;14802082;Örgryte-Härlanda, Lunden, Gamla;Oförändrad;14800682;Örgryte, Gamla Lunden;exakt
+rd;14802083;Örgryte-Härlanda, Lunden, Nya;Oförändrad;14800685;Örgryte, Nya Lunden-Prästgårdsängen;exakt
+rd;14802084;Örgryte-Härlanda, Nobelplatsen;Oförändrad;14800683;Örgryte, Nobelplatsen;exakt
+rd;14802085;Örgryte-Härlanda, Sankt Pauli;Oförändrad;14800684;Örgryte, Sankt Pauli;exakt
+rd;14802086;Örgryte-Härlanda, Överås;Oförändrad;14800681;Örgryte, Överås;exakt
+rd;14802091;Örgryte-Härlanda, Härlanda;Oförändrad;14800511;Härlanda, Härlanda;exakt
+rd;14802101;Örgryte-Härlanda, Kålltorp, Norra;Modifierad;;;ingen FGVAL
+rd;14802102;Örgryte-Härlanda, Kålltorp, Södra;Modifierad;;;ingen FGVAL
+rd;14802103;Örgryte-Härlanda, Kålltorp, Västra;Modifierad;;;ingen FGVAL
+rd;14802104;Örgryte-Härlanda, Kålltorp, Östra;Oförändrad;14800523;Härlanda, Östra Kålltorp;exakt
+rd;14802105;Örgryte-Härlanda, Munkebäck, Norra;Modifierad;;;ingen FGVAL
+rd;14802106;Örgryte-Härlanda, Munkebäck, Södra;Modifierad;;;ingen FGVAL
+rd;14802111;Örgryte-Härlanda, Fräntorp;Modifierad;;;ingen FGVAL
+rd;14802112;Örgryte-Härlanda, Torpa;Modifierad;;;ingen FGVAL
+rd;14802121;Örgryte-Härlanda, Björkekärr, Norra;Modifierad;;;ingen FGVAL
+rd;14802122;Örgryte-Härlanda, Björkekärr, Södra;Modifierad;;;ingen FGVAL
+rd;14802123;Örgryte-Härlanda, Björkekärr, Västra;Modifierad;;;ingen FGVAL
+rd;14802124;Örgryte-Härlanda, Björkekärr, Östra;Modifierad;;;ingen FGVAL
+rd;14802125;Örgryte-Härlanda, Robertshöjd m fl;Modifierad;;;ingen FGVAL
+rd;14803011;Östra Göteborg, Bellevue;Modifierad;;;ingen FGVAL
+rd;14803012;Östra Göteborg, Gamlestaden;Modifierad;;;ingen FGVAL
+rd;14803013;Östra Göteborg, Kviberg, Västra;Modifierad;;;ingen FGVAL
+rd;14803014;Östra Göteborg, Kviberg, Östra;Modifierad;;;ingen FGVAL
+rd;14803015;Östra Göteborg, Nylöse;Oförändrad;14800312;Kortedala, Nylöse;exakt
+rd;14803021;Östra Göteborg, Fjällbo;Modifierad;;;ingen FGVAL
+rd;14803022;Östra Göteborg, Utby;Oförändrad;14800322;Kortedala, Utby;exakt
+rd;14803023;Östra Göteborg, Utbynäs;Modifierad;;;ingen FGVAL
+rd;14803031;Östra Göteborg, Gregorianska g. m fl;Oförändrad;14800331;Kortedala, Gregorianska gatan m fl;exakt
+rd;14803032;Östra Göteborg, Kortedala Centrum;Oförändrad;14800334;Kortedala, Kortedala Centrum;exakt
+rd;14803033;Östra Göteborg, Kortedala, Södra;Oförändrad;14800335;Kortedala, Södra Kortedala;exakt
+rd;14803034;Östra Göteborg, Kortedala, Västra;Oförändrad;14800332;Kortedala, Västra Kortedala;exakt
+rd;14803035;Östra Göteborg, Kortedala, Östra;Oförändrad;14800333;Kortedala, Östra Kortedala;exakt
+rd;14803041;Östra Göteborg, Adventsparken;Oförändrad;14800341;Kortedala, Adventsparken;exakt
+rd;14803042;Östra Göteborg, Kortedala, Norra;Oförändrad;14800342;Kortedala, Norra Kortedala;exakt
+rd;14803043;Östra Göteborg, Månadsgatorna m fl;Oförändrad;14800343;Kortedala, Månadsgatorna m fl;exakt
+rd;14803051;Östra Göteborg, Bergsjön, Norra;Oförändrad;14800414;Bergsjön, Norra Bergsjön;exakt
+rd;14803052;Östra Göteborg, Gärdsmosse;Oförändrad;14800413;Bergsjön, Gärdsmosse;exakt
+rd;14803053;Östra Göteborg, Gärdsås;Oförändrad;14800411;Bergsjön, Gärdsås;exakt
+rd;14803054;Östra Göteborg, Siriusgatan;Oförändrad;14800412;Bergsjön, Siriusgatan;exakt
+rd;14803061;Östra Göteborg, Bergsjön, Södra;Oförändrad;14800421;Bergsjön, Södra Bergsjön;exakt
+rd;14803062;Östra Göteborg, Bergsjön, Östra;Oförändrad;14800422;Bergsjön, Östra Bergsjön;exakt
+rd;14803063;Östra Göteborg, Komettorget;Oförändrad;14800424;Bergsjön, Komettorget;exakt
+rd;14803064;Östra Göteborg, Rymdtorget;Oförändrad;14800423;Bergsjön, Rymdtorget;exakt
+rd;14804021;Lundby, Bjurslätt;Oförändrad;14801822;Lundby, Bjurslätt;exakt
+rd;14804022;Lundby, Flunsås;Oförändrad;14801821;Lundby, Flunsås;exakt
+rd;14804023;Lundby, Kvillebäcken, Norra;Oförändrad;14801823;Lundby, Norra Kvillebäcken;exakt
+rd;14804024;Lundby, Kvillebäcken, Södra;Modifierad;;;ingen FGVAL
+rd;14804025;Lundby, Kvillebäcken, Östra;Modifierad;;;ingen FGVAL
+rd;14804026;Lundby, Wieselgrensplatsen;Oförändrad;14801824;Lundby, Wieselgrensplatsen;exakt
+rd;14804031;Lundby, Hilldedal;Modifierad;;;ingen FGVAL
+rd;14804032;Lundby, Slätta Damm;Modifierad;;;ingen FGVAL
+rd;14804041;Lundby, Kärrdalen;Oförändrad;14801843;Lundby, Kärrdalen;exakt
+rd;14804042;Lundby, Tolered, Norra;Oförändrad;14801842;Lundby, Norra Tolered;exakt
+rd;14804043;Lundby, Tolered, Södra;Oförändrad;14801841;Lundby, Södra Tolered;exakt
+rd;14804051;Norra Hisingen, Glöstorp;Oförändrad;14801914;Tuve-Säve, Glöstorp;exakt
+rd;14804052;Norra Hisingen, Gunnestorp;Oförändrad;14801913;Tuve-Säve, Gunnestorp;exakt
+rd;14804053;Norra Hisingen, Norumshöjd;Oförändrad;14801915;Tuve-Säve, Norumshöjd;exakt
+rd;14804054;Norra Hisingen, Tuve;Modifierad;;;ingen FGVAL
+rd;14804055;Norra Hisingen, Tången;Modifierad;;;ingen FGVAL
+rd;14804061;Norra Hisingen, Säve;Oförändrad;14801921;Tuve-Säve, Säve;exakt
+rd;14804071;Norra Hisingen, Gerrebacka-Ingebäck;Oförändrad;14802112;Kärra-Rödbo, Gerrebacka-Ingebäck;exakt
+rd;14804072;Norra Hisingen, Kärra, Norra;Oförändrad;14802114;Kärra-Rödbo, Norra Kärra;exakt
+rd;14804073;Norra Hisingen, Kärra, Södra;Oförändrad;14802116;Kärra-Rödbo, Södra Kärra;exakt
+rd;14804074;Norra Hisingen, Kärra, Västra;Oförändrad;14802113;Kärra-Rödbo, Västra Kärra;exakt
+rd;14804075;Norra Hisingen, Kärra, Östra;Oförändrad;14802115;Kärra-Rödbo, Östra Kärra;exakt
+rd;14804076;Norra Hisingen, Mysterna-Svankälla;Oförändrad;14802111;Kärra-Rödbo, Mysterna-Svankällan;exakt
+rd;14804081;Norra Hisingen, Rödbo;Oförändrad;14802121;Kärra-Rödbo, Rödbo;exakt
+rd;14804091;Norra Hisingen, Skogome-Sankt Jörgen;Oförändrad;14802041;Backa, Skogome-Sankt Jörgen;exakt
+rd;14804101;Norra Hisingen, Aröd;Modifierad;;;ingen FGVAL
+rd;14804102;Norra Hisingen, Backa-Tingstad;Modifierad;;;ingen FGVAL
+rd;14804103;Norra Hisingen, Brunnsbo;Oförändrad;14802012;Backa, Brunnsbo;exakt
+rd;14804121;Norra Hisingen, Backa;Modifierad;;;ingen FGVAL
+rd;14804122;Norra Hisingen, Backa Röd;Modifierad;;;ingen FGVAL
+rd;14804123;Norra Hisingen, Bällskär;Modifierad;;;ingen FGVAL
+rd;14804124;Norra Hisingen, Wadköpingsgatan;Modifierad;;;ingen FGVAL
+rd;14804131;Norra Hisingen, Backadalen;Oförändrad;14802032;Backa, Backadalen;exakt
+rd;14804132;Norra Hisingen, Bäckebol;Oförändrad;14802031;Backa, Bäckebol;exakt
+rd;14804133;Norra Hisingen, Selma Lagerlöfs torg;Oförändrad;14802033;Backa, Selma Lagerlöfs torg;exakt
+rd;14804134;Norra Hisingen, Skälltorp;Oförändrad;14802034;Backa, Skälltorp;exakt
+rd;14804135;Norra Hisingen, Åketorp;Oförändrad;14802035;Backa, Åketorp;exakt
+rd;14804141;Lundby, Bräcke, Norra;Oförändrad;14801853;Lundby, Norra Bräcke;exakt
+rd;14804142;Lundby, Bräcke, Södra;Oförändrad;14801852;Lundby, Södra Bräcke;exakt
+rd;14804143;Lundby, Kyrkbyn;Modifierad;;;ingen FGVAL
+rd;14804144;Lundby, Lundby, Norra;Oförändrad;14801855;Lundby, Norra Lundby;exakt
+rd;14804145;Lundby, Lundby, Södra;Oförändrad;14801856;Lundby, Södra Lundby;exakt
+rd;14804151;Lundby, Brämaregården, Norra;Modifierad;;;ingen FGVAL
+rd;14804152;Lundby, Brämaregården, Östra;Oförändrad;14801815;Lundby, Östra Brämaregården;exakt
+rd;14804153;Lundby, Brämaregården-Rambergsstaden;Modifierad;;;ingen FGVAL
+rd;14804154;Lundby, Porslinsfabriken;Oförändrad;14801816;Lundby, Lundbyvassen;exakt
+rd;14804155;Lundby, Rambergsstaden, Norra;Modifierad;;;ingen FGVAL
+rd;14804156;Lundby, Rambergsstaden, Västra;Modifierad;;;ingen FGVAL
+rd;14804161;Lundby, Eriksberg Sjöporten;Modifierad;;;ingen FGVAL
+rd;14804162;Lundby, Eriksberg, Västra;Modifierad;;;ingen FGVAL
+rd;14804163;Lundby, Eriksberg, Östra;Modifierad;;;ingen FGVAL
+rd;14804164;Lundby, Pölsebo-Bratterås;Modifierad;;;ingen FGVAL
+rd;14804165;Lundby, Sannegården;Oförändrad;14801858;Lundby, Sannegården;exakt
+rd;14804171;Lundby, Lindholmen;Modifierad;;;ingen FGVAL
+rd;14804172;Lundby, Lundbyvassen;Modifierad;;;ingen FGVAL
+rd;14805011;Västra Göteborg, Björnekulla;Oförändrad;14801114;Älvsborg, Björnekulla;exakt
+rd;14805012;Västra Göteborg, Fiskebäck, Norra;Oförändrad;14801112;Älvsborg, Norra Fiskebäck;exakt
+rd;14805013;Västra Göteborg, Fiskebäck, Södra;Oförändrad;14801111;Älvsborg, Södra Fiskebäck;exakt
+rd;14805014;Västra Göteborg, Påvelund;Oförändrad;14801113;Älvsborg, Påvelund;exakt
+rd;14805021;Västra Göteborg, Långedrag;Oförändrad;14801121;Älvsborg, Långedrag;exakt
+rd;14805031;Västra Göteborg, Hagen;Modifierad;;;ingen FGVAL
+rd;14805032;Västra Göteborg, Nya Varvet;Modifierad;;;ingen FGVAL
+rd;14805033;Västra Göteborg, Tångudden;Oförändrad;14801131;Älvsborg, Tångudden;exakt
+rd;14805041;Västra Göteborg, Ekebäck;Oförändrad;14801142;Älvsborg, Ekebäck;exakt
+rd;14805042;Västra Göteborg, Grimmered;Oförändrad;14801141;Älvsborg, Grimmered;exakt
+rd;14805051;Västra Göteborg, Brännö-Asperö;Oförändrad;14801513;Södra Skärgården, Brännö-Asperö;exakt
+rd;14805052;Västra Göteborg, Donsö-Vrångö;Oförändrad;14801511;Södra Skärgården, Donsö-Vrångö;exakt
+rd;14805053;Västra Göteborg, Styrsö-Köpstadsö;Oförändrad;14801512;Södra Skärgården, Styrsö-Köpstadsö;exakt
+rd;14805061;Västra Göteborg, Bratthammar;Oförändrad;14801411;Tynnered, Bratthammar;exakt
+rd;14805071;Västra Göteborg, Beryllg.-Guldringen;Oförändrad;14801421;Tynnered, Beryllgatan-Guldringen;exakt
+rd;14805081;Västra Göteborg, Tynnered;Oförändrad;14801431;Tynnered, Tynnered;exakt
+rd;14805091;Askim-Frölunda-Högsbo, Kavås;Modifierad;;;ingen FGVAL
+rd;14805092;Askim-Frölunda-Högsbo, Kaverös, N;Modifierad;;;ingen FGVAL
+rd;14805093;Askim-Frölunda-Högsbo, Kaverös, S;Modifierad;;;ingen FGVAL
+rd;14805101;Askim-Frölunda-Högsbo, Flatås, V;Oförändrad;14801022;Högsbo, Västra Flatås;exakt
+rd;14805111;Askim-Frölunda-Högsbo, Högsbohöjd, N;Oförändrad;14801032;Högsbo, Norra Högsbohöjd;exakt
+rd;14805112;Askim-Frölunda-Högsbo, Högsbohöjd, S;Oförändrad;14801031;Högsbo, Södra Högsbohöjd;exakt
+rd;14805121;Askim-Frölunda-Högsbo, Högsbo;Oförändrad;14801041;Högsbo, Högsbo;exakt
+rd;14805122;Askim-Frölunda-Högsbo, Högsbotorp, V;Oförändrad;14801042;Högsbo, Västra Högsbotorp;exakt
+rd;14805123;Askim-Frölunda-Högsbo, Högsbotorp, Ö;Oförändrad;14801044;Högsbo, Östra Högsbotorp;exakt
+rd;14805124;Askim-Frölunda-Högsbo, Marklandsg.;Oförändrad;14801043;Högsbo, Marklandsgatan m fl;exakt
+rd;14805131;Askim-Frölunda-Högsbo, Spinetten;Oförändrad;14801212;Frölunda, Spinetten;exakt
+rd;14805132;Askim-Frölunda-Högsbo, Tofta;Oförändrad;14801211;Frölunda, Tofta;exakt
+rd;14805141;Askim-Frölunda-Högsbo, Ruddalen;Oförändrad;14801221;Frölunda, Ruddalen;exakt
+rd;14805151;Askim-Frölunda-Högsbo, Järnbrott, V;Oförändrad;14801231;Frölunda, Västra Järnbrott;exakt
+rd;14805152;Askim-Frölunda-Högsbo, Järnbrott, Ö;Oförändrad;14801232;Frölunda, Östra Järnbrott;exakt
+rd;14805161;Askim-Frölunda-Högsbo, Flatås, Ö;Oförändrad;14801021;Högsbo, Östra Flatås;exakt
+rd;14805171;Askim-Frölunda-Högsbo, Frölunda;Modifierad;;;ingen FGVAL
+rd;14805172;Askim-Frölunda-Högsbo, Frölunda Torg;Oförändrad;14801241;Frölunda, Frölunda torg;exakt
+rd;14805173;Askim-Frölunda-Högsbo, Gånglåten;Modifierad;;;ingen FGVAL
+rd;14805174;Askim-Frölunda-Högsbo, Mandolingatan;Oförändrad;14801243;Frölunda, Frölunda;exakt
+rd;14805181;Västra Göteborg, Korsåsen;Oförändrad;14801441;Tynnered, Korsåsen;exakt
+rd;14805182;Västra Göteborg, Ängås;Oförändrad;14801442;Tynnered, Ängås;exakt
+rd;14805191;Västra Göteborg, Önnered, Västra;Oförändrad;14801451;Tynnered, Västra Önnered;exakt
+rd;14805192;Västra Göteborg, Önnered, Östra;Oförändrad;14801452;Tynnered, Östra Önnered;exakt
+rd;14805201;Västra Göteborg, Grevegården;Oförändrad;14801461;Tynnered, Grevegården;exakt
+rd;14805202;Västra Göteborg, Skattegården;Oförändrad;14801462;Tynnered, Skattegården;exakt
+rd;14805211;Västra Göteborg, Näset, Norra;Oförändrad;14801472;Tynnered, Norra Näset;exakt
+rd;14805212;Västra Göteborg, Näset, Södra;Oförändrad;14801471;Tynnered, Södra Näset;exakt
+rd;14805213;Västra Göteborg, Åkered;Oförändrad;14801473;Tynnered, Åkered;exakt
+rd;14805221;Västra Göteborg, Opaltorget, Norra;Oförändrad;14801482;Tynnered, Norra Opaltorget;exakt
+rd;14805222;Västra Göteborg, Opaltorget, Södra;Oförändrad;14801481;Tynnered, Södra Opaltorget;exakt
+rd;14805231;Askim-Frölunda-Högsbo, Askim;Oförändrad;14801313;Askim, Askim;exakt
+rd;14805232;Askim-Frölunda-Högsbo, Hovås, Norra;Oförändrad;14801316;Askim, Norra Hovås;exakt
+rd;14805233;Askim-Frölunda-Högsbo, Hult;Oförändrad;14801311;Askim, Hult;exakt
+rd;14805234;Askim-Frölunda-Högsbo, Pilegården;Oförändrad;14801312;Askim, Pilegården;exakt
+rd;14805235;Askim-Frölunda-Högsbo, Sisjön, Norra;Oförändrad;14801314;Askim, Norra Sisjön;exakt
+rd;14805236;Askim-Frölunda-Högsbo, Sisjön, Södra;Oförändrad;14801315;Askim, Södra Sisjön;exakt
+rd;14805241;Askim-Frölunda-Högsbo, Hovås, Södra;Oförändrad;14801321;Askim, Södra Hovås;exakt
+rd;14805242;Askim-Frölunda-Högsbo, Trollåsen;Oförändrad;14801322;Askim, Trollåsen;exakt
+rd;14805251;Askim-Frölunda-Högsbo, Billdal;Modifierad;;;ingen FGVAL
+rd;14805252;Askim-Frölunda-Högsbo, Brottkärr;Oförändrad;14801334;Askim, Brottkärr;exakt
+rd;14805253;Askim-Frölunda-Högsbo, Lindås;Modifierad;;;ingen FGVAL
+rd;14805254;Askim-Frölunda-Högsbo, Lyckhem;Oförändrad;14801335;Askim, Lyckhem;exakt
+rd;14805255;Askim-Frölunda-Högsbo, Nygård;Oförändrad;14801332;Askim, Nygård;exakt
+rd;14805256;Askim-Frölunda-Högsbo, Skintebo;Oförändrad;14801333;Askim, Skintebo;exakt
+rd;14806011;Angered, Lövgärdet, Nedre;Oförändrad;14800113;Gunnared, Nedre Lövgärdet;exakt
+rd;14806012;Angered, Lövgärdet, Övre;Oförändrad;14800112;Gunnared, Övre Lövgärdet;exakt
+rd;14806013;Angered, Lövgärdets Centrum;Oförändrad;14800111;Gunnared, Lövgärdets Centrum;exakt
+rd;14806021;Angered, Rannebergen, Norra;Oförändrad;14800122;Gunnared, Norra Rannebergen;exakt
+rd;14806022;Angered, Rannebergen, Södra;Oförändrad;14800121;Gunnared, Södra Rannebergen;exakt
+rd;14806031;Angered, Gårdsten, Norra;Oförändrad;14800132;Gunnared, Norra Gårdsten;exakt
+rd;14806032;Angered, Gårdsten, Södra;Oförändrad;14800134;Gunnared, Södra Gårdsten;exakt
+rd;14806033;Angered, Gårdsten, Västra;Oförändrad;14800131;Gunnared, Västra Gårdsten;exakt
+rd;14806034;Angered, Gårdsten, Östra;Oförändrad;14800133;Gunnared, Östra Gårdsten;exakt
+rd;14806041;Angered, Angereds Centrum;Oförändrad;14800141;Gunnared, Angereds Centrum;exakt
+rd;14806042;Angered, Trägårdsgärdet;Oförändrad;14800142;Gunnared, Trädgårdsgärdet;exakt
+rd;14806051;Angered, Agnesberg;Oförändrad;14800211;Lärjedalen, Agnesberg;exakt
+rd;14806061;Angered, Hammarkullen, Västra;Oförändrad;14800221;Lärjedalen, Västra Hammarkullen;exakt
+rd;14806062;Angered, Hammarkullen, Östra;Modifierad;;;ingen FGVAL
+rd;14806063;Angered, Sandeslätt;Modifierad;;;ingen FGVAL
+rd;14806101;Angered, Gunnilse-Linnarhult;Oförändrad;14800231;Lärjedalen, Gunnilse-Linnarhult;exakt
+rd;14806111;Angered, Björsared-Knipared;Oförändrad;14800251;Lärjedalen, Björsared-Knipared;exakt
+rd;14806112;Angered, Olofstorp;Oförändrad;14800252;Lärjedalen, Olofstorp;exakt
+rd;14806121;Angered, Bläsebo;Oförändrad;14800264;Lärjedalen, Bläsebo;exakt
+rd;14806122;Angered, Hjällbo, Norra;Oförändrad;14800263;Lärjedalen, Norra Hjällbo;exakt
+rd;14806123;Angered, Hjällbo, Södra;Oförändrad;14800261;Lärjedalen, Södra Hjällbo;exakt
+rd;14806124;Angered, Skolspåret;Oförändrad;14800262;Lärjedalen, Skolspåret;exakt
+rd;14806131;Angered, Eriksbo;Modifierad;;;ingen FGVAL
+rd;14807011;Västra Hisingen, Biskopsgården, N;Modifierad;;;ingen FGVAL
+rd;14807012;Västra Hisingen, Svarte Mosse;Modifierad;;;ingen FGVAL
+rd;14807021;Västra Hisingen, Länsmansgården, C;Oförändrad;14801722;Biskopsgården, Länsmansgårdens Centr;exakt
+rd;14807022;Västra Hisingen, Länsmansgården, N;Oförändrad;14801723;Biskopsgården, Norra Länsmansgården;exakt
+rd;14807023;Västra Hisingen, Länsmansgården, S;Oförändrad;14801721;Biskopsgården, Södra Länsmansgården;exakt
+rd;14807031;Västra Hisingen, Badvädersgatan m fl;Oförändrad;14801732;Biskopsgården, Badvädersgatan m fl;exakt
+rd;14807032;Västra Hisingen, Stackmolnsg. m fl;Oförändrad;14801731;Biskopsgården, Stackmolnsgatan m fl;exakt
+rd;14807041;Västra Hisingen, Andalen;Oförändrad;14801613;Torslanda, Andalen;exakt
+rd;14807042;Västra Hisingen, Hjuvik;Oförändrad;14801611;Torslanda, Hjuvik;exakt
+rd;14807043;Västra Hisingen, Hällsvik;Oförändrad;14801612;Torslanda, Hällsvik;exakt
+rd;14807051;Västra Hisingen, Amhult-Arendal;Oförändrad;14801625;Torslanda, Amhult-Arendal;exakt
+rd;14807052;Västra Hisingen, Domarringen m fl;Oförändrad;14801622;Torslanda, Domarringen m fl;exakt
+rd;14807053;Västra Hisingen, Nolered;Oförändrad;14801624;Torslanda, Nolered;exakt
+rd;14807054;Västra Hisingen, Torslanda;Oförändrad;14801623;Torslanda, Torslanda;exakt
+rd;14807055;Västra Hisingen, Tumlehed;Oförändrad;14801621;Torslanda, Tumlehed;exakt
+rd;14807061;Västra Hisingen, Björlanda;Modifierad;;;ingen FGVAL
+rd;14807062;Västra Hisingen, Kvisljungeby;Modifierad;;;ingen FGVAL
+rd;14807063;Västra Hisingen, Lilleby;Modifierad;;;ingen FGVAL
+rd;14807064;Västra Hisingen, Älvegården m fl;Modifierad;;;ingen FGVAL
+rd;14807081;Västra Hisingen, Biskopsgården, S;Oförändrad;14801741;Biskopsgården, Södra Biskopsgården;exakt
+rd;14807082;Västra Hisingen, Treröset;Oförändrad;14801743;Biskopsgården, Treröset;exakt
+rd;14807083;Västra Hisingen, Vårväderstorget;Oförändrad;14801744;Biskopsgården, Vårväderstorget;exakt
+rd;14807084;Västra Hisingen, Väderlekstorget;Oförändrad;14801742;Biskopsgården, Väderlekstorget;exakt
+rd;14807091;Västra Hisingen, Jättesten;Oförändrad;14801751;Biskopsgården, Jättesten;exakt
+rd;14807092;Västra Hisingen, Kärrmossen;Modifierad;;;ingen FGVAL
+rd;14807093;Västra Hisingen, Svartedalen;Oförändrad;14801752;Biskopsgården, Svartedalen;exakt
+kf;14800001;Uppsamlingsdistrikt;Oförändrad;14800001;;exakt
+kf;14800002;Uppsamlingsdistrikt;Oförändrad;14800002;;exakt
+kf;14800003;Uppsamlingsdistrikt;Oförändrad;14800003;;exakt
+kf;14800004;Uppsamlingsdistrikt;Oförändrad;14800004;;exakt
+kf;14801011;Majorna-Linné, Klippan;Oförändrad;14800916;Majorna, Klippan;exakt
+kf;14801012;Majorna-Linné, Kungsladugård;Oförändrad;14800913;Majorna, Kungsladugård;exakt
+kf;14801013;Majorna-Linné, Mariaplan;Oförändrad;14800914;Majorna, Mariaplan;exakt
+kf;14801014;Majorna-Linné, Silverkällan;Oförändrad;14800915;Majorna, Silverkällan;exakt
+kf;14801015;Majorna-Linné, Skytteskogen;Oförändrad;14800912;Majorna, Skytteskogen;exakt
+kf;14801016;Majorna-Linné, Svalebo;Modifierad;;;ingen FGVAL
+kf;14801021;Majorna-Linné, Sandarne;Oförändrad;14800921;Majorna, Sandarne;exakt
+kf;14801031;Majorna-Linné, Godhem;Oförändrad;14800936;Majorna, Godhem;exakt
+kf;14801032;Majorna-Linné, Gråberget;Oförändrad;14800934;Majorna, Gråberget;exakt
+kf;14801033;Majorna-Linné, Hängmattan;Modifierad;;;ingen FGVAL
+kf;14801034;Majorna-Linné, Majorna;Modifierad;;;ingen FGVAL
+kf;14801035;Majorna-Linné, Marieberg;Modifierad;;;ingen FGVAL
+kf;14801036;Majorna-Linné, Slottsskogsgatan m fl;Modifierad;;;ingen FGVAL
+kf;14801041;Majorna-Linné, Djurgårdsgatan m fl;Oförändrad;14800943;Majorna, Djurgårdsgatan m fl;exakt
+kf;14801042;Majorna-Linné, Gatenhielmska;Oförändrad;14800944;Majorna, Gatenhielmska;exakt
+kf;14801043;Majorna-Linné, Karl Johans torg;Oförändrad;14800942;Majorna, Karl Johans torg;exakt
+kf;14801044;Majorna-Linné, Söderlingska ängen;Oförändrad;14800941;Majorna, Söderlingska ängen;exakt
+kf;14801051;Majorna-Linné, Masthugget, Nedre;Oförändrad;14800814;Linnéstaden, Nedre Masthugget;exakt
+kf;14801052;Majorna-Linné, Masthugget, Övre;Oförändrad;14800811;Linnéstaden, Övre Masthugget;exakt
+kf;14801053;Majorna-Linné, Masthuggstorget;Oförändrad;14800813;Linnéstaden, Masthuggstorget;exakt
+kf;14801054;Majorna-Linné, Oscar Fredrik;Oförändrad;14800815;Linnéstaden, Oscar Fredrik;exakt
+kf;14801055;Majorna-Linné, Slottsskogen;Oförändrad;14800817;Linnéstaden, Slottsskogen;exakt
+kf;14801056;Majorna-Linné, Stigberget;Oförändrad;14800812;Linnéstaden, Stigberget;exakt
+kf;14801057;Majorna-Linné, Vegastaden;Oförändrad;14800816;Linnéstaden, Vegastaden;exakt
+kf;14801061;Majorna-Linné, Änggården;Oförändrad;14800821;Linnéstaden, Änggården;exakt
+kf;14801071;Majorna-Linné, Haga;Modifierad;;;ingen FGVAL
+kf;14801072;Majorna-Linné, Skansberget;Modifierad;;;ingen FGVAL
+kf;14801081;Majorna-Linné, Annedal;Oförändrad;14800841;Linnéstaden, Annedal;exakt
+kf;14801082;Majorna-Linné, Nilssonsberg;Oförändrad;14800842;Linnéstaden, Nilssonsberg;exakt
+kf;14801091;Majorna-Linné, Kommendantsängen;Oförändrad;14800856;Linnéstaden, Kommendantsängen;exakt
+kf;14801092;Majorna-Linné, Linné;Oförändrad;14800854;Linnéstaden, Linné;exakt
+kf;14801093;Majorna-Linné, Linnéplatsen;Oförändrad;14800851;Linnéstaden, Linnéplatsen;exakt
+kf;14801094;Majorna-Linné, Långgatorna;Oförändrad;14800853;Linnéstaden, Långgatorna;exakt
+kf;14801095;Majorna-Linné, Olivedal;Oförändrad;14800852;Linnéstaden, Olivedal;exakt
+kf;14801096;Majorna-Linné, Risåsen;Oförändrad;14800855;Linnéstaden, Risåsen;exakt
+kf;14801097;Majorna-Linné, Sveaplan;Oförändrad;14800857;Linnéstaden, Sveaplan;exakt
+kf;14801101;Centrum, Framnäs;Modifierad;;;ingen FGVAL
+kf;14801102;Centrum, Fredriksdal;Modifierad;;;ingen FGVAL
+kf;14801103;Centrum, Fridkullagatan m fl;Modifierad;;;ingen FGVAL
+kf;14801104;Centrum, Getebergsäng;Modifierad;;;ingen FGVAL
+kf;14801105;Centrum, Kristinehöjd;Modifierad;;;ingen FGVAL
+kf;14801106;Centrum, Krokslätt;Modifierad;;;ingen FGVAL
+kf;14801107;Centrum, Mossen;Modifierad;;;ingen FGVAL
+kf;14801108;Centrum, Olofshöjd;Oförändrad;14800714;Centrum, Olofshöjd;exakt
+kf;14801111;Centrum, Eklanda;Oförändrad;14800723;Centrum, Eklanda;exakt
+kf;14801112;Centrum, Johanneberg, Nedre;Oförändrad;14800721;Centrum, Nedre Johanneberg;exakt
+kf;14801113;Centrum, Johanneberg, Södra;Oförändrad;14800724;Centrum, Södra Johanneberg;exakt
+kf;14801114;Centrum, Johanneberg, Övre;Oförändrad;14800722;Centrum, Övre Johanneberg;exakt
+kf;14801121;Centrum, Landala;Oförändrad;14800732;Centrum, Landala;exakt
+kf;14801122;Centrum, Landalabergen m fl;Modifierad;;;ingen FGVAL
+kf;14801123;Centrum, Landalagången m fl;Modifierad;;;ingen FGVAL
+kf;14801131;Centrum, Doktor Forselius gata m fl;Oförändrad;14800746;Centrum, Doktor Forselius gata m fl;exakt
+kf;14801132;Centrum, Guldheden vattentornet;Oförändrad;14800741;Centrum, Guldheden vattentornet;exakt
+kf;14801133;Centrum, Guldheden, Centrala;Oförändrad;14800742;Centrum, Centrala Guldheden;exakt
+kf;14801134;Centrum, Guldheden, Norra;Oförändrad;14800743;Centrum, Norra Guldheden;exakt
+kf;14801135;Centrum, Guldheden, Södra;Oförändrad;14800745;Centrum, Södra Guldheden;exakt
+kf;14801136;Centrum, Landala Egnahem;Oförändrad;14800744;Centrum, Landala Egnahem;exakt
+kf;14801141;Centrum, Lorensberg;Oförändrad;14800751;Centrum, Lorensberg;exakt
+kf;14801151;Centrum, Valand;Oförändrad;14800763;Centrum, Valand;exakt
+kf;14801152;Centrum, Vasastaden, Norra;Oförändrad;14800762;Centrum, Norra Vasastaden;exakt
+kf;14801153;Centrum, Vasastaden, Södra;Oförändrad;14800761;Centrum, Södra Vasastaden;exakt
+kf;14801154;Centrum, Vasastaden, Östra;Oförändrad;14800764;Centrum, Östra Vasastaden;exakt
+kf;14801161;Centrum, Inom Vallgraven;Oförändrad;14800771;Centrum, Inom Vallgraven;exakt
+kf;14801162;Centrum, Nordstan-Otterhällan;Oförändrad;14800772;Centrum, Nordstan-Otterhällan;exakt
+kf;14801171;Centrum, Friggagatan-Stampen;Oförändrad;14800783;Centrum, Friggagatan-Stampen;exakt
+kf;14801172;Centrum, Gullbergsvass-Svingeln;Modifierad;;;ingen FGVAL
+kf;14801173;Centrum, Gårda, Norra;Modifierad;;;ingen FGVAL
+kf;14801174;Centrum, Odinsgatan-Stampen;Oförändrad;14800781;Centrum, Odinsgatan-Stampen;exakt
+kf;14801181;Centrum, Bohusgatan m fl;Modifierad;;;ingen FGVAL
+kf;14801182;Centrum, Gårda, Södra;Modifierad;;;ingen FGVAL
+kf;14801183;Centrum, Heden;Modifierad;;;ingen FGVAL
+kf;14801184;Centrum, Hedås;Modifierad;;;ingen FGVAL
+kf;14802011;Örgryte-Härlanda, Gubbero;Modifierad;;;ingen FGVAL
+kf;14802012;Örgryte-Härlanda, Olskroken;Oförändrad;14800612;Örgryte, Olskroken;exakt
+kf;14802013;Örgryte-Härlanda, Redberget;Modifierad;;;ingen FGVAL
+kf;14802014;Örgryte-Härlanda, Redbergsplatsen;Modifierad;;;ingen FGVAL
+kf;14802021;Örgryte-Härlanda, Bagaregården;Oförändrad;14800621;Örgryte, Bagaregården;exakt
+kf;14802022;Örgryte-Härlanda, Ånäs;Oförändrad;14800622;Örgryte, Ånäs;exakt
+kf;14802031;Örgryte-Härlanda, Redbergslid;Oförändrad;14800632;Örgryte, Redbergslid;exakt
+kf;14802032;Örgryte-Härlanda, Strömmensberg;Oförändrad;14800631;Örgryte, Strömmensberg;exakt
+kf;14802041;Örgryte-Härlanda, Kallebäck, Västra;Modifierad;;;ingen FGVAL
+kf;14802042;Örgryte-Härlanda, Kallebäck, Östra;Modifierad;;;ingen FGVAL
+kf;14802051;Örgryte-Härlanda, Jakobsdal;Oförändrad;14800652;Örgryte, Jakobsdal;exakt
+kf;14802052;Örgryte-Härlanda, Skår, Norra;Oförändrad;14800653;Örgryte, Norra Skår;exakt
+kf;14802053;Örgryte-Härlanda, Skår, Södra;Oförändrad;14800651;Örgryte, Södra Skår;exakt
+kf;14802061;Örgryte-Härlanda, Bö;Oförändrad;14800662;Örgryte, Bö;exakt
+kf;14802062;Örgryte-Härlanda, Örgryte;Oförändrad;14800661;Örgryte, Örgryte;exakt
+kf;14802071;Örgryte-Härlanda, Torp;Oförändrad;14800671;Örgryte, Torp;exakt
+kf;14802081;Örgryte-Härlanda, Kärralund;Oförändrad;14800686;Örgryte, Kärralund;exakt
+kf;14802082;Örgryte-Härlanda, Lunden, Gamla;Oförändrad;14800682;Örgryte, Gamla Lunden;exakt
+kf;14802083;Örgryte-Härlanda, Lunden, Nya;Oförändrad;14800685;Örgryte, Nya Lunden-Prästgårdsängen;exakt
+kf;14802084;Örgryte-Härlanda, Nobelplatsen;Oförändrad;14800683;Örgryte, Nobelplatsen;exakt
+kf;14802085;Örgryte-Härlanda, Sankt Pauli;Oförändrad;14800684;Örgryte, Sankt Pauli;exakt
+kf;14802086;Örgryte-Härlanda, Överås;Oförändrad;14800681;Örgryte, Överås;exakt
+kf;14802091;Örgryte-Härlanda, Härlanda;Oförändrad;14800511;Härlanda, Härlanda;exakt
+kf;14802101;Örgryte-Härlanda, Kålltorp, Norra;Modifierad;;;ingen FGVAL
+kf;14802102;Örgryte-Härlanda, Kålltorp, Södra;Modifierad;;;ingen FGVAL
+kf;14802103;Örgryte-Härlanda, Kålltorp, Västra;Modifierad;;;ingen FGVAL
+kf;14802104;Örgryte-Härlanda, Kålltorp, Östra;Oförändrad;14800523;Härlanda, Östra Kålltorp;exakt
+kf;14802105;Örgryte-Härlanda, Munkebäck, Norra;Modifierad;;;ingen FGVAL
+kf;14802106;Örgryte-Härlanda, Munkebäck, Södra;Modifierad;;;ingen FGVAL
+kf;14802111;Örgryte-Härlanda, Fräntorp;Modifierad;;;ingen FGVAL
+kf;14802112;Örgryte-Härlanda, Torpa;Modifierad;;;ingen FGVAL
+kf;14802121;Örgryte-Härlanda, Björkekärr, Norra;Modifierad;;;ingen FGVAL
+kf;14802122;Örgryte-Härlanda, Björkekärr, Södra;Modifierad;;;ingen FGVAL
+kf;14802123;Örgryte-Härlanda, Björkekärr, Västra;Modifierad;;;ingen FGVAL
+kf;14802124;Örgryte-Härlanda, Björkekärr, Östra;Modifierad;;;ingen FGVAL
+kf;14802125;Örgryte-Härlanda, Robertshöjd m fl;Modifierad;;;ingen FGVAL
+kf;14803011;Östra Göteborg, Bellevue;Modifierad;;;ingen FGVAL
+kf;14803012;Östra Göteborg, Gamlestaden;Modifierad;;;ingen FGVAL
+kf;14803013;Östra Göteborg, Kviberg, Västra;Modifierad;;;ingen FGVAL
+kf;14803014;Östra Göteborg, Kviberg, Östra;Modifierad;;;ingen FGVAL
+kf;14803015;Östra Göteborg, Nylöse;Oförändrad;14800312;Kortedala, Nylöse;exakt
+kf;14803021;Östra Göteborg, Fjällbo;Modifierad;;;ingen FGVAL
+kf;14803022;Östra Göteborg, Utby;Oförändrad;14800322;Kortedala, Utby;exakt
+kf;14803023;Östra Göteborg, Utbynäs;Modifierad;;;ingen FGVAL
+kf;14803031;Östra Göteborg, Gregorianska g. m fl;Oförändrad;14800331;Kortedala, Gregorianska gatan m fl;exakt
+kf;14803032;Östra Göteborg, Kortedala Centrum;Oförändrad;14800334;Kortedala, Kortedala Centrum;exakt
+kf;14803033;Östra Göteborg, Kortedala, Södra;Oförändrad;14800335;Kortedala, Södra Kortedala;exakt
+kf;14803034;Östra Göteborg, Kortedala, Västra;Oförändrad;14800332;Kortedala, Västra Kortedala;exakt
+kf;14803035;Östra Göteborg, Kortedala, Östra;Oförändrad;14800333;Kortedala, Östra Kortedala;exakt
+kf;14803041;Östra Göteborg, Adventsparken;Oförändrad;14800341;Kortedala, Adventsparken;exakt
+kf;14803042;Östra Göteborg, Kortedala, Norra;Oförändrad;14800342;Kortedala, Norra Kortedala;exakt
+kf;14803043;Östra Göteborg, Månadsgatorna m fl;Oförändrad;14800343;Kortedala, Månadsgatorna m fl;exakt
+kf;14803051;Östra Göteborg, Bergsjön, Norra;Oförändrad;14800414;Bergsjön, Norra Bergsjön;exakt
+kf;14803052;Östra Göteborg, Gärdsmosse;Oförändrad;14800413;Bergsjön, Gärdsmosse;exakt
+kf;14803053;Östra Göteborg, Gärdsås;Oförändrad;14800411;Bergsjön, Gärdsås;exakt
+kf;14803054;Östra Göteborg, Siriusgatan;Oförändrad;14800412;Bergsjön, Siriusgatan;exakt
+kf;14803061;Östra Göteborg, Bergsjön, Södra;Oförändrad;14800421;Bergsjön, Södra Bergsjön;exakt
+kf;14803062;Östra Göteborg, Bergsjön, Östra;Oförändrad;14800422;Bergsjön, Östra Bergsjön;exakt
+kf;14803063;Östra Göteborg, Komettorget;Oförändrad;14800424;Bergsjön, Komettorget;exakt
+kf;14803064;Östra Göteborg, Rymdtorget;Oförändrad;14800423;Bergsjön, Rymdtorget;exakt
+kf;14804021;Lundby, Bjurslätt;Oförändrad;14801822;Lundby, Bjurslätt;exakt
+kf;14804022;Lundby, Flunsås;Oförändrad;14801821;Lundby, Flunsås;exakt
+kf;14804023;Lundby, Kvillebäcken, Norra;Oförändrad;14801823;Lundby, Norra Kvillebäcken;exakt
+kf;14804024;Lundby, Kvillebäcken, Södra;Modifierad;;;ingen FGVAL
+kf;14804025;Lundby, Kvillebäcken, Östra;Modifierad;;;ingen FGVAL
+kf;14804026;Lundby, Wieselgrensplatsen;Oförändrad;14801824;Lundby, Wieselgrensplatsen;exakt
+kf;14804031;Lundby, Hilldedal;Modifierad;;;ingen FGVAL
+kf;14804032;Lundby, Slätta Damm;Modifierad;;;ingen FGVAL
+kf;14804041;Lundby, Kärrdalen;Oförändrad;14801843;Lundby, Kärrdalen;exakt
+kf;14804042;Lundby, Tolered, Norra;Oförändrad;14801842;Lundby, Norra Tolered;exakt
+kf;14804043;Lundby, Tolered, Södra;Oförändrad;14801841;Lundby, Södra Tolered;exakt
+kf;14804051;Norra Hisingen, Glöstorp;Oförändrad;14801914;Tuve-Säve, Glöstorp;exakt
+kf;14804052;Norra Hisingen, Gunnestorp;Oförändrad;14801913;Tuve-Säve, Gunnestorp;exakt
+kf;14804053;Norra Hisingen, Norumshöjd;Oförändrad;14801915;Tuve-Säve, Norumshöjd;exakt
+kf;14804054;Norra Hisingen, Tuve;Modifierad;;;ingen FGVAL
+kf;14804055;Norra Hisingen, Tången;Modifierad;;;ingen FGVAL
+kf;14804061;Norra Hisingen, Säve;Oförändrad;14801921;Tuve-Säve, Säve;exakt
+kf;14804071;Norra Hisingen, Gerrebacka-Ingebäck;Oförändrad;14802112;Kärra-Rödbo, Gerrebacka-Ingebäck;exakt
+kf;14804072;Norra Hisingen, Kärra, Norra;Oförändrad;14802114;Kärra-Rödbo, Norra Kärra;exakt
+kf;14804073;Norra Hisingen, Kärra, Södra;Oförändrad;14802116;Kärra-Rödbo, Södra Kärra;exakt
+kf;14804074;Norra Hisingen, Kärra, Västra;Oförändrad;14802113;Kärra-Rödbo, Västra Kärra;exakt
+kf;14804075;Norra Hisingen, Kärra, Östra;Oförändrad;14802115;Kärra-Rödbo, Östra Kärra;exakt
+kf;14804076;Norra Hisingen, Mysterna-Svankälla;Oförändrad;14802111;Kärra-Rödbo, Mysterna-Svankällan;exakt
+kf;14804081;Norra Hisingen, Rödbo;Oförändrad;14802121;Kärra-Rödbo, Rödbo;exakt
+kf;14804091;Norra Hisingen, Skogome-Sankt Jörgen;Oförändrad;14802041;Backa, Skogome-Sankt Jörgen;exakt
+kf;14804101;Norra Hisingen, Aröd;Modifierad;;;ingen FGVAL
+kf;14804102;Norra Hisingen, Backa-Tingstad;Modifierad;;;ingen FGVAL
+kf;14804103;Norra Hisingen, Brunnsbo;Oförändrad;14802012;Backa, Brunnsbo;exakt
+kf;14804121;Norra Hisingen, Backa;Modifierad;;;ingen FGVAL
+kf;14804122;Norra Hisingen, Backa Röd;Modifierad;;;ingen FGVAL
+kf;14804123;Norra Hisingen, Bällskär;Modifierad;;;ingen FGVAL
+kf;14804124;Norra Hisingen, Wadköpingsgatan;Modifierad;;;ingen FGVAL
+kf;14804131;Norra Hisingen, Backadalen;Oförändrad;14802032;Backa, Backadalen;exakt
+kf;14804132;Norra Hisingen, Bäckebol;Oförändrad;14802031;Backa, Bäckebol;exakt
+kf;14804133;Norra Hisingen, Selma Lagerlöfs torg;Oförändrad;14802033;Backa, Selma Lagerlöfs torg;exakt
+kf;14804134;Norra Hisingen, Skälltorp;Oförändrad;14802034;Backa, Skälltorp;exakt
+kf;14804135;Norra Hisingen, Åketorp;Oförändrad;14802035;Backa, Åketorp;exakt
+kf;14804141;Lundby, Bräcke, Norra;Oförändrad;14801853;Lundby, Norra Bräcke;exakt
+kf;14804142;Lundby, Bräcke, Södra;Oförändrad;14801852;Lundby, Södra Bräcke;exakt
+kf;14804143;Lundby, Kyrkbyn;Modifierad;;;ingen FGVAL
+kf;14804144;Lundby, Lundby, Norra;Oförändrad;14801855;Lundby, Norra Lundby;exakt
+kf;14804145;Lundby, Lundby, Södra;Oförändrad;14801856;Lundby, Södra Lundby;exakt
+kf;14804151;Lundby, Brämaregården, Norra;Modifierad;;;ingen FGVAL
+kf;14804152;Lundby, Brämaregården, Östra;Oförändrad;14801815;Lundby, Östra Brämaregården;exakt
+kf;14804153;Lundby, Brämaregården-Rambergsstaden;Modifierad;;;ingen FGVAL
+kf;14804154;Lundby, Porslinsfabriken;Oförändrad;14801816;Lundby, Lundbyvassen;exakt
+kf;14804155;Lundby, Rambergsstaden, Norra;Modifierad;;;ingen FGVAL
+kf;14804156;Lundby, Rambergsstaden, Västra;Modifierad;;;ingen FGVAL
+kf;14804161;Lundby, Eriksberg Sjöporten;Modifierad;;;ingen FGVAL
+kf;14804162;Lundby, Eriksberg, Västra;Modifierad;;;ingen FGVAL
+kf;14804163;Lundby, Eriksberg, Östra;Modifierad;;;ingen FGVAL
+kf;14804164;Lundby, Pölsebo-Bratterås;Modifierad;;;ingen FGVAL
+kf;14804165;Lundby, Sannegården;Oförändrad;14801858;Lundby, Sannegården;exakt
+kf;14804171;Lundby, Lindholmen;Modifierad;;;ingen FGVAL
+kf;14804172;Lundby, Lundbyvassen;Modifierad;;;ingen FGVAL
+kf;14805011;Västra Göteborg, Björnekulla;Oförändrad;14801114;Älvsborg, Björnekulla;exakt
+kf;14805012;Västra Göteborg, Fiskebäck, Norra;Oförändrad;14801112;Älvsborg, Norra Fiskebäck;exakt
+kf;14805013;Västra Göteborg, Fiskebäck, Södra;Oförändrad;14801111;Älvsborg, Södra Fiskebäck;exakt
+kf;14805014;Västra Göteborg, Påvelund;Oförändrad;14801113;Älvsborg, Påvelund;exakt
+kf;14805021;Västra Göteborg, Långedrag;Oförändrad;14801121;Älvsborg, Långedrag;exakt
+kf;14805031;Västra Göteborg, Hagen;Modifierad;;;ingen FGVAL
+kf;14805032;Västra Göteborg, Nya Varvet;Modifierad;;;ingen FGVAL
+kf;14805033;Västra Göteborg, Tångudden;Oförändrad;14801131;Älvsborg, Tångudden;exakt
+kf;14805041;Västra Göteborg, Ekebäck;Oförändrad;14801142;Älvsborg, Ekebäck;exakt
+kf;14805042;Västra Göteborg, Grimmered;Oförändrad;14801141;Älvsborg, Grimmered;exakt
+kf;14805051;Västra Göteborg, Brännö-Asperö;Oförändrad;14801513;Södra Skärgården, Brännö-Asperö;exakt
+kf;14805052;Västra Göteborg, Donsö-Vrångö;Oförändrad;14801511;Södra Skärgården, Donsö-Vrångö;exakt
+kf;14805053;Västra Göteborg, Styrsö-Köpstadsö;Oförändrad;14801512;Södra Skärgården, Styrsö-Köpstadsö;exakt
+kf;14805061;Västra Göteborg, Bratthammar;Oförändrad;14801411;Tynnered, Bratthammar;exakt
+kf;14805071;Västra Göteborg, Beryllg.-Guldringen;Oförändrad;14801421;Tynnered, Beryllgatan-Guldringen;exakt
+kf;14805081;Västra Göteborg, Tynnered;Oförändrad;14801431;Tynnered, Tynnered;exakt
+kf;14805091;Askim-Frölunda-Högsbo, Kavås;Modifierad;;;ingen FGVAL
+kf;14805092;Askim-Frölunda-Högsbo, Kaverös, N;Modifierad;;;ingen FGVAL
+kf;14805093;Askim-Frölunda-Högsbo, Kaverös, S;Modifierad;;;ingen FGVAL
+kf;14805101;Askim-Frölunda-Högsbo, Flatås, V;Oförändrad;14801022;Högsbo, Västra Flatås;exakt
+kf;14805111;Askim-Frölunda-Högsbo, Högsbohöjd, N;Oförändrad;14801032;Högsbo, Norra Högsbohöjd;exakt
+kf;14805112;Askim-Frölunda-Högsbo, Högsbohöjd, S;Oförändrad;14801031;Högsbo, Södra Högsbohöjd;exakt
+kf;14805121;Askim-Frölunda-Högsbo, Högsbo;Oförändrad;14801041;Högsbo, Högsbo;exakt
+kf;14805122;Askim-Frölunda-Högsbo, Högsbotorp, V;Oförändrad;14801042;Högsbo, Västra Högsbotorp;exakt
+kf;14805123;Askim-Frölunda-Högsbo, Högsbotorp, Ö;Oförändrad;14801044;Högsbo, Östra Högsbotorp;exakt
+kf;14805124;Askim-Frölunda-Högsbo, Marklandsg.;Oförändrad;14801043;Högsbo, Marklandsgatan m fl;exakt
+kf;14805131;Askim-Frölunda-Högsbo, Spinetten;Oförändrad;14801212;Frölunda, Spinetten;exakt
+kf;14805132;Askim-Frölunda-Högsbo, Tofta;Oförändrad;14801211;Frölunda, Tofta;exakt
+kf;14805141;Askim-Frölunda-Högsbo, Ruddalen;Oförändrad;14801221;Frölunda, Ruddalen;exakt
+kf;14805151;Askim-Frölunda-Högsbo, Järnbrott, V;Oförändrad;14801231;Frölunda, Västra Järnbrott;exakt
+kf;14805152;Askim-Frölunda-Högsbo, Järnbrott, Ö;Oförändrad;14801232;Frölunda, Östra Järnbrott;exakt
+kf;14805161;Askim-Frölunda-Högsbo, Flatås, Ö;Oförändrad;14801021;Högsbo, Östra Flatås;exakt
+kf;14805171;Askim-Frölunda-Högsbo, Frölunda;Modifierad;;;ingen FGVAL
+kf;14805172;Askim-Frölunda-Högsbo, Frölunda Torg;Oförändrad;14801241;Frölunda, Frölunda torg;exakt
+kf;14805173;Askim-Frölunda-Högsbo, Gånglåten;Modifierad;;;ingen FGVAL
+kf;14805174;Askim-Frölunda-Högsbo, Mandolingatan;Oförändrad;14801243;Frölunda, Frölunda;exakt
+kf;14805181;Västra Göteborg, Korsåsen;Oförändrad;14801441;Tynnered, Korsåsen;exakt
+kf;14805182;Västra Göteborg, Ängås;Oförändrad;14801442;Tynnered, Ängås;exakt
+kf;14805191;Västra Göteborg, Önnered, Västra;Oförändrad;14801451;Tynnered, Västra Önnered;exakt
+kf;14805192;Västra Göteborg, Önnered, Östra;Oförändrad;14801452;Tynnered, Östra Önnered;exakt
+kf;14805201;Västra Göteborg, Grevegården;Oförändrad;14801461;Tynnered, Grevegården;exakt
+kf;14805202;Västra Göteborg, Skattegården;Oförändrad;14801462;Tynnered, Skattegården;exakt
+kf;14805211;Västra Göteborg, Näset, Norra;Oförändrad;14801472;Tynnered, Norra Näset;exakt
+kf;14805212;Västra Göteborg, Näset, Södra;Oförändrad;14801471;Tynnered, Södra Näset;exakt
+kf;14805213;Västra Göteborg, Åkered;Oförändrad;14801473;Tynnered, Åkered;exakt
+kf;14805221;Västra Göteborg, Opaltorget, Norra;Oförändrad;14801482;Tynnered, Norra Opaltorget;exakt
+kf;14805222;Västra Göteborg, Opaltorget, Södra;Oförändrad;14801481;Tynnered, Södra Opaltorget;exakt
+kf;14805231;Askim-Frölunda-Högsbo, Askim;Oförändrad;14801313;Askim, Askim;exakt
+kf;14805232;Askim-Frölunda-Högsbo, Hovås, Norra;Oförändrad;14801316;Askim, Norra Hovås;exakt
+kf;14805233;Askim-Frölunda-Högsbo, Hult;Oförändrad;14801311;Askim, Hult;exakt
+kf;14805234;Askim-Frölunda-Högsbo, Pilegården;Oförändrad;14801312;Askim, Pilegården;exakt
+kf;14805235;Askim-Frölunda-Högsbo, Sisjön, Norra;Oförändrad;14801314;Askim, Norra Sisjön;exakt
+kf;14805236;Askim-Frölunda-Högsbo, Sisjön, Södra;Oförändrad;14801315;Askim, Södra Sisjön;exakt
+kf;14805241;Askim-Frölunda-Högsbo, Hovås, Södra;Oförändrad;14801321;Askim, Södra Hovås;exakt
+kf;14805242;Askim-Frölunda-Högsbo, Trollåsen;Oförändrad;14801322;Askim, Trollåsen;exakt
+kf;14805251;Askim-Frölunda-Högsbo, Billdal;Modifierad;;;ingen FGVAL
+kf;14805252;Askim-Frölunda-Högsbo, Brottkärr;Oförändrad;14801334;Askim, Brottkärr;exakt
+kf;14805253;Askim-Frölunda-Högsbo, Lindås;Modifierad;;;ingen FGVAL
+kf;14805254;Askim-Frölunda-Högsbo, Lyckhem;Oförändrad;14801335;Askim, Lyckhem;exakt
+kf;14805255;Askim-Frölunda-Högsbo, Nygård;Oförändrad;14801332;Askim, Nygård;exakt
+kf;14805256;Askim-Frölunda-Högsbo, Skintebo;Oförändrad;14801333;Askim, Skintebo;exakt
+kf;14806011;Angered, Lövgärdet, Nedre;Oförändrad;14800113;Gunnared, Nedre Lövgärdet;exakt
+kf;14806012;Angered, Lövgärdet, Övre;Oförändrad;14800112;Gunnared, Övre Lövgärdet;exakt
+kf;14806013;Angered, Lövgärdets Centrum;Oförändrad;14800111;Gunnared, Lövgärdets Centrum;exakt
+kf;14806021;Angered, Rannebergen, Norra;Oförändrad;14800122;Gunnared, Norra Rannebergen;exakt
+kf;14806022;Angered, Rannebergen, Södra;Oförändrad;14800121;Gunnared, Södra Rannebergen;exakt
+kf;14806031;Angered, Gårdsten, Norra;Oförändrad;14800132;Gunnared, Norra Gårdsten;exakt
+kf;14806032;Angered, Gårdsten, Södra;Oförändrad;14800134;Gunnared, Södra Gårdsten;exakt
+kf;14806033;Angered, Gårdsten, Västra;Oförändrad;14800131;Gunnared, Västra Gårdsten;exakt
+kf;14806034;Angered, Gårdsten, Östra;Oförändrad;14800133;Gunnared, Östra Gårdsten;exakt
+kf;14806041;Angered, Angereds Centrum;Oförändrad;14800141;Gunnared, Angereds Centrum;exakt
+kf;14806042;Angered, Trägårdsgärdet;Oförändrad;14800142;Gunnared, Trädgårdsgärdet;exakt
+kf;14806051;Angered, Agnesberg;Oförändrad;14800211;Lärjedalen, Agnesberg;exakt
+kf;14806061;Angered, Hammarkullen, Västra;Oförändrad;14800221;Lärjedalen, Västra Hammarkullen;exakt
+kf;14806062;Angered, Hammarkullen, Östra;Modifierad;;;ingen FGVAL
+kf;14806063;Angered, Sandeslätt;Modifierad;;;ingen FGVAL
+kf;14806101;Angered, Gunnilse-Linnarhult;Oförändrad;14800231;Lärjedalen, Gunnilse-Linnarhult;exakt
+kf;14806111;Angered, Björsared-Knipared;Oförändrad;14800251;Lärjedalen, Björsared-Knipared;exakt
+kf;14806112;Angered, Olofstorp;Oförändrad;14800252;Lärjedalen, Olofstorp;exakt
+kf;14806121;Angered, Bläsebo;Oförändrad;14800264;Lärjedalen, Bläsebo;exakt
+kf;14806122;Angered, Hjällbo, Norra;Oförändrad;14800263;Lärjedalen, Norra Hjällbo;exakt
+kf;14806123;Angered, Hjällbo, Södra;Oförändrad;14800261;Lärjedalen, Södra Hjällbo;exakt
+kf;14806124;Angered, Skolspåret;Oförändrad;14800262;Lärjedalen, Skolspåret;exakt
+kf;14806131;Angered, Eriksbo;Modifierad;;;ingen FGVAL
+kf;14807011;Västra Hisingen, Biskopsgården, N;Modifierad;;;ingen FGVAL
+kf;14807012;Västra Hisingen, Svarte Mosse;Modifierad;;;ingen FGVAL
+kf;14807021;Västra Hisingen, Länsmansgården, C;Oförändrad;14801722;Biskopsgården, Länsmansgårdens Centr;exakt
+kf;14807022;Västra Hisingen, Länsmansgården, N;Oförändrad;14801723;Biskopsgården, Norra Länsmansgården;exakt
+kf;14807023;Västra Hisingen, Länsmansgården, S;Oförändrad;14801721;Biskopsgården, Södra Länsmansgården;exakt
+kf;14807031;Västra Hisingen, Badvädersgatan m fl;Oförändrad;14801732;Biskopsgården, Badvädersgatan m fl;exakt
+kf;14807032;Västra Hisingen, Stackmolnsg. m fl;Oförändrad;14801731;Biskopsgården, Stackmolnsgatan m fl;exakt
+kf;14807041;Västra Hisingen, Andalen;Oförändrad;14801613;Torslanda, Andalen;exakt
+kf;14807042;Västra Hisingen, Hjuvik;Oförändrad;14801611;Torslanda, Hjuvik;exakt
+kf;14807043;Västra Hisingen, Hällsvik;Oförändrad;14801612;Torslanda, Hällsvik;exakt
+kf;14807051;Västra Hisingen, Amhult-Arendal;Oförändrad;14801625;Torslanda, Amhult-Arendal;exakt
+kf;14807052;Västra Hisingen, Domarringen m fl;Oförändrad;14801622;Torslanda, Domarringen m fl;exakt
+kf;14807053;Västra Hisingen, Nolered;Oförändrad;14801624;Torslanda, Nolered;exakt
+kf;14807054;Västra Hisingen, Torslanda;Oförändrad;14801623;Torslanda, Torslanda;exakt
+kf;14807055;Västra Hisingen, Tumlehed;Oförändrad;14801621;Torslanda, Tumlehed;exakt
+kf;14807061;Västra Hisingen, Björlanda;Modifierad;;;ingen FGVAL
+kf;14807062;Västra Hisingen, Kvisljungeby;Modifierad;;;ingen FGVAL
+kf;14807063;Västra Hisingen, Lilleby;Modifierad;;;ingen FGVAL
+kf;14807064;Västra Hisingen, Älvegården m fl;Modifierad;;;ingen FGVAL
+kf;14807081;Västra Hisingen, Biskopsgården, S;Oförändrad;14801741;Biskopsgården, Södra Biskopsgården;exakt
+kf;14807082;Västra Hisingen, Treröset;Oförändrad;14801743;Biskopsgården, Treröset;exakt
+kf;14807083;Västra Hisingen, Vårväderstorget;Oförändrad;14801744;Biskopsgården, Vårväderstorget;exakt
+kf;14807084;Västra Hisingen, Väderlekstorget;Oförändrad;14801742;Biskopsgården, Väderlekstorget;exakt
+kf;14807091;Västra Hisingen, Jättesten;Oförändrad;14801751;Biskopsgården, Jättesten;exakt
+kf;14807092;Västra Hisingen, Kärrmossen;Modifierad;;;ingen FGVAL
+kf;14807093;Västra Hisingen, Svartedalen;Oförändrad;14801752;Biskopsgården, Svartedalen;exakt

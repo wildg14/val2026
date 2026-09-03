@@ -1,0 +1,505 @@
+kod_2014;namn_2014;kod_2018;namn_2018;procent_officiell;andel_av_2014_geo;andel_av_2018_geo;diff_geo_minus_officiell;status;indelning_2018
+14801011;Majorna-Linné, Klippan;14801012;Majorna-Linné, Klippan;55.8;0.8888;0.8125;0.3308;bada;M
+14801011;Majorna-Linné, Klippan;14801011;Majorna-Linné, Gröna Vallen;44.2;0.1112;0.4414;-0.3308;bada;M
+14801012;Majorna-Linné, Kungsladugård;14801014;Majorna-Linné, Kungsladugård, Östra;78.3;0.8791;1.0000;0.0961;bada;M
+14801012;Majorna-Linné, Kungsladugård;14801013;Majorna-Linné, Kungsladugård, Västra;21.7;0.1209;0.1642;-0.0961;bada;M
+14801013;Majorna-Linné, Mariaplan;14801011;Majorna-Linné, Gröna Vallen;46.6;0.5186;0.5586;0.0526;bada;M
+14801013;Majorna-Linné, Mariaplan;14801013;Majorna-Linné, Kungsladugård, Västra;31.6;0.2690;0.2898;-0.0470;bada;M
+14801013;Majorna-Linné, Mariaplan;14801015;Majorna-Linné, Mariaplan;21.8;0.2124;0.3112;-0.0056;bada;M
+14801014;Majorna-Linné, Silverkällan;14801015;Majorna-Linné, Mariaplan;47.1;0.2921;0.6888;-0.1789;bada;M
+14801014;Majorna-Linné, Silverkällan;14801022;Majorna-Linné, Silverkällan;39.8;0.2383;0.3753;-0.1597;bada;M
+14801014;Majorna-Linné, Silverkällan;14801012;Majorna-Linné, Klippan;13.1;0.4696;0.1875;0.3386;bada;M
+14801015;Majorna-Linné, Skytteskogen;14801016;Majorna-Linné, Skytteskogen;70.5;0.8522;0.8864;0.1472;bada;M
+14801015;Majorna-Linné, Skytteskogen;14801013;Majorna-Linné, Kungsladugård, Västra;29.5;0.1478;0.5460;-0.1472;bada;M
+14801016;Majorna-Linné, Svalebo;14801017;Majorna-Linné, Svalebo;84.6;0.8524;0.6735;0.0064;bada;M
+14801016;Majorna-Linné, Svalebo;14801016;Majorna-Linné, Skytteskogen;15.4;0.1476;0.1136;-0.0064;bada;M
+14801021;Majorna-Linné, Sandarne;14801021;Majorna-Linné, Sandarne;65.7;0.8674;1.0000;0.2104;bada;M
+14801021;Majorna-Linné, Sandarne;14801022;Majorna-Linné, Silverkällan;28.5;0.0502;0.6247;-0.2348;bada;M
+14801021;Majorna-Linné, Sandarne;14801017;Majorna-Linné, Svalebo;5.8;0.0825;0.3265;0.0245;bada;M
+14801031;Majorna-Linné, Godhem;14801032;Majorna-Linné, Godhem;100.0;1.0000;1.0000;-0.0000;bada;O
+14801032;Majorna-Linné, Gråberget;14801034;Majorna-Linné, Gråberget, Östra;54.5;0.5843;0.9333;0.0393;bada;M
+14801032;Majorna-Linné, Gråberget;14801033;Majorna-Linné, Gråberget, Västra;45.5;0.4157;0.5810;-0.0393;bada;M
+14801033;Majorna-Linné, Hängmattan;14801035;Majorna-Linné, Hängmattan;76.1;0.7104;1.0000;-0.0506;bada;M
+14801033;Majorna-Linné, Hängmattan;14801036;Majorna-Linné, Majorna;23.9;0.2896;0.0712;0.0506;bada;M
+14801034;Majorna-Linné, Majorna;14801036;Majorna-Linné, Majorna;57.2;0.8935;0.9288;0.3215;bada;M
+14801034;Majorna-Linné, Majorna;14801031;Majorna-Linné, Chapmans Torg;42.8;0.1065;0.7148;-0.3215;bada;M
+14801035;Majorna-Linné, Marieberg;14801037;Majorna-Linné, Marieberg;83.2;0.5446;1.0000;-0.2874;bada;M
+14801035;Majorna-Linné, Marieberg;14801033;Majorna-Linné, Gråberget, Västra;16.8;0.4554;0.4190;0.2874;bada;M
+14801036;Majorna-Linné, Slottsskogsgatan m fl;14801038;Majorna-Linné, Slottsskogsgatan m fl;62.2;0.8128;1.0000;0.1908;bada;M
+14801036;Majorna-Linné, Slottsskogsgatan m fl;14801031;Majorna-Linné, Chapmans Torg;26.5;0.1324;0.2852;-0.1326;bada;M
+14801036;Majorna-Linné, Slottsskogsgatan m fl;14801034;Majorna-Linné, Gråberget, Östra;11.3;0.0549;0.0667;-0.0581;bada;M
+14801041;Majorna-Linné, Djurgårdsgatan m fl;14801041;Majorna-Linné, Djurgårdsgatan m fl;70.6;0.6124;1.0000;-0.0936;bada;M
+14801041;Majorna-Linné, Djurgårdsgatan m fl;14801045;Majorna-Linné, Söderlingska ängen;29.4;0.3876;0.4156;0.0936;bada;M
+14801042;Majorna-Linné, Gatenhielmska;14801042;Majorna-Linné, Gatenhielmska;100.0;1.0000;1.0000;-0.0000;bada;O
+14801043;Majorna-Linné, Karl Johans torg;14801044;Majorna-Linné, Klareborgsgatan m fl;67.9;0.5336;1.0000;-0.1454;bada;M
+14801043;Majorna-Linné, Karl Johans torg;14801043;Majorna-Linné, Karl Johans torg;32.1;0.4664;0.4055;0.1454;bada;M
+14801044;Majorna-Linné, Söderlingska ängen;14801043;Majorna-Linné, Karl Johans torg;44.5;0.6199;0.5945;0.1749;bada;M
+14801044;Majorna-Linné, Söderlingska ängen;14801045;Majorna-Linné, Söderlingska ängen;55.5;0.3801;0.5844;-0.1749;bada;M
+14801051;Majorna-Linné, Masthugget, Nedre;14801051;Majorna-Linné, Masthugget, Nedre;76.4;0.7350;1.0000;-0.0290;bada;M
+14801051;Majorna-Linné, Masthugget, Nedre;14801054;Majorna-Linné, Oscar Fredrik;23.6;0.2650;0.3336;0.0290;bada;M
+14801052;Majorna-Linné, Masthugget, Övre;14801052;Majorna-Linné, Masthugget, Övre;62.5;0.7005;0.6572;0.0755;bada;M
+14801052;Majorna-Linné, Masthugget, Övre;14801055;Majorna-Linné, Sjömansgatan m fl;37.5;0.2995;0.5253;-0.0755;bada;M
+14801053;Majorna-Linné, Masthuggstorget;14801053;Majorna-Linné, Masthuggstorget;100.0;1.0000;1.0000;-0.0000;bada;O
+14801054;Majorna-Linné, Oscar Fredrik;14801054;Majorna-Linné, Oscar Fredrik;57.5;0.6490;0.6664;0.0740;bada;M
+14801054;Majorna-Linné, Oscar Fredrik;14801055;Majorna-Linné, Sjömansgatan m fl;42.5;0.3510;0.4747;-0.0740;bada;M
+14801055;Majorna-Linné, Slottsskogen;14801056;Majorna-Linné, Slottsskogen;100.0;1.0000;1.0000;-0.0000;bada;O
+14801056;Majorna-Linné, Stigberget;14801057;Majorna-Linné, Stigberget;78.1;0.7808;1.0000;-0.0002;bada;M
+14801056;Majorna-Linné, Stigberget;14801052;Majorna-Linné, Masthugget, Övre;21.9;0.2192;0.3428;0.0002;bada;M
+14801057;Majorna-Linné, Vegastaden;14801058;Majorna-Linné, Vegastaden;100.0;1.0000;1.0000;-0.0000;bada;O
+14801061;Majorna-Linné, Änggården;14801061;Majorna-Linné, Änggården;100.0;1.0000;1.0000;-0.0000;bada;O
+14801071;Majorna-Linné, Haga;14801071;Majorna-Linné, Haga Västra;71.2;0.7820;0.6366;0.0700;bada;M
+14801071;Majorna-Linné, Haga;14801073;Majorna-Linné, Skansberget;28.8;0.1680;0.1777;-0.1200;bada;M
+14801071;Majorna-Linné, Haga;14801072;Majorna-Linné, Haga Östra;;0.0500;0.0351;;bara_geo;M
+14801072;Majorna-Linné, Skansberget;14801072;Majorna-Linné, Haga Östra;60.1;0.5291;0.9649;-0.0719;bada;M
+14801072;Majorna-Linné, Skansberget;14801073;Majorna-Linné, Skansberget;38.4;0.2991;0.8223;-0.0849;bada;M
+14801072;Majorna-Linné, Skansberget;14801071;Majorna-Linné, Haga Västra;1.5;0.1718;0.3634;0.1568;bada;M
+14801081;Majorna-Linné, Annedal;14801082;Majorna-Linné, Annedal, Södra;58.8;0.7891;1.0000;0.2011;bada;M
+14801081;Majorna-Linné, Annedal;14801081;Majorna-Linné, Annedal, Norra;41.2;0.2109;0.4324;-0.2011;bada;M
+14801082;Majorna-Linné, Nilssonsberg;14801083;Majorna-Linné, Nilssonsberg;74.4;0.5321;1.0000;-0.2119;bada;M
+14801082;Majorna-Linné, Nilssonsberg;14801081;Majorna-Linné, Annedal, Norra;25.6;0.4679;0.5676;0.2119;bada;M
+14801091;Majorna-Linné, Kommendantsängen;14801091;Majorna-Linné, Kommendantsängen;100.0;1.0000;1.0000;-0.0000;bada;O
+14801092;Majorna-Linné, Linné;14801092;Majorna-Linné, Linné;56.0;0.4985;0.6259;-0.0615;bada;M
+14801092;Majorna-Linné, Linné;14801096;Majorna-Linné, Plantagegatan, m fl;27.7;0.3429;0.5285;0.0659;bada;M
+14801092;Majorna-Linné, Linné;14801095;Majorna-Linné, Olivedal;16.3;0.1586;0.1710;-0.0044;bada;M
+14801093;Majorna-Linné, Linnéplatsen;14801093;Majorna-Linné, Linnéplatsen;100.0;1.0000;0.8223;-0.0000;bada;M
+14801094;Majorna-Linné, Långgatorna;14801094;Majorna-Linné, Långgatorna;64.0;0.9332;1.0000;0.2932;bada;M
+14801094;Majorna-Linné, Långgatorna;14801096;Majorna-Linné, Plantagegatan, m fl;36.0;0.0668;0.4715;-0.2932;bada;M
+14801095;Majorna-Linné, Olivedal;14801095;Majorna-Linné, Olivedal;47.5;0.6238;0.8290;0.1488;bada;M
+14801095;Majorna-Linné, Olivedal;14801092;Majorna-Linné, Linné;31.7;0.2417;0.3741;-0.0753;bada;M
+14801095;Majorna-Linné, Olivedal;14801093;Majorna-Linné, Linnéplatsen;20.7;0.1346;0.1777;-0.0724;bada;M
+14801096;Majorna-Linné, Risåsen;14801097;Majorna-Linné, Risåsen;100.0;1.0000;1.0000;-0.0000;bada;O
+14801097;Majorna-Linné, Sveaplan;14801098;Majorna-Linné, Sveaplan;100.0;1.0000;1.0000;-0.0000;bada;O
+14801101;Centrum, Framnäs;14801106;Centrum, Krokslätt, Norra;58.9;0.5857;1.0000;-0.0033;bada;M
+14801101;Centrum, Framnäs;14801100;Centrum, Framnäs;31.3;0.3680;0.5383;0.0550;bada;M
+14801101;Centrum, Framnäs;14801102;Centrum, Fridkullagatan m fl;9.8;0.0463;0.0355;-0.0517;bada;M
+14801102;Centrum, Fredriksdal;14801101;Centrum, Fredriksdal;64.2;0.3880;0.9071;-0.2540;bada;M
+14801102;Centrum, Fredriksdal;14801107;Centrum, Krokslätt, Södra;35.8;0.6091;1.0000;0.2511;bada;M
+14801103;Centrum, Fridkullagatan m fl;14801102;Centrum, Fridkullagatan m fl;48.8;0.6238;0.4294;0.1358;bada;M
+14801103;Centrum, Fridkullagatan m fl;14801100;Centrum, Framnäs;36.7;0.3522;0.4617;-0.0148;bada;M
+14801103;Centrum, Fridkullagatan m fl;14801108;Centrum, Mossen;14.4;0.0240;0.1662;-0.1200;bada;M
+14801104;Centrum, Getebergsäng;14801103;Centrum, Getebergsäng;100.0;1.0000;1.0000;-0.0000;bada;O
+14801105;Centrum, Kristinehöjd;14801104;Centrum, Kristinehöjd, Västra;100.0;1.0000;1.0000;-0.0000;bada;O
+14801106;Centrum, Krokslätt;14801105;Centrum, Kristinehöjd, Östra;91.7;0.9437;1.0000;0.0267;bada;M
+14801106;Centrum, Krokslätt;14801102;Centrum, Fridkullagatan m fl;8.3;0.0563;0.0601;-0.0267;bada;M
+14801107;Centrum, Mossen;14801102;Centrum, Fridkullagatan m fl;16.6;0.7664;0.4750;0.6004;bada;M
+14801107;Centrum, Mossen;14801108;Centrum, Mossen;71.0;0.1338;0.8338;-0.5762;bada;M
+14801107;Centrum, Mossen;14801101;Centrum, Fredriksdal;12.4;0.0964;0.0929;-0.0276;bada;M
+14801108;Centrum, Olofshöjd;14801109;Centrum, Olofshöjd;100.0;1.0000;1.0000;-0.0000;bada;O
+14801111;Centrum, Eklanda;14801111;Centrum, Eklanda Norra;60.4;0.6718;1.0000;0.0678;bada;M
+14801111;Centrum, Eklanda;14801112;Centrum, Eklanda Södra;39.6;0.3282;0.8047;-0.0678;bada;M
+14801112;Centrum, Johanneberg, Nedre;14801114;Centrum, Johanneberg, Västra;26.7;0.8228;0.8924;0.5558;bada;M
+14801112;Centrum, Johanneberg, Nedre;14801113;Centrum, Johanneberg, Nedre;73.3;0.1772;1.0000;-0.5558;bada;M
+14801113;Centrum, Johanneberg, Södra;14801115;Centrum, Johanneberg, Östra;45.0;0.3846;0.4871;-0.0654;bada;M
+14801113;Centrum, Johanneberg, Södra;14801114;Centrum, Johanneberg, Västra;33.6;0.4439;0.1055;0.1079;bada;M
+14801113;Centrum, Johanneberg, Södra;14801112;Centrum, Eklanda Södra;21.4;0.1716;0.1953;-0.0424;bada;M
+14801114;Centrum, Johanneberg, Övre;14801116;Centrum, Johanneberg, Övre;69.4;0.6778;1.0000;-0.0162;bada;M
+14801114;Centrum, Johanneberg, Övre;14801115;Centrum, Johanneberg, Östra;30.6;0.3222;0.5129;0.0162;bada;M
+14801121;Centrum, Landala;14801121;Centrum, Landala;100.0;1.0000;1.0000;-0.0000;bada;O
+14801122;Centrum, Landalabergen m fl;14801122;Centrum, Landalabergen m fl;100.0;1.0000;1.0000;-0.0000;bada;O
+14801123;Centrum, Landalagången m fl;14801123;Centrum, Landalagången m fl;100.0;0.9293;1.0000;-0.0707;bada;O
+14801123;Centrum, Landalagången m fl;14801137;Centrum, Landala Egnahem;;0.0707;0.0318;;bara_geo;M
+14801131;Centrum, Doktor Forselius gata m fl;14801131;Centrum, Doktor Forselius Backe m fl;57.1;0.4713;0.6280;-0.0997;bada;M
+14801131;Centrum, Doktor Forselius gata m fl;14801133;Centrum, Guldheden Östra;42.9;0.5263;0.5590;0.0973;bada;M
+14801132;Centrum, Guldheden vattentornet;14801132;Centrum, Guldheden Vattentornet;79.6;0.8689;1.0000;0.0729;bada;M
+14801132;Centrum, Guldheden vattentornet;14801131;Centrum, Doktor Forselius Backe m fl;20.4;0.1311;0.3720;-0.0729;bada;M
+14801133;Centrum, Guldheden, Centrala;14801134;Centrum, Guldheden, Centrala;100.0;1.0000;1.0000;-0.0000;bada;O
+14801134;Centrum, Guldheden, Norra;14801135;Centrum, Guldheden, Norra;78.2;0.8522;1.0000;0.0702;bada;M
+14801134;Centrum, Guldheden, Norra;14801137;Centrum, Landala Egnahem;21.8;0.1478;0.2585;-0.0702;bada;M
+14801135;Centrum, Guldheden, Södra;14801136;Centrum, Guldheden, Södra;100.0;1.0000;1.0000;-0.0000;bada;O
+14801136;Centrum, Landala Egnahem;14801137;Centrum, Landala Egnahem;61.3;0.6935;0.7098;0.0805;bada;M
+14801136;Centrum, Landala Egnahem;14801133;Centrum, Guldheden Östra;38.7;0.3065;0.4410;-0.0805;bada;M
+14801141;Centrum, Lorensberg;14801141;Centrum, Lorensberg;83.9;0.8102;1.0000;-0.0288;bada;M
+14801141;Centrum, Lorensberg;14801184;Centrum, Hedås;16.1;0.1898;0.5553;0.0288;bada;M
+14801151;Centrum, Valand;14801152;Centrum, Valand;100.0;1.0000;1.0000;-0.0000;bada;O
+14801152;Centrum, Vasastaden, Norra;14801153;Centrum, Vasastaden, Norra;86.2;0.8817;1.0000;0.0197;bada;M
+14801152;Centrum, Vasastaden, Norra;14801151;Centrum, Fogelbergsparken;13.8;0.1183;0.2146;-0.0197;bada;M
+14801153;Centrum, Vasastaden, Södra;14801151;Centrum, Fogelbergsparken;52.0;0.6596;0.7854;0.1396;bada;M
+14801153;Centrum, Vasastaden, Södra;14801154;Centrum, Vasastaden, Södra;48.0;0.3404;0.5599;-0.1396;bada;M
+14801154;Centrum, Vasastaden, Östra;14801155;Centrum, Vasastaden, Östra;73.7;0.7874;1.0000;0.0504;bada;M
+14801154;Centrum, Vasastaden, Östra;14801154;Centrum, Vasastaden, Södra;26.3;0.2126;0.4401;-0.0504;bada;M
+14801161;Centrum, Inom Vallgraven;14801161;Centrum, Inom Vallgraven;74.8;0.6918;1.0000;-0.0562;bada;M
+14801161;Centrum, Inom Vallgraven;14801162;Centrum, Nordstan;10.8;0.2269;0.2114;0.1189;bada;M
+14801161;Centrum, Inom Vallgraven;14801163;Centrum, Otterhällan;14.5;0.0813;0.1903;-0.0637;bada;M
+14801162;Centrum, Nordstan-Otterhällan;14801162;Centrum, Nordstan;54.4;0.7100;0.7886;0.1660;bada;M
+14801162;Centrum, Nordstan-Otterhällan;14801163;Centrum, Otterhällan;45.6;0.2900;0.8097;-0.1660;bada;M
+14801171;Centrum, Friggagatan-Stampen;14801171;Centrum, Friggagatan m fl;79.2;0.6865;1.0000;-0.1055;bada;M
+14801171;Centrum, Friggagatan-Stampen;14801174;Centrum, Stampen;20.8;0.3135;0.1081;0.1055;bada;M
+14801172;Centrum, Gullbergsvass-Svingeln;14801173;Centrum, Odinsgatan m fl;1.5;0.8737;0.9284;0.8587;bada;M
+14801172;Centrum, Gullbergsvass-Svingeln;14801175;Centrum, Svingeln;69.3;0.0743;1.0000;-0.6187;bada;M
+14801172;Centrum, Gullbergsvass-Svingeln;14801174;Centrum, Stampen;29.2;0.0520;0.6828;-0.2400;bada;M
+14801173;Centrum, Gårda, Norra;14801172;Centrum, Gårda, Norra;100.0;1.0000;1.0000;-0.0000;bada;O
+14801174;Centrum, Odinsgatan-Stampen;14801173;Centrum, Odinsgatan m fl;69.3;0.8088;0.0716;0.1158;bada;M
+14801174;Centrum, Odinsgatan-Stampen;14801174;Centrum, Stampen;30.7;0.1912;0.2091;-0.1158;bada;M
+14801181;Centrum, Bohusgatan m fl;14801181;Centrum, Bohusgatan m fl;45.2;0.8800;0.4313;0.4280;bada;M
+14801181;Centrum, Bohusgatan m fl;14801185;Centrum, Sten Sturegatan m fl;54.8;0.1200;0.5335;-0.4280;bada;M
+14801182;Centrum, Gårda, Södra;14801182;Centrum, Gårda, Södra;85.5;0.9736;1.0000;0.1186;bada;M
+14801182;Centrum, Gårda, Södra;14801185;Centrum, Sten Sturegatan m fl;14.5;0.0264;0.4665;-0.1186;bada;M
+14801183;Centrum, Heden;14801183;Centrum, Heden;92.1;0.1597;1.0000;-0.7613;bada;M
+14801183;Centrum, Heden;14801181;Centrum, Bohusgatan m fl;7.9;0.8403;0.5687;0.7613;bada;M
+14801184;Centrum, Hedås;14801184;Centrum, Hedås;100.0;1.0000;0.4447;-0.0000;bada;M
+14802011;Örgryte-Härlanda, Gubbero;14802011;Örgryte-Härlanda, Gubbero;100.0;1.0000;1.0000;-0.0000;bada;O
+14802012;Örgryte-Härlanda, Olskroken;14802012;Örgryte-Härlanda, Olskroken;100.0;1.0000;1.0000;-0.0000;bada;O
+14802013;Örgryte-Härlanda, Redberget;14802013;Örgryte-Härlanda, Redberget;100.0;1.0000;1.0000;-0.0000;bada;O
+14802014;Örgryte-Härlanda, Redbergsplatsen;14802014;Örgryte-Härlanda, Redbergsplatsen;100.0;1.0000;1.0000;-0.0000;bada;O
+14802021;Örgryte-Härlanda, Bagaregården;14802021;Örgryte-Härlanda, Bagaregården;100.0;1.0000;0.9157;-0.0000;bada;M
+14802022;Örgryte-Härlanda, Ånäs;14802022;Örgryte-Härlanda, Ånäs;86.0;0.9059;0.4871;0.0459;bada;M
+14802022;Örgryte-Härlanda, Ånäs;14802021;Örgryte-Härlanda, Bagaregården;14.0;0.0941;0.0843;-0.0459;bada;M
+14802031;Örgryte-Härlanda, Redbergslid;14802031;Örgryte-Härlanda, Strömmensberg, V;80.6;0.5512;1.0000;-0.2548;bada;M
+14802031;Örgryte-Härlanda, Redbergslid;14802022;Örgryte-Härlanda, Ånäs;19.4;0.4488;0.5129;0.2548;bada;M
+14802032;Örgryte-Härlanda, Strömmensberg;14802032;Örgryte-Härlanda, Strömmensberg, Ö;100.0;1.0000;1.0000;-0.0000;bada;O
+14802041;Örgryte-Härlanda, Kallebäck, Västra;14802042;Örgryte-Härlanda, Kallebäck, Västra;69.5;0.5090;1.0000;-0.1860;bada;M
+14802041;Örgryte-Härlanda, Kallebäck, Västra;14802043;Örgryte-Härlanda, Kallebäck, Östra;4.9;0.4518;0.1037;0.4028;bada;M
+14802041;Örgryte-Härlanda, Kallebäck, Västra;14802041;Örgryte-Härlanda, Kallebäck, Norra;25.6;0.0392;0.1775;-0.2168;bada;M
+14802042;Örgryte-Härlanda, Kallebäck, Östra;14802043;Örgryte-Härlanda, Kallebäck, Östra;60.6;0.9534;0.8963;0.3474;bada;M
+14802042;Örgryte-Härlanda, Kallebäck, Östra;14802041;Örgryte-Härlanda, Kallebäck, Norra;39.4;0.0444;0.8225;-0.3496;bada;M
+14802051;Örgryte-Härlanda, Jakobsdal;14802051;Örgryte-Härlanda, Jakobsdal;100.0;1.0000;1.0000;-0.0000;bada;O
+14802052;Örgryte-Härlanda, Skår, Norra;14802052;Örgryte-Härlanda, Skår, Norra;100.0;1.0000;1.0000;-0.0000;bada;O
+14802053;Örgryte-Härlanda, Skår, Södra;14802053;Örgryte-Härlanda, Skår, Södra;100.0;1.0000;1.0000;-0.0000;bada;O
+14802061;Örgryte-Härlanda, Bö;14802061;Örgryte-Härlanda, Bö;100.0;1.0000;0.9946;-0.0000;bada;O
+14802062;Örgryte-Härlanda, Örgryte;14802062;Örgryte-Härlanda, Örgryte;100.0;1.0000;1.0000;-0.0000;bada;O
+14802071;Örgryte-Härlanda, Torp;14802072;Örgryte-Härlanda, Lilla Torp;84.1;0.6542;0.9867;-0.1868;bada;M
+14802071;Örgryte-Härlanda, Torp;14802071;Örgryte-Härlanda, Stora Torp;15.9;0.3450;1.0000;0.1860;bada;M
+14802081;Örgryte-Härlanda, Kärralund;14802082;Örgryte-Härlanda, Kärralund, Norra;70.6;0.6059;1.0000;-0.1001;bada;M
+14802081;Örgryte-Härlanda, Kärralund;14802083;Örgryte-Härlanda, Kärralund, Södra;29.4;0.3941;0.3972;0.1001;bada;M
+14802082;Örgryte-Härlanda, Lunden, Gamla;14802084;Örgryte-Härlanda, Lunden, Gamla;56.9;0.5217;0.5735;-0.0473;bada;M
+14802082;Örgryte-Härlanda, Lunden, Gamla;14802087;Örgryte-Härlanda, Sankt Pauli;43.1;0.4783;0.4070;0.0473;bada;M
+14802083;Örgryte-Härlanda, Lunden, Nya;14802083;Örgryte-Härlanda, Kärralund, Södra;48.2;0.6696;0.6028;0.1876;bada;M
+14802083;Örgryte-Härlanda, Lunden, Nya;14802085;Örgryte-Härlanda, Lunden, Nya;51.8;0.3304;0.8756;-0.1876;bada;M
+14802084;Örgryte-Härlanda, Nobelplatsen;14802086;Örgryte-Härlanda, Nobelplatsen;82.0;0.7544;1.0000;-0.0656;bada;M
+14802084;Örgryte-Härlanda, Nobelplatsen;14802085;Örgryte-Härlanda, Lunden, Nya;18.0;0.2456;0.1244;0.0656;bada;M
+14802085;Örgryte-Härlanda, Sankt Pauli;14802081;Örgryte-Härlanda, Danska vägen m fl;62.1;0.5884;0.7626;-0.0326;bada;M
+14802085;Örgryte-Härlanda, Sankt Pauli;14802087;Örgryte-Härlanda, Sankt Pauli;37.9;0.4116;0.5930;0.0326;bada;M
+14802086;Örgryte-Härlanda, Överås;14802088;Örgryte-Härlanda, Överås;62.4;0.7298;1.0000;0.1058;bada;M
+14802086;Örgryte-Härlanda, Överås;14802084;Örgryte-Härlanda, Lunden, Gamla;23.5;0.1501;0.4265;-0.0849;bada;M
+14802086;Örgryte-Härlanda, Överås;14802081;Örgryte-Härlanda, Danska vägen m fl;14.2;0.1200;0.2374;-0.0220;bada;M
+14802091;Örgryte-Härlanda, Härlanda;14802091;Örgryte-Härlanda, Härlanda;100.0;1.0000;1.0000;-0.0000;bada;O
+14802101;Örgryte-Härlanda, Kålltorp, Norra;14802101;Örgryte-Härlanda, Kålltorp, Norra;56.0;0.6268;0.4613;0.0668;bada;M
+14802101;Örgryte-Härlanda, Kålltorp, Norra;14802103;Örgryte-Härlanda, Kålltorp, Västra;31.1;0.1875;0.1680;-0.1235;bada;M
+14802101;Örgryte-Härlanda, Kålltorp, Norra;14802104;Örgryte-Härlanda, Kålltorp, Östra;8.5;0.0835;0.0717;-0.0015;bada;M
+14802101;Örgryte-Härlanda, Kålltorp, Norra;14802106;Örgryte-Härlanda, Munkebäck, Södra;4.4;0.1022;0.0808;0.0582;bada;M
+14802102;Örgryte-Härlanda, Kålltorp, Södra;14802102;Örgryte-Härlanda, Kålltorp, Södra;100.0;1.0000;1.0000;-0.0000;bada;O
+14802103;Örgryte-Härlanda, Kålltorp, Västra;14802103;Örgryte-Härlanda, Kålltorp, Västra;84.0;0.7481;0.8320;-0.0919;bada;M
+14802103;Örgryte-Härlanda, Kålltorp, Västra;14802104;Örgryte-Härlanda, Kålltorp, Östra;16.0;0.2519;0.2685;0.0919;bada;M
+14802104;Örgryte-Härlanda, Kålltorp, Östra;14802104;Örgryte-Härlanda, Kålltorp, Östra;100.0;1.0000;0.6597;-0.0000;bada;M
+14802105;Örgryte-Härlanda, Munkebäck, Norra;14802105;Örgryte-Härlanda, Munkebäck, Norra;100.0;1.0000;1.0000;-0.0000;bada;O
+14802106;Örgryte-Härlanda, Munkebäck, Södra;14802106;Örgryte-Härlanda, Munkebäck, Södra;64.0;0.6136;0.9192;-0.0264;bada;M
+14802106;Örgryte-Härlanda, Munkebäck, Södra;14802101;Örgryte-Härlanda, Kålltorp, Norra;36.0;0.3864;0.5387;0.0264;bada;M
+14802111;Örgryte-Härlanda, Fräntorp;14802111;Örgryte-Härlanda, Fräntorp;100.0;1.0000;0.9822;-0.0000;bada;M
+14802112;Örgryte-Härlanda, Torpa;14802112;Örgryte-Härlanda, Torpa;86.6;0.9068;1.0000;0.0408;bada;M
+14802112;Örgryte-Härlanda, Torpa;14802111;Örgryte-Härlanda, Fräntorp;13.4;0.0932;0.0178;-0.0408;bada;M
+14802121;Örgryte-Härlanda, Björkekärr, Norra;14802121;Örgryte-Härlanda, Björkekärr, Norra;100.0;1.0000;1.0000;-0.0000;bada;O
+14802122;Örgryte-Härlanda, Björkekärr, Södra;14802122;Örgryte-Härlanda, Björkekärr, Södra;100.0;0.9985;1.0000;-0.0015;bada;O
+14802123;Örgryte-Härlanda, Björkekärr, Västra;14802123;Örgryte-Härlanda, Björkekärr, Västra;100.0;1.0000;1.0000;-0.0000;bada;O
+14802124;Örgryte-Härlanda, Björkekärr, Östra;14802124;Örgryte-Härlanda, Björkekärr, Östra;100.0;1.0000;0.8373;-0.0000;bada;M
+14802125;Örgryte-Härlanda, Robertshöjd m fl;14802125;Örgryte-Härlanda, Robertshöjd m fl;95.7;0.8590;1.0000;-0.0980;bada;M
+14802125;Örgryte-Härlanda, Robertshöjd m fl;14802124;Örgryte-Härlanda, Björkekärr, Östra;4.3;0.1410;0.1627;0.0980;bada;M
+14803011;Östra Göteborg, Bellevue;14803011;Östra Göteborg, Bellevue;63.5;0.8141;0.7522;0.1791;bada;M
+14803011;Östra Göteborg, Bellevue;14803013;Östra Göteborg, Gamlestaden, Norra;36.5;0.1859;0.3794;-0.1791;bada;M
+14803012;Östra Göteborg, Gamlestaden;14803014;Östra Göteborg, Gamlestaden, Södra;70.2;0.9026;1.0000;0.2006;bada;M
+14803012;Östra Göteborg, Gamlestaden;14803013;Östra Göteborg, Gamlestaden, Norra;29.8;0.0974;0.1880;-0.2006;bada;M
+14803013;Östra Göteborg, Kviberg, Västra;14803015;Östra Göteborg, Kviberg, Västra;75.8;0.9275;1.0000;0.1695;bada;M
+14803013;Östra Göteborg, Kviberg, Västra;14803011;Östra Göteborg, Bellevue;24.2;0.0725;0.2478;-0.1695;bada;M
+14803014;Östra Göteborg, Kviberg, Östra;14803016;Östra Göteborg, Kviberg, Östra;61.3;0.9216;1.0000;0.3086;bada;M
+14803014;Östra Göteborg, Kviberg, Östra;14803012;Östra Göteborg, Bellevue Park;38.7;0.0784;1.0000;-0.3086;bada;M
+14803015;Östra Göteborg, Nylöse;14803017;Östra Göteborg, Nylöse;66.3;0.9850;1.0000;0.3220;bada;M
+14803015;Östra Göteborg, Nylöse;14803013;Östra Göteborg, Gamlestaden, Norra;33.7;0.0150;0.4326;-0.3220;bada;M
+14803021;Östra Göteborg, Fjällbo;14803021;Östra Göteborg, Fjällbo;100.0;1.0000;1.0000;-0.0000;bada;O
+14803022;Östra Göteborg, Utby;14803022;Östra Göteborg, Utby;100.0;1.0000;1.0000;-0.0000;bada;O
+14803023;Östra Göteborg, Utbynäs;14803023;Östra Göteborg, Utbynäs;100.0;1.0000;1.0000;-0.0000;bada;O
+14803031;Östra Göteborg, Gregorianska g. m fl;14803032;Östra Göteborg, Gregorianska g. m fl;100.0;1.0000;1.0000;-0.0000;bada;O
+14803032;Östra Göteborg, Kortedala Centrum;14803033;Östra Göteborg, Kortedala Centrum;74.6;0.8626;1.0000;0.1166;bada;M
+14803032;Östra Göteborg, Kortedala Centrum;14803031;Östra Göteborg, Förstamajgatan m fl;25.4;0.1374;0.1688;-0.1166;bada;M
+14803033;Östra Göteborg, Kortedala, Södra;14803034;Östra Göteborg, Kortedala, Södra;100.0;1.0000;1.0000;-0.0000;bada;O
+14803034;Östra Göteborg, Kortedala, Västra;14803035;Östra Göteborg, Kortedala, Västra;80.5;0.9208;1.0000;0.1158;bada;M
+14803034;Östra Göteborg, Kortedala, Västra;14803031;Östra Göteborg, Förstamajgatan m fl;19.5;0.0792;0.2878;-0.1158;bada;M
+14803035;Östra Göteborg, Kortedala, Östra;14803036;Östra Göteborg, Kortedala, Östra;73.9;0.8167;1.0000;0.0777;bada;M
+14803035;Östra Göteborg, Kortedala, Östra;14803031;Östra Göteborg, Förstamajgatan m fl;26.1;0.1833;0.5434;-0.0777;bada;M
+14803041;Östra Göteborg, Adventsparken;14803041;Östra Göteborg, Adventsparken, V;86.6;0.8808;0.9962;0.0148;bada;M
+14803041;Östra Göteborg, Adventsparken;14803042;Östra Göteborg, Adventsparken, Ö;13.4;0.1192;0.2243;-0.0148;bada;M
+14803042;Östra Göteborg, Kortedala, Norra;14803043;Östra Göteborg, Kortedala, Norra;44.5;0.9106;0.9522;0.4656;bada;M
+14803042;Östra Göteborg, Kortedala, Norra;14803042;Östra Göteborg, Adventsparken, Ö;55.5;0.0886;0.7399;-0.4664;bada;M
+14803043;Östra Göteborg, Månadsgatorna m fl;14803044;Östra Göteborg, Månadsgatorna m fl;79.5;0.8888;1.0000;0.0938;bada;M
+14803043;Östra Göteborg, Månadsgatorna m fl;14803043;Östra Göteborg, Kortedala, Norra;20.5;0.1017;0.0478;-0.1033;bada;M
+14803051;Östra Göteborg, Bergsjön, Norra;14803051;Östra Göteborg, Bergsjön, Norra;100.0;1.0000;1.0000;-0.0000;bada;O
+14803052;Östra Göteborg, Gärdsmosse;14803052;Östra Göteborg, Gärdsmosse;100.0;1.0000;1.0000;-0.0000;bada;O
+14803053;Östra Göteborg, Gärdsås;14803053;Östra Göteborg, Gärdsås;100.0;0.9992;1.0000;-0.0008;bada;O
+14803054;Östra Göteborg, Siriusgatan;14803054;Östra Göteborg, Siriusgatan;100.0;1.0000;1.0000;-0.0000;bada;O
+14803061;Östra Göteborg, Bergsjön, Södra;14803061;Östra Göteborg, Bergsjön, Södra;100.0;0.9796;0.9997;-0.0204;bada;O
+14803061;Östra Göteborg, Bergsjön, Södra;14803063;Östra Göteborg, Komettorget;;0.0204;0.0583;;bara_geo;M
+14803062;Östra Göteborg, Bergsjön, Östra;14803062;Östra Göteborg, Bergsjön, Östra;100.0;1.0000;1.0000;-0.0000;bada;O
+14803063;Östra Göteborg, Komettorget;14803063;Östra Göteborg, Komettorget;68.1;0.7908;0.9417;0.1098;bada;M
+14803063;Östra Göteborg, Komettorget;14803064;Östra Göteborg, Rymdtorget;31.9;0.2092;0.0875;-0.1098;bada;M
+14803064;Östra Göteborg, Rymdtorget;14803064;Östra Göteborg, Rymdtorget;100.0;1.0000;0.9125;-0.0000;bada;M
+14804021;Lundby, Bjurslätt;14804021;Lundby, Bjurslätt, Södra;76.1;0.7618;1.0000;0.0008;bada;M
+14804021;Lundby, Bjurslätt;14804027;Lundby, Wieselgrensplatsen;23.9;0.2382;0.4759;-0.0008;bada;M
+14804022;Lundby, Flunsås;14804022;Lundby, Flunsås;100.0;1.0000;1.0000;-0.0000;bada;O
+14804023;Lundby, Kvillebäcken, Norra;14804023;Lundby, Kvillebäcken, Norra;100.0;1.0000;1.0000;-0.0000;bada;O
+14804024;Lundby, Kvillebäcken, Södra;14804024;Lundby, Kvillebäcken, Södra;89.0;0.9208;1.0000;0.0308;bada;M
+14804024;Lundby, Kvillebäcken, Södra;14804025;Lundby, Kvillebäcken, Östra;11.0;0.0792;0.1688;-0.0308;bada;M
+14804025;Lundby, Kvillebäcken, Östra;14804026;Lundby, Penselgatan m fl;45.6;0.9570;1.0000;0.5010;bada;M
+14804025;Lundby, Kvillebäcken, Östra;14804025;Lundby, Kvillebäcken, Östra;54.4;0.0166;0.8312;-0.5274;bada;M
+14804025;Lundby, Kvillebäcken, Östra;14804028;Lundby, Vågmästarplatsen;;0.0264;1.0000;;bara_geo;N
+14804026;Lundby, Wieselgrensplatsen;14804027;Lundby, Wieselgrensplatsen;100.0;1.0000;0.5241;-0.0000;bada;M
+14804031;Lundby, Hilldedal;14804032;Lundby, Hilldedal;77.3;0.8284;1.0000;0.0554;bada;M
+14804031;Lundby, Hilldedal;14804031;Lundby, Bjurslätt, Norra;22.7;0.1716;0.3944;-0.0554;bada;M
+14804032;Lundby, Slätta Damm;14804033;Lundby, Slätta Damm;53.1;0.8363;1.0000;0.3053;bada;M
+14804032;Lundby, Slätta Damm;14804031;Lundby, Bjurslätt, Norra;46.9;0.1637;0.6056;-0.3053;bada;M
+14804041;Lundby, Kärrdalen;14804041;Lundby, Kärrdalen;100.0;1.0000;1.0000;-0.0000;bada;O
+14804042;Lundby, Tolered, Norra;14804042;Lundby, Tolered, Norra;100.0;1.0000;1.0000;-0.0000;bada;O
+14804043;Lundby, Tolered, Södra;14804043;Lundby, Tolered, Södra;100.0;1.0000;1.0000;-0.0000;bada;O
+14804051;Norra Hisingen, Glöstorp;14804051;Norra Hisingen, Glöstorp;100.0;1.0000;0.9017;-0.0000;bada;O
+14804052;Norra Hisingen, Gunnestorp;14804052;Norra Hisingen, Gunnestorp;74.7;0.9331;1.0000;0.1861;bada;M
+14804052;Norra Hisingen, Gunnestorp;14804055;Norra Hisingen, Tuve, Södra;25.3;0.0669;0.0238;-0.1861;bada;M
+14804053;Norra Hisingen, Norumshöjd;14804053;Norra Hisingen, Norumshöjd;96.8;0.6909;1.0000;-0.2771;bada;M
+14804053;Norra Hisingen, Norumshöjd;14804054;Norra Hisingen, Tuve, Norra;3.2;0.3091;0.1736;0.2771;bada;M
+14804054;Norra Hisingen, Tuve;14804055;Norra Hisingen, Tuve, Södra;65.5;0.7892;0.9762;0.1342;bada;M
+14804054;Norra Hisingen, Tuve;14804054;Norra Hisingen, Tuve, Norra;34.5;0.2108;0.8264;-0.1342;bada;M
+14804055;Norra Hisingen, Tången;14804056;Norra Hisingen, Tången;100.0;1.0000;1.0000;-0.0000;bada;O
+14804061;Norra Hisingen, Säve;14804061;Norra Hisingen, Säve;82.3;0.8087;1.0000;-0.0143;bada;M
+14804061;Norra Hisingen, Säve;14804081;Norra Hisingen, Rödbo;17.7;0.1906;0.2797;0.0136;bada;M
+14804071;Norra Hisingen, Gerrebacka-Ingebäck;14804071;Norra Hisingen, Gerrebacka-Ingebäck;100.0;1.0000;1.0000;-0.0000;bada;O
+14804072;Norra Hisingen, Kärra, Norra;14804072;Norra Hisingen, Kärra, Norra;100.0;1.0000;1.0000;-0.0000;bada;O
+14804073;Norra Hisingen, Kärra, Södra;14804073;Norra Hisingen, Kärra, Södra;100.0;1.0000;1.0000;-0.0000;bada;O
+14804074;Norra Hisingen, Kärra, Västra;14804074;Norra Hisingen, Kärra, Västra;100.0;1.0000;1.0000;-0.0000;bada;O
+14804075;Norra Hisingen, Kärra, Östra;14804075;Norra Hisingen, Kärra, Östra;100.0;1.0000;1.0000;-0.0000;bada;O
+14804076;Norra Hisingen, Mysterna-Svankälla;14804076;Norra Hisingen, Mysterna-Svankälla;100.0;1.0000;1.0000;-0.0000;bada;O
+14804081;Norra Hisingen, Rödbo;14804081;Norra Hisingen, Rödbo;100.0;1.0000;0.7203;-0.0000;bada;M
+14804091;Norra Hisingen, Skogome-Sankt Jörgen;14804092;Norra Hisingen, Skogome;43.0;0.8396;1.0000;0.4096;bada;M
+14804091;Norra Hisingen, Skogome-Sankt Jörgen;14804091;Norra Hisingen, Sankt Jörgen;57.0;0.1604;1.0000;-0.4096;bada;M
+14804101;Norra Hisingen, Aröd;14804101;Norra Hisingen, Aröd;48.8;0.8742;0.6781;0.3862;bada;M
+14804101;Norra Hisingen, Aröd;14804104;Norra Hisingen, Tingstad;51.2;0.1164;0.0742;-0.3956;bada;M
+14804102;Norra Hisingen, Backa-Tingstad;14804102;Norra Hisingen, Brunnsbo, Norra;62.7;0.3322;0.9647;-0.2948;bada;M
+14804102;Norra Hisingen, Backa-Tingstad;14804104;Norra Hisingen, Tingstad;21.8;0.5032;0.9258;0.2852;bada;M
+14804102;Norra Hisingen, Backa-Tingstad;14804101;Norra Hisingen, Aröd;11.5;0.1437;0.3219;0.0287;bada;M
+14804102;Norra Hisingen, Backa-Tingstad;14804103;Norra Hisingen, Brunnsbo, Södra;4.0;0.0209;0.3511;-0.0191;bada;M
+14804103;Norra Hisingen, Brunnsbo;14804103;Norra Hisingen, Brunnsbo, Södra;85.0;0.8130;0.6489;-0.0370;bada;M
+14804103;Norra Hisingen, Brunnsbo;14804102;Norra Hisingen, Brunnsbo, Norra;15.0;0.1870;0.0258;0.0370;bada;M
+14804121;Norra Hisingen, Backa;14804123;Norra Hisingen, Backa, Södra;50.7;0.4948;0.7952;-0.0122;bada;M
+14804121;Norra Hisingen, Backa;14804122;Norra Hisingen, Backa, Norra;49.3;0.5052;0.3077;0.0122;bada;M
+14804122;Norra Hisingen, Backa Röd;14804121;Norra Hisingen, Backa Röd;100.0;1.0000;1.0000;-0.0000;bada;O
+14804123;Norra Hisingen, Bällskär;14804124;Norra Hisingen, Bällskär;76.3;0.6451;1.0000;-0.1179;bada;M
+14804123;Norra Hisingen, Bällskär;14804122;Norra Hisingen, Backa, Norra;23.7;0.3549;0.6923;0.1179;bada;M
+14804124;Norra Hisingen, Wadköpingsgatan;14804125;Norra Hisingen, Wadköpingsgatan m fl;77.1;0.6578;1.0000;-0.1132;bada;M
+14804124;Norra Hisingen, Wadköpingsgatan;14804123;Norra Hisingen, Backa, Södra;22.9;0.3422;0.2048;0.1132;bada;M
+14804131;Norra Hisingen, Backadalen;14804131;Norra Hisingen, Backadalen;64.6;0.8778;0.8777;0.2318;bada;M
+14804131;Norra Hisingen, Backadalen;14804132;Norra Hisingen, Bäckebol;35.4;0.1222;0.0299;-0.2318;bada;M
+14804132;Norra Hisingen, Bäckebol;14804132;Norra Hisingen, Bäckebol;100.0;1.0000;0.9701;-0.0000;bada;M
+14804133;Norra Hisingen, Selma Lagerlöfs torg;14804133;Norra Hisingen, Selma Lagerlöfs torg;64.2;0.4824;0.2259;-0.1596;bada;M
+14804133;Norra Hisingen, Selma Lagerlöfs torg;14804131;Norra Hisingen, Backadalen;35.8;0.5176;0.1223;0.1596;bada;M
+14804134;Norra Hisingen, Skälltorp;14804134;Norra Hisingen, Skälltorp;73.2;0.4045;0.5074;-0.3275;bada;M
+14804134;Norra Hisingen, Skälltorp;14804133;Norra Hisingen, Selma Lagerlöfs torg;26.8;0.5955;0.7741;0.3275;bada;M
+14804135;Norra Hisingen, Åketorp;14804135;Norra Hisingen, Åketorp;80.8;0.7794;1.0000;-0.0286;bada;M
+14804135;Norra Hisingen, Åketorp;14804134;Norra Hisingen, Skälltorp;19.2;0.2206;0.4926;0.0286;bada;M
+14804141;Lundby, Bräcke, Norra;14804141;Lundby, Bräcke, Norra;100.0;1.0000;1.0000;-0.0000;bada;O
+14804142;Lundby, Bräcke, Södra;14804142;Lundby, Bräcke, Södra;100.0;1.0000;1.0000;-0.0000;bada;O
+14804143;Lundby, Kyrkbyn;14804143;Lundby, Kyrkbyn;100.0;1.0000;1.0000;-0.0000;bada;O
+14804144;Lundby, Lundby, Norra;14804144;Lundby, Lundby, Norra;100.0;1.0000;1.0000;-0.0000;bada;O
+14804145;Lundby, Lundby, Södra;14804145;Lundby, Lundby, Södra;100.0;1.0000;1.0000;-0.0000;bada;O
+14804151;Lundby, Brämaregården, Norra;14804151;Lundby, Brämaregården, Norra;100.0;1.0000;0.8268;-0.0000;bada;M
+14804152;Lundby, Brämaregården, Östra;14804152;Lundby, Brämaregården, Södra;78.1;0.8456;1.0000;0.0646;bada;M
+14804152;Lundby, Brämaregården, Östra;14804151;Lundby, Brämaregården, Norra;21.9;0.1544;0.1732;-0.0646;bada;M
+14804153;Lundby, Brämaregården-Rambergsstaden;14804156;Lundby, Rambergsstaden, Östra;100.0;1.0000;1.0000;-0.0000;bada;O
+14804154;Lundby, Porslinsfabriken;14804153;Lundby, Porslinsfabriken;100.0;1.0000;1.0000;-0.0000;bada;O
+14804155;Lundby, Rambergsstaden, Norra;14804154;Lundby, Rambergsstaden, Norra;100.0;1.0000;1.0000;-0.0000;bada;O
+14804156;Lundby, Rambergsstaden, Västra;14804155;Lundby, Rambergsstaden, Södra;100.0;1.0000;1.0000;-0.0000;bada;O
+14804161;Lundby, Eriksberg Sjöporten;14804161;Lundby, Eriksberg, Västra;66.8;0.4709;0.7761;-0.1971;bada;M
+14804161;Lundby, Eriksberg Sjöporten;14804162;Lundby, Eriksberg, Östra;33.2;0.5291;0.4945;0.1971;bada;M
+14804162;Lundby, Eriksberg, Västra;14804163;Lundby, Färjenäs;34.4;0.8244;1.0000;0.4804;bada;M
+14804162;Lundby, Eriksberg, Västra;14804161;Lundby, Eriksberg, Västra;39.8;0.0747;0.2239;-0.3233;bada;M
+14804162;Lundby, Eriksberg, Västra;14804164;Lundby, Pölsebo-Bratterås;25.8;0.1009;0.1902;-0.1571;bada;M
+14804163;Lundby, Eriksberg, Östra;14804166;Lundby, Södhallsberget;100.0;1.0000;1.0000;-0.0000;bada;O
+14804164;Lundby, Pölsebo-Bratterås;14804164;Lundby, Pölsebo-Bratterås;56.9;0.5906;0.8098;0.0216;bada;M
+14804164;Lundby, Pölsebo-Bratterås;14804162;Lundby, Eriksberg, Östra;43.1;0.4094;0.5055;-0.0216;bada;M
+14804165;Lundby, Sannegården;14804165;Lundby, Sannegården, Västra;100.0;1.0000;1.0000;-0.0000;bada;O
+14804171;Lundby, Lindholmen;14804171;Lundby, Lindholmen;65.0;0.7628;0.4484;0.1128;bada;M
+14804171;Lundby, Lindholmen;14804173;Lundby, Sannegården, Östra;35.0;0.2372;0.3174;-0.1128;bada;M
+14804172;Lundby, Lundbyvassen;14804172;Lundby, Lundbyvassen;71.5;0.8106;1.0000;0.0956;bada;M
+14804172;Lundby, Lundbyvassen;14804173;Lundby, Sannegården, Östra;24.6;0.0667;0.6826;-0.1793;bada;M
+14804172;Lundby, Lundbyvassen;14804171;Lundby, Lindholmen;1.6;0.1227;0.5516;0.1067;bada;M
+14804172;Lundby, Lundbyvassen;14801017;Majorna-Linné, Svalebo;2.3;;;;bara_officiell;M
+14805011;Västra Göteborg, Björnekulla;14805011;Västra Göteborg, Björnekulla;70.9;0.6152;0.9687;-0.0938;bada;M
+14805011;Västra Göteborg, Björnekulla;14805015;Västra Göteborg, Påvelund;29.1;0.3848;0.3893;0.0938;bada;M
+14805012;Västra Göteborg, Fiskebäck, Norra;14805013;Västra Göteborg, Källängen;85.2;0.9246;0.9727;0.0726;bada;M
+14805012;Västra Göteborg, Fiskebäck, Norra;14805014;Västra Göteborg, Osberget;14.8;0.0754;0.1495;-0.0726;bada;M
+14805013;Västra Göteborg, Fiskebäck, Södra;14805012;Västra Göteborg, Fiskebäck,;93.9;0.9925;1.0000;0.0535;bada;M
+14805013;Västra Göteborg, Fiskebäck, Södra;14805013;Västra Göteborg, Källängen;6.1;0.0075;0.0273;-0.0535;bara_officiell;M
+14805014;Västra Göteborg, Påvelund;14805014;Västra Göteborg, Osberget;54.7;0.4370;0.8505;-0.1100;bada;M
+14805014;Västra Göteborg, Påvelund;14805015;Västra Göteborg, Påvelund;43.4;0.5450;0.6107;0.1110;bada;M
+14805014;Västra Göteborg, Påvelund;14805011;Västra Göteborg, Björnekulla;1.8;0.0180;0.0313;-0.0000;bada;M
+14805021;Västra Göteborg, Långedrag;14805021;Västra Göteborg, Långedrag;100.0;1.0000;1.0000;-0.0000;bada;O
+14805031;Västra Göteborg, Hagen;14805031;Västra Göteborg, Hagen;100.0;1.0000;1.0000;-0.0000;bada;O
+14805032;Västra Göteborg, Nya Varvet;14805032;Västra Göteborg, Nya Varvet;100.0;1.0000;0.9959;-0.0000;bada;M
+14805033;Västra Göteborg, Tångudden;14805033;Västra Göteborg, Tångudden;100.0;1.0000;1.0000;-0.0000;bada;O
+14805041;Västra Göteborg, Ekebäck;14805043;Västra Göteborg, Kungsten;74.1;0.7845;1.0000;0.0435;bada;M
+14805041;Västra Göteborg, Ekebäck;14805041;Västra Göteborg, Ekebäck;24.9;0.2076;0.3180;-0.0414;bada;M
+14805041;Västra Göteborg, Ekebäck;14805032;Västra Göteborg, Nya Varvet;1.0;0.0078;0.0041;-0.0022;bara_officiell;M
+14805042;Västra Göteborg, Grimmered;14805042;Västra Göteborg, Grimmered;68.0;0.7721;1.0000;0.0921;bada;M
+14805042;Västra Göteborg, Grimmered;14805041;Västra Göteborg, Ekebäck;32.0;0.2279;0.5161;-0.0921;bada;M
+14805051;Västra Göteborg, Brännö-Asperö;14805051;Västra Göteborg, Brännö-Asperö;100.0;1.0000;1.0000;-0.0000;bada;O
+14805052;Västra Göteborg, Donsö-Vrångö;14805052;Västra Göteborg, Donsö-Vrångö;100.0;1.0000;1.0000;-0.0000;bada;O
+14805053;Västra Göteborg, Styrsö-Köpstadsö;14805053;Västra Göteborg, Styrsö-Köpstadsö;100.0;1.0000;1.0000;-0.0000;bada;O
+14805061;Västra Göteborg, Bratthammar;14805061;Västra Göteborg, Bratthammar;75.1;0.7709;1.0000;0.0199;bada;M
+14805061;Västra Göteborg, Bratthammar;14805072;Västra Göteborg, Tynnered, Norra;16.0;0.1434;0.4706;-0.0166;bada;M
+14805061;Västra Göteborg, Bratthammar;14805081;Västra Göteborg, Tynnered Södra;9.0;0.0856;0.3449;-0.0044;bada;M
+14805071;Västra Göteborg, Beryllg.-Guldringen;14805071;Västra Göteborg, Guldringen m fl;65.3;0.4536;1.0000;-0.1994;bada;M
+14805071;Västra Göteborg, Beryllg.-Guldringen;14805072;Västra Göteborg, Tynnered, Norra;34.7;0.5464;0.5294;0.1994;bada;M
+14805081;Västra Göteborg, Tynnered;14805082;Västra Göteborg, Tynnered, Östra;71.6;0.5231;1.0000;-0.1929;bada;M
+14805081;Västra Göteborg, Tynnered;14805081;Västra Göteborg, Tynnered Södra;28.4;0.4769;0.6551;0.1929;bada;M
+14805091;Askim-Frölunda-Högsbo, Kavås;14805093;Askim-Frölunda-Högsbo, Kavås;100.0;1.0000;1.0000;-0.0000;bada;O
+14805092;Askim-Frölunda-Högsbo, Kaverös, N;14805091;Askim-Frölunda-Högsbo, Kaverös, N;100.0;1.0000;1.0000;-0.0000;bada;O
+14805093;Askim-Frölunda-Högsbo, Kaverös, S;14805092;Askim-Frölunda-Högsbo, Kaverös, S;100.0;1.0000;1.0000;-0.0000;bada;O
+14805101;Askim-Frölunda-Högsbo, Flatås, V;14805102;Askim-Frölunda-Högsbo, Flatås, V;34.8;0.6864;1.0000;0.3384;bada;M
+14805101;Askim-Frölunda-Högsbo, Flatås, V;14805101;Askim-Frölunda-Högsbo, Flatås, S;65.2;0.3136;0.8584;-0.3384;bada;M
+14805111;Askim-Frölunda-Högsbo, Högsbohöjd, N;14805111;Askim-Frölunda-Högsbo, Högsbohöjd, N;80.4;0.7305;0.7612;-0.0735;bada;M
+14805111;Askim-Frölunda-Högsbo, Högsbohöjd, N;14805041;Västra Göteborg, Ekebäck;19.6;0.2695;0.0914;0.0735;bada;M
+14805112;Askim-Frölunda-Högsbo, Högsbohöjd, S;14805112;Askim-Frölunda-Högsbo, Högsbohöjd, S;87.6;0.9246;1.0000;0.0486;bada;M
+14805112;Askim-Frölunda-Högsbo, Högsbohöjd, S;14805111;Askim-Frölunda-Högsbo, Högsbohöjd, N;12.4;0.0754;0.1156;-0.0486;bada;M
+14805121;Askim-Frölunda-Högsbo, Högsbo;14805122;Askim-Frölunda-Högsbo, Högsbotorp, S;57.3;0.5390;0.7213;-0.0340;bada;M
+14805121;Askim-Frölunda-Högsbo, Högsbo;14805121;Askim-Frölunda-Högsbo, Högsbo;42.7;0.4610;0.7265;0.0340;bada;M
+14805122;Askim-Frölunda-Högsbo, Högsbotorp, V;14805123;Askim-Frölunda-Högsbo, Högsbotorp, V;76.1;0.7940;1.0000;0.0330;bada;M
+14805122;Askim-Frölunda-Högsbo, Högsbotorp, V;14805122;Askim-Frölunda-Högsbo, Högsbotorp, S;23.9;0.2060;0.2787;-0.0330;bada;M
+14805123;Askim-Frölunda-Högsbo, Högsbotorp, Ö;14805124;Askim-Frölunda-Högsbo, Högsbotorp, Ö;62.0;0.6161;0.6238;-0.0039;bada;M
+14805123;Askim-Frölunda-Högsbo, Högsbotorp, Ö;14805121;Askim-Frölunda-Högsbo, Högsbo;26.3;0.2546;0.2735;-0.0084;bada;M
+14805123;Askim-Frölunda-Högsbo, Högsbotorp, Ö;14805125;Askim-Frölunda-Högsbo, Marklandsgat.;11.7;0.1294;0.0917;0.0124;bada;M
+14805124;Askim-Frölunda-Högsbo, Marklandsg.;14805125;Askim-Frölunda-Högsbo, Marklandsgat.;60.3;0.7753;0.9083;0.1723;bada;M
+14805124;Askim-Frölunda-Högsbo, Marklandsg.;14805124;Askim-Frölunda-Högsbo, Högsbotorp, Ö;39.7;0.2247;0.3762;-0.1723;bada;M
+14805131;Askim-Frölunda-Högsbo, Spinetten;14805131;Askim-Frölunda-Högsbo, Spinetten;100.0;1.0000;1.0000;-0.0000;bada;O
+14805132;Askim-Frölunda-Högsbo, Tofta;14805132;Askim-Frölunda-Högsbo, Tofta;91.7;0.9930;1.0000;0.0760;bada;M
+14805132;Askim-Frölunda-Högsbo, Tofta;14805152;Askim-Frölunda-Högsbo, Järnbrott, V;8.3;0.0070;0.0260;-0.0760;bara_officiell;M
+14805141;Askim-Frölunda-Högsbo, Ruddalen;14805142;Askim-Frölunda-Högsbo, Ruddalen;51.6;0.8641;1.0000;0.3481;bada;M
+14805141;Askim-Frölunda-Högsbo, Ruddalen;14805141;Askim-Frölunda-Högsbo, Altplatsen;48.4;0.0817;1.0000;-0.4023;bada;M
+14805141;Askim-Frölunda-Högsbo, Ruddalen;14805041;Västra Göteborg, Ekebäck;;0.0258;0.0746;;bara_geo;M
+14805141;Askim-Frölunda-Högsbo, Ruddalen;14805171;Askim-Frölunda-Högsbo, Frölunda;;0.0145;0.1183;;bara_geo;O
+14805141;Askim-Frölunda-Högsbo, Ruddalen;14805111;Askim-Frölunda-Högsbo, Högsbohöjd, N;;0.0139;0.1232;;bara_geo;M
+14805151;Askim-Frölunda-Högsbo, Järnbrott, V;14805152;Askim-Frölunda-Högsbo, Järnbrott, V;45.2;0.3592;0.9740;-0.0928;bada;M
+14805151;Askim-Frölunda-Högsbo, Järnbrott, V;14805151;Askim-Frölunda-Högsbo, Järnbrott, S;33.5;0.4349;0.5262;0.0999;bada;M
+14805151;Askim-Frölunda-Högsbo, Järnbrott, V;14805153;Askim-Frölunda-Högsbo, Järnbrott, Ö;21.2;0.2058;0.3314;-0.0062;bada;M
+14805152;Askim-Frölunda-Högsbo, Järnbrott, Ö;14805153;Askim-Frölunda-Högsbo, Järnbrott, Ö;57.1;0.5147;0.6686;-0.0563;bada;M
+14805152;Askim-Frölunda-Högsbo, Järnbrott, Ö;14805151;Askim-Frölunda-Högsbo, Järnbrott, S;42.9;0.4853;0.4738;0.0563;bada;M
+14805161;Askim-Frölunda-Högsbo, Flatås, Ö;14805103;Askim-Frölunda-Högsbo, Flatås, Ö;82.5;0.9924;1.0000;0.1674;bada;M
+14805161;Askim-Frölunda-Högsbo, Flatås, Ö;14805101;Askim-Frölunda-Högsbo, Flatås, S;17.5;0.0076;0.1416;-0.1674;bara_officiell;M
+14805171;Askim-Frölunda-Högsbo, Frölunda;14805171;Askim-Frölunda-Högsbo, Frölunda;100.0;1.0000;0.8817;-0.0000;bada;O
+14805172;Askim-Frölunda-Högsbo, Frölunda Torg;14805172;Askim-Frölunda-Högsbo, Frölunda Torg;100.0;1.0000;1.0000;-0.0000;bada;O
+14805173;Askim-Frölunda-Högsbo, Gånglåten;14805173;Askim-Frölunda-Högsbo, Gånglåten;100.0;1.0000;1.0000;-0.0000;bada;O
+14805174;Askim-Frölunda-Högsbo, Mandolingatan;14805174;Askim-Frölunda-Högsbo, Mandolingatan;100.0;1.0000;1.0000;-0.0000;bada;O
+14805181;Västra Göteborg, Korsåsen;14805181;Västra Göteborg, Korsåsen;100.0;1.0000;1.0000;-0.0000;bada;O
+14805182;Västra Göteborg, Ängås;14805182;Västra Göteborg, Ängås;100.0;1.0000;1.0000;-0.0000;bada;O
+14805191;Västra Göteborg, Önnered, Västra;14805191;Västra Göteborg, Önnered, Västra;100.0;1.0000;1.0000;-0.0000;bada;O
+14805192;Västra Göteborg, Önnered, Östra;14805192;Västra Göteborg, Önnered, Östra;100.0;1.0000;1.0000;-0.0000;bada;O
+14805201;Västra Göteborg, Grevegården;14805201;Västra Göteborg, Grevegården;100.0;1.0000;0.7321;-0.0000;bada;O
+14805202;Västra Göteborg, Skattegården;14805202;Västra Göteborg, Skattegården;100.0;0.8162;1.0000;-0.1838;bada;O
+14805202;Västra Göteborg, Skattegården;14805201;Västra Göteborg, Grevegården;;0.1838;0.2679;;bara_geo;O
+14805211;Västra Göteborg, Näset, Norra;14805211;Västra Göteborg, Näset, Norra;66.0;0.8087;0.9214;0.1487;bada;M
+14805211;Västra Göteborg, Näset, Norra;14805213;Västra Göteborg, Välen;27.0;0.1656;0.4132;-0.1044;bada;M
+14805211;Västra Göteborg, Näset, Norra;14805214;Västra Göteborg, Åkered;7.0;0.0257;0.0996;-0.0443;bada;M
+14805212;Västra Göteborg, Näset, Södra;14805212;Västra Göteborg, Näset, Södra;76.8;0.9102;1.0000;0.1422;bada;M
+14805212;Västra Göteborg, Näset, Södra;14805211;Västra Göteborg, Näset, Norra;15.6;0.0222;0.0786;-0.1338;bada;M
+14805212;Västra Göteborg, Näset, Södra;14805213;Västra Göteborg, Välen;7.5;0.0676;0.5239;-0.0074;bada;M
+14805213;Västra Göteborg, Åkered;14805214;Västra Göteborg, Åkered;68.4;0.9022;0.9004;0.2182;bada;M
+14805213;Västra Göteborg, Åkered;14805213;Västra Göteborg, Välen;31.6;0.0978;0.0628;-0.2182;bada;M
+14805221;Västra Göteborg, Opaltorget, Norra;14805221;Västra Göteborg, Opaltorget, Norra;100.0;1.0000;1.0000;-0.0000;bada;O
+14805222;Västra Göteborg, Opaltorget, Södra;14805222;Västra Göteborg, Opaltorget, Södra;100.0;1.0000;1.0000;-0.0000;bada;O
+14805231;Askim-Frölunda-Högsbo, Askim;14805231;Askim-Frölunda-Högsbo, Askim;100.0;1.0000;1.0000;-0.0000;bada;O
+14805232;Askim-Frölunda-Högsbo, Hovås, Norra;14805232;Askim-Frölunda-Högsbo, Hovås, Norra;100.0;1.0000;1.0000;-0.0000;bada;O
+14805233;Askim-Frölunda-Högsbo, Hult;14805233;Askim-Frölunda-Högsbo, Hult;100.0;1.0000;1.0000;-0.0000;bada;O
+14805234;Askim-Frölunda-Högsbo, Pilegården;14805234;Askim-Frölunda-Högsbo, Pilegården;100.0;1.0000;1.0000;-0.0000;bada;O
+14805235;Askim-Frölunda-Högsbo, Sisjön, Norra;14805237;Askim-Frölunda-Högsbo, Sisjön, V;98.7;0.3403;1.0000;-0.6467;bada;M
+14805235;Askim-Frölunda-Högsbo, Sisjön, Norra;14805235;Askim-Frölunda-Högsbo, Sisjön, N;1.3;0.6597;0.8838;0.6467;bada;M
+14805236;Askim-Frölunda-Högsbo, Sisjön, Södra;14805236;Askim-Frölunda-Högsbo, Sisjön, S;82.7;0.8091;1.0000;-0.0179;bada;M
+14805236;Askim-Frölunda-Högsbo, Sisjön, Södra;14805235;Askim-Frölunda-Högsbo, Sisjön, N;17.3;0.1909;0.1162;0.0179;bada;M
+14805241;Askim-Frölunda-Högsbo, Hovås, Södra;14805241;Askim-Frölunda-Högsbo, Hovås, Södra;100.0;1.0000;1.0000;-0.0000;bada;O
+14805242;Askim-Frölunda-Högsbo, Trollåsen;14805242;Askim-Frölunda-Högsbo, Trollåsen;100.0;1.0000;1.0000;-0.0000;bada;O
+14805251;Askim-Frölunda-Högsbo, Billdal;14805252;Askim-Frölunda-Högsbo, Billdal, S;52.0;0.7922;1.0000;0.2722;bada;M
+14805251;Askim-Frölunda-Högsbo, Billdal;14805251;Askim-Frölunda-Högsbo, Billdal, N;48.0;0.2073;0.6164;-0.2727;bada;M
+14805252;Askim-Frölunda-Högsbo, Brottkärr;14805253;Askim-Frölunda-Högsbo, Brottkärr;100.0;1.0000;1.0000;-0.0000;bada;O
+14805253;Askim-Frölunda-Högsbo, Lindås;14805254;Askim-Frölunda-Högsbo, Lindås;80.6;0.8424;0.9994;0.0364;bada;M
+14805253;Askim-Frölunda-Högsbo, Lindås;14805251;Askim-Frölunda-Högsbo, Billdal, N;19.4;0.1483;0.3780;-0.0457;bada;M
+14805254;Askim-Frölunda-Högsbo, Lyckhem;14805255;Askim-Frölunda-Högsbo, Lyckhem;100.0;0.9658;1.0000;-0.0342;bada;O
+14805254;Askim-Frölunda-Högsbo, Lyckhem;14805258;Askim-Frölunda-Högsbo, Uggleberget;;0.0342;0.2035;;bara_geo;N
+14805255;Askim-Frölunda-Högsbo, Nygård;14805256;Askim-Frölunda-Högsbo, Nygård;100.0;0.8699;0.9459;-0.1301;bada;O
+14805255;Askim-Frölunda-Högsbo, Nygård;14805258;Askim-Frölunda-Högsbo, Uggleberget;;0.1183;0.7965;;bara_geo;N
+14805255;Askim-Frölunda-Högsbo, Nygård;14805251;Askim-Frölunda-Högsbo, Billdal, N;;0.0118;0.0056;;bara_geo;M
+14805256;Askim-Frölunda-Högsbo, Skintebo;14805257;Askim-Frölunda-Högsbo, Skintebo;100.0;1.0000;1.0000;-0.0000;bada;O
+14806011;Angered, Lövgärdet, Nedre;14806011;Angered, Lövgärdet, Nedre;100.0;1.0000;1.0000;-0.0000;bada;O
+14806012;Angered, Lövgärdet, Övre;14806012;Angered, Lövgärdet, Övre;100.0;1.0000;1.0000;-0.0000;bada;O
+14806013;Angered, Lövgärdets Centrum;14806013;Angered, Lövgärdets Centrum;100.0;1.0000;1.0000;-0.0000;bada;O
+14806021;Angered, Rannebergen, Norra;14806021;Angered, Rannebergen, Norra;100.0;1.0000;1.0000;-0.0000;bada;O
+14806022;Angered, Rannebergen, Södra;14806022;Angered, Rannebergen, Södra;100.0;1.0000;1.0000;-0.0000;bada;O
+14806031;Angered, Gårdsten, Norra;14806031;Angered, Gårdsten, Norra;78.2;0.4185;1.0000;-0.3635;bada;M
+14806031;Angered, Gårdsten, Norra;14806033;Angered, Gårdsten, Västra;21.8;0.5815;0.4110;0.3635;bada;M
+14806032;Angered, Gårdsten, Södra;14806032;Angered, Gårdsten, Södra;100.0;1.0000;0.8238;-0.0000;bada;O
+14806033;Angered, Gårdsten, Västra;14806033;Angered, Gårdsten, Västra;100.0;0.8673;0.5890;-0.1327;bada;M
+14806033;Angered, Gårdsten, Västra;14806032;Angered, Gårdsten, Södra;;0.1327;0.1762;;bara_geo;O
+14806034;Angered, Gårdsten, Östra;14806034;Angered, Gårdsten, Östra;100.0;1.0000;1.0000;-0.0000;bada;O
+14806041;Angered, Angereds Centrum;14806041;Angered, Angereds Centrum;100.0;1.0000;1.0000;-0.0000;bada;O
+14806042;Angered, Trägårdsgärdet;14806042;Angered, Trägårdsgärdet;100.0;1.0000;1.0000;-0.0000;bada;O
+14806051;Angered, Agnesberg;14806051;Angered, Agnesberg;100.0;1.0000;1.0000;-0.0000;bada;O
+14806061;Angered, Hammarkullen, Västra;14806062;Angered, Hammarkullen, Västra;23.4;0.9250;0.9040;0.6910;bada;M
+14806061;Angered, Hammarkullen, Västra;14806061;Angered, Hammarkullen, Centrum;76.6;0.0750;1.0000;-0.6910;bada;M
+14806062;Angered, Hammarkullen, Östra;14806063;Angered, Hammarkullen, Östra;76.1;0.3203;1.0000;-0.4407;bada;M
+14806062;Angered, Hammarkullen, Östra;14806064;Angered, Sandeslätt;23.9;0.6797;0.1563;0.4407;bada;M
+14806063;Angered, Sandeslätt;14806064;Angered, Sandeslätt;49.3;0.9245;0.8437;0.4315;bada;M
+14806063;Angered, Sandeslätt;14806062;Angered, Hammarkullen, Västra;50.7;0.0755;0.0959;-0.4315;bada;M
+14806101;Angered, Gunnilse-Linnarhult;14806101;Angered, Gunnilse-Linnarhult;100.0;1.0000;1.0000;-0.0000;bada;O
+14806111;Angered, Björsared-Knipared;14806111;Angered, Bergum;32.7;0.8838;0.9697;0.5568;bada;M
+14806111;Angered, Björsared-Knipared;14806112;Angered, Björsared;67.3;0.1162;0.9999;-0.5568;bada;M
+14806112;Angered, Olofstorp;14806113;Angered, Olofstorp;60.7;0.9114;1.0000;0.3044;bada;M
+14806112;Angered, Olofstorp;14806111;Angered, Bergum;39.3;0.0886;0.0303;-0.3044;bada;M
+14806121;Angered, Bläsebo;14806121;Angered, Bläsebo;100.0;1.0000;1.0000;-0.0000;bada;O
+14806122;Angered, Hjällbo, Norra;14806122;Angered, Hjällbo, Norra;100.0;0.8619;1.0000;-0.1381;bada;O
+14806122;Angered, Hjällbo, Norra;14806124;Angered, Skolspåret;;0.0735;0.1546;;bara_geo;O
+14806122;Angered, Hjällbo, Norra;14806123;Angered, Hjällbo, Södra;;0.0642;0.0210;;bara_geo;O
+14806123;Angered, Hjällbo, Södra;14806123;Angered, Hjällbo, Södra;100.0;1.0000;0.9352;-0.0000;bada;O
+14806124;Angered, Skolspåret;14806124;Angered, Skolspåret;100.0;0.7501;0.8454;-0.2499;bada;O
+14806124;Angered, Skolspåret;14806123;Angered, Hjällbo, Södra;;0.2499;0.0438;;bara_geo;O
+14806131;Angered, Eriksbo;14806131;Angered, Eriksbo;100.0;1.0000;1.0000;-0.0000;bada;O
+14807011;Västra Hisingen, Biskopsgården, N;14807011;Västra Hisingen, Biskopsgården, N;94.9;0.7128;0.9080;-0.2362;bada;M
+14807011;Västra Hisingen, Biskopsgården, N;14807012;Västra Hisingen, Svarte Mosse;5.1;0.2872;0.0464;0.2362;bada;M
+14807012;Västra Hisingen, Svarte Mosse;14807012;Västra Hisingen, Svarte Mosse;62.3;0.9879;0.9536;0.3649;bada;M
+14807012;Västra Hisingen, Svarte Mosse;14807011;Västra Hisingen, Biskopsgården, N;37.7;0.0121;0.0920;-0.3649;bada;M
+14807021;Västra Hisingen, Länsmansgården, C;14807021;Västra Hisingen, Länsmansgården, C;100.0;1.0000;1.0000;-0.0000;bada;O
+14807022;Västra Hisingen, Länsmansgården, N;14807022;Västra Hisingen, Länsmansgården, N;100.0;1.0000;1.0000;-0.0000;bada;O
+14807023;Västra Hisingen, Länsmansgården, S;14807023;Västra Hisingen, Länsmansgården, S;100.0;1.0000;1.0000;-0.0000;bada;O
+14807031;Västra Hisingen, Badvädersgatan m fl;14807032;Västra Hisingen, Svartedalen, Norra;84.2;0.9350;0.9449;0.0930;bada;M
+14807031;Västra Hisingen, Badvädersgatan m fl;14807031;Västra Hisingen, Länsmansgården, Ö;15.8;0.0650;0.1231;-0.0930;bada;M
+14807032;Västra Hisingen, Stackmolnsg. m fl;14807031;Västra Hisingen, Länsmansgården, Ö;76.4;0.8946;0.8769;0.1306;bada;M
+14807032;Västra Hisingen, Stackmolnsg. m fl;14807032;Västra Hisingen, Svartedalen, Norra;23.6;0.1054;0.0551;-0.1306;bada;M
+14807041;Västra Hisingen, Andalen;14807041;Västra Hisingen, Andalen;62.9;0.9350;1.0000;0.3060;bada;M
+14807041;Västra Hisingen, Andalen;14807042;Västra Hisingen, Gossbydal-Trånget;37.1;0.0650;0.4751;-0.3060;bada;M
+14807042;Västra Hisingen, Hjuvik;14807043;Västra Hisingen, Hjuvik;85.6;0.9281;1.0000;0.0721;bada;M
+14807042;Västra Hisingen, Hjuvik;14807042;Västra Hisingen, Gossbydal-Trånget;14.4;0.0714;0.2771;-0.0726;bada;M
+14807043;Västra Hisingen, Hällsvik;14807044;Västra Hisingen, Hällsvik;79.8;0.7031;0.9972;-0.0949;bada;M
+14807043;Västra Hisingen, Hällsvik;14807042;Västra Hisingen, Gossbydal-Trånget;20.2;0.2969;0.2469;0.0949;bada;M
+14807051;Västra Hisingen, Amhult-Arendal;14807051;Västra Hisingen, Amhult-Arendal;78.6;0.9853;1.0000;0.1993;bada;M
+14807051;Västra Hisingen, Amhult-Arendal;14807053;Västra Hisingen, Nolered;21.4;0.0147;0.1521;-0.1993;bada;M
+14807052;Västra Hisingen, Domarringen m fl;14807056;Västra Hisingen, Tumlehed;23.1;0.5471;0.1658;0.3161;bada;M
+14807052;Västra Hisingen, Domarringen m fl;14807054;Västra Hisingen, Torslanda;45.2;0.2019;0.4648;-0.2501;bada;M
+14807052;Västra Hisingen, Domarringen m fl;14807052;Västra Hisingen, Domarringen m fl;31.7;0.2456;0.2292;-0.0714;bada;M
+14807053;Västra Hisingen, Nolered;14807053;Västra Hisingen, Nolered;71.7;0.8896;0.8479;0.1726;bada;M
+14807053;Västra Hisingen, Nolered;14807055;Västra Hisingen, Torslanda Torg;28.3;0.1104;0.5406;-0.1726;bada;M
+14807054;Västra Hisingen, Torslanda;14807052;Västra Hisingen, Domarringen m fl;41.1;0.7492;0.7708;0.3382;bada;M
+14807054;Västra Hisingen, Torslanda;14807054;Västra Hisingen, Torslanda;43.0;0.2108;0.5352;-0.2192;bada;M
+14807054;Västra Hisingen, Torslanda;14807055;Västra Hisingen, Torslanda Torg;15.9;0.0400;0.1360;-0.1190;bada;M
+14807055;Västra Hisingen, Tumlehed;14807056;Västra Hisingen, Tumlehed;64.3;0.9651;0.8342;0.3221;bada;M
+14807055;Västra Hisingen, Tumlehed;14807055;Västra Hisingen, Torslanda Torg;35.7;0.0349;0.3066;-0.3221;bada;M
+14807061;Västra Hisingen, Björlanda;14807061;Västra Hisingen, Björlanda;36.5;0.7118;0.6105;0.3468;bada;M
+14807061;Västra Hisingen, Björlanda;14807064;Västra Hisingen, Nolvik;63.5;0.2882;1.0000;-0.3468;bada;M
+14807062;Västra Hisingen, Kvisljungeby;14807062;Västra Hisingen, Kvisljungeby;93.2;0.3355;1.0000;-0.5965;bada;M
+14807062;Västra Hisingen, Kvisljungeby;14807061;Västra Hisingen, Björlanda;6.8;0.6645;0.2348;0.5965;bada;M
+14807063;Västra Hisingen, Lilleby;14807063;Västra Hisingen, Lilleby;84.0;0.9600;1.0000;0.1200;bada;M
+14807063;Västra Hisingen, Lilleby;14807065;Västra Hisingen, Älvegården m fl;16.0;0.0400;0.2135;-0.1200;bada;M
+14807064;Västra Hisingen, Älvegården m fl;14807065;Västra Hisingen, Älvegården m fl;73.3;0.3263;0.7865;-0.4067;bada;M
+14807064;Västra Hisingen, Älvegården m fl;14807061;Västra Hisingen, Björlanda;26.7;0.6737;0.1547;0.4067;bada;M
+14807081;Västra Hisingen, Biskopsgården, S;14807081;Västra Hisingen, Biskopsgården, S;100.0;1.0000;0.9963;-0.0000;bada;M
+14807082;Västra Hisingen, Treröset;14807082;Västra Hisingen, Treröset;72.6;0.6771;0.9181;-0.0489;bada;M
+14807082;Västra Hisingen, Treröset;14807084;Västra Hisingen, Väderlekstorget;27.4;0.3229;0.1357;0.0489;bada;M
+14807083;Västra Hisingen, Vårväderstorget;14807083;Västra Hisingen, Vårväderstorget;95.0;0.8640;1.0000;-0.0860;bada;M
+14807083;Västra Hisingen, Vårväderstorget;14807081;Västra Hisingen, Biskopsgården, S;5.0;0.0476;0.0037;-0.0024;bada;M
+14807083;Västra Hisingen, Vårväderstorget;14807082;Västra Hisingen, Treröset;;0.0884;0.0819;;bara_geo;M
+14807084;Västra Hisingen, Väderlekstorget;14807084;Västra Hisingen, Väderlekstorget;100.0;1.0000;0.8643;-0.0000;bada;M
+14807091;Västra Hisingen, Jättesten;14807091;Västra Hisingen, Jättesten;34.5;0.7654;0.6382;0.4204;bada;M
+14807091;Västra Hisingen, Jättesten;14807094;Västra Hisingen, Önskevädersg. m fl;65.5;0.2346;1.0000;-0.4204;bada;M
+14807092;Västra Hisingen, Kärrmossen;14807092;Västra Hisingen, Kärrmossen;76.3;0.8807;1.0000;0.1177;bada;M
+14807092;Västra Hisingen, Kärrmossen;14807093;Västra Hisingen, Svartedalen, Södra;23.7;0.1193;0.2620;-0.1177;bada;M
+14807093;Västra Hisingen, Svartedalen;14807093;Västra Hisingen, Svartedalen, Södra;55.5;0.5762;0.7380;0.0212;bada;M
+14807093;Västra Hisingen, Svartedalen;14807091;Västra Hisingen, Jättesten;44.5;0.4238;0.3618;-0.0212;bada;M

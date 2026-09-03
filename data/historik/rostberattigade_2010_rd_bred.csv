@@ -1,0 +1,283 @@
+ar;val;riksdagsvalkrets_id;riksdagsvalkrets_namn;kommun_id;kommun_namn;valdistrikt_id;valdistrikt_namn;Män/Svenska medborgare/18-29 förstagångsväljare;Kvinnor/Svenska medborgare/18-29 förstagångsväljare;Män/Ej svenska medborgare/18-29 förstagångsväljare;Kvinnor/Ej svenska medborgare/18-29 förstagångsväljare;Män/Svenska medborgare/18-29 ej förstagångsväljare;Kvinnor/Svenska medborgare/18-29 ej förstagångsväljare;Män/Ej svenska medborgare/18-29 ej förstagångsväljare;Kvinnor/Ej svenska medborgare/18-29 ej förstagångsväljare;Män/Svenska medborgare/30-49;Kvinnor/Svenska medborgare/30-49;Män/Ej svenska medborgare/30-49;Kvinnor/Ej svenska medborgare/30-49;Män/Svenska medborgare/50-64;Kvinnor/Svenska medborgare/50-64;Män/Ej svenska medborgare/50-64;Kvinnor/Ej svenska medborgare/50-64;Män/Svenska medborgare/65-;Kvinnor/Svenska medborgare/65-;Män/Ej svenska medborgare/65-;Kvinnor/Ej svenska medborgare/65-;totalt
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800111;Gunnared, Lövgärdets Centrum;44;44;0;0;67;81;0;0;170;172;0;0;143;135;0;0;78;92;0;0;1026
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800112;Gunnared, Övre Lövgärdet;51;63;0;0;131;123;0;0;276;259;0;0;158;140;0;0;79;111;0;0;1391
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800113;Gunnared, Nedre Lövgärdet;72;89;0;0;128;131;0;0;283;286;0;0;227;215;0;0;136;124;0;0;1691
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800121;Gunnared, Södra Rannebergen;37;48;0;0;106;114;0;0;256;240;0;0;153;159;0;0;117;159;0;0;1389
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800122;Gunnared, Norra Rannebergen;88;75;0;0;100;82;0;0;255;242;0;0;254;251;0;0;115;124;0;0;1586
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800131;Gunnared, Västra Gårdsten;36;31;0;0;69;49;0;0;151;184;0;0;114;105;0;0;75;89;0;0;903
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800132;Gunnared, Norra Gårdsten;56;57;0;0;125;115;0;0;288;247;0;0;170;149;0;0;98;71;0;0;1376
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800133;Gunnared, Östra Gårdsten;65;64;0;0;107;88;0;0;185;220;0;0;171;148;0;0;93;110;0;0;1251
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800134;Gunnared, Södra Gårdsten;36;26;0;0;79;72;0;0;214;183;0;0;101;69;0;0;58;56;0;0;894
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800141;Gunnared, Angereds Centrum;76;70;0;0;83;83;0;0;210;236;0;0;176;207;0;0;103;128;0;0;1372
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800142;Gunnared, Trädgårdsgärdet;53;59;0;0;88;89;0;0;148;207;0;0;164;176;0;0;81;79;0;0;1144
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800211;Lärjedalen, Agnesberg;23;32;0;0;49;43;0;0;124;95;0;0;129;116;0;0;92;94;0;0;797
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800221;Lärjedalen, Västra Hammarkullen;88;89;0;0;117;130;0;0;270;320;0;0;158;170;0;0;88;92;0;0;1522
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800222;Lärjedalen, Östra Hammarkullen;68;58;0;0;125;118;0;0;310;302;0;0;169;144;0;0;125;162;0;0;1581
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800223;Lärjedalen, Sandeslätt;61;62;0;0;108;110;0;0;214;215;0;0;158;158;0;0;93;99;0;0;1278
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800231;Lärjedalen, Gunnilse-Linnarhult;55;45;0;0;60;51;0;0;253;262;0;0;230;193;0;0;143;112;0;0;1404
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800251;Lärjedalen, Björsared-Knipared;64;55;0;0;69;51;0;0;314;316;0;0;203;166;0;0;87;71;0;0;1396
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800252;Lärjedalen, Olofstorp;74;73;0;0;70;52;0;0;408;411;0;0;185;160;0;0;121;130;0;0;1684
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800261;Lärjedalen, Södra Hjällbo;59;48;0;0;68;78;0;0;136;179;0;0;72;70;0;0;39;50;0;0;799
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800262;Lärjedalen, Skolspåret;43;51;0;0;75;67;0;0;162;193;0;0;95;120;0;0;52;75;0;0;933
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800263;Lärjedalen, Norra Hjällbo;75;71;0;0;117;105;0;0;193;278;0;0;140;125;0;0;71;88;0;0;1263
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800264;Lärjedalen, Bläsebo;62;47;0;0;98;104;0;0;265;237;0;0;145;142;0;0;77;69;0;0;1246
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800271;Lärjedalen, Eriksbo;52;82;0;0;119;118;0;0;256;261;0;0;133;132;0;0;75;100;0;0;1328
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800311;Kortedala, Gamlestaden;59;67;0;0;284;323;0;0;373;300;0;0;98;82;0;0;54;64;0;0;1704
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800312;Kortedala, Nylöse;29;39;0;0;169;190;0;0;327;253;0;0;198;119;0;0;85;105;0;0;1514
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800313;Kortedala, Kviberg;92;118;0;0;233;264;0;0;140;138;0;0;116;138;0;0;139;270;0;0;1648
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800314;Kortedala, Bellevue;29;43;0;0;174;219;0;0;240;172;0;0;83;68;0;0;64;81;0;0;1173
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800321;Kortedala, Utbynäs;53;49;0;0;37;44;0;0;210;200;0;0;137;114;0;0;106;113;0;0;1063
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800322;Kortedala, Utby;66;60;0;0;43;43;0;0;282;319;0;0;172;155;0;0;135;148;0;0;1423
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800323;Kortedala, Fjällbo;46;47;0;0;72;71;0;0;336;343;0;0;144;128;0;0;108;141;0;0;1436
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800331;Kortedala, Gregorianska gatan m fl;24;27;0;0;136;125;0;0;225;182;0;0;159;124;0;0;83;119;0;0;1204
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800332;Kortedala, Västra Kortedala;42;28;0;0;111;123;0;0;183;176;0;0;142;138;0;0;169;266;0;0;1378
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800333;Kortedala, Östra Kortedala;32;38;0;0;166;199;0;0;258;179;0;0;121;150;0;0;138;190;0;0;1471
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800334;Kortedala, Kortedala Centrum;29;37;0;0;110;159;0;0;228;198;0;0;139;118;0;0;109;207;0;0;1334
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800335;Kortedala, Södra Kortedala;36;43;0;0;93;103;0;0;245;259;0;0;117;131;0;0;82;141;0;0;1250
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800341;Kortedala, Adventsparken;21;40;0;0;98;109;0;0;207;204;0;0;141;148;0;0;161;257;0;0;1386
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800342;Kortedala, Norra Kortedala;57;60;0;0;156;208;0;0;301;285;0;0;178;173;0;0;106;135;0;0;1659
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800343;Kortedala, Månadsgatorna m fl;41;49;0;0;137;195;0;0;274;257;0;0;157;142;0;0;103;129;0;0;1484
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800411;Bergsjön, Gärdsås;29;40;0;0;61;57;0;0;138;154;0;0;128;113;0;0;105;117;0;0;942
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800412;Bergsjön, Siriusgatan;38;51;0;0;130;123;0;0;295;259;0;0;153;142;0;0;102;99;0;0;1392
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800413;Bergsjön, Gärdsmosse;43;51;0;0;137;130;0;0;248;161;0;0;132;101;0;0;81;93;0;0;1177
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800414;Bergsjön, Norra Bergsjön;25;36;0;0;119;121;0;0;150;142;0;0;81;76;0;0;76;95;0;0;921
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800421;Bergsjön, Södra Bergsjön;68;67;0;0;82;82;0;0;219;246;0;0;132;114;0;0;64;89;0;0;1163
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800422;Bergsjön, Östra Bergsjön;79;82;0;0;91;87;0;0;236;295;0;0;117;123;0;0;56;72;0;0;1238
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800423;Bergsjön, Rymdtorget;17;27;0;0;73;75;0;0;191;131;0;0;92;64;0;0;43;67;0;0;780
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800424;Bergsjön, Komettorget;55;55;0;0;120;98;0;0;193;157;0;0;173;123;0;0;159;92;0;0;1225
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800511;Härlanda, Härlanda;56;44;0;0;87;109;0;0;231;247;0;0;167;154;0;0;72;94;0;0;1261
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800521;Härlanda, Södra Kålltorp;43;52;0;0;153;186;0;0;281;269;0;0;159;172;0;0;104;209;0;0;1628
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800522;Härlanda, Västra Kålltorp;22;29;0;0;119;156;0;0;206;223;0;0;100;101;0;0;48;53;0;0;1057
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800523;Härlanda, Östra Kålltorp;28;25;0;0;133;163;0;0;228;224;0;0;84;75;0;0;45;51;0;0;1056
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800524;Härlanda, Vidkärr;26;37;0;0;136;181;0;0;303;290;0;0;117;111;0;0;63;87;0;0;1351
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800525;Härlanda, Munkebäck;26;29;0;0;231;252;0;0;334;301;0;0;105;142;0;0;88;175;0;0;1683
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800531;Härlanda, Torpa;67;55;0;0;153;163;0;0;271;324;0;0;188;187;0;0;131;213;0;0;1752
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800532;Härlanda, Fräntorp;53;33;0;0;39;41;0;0;205;204;0;0;152;150;0;0;102;102;0;0;1081
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800541;Härlanda, Södra Björkekärr;51;49;0;0;74;78;0;0;280;296;0;0;197;220;0;0;233;336;0;0;1814
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800542;Härlanda, Västra Björkekärr;73;71;0;0;227;224;0;0;195;196;0;0;131;160;0;0;118;254;0;0;1649
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800543;Härlanda, Norra Björkekärr;22;20;0;0;45;70;0;0;127;136;0;0;78;93;0;0;76;179;0;0;846
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800544;Härlanda, Robertshöjd;51;74;0;0;168;172;0;0;252;277;0;0;166;166;0;0;122;223;0;0;1671
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800611;Örgryte, Gubbero;18;32;0;0;255;302;0;0;396;317;0;0;98;132;0;0;83;182;0;0;1815
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800612;Örgryte, Olskroken;30;29;0;0;112;123;0;0;263;218;0;0;125;130;0;0;103;177;0;0;1310
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800613;Örgryte, Redberget;41;33;0;0;197;233;0;0;363;332;0;0;130;155;0;0;98;151;0;0;1733
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800621;Örgryte, Bagaregården;36;20;0;0;95;110;0;0;230;236;0;0;92;120;0;0;27;37;0;0;1003
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800622;Örgryte, Ånäs;21;29;0;0;138;168;0;0;271;226;0;0;76;105;0;0;41;35;0;0;1110
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800631;Örgryte, Strömmensberg;31;36;0;0;141;180;0;0;281;243;0;0;139;135;0;0;102;201;0;0;1489
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800632;Örgryte, Redbergslid;38;46;0;0;155;197;0;0;296;255;0;0;146;135;0;0;77;114;0;0;1459
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800641;Örgryte, Västra Kallebäck;50;46;0;0;219;196;0;0;231;180;0;0;95;120;0;0;122;207;0;0;1466
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800642;Örgryte, Östra Kallebäck;32;29;0;0;150;201;0;0;220;181;0;0;107;137;0;0;126;237;0;0;1420
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800651;Örgryte, Södra Skår;47;61;0;0;71;62;0;0;182;226;0;0;172;152;0;0;94;101;0;0;1168
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800652;Örgryte, Jakobsdal;28;49;0;0;104;111;0;0;265;251;0;0;134;189;0;0;108;129;0;0;1368
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800653;Örgryte, Norra Skår;56;57;0;0;52;61;0;0;155;172;0;0;158;165;0;0;102;105;0;0;1083
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800661;Örgryte, Örgryte;40;46;0;0;47;66;0;0;113;148;0;0;118;133;0;0;112;133;0;0;956
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800662;Örgryte, Bö;32;38;0;0;49;59;0;0;154;182;0;0;108;114;0;0;88;117;0;0;941
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800671;Örgryte, Torp;34;48;0;0;149;163;0;0;298;321;0;0;158;207;0;0;139;280;0;0;1797
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800681;Örgryte, Överås;44;48;0;0;223;250;0;0;384;289;0;0;153;193;0;0;134;193;0;0;1911
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800682;Örgryte, Gamla Lunden;28;32;0;0;215;247;0;0;342;279;0;0;87;102;0;0;55;82;0;0;1469
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800683;Örgryte, Nobelplatsen;25;35;0;0;185;222;0;0;291;245;0;0;91;89;0;0;59;78;0;0;1320
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800684;Örgryte, Sankt Pauli;31;35;0;0;117;141;0;0;240;231;0;0;101;120;0;0;94;210;0;0;1320
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800685;Örgryte, Nya Lunden-Prästgårdsängen;32;41;0;0;197;149;0;0;282;222;0;0;113;116;0;0;178;264;0;0;1594
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800686;Örgryte, Kärralund;78;70;0;0;117;158;0;0;264;286;0;0;193;207;0;0;105;127;0;0;1605
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800711;Centrum, Burås;42;48;0;0;159;139;0;0;242;237;0;0;130;145;0;0;112;195;0;0;1449
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800712;Centrum, Mossen;85;61;0;0;440;277;0;0;138;115;0;0;57;56;0;0;37;75;0;0;1341
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800713;Centrum, Framnäs;45;51;0;0;261;290;0;0;323;300;0;0;127;107;0;0;88;205;0;0;1797
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800714;Centrum, Olofshöjd;118;79;0;0;356;163;0;0;76;40;0;0;19;15;0;0;10;11;0;0;887
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800715;Centrum, Krokslätt;38;55;0;0;192;196;0;0;310;297;0;0;171;175;0;0;141;177;0;0;1752
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800716;Centrum, Kristinehöjd;21;29;0;0;170;193;0;0;281;242;0;0;92;109;0;0;80;128;0;0;1345
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800717;Centrum, Getebergsäng;22;30;0;0;92;114;0;0;224;191;0;0;97;124;0;0;79;103;0;0;1076
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800721;Centrum, Nedre Johanneberg;85;73;0;0;349;252;0;0;247;226;0;0;157;194;0;0;123;163;0;0;1869
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800722;Centrum, Övre Johanneberg;64;51;0;0;244;226;0;0;257;191;0;0;74;110;0;0;64;120;0;0;1401
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800723;Centrum, Eklanda;32;51;0;0;275;251;0;0;363;259;0;0;140;143;0;0;82;179;0;0;1775
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800724;Centrum, Södra Johanneberg;29;32;0;0;239;239;0;0;318;243;0;0;92;93;0;0;60;100;0;0;1445
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800731;Centrum, Landalabergen m fl;38;50;0;0;157;194;0;0;286;272;0;0;136;237;0;0;135;226;0;0;1731
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800732;Centrum, Landala;24;38;0;0;118;146;0;0;260;232;0;0;118;169;0;0;91;145;0;0;1341
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800733;Centrum, Landalagången m fl;18;37;0;0;144;157;0;0;134;104;0;0;73;69;0;0;72;167;0;0;975
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800741;Centrum, Guldheden vattentornet;32;23;0;0;143;158;0;0;268;276;0;0;157;170;0;0;104;191;0;0;1522
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800742;Centrum, Centrala Guldheden;32;38;0;0;134;139;0;0;215;190;0;0;93;111;0;0;70;141;0;0;1163
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800743;Centrum, Norra Guldheden;31;31;0;0;158;168;0;0;300;251;0;0;95;129;0;0;79;175;0;0;1417
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800744;Centrum, Landala Egnahem;34;37;0;0;185;183;0;0;221;207;0;0;92;118;0;0;78;125;0;0;1280
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800745;Centrum, Södra Guldheden;27;30;0;0;150;149;0;0;248;224;0;0;85;105;0;0;88;170;0;0;1276
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800746;Centrum, Doktor Forselius gata m fl;55;36;0;0;131;117;0;0;181;185;0;0;97;116;0;0;106;179;0;0;1203
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800751;Centrum, Lorensberg;44;37;0;0;111;122;0;0;244;221;0;0;217;248;0;0;211;270;0;0;1725
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800761;Centrum, Södra Vasastaden;42;48;0;0;159;150;0;0;314;276;0;0;166;220;0;0;134;168;0;0;1677
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800762;Centrum, Norra Vasastaden;27;25;0;0;201;161;0;0;391;282;0;0;200;164;0;0;87;144;0;0;1682
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800763;Centrum, Valand;23;38;0;0;94;126;0;0;226;166;0;0;133;126;0;0;93;104;0;0;1129
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800764;Centrum, Östra Vasastaden;42;46;0;0;132;147;0;0;332;269;0;0;168;156;0;0;87;103;0;0;1482
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800771;Centrum, Inom Vallgraven;34;34;0;0;151;179;0;0;408;277;0;0;234;190;0;0;87;83;0;0;1677
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800772;Centrum, Nordstan-Otterhällan;35;35;0;0;194;182;0;0;324;247;0;0;202;189;0;0;114;133;0;0;1655
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800781;Centrum, Odinsgatan-Stampen;37;46;0;0;189;192;0;0;271;181;0;0;160;183;0;0;123;192;0;0;1574
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800782;Centrum, Gullbergsvass-Svingeln;55;67;0;0;315;330;0;0;354;273;0;0;143;144;0;0;57;55;0;0;1793
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800783;Centrum, Friggagatan-Stampen;27;33;0;0;164;156;0;0;290;246;0;0;139;150;0;0;103;161;0;0;1469
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800791;Centrum, Hedås-Gårda;41;46;0;0;166;166;0;0;319;268;0;0;180;195;0;0;150;232;0;0;1763
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800792;Centrum, Södra Heden;34;39;0;0;109;111;0;0;249;249;0;0;182;193;0;0;135;170;0;0;1471
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800793;Centrum, Norra Heden-Gårda;47;42;0;0;189;177;0;0;307;274;0;0;226;251;0;0;159;227;0;0;1899
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800811;Linnéstaden, Övre Masthugget;26;37;0;0;122;161;0;0;317;328;0;0;163;178;0;0;63;78;0;0;1473
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800812;Linnéstaden, Stigberget;48;30;0;0;151;174;0;0;328;260;0;0;160;175;0;0;86;135;0;0;1547
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800813;Linnéstaden, Masthuggstorget;37;34;0;0;145;145;0;0;298;233;0;0;133;131;0;0;79;92;0;0;1327
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800814;Linnéstaden, Nedre Masthugget;36;51;0;0;118;123;0;0;199;176;0;0;192;202;0;0;85;119;0;0;1301
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800815;Linnéstaden, Oscar Fredrik;29;41;0;0;127;129;0;0;279;249;0;0;151;161;0;0;43;78;0;0;1287
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800816;Linnéstaden, Vegastaden;34;29;0;0;109;110;0;0;257;208;0;0;112;156;0;0;66;111;0;0;1192
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800817;Linnéstaden, Slottsskogen;27;30;0;0;72;93;0;0;198;184;0;0;106;123;0;0;98;177;0;0;1108
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800821;Linnéstaden, Änggården;55;48;0;0;70;58;0;0;150;157;0;0;163;174;0;0;116;175;0;0;1166
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800831;Linnéstaden, Skansberget;48;52;0;0;91;123;0;0;361;388;0;0;183;212;0;0;71;88;0;0;1617
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800832;Linnéstaden, Haga;48;57;0;0;97;118;0;0;355;364;0;0;214;276;0;0;99;129;0;0;1757
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800841;Linnéstaden, Annedal;41;35;0;0;172;196;0;0;318;320;0;0;128;203;0;0;108;258;0;0;1779
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800842;Linnéstaden, Nilssonsberg;33;27;0;0;148;159;0;0;329;284;0;0;196;208;0;0;144;234;0;0;1762
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800851;Linnéstaden, Linnéplatsen;24;23;0;0;80;96;0;0;194;196;0;0;116;140;0;0;75;92;0;0;1036
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800852;Linnéstaden, Olivedal;58;43;0;0;123;154;0;0;328;341;0;0;159;217;0;0;98;96;0;0;1617
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800853;Linnéstaden, Långgatorna;29;30;0;0;211;209;0;0;381;336;0;0;186;164;0;0;70;106;0;0;1722
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800854;Linnéstaden, Linné;26;24;0;0;127;134;0;0;333;301;0;0;147;177;0;0;93;127;0;0;1489
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800855;Linnéstaden, Risåsen;21;25;0;0;172;165;0;0;275;252;0;0;123;126;0;0;69;111;0;0;1339
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800856;Linnéstaden, Kommendantsängen;14;18;0;0;105;118;0;0;301;249;0;0;127;164;0;0;71;80;0;0;1247
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800857;Linnéstaden, Sveaplan;18;32;0;0;84;91;0;0;220;195;0;0;171;187;0;0;137;211;0;0;1346
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800911;Majorna, Svalebo;29;33;0;0;105;127;0;0;225;179;0;0;139;125;0;0;84;134;0;0;1180
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800912;Majorna, Skytteskogen;57;51;0;0;153;206;0;0;261;266;0;0;210;185;0;0;112;147;0;0;1648
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800913;Majorna, Kungsladugård;42;32;0;0;139;187;0;0;318;347;0;0;111;124;0;0;45;60;0;0;1405
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800914;Majorna, Mariaplan;31;37;0;0;114;138;0;0;309;334;0;0;118;126;0;0;40;40;0;0;1287
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800915;Majorna, Silverkällan;41;54;0;0;119;158;0;0;333;376;0;0;140;138;0;0;44;58;0;0;1461
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800916;Majorna, Klippan;49;46;0;0;173;186;0;0;338;382;0;0;173;200;0;0;79;74;0;0;1700
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800921;Majorna, Sandarne;40;36;0;0;204;247;0;0;346;338;0;0;115;126;0;0;93;152;0;0;1697
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800931;Majorna, Slottsskogsgatan m fl;33;25;0;0;150;219;0;0;308;240;0;0;167;181;0;0;175;239;0;0;1737
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800932;Majorna, Majorna;31;21;0;0;124;150;0;0;204;206;0;0;129;107;0;0;121;204;0;0;1297
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800933;Majorna, Hängmattan;36;27;0;0;72;89;0;0;261;270;0;0;101;121;0;0;61;95;0;0;1133
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800934;Majorna, Gråberget;19;21;0;0;130;163;0;0;316;222;0;0;169;167;0;0;148;246;0;0;1601
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800935;Majorna, Marieberg;66;48;0;0;156;189;0;0;393;396;0;0;193;212;0;0;83;125;0;0;1861
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800936;Majorna, Godhem;33;30;0;0;129;152;0;0;239;274;0;0;120;107;0;0;51;59;0;0;1194
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800941;Majorna, Söderlingska ängen;47;33;0;0;121;151;0;0;288;326;0;0;110;127;0;0;58;89;0;0;1350
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800942;Majorna, Karl Johans torg;43;47;0;0;185;207;0;0;367;402;0;0;166;191;0;0;61;55;0;0;1724
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800943;Majorna, Djurgårdsgatan m fl;45;34;0;0;143;180;0;0;361;383;0;0;152;153;0;0;26;30;0;0;1507
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14800944;Majorna, Gatenhielmska;40;37;0;0;115;125;0;0;270;259;0;0;103;118;0;0;59;93;0;0;1219
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801011;Högsbo, Södra Kaverös;32;31;0;0;162;112;0;0;204;164;0;0;154;160;0;0;206;356;0;0;1581
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801012;Högsbo, Norra Kaverös;68;62;0;0;146;158;0;0;265;279;0;0;170;178;0;0;165;280;0;0;1771
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801021;Högsbo, Östra Flatås;40;39;0;0;107;125;0;0;226;244;0;0;119;98;0;0;91;141;0;0;1230
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801022;Högsbo, Västra Flatås;39;38;0;0;127;111;0;0;224;203;0;0;147;176;0;0;168;256;0;0;1489
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801031;Högsbo, Södra Högsbohöjd;35;38;0;0;127;144;0;0;284;271;0;0;112;108;0;0;107;218;0;0;1444
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801032;Högsbo, Norra Högsbohöjd;74;49;0;0;188;178;0;0;278;264;0;0;121;126;0;0;62;64;0;0;1404
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801041;Högsbo, Högsbo;17;17;0;0;107;125;0;0;201;156;0;0;128;142;0;0;158;269;0;0;1320
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801042;Högsbo, Västra Högsbotorp;22;27;0;0;178;174;0;0;243;218;0;0;121;117;0;0;87;171;0;0;1358
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801043;Högsbo, Marklandsgatan m fl;24;29;0;0;137;168;0;0;218;172;0;0;97;127;0;0;180;349;0;0;1501
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801044;Högsbo, Östra Högsbotorp;13;30;0;0;154;138;0;0;227;173;0;0;97;103;0;0;136;246;0;0;1317
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801111;Älvsborg, Södra Fiskebäck;29;36;0;0;39;29;0;0;141;147;0;0;104;112;0;0;149;171;0;0;957
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801112;Älvsborg, Norra Fiskebäck;55;53;0;0;38;57;0;0;242;263;0;0;187;173;0;0;164;177;0;0;1409
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801113;Älvsborg, Påvelund;68;46;0;0;44;33;0;0;264;319;0;0;195;195;0;0;223;239;0;0;1626
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801114;Älvsborg, Björnekulla;53;43;0;0;51;24;0;0;180;205;0;0;191;184;0;0;242;264;0;0;1437
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801121;Älvsborg, Långedrag;55;69;0;0;53;50;0;0;212;273;0;0;231;207;0;0;184;181;0;0;1515
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801131;Älvsborg, Tångudden;56;64;0;0;36;46;0;0;219;246;0;0;197;192;0;0;137;136;0;0;1329
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801132;Älvsborg, Nya Varvet;61;59;0;0;78;77;0;0;296;333;0;0;266;282;0;0;188;266;0;0;1906
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801133;Älvsborg, Hagen;35;44;0;0;39;42;0;0;157;169;0;0;165;165;0;0;91;86;0;0;993
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801141;Älvsborg, Grimmered;62;74;0;0;69;49;0;0;260;298;0;0;248;248;0;0;169;151;0;0;1628
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801142;Älvsborg, Ekebäck;62;57;0;0;67;70;0;0;260;261;0;0;227;209;0;0;123;112;0;0;1448
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801211;Frölunda, Tofta;17;36;0;0;69;71;0;0;104;107;0;0;88;120;0;0;183;268;0;0;1063
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801212;Frölunda, Spinetten;19;19;0;0;52;71;0;0;110;114;0;0;93;109;0;0;102;171;0;0;860
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801221;Frölunda, Ruddalen;26;32;0;0;111;110;0;0;198;149;0;0;162;167;0;0;340;577;0;0;1872
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801231;Frölunda, Västra Järnbrott;47;33;0;0;69;87;0;0;231;247;0;0;173;170;0;0;130;185;0;0;1372
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801232;Frölunda, Östra Järnbrott;20;33;0;0;96;83;0;0;201;182;0;0;129;148;0;0;154;298;0;0;1344
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801241;Frölunda, Frölunda torg;28;32;0;0;73;97;0;0;161;145;0;0;93;155;0;0;123;216;0;0;1123
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801242;Frölunda, Gånglåten m fl;73;63;0;0;180;166;0;0;317;324;0;0;163;170;0;0;113;153;0;0;1722
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801243;Frölunda, Frölunda;26;20;0;0;46;66;0;0;79;91;0;0;79;95;0;0;178;300;0;0;980
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801311;Askim, Hult;57;33;0;0;37;37;0;0;182;205;0;0;194;200;0;0;205;201;0;0;1351
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801312;Askim, Pilegården;38;35;0;0;123;128;0;0;219;220;0;0;109;147;0;0;67;97;0;0;1183
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801313;Askim, Askim;43;34;0;0;49;32;0;0;156;147;0;0;115;139;0;0;126;215;0;0;1056
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801314;Askim, Norra Sisjön;54;55;0;0;68;82;0;0;253;275;0;0;189;195;0;0;154;170;0;0;1495
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801315;Askim, Södra Sisjön;81;72;0;0;48;44;0;0;268;289;0;0;202;198;0;0;139;115;0;0;1456
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801316;Askim, Norra Hovås;41;33;0;0;37;34;0;0;161;182;0;0;178;169;0;0;123;121;0;0;1079
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801321;Askim, Södra Hovås;51;42;0;0;47;28;0;0;121;159;0;0;139;131;0;0;127;161;0;0;1006
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801322;Askim, Trollåsen;45;39;0;0;40;32;0;0;254;283;0;0;159;162;0;0;146;134;0;0;1294
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801331;Askim, Billdal;75;67;0;0;49;43;0;0;333;380;0;0;260;265;0;0;168;176;0;0;1816
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801332;Askim, Nygård;45;43;0;0;38;32;0;0;205;222;0;0;150;183;0;0;137;161;0;0;1216
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801333;Askim, Skintebo;54;35;0;0;31;42;0;0;250;276;0;0;125;165;0;0;76;138;0;0;1192
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801334;Askim, Brottkärr;26;34;0;0;34;20;0;0;140;155;0;0;125;133;0;0;93;73;0;0;833
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801335;Askim, Lyckhem;45;40;0;0;24;29;0;0;194;237;0;0;143;153;0;0;156;163;0;0;1184
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801336;Askim, Lindås;53;37;0;0;25;26;0;0;211;234;0;0;149;145;0;0;162;158;0;0;1200
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801411;Tynnered, Bratthammar;73;56;0;0;65;54;0;0;296;327;0;0;260;271;0;0;269;231;0;0;1902
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801421;Tynnered, Beryllgatan-Guldringen;75;54;0;0;164;121;0;0;258;265;0;0;164;230;0;0;187;275;0;0;1793
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801431;Tynnered, Tynnered;86;70;0;0;191;175;0;0;292;334;0;0;203;196;0;0;168;248;0;0;1963
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801441;Tynnered, Korsåsen;48;36;0;0;56;64;0;0;183;207;0;0;140;164;0;0;180;212;0;0;1290
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801442;Tynnered, Ängås;61;50;0;0;127;119;0;0;240;231;0;0;142;157;0;0;64;89;0;0;1280
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801451;Tynnered, Västra Önnered;48;50;0;0;44;28;0;0;203;238;0;0;153;137;0;0;178;260;0;0;1339
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801452;Tynnered, Östra Önnered;59;59;0;0;45;49;0;0;236;255;0;0;184;190;0;0;206;209;0;0;1492
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801461;Tynnered, Grevegården;60;60;0;0;135;152;0;0;183;223;0;0;90;91;0;0;75;125;0;0;1194
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801462;Tynnered, Skattegården;80;61;0;0;130;114;0;0;215;261;0;0;167;180;0;0;148;186;0;0;1542
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801471;Tynnered, Södra Näset;63;65;0;0;35;28;0;0;230;262;0;0;207;193;0;0;133;139;0;0;1355
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801472;Tynnered, Norra Näset;82;52;0;0;37;40;0;0;257;283;0;0;231;229;0;0;233;208;0;0;1652
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801473;Tynnered, Åkered;58;35;0;0;44;40;0;0;265;276;0;0;216;186;0;0;168;179;0;0;1467
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801481;Tynnered, Södra Opaltorget;34;40;0;0;67;60;0;0;166;171;0;0;95;97;0;0;88;108;0;0;926
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801482;Tynnered, Norra Opaltorget;44;46;0;0;133;99;0;0;216;187;0;0;129;156;0;0;136;180;0;0;1326
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801511;Södra Skärgården, Donsö-Vrångö;51;56;0;0;62;39;0;0;197;223;0;0;200;184;0;0;164;191;0;0;1367
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801512;Södra Skärgården, Styrsö-Köpstadsö;39;41;0;0;27;35;0;0;168;143;0;0;160;169;0;0;174;193;0;0;1149
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801513;Södra Skärgården, Brännö-Asperö;32;29;0;0;22;30;0;0;137;145;0;0;161;155;0;0;108;119;0;0;938
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801611;Torslanda, Hjuvik;74;55;0;0;42;39;0;0;319;354;0;0;202;186;0;0;132;109;0;0;1512
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801612;Torslanda, Hällsvik;69;46;0;0;42;41;0;0;287;316;0;0;228;209;0;0;107;93;0;0;1438
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801613;Torslanda, Andalen;61;69;0;0;48;36;0;0;424;461;0;0;188;168;0;0;107;104;0;0;1666
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801621;Torslanda, Tumlehed;49;53;0;0;68;54;0;0;269;274;0;0;207;209;0;0;155;174;0;0;1512
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801622;Torslanda, Domarringen m fl;54;73;0;0;58;46;0;0;266;313;0;0;204;195;0;0;142;110;0;0;1461
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801623;Torslanda, Torslanda;71;68;0;0;65;74;0;0;367;379;0;0;176;195;0;0;182;212;0;0;1789
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801624;Torslanda, Nolered;51;49;0;0;37;28;0;0;238;238;0;0;181;186;0;0;180;250;0;0;1438
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801625;Torslanda, Amhult-Arendal;27;30;0;0;72;61;0;0;346;309;0;0;135;118;0;0;140;187;0;0;1425
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801631;Torslanda, Lilleby;78;76;0;0;90;100;0;0;578;612;0;0;185;163;0;0;90;76;0;0;2048
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801632;Torslanda, Björlanda;56;57;0;0;49;39;0;0;368;369;0;0;225;176;0;0;115;87;0;0;1541
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801633;Torslanda, Kvisljungeby;54;56;0;0;56;45;0;0;358;379;0;0;170;143;0;0;81;66;0;0;1408
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801711;Biskopsgården, Svarte Mosse;63;55;0;0;128;128;0;0;337;293;0;0;136;134;0;0;69;65;0;0;1408
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801712;Biskopsgården, Norra Biskopsgården;54;47;0;0;167;120;0;0;213;198;0;0;124;80;0;0;70;71;0;0;1144
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801721;Biskopsgården, Södra Länsmansgården;32;43;0;0;67;80;0;0;158;158;0;0;88;102;0;0;60;105;0;0;893
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801722;Biskopsgården, Länsmansgårdens Centr;37;39;0;0;109;104;0;0;222;191;0;0;102;127;0;0;81;110;0;0;1122
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801723;Biskopsgården, Norra Länsmansgården;47;29;0;0;63;81;0;0;188;178;0;0;127;126;0;0;90;119;0;0;1048
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801731;Biskopsgården, Stackmolnsgatan m fl;57;40;0;0;88;103;0;0;256;250;0;0;157;149;0;0;153;190;0;0;1443
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801732;Biskopsgården, Badvädersgatan m fl;32;30;0;0;94;77;0;0;147;118;0;0;114;127;0;0;200;254;0;0;1193
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801741;Biskopsgården, Södra Biskopsgården;26;31;0;0;75;95;0;0;169;168;0;0;115;131;0;0;128;145;0;0;1083
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801742;Biskopsgården, Väderlekstorget;26;34;0;0;164;177;0;0;198;171;0;0;71;60;0;0;55;53;0;0;1009
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801743;Biskopsgården, Treröset;63;64;0;0;248;251;0;0;227;224;0;0;121;109;0;0;51;62;0;0;1420
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801744;Biskopsgården, Vårväderstorget;23;28;0;0;161;183;0;0;289;196;0;0;162;116;0;0;163;273;0;0;1594
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801751;Biskopsgården, Jättesten;31;53;0;0;106;113;0;0;234;222;0;0;194;188;0;0;224;271;0;0;1636
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801752;Biskopsgården, Svartedalen;55;63;0;0;131;152;0;0;230;224;0;0;129;139;0;0;115;189;0;0;1427
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801753;Biskopsgården, Kärrsmossen;80;64;0;0;116;96;0;0;362;311;0;0;213;141;0;0;142;133;0;0;1658
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801811;Lundby, Lindholmen;127;106;0;0;333;276;0;0;288;269;0;0;217;228;0;0;97;104;0;0;2045
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801812;Lundby, Västra Rambergsstaden;46;53;0;0;278;250;0;0;335;159;0;0;161;112;0;0;143;144;0;0;1681
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801813;Lundby, Östra Rambergsstaden;45;55;0;0;188;200;0;0;265;224;0;0;158;151;0;0;171;258;0;0;1715
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801814;Lundby, Västra Brämaregården;30;25;0;0;159;182;0;0;297;236;0;0;129;138;0;0;114;198;0;0;1508
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801815;Lundby, Östra Brämaregården;35;47;0;0;289;288;0;0;295;209;0;0;98;73;0;0;45;54;0;0;1433
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801816;Lundby, Lundbyvassen;21;17;0;0;107;108;0;0;150;113;0;0;60;41;0;0;26;22;0;0;665
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801821;Lundby, Flunsås;32;28;0;0;194;230;0;0;271;208;0;0;119;100;0;0;100;137;0;0;1419
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801822;Lundby, Bjurslätt;74;56;0;0;134;127;0;0;272;296;0;0;161;144;0;0;81;132;0;0;1477
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801823;Lundby, Norra Kvillebäcken;35;38;0;0;154;169;0;0;279;195;0;0;133;109;0;0;98;150;0;0;1360
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801824;Lundby, Wieselgrensplatsen;28;29;0;0;151;149;0;0;199;187;0;0;87;101;0;0;96;149;0;0;1176
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801825;Lundby, Södra Kvillebäcken;26;47;0;0;230;268;0;0;303;240;0;0;111;83;0;0;45;71;0;0;1424
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801831;Lundby, Hilldedal;46;47;0;0;151;142;0;0;321;288;0;0;144;139;0;0;118;143;0;0;1539
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801832;Lundby, Slätta Damm;28;33;0;0;186;181;0;0;244;203;0;0;125;110;0;0;109;185;0;0;1404
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801841;Lundby, Södra Tolered;45;45;0;0;38;26;0;0;224;249;0;0;131;136;0;0;100;99;0;0;1093
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801842;Lundby, Norra Tolered;45;31;0;0;43;41;0;0;188;217;0;0;138;134;0;0;111;112;0;0;1060
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801843;Lundby, Kärrdalen;59;40;0;0;41;32;0;0;253;275;0;0;162;140;0;0;157;167;0;0;1326
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801851;Lundby, Västra Eriksberg;49;49;0;0;125;144;0;0;329;313;0;0;264;271;0;0;184;184;0;0;1912
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801852;Lundby, Södra Bräcke;32;51;0;0;110;95;0;0;239;196;0;0;128;115;0;0;74;69;0;0;1109
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801853;Lundby, Norra Bräcke;37;42;0;0;82;83;0;0;266;243;0;0;152;127;0;0;113;133;0;0;1278
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801854;Lundby, Kyrkbyn;30;20;0;0;103;100;0;0;207;160;0;0;110;100;0;0;96;193;0;0;1119
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801855;Lundby, Norra Lundby;27;36;0;0;110;122;0;0;168;129;0;0;88;72;0;0;112;169;0;0;1033
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801856;Lundby, Södra Lundby;33;33;0;0;154;148;0;0;232;184;0;0;91;68;0;0;65;58;0;0;1066
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801857;Lundby, Östra Eriksberg;30;24;0;0;120;127;0;0;327;233;0;0;212;232;0;0;141;162;0;0;1608
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801858;Lundby, Sannegården;27;44;0;0;78;99;0;0;263;209;0;0;173;184;0;0;57;74;0;0;1208
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801911;Tuve-Säve, Tången;48;41;0;0;36;26;0;0;181;201;0;0;140;139;0;0;186;179;0;0;1177
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801912;Tuve-Säve, Tuve;43;51;0;0;61;53;0;0;262;282;0;0;165;186;0;0;216;269;0;0;1588
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801913;Tuve-Säve, Gunnestorp;46;55;0;0;67;67;0;0;314;294;0;0;149;153;0;0;161;197;0;0;1503
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801914;Tuve-Säve, Glöstorp;30;19;0;0;82;74;0;0;160;110;0;0;97;117;0;0;149;223;0;0;1061
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801915;Tuve-Säve, Norumshöjd;63;52;0;0;131;117;0;0;228;266;0;0;123;123;0;0;66;122;0;0;1291
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14801921;Tuve-Säve, Säve;72;65;0;0;64;43;0;0;309;328;0;0;226;178;0;0;160;144;0;0;1589
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14802011;Backa, Tingstad;50;48;0;0;93;69;0;0;247;219;0;0;187;190;0;0;167;178;0;0;1448
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14802012;Backa, Brunnsbo;59;68;0;0;143;152;0;0;238;236;0;0;127;139;0;0;138;261;0;0;1561
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14802013;Backa, Aröd;63;65;0;0;147;146;0;0;297;283;0;0;223;208;0;0;157;204;0;0;1793
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14802021;Backa, Södra Backa;45;39;0;0;76;59;0;0;200;210;0;0;162;185;0;0;163;186;0;0;1325
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14802022;Backa, Backa Röd;87;89;0;0;188;182;0;0;276;248;0;0;135;147;0;0;77;101;0;0;1530
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14802023;Backa, Norra Backa;54;56;0;0;98;117;0;0;279;274;0;0;155;182;0;0;162;221;0;0;1598
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14802024;Backa, Bällskär;39;26;0;0;39;28;0;0;168;170;0;0;137;146;0;0;110;112;0;0;975
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14802031;Backa, Bäckebol;22;30;0;0;61;73;0;0;121;116;0;0;107;137;0;0;125;172;0;0;964
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14802032;Backa, Backadalen;30;31;0;0;80;75;0;0;179;145;0;0;128;164;0;0;190;337;0;0;1359
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14802033;Backa, Selma Lagerlöfs torg;34;35;0;0;111;103;0;0;165;137;0;0;108;67;0;0;84;120;0;0;964
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14802034;Backa, Skälltorp;43;35;0;0;93;98;0;0;249;202;0;0;189;219;0;0;209;277;0;0;1614
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14802035;Backa, Åketorp;78;56;0;0;76;59;0;0;260;294;0;0;265;253;0;0;159;134;0;0;1634
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14802041;Backa, Skogome-Sankt Jörgen;63;48;0;0;77;61;0;0;344;360;0;0;216;179;0;0;184;260;0;0;1792
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14802111;Kärra-Rödbo, Mysterna-Svankällan;54;39;0;0;25;28;0;0;379;425;0;0;135;121;0;0;58;36;0;0;1300
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14802112;Kärra-Rödbo, Gerrebacka-Ingebäck;44;42;0;0;78;76;0;0;395;399;0;0;106;90;0;0;55;46;0;0;1331
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14802113;Kärra-Rödbo, Västra Kärra;45;48;0;0;57;48;0;0;204;207;0;0;152;160;0;0;120;152;0;0;1193
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14802114;Kärra-Rödbo, Norra Kärra;27;31;0;0;52;56;0;0;143;134;0;0;124;150;0;0;165;249;0;0;1131
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14802115;Kärra-Rödbo, Östra Kärra;56;45;0;0;57;50;0;0;198;227;0;0;139;156;0;0;154;224;0;0;1306
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14802116;Kärra-Rödbo, Södra Kärra;61;37;0;0;65;60;0;0;220;191;0;0;153;181;0;0;131;165;0;0;1264
+2010;rd;16;Göteborgs kommun;1480;Göteborg;14802121;Kärra-Rödbo, Rödbo;20;26;0;0;21;25;0;0;139;125;0;0;102;84;0;0;60;60;0;0;662

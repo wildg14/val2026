@@ -9,7 +9,7 @@ JS_PREFIX = 'window.MAJPOSTEN=window.MAJPOSTEN||{data:{}};window.MAJPOSTEN.data[
 KALLA_STANDARD = "Valmyndigheten, rösträkning per valdistrikt"
 KONFIG_STANDARD = {
     "ar": ["2022"], "standardAr": "2022", "valnatt": False,
-    "prenumerera": "https://www.majposten.se/subscribe", "adress": "https://majposten.se/val2026",
+    "adress": "https://majposten.se/val2026",
     "inbaddad": False, "skrivUrl": True,
 }
 

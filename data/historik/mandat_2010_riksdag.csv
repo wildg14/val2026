@@ -1,0 +1,558 @@
+ar;val;niva;kod;namn;parti_kalla;parti;roster;andel;mandat;varav_utjamning;mandat_fgval;mandat_valkrets
+2010;rd;riket;00;Riket;M;M;1791766;30.06;107;0;97;349
+2010;rd;riket;00;Riket;C;C;390804;6.56;23;2;29;349
+2010;rd;riket;00;Riket;FP;L;420524;7.06;24;7;28;349
+2010;rd;riket;00;Riket;KD;KD;333696;5.60;19;8;24;349
+2010;rd;riket;00;Riket;S;S;1827497;30.66;112;0;130;349
+2010;rd;riket;00;Riket;V;V;334053;5.60;19;10;22;349
+2010;rd;riket;00;Riket;MP;MP;437435;7.34;25;6;19;349
+2010;rd;riket;00;Riket;SD;SD;339610;5.70;20;6;0;349
+2010;rd;riket;00;Riket;PP;PP;38491;0.65;;;0;349
+2010;rd;riket;00;Riket;FI;FI;24139;0.40;;;0;349
+2010;rd;riket;00;Riket;SPI;SPI;11078;0.19;;;0;349
+2010;rd;riket;00;Riket;RS;RS;1507;0.03;;;0;349
+2010;rd;riket;00;Riket;ND;ND;1141;0.02;;;0;349
+2010;rd;riket;00;Riket;KLP;KLP;716;0.01;;;0;349
+2010;rd;riket;00;Riket;ENH;ENH;632;0.01;;;0;349
+2010;rd;riket;00;Riket;EAP;EAP;187;0.00;;;0;349
+2010;rd;riket;00;Riket;Sjvåp;SJVÅP;185;0.00;;;0;349
+2010;rd;riket;00;Riket;ALP;ALP;87;0.00;;;0;349
+2010;rd;riket;00;Riket;KommF;KOMMF;26;0.00;;;0;349
+2010;rd;riket;00;Riket;SKÅ;SKÅ;17;0.00;;;0;349
+2010;rd;riket;00;Riket;0020;0020;14;0.00;;;0;349
+2010;rd;riket;00;Riket;0518;0518;5;0.00;;;0;349
+2010;rd;riket;00;Riket;Riksh;RIKSH;3;0.00;;;0;349
+2010;rd;riket;00;Riket;ÖVRIGA_FGVAL;ÖVRIGA_FGVAL;0;0.00;;;0;349
+2010;rd;valkrets;1010;Blekinge län;M;M;27387;27.34;2;0;2;5
+2010;rd;valkrets;1010;Blekinge län;C;C;5771;5.76;0;0;0;5
+2010;rd;valkrets;1010;Blekinge län;FP;L;5431;5.42;0;0;0;5
+2010;rd;valkrets;1010;Blekinge län;KD;KD;3973;3.97;0;0;0;5
+2010;rd;valkrets;1010;Blekinge län;S;S;36520;36.46;3;0;3;5
+2010;rd;valkrets;1010;Blekinge län;V;V;5075;5.07;0;0;0;5
+2010;rd;valkrets;1010;Blekinge län;MP;MP;5289;5.28;0;0;0;5
+2010;rd;valkrets;1010;Blekinge län;SD;SD;9830;9.81;1;1;0;5
+2010;rd;valkrets;1010;Blekinge län;PP;PP;588;0.59;;;0;5
+2010;rd;valkrets;1010;Blekinge län;FI;FI;214;0.21;;;0;5
+2010;rd;valkrets;1010;Blekinge län;ENH;ENH;14;0.01;;;0;5
+2010;rd;valkrets;1010;Blekinge län;ND;ND;6;0.01;;;0;5
+2010;rd;valkrets;1010;Blekinge län;KLP;KLP;5;0.00;;;0;5
+2010;rd;valkrets;1010;Blekinge län;SPI;SPI;4;0.00;;;0;5
+2010;rd;valkrets;1010;Blekinge län;Sjvåp;SJVÅP;1;0.00;;;0;5
+2010;rd;valkrets;1010;Blekinge län;Riksh;RIKSH;0;0.00;;;0;5
+2010;rd;valkrets;1010;Blekinge län;ÖVRIGA_FGVAL;ÖVRIGA_FGVAL;0;0.00;;;0;5
+2010;rd;valkrets;2024;Dalarnas län;M;M;44997;25.11;3;0;3;10
+2010;rd;valkrets;2024;Dalarnas län;C;C;14086;7.86;1;0;1;10
+2010;rd;valkrets;2024;Dalarnas län;FP;L;8747;4.88;0;0;1;10
+2010;rd;valkrets;2024;Dalarnas län;KD;KD;7925;4.42;0;0;1;10
+2010;rd;valkrets;2024;Dalarnas län;S;S;67139;37.47;4;0;5;10
+2010;rd;valkrets;2024;Dalarnas län;V;V;10533;5.88;1;1;1;10
+2010;rd;valkrets;2024;Dalarnas län;MP;MP;10652;5.95;1;0;1;10
+2010;rd;valkrets;2024;Dalarnas län;SD;SD;12470;6.96;1;0;0;10
+2010;rd;valkrets;2024;Dalarnas län;PP;PP;1127;0.63;;;0;10
+2010;rd;valkrets;2024;Dalarnas län;FI;FI;570;0.32;;;0;10
+2010;rd;valkrets;2024;Dalarnas län;SPI;SPI;486;0.27;;;0;10
+2010;rd;valkrets;2024;Dalarnas län;ND;ND;34;0.02;;;0;10
+2010;rd;valkrets;2024;Dalarnas län;ENH;ENH;23;0.01;;;0;10
+2010;rd;valkrets;2024;Dalarnas län;EAP;EAP;3;0.00;;;0;10
+2010;rd;valkrets;2024;Dalarnas län;RS;RS;2;0.00;;;0;10
+2010;rd;valkrets;2024;Dalarnas län;0518;0518;0;0.00;;;0;10
+2010;rd;valkrets;2024;Dalarnas län;Sjvåp;SJVÅP;0;0.00;;;0;10
+2010;rd;valkrets;2024;Dalarnas län;ÖVRIGA_FGVAL;ÖVRIGA_FGVAL;0;0.00;;;0;10
+2010;rd;valkrets;0909;Gotlands län;M;M;9731;25.18;1;0;1;2
+2010;rd;valkrets;0909;Gotlands län;C;C;5657;14.64;0;0;0;2
+2010;rd;valkrets;0909;Gotlands län;FP;L;1785;4.62;0;0;0;2
+2010;rd;valkrets;0909;Gotlands län;KD;KD;1128;2.92;0;0;0;2
+2010;rd;valkrets;0909;Gotlands län;S;S;12855;33.27;1;0;1;2
+2010;rd;valkrets;0909;Gotlands län;V;V;2342;6.06;0;0;0;2
+2010;rd;valkrets;0909;Gotlands län;MP;MP;3259;8.43;0;0;0;2
+2010;rd;valkrets;0909;Gotlands län;SD;SD;1225;3.17;0;0;0;2
+2010;rd;valkrets;0909;Gotlands län;PP;PP;308;0.80;;;0;2
+2010;rd;valkrets;0909;Gotlands län;FI;FI;303;0.78;;;0;2
+2010;rd;valkrets;0909;Gotlands län;ND;ND;13;0.03;;;0;2
+2010;rd;valkrets;0909;Gotlands län;ENH;ENH;5;0.01;;;0;2
+2010;rd;valkrets;0909;Gotlands län;KLP;KLP;4;0.01;;;0;2
+2010;rd;valkrets;0909;Gotlands län;SPI;SPI;1;0.00;;;0;2
+2010;rd;valkrets;0909;Gotlands län;0518;0518;0;0.00;;;0;2
+2010;rd;valkrets;0909;Gotlands län;Sjvåp;SJVÅP;0;0.00;;;0;2
+2010;rd;valkrets;0909;Gotlands län;ÖVRIGA_FGVAL;ÖVRIGA_FGVAL;0;0.00;;;0;2
+2010;rd;valkrets;2125;Gävleborgs län;M;M;41009;23.14;3;0;2;10
+2010;rd;valkrets;2125;Gävleborgs län;C;C;12982;7.32;1;0;1;10
+2010;rd;valkrets;2125;Gävleborgs län;FP;L;9444;5.33;1;1;1;10
+2010;rd;valkrets;2125;Gävleborgs län;KD;KD;7235;4.08;0;0;0;10
+2010;rd;valkrets;2125;Gävleborgs län;S;S;67893;38.30;4;0;5;10
+2010;rd;valkrets;2125;Gävleborgs län;V;V;12814;7.23;1;0;1;10
+2010;rd;valkrets;2125;Gävleborgs län;MP;MP;10918;6.16;1;1;1;10
+2010;rd;valkrets;2125;Gävleborgs län;SD;SD;12616;7.12;1;0;0;10
+2010;rd;valkrets;2125;Gävleborgs län;PP;PP;924;0.52;;;0;10
+2010;rd;valkrets;2125;Gävleborgs län;FI;FI;438;0.25;;;0;10
+2010;rd;valkrets;2125;Gävleborgs län;SPI;SPI;171;0.10;;;0;10
+2010;rd;valkrets;2125;Gävleborgs län;KLP;KLP;29;0.02;;;0;10
+2010;rd;valkrets;2125;Gävleborgs län;ND;ND;29;0.02;;;0;10
+2010;rd;valkrets;2125;Gävleborgs län;ENH;ENH;23;0.01;;;0;10
+2010;rd;valkrets;2125;Gävleborgs län;RS;RS;1;0.00;;;0;10
+2010;rd;valkrets;2125;Gävleborgs län;0518;0518;0;0.00;;;0;10
+2010;rd;valkrets;2125;Gävleborgs län;Sjvåp;SJVÅP;0;0.00;;;0;10
+2010;rd;valkrets;2125;Gävleborgs län;ÖVRIGA_FGVAL;ÖVRIGA_FGVAL;0;0.00;;;0;10
+2010;rd;valkrets;1315;Hallands län;M;M;67878;34.71;4;0;3;10
+2010;rd;valkrets;1315;Hallands län;C;C;17178;8.78;1;0;1;10
+2010;rd;valkrets;1315;Hallands län;FP;L;15286;7.82;1;0;1;10
+2010;rd;valkrets;1315;Hallands län;KD;KD;10994;5.62;1;1;1;10
+2010;rd;valkrets;1315;Hallands län;S;S;52319;26.75;3;0;4;10
+2010;rd;valkrets;1315;Hallands län;V;V;6904;3.53;0;0;0;10
+2010;rd;valkrets;1315;Hallands län;MP;MP;11568;5.92;1;0;0;10
+2010;rd;valkrets;1315;Hallands län;SD;SD;10507;5.37;1;1;0;10
+2010;rd;valkrets;1315;Hallands län;SPI;SPI;1249;0.64;;;0;10
+2010;rd;valkrets;1315;Hallands län;PP;PP;1068;0.55;;;0;10
+2010;rd;valkrets;1315;Hallands län;FI;FI;424;0.22;;;0;10
+2010;rd;valkrets;1315;Hallands län;ENH;ENH;17;0.01;;;0;10
+2010;rd;valkrets;1315;Hallands län;KLP;KLP;16;0.01;;;0;10
+2010;rd;valkrets;1315;Hallands län;ND;ND;16;0.01;;;0;10
+2010;rd;valkrets;1315;Hallands län;0518;0518;1;0.00;;;0;10
+2010;rd;valkrets;1315;Hallands län;Riksh;RIKSH;0;0.00;;;0;10
+2010;rd;valkrets;1315;Hallands län;RS;RS;0;0.00;;;0;10
+2010;rd;valkrets;1315;Hallands län;Sjvåp;SJVÅP;0;0.00;;;0;10
+2010;rd;valkrets;1315;Hallands län;ÖVRIGA_FGVAL;ÖVRIGA_FGVAL;0;0.00;;;0;10
+2010;rd;valkrets;2327;Jämtlands län;M;M;18193;22.20;1;0;1;4
+2010;rd;valkrets;2327;Jämtlands län;C;C;10487;12.80;1;0;1;4
+2010;rd;valkrets;2327;Jämtlands län;FP;L;3155;3.85;0;0;0;4
+2010;rd;valkrets;2327;Jämtlands län;KD;KD;2340;2.86;0;0;0;4
+2010;rd;valkrets;2327;Jämtlands län;S;S;33013;40.29;2;0;3;4
+2010;rd;valkrets;2327;Jämtlands län;V;V;5340;6.52;0;0;0;4
+2010;rd;valkrets;2327;Jämtlands län;MP;MP;5339;6.52;0;0;0;4
+2010;rd;valkrets;2327;Jämtlands län;SD;SD;3122;3.81;0;0;0;4
+2010;rd;valkrets;2327;Jämtlands län;PP;PP;456;0.56;;;0;4
+2010;rd;valkrets;2327;Jämtlands län;FI;FI;237;0.29;;;0;4
+2010;rd;valkrets;2327;Jämtlands län;RS;RS;14;0.02;;;0;4
+2010;rd;valkrets;2327;Jämtlands län;ND;ND;8;0.01;;;0;4
+2010;rd;valkrets;2327;Jämtlands län;ENH;ENH;4;0.00;;;0;4
+2010;rd;valkrets;2327;Jämtlands län;SPI;SPI;1;0.00;;;0;4
+2010;rd;valkrets;2327;Jämtlands län;Sjvåp;SJVÅP;0;0.00;;;0;4
+2010;rd;valkrets;2327;Jämtlands län;ÖVRIGA_FGVAL;ÖVRIGA_FGVAL;0;0.00;;;0;4
+2010;rd;valkrets;0606;Jönköpings län;M;M;57901;26.74;3;0;3;11
+2010;rd;valkrets;0606;Jönköpings län;C;C;16859;7.78;1;0;1;11
+2010;rd;valkrets;0606;Jönköpings län;FP;L;12134;5.60;1;1;1;11
+2010;rd;valkrets;0606;Jönköpings län;KD;KD;27822;12.85;2;0;2;11
+2010;rd;valkrets;0606;Jönköpings län;S;S;66316;30.62;4;0;5;11
+2010;rd;valkrets;0606;Jönköpings län;V;V;8775;4.05;0;0;1;11
+2010;rd;valkrets;0606;Jönköpings län;MP;MP;11438;5.28;1;1;0;11
+2010;rd;valkrets;0606;Jönköpings län;SD;SD;13888;6.41;1;0;0;11
+2010;rd;valkrets;0606;Jönköpings län;PP;PP;965;0.45;;;0;11
+2010;rd;valkrets;0606;Jönköpings län;FI;FI;280;0.13;;;0;11
+2010;rd;valkrets;0606;Jönköpings län;ENH;ENH;32;0.01;;;0;11
+2010;rd;valkrets;0606;Jönköpings län;ND;ND;20;0.01;;;0;11
+2010;rd;valkrets;0606;Jönköpings län;SPI;SPI;14;0.01;;;0;11
+2010;rd;valkrets;0606;Jönköpings län;KLP;KLP;7;0.00;;;0;11
+2010;rd;valkrets;0606;Jönköpings län;RS;RS;7;0.00;;;0;11
+2010;rd;valkrets;0606;Jönköpings län;0518;0518;0;0.00;;;0;11
+2010;rd;valkrets;0606;Jönköpings län;Sjvåp;SJVÅP;0;0.00;;;0;11
+2010;rd;valkrets;0606;Jönköpings län;ÖVRIGA_FGVAL;ÖVRIGA_FGVAL;0;0.00;;;0;11
+2010;rd;valkrets;0808;Kalmar län;M;M;41631;26.90;3;0;2;8
+2010;rd;valkrets;0808;Kalmar län;C;C;13829;8.94;1;0;1;8
+2010;rd;valkrets;0808;Kalmar län;FP;L;7847;5.07;0;0;0;8
+2010;rd;valkrets;0808;Kalmar län;KD;KD;9341;6.04;1;1;1;8
+2010;rd;valkrets;0808;Kalmar län;S;S;55116;35.62;4;0;4;8
+2010;rd;valkrets;0808;Kalmar län;V;V;7679;4.96;0;0;0;8
+2010;rd;valkrets;0808;Kalmar län;MP;MP;8713;5.63;0;0;0;8
+2010;rd;valkrets;0808;Kalmar län;SD;SD;8964;5.79;0;0;0;8
+2010;rd;valkrets;0808;Kalmar län;PP;PP;882;0.57;;;0;8
+2010;rd;valkrets;0808;Kalmar län;FI;FI;377;0.24;;;0;8
+2010;rd;valkrets;0808;Kalmar län;SPI;SPI;109;0.07;;;0;8
+2010;rd;valkrets;0808;Kalmar län;ND;ND;40;0.03;;;0;8
+2010;rd;valkrets;0808;Kalmar län;ENH;ENH;20;0.01;;;0;8
+2010;rd;valkrets;0808;Kalmar län;KLP;KLP;10;0.01;;;0;8
+2010;rd;valkrets;0808;Kalmar län;RS;RS;3;0.00;;;0;8
+2010;rd;valkrets;0808;Kalmar län;Sjvåp;SJVÅP;0;0.00;;;0;8
+2010;rd;valkrets;0808;Kalmar län;ÖVRIGA_FGVAL;ÖVRIGA_FGVAL;0;0.00;;;0;8
+2010;rd;valkrets;0707;Kronobergs län;M;M;34762;29.84;2;0;2;6
+2010;rd;valkrets;0707;Kronobergs län;C;C;11559;9.92;1;0;1;6
+2010;rd;valkrets;0707;Kronobergs län;FP;L;6667;5.72;0;0;0;6
+2010;rd;valkrets;0707;Kronobergs län;KD;KD;7111;6.10;0;0;1;6
+2010;rd;valkrets;0707;Kronobergs län;S;S;35555;30.52;3;0;3;6
+2010;rd;valkrets;0707;Kronobergs län;V;V;5380;4.62;0;0;0;6
+2010;rd;valkrets;0707;Kronobergs län;MP;MP;7044;6.05;0;0;0;6
+2010;rd;valkrets;0707;Kronobergs län;SD;SD;7424;6.37;0;0;0;6
+2010;rd;valkrets;0707;Kronobergs län;PP;PP;607;0.52;;;0;6
+2010;rd;valkrets;0707;Kronobergs län;FI;FI;310;0.27;;;0;6
+2010;rd;valkrets;0707;Kronobergs län;ENH;ENH;21;0.02;;;0;6
+2010;rd;valkrets;0707;Kronobergs län;ND;ND;14;0.01;;;0;6
+2010;rd;valkrets;0707;Kronobergs län;KLP;KLP;9;0.01;;;0;6
+2010;rd;valkrets;0707;Kronobergs län;EAP;EAP;2;0.00;;;0;6
+2010;rd;valkrets;0707;Kronobergs län;Sjvåp;SJVÅP;2;0.00;;;0;6
+2010;rd;valkrets;0707;Kronobergs län;RS;RS;1;0.00;;;0;6
+2010;rd;valkrets;0707;Kronobergs län;SPI;SPI;1;0.00;;;0;6
+2010;rd;valkrets;0707;Kronobergs län;0518;0518;0;0.00;;;0;6
+2010;rd;valkrets;0707;Kronobergs län;ÖVRIGA_FGVAL;ÖVRIGA_FGVAL;0;0.00;;;0;6
+2010;rd;valkrets;2529;Norrbottens län;M;M;26852;16.38;2;0;1;9
+2010;rd;valkrets;2529;Norrbottens län;C;C;7618;4.65;0;0;1;9
+2010;rd;valkrets;2529;Norrbottens län;FP;L;7082;4.32;0;0;0;9
+2010;rd;valkrets;2529;Norrbottens län;KD;KD;5388;3.29;0;0;0;9
+2010;rd;valkrets;2529;Norrbottens län;S;S;85035;51.86;6;0;6;9
+2010;rd;valkrets;2529;Norrbottens län;V;V;15240;9.29;1;0;1;9
+2010;rd;valkrets;2529;Norrbottens län;MP;MP;8630;5.26;0;0;0;9
+2010;rd;valkrets;2529;Norrbottens län;SD;SD;6309;3.85;0;0;0;9
+2010;rd;valkrets;2529;Norrbottens län;PP;PP;1065;0.65;;;0;9
+2010;rd;valkrets;2529;Norrbottens län;FI;FI;365;0.22;;;0;9
+2010;rd;valkrets;2529;Norrbottens län;RS;RS;194;0.12;;;0;9
+2010;rd;valkrets;2529;Norrbottens län;ENH;ENH;12;0.01;;;0;9
+2010;rd;valkrets;2529;Norrbottens län;SPI;SPI;12;0.01;;;0;9
+2010;rd;valkrets;2529;Norrbottens län;ND;ND;9;0.01;;;0;9
+2010;rd;valkrets;2529;Norrbottens län;KLP;KLP;5;0.00;;;0;9
+2010;rd;valkrets;2529;Norrbottens län;Sjvåp;SJVÅP;4;0.00;;;0;9
+2010;rd;valkrets;2529;Norrbottens län;0518;0518;0;0.00;;;0;9
+2010;rd;valkrets;2529;Norrbottens län;ÖVRIGA_FGVAL;ÖVRIGA_FGVAL;0;0.00;;;0;9
+2010;rd;valkrets;1211;Malmö kommun;M;M;55160;32.62;3;0;3;9
+2010;rd;valkrets;1211;Malmö kommun;C;C;4795;2.84;0;0;0;9
+2010;rd;valkrets;1211;Malmö kommun;FP;L;11768;6.96;1;0;1;9
+2010;rd;valkrets;1211;Malmö kommun;KD;KD;5274;3.12;0;0;0;9
+2010;rd;valkrets;1211;Malmö kommun;S;S;48450;28.65;3;0;4;9
+2010;rd;valkrets;1211;Malmö kommun;V;V;10118;5.98;1;1;1;9
+2010;rd;valkrets;1211;Malmö kommun;MP;MP;14861;8.79;1;0;1;9
+2010;rd;valkrets;1211;Malmö kommun;SD;SD;13256;7.84;1;0;0;9
+2010;rd;valkrets;1211;Malmö kommun;SPI;SPI;2777;1.64;;;0;9
+2010;rd;valkrets;1211;Malmö kommun;FI;FI;1259;0.74;;;0;9
+2010;rd;valkrets;1211;Malmö kommun;PP;PP;1101;0.65;;;0;9
+2010;rd;valkrets;1211;Malmö kommun;KLP;KLP;38;0.02;;;0;9
+2010;rd;valkrets;1211;Malmö kommun;ALP;ALP;27;0.02;;;0;9
+2010;rd;valkrets;1211;Malmö kommun;ND;ND;16;0.01;;;0;9
+2010;rd;valkrets;1211;Malmö kommun;ENH;ENH;8;0.00;;;0;9
+2010;rd;valkrets;1211;Malmö kommun;0020;0020;7;0.00;;;0;9
+2010;rd;valkrets;1211;Malmö kommun;SKÅ;SKÅ;7;0.00;;;0;9
+2010;rd;valkrets;1211;Malmö kommun;EAP;EAP;6;0.00;;;0;9
+2010;rd;valkrets;1211;Malmö kommun;KommF;KOMMF;4;0.00;;;0;9
+2010;rd;valkrets;1211;Malmö kommun;Sjvåp;SJVÅP;2;0.00;;;0;9
+2010;rd;valkrets;1211;Malmö kommun;RS;RS;1;0.00;;;0;9
+2010;rd;valkrets;1211;Malmö kommun;ÖVRIGA_FGVAL;ÖVRIGA_FGVAL;0;0.00;;;0;9
+2010;rd;valkrets;1214;Skåne läns norra och östra;M;M;60930;32.04;4;0;3;10
+2010;rd;valkrets;1214;Skåne läns norra och östra;C;C;12871;6.77;1;0;1;10
+2010;rd;valkrets;1214;Skåne läns norra och östra;FP;L;12677;6.67;1;0;1;10
+2010;rd;valkrets;1214;Skåne läns norra och östra;KD;KD;9420;4.95;1;1;1;10
+2010;rd;valkrets;1214;Skåne läns norra och östra;S;S;54529;28.68;3;0;4;10
+2010;rd;valkrets;1214;Skåne läns norra och östra;V;V;6113;3.21;0;0;0;10
+2010;rd;valkrets;1214;Skåne läns norra och östra;MP;MP;10195;5.36;1;1;0;10
+2010;rd;valkrets;1214;Skåne läns norra och östra;SD;SD;21312;11.21;1;0;0;10
+2010;rd;valkrets;1214;Skåne läns norra och östra;PP;PP;875;0.46;;;0;10
+2010;rd;valkrets;1214;Skåne läns norra och östra;SPI;SPI;540;0.28;;;0;10
+2010;rd;valkrets;1214;Skåne läns norra och östra;FI;FI;514;0.27;;;0;10
+2010;rd;valkrets;1214;Skåne läns norra och östra;ND;ND;26;0.01;;;0;10
+2010;rd;valkrets;1214;Skåne läns norra och östra;ENH;ENH;20;0.01;;;0;10
+2010;rd;valkrets;1214;Skåne läns norra och östra;KLP;KLP;11;0.01;;;0;10
+2010;rd;valkrets;1214;Skåne läns norra och östra;RS;RS;4;0.00;;;0;10
+2010;rd;valkrets;1214;Skåne läns norra och östra;EAP;EAP;2;0.00;;;0;10
+2010;rd;valkrets;1214;Skåne läns norra och östra;0518;0518;1;0.00;;;0;10
+2010;rd;valkrets;1214;Skåne läns norra och östra;Sjvåp;SJVÅP;0;0.00;;;0;10
+2010;rd;valkrets;1214;Skåne läns norra och östra;ÖVRIGA_FGVAL;ÖVRIGA_FGVAL;0;0.00;;;0;10
+2010;rd;valkrets;1213;Skåne läns södra;M;M;87893;38.46;5;0;5;12
+2010;rd;valkrets;1213;Skåne läns södra;C;C;12717;5.56;1;0;1;12
+2010;rd;valkrets;1213;Skåne läns södra;FP;L;19622;8.59;1;0;1;12
+2010;rd;valkrets;1213;Skåne läns södra;KD;KD;9916;4.34;1;1;1;12
+2010;rd;valkrets;1213;Skåne läns södra;S;S;50557;22.12;3;0;4;12
+2010;rd;valkrets;1213;Skåne läns södra;V;V;7597;3.32;0;0;0;12
+2010;rd;valkrets;1213;Skåne läns södra;MP;MP;16176;7.08;1;0;1;12
+2010;rd;valkrets;1213;Skåne läns södra;SD;SD;19923;8.72;1;0;0;12
+2010;rd;valkrets;1213;Skåne läns södra;PP;PP;1474;0.65;;;0;12
+2010;rd;valkrets;1213;Skåne läns södra;SPI;SPI;1450;0.63;;;0;12
+2010;rd;valkrets;1213;Skåne läns södra;FI;FI;954;0.42;;;0;12
+2010;rd;valkrets;1213;Skåne läns södra;ALP;ALP;54;0.02;;;0;12
+2010;rd;valkrets;1213;Skåne läns södra;KLP;KLP;46;0.02;;;0;12
+2010;rd;valkrets;1213;Skåne läns södra;ND;ND;22;0.01;;;0;12
+2010;rd;valkrets;1213;Skåne läns södra;ENH;ENH;11;0.00;;;0;12
+2010;rd;valkrets;1213;Skåne läns södra;EAP;EAP;8;0.00;;;0;12
+2010;rd;valkrets;1213;Skåne läns södra;RS;RS;3;0.00;;;0;12
+2010;rd;valkrets;1213;Skåne läns södra;Sjvåp;SJVÅP;0;0.00;;;0;12
+2010;rd;valkrets;1213;Skåne läns södra;ÖVRIGA_FGVAL;ÖVRIGA_FGVAL;0;0.00;;;0;12
+2010;rd;valkrets;1212;Skåne läns västra;M;M;58628;33.80;4;0;4;9
+2010;rd;valkrets;1212;Skåne läns västra;C;C;8164;4.71;0;0;1;9
+2010;rd;valkrets;1212;Skåne läns västra;FP;L;13967;8.05;1;0;1;9
+2010;rd;valkrets;1212;Skåne läns västra;KD;KD;6989;4.03;0;0;0;9
+2010;rd;valkrets;1212;Skåne läns västra;S;S;49900;28.77;3;0;4;9
+2010;rd;valkrets;1212;Skåne läns västra;V;V;5847;3.37;0;0;0;9
+2010;rd;valkrets;1212;Skåne läns västra;MP;MP;9869;5.69;1;1;0;9
+2010;rd;valkrets;1212;Skåne läns västra;SD;SD;17448;10.06;1;0;0;9
+2010;rd;valkrets;1212;Skåne läns västra;SPI;SPI;1097;0.63;;;0;9
+2010;rd;valkrets;1212;Skåne läns västra;PP;PP;929;0.54;;;0;9
+2010;rd;valkrets;1212;Skåne läns västra;FI;FI;404;0.23;;;0;9
+2010;rd;valkrets;1212;Skåne läns västra;ND;ND;29;0.02;;;0;9
+2010;rd;valkrets;1212;Skåne läns västra;KLP;KLP;20;0.01;;;0;9
+2010;rd;valkrets;1212;Skåne läns västra;ENH;ENH;12;0.01;;;0;9
+2010;rd;valkrets;1212;Skåne läns västra;ALP;ALP;1;0.00;;;0;9
+2010;rd;valkrets;1212;Skåne läns västra;0518;0518;1;0.00;;;0;9
+2010;rd;valkrets;1212;Skåne läns västra;RS;RS;1;0.00;;;0;9
+2010;rd;valkrets;1212;Skåne läns västra;Sjvåp;SJVÅP;1;0.00;;;0;9
+2010;rd;valkrets;1212;Skåne läns västra;ÖVRIGA_FGVAL;ÖVRIGA_FGVAL;0;0.00;;;0;9
+2010;rd;valkrets;0101;Stockholms kommun;M;M;183421;34.29;10;0;11;28
+2010;rd;valkrets;0101;Stockholms kommun;C;C;33895;6.34;2;0;2;28
+2010;rd;valkrets;0101;Stockholms kommun;FP;L;45939;8.59;3;1;3;28
+2010;rd;valkrets;0101;Stockholms kommun;KD;KD;28244;5.28;2;0;1;28
+2010;rd;valkrets;0101;Stockholms kommun;S;S;111688;20.88;6;0;6;28
+2010;rd;valkrets;0101;Stockholms kommun;V;V;39565;7.40;2;0;2;28
+2010;rd;valkrets;0101;Stockholms kommun;MP;MP;65351;12.22;3;0;3;28
+2010;rd;valkrets;0101;Stockholms kommun;SD;SD;16950;3.17;1;0;0;28
+2010;rd;valkrets;0101;Stockholms kommun;FI;FI;5001;0.93;;;0;28
+2010;rd;valkrets;0101;Stockholms kommun;PP;PP;3723;0.70;;;0;28
+2010;rd;valkrets;0101;Stockholms kommun;RS;RS;361;0.07;;;0;28
+2010;rd;valkrets;0101;Stockholms kommun;KLP;KLP;110;0.02;;;0;28
+2010;rd;valkrets;0101;Stockholms kommun;ND;ND;100;0.02;;;0;28
+2010;rd;valkrets;0101;Stockholms kommun;ENH;ENH;80;0.01;;;0;28
+2010;rd;valkrets;0101;Stockholms kommun;SPI;SPI;58;0.01;;;0;28
+2010;rd;valkrets;0101;Stockholms kommun;EAP;EAP;56;0.01;;;0;28
+2010;rd;valkrets;0101;Stockholms kommun;KommF;KOMMF;12;0.00;;;0;28
+2010;rd;valkrets;0101;Stockholms kommun;Riksh;RIKSH;2;0.00;;;0;28
+2010;rd;valkrets;0101;Stockholms kommun;Sjvåp;SJVÅP;1;0.00;;;0;28
+2010;rd;valkrets;0101;Stockholms kommun;ÖVRIGA_FGVAL;ÖVRIGA_FGVAL;0;0.00;;;0;28
+2010;rd;valkrets;0102;Stockholms län;M;M;286249;39.96;15;0;17;37
+2010;rd;valkrets;0102;Stockholms län;C;C;41369;5.77;2;0;3;37
+2010;rd;valkrets;0102;Stockholms län;FP;L;59461;8.30;3;0;4;37
+2010;rd;valkrets;0102;Stockholms län;KD;KD;44880;6.27;3;1;3;37
+2010;rd;valkrets;0102;Stockholms län;S;S;159222;22.23;8;0;10;37
+2010;rd;valkrets;0102;Stockholms län;V;V;31617;4.41;2;0;2;37
+2010;rd;valkrets;0102;Stockholms län;MP;MP;53788;7.51;3;0;3;37
+2010;rd;valkrets;0102;Stockholms län;SD;SD;29886;4.17;2;0;0;37
+2010;rd;valkrets;0102;Stockholms län;PP;PP;5412;0.76;;;0;37
+2010;rd;valkrets;0102;Stockholms län;FI;FI;2735;0.38;;;0;37
+2010;rd;valkrets;0102;Stockholms län;ND;ND;457;0.06;;;0;37
+2010;rd;valkrets;0102;Stockholms län;RS;RS;325;0.05;;;0;37
+2010;rd;valkrets;0102;Stockholms län;SPI;SPI;170;0.02;;;0;37
+2010;rd;valkrets;0102;Stockholms län;KLP;KLP;98;0.01;;;0;37
+2010;rd;valkrets;0102;Stockholms län;ENH;ENH;82;0.01;;;0;37
+2010;rd;valkrets;0102;Stockholms län;EAP;EAP;57;0.01;;;0;37
+2010;rd;valkrets;0102;Stockholms län;Sjvåp;SJVÅP;53;0.01;;;0;37
+2010;rd;valkrets;0102;Stockholms län;KommF;KOMMF;6;0.00;;;0;37
+2010;rd;valkrets;0102;Stockholms län;0518;0518;1;0.00;;;0;37
+2010;rd;valkrets;0102;Stockholms län;ÖVRIGA_FGVAL;ÖVRIGA_FGVAL;0;0.00;;;0;37
+2010;rd;valkrets;0404;Södermanlands län;M;M;47889;27.94;3;0;2;9
+2010;rd;valkrets;0404;Södermanlands län;C;C;9850;5.75;1;1;1;9
+2010;rd;valkrets;0404;Södermanlands län;FP;L;11299;6.59;1;1;1;9
+2010;rd;valkrets;0404;Södermanlands län;KD;KD;8095;4.72;0;0;1;9
+2010;rd;valkrets;0404;Södermanlands län;S;S;59463;34.69;4;0;5;9
+2010;rd;valkrets;0404;Södermanlands län;V;V;8637;5.04;0;0;1;9
+2010;rd;valkrets;0404;Södermanlands län;MP;MP;13065;7.62;1;0;1;9
+2010;rd;valkrets;0404;Södermanlands län;SD;SD;11370;6.63;1;0;0;9
+2010;rd;valkrets;0404;Södermanlands län;PP;PP;1044;0.61;;;0;9
+2010;rd;valkrets;0404;Södermanlands län;FI;FI;443;0.26;;;0;9
+2010;rd;valkrets;0404;Södermanlands län;Sjvåp;SJVÅP;76;0.04;;;0;9
+2010;rd;valkrets;0404;Södermanlands län;ND;ND;38;0.02;;;0;9
+2010;rd;valkrets;0404;Södermanlands län;ENH;ENH;27;0.02;;;0;9
+2010;rd;valkrets;0404;Södermanlands län;KLP;KLP;13;0.01;;;0;9
+2010;rd;valkrets;0404;Södermanlands län;RS;RS;6;0.00;;;0;9
+2010;rd;valkrets;0404;Södermanlands län;SPI;SPI;6;0.00;;;0;9
+2010;rd;valkrets;0404;Södermanlands län;EAP;EAP;2;0.00;;;0;9
+2010;rd;valkrets;0404;Södermanlands län;0518;0518;0;0.00;;;0;9
+2010;rd;valkrets;0404;Södermanlands län;ÖVRIGA_FGVAL;ÖVRIGA_FGVAL;0;0.00;;;0;9
+2010;rd;valkrets;0303;Uppsala län;M;M;64750;30.11;4;0;3;11
+2010;rd;valkrets;0303;Uppsala län;C;C;17838;8.30;1;0;1;11
+2010;rd;valkrets;0303;Uppsala län;FP;L;16878;7.85;1;0;1;11
+2010;rd;valkrets;0303;Uppsala län;KD;KD;12265;5.70;1;0;1;11
+2010;rd;valkrets;0303;Uppsala län;S;S;58862;27.37;3;0;4;11
+2010;rd;valkrets;0303;Uppsala län;V;V;11845;5.51;1;1;1;11
+2010;rd;valkrets;0303;Uppsala län;MP;MP;18993;8.83;1;0;1;11
+2010;rd;valkrets;0303;Uppsala län;SD;SD;10003;4.65;1;1;0;11
+2010;rd;valkrets;0303;Uppsala län;PP;PP;1870;0.87;;;0;11
+2010;rd;valkrets;0303;Uppsala län;FI;FI;1320;0.61;;;0;11
+2010;rd;valkrets;0303;Uppsala län;KLP;KLP;31;0.01;;;0;11
+2010;rd;valkrets;0303;Uppsala län;ND;ND;20;0.01;;;0;11
+2010;rd;valkrets;0303;Uppsala län;ENH;ENH;14;0.01;;;0;11
+2010;rd;valkrets;0303;Uppsala län;SPI;SPI;13;0.01;;;0;11
+2010;rd;valkrets;0303;Uppsala län;RS;RS;11;0.01;;;0;11
+2010;rd;valkrets;0303;Uppsala län;Sjvåp;SJVÅP;8;0.00;;;0;11
+2010;rd;valkrets;0303;Uppsala län;EAP;EAP;4;0.00;;;0;11
+2010;rd;valkrets;0303;Uppsala län;ÖVRIGA_FGVAL;ÖVRIGA_FGVAL;0;0.00;;;0;11
+2010;rd;valkrets;1721;Värmlands län;M;M;45578;25.72;3;0;2;9
+2010;rd;valkrets;1721;Värmlands län;C;C;13379;7.55;1;0;1;9
+2010;rd;valkrets;1721;Värmlands län;FP;L;10652;6.01;1;1;1;9
+2010;rd;valkrets;1721;Värmlands län;KD;KD;8312;4.69;0;0;1;9
+2010;rd;valkrets;1721;Värmlands län;S;S;68520;38.66;5;0;5;9
+2010;rd;valkrets;1721;Värmlands län;V;V;10231;5.77;1;1;1;9
+2010;rd;valkrets;1721;Värmlands län;MP;MP;9997;5.64;1;1;0;9
+2010;rd;valkrets;1721;Värmlands län;SD;SD;8502;4.80;0;0;0;9
+2010;rd;valkrets;1721;Värmlands län;PP;PP;894;0.50;;;0;9
+2010;rd;valkrets;1721;Värmlands län;FI;FI;403;0.23;;;0;9
+2010;rd;valkrets;1721;Värmlands län;SPI;SPI;28;0.02;;;0;9
+2010;rd;valkrets;1721;Värmlands län;KLP;KLP;17;0.01;;;0;9
+2010;rd;valkrets;1721;Värmlands län;ENH;ENH;15;0.01;;;0;9
+2010;rd;valkrets;1721;Värmlands län;ND;ND;8;0.00;;;0;9
+2010;rd;valkrets;1721;Värmlands län;EAP;EAP;3;0.00;;;0;9
+2010;rd;valkrets;1721;Värmlands län;RS;RS;2;0.00;;;0;9
+2010;rd;valkrets;1721;Värmlands län;Sjvåp;SJVÅP;2;0.00;;;0;9
+2010;rd;valkrets;1721;Värmlands län;0518;0518;0;0.00;;;0;9
+2010;rd;valkrets;1721;Värmlands län;ÖVRIGA_FGVAL;ÖVRIGA_FGVAL;0;0.00;;;0;9
+2010;rd;valkrets;2428;Västerbottens län;M;M;30184;17.69;2;0;1;9
+2010;rd;valkrets;2428;Västerbottens län;C;C;12699;7.44;1;0;1;9
+2010;rd;valkrets;2428;Västerbottens län;FP;L;10296;6.04;1;1;1;9
+2010;rd;valkrets;2428;Västerbottens län;KD;KD;9125;5.35;1;1;1;9
+2010;rd;valkrets;2428;Västerbottens län;S;S;72008;42.21;4;0;5;9
+2010;rd;valkrets;2428;Västerbottens län;V;V;17034;9.98;1;0;1;9
+2010;rd;valkrets;2428;Västerbottens län;MP;MP;12246;7.18;1;0;1;9
+2010;rd;valkrets;2428;Västerbottens län;SD;SD;4651;2.73;0;0;0;9
+2010;rd;valkrets;2428;Västerbottens län;PP;PP;1235;0.72;;;0;9
+2010;rd;valkrets;2428;Västerbottens län;FI;FI;665;0.39;;;0;9
+2010;rd;valkrets;2428;Västerbottens län;KLP;KLP;37;0.02;;;0;9
+2010;rd;valkrets;2428;Västerbottens län;RS;RS;19;0.01;;;0;9
+2010;rd;valkrets;2428;Västerbottens län;ENH;ENH;16;0.01;;;0;9
+2010;rd;valkrets;2428;Västerbottens län;ND;ND;13;0.01;;;0;9
+2010;rd;valkrets;2428;Västerbottens län;SPI;SPI;9;0.01;;;0;9
+2010;rd;valkrets;2428;Västerbottens län;EAP;EAP;4;0.00;;;0;9
+2010;rd;valkrets;2428;Västerbottens län;Sjvåp;SJVÅP;0;0.00;;;0;9
+2010;rd;valkrets;2428;Västerbottens län;ÖVRIGA_FGVAL;ÖVRIGA_FGVAL;0;0.00;;;0;9
+2010;rd;valkrets;2226;Västernorrlands län;M;M;34550;21.60;2;0;2;8
+2010;rd;valkrets;2226;Västernorrlands län;C;C;11185;6.99;1;0;1;8
+2010;rd;valkrets;2226;Västernorrlands län;FP;L;8253;5.16;0;0;1;8
+2010;rd;valkrets;2226;Västernorrlands län;KD;KD;6983;4.37;0;0;1;8
+2010;rd;valkrets;2226;Västernorrlands län;S;S;70341;43.97;5;0;5;8
+2010;rd;valkrets;2226;Västernorrlands län;V;V;9642;6.03;1;1;1;8
+2010;rd;valkrets;2226;Västernorrlands län;MP;MP;8757;5.47;0;0;0;8
+2010;rd;valkrets;2226;Västernorrlands län;SD;SD;7264;4.54;0;0;0;8
+2010;rd;valkrets;2226;Västernorrlands län;PP;PP;981;0.61;;;0;8
+2010;rd;valkrets;2226;Västernorrlands län;SPI;SPI;620;0.39;;;0;8
+2010;rd;valkrets;2226;Västernorrlands län;FI;FI;491;0.31;;;0;8
+2010;rd;valkrets;2226;Västernorrlands län;RS;RS;68;0.04;;;0;8
+2010;rd;valkrets;2226;Västernorrlands län;ENH;ENH;27;0.02;;;0;8
+2010;rd;valkrets;2226;Västernorrlands län;ND;ND;11;0.01;;;0;8
+2010;rd;valkrets;2226;Västernorrlands län;Sjvåp;SJVÅP;8;0.01;;;0;8
+2010;rd;valkrets;2226;Västernorrlands län;KLP;KLP;2;0.00;;;0;8
+2010;rd;valkrets;2226;Västernorrlands län;Riksh;RIKSH;0;0.00;;;0;8
+2010;rd;valkrets;2226;Västernorrlands län;ÖVRIGA_FGVAL;ÖVRIGA_FGVAL;0;0.00;;;0;8
+2010;rd;valkrets;1923;Västmanlands län;M;M;43462;27.14;3;0;2;8
+2010;rd;valkrets;1923;Västmanlands län;C;C;8266;5.16;0;0;1;8
+2010;rd;valkrets;1923;Västmanlands län;FP;L;12016;7.50;1;0;1;8
+2010;rd;valkrets;1923;Västmanlands län;KD;KD;7406;4.62;0;0;0;8
+2010;rd;valkrets;1923;Västmanlands län;S;S;58222;36.36;4;0;4;8
+2010;rd;valkrets;1923;Västmanlands län;V;V;9154;5.72;1;1;1;8
+2010;rd;valkrets;1923;Västmanlands län;MP;MP;9459;5.91;1;1;0;8
+2010;rd;valkrets;1923;Västmanlands län;SD;SD;9992;6.24;1;1;0;8
+2010;rd;valkrets;1923;Västmanlands län;PP;PP;1113;0.70;;;0;8
+2010;rd;valkrets;1923;Västmanlands län;SPI;SPI;488;0.30;;;0;8
+2010;rd;valkrets;1923;Västmanlands län;FI;FI;299;0.19;;;0;8
+2010;rd;valkrets;1923;Västmanlands län;ND;ND;26;0.02;;;0;8
+2010;rd;valkrets;1923;Västmanlands län;ENH;ENH;22;0.01;;;0;8
+2010;rd;valkrets;1923;Västmanlands län;KLP;KLP;20;0.01;;;0;8
+2010;rd;valkrets;1923;Västmanlands län;EAP;EAP;1;0.00;;;0;8
+2010;rd;valkrets;1923;Västmanlands län;RS;RS;0;0.00;;;0;8
+2010;rd;valkrets;1923;Västmanlands län;Sjvåp;SJVÅP;0;0.00;;;0;8
+2010;rd;valkrets;1923;Västmanlands län;ÖVRIGA_FGVAL;ÖVRIGA_FGVAL;0;0.00;;;0;8
+2010;rd;valkrets;1416;Göteborgs kommun;M;M;96981;30.37;5;0;5;17
+2010;rd;valkrets;1416;Göteborgs kommun;C;C;12183;3.82;1;1;1;17
+2010;rd;valkrets;1416;Göteborgs kommun;FP;L;26829;8.40;1;0;2;17
+2010;rd;valkrets;1416;Göteborgs kommun;KD;KD;19484;6.10;1;0;1;17
+2010;rd;valkrets;1416;Göteborgs kommun;S;S;80543;25.22;5;0;5;17
+2010;rd;valkrets;1416;Göteborgs kommun;V;V;27246;8.53;2;0;2;17
+2010;rd;valkrets;1416;Göteborgs kommun;MP;MP;34205;10.71;2;0;2;17
+2010;rd;valkrets;1416;Göteborgs kommun;SD;SD;15608;4.89;1;0;0;17
+2010;rd;valkrets;1416;Göteborgs kommun;FI;FI;2761;0.86;;;0;17
+2010;rd;valkrets;1416;Göteborgs kommun;PP;PP;2628;0.82;;;0;17
+2010;rd;valkrets;1416;Göteborgs kommun;RS;RS;388;0.12;;;0;17
+2010;rd;valkrets;1416;Göteborgs kommun;KLP;KLP;74;0.02;;;0;17
+2010;rd;valkrets;1416;Göteborgs kommun;ND;ND;48;0.02;;;0;17
+2010;rd;valkrets;1416;Göteborgs kommun;ENH;ENH;27;0.01;;;0;17
+2010;rd;valkrets;1416;Göteborgs kommun;SPI;SPI;12;0.00;;;0;17
+2010;rd;valkrets;1416;Göteborgs kommun;EAP;EAP;10;0.00;;;0;17
+2010;rd;valkrets;1416;Göteborgs kommun;Sjvåp;SJVÅP;5;0.00;;;0;17
+2010;rd;valkrets;1416;Göteborgs kommun;0518;0518;0;0.00;;;0;17
+2010;rd;valkrets;1416;Göteborgs kommun;ÖVRIGA_FGVAL;ÖVRIGA_FGVAL;0;0.00;;;0;17
+2010;rd;valkrets;1418;Västra Götalands läns norra;M;M;46582;26.95;3;0;2;9
+2010;rd;valkrets;1418;Västra Götalands läns norra;C;C;11449;6.62;1;0;1;9
+2010;rd;valkrets;1418;Västra Götalands läns norra;FP;L;13393;7.75;1;0;1;9
+2010;rd;valkrets;1418;Västra Götalands läns norra;KD;KD;11092;6.42;1;1;1;9
+2010;rd;valkrets;1418;Västra Götalands läns norra;S;S;56060;32.43;3;0;4;9
+2010;rd;valkrets;1418;Västra Götalands läns norra;V;V;9907;5.73;1;1;1;9
+2010;rd;valkrets;1418;Västra Götalands läns norra;MP;MP;12003;6.94;1;0;1;9
+2010;rd;valkrets;1418;Västra Götalands läns norra;SD;SD;10513;6.08;1;1;0;9
+2010;rd;valkrets;1418;Västra Götalands läns norra;PP;PP;1000;0.58;;;0;9
+2010;rd;valkrets;1418;Västra Götalands läns norra;FI;FI;580;0.34;;;0;9
+2010;rd;valkrets;1418;Västra Götalands läns norra;SPI;SPI;41;0.02;;;0;9
+2010;rd;valkrets;1418;Västra Götalands läns norra;ND;ND;32;0.02;;;0;9
+2010;rd;valkrets;1418;Västra Götalands läns norra;KLP;KLP;24;0.01;;;0;9
+2010;rd;valkrets;1418;Västra Götalands läns norra;ENH;ENH;10;0.01;;;0;9
+2010;rd;valkrets;1418;Västra Götalands läns norra;Sjvåp;SJVÅP;8;0.00;;;0;9
+2010;rd;valkrets;1418;Västra Götalands läns norra;RS;RS;4;0.00;;;0;9
+2010;rd;valkrets;1418;Västra Götalands läns norra;EAP;EAP;2;0.00;;;0;9
+2010;rd;valkrets;1418;Västra Götalands läns norra;KommF;KOMMF;0;0.00;;;0;9
+2010;rd;valkrets;1418;Västra Götalands läns norra;ÖVRIGA_FGVAL;ÖVRIGA_FGVAL;0;0.00;;;0;9
+2010;rd;valkrets;1419;Västra Götalands läns södra;M;M;34334;28.33;3;0;2;6
+2010;rd;valkrets;1419;Västra Götalands läns södra;C;C;9273;7.65;0;0;1;6
+2010;rd;valkrets;1419;Västra Götalands läns södra;FP;L;8883;7.33;0;0;0;6
+2010;rd;valkrets;1419;Västra Götalands läns södra;KD;KD;7745;6.39;0;0;1;6
+2010;rd;valkrets;1419;Västra Götalands läns södra;S;S;37817;31.21;3;0;3;6
+2010;rd;valkrets;1419;Västra Götalands läns södra;V;V;6136;5.06;0;0;0;6
+2010;rd;valkrets;1419;Västra Götalands läns södra;MP;MP;7315;6.04;0;0;0;6
+2010;rd;valkrets;1419;Västra Götalands läns södra;SD;SD;8350;6.89;0;0;0;6
+2010;rd;valkrets;1419;Västra Götalands läns södra;PP;PP;706;0.58;;;0;6
+2010;rd;valkrets;1419;Västra Götalands läns södra;SPI;SPI;277;0.23;;;0;6
+2010;rd;valkrets;1419;Västra Götalands läns södra;FI;FI;236;0.19;;;0;6
+2010;rd;valkrets;1419;Västra Götalands läns södra;ND;ND;17;0.01;;;0;6
+2010;rd;valkrets;1419;Västra Götalands läns södra;ENH;ENH;7;0.01;;;0;6
+2010;rd;valkrets;1419;Västra Götalands läns södra;KLP;KLP;4;0.00;;;0;6
+2010;rd;valkrets;1419;Västra Götalands läns södra;RS;RS;2;0.00;;;0;6
+2010;rd;valkrets;1419;Västra Götalands läns södra;Sjvåp;SJVÅP;0;0.00;;;0;6
+2010;rd;valkrets;1419;Västra Götalands läns södra;ÖVRIGA_FGVAL;ÖVRIGA_FGVAL;0;0.00;;;0;6
+2010;rd;valkrets;1417;Västra Götalands läns västra;M;M;73853;32.82;4;0;4;12
+2010;rd;valkrets;1417;Västra Götalands läns västra;C;C;13563;6.03;1;0;1;12
+2010;rd;valkrets;1417;Västra Götalands läns västra;FP;L;20194;8.97;1;0;1;12
+2010;rd;valkrets;1417;Västra Götalands läns västra;KD;KD;16525;7.34;1;0;1;12
+2010;rd;valkrets;1417;Västra Götalands läns västra;S;S;59477;26.43;3;0;4;12
+2010;rd;valkrets;1417;Västra Götalands läns västra;V;V;10506;4.67;1;1;1;12
+2010;rd;valkrets;1417;Västra Götalands läns västra;MP;MP;15794;7.02;1;0;1;12
+2010;rd;valkrets;1417;Västra Götalands läns västra;SD;SD;12504;5.56;1;0;0;12
+2010;rd;valkrets;1417;Västra Götalands läns västra;PP;PP;1404;0.62;;;0;12
+2010;rd;valkrets;1417;Västra Götalands läns västra;FI;FI;843;0.37;;;0;12
+2010;rd;valkrets;1417;Västra Götalands läns västra;SPI;SPI;155;0.07;;;0;12
+2010;rd;valkrets;1417;Västra Götalands läns västra;RS;RS;38;0.02;;;0;12
+2010;rd;valkrets;1417;Västra Götalands läns västra;ND;ND;22;0.01;;;0;12
+2010;rd;valkrets;1417;Västra Götalands läns västra;ENH;ENH;19;0.01;;;0;12
+2010;rd;valkrets;1417;Västra Götalands läns västra;KLP;KLP;15;0.01;;;0;12
+2010;rd;valkrets;1417;Västra Götalands läns västra;Sjvåp;SJVÅP;5;0.00;;;0;12
+2010;rd;valkrets;1417;Västra Götalands läns västra;EAP;EAP;4;0.00;;;0;12
+2010;rd;valkrets;1417;Västra Götalands läns västra;0518;0518;0;0.00;;;0;12
+2010;rd;valkrets;1417;Västra Götalands läns västra;Riksh;RIKSH;0;0.00;;;0;12
+2010;rd;valkrets;1417;Västra Götalands läns västra;ÖVRIGA_FGVAL;ÖVRIGA_FGVAL;0;0.00;;;0;12
+2010;rd;valkrets;1420;Västra Götalands läns östra;M;M;47049;27.91;3;0;3;9
+2010;rd;valkrets;1420;Västra Götalands läns östra;C;C;13914;8.25;1;0;1;9
+2010;rd;valkrets;1420;Västra Götalands läns östra;FP;L;10387;6.16;1;1;1;9
+2010;rd;valkrets;1420;Västra Götalands läns östra;KD;KD;11092;6.58;1;0;1;9
+2010;rd;valkrets;1420;Västra Götalands läns östra;S;S;57095;33.87;4;0;4;9
+2010;rd;valkrets;1420;Västra Götalands läns östra;V;V;8223;4.88;0;0;1;9
+2010;rd;valkrets;1420;Västra Götalands läns östra;MP;MP;9440;5.60;0;0;0;9
+2010;rd;valkrets;1420;Västra Götalands läns östra;SD;SD;9725;5.77;0;0;0;9
+2010;rd;valkrets;1420;Västra Götalands läns östra;PP;PP;1081;0.64;;;0;9
+2010;rd;valkrets;1420;Västra Götalands läns östra;FI;FI;382;0.23;;;0;9
+2010;rd;valkrets;1420;Västra Götalands läns östra;ND;ND;17;0.01;;;0;9
+2010;rd;valkrets;1420;Västra Götalands läns östra;KLP;KLP;10;0.01;;;0;9
+2010;rd;valkrets;1420;Västra Götalands läns östra;SPI;SPI;7;0.00;;;0;9
+2010;rd;valkrets;1420;Västra Götalands läns östra;RS;RS;6;0.00;;;0;9
+2010;rd;valkrets;1420;Västra Götalands läns östra;ENH;ENH;5;0.00;;;0;9
+2010;rd;valkrets;1420;Västra Götalands läns östra;Sjvåp;SJVÅP;4;0.00;;;0;9
+2010;rd;valkrets;1420;Västra Götalands läns östra;ÖVRIGA_FGVAL;ÖVRIGA_FGVAL;0;0.00;;;0;9
+2010;rd;valkrets;1822;Örebro län;M;M;43791;24.01;3;0;2;9
+2010;rd;valkrets;1822;Örebro län;C;C;9807;5.38;0;0;1;9
+2010;rd;valkrets;1822;Örebro län;FP;L;11415;6.26;1;0;1;9
+2010;rd;valkrets;1822;Örebro län;KD;KD;11235;6.16;1;1;1;9
+2010;rd;valkrets;1822;Örebro län;S;S;70818;38.83;4;0;5;9
+2010;rd;valkrets;1822;Örebro län;V;V;10311;5.65;1;1;1;9
+2010;rd;valkrets;1822;Örebro län;MP;MP;11846;6.50;1;0;1;9
+2010;rd;valkrets;1822;Örebro län;SD;SD;11136;6.11;1;1;0;9
+2010;rd;valkrets;1822;Örebro län;PP;PP;1049;0.58;;;0;9
+2010;rd;valkrets;1822;Örebro län;FI;FI;481;0.26;;;0;9
+2010;rd;valkrets;1822;Örebro län;SPI;SPI;254;0.14;;;0;9
+2010;rd;valkrets;1822;Örebro län;RS;RS;41;0.02;;;0;9
+2010;rd;valkrets;1822;Örebro län;ND;ND;24;0.01;;;0;9
+2010;rd;valkrets;1822;Örebro län;ENH;ENH;17;0.01;;;0;9
+2010;rd;valkrets;1822;Örebro län;KLP;KLP;12;0.01;;;0;9
+2010;rd;valkrets;1822;Örebro län;Sjvåp;SJVÅP;4;0.00;;;0;9
+2010;rd;valkrets;1822;Örebro län;EAP;EAP;3;0.00;;;0;9
+2010;rd;valkrets;1822;Örebro län;ÖVRIGA_FGVAL;ÖVRIGA_FGVAL;0;0.00;;;0;9
+2010;rd;valkrets;0505;Östergötlands län;M;M;80141;28.65;4;0;4;14
+2010;rd;valkrets;0505;Östergötlands län;C;C;17561;6.28;1;0;1;14
+2010;rd;valkrets;0505;Östergötlands län;FP;L;19017;6.80;1;0;1;14
+2010;rd;valkrets;0505;Östergötlands län;KD;KD;16357;5.85;1;0;1;14
+2010;rd;valkrets;0505;Östergötlands län;S;S;92164;32.95;5;0;6;14
+2010;rd;valkrets;0505;Östergötlands län;V;V;14242;5.09;1;1;1;14
+2010;rd;valkrets;0505;Östergötlands län;MP;MP;21225;7.59;1;0;1;14
+2010;rd;valkrets;0505;Östergötlands län;SD;SD;14862;5.31;1;0;0;14
+2010;rd;valkrets;0505;Östergötlands län;PP;PP;1982;0.71;;;0;14
+2010;rd;valkrets;0505;Östergötlands län;SPI;SPI;1028;0.37;;;0;14
+2010;rd;valkrets;0505;Östergötlands län;FI;FI;850;0.30;;;0;14
+2010;rd;valkrets;0505;Östergötlands län;ENH;ENH;42;0.02;;;0;14
+2010;rd;valkrets;0505;Östergötlands län;KLP;KLP;28;0.01;;;0;14
+2010;rd;valkrets;0505;Östergötlands län;ND;ND;26;0.01;;;0;14
+2010;rd;valkrets;0505;Östergötlands län;RS;RS;3;0.00;;;0;14
+2010;rd;valkrets;0505;Östergötlands län;Sjvåp;SJVÅP;1;0.00;;;0;14
+2010;rd;valkrets;0505;Östergötlands län;ÖVRIGA_FGVAL;ÖVRIGA_FGVAL;0;0.00;;;0;14

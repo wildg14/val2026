@@ -11,7 +11,7 @@ valgrafik.js                  hela grafiken, renderar inuti <div class="mp-val" 
 valgrafik.css                 all CSS, scopad till .mp-val (Beehiivs krav för HTML-block)
 index.html                    tunt skal som laddar de två filerna: lokal visning, bildläge, skärmdumpar
 docs/inbaddningstest.html     simulerad värdsida med avsiktligt fientlig CSS, för att testa blocket lokalt
-data/konfig.json / .js        KONFIG: ar, standardAr, valnatt, prenumerera, adress, inbaddad, skrivUrl
+data/konfig.json / .js        KONFIG: ar, standardAr, valnatt, adress, inbaddad, skrivUrl
 data/valdata_2022.json        röster per distrikt och val, aggregat, mandat (kanonisk fil)
 data/valdata_2022.js          samma data som JS, laddas av sidan (fungerar även via file://)
 data/distrikt.geojson / .js   de 23 distriktspolygonerna i WGS84
@@ -96,7 +96,7 @@ Två delar: statisk hosting av filerna, och ett HTML-block på Beehiiv-sidan.
 </div>
 ```
 
-`data-bas` säger var `data/` ligger (samma mapp som skriptet). Kontrollera i Preview och sedan Live: kartan ska synas, alla tabbar fungera, och Beehiivs egen meny och sidfot ligga kvar runt omkring. Vill du dölja grafikens egen rubrik, ingress, prenumerationsknapp och sidfot (Beehiiv har redan sina) sätter du `"inbaddad": true` i `data/konfig.json` och kör `scripts/uppdatera_2026.py --skriv-konfig` eller skriver om `konfig.js` med `scripts/schema.py`.
+`data-bas` säger var `data/` ligger (samma mapp som skriptet). Kontrollera i Preview och sedan Live: kartan ska synas, alla tabbar fungera, och Beehiivs egen meny och sidfot ligga kvar runt omkring. Vill du dölja grafikens egen rubrik, ingress och sidfot (Beehiiv har redan sina) sätter du `"inbaddad": true` i `data/konfig.json` och kör `scripts/uppdatera_2026.py --skriv-konfig` eller skriver om `konfig.js` med `scripts/schema.py`.
 
 Beehiivs regler som bygget följer: koden börjar med en enda container-div, all CSS är scopad till `.mp-val`, inga regler på `*`, `body` eller `html`, inga `vh`-mått, ingen `position: fixed`. Testet `tests/test_inbaddning.py` vaktar det.
 
@@ -258,6 +258,8 @@ Andelar räknas alltid i sidan som parti delat med giltiga röster. Inga tal är
 Kartan är inline-SVG utan kartbibliotek: inga externa beroenden, fungerar offline, kapar inte sidscrollen på mobil. Orienteringen kommer från ett lokalt bakgrundslager (OpenStreetMap, hämtat vid byggtid). Saknas `data/bakgrund.js` ritas kartan mot enfärgad bakgrund. Färger kompletteras alltid med text: partibokstav och procent på kartan, tabellvy för alla distrikt, aria-etiketter på varje distrikt.
 
 Utseendet följer Majpostens palett och typografi (Georgia och Arial, papper och slottsskogsgrön, inga skuggor eller gradienter).
+
+Två layouter i en DOM, styrda av containerns bredd (CSS container queries), inte fönstrets: under 900 px en spalt som på mobil, från 900 px kartan till vänster med resultatkortet fastnaglat till höger, halvcirkeln bredvid mandattabellen och de två jämförelsegrafikerna sida vid sida. Brödtexten håller smal spalt även på desktop. Sektionen som blocket ligger i på Beehiiv behöver vara minst cirka 1 000 px bred för att desktopläget ska slå till. Ingen egen prenumerationsknapp: Beehiivs eget prenumerationsblock läggs på sidan.
 
 ## Källor och licenser
 

@@ -1,0 +1,53 @@
+kod_2022;namn_2022;klass_2022;antal_2006;kod_2006;namn_2006;andel_av_2022;andel_av_2006;overlapp_m2;huvudkalla
+14800526;Västra Centrum, Svalebo;omritning;2;14808405;Kungsladugård-Sanna 5;0.6632;0.8143;229817.5;ja
+14800526;Västra Centrum, Svalebo;omritning;2;14808407;Kungsladugård-Sanna 7;0.3365;0.0824;116602.5;ja
+14800527;Västra Centrum, Skytteskogen;omritning;2;14808404;Kungsladugård-Sanna 4;0.8487;0.7716;294180.6;ja
+14800527;Västra Centrum, Skytteskogen;omritning;2;14808405;Kungsladugård-Sanna 5;0.1512;0.1857;52409.4;ja
+14800528;Västra Centrum, Kungsladugård Östra;omritning;2;14808403;Kungsladugård-Sanna 3;0.8442;0.8047;112781.5;ja
+14800528;Västra Centrum, Kungsladugård Östra;omritning;2;14808404;Kungsladugård-Sanna 4;0.1533;0.0537;20472.6;ja
+14800528;Västra Centrum, Kungsladugård Östra;omritning;2;14808504;Majorna 4;0.0023;0.0031;307.6;nej
+14800529;Västra Centrum, Kungsladugård Västra;omritning;3;14808404;Kungsladugård-Sanna 4;0.6435;0.1595;60824.4;ja
+14800529;Västra Centrum, Kungsladugård Västra;omritning;3;14808403;Kungsladugård-Sanna 3;0.2892;0.1950;27335.9;ja
+14800529;Västra Centrum, Kungsladugård Västra;omritning;3;14808402;Kungsladugård-Sanna 2;0.0672;0.0571;6348.0;ja
+14800530;Västra Centrum, Mariaplan;omritning;2;14808402;Kungsladugård-Sanna 2;0.9393;0.7987;88823.4;ja
+14800530;Västra Centrum, Mariaplan;omritning;2;14808404;Kungsladugård-Sanna 4;0.0603;0.0150;5702.5;ja
+14800531;Västra Centrum, Silverkällan;delning;1;14808406;Kungsladugård-Sanna 6;0.9998;0.3346;59895.0;ja
+14800532;Västra Centrum, Sannaplan;omritning;3;14808407;Kungsladugård-Sanna 7;0.6532;0.0566;80075.8;ja
+14800532;Västra Centrum, Sannaplan;omritning;3;14808406;Kungsladugård-Sanna 6;0.2847;0.1950;34900.5;ja
+14800532;Västra Centrum, Sannaplan;omritning;3;14808402;Kungsladugård-Sanna 2;0.0620;0.0683;7600.9;ja
+14800533;Västra Centrum, Sandarne;delning;1;14808407;Kungsladugård-Sanna 7;0.9999;0.8538;1207678.5;ja
+14800534;Västra Centrum, Klippan;omritning;3;14808401;Kungsladugård-Sanna 1;0.7919;0.8737;358174.9;ja
+14800534;Västra Centrum, Klippan;omritning;3;14808406;Kungsladugård-Sanna 6;0.1862;0.4704;84208.9;ja
+14800534;Västra Centrum, Klippan;omritning;3;14808407;Kungsladugård-Sanna 7;0.0218;0.0070;9874.6;ja
+14800535;Västra Centrum, Gröna Vallen;omritning;2;14808401;Kungsladugård-Sanna 1;0.8781;0.1237;50703.0;ja
+14800535;Västra Centrum, Gröna Vallen;omritning;2;14808402;Kungsladugård-Sanna 2;0.1219;0.0633;7038.9;ja
+14800536;Västra Centrum, Kusttorget;omritning;3;14808501;Majorna 1;0.7863;0.9312;367682.5;ja
+14800536;Västra Centrum, Kusttorget;omritning;3;14808505;Majorna 5;0.1422;0.2689;66511.1;ja
+14800536;Västra Centrum, Kusttorget;omritning;3;14808503;Majorna 3;0.0713;0.1981;33332.4;ja
+14800537;Västra Centrum, Chapmans Torg;omritning;2;14808505;Majorna 5;0.6260;0.1834;45353.5;ja
+14800537;Västra Centrum, Chapmans Torg;omritning;2;14808501;Majorna 1;0.3737;0.0686;27073.3;ja
+14800538;Västra Centrum, Slottsskogsgat. m fl;omritning;3;14808505;Majorna 5;0.9194;0.5128;126819.2;ja
+14800538;Västra Centrum, Slottsskogsgat. m fl;omritning;3;14808504;Majorna 4;0.0373;0.0523;5147.0;ja
+14800538;Västra Centrum, Slottsskogsgat. m fl;omritning;3;14808506;Majorna 6;0.0261;0.0176;3602.1;ja
+14800538;Västra Centrum, Slottsskogsgat. m fl;omritning;3;14808402;Kungsladugård-Sanna 2;0.0100;0.0125;1385.6;nej
+14800538;Västra Centrum, Slottsskogsgat. m fl;omritning;3;14808401;Kungsladugård-Sanna 1;0.0069;0.0023;951.5;nej
+14800539;Västra Centrum, Gråberget Västra;omritning;2;14808506;Majorna 6;0.9200;0.4810;98596.3;ja
+14800539;Västra Centrum, Gråberget Västra;omritning;2;14808505;Majorna 5;0.0799;0.0346;8564.1;ja
+14800540;Västra Centrum, Gråberget Östra;omritning;2;14808506;Majorna 6;0.6110;0.5014;102770.8;ja
+14800540;Västra Centrum, Gråberget Östra;omritning;2;14808503;Majorna 3;0.3886;0.3885;65367.0;ja
+14800541;Västra Centrum, Godhem;omritning;2;14808504;Majorna 4;0.9533;0.9442;92851.0;ja
+14800541;Västra Centrum, Godhem;omritning;2;14805904;Stigberget 4;0.0450;0.0352;4387.3;ja
+14800541;Västra Centrum, Godhem;omritning;2;14805903;Stigberget 3;0.0013;0.0009;123.4;nej
+14800542;Västra Centrum, Marieberg;omritning;2;14808503;Majorna 3;0.9478;0.4131;69511.4;ja
+14800542;Västra Centrum, Marieberg;omritning;2;14805904;Stigberget 4;0.0522;0.0306;3824.9;ja
+14800543;Västra Centrum, Klareborgsgatan m fl;delning;1;14805904;Stigberget 4;0.9997;0.6789;84737.0;ja
+14800544;Västra Centrum, Karl Johan;omritning;2;14805903;Stigberget 3;0.7349;0.6092;83872.4;ja
+14800544;Västra Centrum, Karl Johan;omritning;2;14805904;Stigberget 4;0.2649;0.2423;30235.8;ja
+14800545;Västra Centrum, Söderlingska Ängen;omritning;2;14805903;Stigberget 3;0.5750;0.3800;52326.1;ja
+14800545;Västra Centrum, Söderlingska Ängen;omritning;2;14805902;Stigberget 2;0.4088;0.3875;37204.1;ja
+14800545;Västra Centrum, Söderlingska Ängen;omritning;2;14805005;Annedal-Haga 5;0.0161;0.0003;1462.5;nej
+14800546;Västra Centrum, Kommendörsgatan m fl;omritning;3;14805902;Stigberget 2;0.9520;0.6122;58784.6;ja
+14800546;Västra Centrum, Kommendörsgatan m fl;omritning;3;14805904;Stigberget 4;0.0260;0.0129;1607.5;ja
+14800546;Västra Centrum, Kommendörsgatan m fl;omritning;3;14805903;Stigberget 3;0.0218;0.0098;1348.3;ja
+14800547;Västra Centrum, Hängmattan;identisk;1;14808502;Majorna 2;0.9995;0.9994;81680.7;ja
+14800548;Västra Centrum, Gatenhielmska;identisk;1;14805901;Stigberget 1;0.9997;0.9997;181839.5;ja

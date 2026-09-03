@@ -83,3 +83,17 @@ def test_uppdatera_valnatt_flagga_skriver_konfig(tmp_path):
     assert k["ar"] == ["2022", "2026"] and k["standardAr"] == "2026" and k["valnatt"] is True
     assert k["prenumerera"] == "x" and k["adress"] == "y", "övriga fält ska bevaras"
     assert (tmp_path / "konfig.js").exists()
+
+
+def test_layout_foljer_containern_inte_fonstret():
+    css = CSS.read_text("utf-8")
+    assert "container-type: inline-size" in css
+    assert "@container (min-width: 900px)" in css, "desktopläget (karta och kort sida vid sida) från 900 px containerbredd"
+    assert "@media (min-width: 600px)" not in css and "@media (max-width: 599px)" not in css, "brytpunkter ska följa containern, inte fönstret"
+
+
+def test_ingen_prenumerationsknapp():
+    js = JS.read_text("utf-8")
+    assert "Prenumerera på Majposten" not in js and 'class="cta"' not in js
+    k = json.loads((ROT / "data" / "konfig.json").read_text("utf-8"))
+    assert "prenumerera" not in k

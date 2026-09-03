@@ -2,7 +2,7 @@
 .mp-val { --papper: #FAF6EE; --black: #2A241E; --sten: #6E6152; --linje: #E6DECF; --gron: #3F5A3A; --morkgron: #2E4A2C; --ljusgron: #DCE4D3; --ockra: #C58A34; --falu: #8C3B2B; --oraknat: #DDD5C6; --serif: Georgia, "Times New Roman", Times, serif; --sans: Arial, Helvetica, sans-serif; }
 .mp-val, .mp-val * { box-sizing: border-box; }
 .mp-val [hidden] { display: none !important; }
-.mp-val { margin: 0; background: var(--papper); color: var(--black); font: 16px/1.6 var(--sans); text-align: left; }
+.mp-val { margin: 0; background: var(--papper); color: var(--black); font: 16px/1.6 var(--sans); text-align: left; container-type: inline-size; }
 /* Skydd mot värdsidans globala regler (Beehiivs eller andras): allt vi använder får färg, typsnitt och form uttryckligen. */
 .mp-val h1, .mp-val h2, .mp-val h3, .mp-val p, .mp-val li, .mp-val td, .mp-val th, .mp-val label, .mp-val small, .mp-val b, .mp-val span, .mp-val div { color: inherit; text-transform: none; letter-spacing: normal; text-decoration: none; text-shadow: none; }
 .mp-val h1, .mp-val h2, .mp-val h3 { color: var(--black); }
@@ -11,7 +11,7 @@
 .mp-val table { border-spacing: 0; margin: 0; }
 .mp-val a { text-decoration: underline; text-decoration-style: solid; }
 .mp-val button, .mp-val select { font-family: var(--sans); font-size: 16px; line-height: 1.3; font-weight: 400; text-transform: none; letter-spacing: normal; box-shadow: none; text-decoration: none; margin: 0; }
-.mp-val svg { overflow: visible; }
+.mp-val svg { overflow: hidden; display: block; vertical-align: baseline; }
 .mp-val .mp-main { max-width: 720px; margin: 0 auto; padding: 0 16px 48px; }
 .mp-val h1 { font: 700 34px/1.12 var(--serif); margin: 8px 0 12px; letter-spacing: -0.01em; }
 .mp-val h2 { font: 700 24px/1.25 var(--serif); margin: 0 0 12px; }
@@ -50,10 +50,10 @@
 .mp-val table.mandat td.aktiv { font-weight: 700; }
 .mp-val table.mandat td.dampad { color: var(--sten); }
 .mp-val #karta svg { width: 100%; height: auto; display: block; background: var(--papper); }
-@media (max-width: 599px) {
+@container (max-width: 599px) {
   .mp-val #karta { margin: 0 -16px; }
 }
-@media (min-width: 600px) {
+@container (min-width: 600px) {
   .mp-val #karta svg { max-height: 760px; }
 }
 .mp-val #karta path.distrikt { stroke: var(--papper); stroke-width: 2; cursor: pointer; transition: fill .35s ease; outline: none; }
@@ -143,7 +143,7 @@
 .mp-val .bildram .bild-fot { margin-top: auto; font-size: 18px; color: var(--sten); }
 .mp-val .bildram[data-format="kvadrat"] .bild-fot { font-size: 20px; }
 .mp-val.inbaddad header.topp { padding-top: 8px; }
-.mp-val.inbaddad #topp-etikett, .mp-val.inbaddad h1, .mp-val.inbaddad #ingress, .mp-val.inbaddad #fakta .cta, .mp-val.inbaddad footer { display: none; }
+.mp-val.inbaddad #topp-etikett, .mp-val.inbaddad h1, .mp-val.inbaddad #ingress, .mp-val.inbaddad footer { display: none; }
 .mp-val .bildram.karta-bild[data-format="liggande"] { flex-direction: row; gap: 36px; }
 .mp-val .bildram.karta-bild .bild-text { display: flex; flex-direction: column; width: 590px; flex: none; }
 .mp-val .bildram.karta-bild #karta { flex: 1 1 auto; min-width: 0; margin: 0; display: flex; justify-content: center; align-items: center; }
@@ -159,12 +159,33 @@
 .mp-val .bildram.karta-bild path.distrikt { stroke-width: 3; }
 .mp-val #faktalista { padding-left: 20px; margin: 0; list-style: disc; }
 .mp-val #faktalista li { margin-bottom: 6px; }
-.mp-val .cta { display: inline-block; background: var(--morkgron); color: var(--papper); text-decoration: none; padding: 12px 20px; border-radius: 4px; margin-top: 12px; font-weight: 700; }
 .mp-val footer { border-top: 1px solid var(--linje); padding-top: 16px; font-size: 13px; color: var(--sten); }
 .mp-val .fel { background: #F3E3DF; color: var(--falu); padding: 12px 16px; border-radius: 4px; }
-@media (min-width: 600px) {
+@container (min-width: 600px) {
   .mp-val h1 { font-size: 44px; }
   .mp-val .stapel-rad { grid-template-columns: 150px 1fr 96px; }
   .mp-val .stapel-namn b { display: inline; margin-right: 6px; }
   .mp-val .stapel-namn small { display: inline; font-size: 13px; }
+}
+
+/* Desktopläge när containern (inte fönstret) är minst 900 px: grafiken får bredden, brödtexten håller smal spalt.
+   Under 900 px gäller mobil-layouten oförändrad. */
+@container (min-width: 900px) {
+  .mp-val .mp-main { max-width: 1120px; display: grid; grid-template-columns: 1fr 1fr; column-gap: 40px; }
+  .mp-val .mp-main > * { grid-column: 1 / -1; }
+  .mp-val #jamforelse, .mp-val #rostdelning { grid-column: auto; }
+  .mp-val header.topp, .mp-val #faktalista, .mp-val footer p { max-width: 680px; }
+  .mp-val #riksdag { display: grid; grid-template-columns: 1.1fr 1fr; column-gap: 40px; align-items: start; }
+  .mp-val #riksdag > * { grid-column: 1 / -1; }
+  .mp-val #halvcirkel { grid-column: 1; }
+  .mp-val #mandat-legend { grid-column: 2; }
+  .mp-val #halvcirkel svg { max-height: none; }
+  .mp-val #karta-sektion { display: grid; grid-template-columns: 1.35fr 1fr; column-gap: 32px; align-items: start; }
+  .mp-val #karta-sektion > * { grid-column: 1 / -1; }
+  .mp-val #karta { grid-column: 1; grid-row: 4; }
+  .mp-val #karta-legend { grid-column: 1; grid-row: 5; margin: 10px 0 0; }
+  .mp-val #panel { grid-column: 2; grid-row: 4 / 6; position: sticky; top: 16px; padding-top: 0; }
+  .mp-val #karta svg { max-height: none; }
+  .mp-val .till-kartan { display: none; }
+  .mp-val #lutning svg { max-width: none; }
 }

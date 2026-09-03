@@ -1,0 +1,271 @@
+ar;val;niva;niva_kod;mandat_totalt;parti_kalla;parti;roster;andel;mandat;varav_utjamning;mandat_fgval
+2014;rd;riket;00;349;M;M;1453517;23.33;84;0;107
+2014;rd;riket;00;349;C;C;380937;6.11;22;1;23
+2014;rd;riket;00;349;FP;L;337773;5.42;19;9;24
+2014;rd;riket;00;349;KD;KD;284806;4.57;16;9;19
+2014;rd;riket;00;349;S;S;1932711;31.01;113;0;112
+2014;rd;riket;00;349;V;V;356331;5.72;21;11;19
+2014;rd;riket;00;349;MP;MP;429275;6.89;25;9;25
+2014;rd;riket;00;349;SD;SD;801178;12.86;49;0;20
+2014;rd;riket;00;349;FI;FI;194719;3.12;0;0;0
+2014;rd;Stockholms kommun;0101;29;M;M;160166;27.73;9;0;10
+2014;rd;Stockholms kommun;0101;29;C;C;28201;4.88;2;0;2
+2014;rd;Stockholms kommun;0101;29;FP;L;45365;7.85;3;1;3
+2014;rd;Stockholms kommun;0101;29;KD;KD;24691;4.28;2;1;2
+2014;rd;Stockholms kommun;0101;29;S;S;124792;21.61;7;0;6
+2014;rd;Stockholms kommun;0101;29;V;V;44656;7.73;3;1;2
+2014;rd;Stockholms kommun;0101;29;MP;MP;64392;11.15;4;0;3
+2014;rd;Stockholms kommun;0101;29;SD;SD;38356;6.64;2;0;1
+2014;rd;Stockholms kommun;0101;29;FI;FI;41488;7.18;0;0;0
+2014;rd;Stockholms län;0102;38;M;M;249616;32.66;13;0;15
+2014;rd;Stockholms län;0102;38;C;C;38898;5.09;2;0;2
+2014;rd;Stockholms län;0102;38;FP;L;53766;7.04;3;0;3
+2014;rd;Stockholms län;0102;38;KD;KD;40492;5.30;3;1;3
+2014;rd;Stockholms län;0102;38;S;S;183738;24.04;9;0;8
+2014;rd;Stockholms län;0102;38;V;V;35722;4.67;2;0;2
+2014;rd;Stockholms län;0102;38;MP;MP;59586;7.80;3;0;3
+2014;rd;Stockholms län;0102;38;SD;SD;74136;9.70;4;0;2
+2014;rd;Stockholms län;0102;38;FI;FI;20573;2.69;0;0;0
+2014;rd;Uppsala län;0303;11;M;M;52071;22.80;3;0;4
+2014;rd;Uppsala län;0303;11;C;C;15827;6.93;1;0;1
+2014;rd;Uppsala län;0303;11;FP;L;14141;6.19;1;0;1
+2014;rd;Uppsala län;0303;11;KD;KD;10776;4.72;1;1;1
+2014;rd;Uppsala län;0303;11;S;S;65926;28.87;3;0;3
+2014;rd;Uppsala län;0303;11;V;V;14363;6.29;1;0;1
+2014;rd;Uppsala län;0303;11;MP;MP;19080;8.36;1;0;1
+2014;rd;Uppsala län;0303;11;SD;SD;24091;10.55;1;0;1
+2014;rd;Uppsala län;0303;11;FI;FI;9317;4.08;0;0;0
+2014;rd;Södermanlands län;0404;9;M;M;39991;22.39;3;0;3
+2014;rd;Södermanlands län;0404;9;C;C;9774;5.47;0;0;1
+2014;rd;Södermanlands län;0404;9;FP;L;7776;4.35;0;0;1
+2014;rd;Södermanlands län;0404;9;KD;KD;6888;3.86;0;0;0
+2014;rd;Södermanlands län;0404;9;S;S;61834;34.62;4;0;4
+2014;rd;Södermanlands län;0404;9;V;V;9084;5.09;1;1;0
+2014;rd;Södermanlands län;0404;9;MP;MP;11165;6.25;1;1;1
+2014;rd;Södermanlands län;0404;9;SD;SD;26887;15.05;2;0;1
+2014;rd;Södermanlands län;0404;9;FI;FI;3789;2.12;0;0;0
+2014;rd;Östergötlands län;0505;14;M;M;64877;22.26;3;0;4
+2014;rd;Östergötlands län;0505;14;C;C;17443;5.98;1;0;1
+2014;rd;Östergötlands län;0505;14;FP;L;14860;5.10;1;0;1
+2014;rd;Östergötlands län;0505;14;KD;KD;14752;5.06;1;0;1
+2014;rd;Östergötlands län;0505;14;S;S;94909;32.56;5;0;5
+2014;rd;Östergötlands län;0505;14;V;V;14011;4.81;1;1;1
+2014;rd;Östergötlands län;0505;14;MP;MP;19218;6.59;1;0;1
+2014;rd;Östergötlands län;0505;14;SD;SD;41953;14.39;2;0;1
+2014;rd;Östergötlands län;0505;14;FI;FI;6545;2.25;0;0;0
+2014;rd;Jönköpings län;0606;11;M;M;45594;20.30;3;0;3
+2014;rd;Jönköpings län;0606;11;C;C;17800;7.93;1;0;1
+2014;rd;Jönköpings län;0606;11;FP;L;8090;3.60;1;1;1
+2014;rd;Jönköpings län;0606;11;KD;KD;23322;10.38;1;0;2
+2014;rd;Jönköpings län;0606;11;S;S;71487;31.83;4;0;4
+2014;rd;Jönköpings län;0606;11;V;V;8685;3.87;0;0;0
+2014;rd;Jönköpings län;0606;11;MP;MP;12095;5.39;1;1;1
+2014;rd;Jönköpings län;0606;11;SD;SD;32815;14.61;2;0;1
+2014;rd;Jönköpings län;0606;11;FI;FI;3154;1.40;0;0;0
+2014;rd;Kronobergs län;0707;6;M;M;26453;21.90;2;0;2
+2014;rd;Kronobergs län;0707;6;C;C;10988;9.10;1;0;1
+2014;rd;Kronobergs län;0707;6;FP;L;4109;3.40;0;0;0
+2014;rd;Kronobergs län;0707;6;KD;KD;5983;4.95;0;0;0
+2014;rd;Kronobergs län;0707;6;S;S;39179;32.44;2;0;3
+2014;rd;Kronobergs län;0707;6;V;V;5459;4.52;0;0;0
+2014;rd;Kronobergs län;0707;6;MP;MP;6559;5.43;0;0;0
+2014;rd;Kronobergs län;0707;6;SD;SD;18820;15.58;1;0;0
+2014;rd;Kronobergs län;0707;6;FI;FI;2227;1.84;0;0;0
+2014;rd;Kalmar län;0808;8;M;M;32313;20.35;2;0;3
+2014;rd;Kalmar län;0808;8;C;C;13867;8.73;1;0;1
+2014;rd;Kalmar län;0808;8;FP;L;5611;3.53;0;0;0
+2014;rd;Kalmar län;0808;8;KD;KD;7448;4.69;0;0;1
+2014;rd;Kalmar län;0808;8;S;S;56370;35.49;3;0;4
+2014;rd;Kalmar län;0808;8;V;V;7235;4.56;0;0;0
+2014;rd;Kalmar län;0808;8;MP;MP;7435;4.68;0;0;0
+2014;rd;Kalmar län;0808;8;SD;SD;24260;15.27;2;0;0
+2014;rd;Kalmar län;0808;8;FI;FI;2954;1.86;0;0;0
+2014;rd;Gotlands län;0909;2;M;M;8450;21.31;1;0;1
+2014;rd;Gotlands län;0909;2;C;C;5317;13.41;0;0;0
+2014;rd;Gotlands län;0909;2;FP;L;1494;3.77;0;0;0
+2014;rd;Gotlands län;0909;2;KD;KD;1095;2.76;0;0;0
+2014;rd;Gotlands län;0909;2;S;S;12774;32.21;1;0;1
+2014;rd;Gotlands län;0909;2;V;V;2308;5.82;0;0;0
+2014;rd;Gotlands län;0909;2;MP;MP;2859;7.21;0;0;0
+2014;rd;Gotlands län;0909;2;SD;SD;3259;8.22;0;0;0
+2014;rd;Gotlands län;0909;2;FI;FI;1764;4.45;0;0;0
+2014;rd;Blekinge län;1010;5;M;M;19824;19.39;1;0;2
+2014;rd;Blekinge län;1010;5;C;C;5792;5.67;0;0;0
+2014;rd;Blekinge län;1010;5;FP;L;3984;3.90;0;0;0
+2014;rd;Blekinge län;1010;5;KD;KD;3483;3.41;0;0;0
+2014;rd;Blekinge län;1010;5;S;S;37981;37.15;3;0;3
+2014;rd;Blekinge län;1010;5;V;V;4746;4.64;0;0;0
+2014;rd;Blekinge län;1010;5;MP;MP;4969;4.86;0;0;0
+2014;rd;Blekinge län;1010;5;SD;SD;18960;18.55;1;0;1
+2014;rd;Blekinge län;1010;5;FI;FI;1701;1.66;0;0;0
+2014;rd;Malmö kommun;1211;10;M;M;41510;23.18;3;0;3
+2014;rd;Malmö kommun;1211;10;C;C;4850;2.71;0;0;0
+2014;rd;Malmö kommun;1211;10;FP;L;10000;5.58;1;1;1
+2014;rd;Malmö kommun;1211;10;KD;KD;4620;2.58;0;0;0
+2014;rd;Malmö kommun;1211;10;S;S;52460;29.29;3;0;3
+2014;rd;Malmö kommun;1211;10;V;V;13598;7.59;1;0;1
+2014;rd;Malmö kommun;1211;10;MP;MP;15367;8.58;1;0;1
+2014;rd;Malmö kommun;1211;10;SD;SD;24171;13.50;2;0;1
+2014;rd;Malmö kommun;1211;10;FI;FI;9999;5.58;0;0;0
+2014;rd;Skåne läns västra;1212;9;M;M;44558;24.48;3;0;4
+2014;rd;Skåne läns västra;1212;9;C;C;8380;4.60;0;0;0
+2014;rd;Skåne läns västra;1212;9;FP;L;9470;5.20;1;1;1
+2014;rd;Skåne läns västra;1212;9;KD;KD;5860;3.22;0;0;0
+2014;rd;Skåne läns västra;1212;9;S;S;55185;30.32;4;0;3
+2014;rd;Skåne läns västra;1212;9;V;V;6962;3.83;0;0;0
+2014;rd;Skåne läns västra;1212;9;MP;MP;11032;6.06;1;1;1
+2014;rd;Skåne läns västra;1212;9;SD;SD;35180;19.33;2;0;1
+2014;rd;Skåne läns västra;1212;9;FI;FI;3537;1.94;0;0;0
+2014;rd;Skåne läns södra;1213;12;M;M;67671;28.21;4;0;5
+2014;rd;Skåne läns södra;1213;12;C;C;12795;5.33;1;0;1
+2014;rd;Skåne läns södra;1213;12;FP;L;16819;7.01;1;0;1
+2014;rd;Skåne läns södra;1213;12;KD;KD;8379;3.49;1;1;1
+2014;rd;Skåne läns södra;1213;12;S;S;59020;24.61;3;0;3
+2014;rd;Skåne läns södra;1213;12;V;V;8578;3.58;0;0;0
+2014;rd;Skåne läns södra;1213;12;MP;MP;17391;7.25;1;0;1
+2014;rd;Skåne läns södra;1213;12;SD;SD;39734;16.57;2;0;1
+2014;rd;Skåne läns södra;1213;12;FI;FI;7049;2.94;0;0;0
+2014;rd;Skåne läns norra och östra;1214;10;M;M;43518;22.12;3;0;4
+2014;rd;Skåne läns norra och östra;1214;10;C;C;11815;6.01;1;0;1
+2014;rd;Skåne läns norra och östra;1214;10;FP;L;8887;4.52;1;1;1
+2014;rd;Skåne läns norra och östra;1214;10;KD;KD;8131;4.13;1;1;1
+2014;rd;Skåne läns norra och östra;1214;10;S;S;58940;29.96;3;0;3
+2014;rd;Skåne läns norra och östra;1214;10;V;V;6083;3.09;0;0;0
+2014;rd;Skåne läns norra och östra;1214;10;MP;MP;10809;5.50;1;1;1
+2014;rd;Skåne läns norra och östra;1214;10;SD;SD;43582;22.16;3;0;1
+2014;rd;Skåne läns norra och östra;1214;10;FI;FI;3328;1.69;0;0;0
+2014;rd;Hallands län;1315;10;M;M;57261;27.72;3;0;4
+2014;rd;Hallands län;1315;10;C;C;17367;8.41;1;0;1
+2014;rd;Hallands län;1315;10;FP;L;11807;5.72;1;1;1
+2014;rd;Hallands län;1315;10;KD;KD;8988;4.35;1;1;1
+2014;rd;Hallands län;1315;10;S;S;58562;28.35;3;0;3
+2014;rd;Hallands län;1315;10;V;V;7785;3.77;0;0;0
+2014;rd;Hallands län;1315;10;MP;MP;12184;5.90;1;0;1
+2014;rd;Hallands län;1315;10;SD;SD;26555;12.86;2;0;1
+2014;rd;Hallands län;1315;10;FI;FI;3766;1.82;0;0;0
+2014;rd;Göteborgs kommun;1416;17;M;M;79768;23.86;4;0;5
+2014;rd;Göteborgs kommun;1416;17;C;C;12696;3.80;1;0;1
+2014;rd;Göteborgs kommun;1416;17;FP;L;24136;7.22;1;0;1
+2014;rd;Göteborgs kommun;1416;17;KD;KD;15389;4.60;1;0;1
+2014;rd;Göteborgs kommun;1416;17;S;S;79167;23.68;4;0;5
+2014;rd;Göteborgs kommun;1416;17;V;V;31272;9.35;2;0;2
+2014;rd;Göteborgs kommun;1416;17;MP;MP;32868;9.83;2;0;2
+2014;rd;Göteborgs kommun;1416;17;SD;SD;32240;9.64;2;0;1
+2014;rd;Göteborgs kommun;1416;17;FI;FI;21661;6.48;0;0;0
+2014;rd;Västra Götalands läns västra;1417;12;M;M;60129;25.59;3;0;4
+2014;rd;Västra Götalands läns västra;1417;12;C;C;14091;6.00;1;0;1
+2014;rd;Västra Götalands läns västra;1417;12;FP;L;16134;6.87;1;0;1
+2014;rd;Västra Götalands läns västra;1417;12;KD;KD;13486;5.74;1;0;1
+2014;rd;Västra Götalands läns västra;1417;12;S;S;63552;27.05;3;0;3
+2014;rd;Västra Götalands läns västra;1417;12;V;V;12132;5.16;1;1;1
+2014;rd;Västra Götalands läns västra;1417;12;MP;MP;15971;6.80;1;0;1
+2014;rd;Västra Götalands läns västra;1417;12;SD;SD;31401;13.37;2;0;1
+2014;rd;Västra Götalands läns västra;1417;12;FI;FI;5978;2.54;0;0;0
+2014;rd;Västra Götalands läns norra;1418;9;M;M;35979;20.09;2;0;3
+2014;rd;Västra Götalands läns norra;1418;9;C;C;12335;6.89;1;0;1
+2014;rd;Västra Götalands läns norra;1418;9;FP;L;9472;5.29;1;1;1
+2014;rd;Västra Götalands läns norra;1418;9;KD;KD;9099;5.08;1;1;1
+2014;rd;Västra Götalands läns norra;1418;9;S;S;58289;32.55;4;0;3
+2014;rd;Västra Götalands läns norra;1418;9;V;V;9895;5.53;1;1;1
+2014;rd;Västra Götalands läns norra;1418;9;MP;MP;11219;6.27;1;1;1
+2014;rd;Västra Götalands läns norra;1418;9;SD;SD;27027;15.09;2;0;1
+2014;rd;Västra Götalands läns norra;1418;9;FI;FI;4205;2.35;0;0;0
+2014;rd;Västra Götalands läns södra;1419;6;M;M;27795;22.26;2;0;3
+2014;rd;Västra Götalands läns södra;1419;6;C;C;9423;7.54;0;0;0
+2014;rd;Västra Götalands läns södra;1419;6;FP;L;6145;4.92;0;0;0
+2014;rd;Västra Götalands läns södra;1419;6;KD;KD;6376;5.11;0;0;0
+2014;rd;Västra Götalands läns södra;1419;6;S;S;38791;31.06;3;0;3
+2014;rd;Västra Götalands läns södra;1419;6;V;V;6520;5.22;0;0;0
+2014;rd;Västra Götalands läns södra;1419;6;MP;MP;7534;6.03;0;0;0
+2014;rd;Västra Götalands läns södra;1419;6;SD;SD;18773;15.03;1;0;0
+2014;rd;Västra Götalands läns södra;1419;6;FI;FI;2484;1.99;0;0;0
+2014;rd;Västra Götalands läns östra;1420;9;M;M;36579;20.97;2;0;3
+2014;rd;Västra Götalands läns östra;1420;9;C;C;14295;8.19;1;0;1
+2014;rd;Västra Götalands läns östra;1420;9;FP;L;7392;4.24;0;0;1
+2014;rd;Västra Götalands läns östra;1420;9;KD;KD;8919;5.11;1;1;1
+2014;rd;Västra Götalands läns östra;1420;9;S;S;60424;34.64;4;0;4
+2014;rd;Västra Götalands läns östra;1420;9;V;V;7858;4.50;0;0;0
+2014;rd;Västra Götalands läns östra;1420;9;MP;MP;8707;4.99;0;0;0
+2014;rd;Västra Götalands läns östra;1420;9;SD;SD;25765;14.77;2;0;0
+2014;rd;Västra Götalands läns östra;1420;9;FI;FI;3035;1.74;0;0;0
+2014;rd;Värmlands län;1721;9;M;M;35687;19.60;2;0;3
+2014;rd;Värmlands län;1721;9;C;C;13521;7.43;1;0;1
+2014;rd;Värmlands län;1721;9;FP;L;7531;4.14;0;0;1
+2014;rd;Värmlands län;1721;9;KD;KD;7263;3.99;0;0;0
+2014;rd;Värmlands län;1721;9;S;S;71173;39.09;5;0;5
+2014;rd;Värmlands län;1721;9;V;V;9517;5.23;1;1;1
+2014;rd;Värmlands län;1721;9;MP;MP;9398;5.16;1;1;1
+2014;rd;Värmlands län;1721;9;SD;SD;22978;12.62;1;0;0
+2014;rd;Värmlands län;1721;9;FI;FI;3697;2.03;0;0;0
+2014;rd;Örebro län;1822;9;M;M;35070;18.58;2;0;3
+2014;rd;Örebro län;1822;9;C;C;10546;5.59;0;0;0
+2014;rd;Örebro län;1822;9;FP;L;8053;4.27;1;1;1
+2014;rd;Örebro län;1822;9;KD;KD;9771;5.18;1;1;1
+2014;rd;Örebro län;1822;9;S;S;69604;36.89;4;0;4
+2014;rd;Örebro län;1822;9;V;V;10183;5.40;1;1;1
+2014;rd;Örebro län;1822;9;MP;MP;12013;6.37;1;0;1
+2014;rd;Örebro län;1822;9;SD;SD;27126;14.37;2;0;1
+2014;rd;Örebro län;1822;9;FI;FI;4567;2.42;0;0;0
+2014;rd;Västmanlands län;1923;8;M;M;35697;21.38;2;0;3
+2014;rd;Västmanlands län;1923;8;C;C;8719;5.22;0;0;0
+2014;rd;Västmanlands län;1923;8;FP;L;8756;5.25;1;1;1
+2014;rd;Västmanlands län;1923;8;KD;KD;6496;3.89;0;0;0
+2014;rd;Västmanlands län;1923;8;S;S;59936;35.90;4;0;4
+2014;rd;Västmanlands län;1923;8;V;V;9051;5.42;1;1;1
+2014;rd;Västmanlands län;1923;8;MP;MP;8549;5.12;0;0;1
+2014;rd;Västmanlands län;1923;8;SD;SD;24728;14.81;2;0;1
+2014;rd;Västmanlands län;1923;8;FI;FI;3398;2.04;0;0;0
+2014;rd;Dalarnas län;2024;9;M;M;35087;18.98;2;0;3
+2014;rd;Dalarnas län;2024;9;C;C;14371;7.77;1;0;1
+2014;rd;Dalarnas län;2024;9;FP;L;6350;3.43;0;0;0
+2014;rd;Dalarnas län;2024;9;KD;KD;6427;3.48;0;0;0
+2014;rd;Dalarnas län;2024;9;S;S;65543;35.45;4;0;4
+2014;rd;Dalarnas län;2024;9;V;V;10672;5.77;1;1;1
+2014;rd;Dalarnas län;2024;9;MP;MP;9352;5.06;1;1;1
+2014;rd;Dalarnas län;2024;9;SD;SD;31043;16.79;2;0;1
+2014;rd;Dalarnas län;2024;9;FI;FI;4176;2.26;0;0;0
+2014;rd;Gävleborgs län;2125;9;M;M;31911;17.39;2;0;3
+2014;rd;Gävleborgs län;2125;9;C;C;12244;6.67;1;0;1
+2014;rd;Gävleborgs län;2125;9;FP;L;6840;3.73;0;0;1
+2014;rd;Gävleborgs län;2125;9;KD;KD;5931;3.23;0;0;0
+2014;rd;Gävleborgs län;2125;9;S;S;70150;38.23;4;0;4
+2014;rd;Gävleborgs län;2125;9;V;V;12054;6.57;1;1;1
+2014;rd;Gävleborgs län;2125;9;MP;MP;9238;5.03;1;1;1
+2014;rd;Gävleborgs län;2125;9;SD;SD;29329;15.98;2;0;1
+2014;rd;Gävleborgs län;2125;9;FI;FI;4053;2.21;0;0;0
+2014;rd;Västernorrlands län;2226;8;M;M;25833;15.94;2;0;2
+2014;rd;Västernorrlands län;2226;8;C;C;10922;6.74;1;1;1
+2014;rd;Västernorrlands län;2226;8;FP;L;5440;3.36;0;0;0
+2014;rd;Västernorrlands län;2226;8;KD;KD;6097;3.76;0;0;0
+2014;rd;Västernorrlands län;2226;8;S;S;74977;46.25;5;0;5
+2014;rd;Västernorrlands län;2226;8;V;V;9211;5.68;1;1;1
+2014;rd;Västernorrlands län;2226;8;MP;MP;7073;4.36;0;0;0
+2014;rd;Västernorrlands län;2226;8;SD;SD;17569;10.84;1;0;0
+2014;rd;Västernorrlands län;2226;8;FI;FI;3575;2.21;0;0;0
+2014;rd;Jämtlands län;2327;4;M;M;14513;17.34;1;0;1
+2014;rd;Jämtlands län;2327;4;C;C;9487;11.33;1;0;1
+2014;rd;Jämtlands län;2327;4;FP;L;2370;2.83;0;0;0
+2014;rd;Jämtlands län;2327;4;KD;KD;2119;2.53;0;0;0
+2014;rd;Jämtlands län;2327;4;S;S;33303;39.78;2;0;2
+2014;rd;Jämtlands län;2327;4;V;V;5252;6.27;0;0;0
+2014;rd;Jämtlands län;2327;4;MP;MP;4760;5.69;0;0;0
+2014;rd;Jämtlands län;2327;4;SD;SD;9224;11.02;0;0;0
+2014;rd;Jämtlands län;2327;4;FI;FI;2035;2.43;0;0;0
+2014;rd;Västerbottens län;2428;9;M;M;24158;13.78;1;0;2
+2014;rd;Västerbottens län;2428;9;C;C;11660;6.65;1;0;1
+2014;rd;Västerbottens län;2428;9;FP;L;7606;4.34;0;0;1
+2014;rd;Västerbottens län;2428;9;KD;KD;7477;4.27;0;0;1
+2014;rd;Västerbottens län;2428;9;S;S;73661;42.03;5;0;4
+2014;rd;Västerbottens län;2428;9;V;V;19214;10.96;1;0;1
+2014;rd;Västerbottens län;2428;9;MP;MP;10341;5.90;1;1;1
+2014;rd;Västerbottens län;2428;9;SD;SD;12979;7.40;1;0;0
+2014;rd;Västerbottens län;2428;9;FI;FI;6720;3.83;0;0;0
+2014;rd;Norrbottens län;2529;8;M;M;21438;12.90;1;0;2
+2014;rd;Norrbottens län;2529;8;C;C;7513;4.52;0;0;0
+2014;rd;Norrbottens län;2529;8;FP;L;5369;3.23;0;0;0
+2014;rd;Norrbottens län;2529;8;KD;KD;5048;3.04;0;0;0
+2014;rd;Norrbottens län;2529;8;S;S;80984;48.73;5;0;6
+2014;rd;Norrbottens län;2529;8;V;V;14225;8.56;1;0;1
+2014;rd;Norrbottens län;2529;8;MP;MP;8111;4.88;0;0;0
+2014;rd;Norrbottens län;2529;8;SD;SD;18237;10.97;1;0;0
+2014;rd;Norrbottens län;2529;8;FI;FI;3944;2.37;0;0;0

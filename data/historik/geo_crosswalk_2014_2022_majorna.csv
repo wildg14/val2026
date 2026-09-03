@@ -1,0 +1,52 @@
+kod_2022;namn_2022;klass_2022;antal_2014;kod_2014;namn_2014;andel_av_2022;andel_av_2014;overlapp_m2;huvudkalla
+14800526;Västra Centrum, Svalebo;omritning;2;14801016;Majorna-Linné, Svalebo;0.6633;0.8144;229841.6;ja
+14800526;Västra Centrum, Svalebo;omritning;2;14801021;Majorna-Linné, Sandarne;0.3366;0.0825;116626.7;ja
+14800527;Västra Centrum, Skytteskogen;omritning;2;14801015;Majorna-Linné, Skytteskogen;0.8488;0.7718;294219.9;ja
+14800527;Västra Centrum, Skytteskogen;omritning;2;14801016;Majorna-Linné, Svalebo;0.1511;0.1856;52387.5;ja
+14800528;Västra Centrum, Kungsladugård Östra;omritning;2;14801012;Majorna-Linné, Kungsladugård;0.8444;0.8048;112807.4;ja
+14800528;Västra Centrum, Kungsladugård Östra;omritning;2;14801015;Majorna-Linné, Skytteskogen;0.1531;0.0536;20450.2;ja
+14800528;Västra Centrum, Kungsladugård Östra;omritning;2;14801031;Majorna-Linné, Godhem;0.0024;0.0032;315.1;nej
+14800529;Västra Centrum, Kungsladugård Västra;omritning;3;14801015;Majorna-Linné, Skytteskogen;0.6435;0.1595;60822.1;ja
+14800529;Västra Centrum, Kungsladugård Västra;omritning;3;14801012;Majorna-Linné, Kungsladugård;0.2892;0.1950;27334.7;ja
+14800529;Västra Centrum, Kungsladugård Västra;omritning;3;14801013;Majorna-Linné, Mariaplan;0.0673;0.0572;6357.1;ja
+14800530;Västra Centrum, Mariaplan;omritning;2;14801013;Majorna-Linné, Mariaplan;0.9393;0.7987;88828.1;ja
+14800530;Västra Centrum, Mariaplan;omritning;2;14801015;Majorna-Linné, Skytteskogen;0.0602;0.0149;5695.0;ja
+14800531;Västra Centrum, Silverkällan;delning;1;14801014;Majorna-Linné, Silverkällan;0.9998;0.3346;59897.6;ja
+14800532;Västra Centrum, Sannaplan;omritning;3;14801021;Majorna-Linné, Sandarne;0.6532;0.0566;80073.8;ja
+14800532;Västra Centrum, Sannaplan;omritning;3;14801014;Majorna-Linné, Silverkällan;0.2848;0.1950;34908.1;ja
+14800532;Västra Centrum, Sannaplan;omritning;3;14801013;Majorna-Linné, Mariaplan;0.0620;0.0683;7595.6;ja
+14800533;Västra Centrum, Sandarne;delning;1;14801021;Majorna-Linné, Sandarne;0.9999;0.8538;1207701.4;ja
+14800534;Västra Centrum, Klippan;omritning;3;14801011;Majorna-Linné, Klippan;0.7920;0.8738;358198.8;ja
+14800534;Västra Centrum, Klippan;omritning;3;14801014;Majorna-Linné, Silverkällan;0.1862;0.4704;84201.0;ja
+14800534;Västra Centrum, Klippan;omritning;3;14801021;Majorna-Linné, Sandarne;0.0218;0.0070;9861.4;ja
+14800535;Västra Centrum, Gröna Vallen;omritning;2;14801011;Majorna-Linné, Klippan;0.8782;0.1237;50711.9;ja
+14800535;Västra Centrum, Gröna Vallen;omritning;2;14801013;Majorna-Linné, Mariaplan;0.1217;0.0632;7030.3;ja
+14800536;Västra Centrum, Kusttorget;omritning;2;14801034;Majorna-Linné, Majorna;0.9287;0.8934;434235.4;ja
+14800536;Västra Centrum, Kusttorget;omritning;2;14801033;Majorna-Linné, Hängmattan;0.0713;0.2897;33324.4;ja
+14800537;Västra Centrum, Chapmans Torg;omritning;2;14801034;Majorna-Linné, Majorna;0.7147;0.1065;51779.3;ja
+14800537;Västra Centrum, Chapmans Torg;omritning;2;14801036;Majorna-Linné, Slottsskogsgatan m fl;0.2852;0.1324;20661.5;ja
+14800538;Västra Centrum, Slottsskogsgat. m fl;omritning;3;14801036;Majorna-Linné, Slottsskogsgatan m fl;0.9197;0.8127;126848.4;ja
+14800538;Västra Centrum, Slottsskogsgat. m fl;omritning;3;14801031;Majorna-Linné, Godhem;0.0373;0.0523;5139.9;ja
+14800538;Västra Centrum, Slottsskogsgat. m fl;omritning;3;14801032;Majorna-Linné, Gråberget;0.0260;0.0175;3588.7;ja
+14800538;Västra Centrum, Slottsskogsgat. m fl;omritning;3;14801013;Majorna-Linné, Mariaplan;0.0101;0.0125;1386.5;nej
+14800538;Västra Centrum, Slottsskogsgat. m fl;omritning;3;14801011;Majorna-Linné, Klippan;0.0069;0.0023;952.2;nej
+14800539;Västra Centrum, Gråberget Västra;omritning;2;14801032;Majorna-Linné, Gråberget;0.9200;0.4810;98601.1;ja
+14800539;Västra Centrum, Gråberget Västra;omritning;2;14801036;Majorna-Linné, Slottsskogsgatan m fl;0.0799;0.0549;8563.8;ja
+14800540;Västra Centrum, Gråberget Östra;omritning;2;14801032;Majorna-Linné, Gråberget;0.6111;0.5014;102786.4;ja
+14800540;Västra Centrum, Gråberget Östra;omritning;2;14801035;Majorna-Linné, Marieberg;0.3887;0.4845;65378.8;ja
+14800541;Västra Centrum, Godhem;omritning;2;14801031;Majorna-Linné, Godhem;0.9535;0.9444;92866.7;ja
+14800541;Västra Centrum, Godhem;omritning;2;14801043;Majorna-Linné, Karl Johans torg;0.0451;0.0352;4391.3;ja
+14800541;Västra Centrum, Godhem;omritning;2;14801044;Majorna-Linné, Söderlingska ängen;0.0012;0.0009;120.9;nej
+14800542;Västra Centrum, Marieberg;omritning;2;14801035;Majorna-Linné, Marieberg;0.9481;0.5152;69526.7;ja
+14800542;Västra Centrum, Marieberg;omritning;2;14801043;Majorna-Linné, Karl Johans torg;0.0519;0.0305;3809.6;ja
+14800543;Västra Centrum, Klareborgsgatan m fl;delning;1;14801043;Majorna-Linné, Karl Johans torg;0.9998;0.6790;84744.4;ja
+14800544;Västra Centrum, Karl Johan;omritning;2;14801044;Majorna-Linné, Söderlingska ängen;0.7349;0.6092;83872.5;ja
+14800544;Västra Centrum, Karl Johan;omritning;2;14801043;Majorna-Linné, Karl Johans torg;0.2650;0.2423;30244.9;ja
+14800545;Västra Centrum, Söderlingska Ängen;omritning;2;14801044;Majorna-Linné, Söderlingska ängen;0.5751;0.3801;52338.0;ja
+14800545;Västra Centrum, Söderlingska Ängen;omritning;2;14801041;Majorna-Linné, Djurgårdsgatan m fl;0.4089;0.3876;37216.0;ja
+14800545;Västra Centrum, Söderlingska Ängen;omritning;2;14801061;Majorna-Linné, Änggården;0.0159;0.0003;1446.9;nej
+14800546;Västra Centrum, Kommendörsgatan m fl;omritning;3;14801041;Majorna-Linné, Djurgårdsgatan m fl;0.9521;0.6123;58790.4;ja
+14800546;Västra Centrum, Kommendörsgatan m fl;omritning;3;14801043;Majorna-Linné, Karl Johans torg;0.0261;0.0129;1608.9;ja
+14800546;Västra Centrum, Kommendörsgatan m fl;omritning;3;14801044;Majorna-Linné, Söderlingska ängen;0.0218;0.0098;1348.1;ja
+14800547;Västra Centrum, Hängmattan;delning;1;14801033;Majorna-Linné, Hängmattan;0.9998;0.7103;81709.1;ja
+14800548;Västra Centrum, Gatenhielmska;identisk;1;14801042;Majorna-Linné, Gatenhielmska;0.9999;0.9999;181873.3;ja

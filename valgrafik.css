@@ -1,0 +1,170 @@
+/* Så röstade Majorna - valgrafik.css. All CSS är scopad till .mp-val så att filen kan ligga i ett HTML-block i Beehiivs sajtbyggare. Genererad ur den tidigare index.html. */
+.mp-val { --papper: #FAF6EE; --black: #2A241E; --sten: #6E6152; --linje: #E6DECF; --gron: #3F5A3A; --morkgron: #2E4A2C; --ljusgron: #DCE4D3; --ockra: #C58A34; --falu: #8C3B2B; --oraknat: #DDD5C6; --serif: Georgia, "Times New Roman", Times, serif; --sans: Arial, Helvetica, sans-serif; }
+.mp-val, .mp-val * { box-sizing: border-box; }
+.mp-val [hidden] { display: none !important; }
+.mp-val { margin: 0; background: var(--papper); color: var(--black); font: 16px/1.6 var(--sans); text-align: left; }
+/* Skydd mot värdsidans globala regler (Beehiivs eller andras): allt vi använder får färg, typsnitt och form uttryckligen. */
+.mp-val h1, .mp-val h2, .mp-val h3, .mp-val p, .mp-val li, .mp-val td, .mp-val th, .mp-val label, .mp-val small, .mp-val b, .mp-val span, .mp-val div { color: inherit; text-transform: none; letter-spacing: normal; text-decoration: none; text-shadow: none; }
+.mp-val h1, .mp-val h2, .mp-val h3 { color: var(--black); }
+.mp-val p { margin: 0 0 1em; }
+.mp-val ul, .mp-val ol { margin: 0; padding: 0; list-style: none; }
+.mp-val table { border-spacing: 0; margin: 0; }
+.mp-val a { text-decoration: underline; text-decoration-style: solid; }
+.mp-val button, .mp-val select { font-family: var(--sans); font-size: 16px; line-height: 1.3; font-weight: 400; text-transform: none; letter-spacing: normal; box-shadow: none; text-decoration: none; margin: 0; }
+.mp-val svg { overflow: visible; }
+.mp-val .mp-main { max-width: 720px; margin: 0 auto; padding: 0 16px 48px; }
+.mp-val h1 { font: 700 34px/1.12 var(--serif); margin: 8px 0 12px; letter-spacing: -0.01em; }
+.mp-val h2 { font: 700 24px/1.25 var(--serif); margin: 0 0 12px; }
+.mp-val section { padding: 28px 0 8px; border-top: 1px solid var(--linje); }
+.mp-val header.topp { padding: 28px 0 20px; }
+.mp-val .etikett { font: 700 12px/16px var(--sans); letter-spacing: 2px; color: var(--gron); margin: 0 0 8px; text-transform: uppercase; }
+.mp-val .ingress { font: italic 19px/27px var(--serif); color: #4A4038; margin: 0 0 16px; }
+.mp-val .not { font-size: 14px; line-height: 1.5; color: var(--sten); margin: 8px 0 0; }
+.mp-val .not b { color: var(--black); }
+.mp-val a { color: var(--gron); }
+.mp-val button { font: inherit; color: var(--black); background: transparent; border: 1px solid var(--sten); border-radius: 4px; min-height: 44px; padding: 8px 14px; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.mp-val button:hover { border-color: var(--black); }
+.mp-val button:focus-visible, .mp-val [tabindex]:focus-visible, .mp-val select:focus-visible, .mp-val a:focus-visible { outline: 3px solid var(--ockra); outline-offset: 2px; }
+.mp-val button[aria-selected="true"], .mp-val button[aria-checked="true"], .mp-val button.aktiv { background: var(--morkgron); color: var(--papper); border-color: var(--morkgron); }
+.mp-val .knappar, .mp-val .flikar { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 12px; }
+.mp-val .flikar button { flex: 1 1 0; min-width: 96px; }
+.mp-val .rad { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: center; margin-bottom: 12px; }
+.mp-val .rad .knappar { margin: 0; }
+.mp-val select { font: inherit; min-height: 44px; padding: 6px 10px; border: 1px solid var(--sten); border-radius: 4px; background: #fff; color: var(--black); }
+.mp-val .partival { display: inline-flex; align-items: center; gap: 8px; }
+.mp-val .banderoll { background: var(--morkgron); color: var(--papper); padding: 12px 16px; border-radius: 4px; margin: 12px 0 0; font-size: 16px; }
+.mp-val .banderoll b { color: #fff; }
+.mp-val #halvcirkel svg { width: 100%; height: auto; display: block; max-height: 520px; }
+.mp-val #halvcirkel circle { transition: fill .6s ease; transition-delay: calc(var(--i) * 1.4ms); }
+@media (prefers-reduced-motion: reduce) {
+  .mp-val #halvcirkel circle { transition: none; }
+}
+.mp-val .legend { list-style: none; padding: 0; margin: 12px 0 0; display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 14px; }
+.mp-val .legend li { display: inline-flex; align-items: center; gap: 6px; }
+.mp-val .swatch { width: 14px; height: 14px; border-radius: 2px; border: 1px solid rgba(42,36,30,.25); flex: none; }
+.mp-val table.mandat { border-collapse: collapse; width: 100%; margin-top: 12px; font-size: 15px; }
+.mp-val table.mandat th, .mp-val table.mandat td { text-align: left; padding: 4px 6px; border-bottom: 1px solid var(--linje); }
+.mp-val table.mandat th { font-size: 13px; vertical-align: bottom; }
+.mp-val table.mandat th.tal { width: 26%; }
+.mp-val table.mandat td.tal, .mp-val table.mandat th.tal { text-align: right; font-variant-numeric: tabular-nums; }
+.mp-val table.mandat td.aktiv { font-weight: 700; }
+.mp-val table.mandat td.dampad { color: var(--sten); }
+.mp-val #karta svg { width: 100%; height: auto; display: block; background: var(--papper); }
+@media (max-width: 599px) {
+  .mp-val #karta { margin: 0 -16px; }
+}
+@media (min-width: 600px) {
+  .mp-val #karta svg { max-height: 760px; }
+}
+.mp-val #karta path.distrikt { stroke: var(--papper); stroke-width: 2; cursor: pointer; transition: fill .35s ease; outline: none; }
+.mp-val #karta path.distrikt:hover { stroke: var(--black); stroke-width: 2.5; }
+.mp-val #karta .markering { fill: none; stroke: var(--black); stroke-width: 3px; vector-effect: non-scaling-stroke; stroke-linejoin: round; pointer-events: none; }
+.mp-val #karta path.distrikt:focus-visible { stroke: var(--ockra); stroke-width: 6; }
+.mp-val #karta text { pointer-events: none; font-family: var(--sans); }
+.mp-val #karta .etikett-distrikt { font-weight: 700; fill: var(--black); paint-order: stroke; stroke: var(--papper); stroke-linejoin: round; text-anchor: middle; }
+.mp-val #karta .etikett-distrikt.dampad { fill: var(--sten); }
+.mp-val #karta .hallplats-namn { fill: var(--black); paint-order: stroke; stroke: var(--papper); stroke-width: 4; stroke-linejoin: round; }
+.mp-val #karta .plats { letter-spacing: 3px; fill: var(--sten); text-anchor: middle; paint-order: stroke; stroke: var(--papper); stroke-width: 4; stroke-linejoin: round; }
+.mp-val .legend-titel { margin: 10px 0 0; font-size: 14px; color: var(--sten); }
+.mp-val #karta .gator path { fill: none; stroke: #fff; stroke-opacity: .7; stroke-linecap: round; stroke-linejoin: round; }
+.mp-val #karta .sparvag path { fill: none; stroke: var(--black); stroke-opacity: .5; stroke-width: 2.5; stroke-dasharray: 9 7; }
+.mp-val #karta .hallplats { fill: var(--papper); stroke: var(--black); stroke-width: 1.6; }
+.mp-val #karta .parker path { fill: #E1E7D6; }
+.mp-val #karta .vatten path { fill: #D8E1E5; }
+.mp-val .karta-legend { margin: 0 0 10px; }
+.mp-val #panel { padding-top: 12px; }
+.mp-val .panel-huvud { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 4px 16px; margin: 0 0 6px; }
+.mp-val .panel-huvud h3 { font: 700 24px/1.25 var(--serif); margin: 0; }
+.mp-val .panel-hint, .mp-val .panel-topp { margin: 0 0 6px; font-size: 16px; color: var(--black); }
+.mp-val .panel-sub { color: var(--sten); margin: 0 0 14px; font-size: 16px; }
+.mp-val .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.mp-val .stapel-rad { display: grid; grid-template-columns: 96px 1fr 96px; gap: 10px; align-items: center; margin: 0 0 8px; }
+.mp-val .stapel-namn { line-height: 1.2; }
+.mp-val .stapel-namn b { display: block; }
+.mp-val .stapel-namn small { display: block; font-size: 12px; color: var(--sten); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mp-val .stapel-spar { position: relative; height: 22px; background: var(--linje); border-radius: 2px; }
+.mp-val .stapel-fyll { height: 100%; border-radius: 2px; }
+.mp-val .markor { position: absolute; top: -4px; bottom: -4px; width: 3px; margin-left: -1px; background: var(--black); }
+.mp-val .markor.goteborg { background: var(--sten); }
+.mp-val .markor.riket { background: var(--ockra); }
+.mp-val .stapel-varde { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.mp-val .stapel-varde .swing { display: block; font-size: 13px; color: var(--sten); }
+.mp-val .markorer { font-size: 13px; color: var(--sten); display: flex; flex-wrap: wrap; gap: 4px 14px; margin: 4px 0 12px; }
+.mp-val .markorer span::before { content: ""; display: inline-block; width: 3px; height: 14px; background: var(--black); margin-right: 6px; vertical-align: -2px; }
+.mp-val .markorer span.goteborg::before { background: var(--sten); }
+.mp-val .markorer span.riket::before { background: var(--ockra); }
+.mp-val .panel-knappar { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+.mp-val .dampad .stapel-fyll { opacity: .45; }
+.mp-val .tabell-wrap { overflow-x: auto; margin-top: 12px; }
+.mp-val table.distrikt { border-collapse: collapse; font-size: 14px; white-space: nowrap; }
+.mp-val table.distrikt th, .mp-val table.distrikt td { padding: 6px 8px; border-bottom: 1px solid var(--linje); text-align: right; font-variant-numeric: tabular-nums; }
+.mp-val table.distrikt th:first-child, .mp-val table.distrikt td:first-child { text-align: left; position: sticky; left: 0; background: var(--papper); }
+.mp-val table.distrikt th { cursor: pointer; user-select: none; }
+.mp-val table.distrikt th[aria-sort="descending"]::after { content: " \25BE"; }
+.mp-val table.distrikt th[aria-sort="ascending"]::after { content: " \25B4"; }
+.mp-val table.distrikt tr.vald td { font-weight: 700; }
+.mp-val table.distrikt tbody tr { cursor: pointer; }
+.mp-val table.distrikt tbody tr:hover td { background: var(--ljusgron); }
+.mp-val table.distrikt caption { text-align: left; caption-side: top; color: var(--sten); font-size: 14px; padding: 0 0 6px; white-space: normal; }
+.mp-val #lutning svg { width: 100%; height: auto; display: block; max-width: 560px; }
+.mp-val #lutning text { font-family: var(--sans); }
+.mp-val .div-huvud { display: grid; grid-template-columns: 44px 1fr; font-size: 13px; color: var(--sten); margin-bottom: 6px; }
+.mp-val .div-huvud div { display: flex; justify-content: space-between; }
+.mp-val .div-rad { display: grid; grid-template-columns: 44px 1fr; align-items: center; height: 34px; }
+.mp-val .div-parti { font-weight: 700; }
+.mp-val .div-omrade, .mp-val .div-huvud div, .mp-val .div-axel div { margin-right: 60px; }
+.mp-val .div-omrade { position: relative; height: 100%; }
+.mp-val .div-grid { position: absolute; top: 0; bottom: 0; width: 1px; background: var(--linje); }
+.mp-val .div-noll { position: absolute; top: 0; bottom: 0; width: 2px; margin-left: -1px; background: var(--black); }
+.mp-val .div-stapel { position: absolute; top: 6px; height: 22px; }
+.mp-val .div-varde { position: absolute; top: 0; line-height: 34px; font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.mp-val .div-axel { display: grid; grid-template-columns: 44px 1fr; font-size: 13px; color: var(--sten); margin-top: 4px; }
+.mp-val .div-axel div { position: relative; height: 20px; }
+.mp-val .div-axel span { position: absolute; transform: translateX(-50%); white-space: nowrap; }
+.mp-val.bild { background: #fff; }
+.mp-val.bild .mp-main { max-width: none; padding: 0; }
+.mp-val .bildram { background: var(--papper); border: 1px solid var(--linje); border-top: 8px solid var(--morkgron); box-sizing: border-box; overflow: hidden; display: flex; flex-direction: column; }
+.mp-val .bildram[data-format="liggande"] { --radH: 38px; --stapelH: 26px; --rubrik: 64px; width: 1200px; height: 630px; padding: 30px 60px 26px; }
+.mp-val .bildram[data-format="kvadrat"] { --radH: 84px; --stapelH: 44px; --rubrik: 72px; width: 1080px; height: 1080px; padding: 60px 64px 52px; }
+.mp-val .bildram .etikett { font-size: 16px; letter-spacing: 3px; margin-bottom: 6px; }
+.mp-val .bildram h1 { font-size: var(--rubrik); line-height: 1.08; margin: 0 0 6px; }
+.mp-val .bildram .bild-sub { font-size: 24px; line-height: 1.3; color: var(--sten); margin: 0 0 14px; }
+.mp-val .bildram[data-format="kvadrat"] .bild-sub { font-size: 30px; margin-bottom: 30px; }
+.mp-val .bildram .div-huvud, .mp-val .bildram .div-axel { font-size: 20px; grid-template-columns: 80px 1fr; }
+.mp-val .bildram .div-rad { grid-template-columns: 80px 1fr; height: var(--radH); font-size: min(30px, calc(var(--radH) - 6px)); }
+.mp-val .bildram .div-stapel { top: calc((var(--radH) - var(--stapelH)) / 2); height: var(--stapelH); }
+.mp-val .bildram .div-varde { line-height: var(--radH); font-size: min(28px, calc(var(--radH) - 8px)); }
+.mp-val .bildram .div-omrade, .mp-val .bildram .div-huvud div, .mp-val .bildram .div-axel div { margin-right: 110px; }
+.mp-val .bildram .div-axel { margin-bottom: 12px; }
+.mp-val .bildram .div-axel div { height: 26px; }
+.mp-val .bildram[data-format="kvadrat"] .div-rad { font-size: min(36px, calc(var(--radH) - 8px)); }
+.mp-val .bildram[data-format="kvadrat"] .div-varde { font-size: min(34px, calc(var(--radH) - 10px)); }
+.mp-val .bildram[data-format="kvadrat"] .div-huvud, .mp-val .bildram[data-format="kvadrat"] .div-axel { font-size: 24px; }
+.mp-val .bildram .bild-fot { margin-top: auto; font-size: 18px; color: var(--sten); }
+.mp-val .bildram[data-format="kvadrat"] .bild-fot { font-size: 20px; }
+.mp-val.inbaddad header.topp { padding-top: 8px; }
+.mp-val.inbaddad #topp-etikett, .mp-val.inbaddad h1, .mp-val.inbaddad #ingress, .mp-val.inbaddad #fakta .cta, .mp-val.inbaddad footer { display: none; }
+.mp-val .bildram.karta-bild[data-format="liggande"] { flex-direction: row; gap: 36px; }
+.mp-val .bildram.karta-bild .bild-text { display: flex; flex-direction: column; width: 590px; flex: none; }
+.mp-val .bildram.karta-bild #karta { flex: 1 1 auto; min-width: 0; margin: 0; display: flex; justify-content: center; align-items: center; }
+.mp-val .bildram.karta-bild #karta svg { width: auto; height: 100%; max-height: none; }
+.mp-val .bildram.karta-bild[data-format="kvadrat"] #karta { height: 610px; margin: 6px 0 14px; }
+.mp-val .bildram.karta-bild[data-format="kvadrat"] h1 { font-size: 64px; }
+.mp-val .bildram.karta-bild .karta-legend { margin: 0; }
+.mp-val .bildram.karta-bild .legend { font-size: 22px; gap: 8px 20px; margin-top: 8px; }
+.mp-val .bildram.karta-bild .legend .swatch { width: 20px; height: 20px; }
+.mp-val .bildram.karta-bild .legend-titel { font-size: 22px; }
+.mp-val .bildram.karta-bild .bild-uppmaning { font-size: 24px; font-weight: 700; margin: auto 0 12px; }
+.mp-val .bildram.karta-bild[data-format="kvadrat"] .bild-uppmaning { margin: 10px 0 8px; }
+.mp-val .bildram.karta-bild path.distrikt { stroke-width: 3; }
+.mp-val #faktalista { padding-left: 20px; margin: 0; list-style: disc; }
+.mp-val #faktalista li { margin-bottom: 6px; }
+.mp-val .cta { display: inline-block; background: var(--morkgron); color: var(--papper); text-decoration: none; padding: 12px 20px; border-radius: 4px; margin-top: 12px; font-weight: 700; }
+.mp-val footer { border-top: 1px solid var(--linje); padding-top: 16px; font-size: 13px; color: var(--sten); }
+.mp-val .fel { background: #F3E3DF; color: var(--falu); padding: 12px 16px; border-radius: 4px; }
+@media (min-width: 600px) {
+  .mp-val h1 { font-size: 44px; }
+  .mp-val .stapel-rad { grid-template-columns: 150px 1fr 96px; }
+  .mp-val .stapel-namn b { display: inline; margin-right: 6px; }
+  .mp-val .stapel-namn small { display: inline; font-size: 13px; }
+}

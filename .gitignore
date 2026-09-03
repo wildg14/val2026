@@ -1,0 +1,14 @@
+.venv/
+.pytest_cache/
+__pycache__/
+*.pyc
+.DS_Store
+# Valmyndighetens råfiler (15-20 MB styck) behövs bara för kontrollsteget och repetitionen
+Roster-per-distrikt-*.xlsx
+roster-per-distrikt-*.xlsx
+statistik-alder-och-kon-*.xlsx
+slutligt-valresultat-*.xlsx
+fortidsroster.csv
+# redaktionella arbetsdokument, inte för publikt repo
+interaktiv-valgrafik-brief.md
+majorna-valanalys-2022.md

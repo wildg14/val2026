@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Inbäddningstest - simulerad värdsida</title>
+<style>
+/* Avsiktligt fientlig värd-CSS, i stil med en Tailwind-preflight plus egna globala regler.
+   Grafiken ska se likadan ut som i index.html, och inget av vårt ska läcka ut hit. */
+*, ::before, ::after { box-sizing: border-box; border: 0 solid #e5e7eb; }
+html { line-height: 1.5; font-family: ui-sans-serif, system-ui, sans-serif; }
+body { margin: 0; background: #ffffff; color: #111827; font-size: 18px; }
+h1, h2, h3, p { margin: 0; font-size: inherit; font-weight: inherit; }
+h2 { color: #d946ef; font-family: "Comic Sans MS", cursive; }
+button { background: #000; color: #fff; border-radius: 9999px; padding: 20px; font-family: monospace; text-transform: uppercase; }
+select { border: 4px dashed hotpink; }
+ul { list-style: square; padding-left: 40px; }
+table { border-collapse: separate; border-spacing: 8px; }
+a { color: orange; text-decoration: wavy underline; }
+.vard-huvud { background: #0f172a; color: #fff; padding: 20px; display: flex; gap: 24px; align-items: center; }
+.vard-huvud a { color: #fff; }
+.vard-sektion { max-width: 1000px; margin: 0 auto; padding: 24px; }
+.vard-fot { background: #f1f5f9; padding: 32px; margin-top: 40px; text-align: center; }
+</style>
+</head>
+<body>
+<header class="vard-huvud"><strong>Majposten (simulerad Beehiiv-sida)</strong><a href="#">Hem</a><a href="#">Prenumerera</a></header>
+<div class="vard-sektion">
+  <h2>En rubrik som tillhör värdsidan (ska vara rosa Comic Sans)</h2>
+  <p>Text som tillhör värdsidan. Nedan följer HTML-blocket exakt som det ska klistras in i Beehiiv.</p>
+  <button>Värdens knapp (svart, rund)</button>
+</div>
+<div class="vard-sektion">
+<!-- === HTML-blocket === -->
+<div class="mp-val" id="valgrafik">
+  <link rel="stylesheet" href="../valgrafik.css">
+  <script src="../valgrafik.js"></script>
+</div>
+<!-- === slut HTML-block === -->
+</div>
+<div class="vard-sektion">
+  <h2>Ännu en värdrubrik efter blocket (rosa Comic Sans)</h2>
+  <button>Värdens knapp igen</button>
+</div>
+<footer class="vard-fot">Värdens sidfot</footer>
+</body>
+</html>

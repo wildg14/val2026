@@ -1,0 +1,1 @@
+window.MAJPOSTEN=window.MAJPOSTEN||{data:{}};window.MAJPOSTEN.data["konfig"]={"ar":["2022"],"standardAr":"2022","valnatt":false,"prenumerera":"https://www.majposten.se/subscribe","adress":"https://majposten.se/val2026","inbaddad":false,"skrivUrl":true};

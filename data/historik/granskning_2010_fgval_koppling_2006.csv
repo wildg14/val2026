@@ -1,0 +1,859 @@
+ar;val;kod_2010;namn_2010;indelning;kod_2006;namn_2006;traffar
+2010;rd;14800711;Centrum, Burås;;14805306;Krokslätt 6;1
+2010;rd;14800742;Centrum, Centrala Guldheden;;14805106;Guldheden 6;1
+2010;rd;14800746;Centrum, Doktor Forselius gata m fl;;14805103;Guldheden 3;1
+2010;rd;14800723;Centrum, Eklanda;;14805201;Johanneberg-Landala 1;1
+2010;rd;14800713;Centrum, Framnäs;;14805305;Krokslätt 5;1
+2010;rd;14800783;Centrum, Friggagatan-Stampen;;14805802;Stampen-Heden 2;1
+2010;rd;14800717;Centrum, Getebergsäng;;14805301;Krokslätt 1;1
+2010;rd;14800741;Centrum, Guldheden vattentornet;;14805105;Guldheden 5;1
+2010;rd;14800782;Centrum, Gullbergsvass-Svingeln;;14805801;Stampen-Heden 1;1
+2010;rd;14800791;Centrum, Hedås-Gårda;;14805806;Stampen-Heden 6;1
+2010;rd;14800771;Centrum, Inom Vallgraven;;14806002;Vasastaden-Centrum 2;1
+2010;rd;14800716;Centrum, Kristinehöjd;;14805302;Krokslätt 2;1
+2010;rd;14800715;Centrum, Krokslätt;;14805303;Krokslätt 3;1
+2010;rd;14800732;Centrum, Landala;;14805206;Johanneberg-Landala 6;1
+2010;rd;14800744;Centrum, Landala Egnahem;;14805102;Guldheden 2;1
+2010;rd;14800731;Centrum, Landalabergen m fl;;14805207;Johanneberg-Landala 7;1
+2010;rd;14800733;Centrum, Landalagången m fl;;14805205;Johanneberg-Landala 5;1
+2010;rd;14800751;Centrum, Lorensberg;;14806007;Vasastaden-Centrum 7;1
+2010;rd;14800712;Centrum, Mossen;;14805307;Krokslätt 7;1
+2010;rd;14800721;Centrum, Nedre Johanneberg;;14805204;Johanneberg-Landala 4;1
+2010;rd;14800772;Centrum, Nordstan-Otterhällan;;14806001;Vasastaden-Centrum 1;1
+2010;rd;14800743;Centrum, Norra Guldheden;;14805101;Guldheden 1;1
+2010;rd;14800793;Centrum, Norra Heden-Gårda;;14805804;Stampen-Heden 4;1
+2010;rd;14800762;Centrum, Norra Vasastaden;;14806004;Vasastaden-Centrum 4;1
+2010;rd;14800781;Centrum, Odinsgatan-Stampen;;14805803;Stampen-Heden 3;1
+2010;rd;14800714;Centrum, Olofshöjd;;14805304;Krokslätt 4;1
+2010;rd;14800745;Centrum, Södra Guldheden;;14805104;Guldheden 4;1
+2010;rd;14800792;Centrum, Södra Heden;;14805805;Stampen-Heden 5;1
+2010;rd;14800724;Centrum, Södra Johanneberg;;14805202;Johanneberg-Landala 2;1
+2010;rd;14800761;Centrum, Södra Vasastaden;;14806006;Vasastaden-Centrum 6;1
+2010;rd;14800763;Centrum, Valand;;14806003;Vasastaden-Centrum 3;1
+2010;rd;14800764;Centrum, Östra Vasastaden;;14806005;Vasastaden-Centrum 5;1
+2010;rd;14800722;Centrum, Övre Johanneberg;;14805203;Johanneberg-Landala 3;1
+2010;rd;14800841;Linnéstaden, Annedal;;14805004;Annedal-Haga 4;1
+2010;rd;14800832;Linnéstaden, Haga;;14805001;Annedal-Haga 1;1
+2010;rd;14800856;Linnéstaden, Kommendantsängen;;14805603;Olivedal 3;1
+2010;rd;14800854;Linnéstaden, Linné;;14805607;Olivedal 7;1
+2010;rd;14800851;Linnéstaden, Linnéplatsen;;14805605;Olivedal 5;1
+2010;rd;14800853;Linnéstaden, Långgatorna;;14805601;Olivedal 1;1
+2010;rd;14800813;Linnéstaden, Masthuggstorget;;14805501;Masthugget 1;1
+2010;rd;14800814;Linnéstaden, Nedre Masthugget;;14805507;Masthugget 7;1
+2010;rd;14800842;Linnéstaden, Nilssonsberg;;14805003;Annedal-Haga 3;1
+2010;rd;14800852;Linnéstaden, Olivedal;;14805606;Olivedal 6;1
+2010;rd;14800815;Linnéstaden, Oscar Fredrik;;14805502;Masthugget 2;1
+2010;rd;14800855;Linnéstaden, Risåsen;;14805602;Olivedal 2;1
+2010;rd;14800831;Linnéstaden, Skansberget;;14805002;Annedal-Haga 2;1
+2010;rd;14800817;Linnéstaden, Slottsskogen;;14805504;Masthugget 4;1
+2010;rd;14800812;Linnéstaden, Stigberget;;14805506;Masthugget 6;1
+2010;rd;14800857;Linnéstaden, Sveaplan;;14805604;Olivedal 4;1
+2010;rd;14800816;Linnéstaden, Vegastaden;;14805503;Masthugget 3;1
+2010;rd;14800821;Linnéstaden, Änggården;;14805005;Annedal-Haga 5;1
+2010;rd;14800811;Linnéstaden, Övre Masthugget;;14805505;Masthugget 5;1
+2010;rd;14800943;Majorna, Djurgårdsgatan m fl;;14805902;Stigberget 2;1
+2010;rd;14800944;Majorna, Gatenhielmska;;14805901;Stigberget 1;1
+2010;rd;14800942;Majorna, Karl Johans torg;;14805904;Stigberget 4;1
+2010;rd;14800941;Majorna, Söderlingska ängen;;14805903;Stigberget 3;1
+2010;rd;14800682;Örgryte, Gamla Lunden;;14805402;Lunden 2;1
+2010;rd;14800611;Örgryte, Gubbero;;14805701;Olskroken 1;1
+2010;rd;14800686;Örgryte, Kärralund;;14805406;Lunden 6;1
+2010;rd;14800683;Örgryte, Nobelplatsen;;14805404;Lunden 4;1
+2010;rd;14800685;Örgryte, Nya Lunden-Prästgårdsängen;;14805405;Lunden 5;1
+2010;rd;14800612;Örgryte, Olskroken;;14805702;Olskroken 2;1
+2010;rd;14800613;Örgryte, Redberget;;14805703;Olskroken 3;1
+2010;rd;14800684;Örgryte, Sankt Pauli;;14805403;Lunden 3;1
+2010;rd;14800681;Örgryte, Överås;;14805401;Lunden 1;1
+2010;rd;14800003;Onsdagsdistrikt;;;;0
+2010;rd;14802013;Backa, Aröd;;14800103;Backa-Brunnsbo 3;1
+2010;rd;14802022;Backa, Backa Röd;;14800104;Backa-Brunnsbo 4;1
+2010;rd;14802032;Backa, Backadalen;;14801302;Skälltorp-Skogome 2;1
+2010;rd;14802012;Backa, Brunnsbo;;14800102;Backa-Brunnsbo 2;1
+2010;rd;14802031;Backa, Bäckebol;;14801301;Skälltorp-Skogome 1;1
+2010;rd;14802024;Backa, Bällskär;;14800106;Backa-Brunnsbo 6;1
+2010;rd;14802023;Backa, Norra Backa;;14800105;Backa-Brunnsbo 5;1
+2010;rd;14802033;Backa, Selma Lagerlöfs torg;;14801303;Skälltorp-Skogome 3;1
+2010;rd;14802041;Backa, Skogome-Sankt Jörgen;;14801306;Skälltorp-Skogome 6;1
+2010;rd;14802034;Backa, Skälltorp;;14801304;Skälltorp-Skogome 4;1
+2010;rd;14802021;Backa, Södra Backa;;14800107;Backa-Brunnsbo 7;1
+2010;rd;14802011;Backa, Tingstad;;14800101;Backa-Brunnsbo 1;1
+2010;rd;14802035;Backa, Åketorp;;14801305;Skälltorp-Skogome 5;1
+2010;rd;14801732;Biskopsgården, Badvädersgatan m fl;;14800604;Jättesten-Svartedalen 4;1
+2010;rd;14801751;Biskopsgården, Jättesten;;14800603;Jättesten-Svartedalen 3;1
+2010;rd;14801753;Biskopsgården, Kärrsmossen;;14800601;Jättesten-Svartedalen 1;1
+2010;rd;14801722;Biskopsgården, Länsmansgårdens Centr;;14801002;Länsmansgården 2;1
+2010;rd;14801712;Biskopsgården, Norra Biskopsgården;;14800206;Biskopsgården 6;1
+2010;rd;14801723;Biskopsgården, Norra Länsmansgården;;14801003;Länsmansgården 3;1
+2010;rd;14801731;Biskopsgården, Stackmolnsgatan m fl;;14800605;Jättesten-Svartedalen 5;1
+2010;rd;14801711;Biskopsgården, Svarte Mosse;;14800205;Biskopsgården 5;1
+2010;rd;14801752;Biskopsgården, Svartedalen;;14800602;Jättesten-Svartedalen 2;1
+2010;rd;14801741;Biskopsgården, Södra Biskopsgården;;14800203;Biskopsgården 3;1
+2010;rd;14801721;Biskopsgården, Södra Länsmansgården;;14801001;Länsmansgården 1;1
+2010;rd;14801743;Biskopsgården, Treröset;;14800201;Biskopsgården 1;1
+2010;rd;14801744;Biskopsgården, Vårväderstorget;;14800202;Biskopsgården 2;1
+2010;rd;14801742;Biskopsgården, Väderlekstorget;;14800204;Biskopsgården 4;1
+2010;rd;14802112;Kärra-Rödbo, Gerrebacka-Ingebäck;;14800805;Kärra-Rödbo 5;1
+2010;rd;14802111;Kärra-Rödbo, Mysterna-Svankällan;;14800806;Kärra-Rödbo 6;1
+2010;rd;14802114;Kärra-Rödbo, Norra Kärra;;14800804;Kärra-Rödbo 4;1
+2010;rd;14802121;Kärra-Rödbo, Rödbo;;14800807;Kärra-Rödbo 7;1
+2010;rd;14802116;Kärra-Rödbo, Södra Kärra;;14800802;Kärra-Rödbo 2;1
+2010;rd;14802113;Kärra-Rödbo, Västra Kärra;;14800801;Kärra-Rödbo 1;1
+2010;rd;14802115;Kärra-Rödbo, Östra Kärra;;14800803;Kärra-Rödbo 3;1
+2010;rd;14801822;Lundby, Bjurslätt;;14800704;Kvillebäcken 4;1
+2010;rd;14801821;Lundby, Flunsås;;14800703;Kvillebäcken 3;1
+2010;rd;14801831;Lundby, Hilldedal;;14800905;Kärrdalen-Slätta Damm 5;1
+2010;rd;14801854;Lundby, Kyrkbyn;;14801205;Sannegården 5;1
+2010;rd;14801843;Lundby, Kärrdalen;;14800903;Kärrdalen-Slätta Damm 3;1
+2010;rd;14801811;Lundby, Lindholmen;Modifierad;;;0
+2010;rd;14801816;Lundby, Lundbyvassen;Modifierad;;;0
+2010;rd;14801853;Lundby, Norra Bräcke;;14801204;Sannegården 4;1
+2010;rd;14801823;Lundby, Norra Kvillebäcken;;14800705;Kvillebäcken 5;1
+2010;rd;14801855;Lundby, Norra Lundby;;14801206;Sannegården 6;1
+2010;rd;14801842;Lundby, Norra Tolered;;14800902;Kärrdalen-Slätta Damm 2;1
+2010;rd;14801858;Lundby, Sannegården;Modifierad;;;0
+2010;rd;14801832;Lundby, Slätta Damm;;14800904;Kärrdalen-Slätta Damm 4;1
+2010;rd;14801852;Lundby, Södra Bräcke;;14801203;Sannegården 3;1
+2010;rd;14801825;Lundby, Södra Kvillebäcken;;14800701;Kvillebäcken 1;1
+2010;rd;14801856;Lundby, Södra Lundby;;14801207;Sannegården 7;1
+2010;rd;14801841;Lundby, Södra Tolered;;14800901;Kärrdalen-Slätta Damm 1;1
+2010;rd;14801814;Lundby, Västra Brämaregården;;14800405;Brämaregården 5;1
+2010;rd;14801851;Lundby, Västra Eriksberg;Modifierad;;;0
+2010;rd;14801812;Lundby, Västra Rambergsstaden;;14800403;Brämaregården 3;1
+2010;rd;14801824;Lundby, Wieselgrensplatsen;;14800702;Kvillebäcken 2;1
+2010;rd;14801815;Lundby, Östra Brämaregården;Modifierad;;;0
+2010;rd;14801857;Lundby, Östra Eriksberg;Modifierad;;;0
+2010;rd;14801813;Lundby, Östra Rambergsstaden;;14800404;Brämaregården 4;1
+2010;rd;14801625;Torslanda, Amhult-Arendal;;14801101;Nolered-Torslanda 1;1
+2010;rd;14801613;Torslanda, Andalen;;14800501;Hjuvik 1;1
+2010;rd;14801632;Torslanda, Björlanda;;14800303;Björlanda 3;1
+2010;rd;14801622;Torslanda, Domarringen m fl;;14801104;Nolered-Torslanda 4;1
+2010;rd;14801611;Torslanda, Hjuvik;;14800502;Hjuvik 2;1
+2010;rd;14801612;Torslanda, Hällsvik;;14800503;Hjuvik 3;1
+2010;rd;14801633;Torslanda, Kvisljungeby;;14800301;Björlanda 1;1
+2010;rd;14801631;Torslanda, Lilleby;Modifierad;;;0
+2010;rd;14801624;Torslanda, Nolered;;14801102;Nolered-Torslanda 2;1
+2010;rd;14801623;Torslanda, Torslanda;;14801105;Nolered-Torslanda 5;1
+2010;rd;14801621;Torslanda, Tumlehed;;14801103;Nolered-Torslanda 3;1
+2010;rd;14801914;Tuve-Säve, Glöstorp;;14801403;Tuve-Säve 3;1
+2010;rd;14801913;Tuve-Säve, Gunnestorp;;14801402;Tuve-Säve 2;1
+2010;rd;14801915;Tuve-Säve, Norumshöjd;;14801404;Tuve-Säve 4;1
+2010;rd;14801921;Tuve-Säve, Säve;;14801406;Tuve-Säve 6;1
+2010;rd;14801912;Tuve-Säve, Tuve;;14801401;Tuve-Säve 1;1
+2010;rd;14801911;Tuve-Säve, Tången;;14801405;Tuve-Säve 5;1
+2010;rd;14800001;Onsdagsdistrikt;;;;0
+2010;rd;14801313;Askim, Askim;;14807504;Askim-Hovås 4;1
+2010;rd;14801331;Askim, Billdal;;14807604;Billdal 4;1
+2010;rd;14801334;Askim, Brottkärr;;14807601;Billdal 1;1
+2010;rd;14801311;Askim, Hult;;14807501;Askim-Hovås 1;1
+2010;rd;14801336;Askim, Lindås;;14807603;Billdal 3;1
+2010;rd;14801335;Askim, Lyckhem;;14807602;Billdal 2;1
+2010;rd;14801316;Askim, Norra Hovås;;14807505;Askim-Hovås 5;1
+2010;rd;14801314;Askim, Norra Sisjön;;14807503;Askim-Hovås 3;1
+2010;rd;14801332;Askim, Nygård;;14807606;Billdal 6;1
+2010;rd;14801312;Askim, Pilegården;;14807502;Askim-Hovås 2;1
+2010;rd;14801333;Askim, Skintebo;;14807605;Billdal 5;1
+2010;rd;14801321;Askim, Södra Hovås;;14807507;Askim-Hovås 7;1
+2010;rd;14801315;Askim, Södra Sisjön;;14807506;Askim-Hovås 6;1
+2010;rd;14801322;Askim, Trollåsen;;14807508;Askim-Hovås 8;1
+2010;rd;14801243;Frölunda, Frölunda;;14807802;Frölunda-Ruddalen 2;1
+2010;rd;14801241;Frölunda, Frölunda torg;;14807801;Frölunda-Ruddalen 1;1
+2010;rd;14801242;Frölunda, Gånglåten m fl;;14807803;Frölunda-Ruddalen 3;1
+2010;rd;14801221;Frölunda, Ruddalen;Modifierad;;;0
+2010;rd;14801212;Frölunda, Spinetten;;14808204;Järnbrott-Tofta 4;1
+2010;rd;14801211;Frölunda, Tofta;;14808203;Järnbrott-Tofta 3;1
+2010;rd;14801231;Frölunda, Västra Järnbrott;;14808202;Järnbrott-Tofta 2;1
+2010;rd;14801232;Frölunda, Östra Järnbrott;;14808201;Järnbrott-Tofta 1;1
+2010;rd;14801041;Högsbo, Högsbo;;14808103;Högsbotorp-Högsbohöjd 3;1
+2010;rd;14801043;Högsbo, Marklandsgatan m fl;;14808101;Högsbotorp-Högsbohöjd 1;1
+2010;rd;14801032;Högsbo, Norra Högsbohöjd;;14808105;Högsbotorp-Högsbohöjd 5;1
+2010;rd;14801012;Högsbo, Norra Kaverös;;14808302;Kaverös-Flatås 2;1
+2010;rd;14801031;Högsbo, Södra Högsbohöjd;;14808106;Högsbotorp-Högsbohöjd 6;1
+2010;rd;14801011;Högsbo, Södra Kaverös;;14808301;Kaverös-Flatås 1;1
+2010;rd;14801022;Högsbo, Västra Flatås;;14808303;Kaverös-Flatås 3;1
+2010;rd;14801042;Högsbo, Västra Högsbotorp;;14808104;Högsbotorp-Högsbohöjd 4;1
+2010;rd;14801021;Högsbo, Östra Flatås;;14808304;Kaverös-Flatås 4;1
+2010;rd;14801044;Högsbo, Östra Högsbotorp;;14808102;Högsbotorp-Högsbohöjd 2;1
+2010;rd;14800936;Majorna, Godhem;;14808504;Majorna 4;1
+2010;rd;14800934;Majorna, Gråberget;;14808506;Majorna 6;1
+2010;rd;14800933;Majorna, Hängmattan;;14808502;Majorna 2;1
+2010;rd;14800916;Majorna, Klippan;;14808401;Kungsladugård-Sanna 1;1
+2010;rd;14800913;Majorna, Kungsladugård;;14808403;Kungsladugård-Sanna 3;1
+2010;rd;14800932;Majorna, Majorna;;14808501;Majorna 1;1
+2010;rd;14800914;Majorna, Mariaplan;;14808402;Kungsladugård-Sanna 2;1
+2010;rd;14800935;Majorna, Marieberg;;14808503;Majorna 3;1
+2010;rd;14800921;Majorna, Sandarne;;14808407;Kungsladugård-Sanna 7;1
+2010;rd;14800915;Majorna, Silverkällan;;14808406;Kungsladugård-Sanna 6;1
+2010;rd;14800912;Majorna, Skytteskogen;;14808404;Kungsladugård-Sanna 4;1
+2010;rd;14800931;Majorna, Slottsskogsgatan m fl;;14808505;Majorna 5;1
+2010;rd;14800911;Majorna, Svalebo;;14808405;Kungsladugård-Sanna 5;1
+2010;rd;14801513;Södra Skärgården, Brännö-Asperö;;14808801;Styrsö 1;1
+2010;rd;14801511;Södra Skärgården, Donsö-Vrångö;;14808803;Styrsö 3;1
+2010;rd;14801512;Södra Skärgården, Styrsö-Köpstadsö;;14808802;Styrsö 2;1
+2010;rd;14801421;Tynnered, Beryllgatan-Guldringen;;14808703;Skattegården-Guldringen 3;1
+2010;rd;14801411;Tynnered, Bratthammar;;14808702;Skattegården-Guldringen 2;1
+2010;rd;14801461;Tynnered, Grevegården;;14807901;Grevegården-Ängås 1;1
+2010;rd;14801441;Tynnered, Korsåsen;;14807904;Grevegården-Ängås 4;1
+2010;rd;14801472;Tynnered, Norra Näset;;14808602;Näset-Önnered 2;1
+2010;rd;14801482;Tynnered, Norra Opaltorget;;14808607;Näset-Önnered 7;1
+2010;rd;14801462;Tynnered, Skattegården;;14807902;Grevegården-Ängås 2;1
+2010;rd;14801471;Tynnered, Södra Näset;;14808601;Näset-Önnered 1;1
+2010;rd;14801481;Tynnered, Södra Opaltorget;;14808606;Näset-Önnered 6;1
+2010;rd;14801431;Tynnered, Tynnered;;14808701;Skattegården-Guldringen 1;1
+2010;rd;14801451;Tynnered, Västra Önnered;;14808604;Näset-Önnered 4;1
+2010;rd;14801473;Tynnered, Åkered;;14808603;Näset-Önnered 3;1
+2010;rd;14801442;Tynnered, Ängås;;14807903;Grevegården-Ängås 3;1
+2010;rd;14801452;Tynnered, Östra Önnered;;14808605;Näset-Önnered 5;1
+2010;rd;14801114;Älvsborg, Björnekulla;;14807702;Fiskebäck-Långedrag 2;1
+2010;rd;14801142;Älvsborg, Ekebäck;;14808004;Hagen-Grimmered 4;1
+2010;rd;14801141;Älvsborg, Grimmered;Modifierad;;;0
+2010;rd;14801133;Älvsborg, Hagen;;14808001;Hagen-Grimmered 1;1
+2010;rd;14801121;Älvsborg, Långedrag;;14807705;Fiskebäck-Långedrag 5;1
+2010;rd;14801112;Älvsborg, Norra Fiskebäck;;14807703;Fiskebäck-Långedrag 3;1
+2010;rd;14801132;Älvsborg, Nya Varvet;;14808003;Hagen-Grimmered 3;1
+2010;rd;14801113;Älvsborg, Påvelund;;14807701;Fiskebäck-Långedrag 1;1
+2010;rd;14801111;Älvsborg, Södra Fiskebäck;;14807704;Fiskebäck-Långedrag 4;1
+2010;rd;14801131;Älvsborg, Tångudden;;14808002;Hagen-Grimmered 2;1
+2010;rd;14800004;Onsdagsdistrikt;;;;0
+2010;rd;14800413;Bergsjön, Gärdsmosse;;14802601;Bergsjön 1;1
+2010;rd;14800411;Bergsjön, Gärdsås;;14802604;Bergsjön 4;1
+2010;rd;14800424;Bergsjön, Komettorget;;14802608;Bergsjön 8;1
+2010;rd;14800414;Bergsjön, Norra Bergsjön;;14802603;Bergsjön 3;1
+2010;rd;14800423;Bergsjön, Rymdtorget;;14802607;Bergsjön 7;1
+2010;rd;14800412;Bergsjön, Siriusgatan;;14802602;Bergsjön 2;1
+2010;rd;14800421;Bergsjön, Södra Bergsjön;;14802606;Bergsjön 6;1
+2010;rd;14800422;Bergsjön, Östra Bergsjön;;14802605;Bergsjön 5;1
+2010;rd;14800141;Gunnared, Angereds Centrum;;14803503;Rannebergen-Angered 3;1
+2010;rd;14800111;Gunnared, Lövgärdets Centrum;;14803403;Lövgärdet-Gårdsten 3;1
+2010;rd;14800113;Gunnared, Nedre Lövgärdet;;14803401;Lövgärdet-Gårdsten 1;1
+2010;rd;14800132;Gunnared, Norra Gårdsten;;14803404;Lövgärdet-Gårdsten 4;1
+2010;rd;14800122;Gunnared, Norra Rannebergen;;14803501;Rannebergen-Angered 1;1
+2010;rd;14800134;Gunnared, Södra Gårdsten;Modifierad;;;0
+2010;rd;14800121;Gunnared, Södra Rannebergen;;14803502;Rannebergen-Angered 2;1
+2010;rd;14800142;Gunnared, Trädgårdsgärdet;;14803504;Rannebergen-Angered 4;1
+2010;rd;14800131;Gunnared, Västra Gårdsten;Modifierad;;;0
+2010;rd;14800133;Gunnared, Östra Gårdsten;;14803405;Lövgärdet-Gårdsten 5;1
+2010;rd;14800112;Gunnared, Övre Lövgärdet;;14803402;Lövgärdet-Gårdsten 2;1
+2010;rd;14800532;Härlanda, Fräntorp;;14803701;Torpa 1;1
+2010;rd;14800511;Härlanda, Härlanda;;14803306;Kålltorp-Härlanda 6;1
+2010;rd;14800525;Härlanda, Munkebäck;;14803301;Kålltorp-Härlanda 1;1
+2010;rd;14800543;Härlanda, Norra Björkekärr;;14802802;Björkekärr 2;1
+2010;rd;14800544;Härlanda, Robertshöjd;;14802803;Björkekärr 3;1
+2010;rd;14800541;Härlanda, Södra Björkekärr;;14802804;Björkekärr 4;1
+2010;rd;14800521;Härlanda, Södra Kålltorp;;14803304;Kålltorp-Härlanda 4;1
+2010;rd;14800531;Härlanda, Torpa;;14803702;Torpa 2;1
+2010;rd;14800524;Härlanda, Vidkärr;;14803302;Kålltorp-Härlanda 2;1
+2010;rd;14800542;Härlanda, Västra Björkekärr;;14802801;Björkekärr 1;1
+2010;rd;14800522;Härlanda, Västra Kålltorp;;14803305;Kålltorp-Härlanda 5;1
+2010;rd;14800523;Härlanda, Östra Kålltorp;;14803303;Kålltorp-Härlanda 3;1
+2010;rd;14800341;Kortedala, Adventsparken;;14803203;Kortedala 3;1
+2010;rd;14800314;Kortedala, Bellevue;;14802904;Gamlestaden-Utby 4;1
+2010;rd;14800323;Kortedala, Fjällbo;;14802907;Gamlestaden-Utby 7;1
+2010;rd;14800311;Kortedala, Gamlestaden;;14802902;Gamlestaden-Utby 2;1
+2010;rd;14800331;Kortedala, Gregorianska gatan m fl;;14803207;Kortedala 7;1
+2010;rd;14800334;Kortedala, Kortedala Centrum;;14803206;Kortedala 6;1
+2010;rd;14800313;Kortedala, Kviberg;;14802903;Gamlestaden-Utby 3;1
+2010;rd;14800343;Kortedala, Månadsgatorna m fl;;14803202;Kortedala 2;1
+2010;rd;14800342;Kortedala, Norra Kortedala;;14803201;Kortedala 1;1
+2010;rd;14800312;Kortedala, Nylöse;;14802901;Gamlestaden-Utby 1;1
+2010;rd;14800335;Kortedala, Södra Kortedala;;14803208;Kortedala 8;1
+2010;rd;14800322;Kortedala, Utby;;14802906;Gamlestaden-Utby 6;1
+2010;rd;14800321;Kortedala, Utbynäs;;14802905;Gamlestaden-Utby 5;1
+2010;rd;14800332;Kortedala, Västra Kortedala;;14803204;Kortedala 4;1
+2010;rd;14800333;Kortedala, Östra Kortedala;;14803205;Kortedala 5;1
+2010;rd;14800211;Lärjedalen, Agnesberg;;14803004;Hammarkullen-Agnesberg 4;1
+2010;rd;14800251;Lärjedalen, Björsared-Knipared;;14802702;Bergum-Gunnilse 2;1
+2010;rd;14800264;Lärjedalen, Bläsebo;;14803104;Hjällbo-Eriksbo 4;1
+2010;rd;14800271;Lärjedalen, Eriksbo;;14803105;Hjällbo-Eriksbo 5;1
+2010;rd;14800231;Lärjedalen, Gunnilse-Linnarhult;;14802703;Bergum-Gunnilse 3;1
+2010;rd;14800263;Lärjedalen, Norra Hjällbo;;14803103;Hjällbo-Eriksbo 3;1
+2010;rd;14800252;Lärjedalen, Olofstorp;;14802701;Bergum-Gunnilse 1;1
+2010;rd;14800223;Lärjedalen, Sandeslätt;;14803003;Hammarkullen-Agnesberg 3;1
+2010;rd;14800262;Lärjedalen, Skolspåret;;14803102;Hjällbo-Eriksbo 2;1
+2010;rd;14800261;Lärjedalen, Södra Hjällbo;;14803101;Hjällbo-Eriksbo 1;1
+2010;rd;14800221;Lärjedalen, Västra Hammarkullen;;14803001;Hammarkullen-Agnesberg 1;1
+2010;rd;14800222;Lärjedalen, Östra Hammarkullen;;14803002;Hammarkullen-Agnesberg 2;1
+2010;rd;14800621;Örgryte, Bagaregården;;14802503;Bagaregården-Redbergslid 3;1
+2010;rd;14800662;Örgryte, Bö;;14803802;Överås-Kärralund 2;1
+2010;rd;14800652;Örgryte, Jakobsdal;;14803601;Skår-Kallebäck 1;1
+2010;rd;14800653;Örgryte, Norra Skår;;14803602;Skår-Kallebäck 2;1
+2010;rd;14800632;Örgryte, Redbergslid;;14802501;Bagaregården-Redbergslid 1;1
+2010;rd;14800631;Örgryte, Strömmensberg;;14802502;Bagaregården-Redbergslid 2;1
+2010;rd;14800651;Örgryte, Södra Skår;;14803603;Skår-Kallebäck 3;1
+2010;rd;14800671;Örgryte, Torp;;14803803;Överås-Kärralund 3;1
+2010;rd;14800641;Örgryte, Västra Kallebäck;;14803604;Skår-Kallebäck 4;1
+2010;rd;14800622;Örgryte, Ånäs;;14802504;Bagaregården-Redbergslid 4;1
+2010;rd;14800661;Örgryte, Örgryte;;14803801;Överås-Kärralund 1;1
+2010;rd;14800642;Örgryte, Östra Kallebäck;;14803605;Skår-Kallebäck 5;1
+2010;rd;14800002;Onsdagsdistrikt;;;;0
+2010;rf;14800711;Centrum, Burås;;14805306;Krokslätt 6;1
+2010;rf;14800742;Centrum, Centrala Guldheden;;14805106;Guldheden 6;1
+2010;rf;14800746;Centrum, Doktor Forselius gata m fl;;14805103;Guldheden 3;1
+2010;rf;14800723;Centrum, Eklanda;;14805201;Johanneberg-Landala 1;1
+2010;rf;14800713;Centrum, Framnäs;;14805305;Krokslätt 5;1
+2010;rf;14800783;Centrum, Friggagatan-Stampen;;14805802;Stampen-Heden 2;1
+2010;rf;14800717;Centrum, Getebergsäng;;14805301;Krokslätt 1;1
+2010;rf;14800741;Centrum, Guldheden vattentornet;;14805105;Guldheden 5;1
+2010;rf;14800782;Centrum, Gullbergsvass-Svingeln;;14805801;Stampen-Heden 1;1
+2010;rf;14800791;Centrum, Hedås-Gårda;;14805806;Stampen-Heden 6;1
+2010;rf;14800771;Centrum, Inom Vallgraven;;14806002;Vasastaden-Centrum 2;1
+2010;rf;14800716;Centrum, Kristinehöjd;;14805302;Krokslätt 2;1
+2010;rf;14800715;Centrum, Krokslätt;;14805303;Krokslätt 3;1
+2010;rf;14800732;Centrum, Landala;;14805206;Johanneberg-Landala 6;1
+2010;rf;14800744;Centrum, Landala Egnahem;;14805102;Guldheden 2;1
+2010;rf;14800731;Centrum, Landalabergen m fl;;14805207;Johanneberg-Landala 7;1
+2010;rf;14800733;Centrum, Landalagången m fl;;14805205;Johanneberg-Landala 5;1
+2010;rf;14800751;Centrum, Lorensberg;;14806007;Vasastaden-Centrum 7;1
+2010;rf;14800712;Centrum, Mossen;;14805307;Krokslätt 7;1
+2010;rf;14800721;Centrum, Nedre Johanneberg;;14805204;Johanneberg-Landala 4;1
+2010;rf;14800772;Centrum, Nordstan-Otterhällan;;14806001;Vasastaden-Centrum 1;1
+2010;rf;14800743;Centrum, Norra Guldheden;;14805101;Guldheden 1;1
+2010;rf;14800793;Centrum, Norra Heden-Gårda;;14805804;Stampen-Heden 4;1
+2010;rf;14800762;Centrum, Norra Vasastaden;;14806004;Vasastaden-Centrum 4;1
+2010;rf;14800781;Centrum, Odinsgatan-Stampen;;14805803;Stampen-Heden 3;1
+2010;rf;14800714;Centrum, Olofshöjd;;14805304;Krokslätt 4;1
+2010;rf;14800745;Centrum, Södra Guldheden;;14805104;Guldheden 4;1
+2010;rf;14800792;Centrum, Södra Heden;;14805805;Stampen-Heden 5;1
+2010;rf;14800724;Centrum, Södra Johanneberg;;14805202;Johanneberg-Landala 2;1
+2010;rf;14800761;Centrum, Södra Vasastaden;;14806006;Vasastaden-Centrum 6;1
+2010;rf;14800763;Centrum, Valand;;14806003;Vasastaden-Centrum 3;1
+2010;rf;14800764;Centrum, Östra Vasastaden;;14806005;Vasastaden-Centrum 5;1
+2010;rf;14800722;Centrum, Övre Johanneberg;;14805203;Johanneberg-Landala 3;1
+2010;rf;14800841;Linnéstaden, Annedal;;14805004;Annedal-Haga 4;1
+2010;rf;14800832;Linnéstaden, Haga;;14805001;Annedal-Haga 1;1
+2010;rf;14800856;Linnéstaden, Kommendantsängen;;14805603;Olivedal 3;1
+2010;rf;14800854;Linnéstaden, Linné;;14805607;Olivedal 7;1
+2010;rf;14800851;Linnéstaden, Linnéplatsen;;14805605;Olivedal 5;1
+2010;rf;14800853;Linnéstaden, Långgatorna;;14805601;Olivedal 1;1
+2010;rf;14800813;Linnéstaden, Masthuggstorget;;14805501;Masthugget 1;1
+2010;rf;14800814;Linnéstaden, Nedre Masthugget;;14805507;Masthugget 7;1
+2010;rf;14800842;Linnéstaden, Nilssonsberg;;14805003;Annedal-Haga 3;1
+2010;rf;14800852;Linnéstaden, Olivedal;;14805606;Olivedal 6;1
+2010;rf;14800815;Linnéstaden, Oscar Fredrik;;14805502;Masthugget 2;1
+2010;rf;14800855;Linnéstaden, Risåsen;;14805602;Olivedal 2;1
+2010;rf;14800831;Linnéstaden, Skansberget;;14805002;Annedal-Haga 2;1
+2010;rf;14800817;Linnéstaden, Slottsskogen;;14805504;Masthugget 4;1
+2010;rf;14800812;Linnéstaden, Stigberget;;14805506;Masthugget 6;1
+2010;rf;14800857;Linnéstaden, Sveaplan;;14805604;Olivedal 4;1
+2010;rf;14800816;Linnéstaden, Vegastaden;;14805503;Masthugget 3;1
+2010;rf;14800821;Linnéstaden, Änggården;;14805005;Annedal-Haga 5;1
+2010;rf;14800811;Linnéstaden, Övre Masthugget;;14805505;Masthugget 5;1
+2010;rf;14800943;Majorna, Djurgårdsgatan m fl;;14805902;Stigberget 2;1
+2010;rf;14800944;Majorna, Gatenhielmska;;14805901;Stigberget 1;1
+2010;rf;14800942;Majorna, Karl Johans torg;;14805904;Stigberget 4;1
+2010;rf;14800941;Majorna, Söderlingska ängen;;14805903;Stigberget 3;1
+2010;rf;14800682;Örgryte, Gamla Lunden;;14805402;Lunden 2;1
+2010;rf;14800611;Örgryte, Gubbero;;14805701;Olskroken 1;1
+2010;rf;14800686;Örgryte, Kärralund;;14805406;Lunden 6;1
+2010;rf;14800683;Örgryte, Nobelplatsen;;14805404;Lunden 4;1
+2010;rf;14800685;Örgryte, Nya Lunden-Prästgårdsängen;;14805405;Lunden 5;1
+2010;rf;14800612;Örgryte, Olskroken;;14805702;Olskroken 2;1
+2010;rf;14800613;Örgryte, Redberget;;14805703;Olskroken 3;1
+2010;rf;14800684;Örgryte, Sankt Pauli;;14805403;Lunden 3;1
+2010;rf;14800681;Örgryte, Överås;;14805401;Lunden 1;1
+2010;rf;14800003;Onsdagsdistrikt;;;;0
+2010;rf;14802013;Backa, Aröd;;14800103;Backa-Brunnsbo 3;1
+2010;rf;14802022;Backa, Backa Röd;;14800104;Backa-Brunnsbo 4;1
+2010;rf;14802032;Backa, Backadalen;;14801302;Skälltorp-Skogome 2;1
+2010;rf;14802012;Backa, Brunnsbo;;14800102;Backa-Brunnsbo 2;1
+2010;rf;14802031;Backa, Bäckebol;;14801301;Skälltorp-Skogome 1;1
+2010;rf;14802024;Backa, Bällskär;;14800106;Backa-Brunnsbo 6;1
+2010;rf;14802023;Backa, Norra Backa;;14800105;Backa-Brunnsbo 5;1
+2010;rf;14802033;Backa, Selma Lagerlöfs torg;;14801303;Skälltorp-Skogome 3;1
+2010;rf;14802041;Backa, Skogome-Sankt Jörgen;;14801306;Skälltorp-Skogome 6;1
+2010;rf;14802034;Backa, Skälltorp;;14801304;Skälltorp-Skogome 4;1
+2010;rf;14802021;Backa, Södra Backa;;14800107;Backa-Brunnsbo 7;1
+2010;rf;14802011;Backa, Tingstad;;14800101;Backa-Brunnsbo 1;1
+2010;rf;14802035;Backa, Åketorp;;14801305;Skälltorp-Skogome 5;1
+2010;rf;14801732;Biskopsgården, Badvädersgatan m fl;;14800604;Jättesten-Svartedalen 4;1
+2010;rf;14801751;Biskopsgården, Jättesten;;14800603;Jättesten-Svartedalen 3;1
+2010;rf;14801753;Biskopsgården, Kärrsmossen;;14800601;Jättesten-Svartedalen 1;1
+2010;rf;14801722;Biskopsgården, Länsmansgårdens Centr;;14801002;Länsmansgården 2;1
+2010;rf;14801712;Biskopsgården, Norra Biskopsgården;;14800206;Biskopsgården 6;1
+2010;rf;14801723;Biskopsgården, Norra Länsmansgården;;14801003;Länsmansgården 3;1
+2010;rf;14801731;Biskopsgården, Stackmolnsgatan m fl;;14800605;Jättesten-Svartedalen 5;1
+2010;rf;14801711;Biskopsgården, Svarte Mosse;;14800205;Biskopsgården 5;1
+2010;rf;14801752;Biskopsgården, Svartedalen;;14800602;Jättesten-Svartedalen 2;1
+2010;rf;14801741;Biskopsgården, Södra Biskopsgården;;14800203;Biskopsgården 3;1
+2010;rf;14801721;Biskopsgården, Södra Länsmansgården;;14801001;Länsmansgården 1;1
+2010;rf;14801743;Biskopsgården, Treröset;;14800201;Biskopsgården 1;1
+2010;rf;14801744;Biskopsgården, Vårväderstorget;;14800202;Biskopsgården 2;1
+2010;rf;14801742;Biskopsgården, Väderlekstorget;;14800204;Biskopsgården 4;1
+2010;rf;14802112;Kärra-Rödbo, Gerrebacka-Ingebäck;;14800805;Kärra-Rödbo 5;1
+2010;rf;14802111;Kärra-Rödbo, Mysterna-Svankällan;;14800806;Kärra-Rödbo 6;1
+2010;rf;14802114;Kärra-Rödbo, Norra Kärra;;14800804;Kärra-Rödbo 4;1
+2010;rf;14802121;Kärra-Rödbo, Rödbo;;14800807;Kärra-Rödbo 7;1
+2010;rf;14802116;Kärra-Rödbo, Södra Kärra;;14800802;Kärra-Rödbo 2;1
+2010;rf;14802113;Kärra-Rödbo, Västra Kärra;;14800801;Kärra-Rödbo 1;1
+2010;rf;14802115;Kärra-Rödbo, Östra Kärra;;14800803;Kärra-Rödbo 3;1
+2010;rf;14801822;Lundby, Bjurslätt;;14800704;Kvillebäcken 4;1
+2010;rf;14801821;Lundby, Flunsås;;14800703;Kvillebäcken 3;1
+2010;rf;14801831;Lundby, Hilldedal;;14800905;Kärrdalen-Slätta Damm 5;1
+2010;rf;14801854;Lundby, Kyrkbyn;;14801205;Sannegården 5;1
+2010;rf;14801843;Lundby, Kärrdalen;;14800903;Kärrdalen-Slätta Damm 3;1
+2010;rf;14801811;Lundby, Lindholmen;Modifierad;;;0
+2010;rf;14801816;Lundby, Lundbyvassen;Modifierad;;;0
+2010;rf;14801853;Lundby, Norra Bräcke;;14801204;Sannegården 4;1
+2010;rf;14801823;Lundby, Norra Kvillebäcken;;14800705;Kvillebäcken 5;1
+2010;rf;14801855;Lundby, Norra Lundby;;14801206;Sannegården 6;1
+2010;rf;14801842;Lundby, Norra Tolered;;14800902;Kärrdalen-Slätta Damm 2;1
+2010;rf;14801858;Lundby, Sannegården;Modifierad;;;0
+2010;rf;14801832;Lundby, Slätta Damm;;14800904;Kärrdalen-Slätta Damm 4;1
+2010;rf;14801852;Lundby, Södra Bräcke;;14801203;Sannegården 3;1
+2010;rf;14801825;Lundby, Södra Kvillebäcken;;14800701;Kvillebäcken 1;1
+2010;rf;14801856;Lundby, Södra Lundby;;14801207;Sannegården 7;1
+2010;rf;14801841;Lundby, Södra Tolered;;14800901;Kärrdalen-Slätta Damm 1;1
+2010;rf;14801814;Lundby, Västra Brämaregården;;14800405;Brämaregården 5;1
+2010;rf;14801851;Lundby, Västra Eriksberg;Modifierad;;;0
+2010;rf;14801812;Lundby, Västra Rambergsstaden;;14800403;Brämaregården 3;1
+2010;rf;14801824;Lundby, Wieselgrensplatsen;;14800702;Kvillebäcken 2;1
+2010;rf;14801815;Lundby, Östra Brämaregården;Modifierad;;;0
+2010;rf;14801857;Lundby, Östra Eriksberg;Modifierad;;;0
+2010;rf;14801813;Lundby, Östra Rambergsstaden;;14800404;Brämaregården 4;1
+2010;rf;14801625;Torslanda, Amhult-Arendal;;14801101;Nolered-Torslanda 1;1
+2010;rf;14801613;Torslanda, Andalen;;14800501;Hjuvik 1;1
+2010;rf;14801632;Torslanda, Björlanda;;14800303;Björlanda 3;1
+2010;rf;14801622;Torslanda, Domarringen m fl;;14801104;Nolered-Torslanda 4;1
+2010;rf;14801611;Torslanda, Hjuvik;;14800502;Hjuvik 2;1
+2010;rf;14801612;Torslanda, Hällsvik;;14800503;Hjuvik 3;1
+2010;rf;14801633;Torslanda, Kvisljungeby;;14800301;Björlanda 1;1
+2010;rf;14801631;Torslanda, Lilleby;Modifierad;;;0
+2010;rf;14801624;Torslanda, Nolered;;14801102;Nolered-Torslanda 2;1
+2010;rf;14801623;Torslanda, Torslanda;;14801105;Nolered-Torslanda 5;1
+2010;rf;14801621;Torslanda, Tumlehed;;14801103;Nolered-Torslanda 3;1
+2010;rf;14801914;Tuve-Säve, Glöstorp;;14801403;Tuve-Säve 3;1
+2010;rf;14801913;Tuve-Säve, Gunnestorp;;14801402;Tuve-Säve 2;1
+2010;rf;14801915;Tuve-Säve, Norumshöjd;;14801404;Tuve-Säve 4;1
+2010;rf;14801921;Tuve-Säve, Säve;;14801406;Tuve-Säve 6;1
+2010;rf;14801912;Tuve-Säve, Tuve;;14801401;Tuve-Säve 1;1
+2010;rf;14801911;Tuve-Säve, Tången;;14801405;Tuve-Säve 5;1
+2010;rf;14800001;Onsdagsdistrikt;;;;0
+2010;rf;14801313;Askim, Askim;;14807504;Askim-Hovås 4;1
+2010;rf;14801331;Askim, Billdal;;14807604;Billdal 4;1
+2010;rf;14801334;Askim, Brottkärr;;14807601;Billdal 1;1
+2010;rf;14801311;Askim, Hult;;14807501;Askim-Hovås 1;1
+2010;rf;14801336;Askim, Lindås;;14807603;Billdal 3;1
+2010;rf;14801335;Askim, Lyckhem;;14807602;Billdal 2;1
+2010;rf;14801316;Askim, Norra Hovås;;14807505;Askim-Hovås 5;1
+2010;rf;14801314;Askim, Norra Sisjön;;14807503;Askim-Hovås 3;1
+2010;rf;14801332;Askim, Nygård;;14807606;Billdal 6;1
+2010;rf;14801312;Askim, Pilegården;;14807502;Askim-Hovås 2;1
+2010;rf;14801333;Askim, Skintebo;;14807605;Billdal 5;1
+2010;rf;14801321;Askim, Södra Hovås;;14807507;Askim-Hovås 7;1
+2010;rf;14801315;Askim, Södra Sisjön;;14807506;Askim-Hovås 6;1
+2010;rf;14801322;Askim, Trollåsen;;14807508;Askim-Hovås 8;1
+2010;rf;14801243;Frölunda, Frölunda;;14807802;Frölunda-Ruddalen 2;1
+2010;rf;14801241;Frölunda, Frölunda torg;;14807801;Frölunda-Ruddalen 1;1
+2010;rf;14801242;Frölunda, Gånglåten m fl;;14807803;Frölunda-Ruddalen 3;1
+2010;rf;14801221;Frölunda, Ruddalen;Modifierad;;;0
+2010;rf;14801212;Frölunda, Spinetten;;14808204;Järnbrott-Tofta 4;1
+2010;rf;14801211;Frölunda, Tofta;;14808203;Järnbrott-Tofta 3;1
+2010;rf;14801231;Frölunda, Västra Järnbrott;;14808202;Järnbrott-Tofta 2;1
+2010;rf;14801232;Frölunda, Östra Järnbrott;;14808201;Järnbrott-Tofta 1;1
+2010;rf;14801041;Högsbo, Högsbo;;14808103;Högsbotorp-Högsbohöjd 3;1
+2010;rf;14801043;Högsbo, Marklandsgatan m fl;;14808101;Högsbotorp-Högsbohöjd 1;1
+2010;rf;14801032;Högsbo, Norra Högsbohöjd;;14808105;Högsbotorp-Högsbohöjd 5;1
+2010;rf;14801012;Högsbo, Norra Kaverös;;14808302;Kaverös-Flatås 2;1
+2010;rf;14801031;Högsbo, Södra Högsbohöjd;;14808106;Högsbotorp-Högsbohöjd 6;1
+2010;rf;14801011;Högsbo, Södra Kaverös;;14808301;Kaverös-Flatås 1;1
+2010;rf;14801022;Högsbo, Västra Flatås;;14808303;Kaverös-Flatås 3;1
+2010;rf;14801042;Högsbo, Västra Högsbotorp;;14808104;Högsbotorp-Högsbohöjd 4;1
+2010;rf;14801021;Högsbo, Östra Flatås;;14808304;Kaverös-Flatås 4;1
+2010;rf;14801044;Högsbo, Östra Högsbotorp;;14808102;Högsbotorp-Högsbohöjd 2;1
+2010;rf;14800936;Majorna, Godhem;;14808504;Majorna 4;1
+2010;rf;14800934;Majorna, Gråberget;;14808506;Majorna 6;1
+2010;rf;14800933;Majorna, Hängmattan;;14808502;Majorna 2;1
+2010;rf;14800916;Majorna, Klippan;;14808401;Kungsladugård-Sanna 1;1
+2010;rf;14800913;Majorna, Kungsladugård;;14808403;Kungsladugård-Sanna 3;1
+2010;rf;14800932;Majorna, Majorna;;14808501;Majorna 1;1
+2010;rf;14800914;Majorna, Mariaplan;;14808402;Kungsladugård-Sanna 2;1
+2010;rf;14800935;Majorna, Marieberg;;14808503;Majorna 3;1
+2010;rf;14800921;Majorna, Sandarne;;14808407;Kungsladugård-Sanna 7;1
+2010;rf;14800915;Majorna, Silverkällan;;14808406;Kungsladugård-Sanna 6;1
+2010;rf;14800912;Majorna, Skytteskogen;;14808404;Kungsladugård-Sanna 4;1
+2010;rf;14800931;Majorna, Slottsskogsgatan m fl;;14808505;Majorna 5;1
+2010;rf;14800911;Majorna, Svalebo;;14808405;Kungsladugård-Sanna 5;1
+2010;rf;14801513;Södra Skärgården, Brännö-Asperö;;14808801;Styrsö 1;1
+2010;rf;14801511;Södra Skärgården, Donsö-Vrångö;;14808803;Styrsö 3;1
+2010;rf;14801512;Södra Skärgården, Styrsö-Köpstadsö;;14808802;Styrsö 2;1
+2010;rf;14801421;Tynnered, Beryllgatan-Guldringen;;14808703;Skattegården-Guldringen 3;1
+2010;rf;14801411;Tynnered, Bratthammar;;14808702;Skattegården-Guldringen 2;1
+2010;rf;14801461;Tynnered, Grevegården;;14807901;Grevegården-Ängås 1;1
+2010;rf;14801441;Tynnered, Korsåsen;;14807904;Grevegården-Ängås 4;1
+2010;rf;14801472;Tynnered, Norra Näset;;14808602;Näset-Önnered 2;1
+2010;rf;14801482;Tynnered, Norra Opaltorget;;14808607;Näset-Önnered 7;1
+2010;rf;14801462;Tynnered, Skattegården;;14807902;Grevegården-Ängås 2;1
+2010;rf;14801471;Tynnered, Södra Näset;;14808601;Näset-Önnered 1;1
+2010;rf;14801481;Tynnered, Södra Opaltorget;;14808606;Näset-Önnered 6;1
+2010;rf;14801431;Tynnered, Tynnered;;14808701;Skattegården-Guldringen 1;1
+2010;rf;14801451;Tynnered, Västra Önnered;;14808604;Näset-Önnered 4;1
+2010;rf;14801473;Tynnered, Åkered;;14808603;Näset-Önnered 3;1
+2010;rf;14801442;Tynnered, Ängås;;14807903;Grevegården-Ängås 3;1
+2010;rf;14801452;Tynnered, Östra Önnered;;14808605;Näset-Önnered 5;1
+2010;rf;14801114;Älvsborg, Björnekulla;;14807702;Fiskebäck-Långedrag 2;1
+2010;rf;14801142;Älvsborg, Ekebäck;;14808004;Hagen-Grimmered 4;1
+2010;rf;14801141;Älvsborg, Grimmered;Modifierad;;;0
+2010;rf;14801133;Älvsborg, Hagen;;14808001;Hagen-Grimmered 1;1
+2010;rf;14801121;Älvsborg, Långedrag;;14807705;Fiskebäck-Långedrag 5;1
+2010;rf;14801112;Älvsborg, Norra Fiskebäck;;14807703;Fiskebäck-Långedrag 3;1
+2010;rf;14801132;Älvsborg, Nya Varvet;;14808003;Hagen-Grimmered 3;1
+2010;rf;14801113;Älvsborg, Påvelund;;14807701;Fiskebäck-Långedrag 1;1
+2010;rf;14801111;Älvsborg, Södra Fiskebäck;;14807704;Fiskebäck-Långedrag 4;1
+2010;rf;14801131;Älvsborg, Tångudden;;14808002;Hagen-Grimmered 2;1
+2010;rf;14800004;Onsdagsdistrikt;;;;0
+2010;rf;14800413;Bergsjön, Gärdsmosse;;14802601;Bergsjön 1;1
+2010;rf;14800411;Bergsjön, Gärdsås;;14802604;Bergsjön 4;1
+2010;rf;14800424;Bergsjön, Komettorget;;14802608;Bergsjön 8;1
+2010;rf;14800414;Bergsjön, Norra Bergsjön;;14802603;Bergsjön 3;1
+2010;rf;14800423;Bergsjön, Rymdtorget;;14802607;Bergsjön 7;1
+2010;rf;14800412;Bergsjön, Siriusgatan;;14802602;Bergsjön 2;1
+2010;rf;14800421;Bergsjön, Södra Bergsjön;;14802606;Bergsjön 6;1
+2010;rf;14800422;Bergsjön, Östra Bergsjön;;14802605;Bergsjön 5;1
+2010;rf;14800141;Gunnared, Angereds Centrum;;14803503;Rannebergen-Angered 3;1
+2010;rf;14800111;Gunnared, Lövgärdets Centrum;;14803403;Lövgärdet-Gårdsten 3;1
+2010;rf;14800113;Gunnared, Nedre Lövgärdet;;14803401;Lövgärdet-Gårdsten 1;1
+2010;rf;14800132;Gunnared, Norra Gårdsten;;14803404;Lövgärdet-Gårdsten 4;1
+2010;rf;14800122;Gunnared, Norra Rannebergen;;14803501;Rannebergen-Angered 1;1
+2010;rf;14800134;Gunnared, Södra Gårdsten;Modifierad;;;0
+2010;rf;14800121;Gunnared, Södra Rannebergen;;14803502;Rannebergen-Angered 2;1
+2010;rf;14800142;Gunnared, Trädgårdsgärdet;;14803504;Rannebergen-Angered 4;1
+2010;rf;14800131;Gunnared, Västra Gårdsten;Modifierad;;;0
+2010;rf;14800133;Gunnared, Östra Gårdsten;;14803405;Lövgärdet-Gårdsten 5;1
+2010;rf;14800112;Gunnared, Övre Lövgärdet;;14803402;Lövgärdet-Gårdsten 2;1
+2010;rf;14800532;Härlanda, Fräntorp;;14803701;Torpa 1;1
+2010;rf;14800511;Härlanda, Härlanda;;14803306;Kålltorp-Härlanda 6;1
+2010;rf;14800525;Härlanda, Munkebäck;;14803301;Kålltorp-Härlanda 1;1
+2010;rf;14800543;Härlanda, Norra Björkekärr;;14802802;Björkekärr 2;1
+2010;rf;14800544;Härlanda, Robertshöjd;;14802803;Björkekärr 3;1
+2010;rf;14800541;Härlanda, Södra Björkekärr;;14802804;Björkekärr 4;1
+2010;rf;14800521;Härlanda, Södra Kålltorp;;14803304;Kålltorp-Härlanda 4;1
+2010;rf;14800531;Härlanda, Torpa;;14803702;Torpa 2;1
+2010;rf;14800524;Härlanda, Vidkärr;;14803302;Kålltorp-Härlanda 2;1
+2010;rf;14800542;Härlanda, Västra Björkekärr;;14802801;Björkekärr 1;1
+2010;rf;14800522;Härlanda, Västra Kålltorp;;14803305;Kålltorp-Härlanda 5;1
+2010;rf;14800523;Härlanda, Östra Kålltorp;;14803303;Kålltorp-Härlanda 3;1
+2010;rf;14800341;Kortedala, Adventsparken;;14803203;Kortedala 3;1
+2010;rf;14800314;Kortedala, Bellevue;;14802904;Gamlestaden-Utby 4;1
+2010;rf;14800323;Kortedala, Fjällbo;;14802907;Gamlestaden-Utby 7;1
+2010;rf;14800311;Kortedala, Gamlestaden;;14802902;Gamlestaden-Utby 2;1
+2010;rf;14800331;Kortedala, Gregorianska gatan m fl;;14803207;Kortedala 7;1
+2010;rf;14800334;Kortedala, Kortedala Centrum;;14803206;Kortedala 6;1
+2010;rf;14800313;Kortedala, Kviberg;;14802903;Gamlestaden-Utby 3;1
+2010;rf;14800343;Kortedala, Månadsgatorna m fl;;14803202;Kortedala 2;1
+2010;rf;14800342;Kortedala, Norra Kortedala;;14803201;Kortedala 1;1
+2010;rf;14800312;Kortedala, Nylöse;;14802901;Gamlestaden-Utby 1;1
+2010;rf;14800335;Kortedala, Södra Kortedala;;14803208;Kortedala 8;1
+2010;rf;14800322;Kortedala, Utby;;14802906;Gamlestaden-Utby 6;1
+2010;rf;14800321;Kortedala, Utbynäs;;14802905;Gamlestaden-Utby 5;1
+2010;rf;14800332;Kortedala, Västra Kortedala;;14803204;Kortedala 4;1
+2010;rf;14800333;Kortedala, Östra Kortedala;;14803205;Kortedala 5;1
+2010;rf;14800211;Lärjedalen, Agnesberg;;14803004;Hammarkullen-Agnesberg 4;1
+2010;rf;14800251;Lärjedalen, Björsared-Knipared;;14802702;Bergum-Gunnilse 2;1
+2010;rf;14800264;Lärjedalen, Bläsebo;;14803104;Hjällbo-Eriksbo 4;1
+2010;rf;14800271;Lärjedalen, Eriksbo;;14803105;Hjällbo-Eriksbo 5;1
+2010;rf;14800231;Lärjedalen, Gunnilse-Linnarhult;;14802703;Bergum-Gunnilse 3;1
+2010;rf;14800263;Lärjedalen, Norra Hjällbo;;14803103;Hjällbo-Eriksbo 3;1
+2010;rf;14800252;Lärjedalen, Olofstorp;;14802701;Bergum-Gunnilse 1;1
+2010;rf;14800223;Lärjedalen, Sandeslätt;;14803003;Hammarkullen-Agnesberg 3;1
+2010;rf;14800262;Lärjedalen, Skolspåret;;14803102;Hjällbo-Eriksbo 2;1
+2010;rf;14800261;Lärjedalen, Södra Hjällbo;;14803101;Hjällbo-Eriksbo 1;1
+2010;rf;14800221;Lärjedalen, Västra Hammarkullen;;14803001;Hammarkullen-Agnesberg 1;1
+2010;rf;14800222;Lärjedalen, Östra Hammarkullen;;14803002;Hammarkullen-Agnesberg 2;1
+2010;rf;14800621;Örgryte, Bagaregården;;14802503;Bagaregården-Redbergslid 3;1
+2010;rf;14800662;Örgryte, Bö;;14803802;Överås-Kärralund 2;1
+2010;rf;14800652;Örgryte, Jakobsdal;;14803601;Skår-Kallebäck 1;1
+2010;rf;14800653;Örgryte, Norra Skår;;14803602;Skår-Kallebäck 2;1
+2010;rf;14800632;Örgryte, Redbergslid;;14802501;Bagaregården-Redbergslid 1;1
+2010;rf;14800631;Örgryte, Strömmensberg;;14802502;Bagaregården-Redbergslid 2;1
+2010;rf;14800651;Örgryte, Södra Skår;;14803603;Skår-Kallebäck 3;1
+2010;rf;14800671;Örgryte, Torp;;14803803;Överås-Kärralund 3;1
+2010;rf;14800641;Örgryte, Västra Kallebäck;;14803604;Skår-Kallebäck 4;1
+2010;rf;14800622;Örgryte, Ånäs;;14802504;Bagaregården-Redbergslid 4;1
+2010;rf;14800661;Örgryte, Örgryte;;14803801;Överås-Kärralund 1;1
+2010;rf;14800642;Örgryte, Östra Kallebäck;;14803605;Skår-Kallebäck 5;1
+2010;rf;14800002;Onsdagsdistrikt;;;;0
+2010;kf;14800711;Centrum, Burås;;14805306;Krokslätt 6;1
+2010;kf;14800742;Centrum, Centrala Guldheden;;14805106;Guldheden 6;1
+2010;kf;14800746;Centrum, Doktor Forselius gata m fl;;14805103;Guldheden 3;1
+2010;kf;14800723;Centrum, Eklanda;;14805201;Johanneberg-Landala 1;1
+2010;kf;14800713;Centrum, Framnäs;;14805305;Krokslätt 5;1
+2010;kf;14800783;Centrum, Friggagatan-Stampen;;14805802;Stampen-Heden 2;1
+2010;kf;14800717;Centrum, Getebergsäng;;14805301;Krokslätt 1;1
+2010;kf;14800741;Centrum, Guldheden vattentornet;;14805105;Guldheden 5;1
+2010;kf;14800782;Centrum, Gullbergsvass-Svingeln;;14805801;Stampen-Heden 1;1
+2010;kf;14800791;Centrum, Hedås-Gårda;;14805806;Stampen-Heden 6;1
+2010;kf;14800771;Centrum, Inom Vallgraven;;14806002;Vasastaden-Centrum 2;1
+2010;kf;14800716;Centrum, Kristinehöjd;;14805302;Krokslätt 2;1
+2010;kf;14800715;Centrum, Krokslätt;;14805303;Krokslätt 3;1
+2010;kf;14800732;Centrum, Landala;;14805206;Johanneberg-Landala 6;1
+2010;kf;14800744;Centrum, Landala Egnahem;;14805102;Guldheden 2;1
+2010;kf;14800731;Centrum, Landalabergen m fl;;14805207;Johanneberg-Landala 7;1
+2010;kf;14800733;Centrum, Landalagången m fl;;14805205;Johanneberg-Landala 5;1
+2010;kf;14800751;Centrum, Lorensberg;;14806007;Vasastaden-Centrum 7;1
+2010;kf;14800712;Centrum, Mossen;;14805307;Krokslätt 7;1
+2010;kf;14800721;Centrum, Nedre Johanneberg;;14805204;Johanneberg-Landala 4;1
+2010;kf;14800772;Centrum, Nordstan-Otterhällan;;14806001;Vasastaden-Centrum 1;1
+2010;kf;14800743;Centrum, Norra Guldheden;;14805101;Guldheden 1;1
+2010;kf;14800793;Centrum, Norra Heden-Gårda;;14805804;Stampen-Heden 4;1
+2010;kf;14800762;Centrum, Norra Vasastaden;;14806004;Vasastaden-Centrum 4;1
+2010;kf;14800781;Centrum, Odinsgatan-Stampen;;14805803;Stampen-Heden 3;1
+2010;kf;14800714;Centrum, Olofshöjd;;14805304;Krokslätt 4;1
+2010;kf;14800745;Centrum, Södra Guldheden;;14805104;Guldheden 4;1
+2010;kf;14800792;Centrum, Södra Heden;;14805805;Stampen-Heden 5;1
+2010;kf;14800724;Centrum, Södra Johanneberg;;14805202;Johanneberg-Landala 2;1
+2010;kf;14800761;Centrum, Södra Vasastaden;;14806006;Vasastaden-Centrum 6;1
+2010;kf;14800763;Centrum, Valand;;14806003;Vasastaden-Centrum 3;1
+2010;kf;14800764;Centrum, Östra Vasastaden;;14806005;Vasastaden-Centrum 5;1
+2010;kf;14800722;Centrum, Övre Johanneberg;;14805203;Johanneberg-Landala 3;1
+2010;kf;14800841;Linnéstaden, Annedal;;14805004;Annedal-Haga 4;1
+2010;kf;14800832;Linnéstaden, Haga;;14805001;Annedal-Haga 1;1
+2010;kf;14800856;Linnéstaden, Kommendantsängen;;14805603;Olivedal 3;1
+2010;kf;14800854;Linnéstaden, Linné;;14805607;Olivedal 7;1
+2010;kf;14800851;Linnéstaden, Linnéplatsen;;14805605;Olivedal 5;1
+2010;kf;14800853;Linnéstaden, Långgatorna;;14805601;Olivedal 1;1
+2010;kf;14800813;Linnéstaden, Masthuggstorget;;14805501;Masthugget 1;1
+2010;kf;14800814;Linnéstaden, Nedre Masthugget;;14805507;Masthugget 7;1
+2010;kf;14800842;Linnéstaden, Nilssonsberg;;14805003;Annedal-Haga 3;1
+2010;kf;14800852;Linnéstaden, Olivedal;;14805606;Olivedal 6;1
+2010;kf;14800815;Linnéstaden, Oscar Fredrik;;14805502;Masthugget 2;1
+2010;kf;14800855;Linnéstaden, Risåsen;;14805602;Olivedal 2;1
+2010;kf;14800831;Linnéstaden, Skansberget;;14805002;Annedal-Haga 2;1
+2010;kf;14800817;Linnéstaden, Slottsskogen;;14805504;Masthugget 4;1
+2010;kf;14800812;Linnéstaden, Stigberget;;14805506;Masthugget 6;1
+2010;kf;14800857;Linnéstaden, Sveaplan;;14805604;Olivedal 4;1
+2010;kf;14800816;Linnéstaden, Vegastaden;;14805503;Masthugget 3;1
+2010;kf;14800821;Linnéstaden, Änggården;;14805005;Annedal-Haga 5;1
+2010;kf;14800811;Linnéstaden, Övre Masthugget;;14805505;Masthugget 5;1
+2010;kf;14800943;Majorna, Djurgårdsgatan m fl;;14805902;Stigberget 2;1
+2010;kf;14800944;Majorna, Gatenhielmska;;14805901;Stigberget 1;1
+2010;kf;14800942;Majorna, Karl Johans torg;;14805904;Stigberget 4;1
+2010;kf;14800941;Majorna, Söderlingska ängen;;14805903;Stigberget 3;1
+2010;kf;14800682;Örgryte, Gamla Lunden;;14805402;Lunden 2;1
+2010;kf;14800611;Örgryte, Gubbero;;14805701;Olskroken 1;1
+2010;kf;14800686;Örgryte, Kärralund;;14805406;Lunden 6;1
+2010;kf;14800683;Örgryte, Nobelplatsen;;14805404;Lunden 4;1
+2010;kf;14800685;Örgryte, Nya Lunden-Prästgårdsängen;;14805405;Lunden 5;1
+2010;kf;14800612;Örgryte, Olskroken;;14805702;Olskroken 2;1
+2010;kf;14800613;Örgryte, Redberget;;14805703;Olskroken 3;1
+2010;kf;14800684;Örgryte, Sankt Pauli;;14805403;Lunden 3;1
+2010;kf;14800681;Örgryte, Överås;;14805401;Lunden 1;1
+2010;kf;14800003;Onsdagsdistrikt;;;;0
+2010;kf;14802013;Backa, Aröd;;14800103;Backa-Brunnsbo 3;1
+2010;kf;14802022;Backa, Backa Röd;;14800104;Backa-Brunnsbo 4;1
+2010;kf;14802032;Backa, Backadalen;;14801302;Skälltorp-Skogome 2;1
+2010;kf;14802012;Backa, Brunnsbo;;14800102;Backa-Brunnsbo 2;1
+2010;kf;14802031;Backa, Bäckebol;;14801301;Skälltorp-Skogome 1;1
+2010;kf;14802024;Backa, Bällskär;;14800106;Backa-Brunnsbo 6;1
+2010;kf;14802023;Backa, Norra Backa;;14800105;Backa-Brunnsbo 5;1
+2010;kf;14802033;Backa, Selma Lagerlöfs torg;;14801303;Skälltorp-Skogome 3;1
+2010;kf;14802041;Backa, Skogome-Sankt Jörgen;;14801306;Skälltorp-Skogome 6;1
+2010;kf;14802034;Backa, Skälltorp;;14801304;Skälltorp-Skogome 4;1
+2010;kf;14802021;Backa, Södra Backa;;14800107;Backa-Brunnsbo 7;1
+2010;kf;14802011;Backa, Tingstad;;14800101;Backa-Brunnsbo 1;1
+2010;kf;14802035;Backa, Åketorp;;14801305;Skälltorp-Skogome 5;1
+2010;kf;14801732;Biskopsgården, Badvädersgatan m fl;;14800604;Jättesten-Svartedalen 4;1
+2010;kf;14801751;Biskopsgården, Jättesten;;14800603;Jättesten-Svartedalen 3;1
+2010;kf;14801753;Biskopsgården, Kärrsmossen;;14800601;Jättesten-Svartedalen 1;1
+2010;kf;14801722;Biskopsgården, Länsmansgårdens Centr;;14801002;Länsmansgården 2;1
+2010;kf;14801712;Biskopsgården, Norra Biskopsgården;;14800206;Biskopsgården 6;1
+2010;kf;14801723;Biskopsgården, Norra Länsmansgården;;14801003;Länsmansgården 3;1
+2010;kf;14801731;Biskopsgården, Stackmolnsgatan m fl;;14800605;Jättesten-Svartedalen 5;1
+2010;kf;14801711;Biskopsgården, Svarte Mosse;;14800205;Biskopsgården 5;1
+2010;kf;14801752;Biskopsgården, Svartedalen;;14800602;Jättesten-Svartedalen 2;1
+2010;kf;14801741;Biskopsgården, Södra Biskopsgården;;14800203;Biskopsgården 3;1
+2010;kf;14801721;Biskopsgården, Södra Länsmansgården;;14801001;Länsmansgården 1;1
+2010;kf;14801743;Biskopsgården, Treröset;;14800201;Biskopsgården 1;1
+2010;kf;14801744;Biskopsgården, Vårväderstorget;;14800202;Biskopsgården 2;1
+2010;kf;14801742;Biskopsgården, Väderlekstorget;;14800204;Biskopsgården 4;1
+2010;kf;14802112;Kärra-Rödbo, Gerrebacka-Ingebäck;;14800805;Kärra-Rödbo 5;1
+2010;kf;14802111;Kärra-Rödbo, Mysterna-Svankällan;;14800806;Kärra-Rödbo 6;1
+2010;kf;14802114;Kärra-Rödbo, Norra Kärra;;14800804;Kärra-Rödbo 4;1
+2010;kf;14802121;Kärra-Rödbo, Rödbo;;14800807;Kärra-Rödbo 7;1
+2010;kf;14802116;Kärra-Rödbo, Södra Kärra;;14800802;Kärra-Rödbo 2;1
+2010;kf;14802113;Kärra-Rödbo, Västra Kärra;;14800801;Kärra-Rödbo 1;1
+2010;kf;14802115;Kärra-Rödbo, Östra Kärra;;14800803;Kärra-Rödbo 3;1
+2010;kf;14801822;Lundby, Bjurslätt;;14800704;Kvillebäcken 4;1
+2010;kf;14801821;Lundby, Flunsås;;14800703;Kvillebäcken 3;1
+2010;kf;14801831;Lundby, Hilldedal;;14800905;Kärrdalen-Slätta Damm 5;1
+2010;kf;14801854;Lundby, Kyrkbyn;;14801205;Sannegården 5;1
+2010;kf;14801843;Lundby, Kärrdalen;;14800903;Kärrdalen-Slätta Damm 3;1
+2010;kf;14801811;Lundby, Lindholmen;Modifierad;;;0
+2010;kf;14801816;Lundby, Lundbyvassen;Modifierad;;;0
+2010;kf;14801853;Lundby, Norra Bräcke;;14801204;Sannegården 4;1
+2010;kf;14801823;Lundby, Norra Kvillebäcken;;14800705;Kvillebäcken 5;1
+2010;kf;14801855;Lundby, Norra Lundby;;14801206;Sannegården 6;1
+2010;kf;14801842;Lundby, Norra Tolered;;14800902;Kärrdalen-Slätta Damm 2;1
+2010;kf;14801858;Lundby, Sannegården;Modifierad;;;0
+2010;kf;14801832;Lundby, Slätta Damm;;14800904;Kärrdalen-Slätta Damm 4;1
+2010;kf;14801852;Lundby, Södra Bräcke;;14801203;Sannegården 3;1
+2010;kf;14801825;Lundby, Södra Kvillebäcken;;14800701;Kvillebäcken 1;1
+2010;kf;14801856;Lundby, Södra Lundby;;14801207;Sannegården 7;1
+2010;kf;14801841;Lundby, Södra Tolered;;14800901;Kärrdalen-Slätta Damm 1;1
+2010;kf;14801814;Lundby, Västra Brämaregården;;14800405;Brämaregården 5;1
+2010;kf;14801851;Lundby, Västra Eriksberg;Modifierad;;;0
+2010;kf;14801812;Lundby, Västra Rambergsstaden;;14800403;Brämaregården 3;1
+2010;kf;14801824;Lundby, Wieselgrensplatsen;;14800702;Kvillebäcken 2;1
+2010;kf;14801815;Lundby, Östra Brämaregården;Modifierad;;;0
+2010;kf;14801857;Lundby, Östra Eriksberg;Modifierad;;;0
+2010;kf;14801813;Lundby, Östra Rambergsstaden;;14800404;Brämaregården 4;1
+2010;kf;14801625;Torslanda, Amhult-Arendal;;14801101;Nolered-Torslanda 1;1
+2010;kf;14801613;Torslanda, Andalen;;14800501;Hjuvik 1;1
+2010;kf;14801632;Torslanda, Björlanda;;14800303;Björlanda 3;1
+2010;kf;14801622;Torslanda, Domarringen m fl;;14801104;Nolered-Torslanda 4;1
+2010;kf;14801611;Torslanda, Hjuvik;;14800502;Hjuvik 2;1
+2010;kf;14801612;Torslanda, Hällsvik;;14800503;Hjuvik 3;1
+2010;kf;14801633;Torslanda, Kvisljungeby;;14800301;Björlanda 1;1
+2010;kf;14801631;Torslanda, Lilleby;Modifierad;;;0
+2010;kf;14801624;Torslanda, Nolered;;14801102;Nolered-Torslanda 2;1
+2010;kf;14801623;Torslanda, Torslanda;;14801105;Nolered-Torslanda 5;1
+2010;kf;14801621;Torslanda, Tumlehed;;14801103;Nolered-Torslanda 3;1
+2010;kf;14801914;Tuve-Säve, Glöstorp;;14801403;Tuve-Säve 3;1
+2010;kf;14801913;Tuve-Säve, Gunnestorp;;14801402;Tuve-Säve 2;1
+2010;kf;14801915;Tuve-Säve, Norumshöjd;;14801404;Tuve-Säve 4;1
+2010;kf;14801921;Tuve-Säve, Säve;;14801406;Tuve-Säve 6;1
+2010;kf;14801912;Tuve-Säve, Tuve;;14801401;Tuve-Säve 1;1
+2010;kf;14801911;Tuve-Säve, Tången;;14801405;Tuve-Säve 5;1
+2010;kf;14800001;Onsdagsdistrikt;;;;0
+2010;kf;14801313;Askim, Askim;;14807504;Askim-Hovås 4;1
+2010;kf;14801331;Askim, Billdal;;14807604;Billdal 4;1
+2010;kf;14801334;Askim, Brottkärr;;14807601;Billdal 1;1
+2010;kf;14801311;Askim, Hult;;14807501;Askim-Hovås 1;1
+2010;kf;14801336;Askim, Lindås;;14807603;Billdal 3;1
+2010;kf;14801335;Askim, Lyckhem;;14807602;Billdal 2;1
+2010;kf;14801316;Askim, Norra Hovås;;14807505;Askim-Hovås 5;1
+2010;kf;14801314;Askim, Norra Sisjön;;14807503;Askim-Hovås 3;1
+2010;kf;14801332;Askim, Nygård;;14807606;Billdal 6;1
+2010;kf;14801312;Askim, Pilegården;;14807502;Askim-Hovås 2;1
+2010;kf;14801333;Askim, Skintebo;;14807605;Billdal 5;1
+2010;kf;14801321;Askim, Södra Hovås;;14807507;Askim-Hovås 7;1
+2010;kf;14801315;Askim, Södra Sisjön;;14807506;Askim-Hovås 6;1
+2010;kf;14801322;Askim, Trollåsen;;14807508;Askim-Hovås 8;1
+2010;kf;14801243;Frölunda, Frölunda;;14807802;Frölunda-Ruddalen 2;1
+2010;kf;14801241;Frölunda, Frölunda torg;;14807801;Frölunda-Ruddalen 1;1
+2010;kf;14801242;Frölunda, Gånglåten m fl;;14807803;Frölunda-Ruddalen 3;1
+2010;kf;14801221;Frölunda, Ruddalen;Modifierad;;;0
+2010;kf;14801212;Frölunda, Spinetten;;14808204;Järnbrott-Tofta 4;1
+2010;kf;14801211;Frölunda, Tofta;;14808203;Järnbrott-Tofta 3;1
+2010;kf;14801231;Frölunda, Västra Järnbrott;;14808202;Järnbrott-Tofta 2;1
+2010;kf;14801232;Frölunda, Östra Järnbrott;;14808201;Järnbrott-Tofta 1;1
+2010;kf;14801041;Högsbo, Högsbo;;14808103;Högsbotorp-Högsbohöjd 3;1
+2010;kf;14801043;Högsbo, Marklandsgatan m fl;;14808101;Högsbotorp-Högsbohöjd 1;1
+2010;kf;14801032;Högsbo, Norra Högsbohöjd;;14808105;Högsbotorp-Högsbohöjd 5;1
+2010;kf;14801012;Högsbo, Norra Kaverös;;14808302;Kaverös-Flatås 2;1
+2010;kf;14801031;Högsbo, Södra Högsbohöjd;;14808106;Högsbotorp-Högsbohöjd 6;1
+2010;kf;14801011;Högsbo, Södra Kaverös;;14808301;Kaverös-Flatås 1;1
+2010;kf;14801022;Högsbo, Västra Flatås;;14808303;Kaverös-Flatås 3;1
+2010;kf;14801042;Högsbo, Västra Högsbotorp;;14808104;Högsbotorp-Högsbohöjd 4;1
+2010;kf;14801021;Högsbo, Östra Flatås;;14808304;Kaverös-Flatås 4;1
+2010;kf;14801044;Högsbo, Östra Högsbotorp;;14808102;Högsbotorp-Högsbohöjd 2;1
+2010;kf;14800936;Majorna, Godhem;;14808504;Majorna 4;1
+2010;kf;14800934;Majorna, Gråberget;;14808506;Majorna 6;1
+2010;kf;14800933;Majorna, Hängmattan;;14808502;Majorna 2;1
+2010;kf;14800916;Majorna, Klippan;;14808401;Kungsladugård-Sanna 1;1
+2010;kf;14800913;Majorna, Kungsladugård;;14808403;Kungsladugård-Sanna 3;1
+2010;kf;14800932;Majorna, Majorna;;14808501;Majorna 1;1
+2010;kf;14800914;Majorna, Mariaplan;;14808402;Kungsladugård-Sanna 2;1
+2010;kf;14800935;Majorna, Marieberg;;14808503;Majorna 3;1
+2010;kf;14800921;Majorna, Sandarne;;14808407;Kungsladugård-Sanna 7;1
+2010;kf;14800915;Majorna, Silverkällan;;14808406;Kungsladugård-Sanna 6;1
+2010;kf;14800912;Majorna, Skytteskogen;;14808404;Kungsladugård-Sanna 4;1
+2010;kf;14800931;Majorna, Slottsskogsgatan m fl;;14808505;Majorna 5;1
+2010;kf;14800911;Majorna, Svalebo;;14808405;Kungsladugård-Sanna 5;1
+2010;kf;14801513;Södra Skärgården, Brännö-Asperö;;14808801;Styrsö 1;1
+2010;kf;14801511;Södra Skärgården, Donsö-Vrångö;;14808803;Styrsö 3;1
+2010;kf;14801512;Södra Skärgården, Styrsö-Köpstadsö;;14808802;Styrsö 2;1
+2010;kf;14801421;Tynnered, Beryllgatan-Guldringen;;14808703;Skattegården-Guldringen 3;1
+2010;kf;14801411;Tynnered, Bratthammar;;14808702;Skattegården-Guldringen 2;1
+2010;kf;14801461;Tynnered, Grevegården;;14807901;Grevegården-Ängås 1;1
+2010;kf;14801441;Tynnered, Korsåsen;;14807904;Grevegården-Ängås 4;1
+2010;kf;14801472;Tynnered, Norra Näset;;14808602;Näset-Önnered 2;1
+2010;kf;14801482;Tynnered, Norra Opaltorget;;14808607;Näset-Önnered 7;1
+2010;kf;14801462;Tynnered, Skattegården;;14807902;Grevegården-Ängås 2;1
+2010;kf;14801471;Tynnered, Södra Näset;;14808601;Näset-Önnered 1;1
+2010;kf;14801481;Tynnered, Södra Opaltorget;;14808606;Näset-Önnered 6;1
+2010;kf;14801431;Tynnered, Tynnered;;14808701;Skattegården-Guldringen 1;1
+2010;kf;14801451;Tynnered, Västra Önnered;;14808604;Näset-Önnered 4;1
+2010;kf;14801473;Tynnered, Åkered;;14808603;Näset-Önnered 3;1
+2010;kf;14801442;Tynnered, Ängås;;14807903;Grevegården-Ängås 3;1
+2010;kf;14801452;Tynnered, Östra Önnered;;14808605;Näset-Önnered 5;1
+2010;kf;14801114;Älvsborg, Björnekulla;;14807702;Fiskebäck-Långedrag 2;1
+2010;kf;14801142;Älvsborg, Ekebäck;;14808004;Hagen-Grimmered 4;1
+2010;kf;14801141;Älvsborg, Grimmered;Modifierad;;;0
+2010;kf;14801133;Älvsborg, Hagen;;14808001;Hagen-Grimmered 1;1
+2010;kf;14801121;Älvsborg, Långedrag;;14807705;Fiskebäck-Långedrag 5;1
+2010;kf;14801112;Älvsborg, Norra Fiskebäck;;14807703;Fiskebäck-Långedrag 3;1
+2010;kf;14801132;Älvsborg, Nya Varvet;;14808003;Hagen-Grimmered 3;1
+2010;kf;14801113;Älvsborg, Påvelund;;14807701;Fiskebäck-Långedrag 1;1
+2010;kf;14801111;Älvsborg, Södra Fiskebäck;;14807704;Fiskebäck-Långedrag 4;1
+2010;kf;14801131;Älvsborg, Tångudden;;14808002;Hagen-Grimmered 2;1
+2010;kf;14800004;Onsdagsdistrikt;;;;0
+2010;kf;14800413;Bergsjön, Gärdsmosse;;14802601;Bergsjön 1;1
+2010;kf;14800411;Bergsjön, Gärdsås;;14802604;Bergsjön 4;1
+2010;kf;14800424;Bergsjön, Komettorget;;14802608;Bergsjön 8;1
+2010;kf;14800414;Bergsjön, Norra Bergsjön;;14802603;Bergsjön 3;1
+2010;kf;14800423;Bergsjön, Rymdtorget;;14802607;Bergsjön 7;1
+2010;kf;14800412;Bergsjön, Siriusgatan;;14802602;Bergsjön 2;1
+2010;kf;14800421;Bergsjön, Södra Bergsjön;;14802606;Bergsjön 6;1
+2010;kf;14800422;Bergsjön, Östra Bergsjön;;14802605;Bergsjön 5;1
+2010;kf;14800141;Gunnared, Angereds Centrum;;14803503;Rannebergen-Angered 3;1
+2010;kf;14800111;Gunnared, Lövgärdets Centrum;;14803403;Lövgärdet-Gårdsten 3;1
+2010;kf;14800113;Gunnared, Nedre Lövgärdet;;14803401;Lövgärdet-Gårdsten 1;1
+2010;kf;14800132;Gunnared, Norra Gårdsten;;14803404;Lövgärdet-Gårdsten 4;1
+2010;kf;14800122;Gunnared, Norra Rannebergen;;14803501;Rannebergen-Angered 1;1
+2010;kf;14800134;Gunnared, Södra Gårdsten;Modifierad;;;0
+2010;kf;14800121;Gunnared, Södra Rannebergen;;14803502;Rannebergen-Angered 2;1
+2010;kf;14800142;Gunnared, Trädgårdsgärdet;;14803504;Rannebergen-Angered 4;1
+2010;kf;14800131;Gunnared, Västra Gårdsten;Modifierad;;;0
+2010;kf;14800133;Gunnared, Östra Gårdsten;;14803405;Lövgärdet-Gårdsten 5;1
+2010;kf;14800112;Gunnared, Övre Lövgärdet;;14803402;Lövgärdet-Gårdsten 2;1
+2010;kf;14800532;Härlanda, Fräntorp;;14803701;Torpa 1;1
+2010;kf;14800511;Härlanda, Härlanda;;14803306;Kålltorp-Härlanda 6;1
+2010;kf;14800525;Härlanda, Munkebäck;;14803301;Kålltorp-Härlanda 1;1
+2010;kf;14800543;Härlanda, Norra Björkekärr;;14802802;Björkekärr 2;1
+2010;kf;14800544;Härlanda, Robertshöjd;;14802803;Björkekärr 3;1
+2010;kf;14800541;Härlanda, Södra Björkekärr;;14802804;Björkekärr 4;1
+2010;kf;14800521;Härlanda, Södra Kålltorp;;14803304;Kålltorp-Härlanda 4;1
+2010;kf;14800531;Härlanda, Torpa;;14803702;Torpa 2;1
+2010;kf;14800524;Härlanda, Vidkärr;;14803302;Kålltorp-Härlanda 2;1
+2010;kf;14800542;Härlanda, Västra Björkekärr;;14802801;Björkekärr 1;1
+2010;kf;14800522;Härlanda, Västra Kålltorp;;14803305;Kålltorp-Härlanda 5;1
+2010;kf;14800523;Härlanda, Östra Kålltorp;;14803303;Kålltorp-Härlanda 3;1
+2010;kf;14800341;Kortedala, Adventsparken;;14803203;Kortedala 3;1
+2010;kf;14800314;Kortedala, Bellevue;;14802904;Gamlestaden-Utby 4;1
+2010;kf;14800323;Kortedala, Fjällbo;;14802907;Gamlestaden-Utby 7;1
+2010;kf;14800311;Kortedala, Gamlestaden;;14802902;Gamlestaden-Utby 2;1
+2010;kf;14800331;Kortedala, Gregorianska gatan m fl;;14803207;Kortedala 7;1
+2010;kf;14800334;Kortedala, Kortedala Centrum;;14803206;Kortedala 6;1
+2010;kf;14800313;Kortedala, Kviberg;;14802903;Gamlestaden-Utby 3;1
+2010;kf;14800343;Kortedala, Månadsgatorna m fl;;14803202;Kortedala 2;1
+2010;kf;14800342;Kortedala, Norra Kortedala;;14803201;Kortedala 1;1
+2010;kf;14800312;Kortedala, Nylöse;;14802901;Gamlestaden-Utby 1;1
+2010;kf;14800335;Kortedala, Södra Kortedala;;14803208;Kortedala 8;1
+2010;kf;14800322;Kortedala, Utby;;14802906;Gamlestaden-Utby 6;1
+2010;kf;14800321;Kortedala, Utbynäs;;14802905;Gamlestaden-Utby 5;1
+2010;kf;14800332;Kortedala, Västra Kortedala;;14803204;Kortedala 4;1
+2010;kf;14800333;Kortedala, Östra Kortedala;;14803205;Kortedala 5;1
+2010;kf;14800211;Lärjedalen, Agnesberg;;14803004;Hammarkullen-Agnesberg 4;1
+2010;kf;14800251;Lärjedalen, Björsared-Knipared;;14802702;Bergum-Gunnilse 2;1
+2010;kf;14800264;Lärjedalen, Bläsebo;;14803104;Hjällbo-Eriksbo 4;1
+2010;kf;14800271;Lärjedalen, Eriksbo;;14803105;Hjällbo-Eriksbo 5;1
+2010;kf;14800231;Lärjedalen, Gunnilse-Linnarhult;;14802703;Bergum-Gunnilse 3;1
+2010;kf;14800263;Lärjedalen, Norra Hjällbo;;14803103;Hjällbo-Eriksbo 3;1
+2010;kf;14800252;Lärjedalen, Olofstorp;;14802701;Bergum-Gunnilse 1;1
+2010;kf;14800223;Lärjedalen, Sandeslätt;;14803003;Hammarkullen-Agnesberg 3;1
+2010;kf;14800262;Lärjedalen, Skolspåret;;14803102;Hjällbo-Eriksbo 2;1
+2010;kf;14800261;Lärjedalen, Södra Hjällbo;;14803101;Hjällbo-Eriksbo 1;1
+2010;kf;14800221;Lärjedalen, Västra Hammarkullen;;14803001;Hammarkullen-Agnesberg 1;1
+2010;kf;14800222;Lärjedalen, Östra Hammarkullen;;14803002;Hammarkullen-Agnesberg 2;1
+2010;kf;14800621;Örgryte, Bagaregården;;14802503;Bagaregården-Redbergslid 3;1
+2010;kf;14800662;Örgryte, Bö;;14803802;Överås-Kärralund 2;1
+2010;kf;14800652;Örgryte, Jakobsdal;;14803601;Skår-Kallebäck 1;1
+2010;kf;14800653;Örgryte, Norra Skår;;14803602;Skår-Kallebäck 2;1
+2010;kf;14800632;Örgryte, Redbergslid;;14802501;Bagaregården-Redbergslid 1;1
+2010;kf;14800631;Örgryte, Strömmensberg;;14802502;Bagaregården-Redbergslid 2;1
+2010;kf;14800651;Örgryte, Södra Skår;;14803603;Skår-Kallebäck 3;1
+2010;kf;14800671;Örgryte, Torp;;14803803;Överås-Kärralund 3;1
+2010;kf;14800641;Örgryte, Västra Kallebäck;;14803604;Skår-Kallebäck 4;1
+2010;kf;14800622;Örgryte, Ånäs;;14802504;Bagaregården-Redbergslid 4;1
+2010;kf;14800661;Örgryte, Örgryte;;14803801;Överås-Kärralund 1;1
+2010;kf;14800642;Örgryte, Östra Kallebäck;;14803605;Skår-Kallebäck 5;1
+2010;kf;14800002;Onsdagsdistrikt;;;;0

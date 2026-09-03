@@ -6,5 +6,6 @@
  "valnatt": false,
  "adress": "https://majposten.se/val2026",
  "inbaddad": false,
- "skrivUrl": true
+ "skrivUrl": true,
+ "stickyTopp": 16
 }

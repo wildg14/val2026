@@ -184,7 +184,7 @@
   .mp-val #karta-sektion > * { grid-column: 1 / -1; }
   .mp-val #karta { grid-column: 1; grid-row: 4; }
   .mp-val #karta-legend { grid-column: 1; grid-row: 5; margin: 10px 0 0; }
-  .mp-val #panel { grid-column: 2; grid-row: 4 / 6; position: sticky; top: 16px; padding-top: 0; }
+  .mp-val #panel { grid-column: 2; grid-row: 4 / 6; position: sticky; top: var(--mp-sticky-top, 16px); padding-top: 0; }
   .mp-val #karta svg { max-height: none; }
   .mp-val .till-kartan { display: none; }
   .mp-val #lutning svg { max-width: none; }

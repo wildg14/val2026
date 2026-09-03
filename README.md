@@ -11,7 +11,7 @@ valgrafik.js                  hela grafiken, renderar inuti <div class="mp-val" 
 valgrafik.css                 all CSS, scopad till .mp-val (Beehiivs krav för HTML-block)
 index.html                    tunt skal som laddar de två filerna: lokal visning, bildläge, skärmdumpar
 docs/inbaddningstest.html     simulerad värdsida med avsiktligt fientlig CSS, för att testa blocket lokalt
-data/konfig.json / .js        KONFIG: ar, standardAr, valnatt, adress, inbaddad, skrivUrl
+data/konfig.json / .js        KONFIG: ar, standardAr, valnatt, adress, inbaddad, skrivUrl, stickyTopp
 data/valdata_2022.json        röster per distrikt och val, aggregat, mandat (kanonisk fil)
 data/valdata_2022.js          samma data som JS, laddas av sidan (fungerar även via file://)
 data/distrikt.geojson / .js   de 23 distriktspolygonerna i WGS84
@@ -260,6 +260,10 @@ Kartan är inline-SVG utan kartbibliotek: inga externa beroenden, fungerar offli
 Utseendet följer Majpostens palett och typografi (Georgia och Arial, papper och slottsskogsgrön, inga skuggor eller gradienter).
 
 Två layouter i en DOM, styrda av containerns bredd (CSS container queries), inte fönstrets: under 900 px en spalt som på mobil, från 900 px kartan till vänster med resultatkortet fastnaglat till höger, halvcirkeln bredvid mandattabellen och de två jämförelsegrafikerna sida vid sida. Brödtexten håller smal spalt även på desktop. Sektionen som blocket ligger i på Beehiiv behöver vara minst cirka 1 000 px bred för att desktopläget ska slå till. Ingen egen prenumerationsknapp: Beehiivs eget prenumerationsblock läggs på sidan.
+
+Två oberoende brytpunkter: 600 px containerbredd styr kartans detaljnivå (fler hållplatser och platsnamn, procent i etiketterna), 900 px styr tvåkolumnslayouten. Mellan 600 och 900 px visas alltså den detaljerade kartan i en spalt, vilket är avsett.
+
+Resultatkortet på desktop är fastnaglat med `position: sticky` och avståndet `stickyTopp` (px) i `data/konfig.json`, standard 16. Är Beehiivs sidhuvud klibbigt: sätt värdet till sidhuvudets höjd plus marginal. Sticky faller tyst tillbaka till vanlig placering om värdsidan lägger `overflow` eller `transform` på ett element runt blocket, vilket vi inte kan skydda oss mot i förväg; kontrollera på den publicerade sidan.
 
 ## Källor och licenser
 

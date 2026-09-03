@@ -1,0 +1,112 @@
+Granskning av 2002-filerna
+======================================================================
+
+### R (rd)
+INFO rd: 286 distrikt i distriktfilen, 286 i rosterfilen
+INFO rd: 286 av 286 distrikt identiska med HTML-sidan (roster, OG, Vdt); 0 tomma rostceller; kolumnuppsattningar [('M', 'C', 'FP', 'KD', 'S', 'V', 'MP', 'ÖVR', 'OG')]
+INFO rd: andel (procent) i kallan: 2288 celler stammer med trunkering till en decimal, varav 1140 skulle blivit annat vid avrundning; 0 stammer bara med avrundning
+INFO rd: summa over 286 distriktssidor + ej raknade = kommunsidan for alla partier
+INFO rd: ej raknade i vallokal: 1 nivaer, giltiga 3903, OG 99
+INFO rd: 286 av 286 distrikt stammer med textsidan (roster, OG, Vdt)
+INFO rd valkrets-Göteborg 1: textsidans Summa = summa av distrikten utan ej raknade
+INFO rd valkrets-Göteborg 2: textsidans Summa = summa av distrikten utan ej raknade
+INFO rd valkrets-Göteborg 3: textsidans Summa = summa av distrikten utan ej raknade
+INFO rd valkrets-Göteborg 4: textsidans Summa = summa av distrikten utan ej raknade
+INFO rd aggregat riket: identisk med rikets textsida (Sverige), giltiga 5303212, OG 82218
+INFO rd aggregat goteborg: identisk med rikets textsida (Göteborg), giltiga 273056, OG 4433
+INFO rd aggregat vgregion: identisk med summan av ['Göteborg', 'Västra Götalands läns norra', 'Västra Götalands läns södra', 'Västra Götalands läns västra', 'Västra Götalands läns östra'] i rikets textsida, giltiga 887493, OG 15032
+INFO rd aggregat andel: 65 trunkerade, 0 bara avrundade, 0 tomma
+INFO rd: aggregat_ovriga summerar till ÖVR for 4 nivaer
+INFO rd: 2006-XML KOMMUN RÖSTER_FGVAL identisk med 2002 kommunsidan for 8 partier
+INFO rd: 2006-XML ger for 2002: RÖSTER_FGVAL 273056, SUMMA_RÖSTER_FGVAL 277489, RÖSTBERÄTTIGADE_KLARA_VALDISTRIKT_FGVAL 357876; 2002-sidan: giltiga 273056, rostande 277489, Vdt []
+INFO rd: baklanges: 2002 rostande 277489 / rostberattigade 357876 = 77.54 procent, 2002-sidan visar Vdt 77.5; SUMMA_RÖSTER_FGVAL 277489 = rostande
+INFO rd 2006-XML krets 148001 Göteborg 1 FGVAL skiljer sig fran 2002 textsidans valkretssumma: {'S': (28965, 28070), 'KD': (5206, 4898), 'V': (8339, 7878), 'MP': (3558, 3164), 'ÖVR': (2177, 2102), 'C': (1418, 1341), 'FP': (9843, 9084), 'M': (10147, 9181)}
+INFO rd 2006-XML krets 148002 Göteborg 2 FGVAL skiljer sig fran 2002 textsidans valkretssumma: {'S': (23063, 22998), 'KD': (4482, 4628), 'V': (7974, 7909), 'MP': (3801, 3814), 'ÖVR': (1692, 1701), 'C': (1056, 1057), 'FP': (8449, 8669), 'M': (7580, 8035)}
+INFO rd 2006-XML krets 148003 Göteborg 3 FGVAL skiljer sig fran 2002 textsidans valkretssumma: {'S': (16684, 17099), 'KD': (5145, 5070), 'V': (8614, 8975), 'MP': (5918, 6074), 'ÖVR': (1212, 1223), 'C': (1394, 1419), 'FP': (16087, 16067), 'M': (15000, 14676)}
+INFO rd 2006-XML krets 148004 Göteborg 4 FGVAL skiljer sig fran 2002 textsidans valkretssumma: {'S': (21835, 21495), 'KD': (8686, 8617), 'V': (7478, 7187), 'MP': (4380, 4214), 'ÖVR': (1959, 1939), 'C': (1247, 1221), 'FP': (14808, 14614), 'M': (14859, 14734)}
+INFO rd 2006-XML distrikt 14802701 Bergum-Gunnilse 1 FGVAL {'M': 116, 'C': 42, 'FP': 147, 'KD': 113, 'S': 428, 'V': 89, 'MP': 42, 'ÖVR': 40} OG 17 matchar 2002-distrikt [('14802701', 'Bergum 1', '17')]; 2002 med samma kod: {'M': 116, 'C': 42, 'FP': 147, 'KD': 113, 'S': 428, 'V': 89, 'MP': 42, 'ÖVR': 40} OG 17
+INFO rd 2006-XML distrikt 14802702 Bergum-Gunnilse 2 FGVAL {'M': 110, 'C': 54, 'FP': 96, 'KD': 70, 'S': 310, 'V': 74, 'MP': 38, 'ÖVR': 36} OG 18 matchar 2002-distrikt [('14802702', 'Bergum 2', '18')]; 2002 med samma kod: {'M': 110, 'C': 54, 'FP': 96, 'KD': 70, 'S': 310, 'V': 74, 'MP': 38, 'ÖVR': 36} OG 18
+INFO rd 2006-XML distrikt 14807803 Frölunda-Ruddalen 3 FGVAL {'M': 95, 'C': 12, 'FP': 72, 'KD': 75, 'S': 447, 'V': 140, 'MP': 55, 'ÖVR': 49} OG 18 matchar 2002-distrikt []; 2002 med samma kod: None OG None
+INFO rd 2006-XML distrikt 14807803: FGVAL = summa av 2002-distrikten [('14802207', 'Västra Frölunda 7', '14802210', 'Västra Frölunda 10')]
+INFO rd 2006-XML distrikt 14807804 Frölunda-Ruddalen 4 FGVAL {'M': 151, 'C': 14, 'FP': 225, 'KD': 124, 'S': 677, 'V': 130, 'MP': 57, 'ÖVR': 79} OG 12 matchar 2002-distrikt []; 2002 med samma kod: None OG None
+INFO rd 2006-XML distrikt 14807804: FGVAL = summa av 2002-distrikten [('14802201', 'Västra Frölunda 1', '14802205', 'Västra Frölunda 5')]
+
+### L (rf)
+INFO rf: 286 distrikt i distriktfilen, 286 i rosterfilen
+INFO rf: 286 av 286 distrikt identiska med HTML-sidan (roster, OG, Vdt); 17 tomma rostceller; kolumnuppsattningar [('M', 'C', 'FP', 'KD', 'S', 'V', 'MP', 'SFV', 'SPI', 'SD', 'ÖVR', 'OG')]
+INFO rf: andel (procent) i kallan: 3146 celler stammer med trunkering till en decimal, varav 1571 skulle blivit annat vid avrundning; 0 stammer bara med avrundning
+INFO rf: summa over 286 distriktssidor + ej raknade = kommunsidan for alla partier
+INFO rf: ej raknade i vallokal: 1 nivaer, giltiga 2512, OG 114
+INFO rf: 286 av 286 distrikt stammer med textsidan (roster, OG, Vdt)
+INFO rf valkrets-Göteborg 1: textsidans Summa = summa av distrikten utan ej raknade
+INFO rf valkrets-Göteborg 2: textsidans Summa = summa av distrikten utan ej raknade
+INFO rf valkrets-Göteborg 3: textsidans Summa = summa av distrikten utan ej raknade
+INFO rf valkrets-Göteborg 4: textsidans Summa = summa av distrikten utan ej raknade
+INFO rf aggregat riket: identisk med rikets textsida (Sverige), giltiga 5227376, OG 116585
+INFO rf aggregat goteborg: identisk med rikets textsida (Göteborg), giltiga 268882, OG 5243
+INFO rf aggregat vgregion: identisk med summan av ['Göteborgs kommun', 'Västra Götalands läns norra', 'Västra Götalands läns södra', 'Västra Götalands läns västra', 'Västra Götalands läns östra'] i rikets textsida, giltiga 873945, OG 21500
+INFO rf aggregat andel: 85 trunkerade, 0 bara avrundade, 0 tomma
+INFO rf: aggregat_ovriga summerar till ÖVR for 4 nivaer
+INFO rf: 2006-XML KOMMUN RÖSTER_FGVAL identisk med 2002 kommunsidan for 11 partier
+INFO rf: 2006-XML ger for 2002: RÖSTER_FGVAL 268882, SUMMA_RÖSTER_FGVAL 274125, RÖSTBERÄTTIGADE_KLARA_VALDISTRIKT_FGVAL 375849; 2002-sidan: giltiga 268882, rostande 274125, Vdt []
+INFO rf: baklanges: 2002 rostande 274125 / rostberattigade 375849 = 72.93 procent, 2002-sidan visar Vdt 72.9; SUMMA_RÖSTER_FGVAL 274125 = rostande
+INFO rf 2006-XML krets 148001 Göteborg 1 FGVAL skiljer sig fran 2002 textsidans valkretssumma: {'V': (7787, 7428), 'C': (1468, 1410), 'FP': (8644, 8210), 'M': (9987, 9460), 'S': (28198, 27578), 'KD': (4569, 4368), 'SFV': (1235, 1211), 'MP': (3151, 2900), 'ÖVR': (1088, 1048), 'SPI': (425, 415), 'SD': (1307, 1282)}
+INFO rf 2006-XML krets 148002 Göteborg 2 FGVAL skiljer sig fran 2002 textsidans valkretssumma: {'V': (7647, 7585), 'FP': (7687, 7885), 'M': (7938, 8422), 'S': (23305, 23221), 'KD': (4172, 4268), 'SFV': (1182, 1183), 'MP': (3506, 3538), 'ÖVR': (1238, 1229), 'SPI': (256, 258), 'SD': (1013, 1018)}
+INFO rf 2006-XML krets 148003 Göteborg 3 FGVAL skiljer sig fran 2002 textsidans valkretssumma: {'V': (8602, 8965), 'C': (1251, 1278), 'FP': (14413, 14391), 'M': (15943, 15599), 'S': (15551, 15948), 'KD': (4510, 4482), 'SFV': (1178, 1198), 'MP': (4998, 5108), 'ÖVR': (894, 938), 'SPI': (226, 227), 'SD': (671, 678)}
+INFO rf 2006-XML krets 148004 Göteborg 4 FGVAL skiljer sig fran 2002 textsidans valkretssumma: {'V': (7201, 6907), 'C': (1117, 1091), 'FP': (13203, 13033), 'M': (16076, 15942), 'S': (20832, 20527), 'KD': (7830, 7764), 'SFV': (1156, 1135), 'MP': (3772, 3633), 'ÖVR': (962, 930), 'SPI': (531, 528), 'SD': (1001, 990)}
+INFO rf 2006-XML distrikt 14802701 Bergum-Gunnilse 1 FGVAL {'M': 115, 'C': 46, 'FP': 144, 'KD': 109, 'S': 419, 'V': 84, 'MP': 39, 'SFV': 23, 'SPI': 6, 'SD': 33, 'ÖVR': 1} OG 18 matchar 2002-distrikt [('14802701', 'Bergum 1', '18')]; 2002 med samma kod: {'M': 115, 'C': 46, 'FP': 144, 'KD': 109, 'S': 419, 'V': 84, 'MP': 39, 'SFV': 23, 'SPI': 6, 'SD': 33, 'ÖVR': 1} OG 18
+INFO rf 2006-XML distrikt 14802702 Bergum-Gunnilse 2 FGVAL {'M': 115, 'C': 55, 'FP': 93, 'KD': 65, 'S': 317, 'V': 61, 'MP': 35, 'SFV': 9, 'SPI': 5, 'SD': 30, 'ÖVR': 11} OG 18 matchar 2002-distrikt [('14802702', 'Bergum 2', '18')]; 2002 med samma kod: {'M': 115, 'C': 55, 'FP': 93, 'KD': 65, 'S': 317, 'V': 61, 'MP': 35, 'SFV': 9, 'SPI': 5, 'SD': 30, 'ÖVR': 11} OG 18
+INFO rf 2006-XML distrikt 14807803 Frölunda-Ruddalen 3 FGVAL {'M': 91, 'C': 12, 'FP': 65, 'KD': 79, 'S': 430, 'V': 135, 'MP': 44, 'SFV': 38, 'SPI': 9, 'SD': 22, 'ÖVR': 17} OG 14 matchar 2002-distrikt []; 2002 med samma kod: None OG None
+INFO rf 2006-XML distrikt 14807803: FGVAL = summa av 2002-distrikten [('14802207', 'Västra Frölunda 7', '14802210', 'Västra Frölunda 10')]
+INFO rf 2006-XML distrikt 14807804 Frölunda-Ruddalen 4 FGVAL {'M': 146, 'C': 18, 'FP': 197, 'KD': 118, 'S': 639, 'V': 109, 'MP': 48, 'SFV': 34, 'SPI': 37, 'SD': 34, 'ÖVR': 17} OG 16 matchar 2002-distrikt []; 2002 med samma kod: None OG None
+INFO rf 2006-XML distrikt 14807804: FGVAL = summa av 2002-distrikten [('14802201', 'Västra Frölunda 1', '14802205', 'Västra Frölunda 5')]
+
+### K (kf)
+INFO kf: 286 distrikt i distriktfilen, 286 i rosterfilen
+INFO kf: 286 av 286 distrikt identiska med HTML-sidan (roster, OG, Vdt); 34 tomma rostceller; kolumnuppsattningar [('M', 'C', 'FP', 'KD', 'S', 'V', 'MP', 'KPML', 'SD', 'SPI', 'ÖVR', 'OG')]
+INFO kf: andel (procent) i kallan: 3146 celler stammer med trunkering till en decimal, varav 1545 skulle blivit annat vid avrundning; 0 stammer bara med avrundning
+INFO kf: summa over 286 distriktssidor + ej raknade = kommunsidan for alla partier
+INFO kf: ej raknade i vallokal: 4 nivaer, giltiga 2593, OG 88
+INFO kf: 286 av 286 distrikt stammer med textsidan (roster, OG, Vdt)
+INFO kf valkrets-Göteborg 1: textsidans Summa = summa av distrikten PLUS ej raknade
+INFO kf valkrets-Göteborg 2: textsidans Summa = summa av distrikten PLUS ej raknade
+INFO kf valkrets-Göteborg 3: textsidans Summa = summa av distrikten PLUS ej raknade
+INFO kf valkrets-Göteborg 4: textsidans Summa = summa av distrikten PLUS ej raknade
+INFO kf aggregat riket: identisk med rikets textsida (Sverige), giltiga 5313271, OG 96830
+INFO kf aggregat goteborg: identisk med rikets textsida (Göteborg), giltiga 273965, OG 4502
+INFO kf aggregat vgregion: identisk med summan av ['Göteborg', 'Västra Götalands läns norra', 'Västra Götalands läns södra', 'Västra Götalands läns västra', 'Västra Götalands läns östra'] i rikets textsida, giltiga 886499, OG 17369
+INFO kf aggregat andel: 115 trunkerade, 0 bara avrundade, 0 tomma
+INFO kf: aggregat_ovriga summerar till ÖVR for 7 nivaer
+INFO kf: 2006-XML KOMMUN RÖSTER_FGVAL identisk med 2002 kommunsidan for 11 partier
+INFO kf: 2006-XML ger for 2002: RÖSTER_FGVAL 273965, SUMMA_RÖSTER_FGVAL 278467, RÖSTBERÄTTIGADE_KLARA_VALDISTRIKT_FGVAL 375849; 2002-sidan: giltiga 273965, rostande 278467, Vdt []
+INFO kf: baklanges: 2002 rostande 278467 / rostberattigade 375849 = 74.09 procent, 2002-sidan visar Vdt 74.0; SUMMA_RÖSTER_FGVAL 278467 = rostande
+INFO kf 2006-XML krets 148001 Göteborg 1 FGVAL skiljer sig fran 2002 textsidans valkretssumma: {'V': (7278, 7272), 'C': (1292, 1291), 'FP': (8352, 8347), 'M': (10527, 10520), 'S': (28001, 27993), 'KD': (4059, 4057), 'MP': (3428, 3425), 'ÖVR': (1257, 1255), 'SPI': (427, 426)}
+INFO kf 2006-XML krets 148002 Göteborg 2 FGVAL skiljer sig fran 2002 textsidans valkretssumma: {'V': (7329, 7267), 'KPML': (1260, 1251), 'C': (901, 900), 'FP': (7889, 8071), 'M': (8627, 9130), 'S': (23956, 23922), 'KD': (3919, 4008), 'MP': (4365, 4376), 'ÖVR': (1094, 1095), 'SD': (1162, 1169), 'SPI': (244, 243)}
+INFO kf 2006-XML krets 148003 Göteborg 3 FGVAL skiljer sig fran 2002 textsidans valkretssumma: {'V': (8291, 8640), 'KPML': (1076, 1131), 'C': (1244, 1271), 'FP': (14424, 14420), 'M': (17454, 17112), 'S': (15866, 16209), 'KD': (4127, 4101), 'MP': (5927, 6074), 'ÖVR': (988, 1003), 'SD': (798, 804), 'SPI': (216, 221)}
+INFO kf 2006-XML krets 148004 Göteborg 4 FGVAL skiljer sig fran 2002 textsidans valkretssumma: {'V': (7123, 6842), 'KPML': (948, 902), 'C': (1090, 1065), 'FP': (13158, 12985), 'M': (17483, 17329), 'S': (21204, 20903), 'KD': (7484, 7423), 'MP': (4289, 4134), 'ÖVR': (1254, 1240), 'SD': (1128, 1115), 'SPI': (570, 567)}
+INFO kf 2006-XML distrikt 14802701 Bergum-Gunnilse 1 FGVAL {'M': 118, 'C': 42, 'FP': 144, 'KD': 110, 'S': 425, 'V': 84, 'MP': 44, 'KPML': 4, 'SD': 39, 'SPI': 8, 'ÖVR': 17} OG 17 matchar 2002-distrikt [('14802701', 'Bergum 1', '17')]; 2002 med samma kod: {'M': 118, 'C': 42, 'FP': 144, 'KD': 110, 'S': 425, 'V': 84, 'MP': 44, 'KPML': 4, 'SD': 39, 'SPI': 8, 'ÖVR': 17} OG 17
+INFO kf 2006-XML distrikt 14802702 Bergum-Gunnilse 2 FGVAL {'M': 122, 'C': 59, 'FP': 97, 'KD': 55, 'S': 318, 'V': 63, 'MP': 34, 'KPML': 8, 'SD': 31, 'SPI': 3, 'ÖVR': 11} OG 18 matchar 2002-distrikt [('14802702', 'Bergum 2', '18')]; 2002 med samma kod: {'M': 122, 'C': 59, 'FP': 97, 'KD': 55, 'S': 318, 'V': 63, 'MP': 34, 'KPML': 8, 'SD': 31, 'SPI': 3, 'ÖVR': 11} OG 18
+INFO kf 2006-XML distrikt 14807803 Frölunda-Ruddalen 3 FGVAL {'M': 101, 'C': 9, 'FP': 63, 'KD': 78, 'S': 438, 'V': 138, 'MP': 46, 'KPML': 14, 'SD': 19, 'SPI': 12, 'ÖVR': 40} OG 15 matchar 2002-distrikt []; 2002 med samma kod: None OG None
+INFO kf 2006-XML distrikt 14807803: FGVAL = summa av 2002-distrikten [('14802207', 'Västra Frölunda 7', '14802210', 'Västra Frölunda 10')]
+INFO kf 2006-XML distrikt 14807804 Frölunda-Ruddalen 4 FGVAL {'M': 162, 'C': 12, 'FP': 194, 'KD': 115, 'S': 660, 'V': 102, 'MP': 54, 'KPML': 14, 'SD': 41, 'SPI': 36, 'ÖVR': 37} OG 18 matchar 2002-distrikt []; 2002 med samma kod: None OG None
+INFO kf 2006-XML distrikt 14807804: FGVAL = summa av 2002-distrikten [('14802201', 'Västra Frölunda 1', '14802205', 'Västra Frölunda 5')]
+INFO kf 2006-XML onsdagsdistrikt K-1480-01 FGVAL {'M': 94, 'C': 15, 'FP': 53, 'KD': 29, 'S': 145, 'V': 53, 'MP': 34, 'KPML': 5, 'SD': 9, 'SPI': 3, 'ÖVR': 7} OG 22
+INFO kf 2006-XML onsdagsdistrikt K-1480-02 FGVAL {'M': 87, 'C': 11, 'FP': 83, 'KD': 32, 'S': 132, 'V': 70, 'MP': 55, 'KPML': 9, 'SD': 7, 'SPI': 2, 'ÖVR': 7} OG 17
+INFO kf 2006-XML onsdagsdistrikt K-1480-03 FGVAL {'M': 226, 'C': 19, 'FP': 206, 'KD': 53, 'S': 194, 'V': 119, 'MP': 110, 'KPML': 8, 'SD': 8, 'SPI': 3, 'ÖVR': 7} OG 39
+INFO kf 2006-XML onsdagsdistrikt K-1480-04 FGVAL {'M': 159, 'C': 13, 'FP': 103, 'KD': 68, 'S': 145, 'V': 92, 'MP': 81, 'KPML': 10, 'SD': 10, 'SPI': 7, 'ÖVR': 10} OG 10
+INFO samma 286 koder i rd, rf och kf; Majorna (Karl Johan 1-12) = ['14801301', '14801302', '14801303', '14801304', '14801305', '14801306', '14801307', '14801308', '14801309', '14801310', '14801311', '14801312']
+INFO distrikt_2002_indelning.csv: 858 rader, per val {'rd': 286, 'rf': 286, 'kf': 286}, andrade per val {'rd': 123, 'rf': 123, 'kf': 123}
+
+### Stickprov Majorna (slumpfro 2002)
+  ok rd 14801312 Karl Johan 12 M: racell 146 (fil 14R_1480_14801312.html, rostetabellen rad 2 'Röster', partikolumn 1 av 9, TD-index 1 i raden), CSV roster 146 andel 15.1
+  ok rd 14801312 Karl Johan 12 S: racell 304 (fil 14R_1480_14801312.html, rostetabellen rad 2 'Röster', partikolumn 5 av 9, TD-index 13 i raden), CSV roster 304 andel 31.5
+  ok rd 14801312 Karl Johan 12 FP: racell 165 (fil 14R_1480_14801312.html, rostetabellen rad 2 'Röster', partikolumn 3 av 9, TD-index 7 i raden), CSV roster 165 andel 17.1
+  ok rf 14801311 Karl Johan 11 SD: racell 8 (fil 14L_1480_14801311.html, rostetabellen rad 2 'Röster', partikolumn 10 av 12, TD-index 28 i raden), CSV roster 8 andel 0.9
+  ok rf 14801311 Karl Johan 11 C: racell 7 (fil 14L_1480_14801311.html, rostetabellen rad 2 'Röster', partikolumn 2 av 12, TD-index 4 i raden), CSV roster 7 andel 0.7
+  ok rf 14801311 Karl Johan 11 S: racell 261 (fil 14L_1480_14801311.html, rostetabellen rad 2 'Röster', partikolumn 5 av 12, TD-index 13 i raden), CSV roster 261 andel 29.4
+  ok kf 14801305 Karl Johan 5 SPI: racell 2 (fil 14K_1480_14801305.html, rostetabellen rad 2 'Röster', partikolumn 10 av 12, TD-index 28 i raden), CSV roster 2 andel 0.1
+  ok kf 14801305 Karl Johan 5 M: racell 137 (fil 14K_1480_14801305.html, rostetabellen rad 2 'Röster', partikolumn 1 av 12, TD-index 1 i raden), CSV roster 137 andel 12.1
+  ok kf 14801305 Karl Johan 5 C: racell 19 (fil 14K_1480_14801305.html, rostetabellen rad 2 'Röster', partikolumn 2 av 12, TD-index 4 i raden), CSV roster 19 andel 1.6
+
+======================================================================
+0 fel, 90 noteringar

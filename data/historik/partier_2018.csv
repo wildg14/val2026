@@ -9,22 +9,22 @@ ar;val;parti_kalla;parti;namn;namn_kalla
 2018;rd;SD;SD;Sverigedemokraterna;2018_mandat.xlsx PARTIBETECKNING
 2018;rd;FI;FI;Feministiskt initiativ;2018_mandat.xlsx PARTIBETECKNING
 2018;rd;AfS;AFS;Alternativ för Sverige;deltagande_partier.skv PARTIBETECKNING
-2018;rd;BASIP;BASIP;;
+2018;rd;BASIP;BASIP;Basinkomstpartiet;historik.val.se distriktssida R 14804154 (rad utan Förk.), styrkt mot 2018_R_per_valdistrikt.xlsx kolumn BASIP
 2018;rd;DD;DD;Direktdemokraterna;deltagande_partier.skv PARTIBETECKNING
 2018;rd;DjuP;DJUP;Djurens parti;deltagande_partier.skv PARTIBETECKNING
 2018;rd;EAP;EAP;Europeiska Arbetarpartiet-EAP;deltagande_partier.skv PARTIBETECKNING
 2018;rd;ENH;ENH;Enhet;deltagande_partier.skv PARTIBETECKNING
-2018;rd;INI;INI;;
+2018;rd;INI;INI;Initiativet;historik.val.se distriktssida R 14805173 (rad utan Förk.), styrkt mot 2018_R_per_valdistrikt.xlsx kolumn INI
 2018;rd;KLP;KLP;Klassiskt liberala partiet;deltagande_partier.skv PARTIBETECKNING
 2018;rd;KrVP;KRVP;Kristna Värdepartiet;deltagande_partier.skv PARTIBETECKNING
 2018;rd;LPo;LPO;Landsbygdspartiet Oberoende;deltagande_partier.skv PARTIBETECKNING
 2018;rd;MED;MED;Medborgerlig Samling;deltagande_partier.skv PARTIBETECKNING
 2018;rd;NMR;NMR;Nordiska motståndsrörelsen;deltagande_partier.skv PARTIBETECKNING
-2018;rd;NYREF;NYREF;;
+2018;rd;NYREF;NYREF;NY REFORM;historik.val.se distriktssida R 14807031 (rad utan Förk.), styrkt mot 2018_R_per_valdistrikt.xlsx kolumn NYREF
 2018;rd;PP;PP;Piratpartiet;deltagande_partier.skv PARTIBETECKNING
 2018;rd;SKP;SKP;Sveriges Kommunistiska Parti (SKP);deltagande_partier.skv PARTIBETECKNING
 2018;rd;TRP;TRP;TRYGGHETSPARTIET;deltagande_partier.skv PARTIBETECKNING
-2018;rd;ÖVR;ÖVR;;
+2018;rd;ÖVR;ÖVR;Övriga anmälda partier;historik.val.se distriktssidor, kolumnen Parti
 2018;rf;M;M;Moderaterna;2018_mandat.xlsx PARTIBETECKNING
 2018;rf;C;C;Centerpartiet;2018_mandat.xlsx PARTIBETECKNING
 2018;rf;L;L;Liberalerna (tidigare Folkpartiet);2018_mandat.xlsx PARTIBETECKNING
@@ -41,7 +41,7 @@ ar;val;parti_kalla;parti;namn;namn_kalla
 2018;rf;Rf;RF;Regionens framtid;deltagande_partier.skv PARTIBETECKNING
 2018;rf;RS;RS;Rättvisepartiet Socialisterna;deltagande_partier.skv PARTIBETECKNING
 2018;rf;SPVG;SPVG;Sjukvårdspartiet - Västra Götaland;deltagande_partier.skv PARTIBETECKNING
-2018;rf;ÖVR;ÖVR;;
+2018;rf;ÖVR;ÖVR;Övriga anmälda partier;historik.val.se distriktssidor, kolumnen Parti
 2018;kf;M;M;Moderaterna;2018_mandat.xlsx PARTIBETECKNING
 2018;kf;C;C;Centerpartiet;2018_mandat.xlsx PARTIBETECKNING
 2018;kf;L;L;Liberalerna (tidigare Folkpartiet);2018_mandat.xlsx PARTIBETECKNING
@@ -61,4 +61,4 @@ ar;val;parti_kalla;parti;namn;namn_kalla
 2018;kf;PP;PP;Piratpartiet;deltagande_partier.skv PARTIBETECKNING
 2018;kf;RS;RS;Rättvisepartiet Socialisterna;deltagande_partier.skv PARTIBETECKNING
 2018;kf;VägV;VÄGV;Vägvalet;deltagande_partier.skv PARTIBETECKNING
-2018;kf;ÖVR;ÖVR;;
+2018;kf;ÖVR;ÖVR;Övriga anmälda partier;historik.val.se distriktssidor, kolumnen Parti

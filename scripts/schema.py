@@ -10,7 +10,7 @@ KALLA_STANDARD = "Valmyndigheten, rösträkning per valdistrikt"
 KONFIG_STANDARD = {
     "ar": ["2022"], "standardAr": "2022", "valnatt": False,
     "adress": "https://majposten.se/val2026",
-    "inbaddad": False, "skrivUrl": True,
+    "inbaddad": False, "skrivUrl": True, "stickyTopp": 16,
 }
 
 

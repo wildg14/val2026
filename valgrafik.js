@@ -2,7 +2,7 @@
    Renderar hela grafiken inuti <div class="mp-val" id="valgrafik"></div>. Datafiler och konfig läses från
    mappen data/ bredvid den här filen (adressen tas ur skriptets egen src). Inga globala stilar, inga vh-mått:
    filen kan ligga i ett HTML-block i Beehiivs sajtbyggare eller i det tunna skalet index.html.
-   Konfig: data/konfig.js (ar, standardAr, valnatt, adress, inbaddad, skrivUrl). */
+   Konfig: data/konfig.js (ar, standardAr, valnatt, adress, inbaddad, skrivUrl, stickyTopp). */
 (function () {
 "use strict";
 const rot = (document.currentScript && document.currentScript.closest && document.currentScript.closest(".mp-val")) || document.getElementsByClassName("mp-val")[0];
@@ -84,7 +84,7 @@ const MARKUP = `
 const KONFIG = {   // standardvärden, skrivs över av data/konfig.js
   ar: ["2022"], standardAr: "2022", valnatt: false,
   adress: "https://majposten.se/val2026",
-  inbaddad: false, skrivUrl: true
+  inbaddad: false, skrivUrl: true, stickyTopp: 16   // px från fönstrets överkant för det klibbiga kortet på desktop, höj om Beehiivs sidhuvud är klibbigt
 };
 
 const PARTIER = {
@@ -241,6 +241,7 @@ async function start() {
   const q0 = new URLSearchParams(location.search);
   if (q0.get("bild")) { renderBild(q0.get("bild")); return; }
   if (q0.get("inbaddad") || KONFIG.inbaddad) rot.classList.add("inbaddad");
+  rot.style.setProperty("--mp-sticky-top", (Number(KONFIG.stickyTopp) || 16) + "px");
   const forsta = partierIVal(state.val);
   if (!forsta.includes(state.parti)) state.parti = forsta[0];
   if (state.vald && !distriktMap()[state.vald]) state.vald = null;

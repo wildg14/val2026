@@ -85,14 +85,14 @@ och öppna http://localhost:8765/.
 
 Två delar: statisk hosting av filerna, och ett HTML-block på Beehiiv-sidan.
 
-**1. Filerna** (`valgrafik.js`, `valgrafik.css`, `data/`, `bilder/`, gärna `index.html` och `docs/`) läggs på valfri statisk plats med HTTPS: GitHub Pages, Cloudflare Pages, Netlify eller Vercel. Ingen byggkedja. Adressen syns aldrig för läsaren, så en standardadress som `<konto>.github.io/majorna-val/` duger. Beehiiv-sidan är https, så hosten måste också vara det, annars blockerar webbläsaren filerna.
+**1. Filerna** (`valgrafik.js`, `valgrafik.css`, `data/`, `bilder/`, gärna `index.html` och `docs/`) läggs på valfri statisk plats med HTTPS: GitHub Pages, Cloudflare Pages, Netlify eller Vercel. Ingen byggkedja. Adressen syns aldrig för läsaren, så en standardadress som `wildg14.github.io/val2026/` duger. Beehiiv-sidan är https, så hosten måste också vara det, annars blockerar webbläsaren filerna.
 
 **2. Blocket** på Beehiiv-sidan (Website > Builder > Advanced blocks > HTML), med hostens adress i stället för platshållaren:
 
 ```html
-<div class="mp-val" id="valgrafik" data-bas="https://KONTO.github.io/majorna-val/">
-  <link rel="stylesheet" href="https://KONTO.github.io/majorna-val/valgrafik.css">
-  <script src="https://KONTO.github.io/majorna-val/valgrafik.js"></script>
+<div class="mp-val" id="valgrafik" data-bas="https://wildg14.github.io/val2026/">
+  <link rel="stylesheet" href="https://wildg14.github.io/val2026/valgrafik.css">
+  <script src="https://wildg14.github.io/val2026/valgrafik.js"></script>
 </div>
 ```
 

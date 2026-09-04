@@ -1,5 +1,7 @@
 # Så röstade Majorna
 
+> Ny session: läs `docs/HANDOVER.md` först. Den beskriver läget, besluten, siffrorna som är facit och startpunkten.
+
 Interaktiv valgrafik för Majposten: valresultatet per valdistrikt i klassiska Majorna (23 distrikt, riksdag, region och kommun). En statisk sida utan backend, byggd för att ta emot 2026 års siffror på valnatten utan kodändring.
 
 Grafiken lever som en sida i Beehiivs sajtbyggare (majposten.se/val2026). Själva koden och datan hostas statiskt på en egen adress, och ett HTML-block på Beehiiv-sidan laddar dem. Ingen iframe.
@@ -96,11 +98,11 @@ Två delar: statisk hosting av filerna, och ett HTML-block på Beehiiv-sidan.
 </div>
 ```
 
-`data-bas` säger var `data/` ligger (samma mapp som skriptet). Kontrollera i Preview och sedan Live: kartan ska synas, alla tabbar fungera, och Beehiivs egen meny och sidfot ligga kvar runt omkring. Vill du dölja grafikens egen rubrik, ingress och sidfot (Beehiiv har redan sina) sätter du `"inbaddad": true` i `data/konfig.json` och kör `scripts/uppdatera_2026.py --skriv-konfig` eller skriver om `konfig.js` med `scripts/schema.py`.
+`data-bas` säger var `data/` ligger (samma mapp som skriptet). Kontrollera i Preview och sedan Live: kartan ska synas, alla tabbar fungera, och Beehiivs egen meny och sidfot ligga kvar runt omkring. Vill du dölja grafikens egen rubrik, ingress och sidfot (Beehiiv har redan sina) sätter du `"inbaddad": true` i `data/konfig.json` och skriver om `konfig.js` med `.venv/bin/python -c "from scripts import schema; schema.skriv_konfig('data', schema.las_konfig('data'))"`.
 
 Beehiivs regler som bygget följer: koden börjar med en enda container-div, all CSS är scopad till `.mp-val`, inga regler på `*`, `body` eller `html`, inga `vh`-mått, ingen `position: fixed`. Testet `tests/test_inbaddning.py` vaktar det.
 
-Total sidvikt är cirka 330 kB.
+Total sidvikt är cirka 340 kB.
 
 ## Beehiiv
 

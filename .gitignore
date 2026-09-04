@@ -12,3 +12,5 @@ fortidsroster.csv
 # redaktionella arbetsdokument, inte för publikt repo
 interaktiv-valgrafik-brief.md
 majorna-valanalys-2022.md
+verktyg/node_modules/
+verktyg/package*.json

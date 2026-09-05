@@ -160,6 +160,8 @@ Läs igenom `scripts/uppdatera_2026.py`, `scripts/valmyndigheten.py`, `scripts/k
 
 ### Spår B: tankesmedjan (helhetsgrepp och vidareutveckling)
 
+Planen för historik och 2026 är skriven och granskad 2026-09-05: `docs/superpowers/specs/2026-09-05-historik-2026-design.md`. Den väntar på Daniels beslut (avsnitt 11 i specen) innan något byggs. Underlaget (faktablad, Majornabons önskelista, två koncept, valnattsredaktörens genomgång) skapades av en workflow och ligger inte i repot.
+
 Frågor som är för stora för en punktfix och som Daniel vill tänka igenom i ett sammanhang, inte lösa i förbigående:
 
 - Årväljaren och etiketten när sidan ska rymma både 2022, 2026 och (senare) historik: vad ska synas före och efter valdagen, hur ser övergången ut.

@@ -27,8 +27,7 @@ import xlrd
 from pyproj import Transformer
 
 HIST = "/Users/daniel/code/Temp/Historiska dokument/"
-REPARERAD = ("/private/tmp/claude-501/-Users-daniel-code-Temp/"
-             "f347baf2-1af3-43b3-b36d-e80b868ede0e/scratchpad/repaired/")
+REPARERAD = ("/Users/daniel/code/Temp/Historiska dokument/repaired/")
 UT = "/Users/daniel/code/Temp/data/historik/"
 LAN = 14
 KOM = 80

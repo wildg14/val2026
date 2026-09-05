@@ -1,0 +1,323 @@
+ar;val;parti;roster;andel;giltiga;rostande;rostberattigade;valdeltagande;antal_distrikt;metod
+2006;kf;0450;2;0.01;18807;19156;24603;77.86;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2006.csv
+2006;kf;C;556;2.96;18807;19156;24603;77.86;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2006.csv
+2006;kf;FI;599;3.18;18807;19156;24603;77.86;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2006.csv
+2006;kf;K;547;2.91;18807;19156;24603;77.86;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2006.csv
+2006;kf;KD;607;3.23;18807;19156;24603;77.86;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2006.csv
+2006;kf;L;1676;8.91;18807;19156;24603;77.86;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2006.csv
+2006;kf;M;2886;15.35;18807;19156;24603;77.86;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2006.csv
+2006;kf;MP;2959;15.73;18807;19156;24603;77.86;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2006.csv
+2006;kf;ND;15;0.08;18807;19156;24603;77.86;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2006.csv
+2006;kf;RS;5;0.03;18807;19156;24603;77.86;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2006.csv
+2006;kf;S;5631;29.94;18807;19156;24603;77.86;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2006.csv
+2006;kf;SD;418;2.22;18807;19156;24603;77.86;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2006.csv
+2006;kf;SOC.P;110;0.58;18807;19156;24603;77.86;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2006.csv
+2006;kf;SPI;34;0.18;18807;19156;24603;77.86;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2006.csv
+2006;kf;SUMMA_ÖVRIGA;197;1.05;18807;19156;24603;77.86;17;"areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2006.csv; residual giltiga minus V+S+MP+SD+M+C+L+KD+D+FI+K"
+2006;kf;V;2731;14.52;18807;19156;24603;77.86;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2006.csv
+2006;kf;ÖVR;31;0.16;18807;19156;24603;77.86;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2006.csv
+2006;rd;0538;2;0.01;18803;19181;24186;79.31;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2006.csv
+2006;rd;0603;3;0.02;18803;19181;24186;79.31;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2006.csv
+2006;rd;AKTD;1;0.01;18803;19181;24186;79.31;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2006.csv
+2006;rd;C;928;4.94;18803;19181;24186;79.31;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2006.csv
+2006;rd;ENH;9;0.05;18803;19181;24186;79.31;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2006.csv
+2006;rd;FI;471;2.5;18803;19181;24186;79.31;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2006.csv
+2006;rd;JL;69;0.37;18803;19181;24186;79.31;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2006.csv
+2006;rd;KD;731;3.89;18803;19181;24186;79.31;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2006.csv
+2006;rd;L;1674;8.9;18803;19181;24186;79.31;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2006.csv
+2006;rd;M;3324;17.68;18803;19181;24186;79.31;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2006.csv
+2006;rd;MP;3292;17.51;18803;19181;24186;79.31;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2006.csv
+2006;rd;ND;8;0.04;18803;19181;24186;79.31;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2006.csv
+2006;rd;NYF;1;0.01;18803;19181;24186;79.31;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2006.csv
+2006;rd;PP;164;0.87;18803;19181;24186;79.31;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2006.csv
+2006;rd;S;4469;23.77;18803;19181;24186;79.31;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2006.csv
+2006;rd;SD;371;1.97;18803;19181;24186;79.31;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2006.csv
+2006;rd;SJVP;20;0.11;18803;19181;24186;79.31;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2006.csv
+2006;rd;SPI;27;0.14;18803;19181;24186;79.31;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2006.csv
+2006;rd;SUMMA_ÖVRIGA;318;1.69;18803;19181;24186;79.31;17;"areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2006.csv; residual giltiga minus V+S+MP+SD+M+C+L+KD+D+FI+K"
+2006;rd;V;3225;17.15;18803;19181;24186;79.31;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2006.csv
+2006;rd;ÖVR;14;0.07;18803;19181;24186;79.31;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2006.csv
+2006;rf;C;666;3.65;18232;18716;24603;76.07;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2006.csv
+2006;rf;K;411;2.25;18232;18716;24603;76.07;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2006.csv
+2006;rf;KD;704;3.86;18232;18716;24603;76.07;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2006.csv
+2006;rf;L;1681;9.22;18232;18716;24603;76.07;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2006.csv
+2006;rf;M;3000;16.45;18232;18716;24603;76.07;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2006.csv
+2006;rf;MP;2985;16.37;18232;18716;24603;76.07;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2006.csv
+2006;rf;ND;16;0.09;18232;18716;24603;76.07;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2006.csv
+2006;rf;RS;2;0.01;18232;18716;24603;76.07;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2006.csv
+2006;rf;S;4612;25.3;18232;18716;24603;76.07;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2006.csv
+2006;rf;SD;373;2.05;18232;18716;24603;76.07;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2006.csv
+2006;rf;SPI;33;0.18;18232;18716;24603;76.07;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2006.csv
+2006;rf;SPVG;350;1.92;18232;18716;24603;76.07;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2006.csv
+2006;rf;SUMMA_ÖVRIGA;462;2.53;18232;18716;24603;76.07;17;"areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2006.csv; residual giltiga minus V+S+MP+SD+M+C+L+KD+D+FI+K"
+2006;rf;V;3338;18.31;18232;18716;24603;76.07;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2006.csv
+2006;rf;VÄP;7;0.04;18232;18716;24603;76.07;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2006.csv
+2006;rf;ÖVR;54;0.3;18232;18716;24603;76.07;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2006.csv
+2010;kf;0450;2;0.01;20456;20678;25353;81.56;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2010.csv
+2010;kf;1016;56;0.27;20456;20678;25353;81.56;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2010.csv
+2010;kf;1027;2;0.01;20456;20678;25353;81.56;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2010.csv
+2010;kf;C;424;2.07;20456;20678;25353;81.56;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2010.csv
+2010;kf;FI;672;3.29;20456;20678;25353;81.56;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2010.csv
+2010;kf;HANDSKRIVNA;22;0.11;20456;20678;25353;81.56;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2010.csv
+2010;kf;K;429;2.1;20456;20678;25353;81.56;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2010.csv
+2010;kf;KD;450;2.2;20456;20678;25353;81.56;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2010.csv
+2010;kf;L;1329;6.5;20456;20678;25353;81.56;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2010.csv
+2010;kf;M;3179;15.54;20456;20678;25353;81.56;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2010.csv
+2010;kf;MP;3806;18.61;20456;20678;25353;81.56;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2010.csv
+2010;kf;PP;130;0.64;20456;20678;25353;81.56;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2010.csv
+2010;kf;RS;52;0.25;20456;20678;25353;81.56;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2010.csv
+2010;kf;S;5190;25.37;20456;20678;25353;81.56;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2010.csv
+2010;kf;SD;690;3.37;20456;20678;25353;81.56;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2010.csv
+2010;kf;SOC.P;78;0.38;20456;20678;25353;81.56;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2010.csv
+2010;kf;SUMMA_ÖVRIGA;1054;5.15;20456;20678;25353;81.56;17;"areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2010.csv; residual giltiga minus V+S+MP+SD+M+C+L+KD+D+FI+K"
+2010;kf;V;3233;15.8;20456;20678;25353;81.56;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2010.csv
+2010;kf;VÄGV;712;3.48;20456;20678;25353;81.56;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2010.csv
+2010;rd;0979;2;0.01;20452;20700;25001;82.8;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2010.csv
+2010;rd;1052;2;0.01;20452;20700;25001;82.8;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2010.csv
+2010;rd;C;699;3.42;20452;20700;25001;82.8;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2010.csv
+2010;rd;EAP;2;0.01;20452;20700;25001;82.8;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2010.csv
+2010;rd;ENH;2;0.01;20452;20700;25001;82.8;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2010.csv
+2010;rd;FI;430;2.1;20452;20700;25001;82.8;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2010.csv
+2010;rd;HANDSKRIVNA;17;0.08;20452;20700;25001;82.8;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2010.csv
+2010;rd;KD;727;3.55;20452;20700;25001;82.8;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2010.csv
+2010;rd;L;1282;6.27;20452;20700;25001;82.8;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2010.csv
+2010;rd;M;3916;19.15;20452;20700;25001;82.8;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2010.csv
+2010;rd;MP;4228;20.67;20452;20700;25001;82.8;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2010.csv
+2010;rd;ND;1;0.0;20452;20700;25001;82.8;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2010.csv
+2010;rd;PP;172;0.84;20452;20700;25001;82.8;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2010.csv
+2010;rd;RS;11;0.05;20452;20700;25001;82.8;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2010.csv
+2010;rd;S;4340;21.22;20452;20700;25001;82.8;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2010.csv
+2010;rd;SD;834;4.08;20452;20700;25001;82.8;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2010.csv
+2010;rd;SKP;1;0.0;20452;20700;25001;82.8;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2010.csv
+2010;rd;SUMMA_ÖVRIGA;211;1.03;20452;20700;25001;82.8;17;"areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2010.csv; residual giltiga minus V+S+MP+SD+M+C+L+KD+D+FI+K"
+2010;rd;SVP;1;0.0;20452;20700;25001;82.8;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2010.csv
+2010;rd;V;3785;18.51;20452;20700;25001;82.8;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2010.csv
+2010;rf;C;473;2.36;20027;20324;25353;80.16;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2010.csv
+2010;rf;HANDSKRIVNA;108;0.54;20027;20324;25353;80.16;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2010.csv
+2010;rf;K;301;1.5;20027;20324;25353;80.16;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2010.csv
+2010;rf;KD;553;2.76;20027;20324;25353;80.16;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2010.csv
+2010;rf;L;1302;6.5;20027;20324;25353;80.16;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2010.csv
+2010;rf;M;3330;16.63;20027;20324;25353;80.16;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2010.csv
+2010;rf;MP;3990;19.92;20027;20324;25353;80.16;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2010.csv
+2010;rf;PP;163;0.81;20027;20324;25353;80.16;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2010.csv
+2010;rf;RS;33;0.16;20027;20324;25353;80.16;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2010.csv
+2010;rf;S;4723;23.58;20027;20324;25353;80.16;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2010.csv
+2010;rf;SD;666;3.33;20027;20324;25353;80.16;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2010.csv
+2010;rf;SPVG;490;2.45;20027;20324;25353;80.16;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2010.csv
+2010;rf;SUMMA_ÖVRIGA;794;3.96;20027;20324;25353;80.16;17;"areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2010.csv; residual giltiga minus V+S+MP+SD+M+C+L+KD+D+FI+K"
+2010;rf;V;3895;19.45;20027;20324;25353;80.16;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2010.csv
+2014;kf;1016;18;0.09;21063;21264;25835;82.31;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2014.csv
+2014;kf;1124;29;0.14;21063;21264;25835;82.31;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2014.csv
+2014;kf;1130;458;2.17;21063;21264;25835;82.31;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2014.csv
+2014;kf;1203;9;0.04;21063;21264;25835;82.31;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2014.csv
+2014;kf;C;434;2.06;21063;21264;25835;82.31;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2014.csv
+2014;kf;DJUP;57;0.27;21063;21264;25835;82.31;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2014.csv
+2014;kf;ENH;55;0.26;21063;21264;25835;82.31;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2014.csv
+2014;kf;FI;2124;10.08;21063;21264;25835;82.31;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2014.csv
+2014;kf;HANDSKRIVNA;22;0.1;21063;21264;25835;82.31;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2014.csv
+2014;kf;K;305;1.45;21063;21264;25835;82.31;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2014.csv
+2014;kf;KD;447;2.12;21063;21264;25835;82.31;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2014.csv
+2014;kf;KRVP;7;0.03;21063;21264;25835;82.31;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2014.csv
+2014;kf;L;1238;5.88;21063;21264;25835;82.31;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2014.csv
+2014;kf;M;2435;11.56;21063;21264;25835;82.31;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2014.csv
+2014;kf;MP;3586;17.03;21063;21264;25835;82.31;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2014.csv
+2014;kf;PP;112;0.53;21063;21264;25835;82.31;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2014.csv
+2014;kf;RS;15;0.07;21063;21264;25835;82.31;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2014.csv
+2014;kf;S;3355;15.93;21063;21264;25835;82.31;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2014.csv
+2014;kf;SD;1137;5.4;21063;21264;25835;82.31;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2014.csv
+2014;kf;SOC.P;34;0.16;21063;21264;25835;82.31;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2014.csv
+2014;kf;SPVG;10;0.05;21063;21264;25835;82.31;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2014.csv
+2014;kf;SUMMA_ÖVRIGA;1556;7.39;21063;21264;25835;82.31;17;"areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2014.csv; residual giltiga minus V+S+MP+SD+M+C+L+KD+D+FI+K"
+2014;kf;SVP;14;0.07;21063;21264;25835;82.31;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2014.csv
+2014;kf;TOP;1;0.0;21063;21264;25835;82.31;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2014.csv
+2014;kf;V;4446;21.11;21063;21264;25835;82.31;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2014.csv
+2014;kf;VÄGV;715;3.39;21063;21264;25835;82.31;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2014.csv
+2014;rd;1170;5;0.02;20960;21131;25494;82.89;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2014.csv
+2014;rd;1270;5;0.02;20960;21131;25494;82.89;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2014.csv
+2014;rd;C;582;2.78;20960;21131;25494;82.89;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2014.csv
+2014;rd;DJUP;35;0.17;20960;21131;25494;82.89;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2014.csv
+2014;rd;EAP;1;0.0;20960;21131;25494;82.89;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2014.csv
+2014;rd;ENH;30;0.14;20960;21131;25494;82.89;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2014.csv
+2014;rd;FI;3458;16.5;20960;21131;25494;82.89;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2014.csv
+2014;rd;HANDSKRIVNA;18;0.09;20960;21131;25494;82.89;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2014.csv
+2014;rd;KD;480;2.29;20960;21131;25494;82.89;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2014.csv
+2014;rd;KLP;9;0.04;20960;21131;25494;82.89;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2014.csv
+2014;rd;KRVP;7;0.03;20960;21131;25494;82.89;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2014.csv
+2014;rd;L;1077;5.14;20960;21131;25494;82.89;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2014.csv
+2014;rd;LBPO;1;0.0;20960;21131;25494;82.89;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2014.csv
+2014;rd;M;2587;12.34;20960;21131;25494;82.89;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2014.csv
+2014;rd;MP;3091;14.75;20960;21131;25494;82.89;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2014.csv
+2014;rd;PP;125;0.6;20960;21131;25494;82.89;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2014.csv
+2014;rd;RS;6;0.03;20960;21131;25494;82.89;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2014.csv
+2014;rd;S;3725;17.77;20960;21131;25494;82.89;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2014.csv
+2014;rd;SD;1554;7.41;20960;21131;25494;82.89;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2014.csv
+2014;rd;SKP;5;0.02;20960;21131;25494;82.89;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2014.csv
+2014;rd;SUMMA_ÖVRIGA;304;1.45;20960;21131;25494;82.89;17;"areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2014.csv; residual giltiga minus V+S+MP+SD+M+C+L+KD+D+FI+K"
+2014;rd;SVP;13;0.06;20960;21131;25494;82.89;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2014.csv
+2014;rd;V;4102;19.57;20960;21131;25494;82.89;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2014.csv
+2014;rd;VÄGV;44;0.21;20960;21131;25494;82.89;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2014.csv
+2014;rf;1209;10;0.05;20744;20994;25835;81.26;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2014.csv
+2014;rf;C;462;2.23;20744;20994;25835;81.26;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2014.csv
+2014;rf;FI;240;1.16;20744;20994;25835;81.26;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2014.csv
+2014;rf;HANDSKRIVNA;128;0.62;20744;20994;25835;81.26;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2014.csv
+2014;rf;KD;528;2.55;20744;20994;25835;81.26;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2014.csv
+2014;rf;KRVP;6;0.03;20744;20994;25835;81.26;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2014.csv
+2014;rf;L;1255;6.05;20744;20994;25835;81.26;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2014.csv
+2014;rf;M;2452;11.82;20744;20994;25835;81.26;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2014.csv
+2014;rf;MP;4091;19.72;20744;20994;25835;81.26;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2014.csv
+2014;rf;PP;139;0.67;20744;20994;25835;81.26;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2014.csv
+2014;rf;RS;17;0.08;20744;20994;25835;81.26;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2014.csv
+2014;rf;S;3731;17.99;20744;20994;25835;81.26;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2014.csv
+2014;rf;SD;1152;5.55;20744;20994;25835;81.26;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2014.csv
+2014;rf;SPVG;54;0.26;20744;20994;25835;81.26;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2014.csv
+2014;rf;SUMMA_ÖVRIGA;681;3.28;20744;20994;25835;81.26;17;"areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2014.csv; residual giltiga minus V+S+MP+SD+M+C+L+KD+D+FI+K"
+2014;rf;SVP;11;0.05;20744;20994;25835;81.26;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2014.csv
+2014;rf;V;6152;29.66;20744;20994;25835;81.26;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2014.csv
+2014;rf;VÄGV;316;1.52;20744;20994;25835;81.26;17;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2014.csv
+2018;kf;0470;1;0.0;21616;21839;25965;84.11;22;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2018.csv
+2018;kf;1397;4;0.02;21616;21839;25965;84.11;22;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2018.csv
+2018;kf;C;649;3.0;21616;21839;25965;84.11;22;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2018.csv
+2018;kf;D;2390;11.06;21616;21839;25965;84.11;22;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2018.csv
+2018;kf;DJUP;68;0.31;21616;21839;25965;84.11;22;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2018.csv
+2018;kf;FI;1215;5.62;21616;21839;25965;84.11;22;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2018.csv
+2018;kf;K;275;1.27;21616;21839;25965;84.11;22;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2018.csv
+2018;kf;KD;372;1.72;21616;21839;25965;84.11;22;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2018.csv
+2018;kf;KRVP;4;0.02;21616;21839;25965;84.11;22;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2018.csv
+2018;kf;L;1190;5.51;21616;21839;25965;84.11;22;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2018.csv
+2018;kf;M;1649;7.63;21616;21839;25965;84.11;22;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2018.csv
+2018;kf;MED;36;0.17;21616;21839;25965;84.11;22;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2018.csv
+2018;kf;MP;2274;10.52;21616;21839;25965;84.11;22;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2018.csv
+2018;kf;PP;44;0.2;21616;21839;25965;84.11;22;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2018.csv
+2018;kf;RS;21;0.1;21616;21839;25965;84.11;22;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2018.csv
+2018;kf;S;3465;16.03;21616;21839;25965;84.11;22;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2018.csv
+2018;kf;SD;1352;6.25;21616;21839;25965;84.11;22;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2018.csv
+2018;kf;SUMMA_ÖVRIGA;543;2.51;21616;21839;25965;84.11;22;"areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2018.csv; residual giltiga minus V+S+MP+SD+M+C+L+KD+D+FI+K"
+2018;kf;V;6242;28.88;21616;21839;25965;84.11;22;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2018.csv
+2018;kf;VÄGV;346;1.6;21616;21839;25965;84.11;22;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2018.csv
+2018;kf;ÖVR;19;0.09;21616;21839;25965;84.11;22;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2018.csv
+2018;rd;AFS;71;0.34;21167;21361;25331;84.33;22;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2018.csv
+2018;rd;BASIP;14;0.07;21167;21361;25331;84.33;22;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2018.csv
+2018;rd;C;1130;5.34;21167;21361;25331;84.33;22;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2018.csv
+2018;rd;DD;23;0.11;21167;21361;25331;84.33;22;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2018.csv
+2018;rd;DJUP;30;0.14;21167;21361;25331;84.33;22;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2018.csv
+2018;rd;EAP;2;0.01;21167;21361;25331;84.33;22;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2018.csv
+2018;rd;ENH;34;0.16;21167;21361;25331;84.33;22;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2018.csv
+2018;rd;FI;386;1.82;21167;21361;25331;84.33;22;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2018.csv
+2018;rd;INI;3;0.01;21167;21361;25331;84.33;22;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2018.csv
+2018;rd;KD;671;3.17;21167;21361;25331;84.33;22;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2018.csv
+2018;rd;KLP;3;0.01;21167;21361;25331;84.33;22;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2018.csv
+2018;rd;KRVP;2;0.01;21167;21361;25331;84.33;22;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2018.csv
+2018;rd;L;1042;4.92;21167;21361;25331;84.33;22;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2018.csv
+2018;rd;LPO;3;0.01;21167;21361;25331;84.33;22;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2018.csv
+2018;rd;M;2092;9.88;21167;21361;25331;84.33;22;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2018.csv
+2018;rd;MED;50;0.24;21167;21361;25331;84.33;22;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2018.csv
+2018;rd;MP;2293;10.83;21167;21361;25331;84.33;22;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2018.csv
+2018;rd;NMR;4;0.02;21167;21361;25331;84.33;22;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2018.csv
+2018;rd;PP;38;0.18;21167;21361;25331;84.33;22;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2018.csv
+2018;rd;S;4441;20.98;21167;21361;25331;84.33;22;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2018.csv
+2018;rd;SD;2047;9.67;21167;21361;25331;84.33;22;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2018.csv
+2018;rd;SKP;2;0.01;21167;21361;25331;84.33;22;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2018.csv
+2018;rd;SUMMA_ÖVRIGA;283;1.34;21167;21361;25331;84.33;22;"areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2018.csv; residual giltiga minus V+S+MP+SD+M+C+L+KD+D+FI+K"
+2018;rd;V;6782;32.04;21167;21361;25331;84.33;22;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2018.csv
+2018;rd;ÖVR;4;0.02;21167;21361;25331;84.33;22;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2018.csv
+2018;rf;C;846;3.96;21379;21687;25965;83.52;22;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2018.csv
+2018;rf;D;1123;5.25;21379;21687;25965;83.52;22;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2018.csv
+2018;rf;FI;692;3.24;21379;21687;25965;83.52;22;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2018.csv
+2018;rf;KD;664;3.11;21379;21687;25965;83.52;22;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2018.csv
+2018;rf;KRVP;9;0.04;21379;21687;25965;83.52;22;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2018.csv
+2018;rf;L;1223;5.72;21379;21687;25965;83.52;22;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2018.csv
+2018;rf;M;1829;8.56;21379;21687;25965;83.52;22;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2018.csv
+2018;rf;MED;59;0.28;21379;21687;25965;83.52;22;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2018.csv
+2018;rf;MP;2111;9.87;21379;21687;25965;83.52;22;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2018.csv
+2018;rf;NMR;12;0.06;21379;21687;25965;83.52;22;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2018.csv
+2018;rf;RF;4;0.02;21379;21687;25965;83.52;22;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2018.csv
+2018;rf;RS;26;0.12;21379;21687;25965;83.52;22;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2018.csv
+2018;rf;S;3879;18.14;21379;21687;25965;83.52;22;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2018.csv
+2018;rf;SD;1505;7.04;21379;21687;25965;83.52;22;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2018.csv
+2018;rf;SPVG;45;0.21;21379;21687;25965;83.52;22;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2018.csv
+2018;rf;SUMMA_ÖVRIGA;186;0.87;21379;21687;25965;83.52;22;"areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2018.csv; residual giltiga minus V+S+MP+SD+M+C+L+KD+D+FI+K"
+2018;rf;V;7321;34.24;21379;21687;25965;83.52;22;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2018.csv
+2018;rf;ÖVR;31;0.15;21379;21687;25965;83.52;22;areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2018.csv
+2022;kf;AFS;61;0.28;21620;21865;26737;81.78;23;2022 ars 23 distrikt
+2022;kf;ANARK;1;0.0;21620;21865;26737;81.78;23;2022 ars 23 distrikt
+2022;kf;BASIP;1;0.0;21620;21865;26737;81.78;23;2022 ars 23 distrikt
+2022;kf;C;627;2.9;21620;21865;26737;81.78;23;2022 ars 23 distrikt
+2022;kf;D;844;3.9;21620;21865;26737;81.78;23;2022 ars 23 distrikt
+2022;kf;DD;7;0.03;21620;21865;26737;81.78;23;2022 ars 23 distrikt
+2022;kf;ENH;5;0.02;21620;21865;26737;81.78;23;2022 ars 23 distrikt
+2022;kf;FI;373;1.73;21620;21865;26737;81.78;23;2022 ars 23 distrikt
+2022;kf;FRIH;1;0.0;21620;21865;26737;81.78;23;2022 ars 23 distrikt
+2022;kf;GBGP;62;0.29;21620;21865;26737;81.78;23;2022 ars 23 distrikt
+2022;kf;K;220;1.02;21620;21865;26737;81.78;23;2022 ars 23 distrikt
+2022;kf;KALLE;2;0.01;21620;21865;26737;81.78;23;2022 ars 23 distrikt
+2022;kf;KD;478;2.21;21620;21865;26737;81.78;23;2022 ars 23 distrikt
+2022;kf;KNAPP;8;0.04;21620;21865;26737;81.78;23;2022 ars 23 distrikt
+2022;kf;KRVP;19;0.09;21620;21865;26737;81.78;23;2022 ars 23 distrikt
+2022;kf;L;848;3.92;21620;21865;26737;81.78;23;2022 ars 23 distrikt
+2022;kf;M;1783;8.25;21620;21865;26737;81.78;23;2022 ars 23 distrikt
+2022;kf;MED;87;0.4;21620;21865;26737;81.78;23;2022 ars 23 distrikt
+2022;kf;MOD;20;0.09;21620;21865;26737;81.78;23;2022 ars 23 distrikt
+2022;kf;MP;2067;9.56;21620;21865;26737;81.78;23;2022 ars 23 distrikt
+2022;kf;NATUR;2;0.01;21620;21865;26737;81.78;23;2022 ars 23 distrikt
+2022;kf;NYANS;32;0.15;21620;21865;26737;81.78;23;2022 ars 23 distrikt
+2022;kf;PP;16;0.07;21620;21865;26737;81.78;23;2022 ars 23 distrikt
+2022;kf;S;4997;23.11;21620;21865;26737;81.78;23;2022 ars 23 distrikt
+2022;kf;SD;1578;7.3;21620;21865;26737;81.78;23;2022 ars 23 distrikt
+2022;kf;SUMMA_ÖVRIGA;326;1.51;21620;21865;26737;81.78;23;"2022 ars 23 distrikt; residual giltiga minus V+S+MP+SD+M+C+L+KD+D+FI+K"
+2022;kf;V;7479;34.59;21620;21865;26737;81.78;23;2022 ars 23 distrikt
+2022;kf;VOLT;2;0.01;21620;21865;26737;81.78;23;2022 ars 23 distrikt
+2022;rd;AFS;53;0.25;21308;21545;26032;82.76;23;2022 ars 23 distrikt
+2022;rd;BASIP;8;0.04;21308;21545;26032;82.76;23;2022 ars 23 distrikt
+2022;rd;C;910;4.27;21308;21545;26032;82.76;23;2022 ars 23 distrikt
+2022;rd;DD;5;0.02;21308;21545;26032;82.76;23;2022 ars 23 distrikt
+2022;rd;ENH;8;0.04;21308;21545;26032;82.76;23;2022 ars 23 distrikt
+2022;rd;FI;23;0.11;21308;21545;26032;82.76;23;2022 ars 23 distrikt
+2022;rd;FRIH;4;0.02;21308;21545;26032;82.76;23;2022 ars 23 distrikt
+2022;rd;KALLE;1;0.0;21308;21545;26032;82.76;23;2022 ars 23 distrikt
+2022;rd;KD;491;2.3;21308;21545;26032;82.76;23;2022 ars 23 distrikt
+2022;rd;KLIMA;19;0.09;21308;21545;26032;82.76;23;2022 ars 23 distrikt
+2022;rd;KNAPP;18;0.08;21308;21545;26032;82.76;23;2022 ars 23 distrikt
+2022;rd;KRVP;15;0.07;21308;21545;26032;82.76;23;2022 ars 23 distrikt
+2022;rd;L;886;4.16;21308;21545;26032;82.76;23;2022 ars 23 distrikt
+2022;rd;M;1894;8.89;21308;21545;26032;82.76;23;2022 ars 23 distrikt
+2022;rd;MED;57;0.27;21308;21545;26032;82.76;23;2022 ars 23 distrikt
+2022;rd;MOD;33;0.15;21308;21545;26032;82.76;23;2022 ars 23 distrikt
+2022;rd;MP;3349;15.72;21308;21545;26032;82.76;23;2022 ars 23 distrikt
+2022;rd;NUFAN;1;0.0;21308;21545;26032;82.76;23;2022 ars 23 distrikt
+2022;rd;NYANS;22;0.1;21308;21545;26032;82.76;23;2022 ars 23 distrikt
+2022;rd;OKP;1;0.0;21308;21545;26032;82.76;23;2022 ars 23 distrikt
+2022;rd;PP;46;0.22;21308;21545;26032;82.76;23;2022 ars 23 distrikt
+2022;rd;S;5515;25.88;21308;21545;26032;82.76;23;2022 ars 23 distrikt
+2022;rd;SD;2152;10.1;21308;21545;26032;82.76;23;2022 ars 23 distrikt
+2022;rd;SKP;1;0.0;21308;21545;26032;82.76;23;2022 ars 23 distrikt
+2022;rd;SKS;1;0.0;21308;21545;26032;82.76;23;2022 ars 23 distrikt
+2022;rd;SUMMA_ÖVRIGA;295;1.38;21308;21545;26032;82.76;23;"2022 ars 23 distrikt; residual giltiga minus V+S+MP+SD+M+C+L+KD+D+FI+K"
+2022;rd;V;5793;27.19;21308;21545;26032;82.76;23;2022 ars 23 distrikt
+2022;rd;VOLT;1;0.0;21308;21545;26032;82.76;23;2022 ars 23 distrikt
+2022;rd;VSP;1;0.0;21308;21545;26032;82.76;23;2022 ars 23 distrikt
+2022;rf;AFS;74;0.34;21570;21832;26737;81.65;23;2022 ars 23 distrikt
+2022;rf;ANARK;1;0.0;21570;21832;26737;81.65;23;2022 ars 23 distrikt
+2022;rf;BASIP;1;0.0;21570;21832;26737;81.65;23;2022 ars 23 distrikt
+2022;rf;C;680;3.15;21570;21832;26737;81.65;23;2022 ars 23 distrikt
+2022;rf;D;558;2.59;21570;21832;26737;81.65;23;2022 ars 23 distrikt
+2022;rf;DD;9;0.04;21570;21832;26737;81.65;23;2022 ars 23 distrikt
+2022;rf;ENH;2;0.01;21570;21832;26737;81.65;23;2022 ars 23 distrikt
+2022;rf;FI;158;0.73;21570;21832;26737;81.65;23;2022 ars 23 distrikt
+2022;rf;FRIH;1;0.0;21570;21832;26737;81.65;23;2022 ars 23 distrikt
+2022;rf;KALLE;1;0.0;21570;21832;26737;81.65;23;2022 ars 23 distrikt
+2022;rf;KD;635;2.94;21570;21832;26737;81.65;23;2022 ars 23 distrikt
+2022;rf;KNAPP;9;0.04;21570;21832;26737;81.65;23;2022 ars 23 distrikt
+2022;rf;KRVP;14;0.06;21570;21832;26737;81.65;23;2022 ars 23 distrikt
+2022;rf;L;809;3.75;21570;21832;26737;81.65;23;2022 ars 23 distrikt
+2022;rf;M;1753;8.13;21570;21832;26737;81.65;23;2022 ars 23 distrikt
+2022;rf;MED;86;0.4;21570;21832;26737;81.65;23;2022 ars 23 distrikt
+2022;rf;MOD;24;0.11;21570;21832;26737;81.65;23;2022 ars 23 distrikt
+2022;rf;MP;1766;8.19;21570;21832;26737;81.65;23;2022 ars 23 distrikt
+2022;rf;NYANS;32;0.15;21570;21832;26737;81.65;23;2022 ars 23 distrikt
+2022;rf;PP;16;0.07;21570;21832;26737;81.65;23;2022 ars 23 distrikt
+2022;rf;S;5519;25.59;21570;21832;26737;81.65;23;2022 ars 23 distrikt
+2022;rf;SD;1610;7.46;21570;21832;26737;81.65;23;2022 ars 23 distrikt
+2022;rf;SPVG;88;0.41;21570;21832;26737;81.65;23;2022 ars 23 distrikt
+2022;rf;SUMMA_ÖVRIGA;359;1.66;21570;21832;26737;81.65;23;"2022 ars 23 distrikt; residual giltiga minus V+S+MP+SD+M+C+L+KD+D+FI+K"
+2022;rf;V;7723;35.8;21570;21832;26737;81.65;23;2022 ars 23 distrikt
+2022;rf;VOLT;1;0.0;21570;21832;26737;81.65;23;2022 ars 23 distrikt

@@ -23,7 +23,7 @@ from lxml import etree
 
 ROT = "/Users/daniel/code/Temp"
 HIST = ROT + "/Historiska dokument"
-SCRATCH = "/private/tmp/claude-501/-Users-daniel-code-Temp/f347baf2-1af3-43b3-b36d-e80b868ede0e/scratchpad"
+SCRATCH = "/Users/daniel/code/Temp/Historiska dokument"
 UT = ROT + "/data/historik"
 WEBB = ROT + "/docs/historik/kallor/webb"
 

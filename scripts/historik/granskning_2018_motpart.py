@@ -39,7 +39,7 @@ from openpyxl.utils import get_column_letter
 from dbfread import DBF
 
 KALLMAPP = "/Users/daniel/code/Temp/Historiska dokument"
-SCRATCH = "/private/tmp/claude-501/-Users-daniel-code-Temp/f347baf2-1af3-43b3-b36d-e80b868ede0e/scratchpad"
+SCRATCH = "/Users/daniel/code/Temp/Historiska dokument"
 UTMAPP = "/Users/daniel/code/Temp/data/historik"
 
 FIL = {"rd": os.path.join(KALLMAPP, "2018_R_per_valdistrikt.xlsx"),
@@ -653,6 +653,7 @@ for p in sok:
 # 14801042 till 100 procent). Talen jamfors mot 2014-agentens roster_2014_<val>_xls.csv.
 print("== 11. foregaende val 2014 pa distriktssidorna mot 2014 ars filer")
 OFORANDRADE = {"14801032": "14801031", "14801042": "14801042"}
+saknade = collections.defaultdict(dict)
 for v in ("rd", "rf", "kf"):
     fil2014 = os.path.join(UTMAPP, f"roster_2014_{v}_xls.csv")
     if not os.path.exists(fil2014):
@@ -676,15 +677,34 @@ for v in ("rd", "rf", "kf"):
                     continue
                 p = normalisera(rad[0])
                 if p not in r14[kod14]:
+                    # xls-filerna for 2014 slar ihop sma partier i OVR; xml-filen har dem var for sig
                     n_saknas += 1
-                    rap("INFO", f"2014 {v} {kod14}: parti {p} finns pa 2018-sidan ({a14}) men inte "
-                                f"i roster_2014_{v}_xls.csv")
+                    saknade[(v, kod14)][p] = a14
                 elif r14[kod14][p] != a14:
                     rap("FEL", f"2014 {v} {kod14} {p}: sidan for {kod18} anger {a14}, "
                                f"roster_2014_{v}_xls.csv har {r14[kod14][p]}")
                 else:
                     n_ok += 1
-        print(f"  {v} {kod18} (2014: {kod14}): {n_ok} partital lika, {n_saknas} utan motsvarighet")
+        print(f"  {v} {kod18} (2014: {kod14}): {n_ok} partital lika, {n_saknas} bara i xls-filens OVR")
+        if n_saknas:
+            # kontrollera att de saknade partierna ligger i xls-filens OVR och finns i xml-filen
+            ovr = r14[kod14].get("OVR", r14[kod14].get("ÖVR"))
+            fil_xml = os.path.join(UTMAPP, f"roster_2014_{v}_xml.csv")
+            xml = {}
+            if os.path.exists(fil_xml):
+                with open(fil_xml, encoding="utf-8", newline="") as f:
+                    for r in csv.DictReader(f, delimiter=";"):
+                        if r["kod"] == kod14:
+                            xml[r["parti"]] = int(r["roster"])
+            sma = sum(a for p_, a in xml.items() if p_ not in r14[kod14])
+            print(f"    xls OVR {ovr}, summa sma partier i roster_2014_{v}_xml.csv {sma}, "
+                  f"varav pa 2018-sidan {saknade[(v, kod14)]}")
+            if ovr is not None and sma != ovr:
+                rap("FEL", f"2014 {v} {kod14}: xls OVR {ovr} != summan av sma partier i xml {sma}")
+            for p_, a14 in saknade[(v, kod14)].items():
+                if xml.get(p_) != a14:
+                    rap("FEL", f"2014 {v} {kod14} {p_}: 2018-sidan {a14} != "
+                               f"roster_2014_{v}_xml.csv {xml.get(p_)}")
 
 # ---------------------------------------------------------------- 10. sammanfattning
 print("== 10. summering")

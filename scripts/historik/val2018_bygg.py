@@ -27,13 +27,11 @@ FIL_R = os.path.join(KALLMAPP, "2018_R_per_valdistrikt.xlsx")
 FIL_L = os.path.join(KALLMAPP, "2018_L_per_valdistrikt.xlsx")
 FIL_K = os.path.join(KALLMAPP, "2018_K_per_valdistrikt.xlsx")
 FIL_MANDAT = os.path.join(KALLMAPP, "2018_mandat.xlsx")
-SHP_DBF = ("/private/tmp/claude-501/-Users-daniel-code-Temp/"
-           "f347baf2-1af3-43b3-b36d-e80b868ede0e/scratchpad/unz/"
+SHP_DBF = ("/Users/daniel/code/Temp/Historiska dokument/unz/"
            "2018_valgeografi_valdistrikt/alla_valdistrikt.dbf")
 # Deltagande partier 2018 (partibeteckning per forkortning), hamtad 2026-09-03 fran
 # https://historik.val.se/val/val2018/valsedlar/partier/deltagande_partier.skv (ISO-8859-1)
-FIL_DELTAGANDE = ("/private/tmp/claude-501/-Users-daniel-code-Temp/"
-                  "f347baf2-1af3-43b3-b36d-e80b868ede0e/scratchpad/dl2018/deltagande_partier.skv")
+FIL_DELTAGANDE = ("/Users/daniel/code/Temp/Historiska dokument/dl2018/deltagande_partier.skv")
 UTMAPP = "/Users/daniel/code/Temp/data/historik"
 
 AR = 2018

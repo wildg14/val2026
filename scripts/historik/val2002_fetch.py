@@ -15,7 +15,7 @@ import sys
 import time
 
 BASE = "https://historik.val.se/val/val_02/slutresultat"
-DL_DIR = "/private/tmp/claude-501/-Users-daniel-code-Temp/f347baf2-1af3-43b3-b36d-e80b868ede0e/scratchpad/dl2002"
+DL_DIR = "/Users/daniel/code/Temp/Historiska dokument/dl2002"
 VAL = ["R", "K", "L"]          # riksdag, kommunfullmaktige, landsting
 KOMMUN = "1480"                # Goteborg
 VALKRETSAR = ["148001", "148002", "148003", "148004"]

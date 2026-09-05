@@ -23,8 +23,7 @@ KALLA_DIR = "/Users/daniel/code/Temp/Historiska dokument"
 XLS_R = os.path.join(KALLA_DIR, "2014_riksdagsval_per_valdistrikt.xls")
 XLS_L = os.path.join(KALLA_DIR, "2014_landstingsval_per_valdistrikt.xls")
 XLSX_K = os.path.join(KALLA_DIR, "2014_kommunval_per_valdistrikt.xlsx")
-SCRATCH = ("/private/tmp/claude-501/-Users-daniel-code-Temp/"
-           "f347baf2-1af3-43b3-b36d-e80b868ede0e/scratchpad")
+SCRATCH = "/Users/daniel/code/Temp/Historiska dokument"
 XML2014 = os.path.join(SCRATCH, "unz/slutresultat")
 XML2010 = os.path.join(SCRATCH, "unz/slutresultat__1_")
 DBF2014 = os.path.join(SCRATCH, "unz/valgeografi_valdistrikt/valgeografi_valdistrikt.dbf")

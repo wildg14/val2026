@@ -17,8 +17,7 @@ import shapefile
 from shapely.geometry import shape
 from shapely.ops import unary_union
 
-SCRATCH = ("/private/tmp/claude-501/-Users-daniel-code-Temp/"
-           "f347baf2-1af3-43b3-b36d-e80b868ede0e/scratchpad/unz")
+SCRATCH = ("/Users/daniel/code/Temp/Historiska dokument/unz")
 SHP_2018 = SCRATCH + "/2018_valgeografi_valdistrikt/alla_valdistrikt"
 GEOJSON_2022 = SCRATCH + "/valgeografi_2022/VD_14_20220910_Val_20220911.json"
 MAJORNA_2022 = {f"148005{n:02d}" for n in range(26, 49)}

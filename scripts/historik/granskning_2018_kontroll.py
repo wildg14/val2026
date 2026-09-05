@@ -34,7 +34,7 @@ FIL = {"rd": os.path.join(KALLMAPP, "2018_R_per_valdistrikt.xlsx"),
        "kf": os.path.join(KALLMAPP, "2018_K_per_valdistrikt.xlsx")}
 FLIK = {"rd": ("R antal", "R procent"), "rf": ("L antal", "L procent"), "kf": ("K antal", "K procent")}
 FIL_MANDAT = os.path.join(KALLMAPP, "2018_mandat.xlsx")
-SCRATCH = "/private/tmp/claude-501/-Users-daniel-code-Temp/f347baf2-1af3-43b3-b36d-e80b868ede0e/scratchpad"
+SCRATCH = "/Users/daniel/code/Temp/Historiska dokument"
 SHP_DBF = SCRATCH + "/unz/2018_valgeografi_valdistrikt/alla_valdistrikt.dbf"
 FIL_ROSTBER = {"rd": SCRATCH + "/repaired/2018_rostberattigade_R.xlsx",
                "rf": SCRATCH + "/repaired/2018_rostberattigade_L.xlsx",

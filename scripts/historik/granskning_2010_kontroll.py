@@ -20,7 +20,7 @@ from dbfread import DBF
 from lxml import etree
 
 HIST = "/Users/daniel/code/Temp/Historiska dokument/"
-SCRATCH = "/private/tmp/claude-501/-Users-daniel-code-Temp/f347baf2-1af3-43b3-b36d-e80b868ede0e/scratchpad/"
+SCRATCH = "/Users/daniel/code/Temp/Historiska dokument/"
 XML_DIR = SCRATCH + "unz/slutresultat__1_/"
 DBF_2010 = SCRATCH + "unz/alla_valdistrikt/alla_valdistrikt.dbf"
 XLS = {"rd": HIST + "slutligt_valresultat_valdistrikt_R.xls",

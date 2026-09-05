@@ -25,8 +25,7 @@ from dbfread import DBF
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import v2014_gbg_xml as X  # noqa: E402
 
-SCRATCH = ("/private/tmp/claude-501/-Users-daniel-code-Temp/"
-           "f347baf2-1af3-43b3-b36d-e80b868ede0e/scratchpad")
+SCRATCH = "/Users/daniel/code/Temp/Historiska dokument"
 XML2014_DIR = os.path.join(SCRATCH, "unz/slutresultat")
 XML2010_DIR = os.path.join(SCRATCH, "unz/slutresultat__1_")
 DBF2014 = os.path.join(SCRATCH, "unz/valgeografi_valdistrikt/valgeografi_valdistrikt.dbf")

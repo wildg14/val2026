@@ -17,8 +17,7 @@ import sys
 import urllib.request
 import urllib.error
 
-NEDLADDNINGSMAPP = ("/private/tmp/claude-501/-Users-daniel-code-Temp/"
-                    "f347baf2-1af3-43b3-b36d-e80b868ede0e/scratchpad/dl2018")
+NEDLADDNINGSMAPP = ("/Users/daniel/code/Temp/Historiska dokument/dl2018")
 
 ADRESSER = [
     # sidor som finns (referens)

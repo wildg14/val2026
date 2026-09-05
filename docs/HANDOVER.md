@@ -108,6 +108,9 @@ Att veta:
 - Skriptens dokumentation pekar på en venv i en annan sessions scratchpad (`/private/tmp/claude-501/.../f347baf2-.../scratchpad/venv`), som kan vara borta. Prova projektets `.venv` och installera det som saknas.
 - Historiken är det naturliga underlaget för idén "Majorna 2002 till 2026" i brainstormen nedan. Hur Majorna avgränsas per år står i `majorna_medlem`-tabellen och i noterna (2006 använder en areametod, 17 distrikt).
 
+- 2026-09-05: skriptens sökvägar pekar nu på projektet (`Historiska dokument/unz/`, `dl2002`, `dl2006`, `dl2018`, `dl_webb`, `repaired`, alla gitignorerade) och på `.venv`; de extra paketen står i `scripts/historik/requirements-historik.txt`.
+- Vad sidan kan bygga ur historiken, plus belagda fakta om valnattens filformat 2026 (simuleringsfiler hämtade) och distriktsändringarna 2022 till 2026 (14 av 23 jämförbara, samma totalyta), står i `docs/historik/nasta-steg-for-sidan.md`. Oberoende kontroll av siffror och polygoner: `docs/historik/noter/kontroll_oberoende.md` och `docs/historik/karta_kontroll_2006_2026.png`.
+
 ## Beslut och frågor som är Daniels
 
 - Etiketten i stillbilderna: "Majposten · Inför valet" fram till valdagen, sedan till exempel "Majposten · Valet 2026" via `--etikett`.

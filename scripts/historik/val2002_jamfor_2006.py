@@ -12,7 +12,7 @@ import xlrd
 
 ROSTER_2002 = "/Users/daniel/code/Temp/data/historik/roster_2002_rd.csv"
 INDELNING_2002 = "/Users/daniel/code/Temp/data/historik/distrikt_2002_indelning.csv"
-XLS_2006 = "/private/tmp/claude-501/-Users-daniel-code-Temp/f347baf2-1af3-43b3-b36d-e80b868ede0e/scratchpad/dl2006/unz/riksdagen_i_valdistrikt.xls"
+XLS_2006 = "/Users/daniel/code/Temp/Historiska dokument/dl2006/unz/riksdagen_i_valdistrikt.xls"
 GRUPPER_2002 = ["Karl Johan", "Masthugg", "Oskar Fredrik", "Haga", "Annedal"]
 GRUPPER_2006 = ["Kungsladugård-Sanna", "Majorna", "Stigberget", "Masthugget", "Olivedal", "Annedal-Haga"]
 

@@ -21,7 +21,7 @@ from shapely.geometry import shape, mapping
 from shapely.ops import transform, unary_union
 from shapely.strtree import STRtree
 
-SCRATCH = "/private/tmp/claude-501/-Users-daniel-code-Temp/f347baf2-1af3-43b3-b36d-e80b868ede0e/scratchpad"
+SCRATCH = "/Users/daniel/code/Temp/Historiska dokument"
 SHP_2018 = SCRATCH + "/unz/2018_valgeografi_valdistrikt/alla_valdistrikt.shp"    # falt VD, VD_NAMN; dbf UTF-8; SWEREF99 TM
 GEOJSON_2022 = SCRATCH + "/unz/valgeografi_2022/VD_14_20220910_Val_20220911.json"  # egenskaper Lkfv, Vdnamn; EPSG:3006
 

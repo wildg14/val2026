@@ -24,7 +24,7 @@ import os
 import re
 import sys
 
-DL_DIR = "/private/tmp/claude-501/-Users-daniel-code-Temp/f347baf2-1af3-43b3-b36d-e80b868ede0e/scratchpad/dl2002"
+DL_DIR = "/Users/daniel/code/Temp/Historiska dokument/dl2002"
 OUT_DIR = "/Users/daniel/code/Temp/data/historik"
 AR = "2002"
 KOMMUN = "1480"

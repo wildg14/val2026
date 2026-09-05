@@ -17,8 +17,7 @@ import csv
 import os
 import xml.etree.ElementTree as ET
 
-XML_DIR = ("/private/tmp/claude-501/-Users-daniel-code-Temp/"
-           "f347baf2-1af3-43b3-b36d-e80b868ede0e/scratchpad/unz/slutresultat")
+XML_DIR = ("/Users/daniel/code/Temp/Historiska dokument/unz/slutresultat")
 UT_DIR = "/Users/daniel/code/Temp/data/historik"
 
 AR = 2014

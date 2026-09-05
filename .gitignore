@@ -14,3 +14,13 @@ interaktiv-valgrafik-brief.md
 majorna-valanalys-2022.md
 verktyg/node_modules/
 verktyg/package*.json
+# nedladdat och reparerat källmaterial för historiken (cirka 260 MB), hämtas om med scripts/historik/*_fetch.py
+Historiska dokument/dl2002/
+Historiska dokument/dl2006/
+Historiska dokument/dl2018/
+Historiska dokument/dl_webb/
+Historiska dokument/repaired/
+Historiska dokument/unz/
+Historiska dokument/bygg_databas_logg.txt
+# byggs om på 25 sekunder med scripts/historik/bygg_databas.py
+data/historik/majorna_historik.sqlite

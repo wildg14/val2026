@@ -21,7 +21,7 @@ import time
 import urllib.request
 from concurrent.futures import ThreadPoolExecutor
 
-SCRATCH = "/private/tmp/claude-501/-Users-daniel-code-Temp/f347baf2-1af3-43b3-b36d-e80b868ede0e/scratchpad"
+SCRATCH = "/Users/daniel/code/Temp/Historiska dokument"
 OUT_DIR = SCRATCH + "/dl_webb/2022/json"
 VALGEOGRAFI_URL = "https://resultat.val.se/data/valgeografi/valgeografi_val2022.json"
 RESULTAT_URL = "https://resultat.val.se/data/resultat/val2022/{path}_S.json"

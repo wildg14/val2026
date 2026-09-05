@@ -19,7 +19,7 @@ import xlrd
 from dbfread import DBF
 from lxml import etree
 
-SCRATCH = "/private/tmp/claude-501/-Users-daniel-code-Temp/f347baf2-1af3-43b3-b36d-e80b868ede0e/scratchpad"
+SCRATCH = "/Users/daniel/code/Temp/Historiska dokument"
 DL2006 = os.path.join(SCRATCH, "dl2006")
 XLS = {"rd": os.path.join(DL2006, "unz", "riksdagen_i_valdistrikt.xls"),
        "rf": os.path.join(DL2006, "unz", "landstingen_i_valdistrikt.xls"),

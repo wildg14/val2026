@@ -17,8 +17,8 @@ from collections import defaultdict
 
 from lxml import etree, html as lhtml
 
-DL_DIR = "/private/tmp/claude-501/-Users-daniel-code-Temp/f347baf2-1af3-43b3-b36d-e80b868ede0e/scratchpad/dl2002"
-XML2006_DIR = "/private/tmp/claude-501/-Users-daniel-code-Temp/f347baf2-1af3-43b3-b36d-e80b868ede0e/scratchpad/dl2006"
+DL_DIR = "/Users/daniel/code/Temp/Historiska dokument/dl2002"
+XML2006_DIR = "/Users/daniel/code/Temp/Historiska dokument/dl2006"
 DATA_DIR = "/Users/daniel/code/Temp/data/historik"
 KOMMUN = "1480"
 VAL = {"R": "rd", "L": "rf", "K": "kf"}

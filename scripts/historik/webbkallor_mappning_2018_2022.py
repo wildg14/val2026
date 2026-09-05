@@ -20,7 +20,7 @@ import sys
 
 import openpyxl
 
-SCRATCH = "/private/tmp/claude-501/-Users-daniel-code-Temp/f347baf2-1af3-43b3-b36d-e80b868ede0e/scratchpad"
+SCRATCH = "/Users/daniel/code/Temp/Historiska dokument"
 KALLA_V2 = SCRATCH + "/dl_webb/2022/jamforelser-2018-och-2022-valdistrikt-och-uppsamlingsdistrikt-v2.xlsx"
 KALLA_V1 = SCRATCH + "/dl_webb/2022/jamforelser_2018_2022_valdistrikt_uppsamlingsdistrikt.xlsx"
 UT = "/Users/daniel/code/Temp/data/historik/mappning_2018_2022.csv"

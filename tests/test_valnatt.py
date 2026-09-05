@@ -200,6 +200,20 @@ def test_omrade_utan_ogiltigfalt_hoppar_over_summakontroll():
     assert agg["riket"]["giltiga"] == 100, "utan rosterEjPaverkaMandat görs ingen summakontroll av röstande"
 
 
+def test_omrade_ogiltiga_tomt_dict_eller_lista_hoppar_over_summakontroll():
+    v = omrade("Riket", [("S", "Arbetarepartiet-Socialdemokraterna", 100)])
+    v["totaltAntalRoster"] = 999
+    v["rostfordelning"]["rosterEjPaverkaMandat"] = {}
+    agg = valnatt.aggregat_2026("rd", {"valomrade": v})
+    assert agg["riket"]["giltiga"] == 100, "tomt rosterEjPaverkaMandat ska inte ge SummaFel eller AttributeError"
+
+    v2 = omrade("Riket", [("S", "Arbetarepartiet-Socialdemokraterna", 100)])
+    v2["totaltAntalRoster"] = 999
+    v2["rostfordelning"]["rosterEjPaverkaMandat"] = []
+    agg2 = valnatt.aggregat_2026("rd", {"valomrade": v2})
+    assert agg2["riket"]["giltiga"] == 100, "rosterEjPaverkaMandat som lista ska inte ge SummaFel eller AttributeError"
+
+
 def test_aggregat_valdeltagande_mot_raknade_distrikt():
     """Nämnaren ska vara röstberättigade i räknade distrikt, inte hela väljarkåren, annars blir kvoten
     fel så länge räkningen pågår (t ex 12,5 procent i stället för 83 tidigt på valkvällen)."""
@@ -261,6 +275,12 @@ def test_las_kommun_avvisar_fel_valtyp():
         valnatt.las_kommun(summering, "rd")
 
 
+def test_las_valomrade_valtyp_null_behandlas_som_saknad():
+    mandat = {"valtyp": None, "valomrade": omrade("Riket", [("S", "Arbetarepartiet-Socialdemokraterna", 100)])}
+    agg = valnatt.las_valomrade(mandat, "rd")
+    assert agg["giltiga"] == 100
+
+
 def test_las_valomrade_okant_val_ger_formatfel_inte_keyerror():
     mandat = {"valomrade": omrade("Riket", [("S", "Arbetarepartiet-Socialdemokraterna", 100)])}
     with pytest.raises(valnatt.FormatFel):
@@ -289,3 +309,21 @@ def test_genrep_rf_saknar_fi():
     assert all("FI" not in d["roster"] for d in ra["distrikt"].values() if d["raknat"]), \
         "FI förekommer inte i något distrikt i regionfilens röstfördelning"
     assert "D" in ra["distrikt"]["14800526"]["roster"], "DEM står med i Svalebos partiRoster (0 röster)"
+
+
+def test_riksdag_verklig_syntetiskt():
+    obj = {"valomrade": {"totaltAntalMandat": 5, "mandatfordelning": {"partiLista": [
+        {"partiforkortning": "S", "partibeteckning": "Arbetarepartiet-Socialdemokraterna", "antalMandat": 3},
+        {"partiforkortning": "M", "partibeteckning": "Moderaterna", "antalMandat": 2},
+        {"partiforkortning": "PNy", "partibeteckning": "Partiet Nyans", "antalMandat": 0}]}}}
+    assert valnatt.riksdag_verklig(obj) == {"S": 3, "M": 2}
+
+
+def test_riksdag_verklig_tom_nar_mandatfordelning_saknas():
+    assert valnatt.riksdag_verklig({"valomrade": {"mandatfordelning": None}}) == {}
+
+
+@finns
+def test_genrep_riksdag_verklig_summerar_349():
+    m = valnatt.riksdag_verklig(MANDAT_RD)
+    assert sum(m.values()) == 349 and set(m) <= {"V", "S", "MP", "SD", "M", "C", "L", "KD"}

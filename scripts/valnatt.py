@@ -151,8 +151,8 @@ def _omrade(v, val, namn=None):
     if sum(roster.values()) != giltiga:
         raise SummaFel(f"aggregat {namn or v.get('namn')}: partiröster {sum(roster.values())} != giltiga {giltiga}")
     rostande = _n(v.get("totaltAntalRoster"))
-    rem = rf.get("rosterEjPaverkaMandat")
-    if rem is not None:
+    rem = rf.get("rosterEjPaverkaMandat") or {}
+    if isinstance(rem, dict) and rem.get("antalRoster") is not None:
         ogiltiga = _n(rem.get("antalRoster"))
         if giltiga + ogiltiga != rostande:
             raise SummaFel(f"aggregat {namn or v.get('namn')}: giltiga {giltiga} + ogiltiga {ogiltiga} != röstande {rostande}")
@@ -165,14 +165,19 @@ def _omrade(v, val, namn=None):
             "antal_distrikt": _n(v.get("antalValdistriktRaknade")), "totalt_distrikt": _n(v.get("antalValdistriktSomSkaRaknas"))}
 
 
+def _kontrollera_valtyp(obj, val):
+    """Höjer FormatFel om rotobjektets valtyp inte stämmer med val. Saknad eller null valtyp godtas."""
+    valtyp = obj.get("valtyp")
+    if valtyp is not None and VALTYP.get(_s(valtyp).upper()) != val:
+        raise FormatFel(f"filen gäller {valtyp} men {val.upper()} väntades")
+
+
 def las_valomrade(kalla, val, namn=None):
     """Mandatfördelningsfilens valomrade (riket, ett län eller en kommun) -> aggregat."""
     obj = _las_objekt(kalla)
     if not isinstance(obj, dict):
         raise FormatFel("filen har inte ett objekt som rot")
-    valtyp = obj.get("valtyp")
-    if "valtyp" in obj and VALTYP.get(_s(valtyp).upper()) != val:
-        raise FormatFel(f"filen gäller {valtyp} men {val.upper()} väntades")
+    _kontrollera_valtyp(obj, val)
     v = obj.get("valomrade")
     if not isinstance(v, dict):
         raise FormatFel("mandatfördelningsfilen saknar objektet valomrade")
@@ -184,9 +189,7 @@ def las_kommun(kalla, val, kommunkod=KOMMUNKOD_GOTEBORG, namn="Göteborg"):
     obj = _las_objekt(kalla)
     if not isinstance(obj, dict):
         raise FormatFel("filen har inte ett objekt som rot")
-    valtyp = obj.get("valtyp")
-    if "valtyp" in obj and VALTYP.get(_s(valtyp).upper()) != val:
-        raise FormatFel(f"filen gäller {valtyp} men {val.upper()} väntades")
+    _kontrollera_valtyp(obj, val)
     lista = obj.get("kommuner")
     if not isinstance(lista, list):
         raise FormatFel("summeringsfilen saknar listan kommuner")
@@ -216,3 +219,18 @@ def aggregat_2026(val, mandat, summering=None):
     else:
         raise FormatFel(f"okänt val {val!r}")
     return {k: v for k, v in ut.items() if v is not None}
+
+
+def riksdag_verklig(kalla):
+    """Mandatfördelningsfilen för riksdagen -> {partikod: mandat}. Tom när fördelningen inte finns än."""
+    obj = _las_objekt(kalla)
+    v = obj.get("valomrade") or {}
+    lista = ((v.get("mandatfordelning") or {}).get("partiLista")) or []
+    ut = {}
+    for p in lista:
+        n = _n(p.get("antalMandat"))
+        if not n:
+            continue
+        kod = parti_2026(p) or _s(p.get("partiforkortning"))
+        ut[kod] = ut.get(kod, 0) + n
+    return ut

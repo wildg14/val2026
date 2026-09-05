@@ -125,7 +125,10 @@ def las_rostfordelning(kalla, koder=MAJORNA_KODER, kommunkod=None):
             if sum(roster.values()) != giltiga:
                 raise SummaFel(f"{kod} {post['namn']}: partiröster {sum(roster.values())} != giltiga {giltiga}")
             rostande = _n(d.get("totaltAntalRoster"))
-            ogiltiga = _n((rf.get("rosterEjPaverkaMandat") or {}).get("antalRoster"))
+            rem = rf.get("rosterEjPaverkaMandat") or {}
+            if not isinstance(rem, dict):
+                raise FormatFel(f"{kod} {post['namn']}: rosterEjPaverkaMandat har fel form")
+            ogiltiga = _n(rem.get("antalRoster"))
             if giltiga + ogiltiga != rostande:
                 raise SummaFel(f"{kod} {post['namn']}: giltiga {giltiga} + ogiltiga {ogiltiga} != röstande {rostande}")
             post.update(roster=roster, giltiga=giltiga, rostande=rostande, okanda=okanda)
@@ -224,13 +227,20 @@ def aggregat_2026(val, mandat, summering=None):
 def riksdag_verklig(kalla):
     """Mandatfördelningsfilen för riksdagen -> {partikod: mandat}. Tom när fördelningen inte finns än."""
     obj = _las_objekt(kalla)
+    if not isinstance(obj, dict):
+        raise FormatFel("filen har inte ett objekt som rot")
+    _kontrollera_valtyp(obj, "rd")
     v = obj.get("valomrade") or {}
     lista = ((v.get("mandatfordelning") or {}).get("partiLista")) or []
+    if not isinstance(lista, list):
+        return {}
     ut = {}
     for p in lista:
+        if not isinstance(p, dict):
+            continue
         n = _n(p.get("antalMandat"))
         if not n:
             continue
-        kod = parti_2026(p) or _s(p.get("partiforkortning"))
+        kod = parti_2026(p) or _s(p.get("partiforkortning")) or _s(p.get("partibeteckning")) or _s(p.get("partikod"))
         ut[kod] = ut.get(kod, 0) + n
     return ut

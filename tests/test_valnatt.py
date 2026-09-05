@@ -141,6 +141,13 @@ def test_las_rostfordelning_rostberattigade_null_ger_noll():
     assert ra["distrikt"]["14800526"]["rostberattigade"] == 0
 
 
+def test_las_rostfordelning_ogiltiga_fel_form_ger_formatfel():
+    d = distrikt("14800526", [("V", "Vänsterpartiet", 10)])
+    d["rostfordelning"]["rosterEjPaverkaMandat"] = "x"
+    with pytest.raises(valnatt.FormatFel):
+        valnatt.las_rostfordelning(fil("KF", [d]), koder=["14800526"])
+
+
 MANDAT_RD = GENREP / "Genrep_2026_preliminar_00_RD" / "Genrep_2026_preliminar_mandatfordelning_00_RD.json"
 SUMM_RD = GENREP / "Genrep_2026_preliminar_00_RD" / "Genrep_2026_preliminar_summering_RD.json"
 MANDAT_RF = GENREP / "Genrep_2026_preliminar_14_RF" / "Genrep_2026_preliminar_mandatfordelning_14_RF.json"
@@ -212,6 +219,11 @@ def test_omrade_ogiltiga_tomt_dict_eller_lista_hoppar_over_summakontroll():
     v2["rostfordelning"]["rosterEjPaverkaMandat"] = []
     agg2 = valnatt.aggregat_2026("rd", {"valomrade": v2})
     assert agg2["riket"]["giltiga"] == 100, "rosterEjPaverkaMandat som lista ska inte ge SummaFel eller AttributeError"
+
+    v3 = omrade("Riket", [("S", "Arbetarepartiet-Socialdemokraterna", 100)], ogiltiga=5)
+    v3["rostfordelning"]["rosterEjPaverkaMandat"] = [{"antalRoster": 5}]
+    agg3 = valnatt.aggregat_2026("rd", {"valomrade": v3})
+    assert agg3["riket"]["giltiga"] == 100, "en icke-tom lista ska också hoppa över summakontrollen, inte ge AttributeError"
 
 
 def test_aggregat_valdeltagande_mot_raknade_distrikt():
@@ -321,6 +333,35 @@ def test_riksdag_verklig_syntetiskt():
 
 def test_riksdag_verklig_tom_nar_mandatfordelning_saknas():
     assert valnatt.riksdag_verklig({"valomrade": {"mandatfordelning": None}}) == {}
+
+
+def test_riksdag_verklig_rot_ej_dict_ger_formatfel():
+    with pytest.raises(valnatt.FormatFel):
+        valnatt.riksdag_verklig([])
+
+
+def test_riksdag_verklig_avvisar_fel_valtyp():
+    obj = {"valtyp": "RF", "valomrade": {"mandatfordelning": {"partiLista": [
+        {"partiforkortning": "S", "partibeteckning": "Arbetarepartiet-Socialdemokraterna", "antalMandat": 3}]}}}
+    with pytest.raises(valnatt.FormatFel):
+        valnatt.riksdag_verklig(obj)
+
+
+def test_riksdag_verklig_partilista_fel_form_ger_tomt():
+    assert valnatt.riksdag_verklig({"valomrade": {"mandatfordelning": {"partiLista": "sönder"}}}) == {}
+
+
+def test_riksdag_verklig_hoppar_over_icke_dict_element():
+    obj = {"valomrade": {"mandatfordelning": {"partiLista": [
+        "felformat element",
+        {"partiforkortning": "S", "partibeteckning": "Arbetarepartiet-Socialdemokraterna", "antalMandat": 3}]}}}
+    assert valnatt.riksdag_verklig(obj) == {"S": 3}
+
+
+def test_riksdag_verklig_reservkod_aldrig_tom():
+    obj = {"valomrade": {"mandatfordelning": {"partiLista": [
+        {"partibeteckning": "Nytt Parti", "antalMandat": 15}]}}}
+    assert valnatt.riksdag_verklig(obj) == {"Nytt Parti": 15}
 
 
 @finns

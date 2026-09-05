@@ -5,22 +5,36 @@
     .venv/bin/python scripts/hamta_2026.py --tillfalle s         # slutlig räkning
     .venv/bin/python scripts/hamta_2026.py --genrep              # simuleringarna, samma struktur, test: true
     .venv/bin/python scripts/hamta_2026.py --lokal MAPP          # zip-filer som redan ligger på disk
-    .venv/bin/python scripts/hamta_2026.py --bara-om-nytt        # avsluta med kod 3 när index.md5 är oförändrad
+    .venv/bin/python scripts/hamta_2026.py --bara-om-nytt        # avsluta med kod 3 när de tre filerna är oförändrade
 
 Tre filer hämtas: riksdagen för hela landet (_00_RD), regionvalet för Västra Götaland (_14_RF) och
 kommunvalet för Göteborg (_1480_KF). md5 kontrolleras mot index.md5 och JSON-filernas signaturer mot
 Valmyndighetens certifikat (openssl). Sista utskriftsraden är "MAPP: <sökväg>" som uppdatera_2026.py läser.
+
+Servern skriver om resultatfilerna löpande under valkvällen. Om md5 inte stämmer för någon av de tre
+filerna, eller om index inte längre pekar ut exakt en fil per val, hämtas index och filerna om en gång
+till innan körningen avbryts (bara på nätvägen, inte med --lokal).
+
+--bara-om-nytt jämför bara md5 för de tre valda filerna mot föregående körnings
+data/valnatt/senaste/index.md5, inte hela landets index (som ändras varje minut oavsett Majorna).
+Bara när alla tre är oförändrade avslutas körningen med kod 3 utan att något skrivs.
+
+data/valnatt/senaste är en relativ symlänk (pekar på tidsstämpelmappens namn, inte en absolut sökväg)
+och byts atomärt vid varje lyckad körning.
+
 Formatet: docs/superpowers/plans/2026-09-05-valnatt-2026.md, avsnittet Verifierade fakta.
 """
 import argparse
 import datetime as dt
 import hashlib
 import io
+import os
 import re
 import subprocess
 import sys
 import zipfile
 from pathlib import Path
+from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 
 ROT = Path(__file__).resolve().parents[1]
@@ -29,6 +43,7 @@ GENREP_URL = "https://resultat.val.se/resultatfiler/genrep2026/"
 CERT_URL = "https://resultat.val.se/keys/val-sign-crt.pem"
 FILER = {"rd": ("rd", "_00_RD.zip"), "rf": ("rf", "_14_RF.zip"), "kf": ("kf", "_1480_KF.zip")}
 DELAR = ("rostfordelning", "mandatfordelning", "summering")
+STORLEKSGRANS = 200 * 1024 * 1024
 
 
 class HamtFel(RuntimeError):
@@ -37,6 +52,7 @@ class HamtFel(RuntimeError):
 
 def las_index(text):
     """index.md5 -> {"./p/kf/Fil.zip": md5}. Avvisar allt som inte ser ut som ett md5-index (till exempel en 404-sida)."""
+    text = text.lstrip("﻿")  # BOM, om den inte redan togs bort av avkodningen
     ut = {}
     for rad in text.splitlines():
         delar = rad.split()
@@ -58,10 +74,77 @@ def valj_filer(index, tillfalle="p"):
     return ut
 
 
-def hamta(url, timeout=90):
+def hamta_urval(bas_url, tillfalle):
+    """Hämtar index.md5 och väljer ut de tre filerna för tillfälle. -> (index_text, urval)."""
+    index_text = hamta(bas_url + "index.md5").decode("utf-8-sig")
+    index = las_index(index_text)
+    return index_text, valj_filer(index, tillfalle)
+
+
+def hamta_och_kontrollera(bas_url, urval):
+    """Hämtar de tre zip-filerna som urval pekar ut och kontrollerar md5 mot samma urval. -> {val: bytes}."""
+    data = {}
+    for val, (kalla, md5) in urval.items():
+        innehall = hamta(bas_url + kalla[2:])
+        if md5:
+            kontrollera_md5(innehall, md5)
+        data[val] = innehall
+    return data
+
+
+def valj_lokala_filer(lokal, tillfalle):
+    """Zip-filer som redan ligger i lokal (ingen katalogstruktur krävs).
+    Provar index*.md5 i sorterad ordning och tar den första som går att tolka; går ingen att tolka är index None.
+    -> (index_text, index eller None, {val: (sökväg, md5 eller None)})."""
+    lokal = Path(lokal)
+    index_text, index = "", None
+    for kandidat in sorted(lokal.glob("index*.md5")):
+        text = kandidat.read_text("utf-8-sig")
+        try:
+            index = las_index(text)
+        except HamtFel:
+            continue
+        index_text = text
+        break
+    urval = {}
+    for val, (katalog, suffix) in FILER.items():
+        traffar = sorted(p for p in lokal.glob(f"*{suffix}") if ("slutlig" in p.name.lower()) == (tillfalle == "s"))
+        if len(traffar) != 1:
+            raise HamtFel(f"{val}: {len(traffar)} zip-filer i {lokal} slutar på {suffix} för tillfälle {tillfalle}")
+        md5 = None
+        if index is not None:
+            md5 = index.get(f"./{tillfalle}/{katalog}/{traffar[0].name}")
+            if md5 is None:
+                print(f"VARNING: index listar inte {traffar[0].name}, md5 ej kontrollerad", file=sys.stderr)
+        urval[val] = (str(traffar[0]), md5)
+    return index_text, index, urval
+
+
+def ar_oforandrat(ut, tillfalle, urval):
+    """True om alla tre filerna i urval har samma md5 som i föregående körnings data/valnatt/senaste/index.md5.
+    Saknat eller trasigt senaste-index räknas som "nytt" (False), liksom en okänd md5 i det nya urvalet."""
+    try:
+        text = (Path(ut) / "senaste" / "index.md5").read_text("utf-8-sig")
+        gammalt_urval = valj_filer(las_index(text), tillfalle)
+    except (OSError, HamtFel):
+        return False
+    for val, (_, md5) in urval.items():
+        if md5 is None or gammalt_urval.get(val, (None, None))[1] != md5:
+            return False
+    return True
+
+
+def hamta(url, timeout=30):
     req = Request(url, headers={"User-Agent": "majposten-valgrafik/1.0 (majposten.se)"})
-    with urlopen(req, timeout=timeout) as svar:
-        return svar.read()
+    try:
+        with urlopen(req, timeout=timeout) as svar:
+            return svar.read()
+    except HTTPError as ex:
+        if ex.code == 404 and url.endswith("index.md5"):
+            raise HamtFel(f"{url} svarar 404: resultatfilerna publiceras först på valkvällen") from ex
+        raise HamtFel(f"{url}: {ex}") from ex
+    except URLError as ex:
+        raise HamtFel(f"{url}: {ex.reason}") from ex
 
 
 def kontrollera_md5(data, md5):
@@ -72,17 +155,24 @@ def kontrollera_md5(data, md5):
 
 def packa_upp(zip_bytes, mapp):
     """Packar upp en resultatzip till mapp. -> {"rostfordelning": Path, "mandatfordelning": Path, ["summering": Path],
-    "signaturer": {del: Path}}. Vägrar filnamn med sökvägar (zip slip)."""
+    "signaturer": {del: Path}}. Vägrar filnamn med sökvägar (zip slip) och filer över 200 MB. Validerar hela
+    namnlistan innan något skrivs till disk."""
     mapp = Path(mapp)
-    mapp.mkdir(parents=True, exist_ok=True)
-    ut = {"signaturer": {}}
     with zipfile.ZipFile(io.BytesIO(zip_bytes)) as z:
-        for namn in z.namelist():
+        infolist = z.infolist()
+        for info in infolist:
+            namn = info.filename
             if "/" in namn or "\\" in namn or namn.startswith("..") or not namn:
                 raise HamtFel(f"zip-filen innehåller en sökväg, inte bara filnamn: {namn!r}")
+            if info.file_size > STORLEKSGRANS:
+                raise HamtFel(f"{namn}: {info.file_size / 1024 / 1024:.0f} MB, större än gränsen 200 MB")
+        mapp.mkdir(parents=True, exist_ok=True)
+        ut = {"signaturer": {}}
+        for info in infolist:
+            namn = info.filename
             (mapp / namn).write_bytes(z.read(namn))
             for d in DELAR:
-                if f"_{d}_" in namn or namn.endswith(f"_{d}.json") or f"_{d}_" in namn.replace("_sign.sha256", "_"):
+                if f"_{d}_" in namn or namn.endswith(f"_{d}.json"):
                     if namn.endswith(".json"):
                         ut[d] = mapp / namn
                     elif namn.endswith("_sign.sha256"):
@@ -100,17 +190,32 @@ def verifiera_signatur(json_path, sign_path, nyckel_path):
     return r.returncode == 0 and "Verified OK" in r.stdout
 
 
-def hamta_nyckel(mapp):
-    """Certifikatet från val.se -> publik nyckel (pem) i mapp. Kräver openssl."""
-    mapp = Path(mapp)
-    cert = mapp / "val-sign-crt.pem"
+def hamta_nyckel(nyckel_path):
+    """Certifikatet från val.se -> publik nyckel (pem) skriven till exakt nyckel_path.
+    Certifikatet läggs bredvid i samma katalog som val-sign-crt.pem. Kräver openssl."""
+    nyckel_path = Path(nyckel_path)
+    cert = nyckel_path.parent / "val-sign-crt.pem"
     cert.write_bytes(hamta(CERT_URL))
-    pub = mapp / "val-sign-pub.pem"
     r = subprocess.run(["openssl", "x509", "-in", str(cert), "-pubkey", "-noout"], capture_output=True, text=True)
     if r.returncode != 0:
         raise HamtFel(f"kunde inte läsa certifikatet: {r.stderr.strip()}")
-    pub.write_text(r.stdout, "utf-8")
-    return pub
+    nyckel_path.write_text(r.stdout, "utf-8")
+    return nyckel_path
+
+
+def peka_senaste(ut, mapp):
+    """Byter symlänken ut/senaste till att peka på mapp, atomärt (tempfil plus os.replace) och relativt (mapp.name).
+    Höjer HamtFel om ut/senaste finns och är en riktig katalog i stället för en länk."""
+    ut = Path(ut)
+    mapp = Path(mapp)
+    lank = ut / "senaste"
+    if lank.exists() and not lank.is_symlink():
+        raise HamtFel("data/valnatt/senaste är en katalog, inte en länk; flytta undan den")
+    tmp = ut / "senaste.tmp"
+    if tmp.exists() or tmp.is_symlink():
+        tmp.unlink()
+    tmp.symlink_to(mapp.name)
+    os.replace(tmp, lank)
 
 
 def main():
@@ -122,58 +227,72 @@ def main():
     ap.add_argument("--lokal", metavar="MAPP", help="zip-filer som redan ligger i MAPP (index.md5 där om den finns)")
     ap.add_argument("--nyckel", default=ROT / "val-sign-pub.pem", help="Valmyndighetens publika nyckel (pem)")
     ap.add_argument("--utan-signatur", action="store_true", help="hoppa över signaturkontrollen")
-    ap.add_argument("--bara-om-nytt", action="store_true", help="avsluta med kod 3 om index.md5 inte ändrats sedan senaste körning")
+    ap.add_argument("--bara-om-nytt", action="store_true",
+                     help="avsluta med kod 3 om de tre valda filerna har samma md5 som senaste körning")
     a = ap.parse_args()
     bas_url = GENREP_URL if a.genrep else a.bas_url
     ut = Path(a.ut)
     ut.mkdir(parents=True, exist_ok=True)
     try:
+        zip_data = None
         if a.lokal:
-            lokal = Path(a.lokal)
-            index_filer = sorted(lokal.glob("index*.md5"))
-            index = las_index(index_filer[0].read_text("utf-8")) if index_filer else None
-            urval = {}
-            for val, (katalog, suffix) in FILER.items():
-                traffar = sorted(p for p in lokal.glob(f"*{suffix}") if ("slutlig" in p.name) == (a.tillfalle == "s"))
-                if len(traffar) != 1:
-                    raise HamtFel(f"{val}: {len(traffar)} zip-filer i {lokal} slutar på {suffix} för tillfälle {a.tillfalle}")
-                urval[val] = (str(traffar[0]), index.get(f"./{a.tillfalle}/{katalog}/{traffar[0].name}") if index else None)
-            index_text = index_filer[0].read_text("utf-8") if index_filer else ""
-        else:
-            index_text = hamta(bas_url + "index.md5").decode("utf-8")
-            index = las_index(index_text)
-            urval = valj_filer(index, a.tillfalle)
-        if a.bara_om_nytt:
-            senaste = ut / "senaste" / "index.md5"
-            if senaste.exists() and senaste.read_text("utf-8") == index_text:
-                print("Inget nytt: index.md5 är oförändrad sedan senaste körning")
+            index_text, index, urval = valj_lokala_filer(Path(a.lokal), a.tillfalle)
+            if a.bara_om_nytt and ar_oforandrat(ut, a.tillfalle, urval):
+                print("Inget nytt: de tre filerna har samma md5 som senaste körning")
                 return 3
-        mapp = ut / dt.datetime.now().strftime("%Y%m%d-%H%M%S")
-        mapp.mkdir()
-        (mapp / "index.md5").write_text(index_text, "utf-8")
+        else:
+            index_text = urval = None
+            for forsok in range(2):
+                try:
+                    index_text, urval = hamta_urval(bas_url, a.tillfalle)
+                    if a.bara_om_nytt and ar_oforandrat(ut, a.tillfalle, urval):
+                        print("Inget nytt: de tre filerna har samma md5 som senaste körning")
+                        return 3
+                    zip_data = hamta_och_kontrollera(bas_url, urval)
+                    break
+                except HamtFel:
+                    if forsok == 0:
+                        print("Filerna ändrades under hämtningen, försöker igen")
+                        continue
+                    raise
+
         nyckel = None
         if not a.utan_signatur:
             nyckel = Path(a.nyckel)
             if not nyckel.exists():
                 print(f"Hämtar Valmyndighetens certifikat till {nyckel}")
-                nyckel = hamta_nyckel(nyckel.parent)
+                nyckel = hamta_nyckel(nyckel)
+
+        bas = dt.datetime.now().strftime("%Y%m%d-%H%M%S")
+        mapp = ut / bas
+        n = 2
+        while mapp.exists():
+            mapp = ut / f"{bas}-{n}"
+            n += 1
+        mapp.mkdir()
+        (mapp / "index.md5").write_text(index_text, "utf-8")
+
         for val, (kalla, md5) in urval.items():
-            data = Path(kalla).read_bytes() if a.lokal else hamta(bas_url + kalla[2:])
-            if md5:
-                kontrollera_md5(data, md5)
+            if a.lokal:
+                data = Path(kalla).read_bytes()
+                if md5:
+                    kontrollera_md5(data, md5)
+            else:
+                data = zip_data[val]
             filer = packa_upp(data, mapp / val)
             if nyckel:
                 for d, p in filer.items():
                     if d == "signaturer":
                         continue
-                    if not verifiera_signatur(p, filer["signaturer"][d], nyckel):
+                    sign = filer["signaturer"].get(d)
+                    if sign is None:
+                        raise HamtFel(f"{val}: signatur saknas för {p.name}")
+                    if not verifiera_signatur(p, sign, nyckel):
                         raise HamtFel(f"{val}: signaturen för {p.name} stämmer inte")
             print(f"{val}: {Path(kalla).name} {len(data) / 1024:.0f} kB, md5 {'ok' if md5 else 'ej kontrollerad'}, "
                   f"signatur {'ok' if nyckel else 'ej kontrollerad'}, {len(filer) - 1} json-filer")
-        lank = ut / "senaste"
-        if lank.is_symlink() or lank.exists():
-            lank.unlink()
-        lank.symlink_to(mapp.resolve())
+
+        peka_senaste(ut, mapp)
         print(f"MAPP: {mapp}")
         return 0
     except HamtFel as ex:

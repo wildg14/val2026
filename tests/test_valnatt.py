@@ -8,7 +8,8 @@ from scripts.valmyndigheten import MAJORNA_KODER, NYCKELPARTIER, OVRIGA, SummaFe
 GENREP = Path("/Users/daniel/code/Temp/Historiska dokument/dl_webb/genrep2026/unz")
 KF = GENREP / "Genrep_2026_preliminar_1480_KF" / "Genrep_2026_preliminar_rostfordelning_1480_KF.json"
 RD = GENREP / "Genrep_2026_preliminar_00_RD" / "Genrep_2026_preliminar_rostfordelning_00_RD.json"
-finns = pytest.mark.skipif(not (KF.exists() and RD.exists()), reason="genrep-filerna saknas")
+RF = GENREP / "Genrep_2026_preliminar_14_RF" / "Genrep_2026_preliminar_rostfordelning_14_RF.json"
+finns = pytest.mark.skipif(not (KF.exists() and RD.exists() and RF.exists()), reason="genrep-filerna saknas")
 
 
 def post(forkortning, beteckning, antal):
@@ -138,3 +139,70 @@ def test_las_rostfordelning_rostberattigade_null_ger_noll():
     d["antalRostberattigade"] = None
     ra = valnatt.las_rostfordelning(fil("KF", [d]), koder=["14800526"])
     assert ra["distrikt"]["14800526"]["rostberattigade"] == 0
+
+
+MANDAT_RD = GENREP / "Genrep_2026_preliminar_00_RD" / "Genrep_2026_preliminar_mandatfordelning_00_RD.json"
+SUMM_RD = GENREP / "Genrep_2026_preliminar_00_RD" / "Genrep_2026_preliminar_summering_RD.json"
+MANDAT_RF = GENREP / "Genrep_2026_preliminar_14_RF" / "Genrep_2026_preliminar_mandatfordelning_14_RF.json"
+SUMM_RF = GENREP / "Genrep_2026_preliminar_14_RF" / "Genrep_2026_preliminar_summering_RF.json"
+MANDAT_KF = GENREP / "Genrep_2026_preliminar_1480_KF" / "Genrep_2026_preliminar_mandatfordelning_1480_KF.json"
+
+
+def omrade(namn, partier, ovriga=0, ogiltiga=0, rostberattigade=10000, raknade=5, totalt=5, **extra):
+    giltiga = sum(n for _, _, n in partier) + ovriga
+    return {"namn": namn, "totaltAntalRoster": giltiga + ogiltiga, "antalRostberattigade": rostberattigade,
+            "antalValdistriktRaknade": raknade, "antalValdistriktSomSkaRaknas": totalt,
+            "rostfordelning": {"rosterPaverkaMandat": {"antalRoster": giltiga, "partiRoster": [post(f, b, n) for f, b, n in partier],
+                                                        "rosterOvrigaPartier": {"antalRoster": ovriga}}}, **extra}
+
+
+def test_aggregat_2026_syntetiskt_rd():
+    mandat = {"valomrade": omrade("Riket", [("S", "Arbetarepartiet-Socialdemokraterna", 600), ("M", "Moderaterna", 400)], ovriga=0, ogiltiga=10)}
+    summering = {"kommuner": [{"kommunkod": "0114", **omrade("Upplands Väsby", [("S", "Arbetarepartiet-Socialdemokraterna", 1)])},
+                              {"kommunkod": "1480", **omrade("Göteborg", [("S", "Arbetarepartiet-Socialdemokraterna", 60), ("M", "Moderaterna", 40)], ogiltiga=2, rostberattigade=125)}]}
+    agg = valnatt.aggregat_2026("rd", mandat, summering)
+    assert agg["riket"]["namn"] == "Riket" and agg["riket"]["andel"]["S"] == pytest.approx(0.6)
+    assert "V" not in agg["riket"]["andel"], "V redovisas inte i det syntetiska objektets partiRoster och saknas därför"
+    assert agg["riket"]["giltiga"] == 1000 and agg["riket"]["rostande"] == 1010 and agg["riket"]["valdeltagande"] == pytest.approx(0.101)
+    assert "Övriga" not in agg["riket"]["andel"]
+    assert agg["goteborg"]["namn"] == "Göteborg" and agg["goteborg"]["giltiga"] == 100 and agg["goteborg"]["valdeltagande"] == pytest.approx(102 / 125)
+    assert agg["riket"]["antal_distrikt"] == 5
+
+
+def test_aggregat_2026_rf_och_kf():
+    mandat = {"valomrade": omrade("Västra Götaland", [("V", "Vänsterpartiet", 10)])}
+    agg = valnatt.aggregat_2026("rf", mandat, None)
+    assert agg["riket"]["namn"] == "Västra Götaland" and "goteborg" not in agg
+    agg = valnatt.aggregat_2026("kf", {"valomrade": omrade("Göteborg", [("V", "Vänsterpartiet", 10)])})
+    assert list(agg) == ["goteborg"] and agg["goteborg"]["andel"]["V"] == 1.0
+
+
+def test_aggregat_avvisar_fel_summa():
+    mandat = {"valomrade": omrade("Riket", [("S", "Arbetarepartiet-Socialdemokraterna", 600)])}
+    mandat["valomrade"]["rostfordelning"]["rosterPaverkaMandat"]["antalRoster"] = 601
+    with pytest.raises(SummaFel):
+        valnatt.aggregat_2026("rd", mandat)
+
+
+@finns
+def test_genrep_aggregat_stammer_med_filerna():
+    agg = valnatt.aggregat_2026("rd", MANDAT_RD, SUMM_RD)
+    assert agg["riket"]["giltiga"] == 6877640 and agg["riket"]["antal_distrikt"] == 6626
+    assert agg["goteborg"]["giltiga"] == 383788 and agg["goteborg"]["rostande"] == 388547 and agg["goteborg"]["rostberattigade"] == 458909
+    assert agg["riket"]["andel"]["S"] == pytest.approx(2106282 / 6877640)
+    agg = valnatt.aggregat_2026("rf", MANDAT_RF, SUMM_RF)
+    assert agg["riket"]["namn"] == "Västra Götaland" and agg["riket"]["giltiga"] == 1189467 and agg["goteborg"]["giltiga"] == 402846
+    assert "FI" not in agg["riket"]["andel"], "FI redovisas inte i regionfilens valomrade (bara DEM och PNy utöver riksdagspartierna)"
+    agg = valnatt.aggregat_2026("kf", MANDAT_KF)
+    assert agg["goteborg"]["giltiga"] == 403007 and agg["goteborg"]["andel"]["D"] == 0.0
+    assert "K" not in agg["goteborg"]["andel"], "K redovisas inte i kommunfilens valomrade (bara DEM, FI och PNy utöver riksdagspartierna, alla noll)"
+
+
+@finns
+def test_genrep_rf_saknar_fi():
+    ra = valnatt.las_rostfordelning(RF, kommunkod="1480")
+    assert ra["val"] == "rf"
+    assert len(ra["distrikt"]) == 23
+    assert all("FI" not in d["roster"] for d in ra["distrikt"].values() if d["raknat"]), \
+        "FI förekommer inte i något distrikt i regionfilens röstfördelning"
+    assert "D" in ra["distrikt"]["14800526"]["roster"], "DEM står med i Svalebos partiRoster (0 röster)"

@@ -362,6 +362,26 @@ def test_riksdag_verklig_reservkod_aldrig_tom():
     obj = {"valomrade": {"mandatfordelning": {"partiLista": [
         {"partibeteckning": "Nytt Parti", "antalMandat": 15}]}}}
     assert valnatt.riksdag_verklig(obj) == {"Nytt Parti": 15}
+    obj_utan_identitet = {"valomrade": {"mandatfordelning": {"partiLista": [{"antalMandat": 5}]}}}
+    assert valnatt.riksdag_verklig(obj_utan_identitet) == {}, "utan partikod, förkortning eller beteckning ges ingen nyckel alls"
+
+
+def test_riksdag_verklig_valomrade_fel_form_ger_formatfel():
+    with pytest.raises(valnatt.FormatFel):
+        valnatt.riksdag_verklig({"valomrade": "sönder"})
+
+
+def test_riksdag_verklig_mandatfordelning_fel_form_ger_formatfel():
+    with pytest.raises(valnatt.FormatFel):
+        valnatt.riksdag_verklig({"valomrade": {"mandatfordelning": "sönder"}})
+
+
+@finns
+def test_genrep_riksdag_verklig_avvisar_rf_och_kf():
+    with pytest.raises(valnatt.FormatFel):
+        valnatt.riksdag_verklig(MANDAT_RF)
+    with pytest.raises(valnatt.FormatFel):
+        valnatt.riksdag_verklig(MANDAT_KF)
 
 
 @finns

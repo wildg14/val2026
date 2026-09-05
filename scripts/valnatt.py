@@ -231,7 +231,12 @@ def riksdag_verklig(kalla):
         raise FormatFel("filen har inte ett objekt som rot")
     _kontrollera_valtyp(obj, "rd")
     v = obj.get("valomrade") or {}
-    lista = ((v.get("mandatfordelning") or {}).get("partiLista")) or []
+    if not isinstance(v, dict):
+        raise FormatFel("valomrade har fel form")
+    md = v.get("mandatfordelning") or {}
+    if not isinstance(md, dict):
+        raise FormatFel("mandatfordelning har fel form")
+    lista = md.get("partiLista") or []
     if not isinstance(lista, list):
         return {}
     ut = {}
@@ -242,5 +247,7 @@ def riksdag_verklig(kalla):
         if not n:
             continue
         kod = parti_2026(p) or _s(p.get("partiforkortning")) or _s(p.get("partibeteckning")) or _s(p.get("partikod"))
+        if not kod:
+            continue
         ut[kod] = ut.get(kod, 0) + n
     return ut

@@ -63,8 +63,9 @@ const MARKUP = `
 
   <section id="rostdelning" aria-labelledby="rostdelning-rubrik">
     <h2 id="rostdelning-rubrik">Röstdelningen</h2>
-    <p class="not" id="rostdelning-not">Så skiljer sig partiernas andel i Majorna mellan riksdagsvalet och kommunvalet.</p>
-    <div id="lutning"></div>
+    <p class="not" id="rostdelning-not">Så röstar Majorna olika i riksdags-, region- och kommunvalet.</p>
+    <div id="rostdelning-legend" class="rd-legend" aria-hidden="true"></div>
+    <div id="rostdelning-rader"></div>
   </section>
 
 
@@ -749,34 +750,67 @@ function renderTabell() {
   wrap.replaceChildren(h("div", { class: "tabell-wrap" }, tabell));
 }
 
-/* ---- röstdelningen */
+/* ---- röstdelningen: riksdag, region och kommun för varje parti på en gemensam procentaxel */
+const RD_FORM = { rd: "cirkel", rf: "romb", kf: "kvadrat" };
+const RD_KORT = { rd: "Riksdag", rf: "Region", kf: "Kommun" };
+const RD_LED = { rd: "riksdags", rf: "region", kf: "kommun" };   // "riksdags-, region- och kommunvalet"
+const andelTal = a => (a * 100).toLocaleString("sv-SE", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
 function renderRostdelning() {
-  const sek = $("#rostdelning"), rd = majorna("rd"), kf = majorna("kf");
-  if (!(rd && rd.giltiga && kf && kf.giltiga)) { sek.hidden = true; return; }
+  const sek = $("#rostdelning"), rader = $("#rostdelning-rader"), legend = $("#rostdelning-legend");
+  const namnPaVal = data().meta.val || VALNAMN, distrikt = data().distrikt || [];
+  const val = ["rd", "rf", "kf"].filter(v => distrikt.some(d => raknat(d, v)));
+  if (val.length < 2) { sek.hidden = true; return; }
+  // kohort: bara distrikt som är räknade i alla val som visas, annars jämförs olika områden med varandra
+  const kohort = distrikt.filter(d => val.every(v => raknat(d, v)));
+  if (!kohort.length) { sek.hidden = true; return; }
   sek.hidden = false;
-  const partier = Object.keys(kf.roster).filter(p => p !== "Övriga" && rd.roster[p] !== undefined);
-  const serier = partier.map(p => ({ p, a: rd.roster[p] / rd.giltiga, b: kf.roster[p] / kf.giltiga }));
-  const fokus = ["V", "S", "MP"];
-  const W = 600, H = 360, x1 = 190, x2 = 410, topp = 40, botten = 320;
-  const max = Math.max(0.1, Math.ceil(Math.max(...serier.flatMap(q => [q.a, q.b])) * 10) / 10);
-  const y = v => botten - (v / max) * (botten - topp);
-  const svg = s("svg", { viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": "Röstdelning: " + serier.filter(q => fokus.includes(q.p)).map(q => `${q.p} ${procent(q.a)} i riksdagsvalet, ${procent(q.b)} i kommunvalet`).join("; ") });
-  svg.append(s("text", { x: x1, y: 24, "text-anchor": "middle", "font-size": 15, "font-weight": 700, fill: FARG.black }, "Riksdag"),
-             s("text", { x: x2, y: 24, "text-anchor": "middle", "font-size": 15, "font-weight": 700, fill: FARG.black }, "Kommun"),
-             s("line", { x1, x2: x1, y1: topp, y2: botten, stroke: FARG.linje }), s("line", { x1: x2, x2, y1: topp, y2: botten, stroke: FARG.linje }));
-  for (const q of serier.filter(q => !fokus.includes(q.p)))
-    svg.append(s("line", { x1, y1: y(q.a), x2, y2: y(q.b), stroke: FARG.sten, "stroke-opacity": .35, "stroke-width": 2 }));
-  const dodge = (poster, nyckel) => { poster.sort((a, b) => a[nyckel] - b[nyckel]); for (let i = 1; i < poster.length; i++) if (poster[i][nyckel] - poster[i - 1][nyckel] < 18) poster[i][nyckel] = poster[i - 1][nyckel] + 18; return poster; };
-  const fokusSerier = serier.filter(q => fokus.includes(q.p)).map(q => ({ ...q, ya: y(q.a), yb: y(q.b), la: y(q.a), lb: y(q.b) }));
-  dodge(fokusSerier, "la"); dodge(fokusSerier, "lb");
-  for (const q of fokusSerier) {
-    svg.append(s("line", { x1, y1: q.ya, x2, y2: q.yb, stroke: parti(q.p).farg, "stroke-width": 6, "stroke-linecap": "round" }),
-      s("circle", { cx: x1, cy: q.ya, r: 6, fill: parti(q.p).farg }), s("circle", { cx: x2, cy: q.yb, r: 6, fill: parti(q.p).farg }),
-      s("text", { x: x1 - 14, y: q.la + 5, "text-anchor": "end", "font-size": 15, fill: FARG.black }, `${q.p} ${procent(q.a)}`),
-      s("text", { x: x2 + 14, y: q.lb + 5, "font-size": 15, fill: FARG.black }, `${procent(q.b)} ${q.p}`));
+  const summa = {};
+  for (const v of val) {
+    const post = { giltiga: 0, roster: {} };
+    for (const d of kohort) { post.giltiga += d.giltiga[v]; for (const [p, n] of Object.entries(d[v])) post.roster[p] = (post.roster[p] || 0) + n; }
+    summa[v] = post;
   }
-  $("#lutning").replaceChildren(svg);
-  $("#rostdelning-not").textContent = `Så skiljer sig partiernas andel i Majorna mellan riksdagsvalet och kommunvalet ${state.ar}. Grå linjer är övriga partier.`;
+  const andel = (v, p) => (summa[v].roster[p] !== undefined && summa[v].giltiga) ? summa[v].roster[p] / summa[v].giltiga : null;
+  const alla = [...new Set(val.flatMap(v => Object.keys(summa[v].roster)))].filter(p => p !== "Övriga");
+  const poster = alla.map(p => ({ p, varden: val.map(v => andel(v, p)) })).filter(r => r.varden.some(a => a !== null && a >= 0.01));
+  if (!poster.length) { sek.hidden = true; return; }
+  const huvud = val.includes("rd") ? "rd" : val[0], sist = val.includes("kf") ? "kf" : val[val.length - 1];
+  poster.sort((a, b) => {   // fallande på riksdagsandel, partier utan riksdagsröster sist på kommunandel
+    const av = andel(huvud, a.p), bv = andel(huvud, b.p);
+    if (av === null && bv === null) return (andel(sist, b.p) || 0) - (andel(sist, a.p) || 0);
+    if (av === null) return 1;
+    if (bv === null) return -1;
+    return bv - av;
+  });
+  const hogsta = Math.max(...poster.flatMap(r => r.varden.filter(a => a !== null)));
+  const max = Math.max(0.05, Math.ceil(hogsta * 20) / 20);   // närmaste 5 procent över högsta värdet
+  const pos = a => a / max * 100;
+  const kolumner = barn => h("div", { class: "rd-tal" }, barn);
+  legend.replaceChildren(...val.map(v => h("span", {}, h("i", { class: "rd-form rd-" + RD_FORM[v] }), RD_KORT[v])));
+  const beskrivning = poster.map(r => `${parti(r.p).namn}: ` + val.map((v, i) => `${namnPaVal[v].toLowerCase()} ${r.varden[i] === null ? "inget resultat" : procent(r.varden[i])}`).join(", ")).join("; ") + ".";
+  const grafik = h("div", { class: "rd-grafik", role: "img", "aria-label": `Andel av giltiga röster per val och parti. ${beskrivning}` });
+  grafik.append(h("div", { class: "rd-huvud", "aria-hidden": "true" }, h("div"), h("div"),
+    kolumner(val.map(v => h("span", {}, RD_KORT[v])))));
+  for (const r of poster) {
+    const finns = r.varden.filter(a => a !== null);
+    const lo = Math.min(...finns), hi = Math.max(...finns);
+    const axel = h("div", { class: "rd-axel" }, h("span", { class: "rd-spar" }),
+      finns.length > 1 ? h("span", { class: "rd-spann", style: `left:${pos(lo).toFixed(2)}%;width:${(pos(hi) - pos(lo)).toFixed(2)}%` }) : null,
+      val.map((v, i) => r.varden[i] === null ? null
+        : h("span", { class: "rd-markor rd-" + RD_FORM[v], style: `left:${pos(r.varden[i]).toFixed(2)}%;background:${parti(r.p).farg}` })));
+    grafik.append(h("div", { class: "rd-rad" },
+      h("div", { class: "rd-parti" }, h("b", {}, r.p), h("small", {}, namnMedMjukaBindestreck(parti(r.p).namn))), axel,
+      kolumner(r.varden.map(a => h("span", {}, a === null ? "-" : andelTal(a))))));
+  }
+  const steg = max > 0.25 ? 0.1 : 0.05, ticks = [];
+  for (let v = 0; v <= max + 1e-9; v += steg) ticks.push(Math.round(v * 1000) / 1000);
+  grafik.append(h("div", { class: "rd-rad rd-axelrad", "aria-hidden": "true" }, h("div"),
+    h("div", { class: "rd-axel-tal" }, ticks.map((v, i) => h("span", {   // ytterkanternas tal hålls innanför axeln, annars rullar sidan i sidled
+      style: `left:${pos(v).toFixed(2)}%;transform:translateX(${i === 0 ? "0" : i === ticks.length - 1 ? "-100%" : "-50%"})` }, Math.round(v * 100) + (i === 0 ? " %" : "")))), h("div")));
+  rader.replaceChildren(grafik);
+  const led = val.map(v => RD_LED[v]), valText = led.slice(0, -1).join("-, ") + "- och " + led[led.length - 1] + "valet";
+  const kohortText = kohort.length < distrikt.length ? ` Räknat på ${kohort.length} av ${distrikt.length} distrikt.` : "";
+  $("#rostdelning-not").textContent = `Så röstar Majorna olika i ${valText} ${state.ar}. Ju längre streck, desto mer röstdelning.` + kohortText;
 }
 
 /* ---- Majorna mot Sverige: divergerande staplar mot riket, Västra Götaland eller Göteborg */

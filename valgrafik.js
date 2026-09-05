@@ -29,6 +29,7 @@ const MARKUP = `
     <div id="halvcirkel"></div>
     <div id="mandat-legend"></div>
     <p class="not" id="mandat-metod"></p>
+    <p id="mandat-live" class="sr-only" aria-live="polite"></p>
   </section>
 
   <section id="karta-sektion" aria-labelledby="karta-rubrik">
@@ -49,9 +50,6 @@ const MARKUP = `
       <div class="panel-knappar" id="panel-knappar"></div>
       <p id="panel-live" class="sr-only" aria-live="polite"></p>
     </div>
-  </section>
-
-  <section id="tabell-sektion" aria-label="Alla distrikt som tabell">
     <button id="tabell-knapp" aria-expanded="false" aria-controls="tabell">Visa alla distrikt som tabell</button>
     <div id="tabell" hidden></div>
   </section>
@@ -138,6 +136,21 @@ function mix(hex, t) {   // partifärg mot papper, t = 1 ger partifärgen
   return "#" + c.map((v, i) => Math.round(p[i] + (v - p[i]) * t).toString(16).padStart(2, "0")).join("");
 }
 function klockslag(iso) { const d = new Date(iso); return isNaN(d) ? iso : d.toLocaleTimeString("sv-SE", { hour: "2-digit", minute: "2-digit" }); }
+function pilNavigering(container) {   // vänster/höger pil byter aktiv knapp i en flik- eller radioknapprad (roving tabindex)
+  if (container.dataset.pilnav) return;
+  container.dataset.pilnav = "1";
+  container.addEventListener("keydown", e => {
+    if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+    const knappar = [...container.querySelectorAll("button")];
+    if (knappar.length < 2) return;
+    e.preventDefault();
+    const i = Math.max(0, knappar.findIndex(b => b.getAttribute("aria-checked") === "true" || b.getAttribute("aria-selected") === "true"));
+    const ni = (i + (e.key === "ArrowRight" ? 1 : -1) + knappar.length) % knappar.length;
+    knappar[ni].click();
+    const aktiv = container.querySelector('[aria-checked="true"], [aria-selected="true"]');
+    if (aktiv) aktiv.focus();
+  });
+}
 function namnMedMjukaBindestreck(namn) {   // mjukt bindestreck (U+00AD) i långa partinamn, bara för den synliga texten
   const SHY = "\u00AD";
   return namn.replace(/Vänster/g, "Vänster" + SHY).replace(/Social/g, "Social" + SHY).replace(/Miljö/g, "Miljö" + SHY)
@@ -330,8 +343,9 @@ function renderRiksdag() {
   const knappar = $("#mandat-lage");
   knappar.innerHTML = "";
   knappar.hidden = lagen.length < 2;
-  for (const [lage, text] of lagen) knappar.append(h("button", { type: "button", role: "radio", "aria-checked": String(lage === state.mandatLage),
+  for (const [lage, text] of lagen) knappar.append(h("button", { type: "button", role: "radio", "aria-checked": String(lage === state.mandatLage), tabindex: lage === state.mandatLage ? "0" : "-1",
     onclick: () => { state.mandatRort = true; sattMandatLage(lage); } }, text));
+  pilNavigering(knappar);
   const fordelning = state.mandatLage === "majorna" ? egen : verklig;
   const antal = Object.values(fordelning).reduce((a, b) => a + b, 0);
   const platser = halvcirkelPlatser(antal), ordning = mandatOrdning(fordelning);
@@ -347,9 +361,16 @@ function sattMandatLage(lage) {
   if (state.mandatLage === lage) return;
   state.mandatLage = lage;
   const m = data().mandat, fordelning = lage === "majorna" ? m.riksdag_majorna : m.riksdag_verklig;
-  const ordning = mandatOrdning(fordelning);
+  const ordning = mandatOrdning(fordelning), antal = ordning.length;
   $("#halvcirkel").querySelectorAll("circle").forEach((c, i) => c.setAttribute("fill", parti(ordning[i]).farg));
-  $("#mandat-lage").querySelectorAll("button").forEach(b => b.setAttribute("aria-checked", String(b.textContent.startsWith("Om") === (lage === "majorna"))));
+  const etikettLage = lage === "majorna" ? "Om Majorna bestämde" : `Riksdagen ${data().meta.ar}`;
+  const fordelningText = Object.entries(fordelning).map(([p, n]) => `${p} ${n}`).join(", ") + ".";
+  $("#halvcirkel svg").setAttribute("aria-label", `${antal} mandat, ${etikettLage.toLowerCase()}. ${fordelningText}`);
+  $("#mandat-live").textContent = `${etikettLage}: ${fordelningText}`;
+  $("#mandat-lage").querySelectorAll("button").forEach(b => {
+    const aktiv = b.textContent.startsWith("Om") === (lage === "majorna");
+    b.setAttribute("aria-checked", String(aktiv)); b.tabIndex = aktiv ? 0 : -1;
+  });
   renderMandatLegend(m.riksdag_verklig, m.riksdag_majorna);
 }
 function renderMandatLegend(verklig, egen) {
@@ -365,7 +386,7 @@ function renderMandatLegend(verklig, egen) {
 }
 function autoOvergang() {
   const sek = $("#riksdag");
-  if (sek.hidden || !("IntersectionObserver" in window)) return;
+  if (sek.hidden || !("IntersectionObserver" in window) || lugn()) return;
   const io = new IntersectionObserver(poster => {
     if (!poster.some(p => p.isIntersecting)) return;
     io.disconnect();
@@ -379,19 +400,22 @@ function renderKontroller() {
   const flikar = $("#flikar");
   flikar.innerHTML = "";
   for (const [val, namn] of Object.entries(data().meta.val || { rd: "Riksdag", rf: "Region", kf: "Kommun" })) {
-    flikar.append(h("button", { type: "button", role: "tab", "aria-selected": String(val === state.val), id: "flik-" + val,
+    flikar.append(h("button", { type: "button", role: "tab", "aria-selected": String(val === state.val), tabindex: val === state.val ? "0" : "-1", id: "flik-" + val,
       onclick: () => { state.val = val; if (!partierIVal(val).includes(state.parti)) state.parti = partierIVal(val)[0]; renderKontroller(); renderKarta(); renderPanel(); renderTabell(); renderBanderoll(); } }, namn));
   }
+  pilNavigering(flikar);
   const lage = $("#lage");
   lage.innerHTML = "";
   for (const [l, text] of [["storsta", "Största parti"], ["styrka", "Partistyrka"]]) {
-    lage.append(h("button", { type: "button", role: "radio", "aria-checked": String(l === state.lage),
+    lage.append(h("button", { type: "button", role: "radio", "aria-checked": String(l === state.lage), tabindex: l === state.lage ? "0" : "-1",
       onclick: () => { state.lage = l; renderKontroller(); renderKarta(); renderTabell(); } }, text));
   }
+  pilNavigering(lage);
   const valj = $("#parti");
   valj.innerHTML = "";
   for (const p of partierIVal(state.val)) valj.append(h("option", { value: p, selected: p === state.parti }, `${p} - ${parti(p).namn}`));
   valj.onchange = () => { state.parti = valj.value; renderKarta(); renderTabell(); };
+  valj.disabled = !data().distrikt.some(d => raknat(d, state.val));   // inget distrikt räknat: partival ger ingen mening än
   $("#partival").hidden = state.lage !== "styrka";
 }
 
@@ -402,17 +426,32 @@ const HALLPLATSER = {
 };
 const PLATSNAMN = { mobil: ["Eriksberg", "Slottsberget", "Stigberget", "Högsbohöjd"], desktop: ["Eriksberg", "Slottsberget", "Stigberget", "Högsbohöjd", "Färjenäs"] };
 // typstorlekar i viewBox-enheter (1000 bred). Mobil: 1 enhet = 0,39 px. Desktop: 0,69 px.
+// bildläget (state.bild) behåller dessa fasta enhetsvärden - stillbilderna ska inte ändras.
 const STORLEK = { mobil: { etikett: 28, vald: 31, namn: 26, namnRad2: 22, kontur: 6, hallplats: 22, plats: 22 },
                   desktop: { etikett: 24, vald: 27, namn: 24, namnRad2: 20, kontur: 5, hallplats: 18, plats: 21 } };
+// måltyper i px, oberoende av containerns bredd - räknas om till viewBox-enheter efter kartans faktiska pixelbredd
+const PXMAL = { mobil: { etikett: 11, vald: 12, namn: 11, namnRad2: 9.5, kontur: 2.4, hallplats: 9, plats: 9 },
+                desktop: { etikett: 15, vald: 17, namn: 15, namnRad2: 12.5, kontur: 2, hallplats: 12, plats: 12.5 } };
 const arDesktop = () => rot.getBoundingClientRect().width >= 600;
 const arBred = () => rot.getBoundingClientRect().width >= 900;   // kortet ligger bredvid kartan   // containerns bredd, inte fönstrets: rätt även inbäddad i en annan sida
-let senastDesktop = null;
+function kartBredd() {   // kartans egen pixelbredd, reserv: containerns bredd
+  const el = rot.querySelector("#karta");
+  return (el && el.clientWidth) || rot.getBoundingClientRect().width || 390;
+}
+let senastDesktop = null, senastKartaBredd = null;
 if ("ResizeObserver" in window) new ResizeObserver(() => {
-  const nu = arDesktop();
-  if (senastDesktop !== null && nu !== senastDesktop && state.geo && !state.bild) renderKarta();
-  senastDesktop = nu;
+  const nu = arDesktop(), breddNu = kartBredd();
+  const desktopBytte = senastDesktop !== null && nu !== senastDesktop;
+  const breddBytte = senastKartaBredd !== null && Math.abs(breddNu - senastKartaBredd) / senastKartaBredd > 0.1;
+  if ((desktopBytte || breddBytte) && state.geo && !state.bild) renderKarta();
+  senastDesktop = nu; senastKartaBredd = breddNu;
 }).observe(rot);
-const storlek = () => arDesktop() ? STORLEK.desktop : STORLEK.mobil;
+function storlek() {   // typstorlekar i viewBox-enheter efter kartans faktiska pixelbredd, inte en fast 600 px-tröskel
+  const bredd = kartBredd(), mal = bredd < 600 ? PXMAL.mobil : PXMAL.desktop, faktor = 1000 / bredd;
+  const ut = {};
+  for (const k in mal) ut[k] = mal[k] * faktor;
+  return ut;
+}
 
 function projektion(bbox, padX = 0.045, padY = 0.16) {   // högre ram: mer älv och Slottsskog, cirka 60 vh på en telefon
   const [w0, s0, e0, n0] = bbox, dx = (e0 - w0) * padX, dy = (n0 - s0) * padY;
@@ -446,17 +485,17 @@ function relLuminans(hex) {
   const c = [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16) / 255).map(v => v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4));
   return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
 }
-function morkna(hex, t) {   // mot bläck
-  const c = [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16)), b = [42, 36, 30];
-  return "#" + c.map((v, i) => Math.round(v + (b[i] - v) * t).toString(16).padStart(2, "0")).join("");
-}
 function styrkaSkala(val, p) {
   const varden = data().distrikt.filter(d => raknat(d, val)).map(d => Math.round((d[val][p] || 0) / d.giltiga[val] * 100));
+  if (!varden.length) return { steg: 0, granser: [], klass: () => 0, farg: () => FARG.oraknat };   // inget distrikt räknat än
   const lo = Math.min(...varden), hi = Math.max(...varden), spann = hi - lo;
-  const steg = spann >= 8 ? 4 : 3, toner = steg === 4 ? [0.30, 0.55, 0.80, 1] : [0.35, 0.65, 1];
+  const bas = parti(p).farg, ljus = relLuminans(bas) > 0.35;   // toppsteget är alltid partiets egen färg
+  const steg = spann === 0 ? 1 : spann >= 6 ? 4 : 3;
+  const toner = steg === 1 ? [1]
+    : ljus ? (steg === 4 ? [0.22, 0.48, 0.74, 1] : [0.30, 0.62, 1])   // ljusa färger (SD, L): tonerna sprids mer
+    : (steg === 4 ? [0.30, 0.55, 0.80, 1] : [0.35, 0.65, 1]);
   const granser = Array.from({ length: steg + 1 }, (_, i) => Math.round(lo + spann * i / steg));
-  const bas = parti(p).farg, topp = relLuminans(bas) > 0.35 ? morkna(bas, 0.22) : bas;
-  const farg = k => k === steg - 1 ? topp : mix(bas, toner[k]);
+  const farg = k => mix(bas, toner[k]);
   const klass = v => { let k = 0; for (let i = 1; i < steg; i++) if (v >= granser[i]) k = i; return k; };
   return { lo, hi, steg, granser, klass, farg };
 }
@@ -584,7 +623,7 @@ function renderKartaLegend(val, skala) {
     for (const d of data().distrikt) if (raknat(d, val)) { const p = storsta(d[val]); antal[p] = (antal[p] || 0) + 1; }
     for (const [p, n] of Object.entries(antal).sort((a, b) => b[1] - a[1]))
       ul.append(h("li", {}, h("span", { class: "swatch", style: `background:${parti(p).farg}` }), `${parti(p).namn} störst i ${n} distrikt`));
-  } else {
+  } else if (skala.steg) {
     wrap.append(h("p", { class: "legend-titel" }, `${parti(state.parti).namn}, andel av rösterna i procent`));
     for (let k = 0; k < skala.steg; k++) {
       const fran = skala.granser[k], till = k === skala.steg - 1 ? skala.granser[k + 1] : skala.granser[k + 1] - 1;
@@ -697,12 +736,15 @@ function renderTabell() {
     const x = a[kol] ?? -1, y = b[kol] ?? -1;
     return (y - x) * (fallande ? 1 : -1);
   });
-  const th = (kolNamn, text) => h("th", { scope: "col", "aria-sort": kol === kolNamn ? (fallande ? "descending" : "ascending") : "none",
-    onclick: () => { state.sortering = { kol: kolNamn, fallande: kol === kolNamn ? !fallande : kolNamn !== "namn" }; renderTabell(); } }, text);
+  const sortera = kolNamn => { state.sortering = { kol: kolNamn, fallande: kol === kolNamn ? !fallande : kolNamn !== "namn" }; renderTabell(); };
+  const th = (kolNamn, text) => h("th", { scope: "col", "aria-sort": kol === kolNamn ? (fallande ? "descending" : "ascending") : "none" },
+    h("button", { type: "button", onclick: () => sortera(kolNamn) }, text));
+  const radTangent = (r, e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); valjDistrikt(r.kod); } };
   const tabell = h("table", { class: "distrikt" },
     h("caption", {}, `${VALNAMN[val]} ${state.ar}, andel av giltiga röster per distrikt. Tryck på en kolumn för att sortera, på en rad för att välja distrikt.`),
     h("thead", {}, h("tr", {}, th("namn", "Distrikt"), partier.map(p => th(p, p)), th("vd", "Valdelt."))),
-    h("tbody", {}, rader.map(r => h("tr", { class: r.kod === state.vald ? "vald" : "", onclick: () => valjDistrikt(r.kod) },
+    h("tbody", {}, rader.map(r => h("tr", { class: r.kod === state.vald ? "vald" : "", tabindex: "0",
+      onclick: () => valjDistrikt(r.kod), onkeydown: e => radTangent(r, e) },
       h("td", {}, r.namn), partier.map(p => h("td", {}, r.raknat ? procent(r[p]) : "-")), h("td", {}, r.vd !== null && r.raknat ? procent(r.vd) : "-")))));
   wrap.replaceChildren(h("div", { class: "tabell-wrap" }, tabell));
 }
@@ -778,8 +820,10 @@ function renderJamforelse() {
   knappar.innerHTML = "";
   for (const v of valLista) {
     if (!divergens(v)) continue;
-    knappar.append(h("button", { type: "button", role: "radio", "aria-checked": String(v === val), onclick: () => { state.jamforelseVal = v; renderJamforelse(); } }, (data().meta.val || VALNAMN)[v]));
+    knappar.append(h("button", { type: "button", role: "radio", "aria-checked": String(v === val), tabindex: v === val ? "0" : "-1",
+      onclick: () => { state.jamforelseVal = v; renderJamforelse(); } }, (data().meta.val || VALNAMN)[v]));
   }
+  pilNavigering(knappar);
   if (!res) { sek.hidden = true; return; }
   sek.hidden = false;
   $("#jamforelse-rubrik").textContent = `Majorna mot ${res.omr.namn}`;

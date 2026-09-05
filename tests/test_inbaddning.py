@@ -97,3 +97,15 @@ def test_ingen_prenumerationsknapp():
     assert "Prenumerera på Majposten" not in js and 'class="cta"' not in js
     k = json.loads((ROT / "data" / "konfig.json").read_text("utf-8"))
     assert "prenumerera" not in k
+
+
+def test_scroll_margin_under_beehiivs_klibbiga_meny():
+    css = CSS.read_text("utf-8")
+    assert "scroll-margin-top: var(--mp-sticky-top" in css
+    k = json.loads((ROT / "data" / "konfig.json").read_text("utf-8"))
+    assert isinstance(k["stickyTopp"], (int, float))
+
+
+def test_djuplankar_lases_och_skrivs_mot_foraldern_i_iframen():
+    js = JS.read_text("utf-8")
+    assert "function sidLocation()" in js

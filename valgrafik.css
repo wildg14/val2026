@@ -72,6 +72,8 @@
 .mp-val #karta .hallplats { fill: var(--papper); stroke: var(--black); stroke-width: 1.6; }
 .mp-val #karta .parker path { fill: #E1E7D6; }
 .mp-val #karta .vatten path { fill: #D8E1E5; }
+.mp-val #karta .parker, .mp-val #karta .vatten, .mp-val #karta .gator, .mp-val #karta .sparvag,
+.mp-val #karta .hallplatser, .mp-val #karta .platser, .mp-val #karta .etiketter { pointer-events: none; }
 .mp-val .karta-legend { margin: 0 0 10px; }
 .mp-val #karta, .mp-val #karta-sektion, .mp-val #panel, .mp-val #tabell, .mp-val #jamforelse { scroll-margin-top: var(--mp-sticky-top, 16px); }
 .mp-val #panel { padding-top: 12px; }
@@ -98,6 +100,7 @@
 .mp-val table.distrikt th, .mp-val table.distrikt td { padding: 6px 8px; border-bottom: 1px solid var(--linje); text-align: right; font-variant-numeric: tabular-nums; }
 .mp-val table.distrikt th:first-child, .mp-val table.distrikt td:first-child { text-align: left; position: sticky; left: 0; background: var(--papper); }
 .mp-val table.distrikt th { cursor: pointer; user-select: none; }
+.mp-val table.distrikt th button { all: unset; cursor: pointer; font: inherit; color: inherit; }
 .mp-val table.distrikt th[aria-sort="descending"]::after { content: " \25BE"; }
 .mp-val table.distrikt th[aria-sort="ascending"]::after { content: " \25B4"; }
 .mp-val table.distrikt tr.vald td { font-weight: 700; }
@@ -173,16 +176,18 @@
   .mp-val .mp-main > * { grid-column: 1 / -1; }
   .mp-val #jamforelse, .mp-val #rostdelning { grid-column: auto; }
   .mp-val header.topp, .mp-val #faktalista, .mp-val footer p { max-width: 680px; }
-  .mp-val #riksdag { display: grid; grid-template-columns: 1.1fr 1fr; column-gap: 40px; align-items: start; }
+  .mp-val #riksdag { display: grid; grid-template-columns: 1fr 1fr; column-gap: 40px; align-items: center; }
   .mp-val #riksdag > * { grid-column: 1 / -1; }
   .mp-val #halvcirkel { grid-column: 1; }
   .mp-val #mandat-legend { grid-column: 2; }
+  .mp-val #mandat-metod { grid-column: 1; }
   .mp-val #halvcirkel svg { max-height: none; }
   .mp-val #karta-sektion { display: grid; grid-template-columns: 1.35fr 1fr; column-gap: 32px; align-items: start; }
   .mp-val #karta-sektion > * { grid-column: 1 / -1; }
   .mp-val #karta { grid-column: 1; grid-row: 4; }
   .mp-val #karta-legend { grid-column: 1; grid-row: 5; margin: 10px 0 0; }
   .mp-val #panel { grid-column: 2; grid-row: 4 / 6; position: sticky; top: var(--mp-sticky-top, 16px); padding-top: 0; }
+  .mp-val #tabell-knapp { margin-top: 20px; }
   .mp-val #karta svg { max-height: none; }
   .mp-val .till-kartan { display: none; }
   .mp-val #lutning svg { max-width: none; }

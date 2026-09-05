@@ -45,6 +45,14 @@ A9. Rullning under Beehiivs klibbiga meny: `#karta`, `#karta-sektion`, `#panel`,
 
 A10. Ny värdsida `docs/beehiivtest.html` som efterliknar Beehiiv: klibbig meny 89 px hög, en `<iframe srcdoc>` med blocket (länkarna `../valgrafik.css` och `../valgrafik.js` blir absoluta `/valgrafik.css` och `/valgrafik.js` i srcdoc), bredd 100 %, höjd satt av en `ResizeObserver` på iframens `documentElement`, ingen egen rullning i iframen. Nytt skript `verktyg/beehiiv-check.js`: laddar `http://localhost:8765/docs/beehiivtest.html?distrikt=14800530` i 1280 px, kontrollerar att kortets rubrik är "Mariaplan", klickar Skytteskogen och kontrollerar att förälderns URL fått `distrikt=14800527`, fäller ut tabellen och kontrollerar att iframen växer, trycker "Tillbaka till kartan"-motsvarigheten i 390 px och mäter att kartans överkant ligger minst 89 px ned i fönstret. Skriver JSON och "inga JS-fel".
 
+A11. (Codex 3, verifierat i koden) Standardåret ignoreras: `state.ar` sätts från den inbyggda `KONFIG` innan `data/konfig.js` laddats, och rättas sedan bara om året saknar data. Efter konfigladdningen i `start()`: `state.ar = KONFIG.standardAr` om det finns i `KONFIG.ar`, annars `KONFIG.ar[0]`; `lasUrl` får därefter skriva över med giltigt `ar` ur adressen. Verifiera lokalt med en tillfällig konfig `ar: ["2022", "2026"], standardAr: "2026"` och en kopia av `valdata_2022` som `valdata_2026` (återställ allt efteråt, committa inget av det).
+
+A12. (Codex 15) `skrivUrl` utgår från den befintliga querysträngen (förälderns när den nås), sätter eller tar bort bara egna nycklar (`inbaddad`, `ar`, `val`, `lage`, `parti`, `distrikt`) och bevarar `history.state` i stället för att skicka `null`. Beehiivs `utm_source` och liknande ska överleva ett klick.
+
+A13. (Codex 14) `renderJamforelse`: saknar det sparade valet jämförelsedata men något annat val har det, byt till första tillgängliga i stället för att dölja sektionen.
+
+A14. (Codex 8, UI-delen) Banderollen i valnattsläget räknar räknade distrikt för aktuellt val ur distriktsdatan (`raknat(d, state.val)`), ritas om vid flikbyte och skriver "Valnatten 2026: 12 av 23 distrikt räknade i riksdagsvalet." `meta.valnatt` används bara som reserv när distriktsdatan saknas.
+
 ### B. Layout, karta och färg
 
 B1. (6) Sektionsordning: "Om Majorna bestämde" ligger kvar ovanför kartan (briefens krav). Ändringen är att tabellknappen flyttar in i kartsektionen: `#tabell-sektion` tas bort och `#tabell-knapp` plus `#tabell` läggs sist i `#karta-sektion` (i desktopgriden får de `grid-column: 1 / -1` under kartan och kortet). Ordningen blir header, Om Majorna bestämde, Så röstade ditt kvarter (med tabell), Majorna mot Sverige, Röstdelningen, Om siffrorna, sidfot. `verktyg/shots.js` och andra verktyg som pekar på `#tabell-sektion` uppdateras.
@@ -57,6 +65,14 @@ B4. (7) Partistyrka: toppsteget är alltid partiets egen färg, ingen mörkning 
 
 B5. Testet `tests/test_inbaddning.py` får en kontroll på `scroll-margin-top` i CSS (A9) och på att `valgrafik.js` innehåller `sidLocation` (A8), plus att `konfig.json` har `stickyTopp` som tal.
 
+B6. (Codex 10) `styrkaSkala` utan räknade distrikt: inga `Math.min`/`Math.max` på tom lista. Legenden visar då bara "Inte räknat än (23)", partiväljaren blir `disabled` tills data finns. Har alla räknade distrikt samma heltalsandel blir det ett enda steg "X %".
+
+B7. (Codex 11) `pointer-events: none` på `.parker`, `.vatten`, `.gator`, `.sparvag`, `.hallplatser`, `.platser` och `.etiketter` så att ett klick på en gata når distriktet under. Hållplatsernas `<title>` slutar då fungera som tooltip, vilket accepteras. `verktyg/skal-check.js` får ett riktigt musklick (`page.mouse.click`) mitt på Kusttorget och kontrollerar att kortets rubrik blir Kusttorget.
+
+B8. (Codex 12) Tangentbord: tabellens kolumnrubriker får en `<button>` för sortering, raderna `tabindex="0"` med Enter och mellanslag för att välja distrikt. Valflikarna följer WAI-ARIA-flikmönstret: bara den aktiva fliken i tabb-ordningen (roving tabindex), vänster- och högerpil byter flik, och fokus läggs tillbaka på den aktiva fliken efter omrendering. Övriga knappgrupper (`role="radio"`) får samma pilnavigering.
+
+B9. (Codex 13) `sattMandatLage` uppdaterar SVG:ns `aria-label` och skriver fördelningen i en `aria-live="polite"`-rad (`.sr-only`). `autoOvergang` körs inte när `prefers-reduced-motion` är satt.
+
 ### C. Röstdelningen: tre val, alla partier
 
 Ersätter lutningsdiagrammet i `renderRostdelning`. Frågan sektionen svarar på: hur röstdelar Majorna mellan riksdag, region och kommun, parti för parti.
@@ -67,6 +83,7 @@ Ersätter lutningsdiagrammet i `renderRostdelning`. Frågan sektionen svarar på
 - Mobil (under 600 px container): partibokstav 36 px bred, tal 3 × 44 px, axeln får resten. Desktop: partinamn får plats ("V Vänsterpartiet") och talkolumnerna 3 × 56 px.
 - `aria-label` på sektionens grafik med alla värden i klartext. Ingressen: "Så röstar Majorna olika i riksdags-, region- och kommunvalet {år}. Ju längre streck, desto mer röstdelning."
 - Finns bara två av valen (valnatten) ritas de två; finns ett eller inget döljs sektionen.
+- Kohort (Codex 9): andelarna räknas ur distriktsdatan över de distrikt som är räknade i alla val som visas, inte ur `aggregat.majorna`. Är alla 23 räknade ger det samma tal som aggregaten (facit riksdag V 27,2 %, region V 35,8 %, kommun V 34,6 %). Är färre än 23 gemensamma står "Räknat på N av 23 distrikt" i ingressen; är det noll döljs sektionen.
 - Bildläget berörs inte.
 
 ### D. Samarbete och rösthjälp
@@ -99,5 +116,7 @@ README: Beehiiv-avsnittet får fynden ovan (iframe, djuplänkar via föräldern,
 - Facit-siffror i HANDOVER ska synas oförändrade: Mariaplan riksdag V 34,5 %, Skytteskogen kommun MP 15,2 %, Svalebo region V 32,2 %, Hela Majorna riksdag V 27,2 %.
 
 ## Utanför den här omgången
+
+Codex-granskningen 2026-09-05 (Daniels beställning, mot commit 70eaa8a) pekar på datafel som avgör valnatten och som tas i en egen omgång direkt efter den här: 2026 års resultatfiler är ZIP med JSON, inte xlsx (Codex 1); distriktsgeografin är ändrad och nio Majornadistrikt är "Ej jämförbart" enligt Valmyndighetens övningsfil (Codex 2); CSV-mallen kan inte läsas tillbaka (4); swing för hela Majorna jämför olika distriktsmängder (5); negativa röster och okända partikoder accepteras (6); tom import skriver över (7); `kontrollera.py` täcker inte aggregat och mandat (16); `skapa_bilder.py` kan märka fel år (17). Codex 18 till 20 gäller historikspåret och tillhör den andra sessionen.
 
 Helhetsgreppet för historik och 2026 (årväljare, tidslinjer, vad som ska synas före och efter valdagen), Röstdelningen som karta, sidfot och Om siffrorna mot Beehiivs sidfot, halvcirkelns plats i förhållande till kartan (Daniels beslut; briefen sade ovanför). Tas i tankesmedjan.

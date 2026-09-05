@@ -24,3 +24,7 @@ Historiska dokument/unz/
 Historiska dokument/bygg_databas_logg.txt
 # byggs om på 25 sekunder med scripts/historik/bygg_databas.py
 data/historik/majorna_historik.sqlite
+# hämtade resultatfiler på valnatten, skrivs av scripts/hamta_2026.py
+data/valnatt/
+val-sign-crt.pem
+val-sign-pub.pem

@@ -47,6 +47,7 @@
 .mp-val table.mandat th { font-size: 13px; vertical-align: bottom; }
 .mp-val table.mandat th.tal { width: 26%; }
 .mp-val table.mandat td.tal, .mp-val table.mandat th.tal { text-align: right; font-variant-numeric: tabular-nums; }
+.mp-val table.mandat td.tal { white-space: nowrap; }
 .mp-val table.mandat td.aktiv { font-weight: 700; }
 .mp-val table.mandat td.dampad { color: var(--sten); }
 .mp-val #karta svg { width: 100%; height: auto; display: block; background: var(--papper); }
@@ -72,27 +73,24 @@
 .mp-val #karta .parker path { fill: #E1E7D6; }
 .mp-val #karta .vatten path { fill: #D8E1E5; }
 .mp-val .karta-legend { margin: 0 0 10px; }
+.mp-val #karta, .mp-val #karta-sektion, .mp-val #panel, .mp-val #tabell, .mp-val #jamforelse { scroll-margin-top: var(--mp-sticky-top, 16px); }
 .mp-val #panel { padding-top: 12px; }
 .mp-val .panel-huvud { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 4px 16px; margin: 0 0 6px; }
 .mp-val .panel-huvud h3 { font: 700 24px/1.25 var(--serif); margin: 0; }
-.mp-val .panel-hint, .mp-val .panel-topp { margin: 0 0 6px; font-size: 16px; color: var(--black); }
+.mp-val .panel-hint { margin: 0 0 6px; font-size: 16px; color: var(--black); }
 .mp-val .panel-sub { color: var(--sten); margin: 0 0 14px; font-size: 16px; }
 .mp-val .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
-.mp-val .stapel-rad { display: grid; grid-template-columns: 96px 1fr 96px; gap: 10px; align-items: center; margin: 0 0 8px; }
+.mp-val .stapel-rad { display: grid; grid-template-columns: 104px 1fr 96px; gap: 10px; align-items: center; margin: 0 0 8px; }
 .mp-val .stapel-namn { line-height: 1.2; }
 .mp-val .stapel-namn b { display: block; }
-.mp-val .stapel-namn small { display: block; font-size: 12px; color: var(--sten); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mp-val .stapel-namn small { display: block; font-size: 12px; color: var(--sten); white-space: normal; hyphens: manual; }
 .mp-val .stapel-spar { position: relative; height: 22px; background: var(--linje); border-radius: 2px; }
 .mp-val .stapel-fyll { height: 100%; border-radius: 2px; }
 .mp-val .markor { position: absolute; top: -4px; bottom: -4px; width: 3px; margin-left: -1px; background: var(--black); }
-.mp-val .markor.goteborg { background: var(--sten); }
-.mp-val .markor.riket { background: var(--ockra); }
 .mp-val .stapel-varde { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .mp-val .stapel-varde .swing { display: block; font-size: 13px; color: var(--sten); }
 .mp-val .markorer { font-size: 13px; color: var(--sten); display: flex; flex-wrap: wrap; gap: 4px 14px; margin: 4px 0 12px; }
 .mp-val .markorer span::before { content: ""; display: inline-block; width: 3px; height: 14px; background: var(--black); margin-right: 6px; vertical-align: -2px; }
-.mp-val .markorer span.goteborg::before { background: var(--sten); }
-.mp-val .markorer span.riket::before { background: var(--ockra); }
 .mp-val .panel-knappar { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
 .mp-val .dampad .stapel-fyll { opacity: .45; }
 .mp-val .tabell-wrap { overflow-x: auto; margin-top: 12px; }

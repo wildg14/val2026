@@ -43,7 +43,6 @@ const MARKUP = `
     <div id="panel" role="region" aria-labelledby="panel-rubrik">
       <div class="panel-huvud"><h3 id="panel-rubrik">Hela Majorna</h3><button type="button" id="panel-tillbaka" hidden>Visa hela Majorna</button></div>
       <p class="panel-hint" id="panel-hint">Tryck på ett distrikt på kartan. Resultatet visas här.</p>
-      <p class="panel-topp" id="panel-topp"></p>
       <p class="panel-sub" id="panel-sub"></p>
       <div id="panel-not"></div>
       <div id="panel-staplar"></div>
@@ -139,6 +138,11 @@ function mix(hex, t) {   // partifärg mot papper, t = 1 ger partifärgen
   return "#" + c.map((v, i) => Math.round(p[i] + (v - p[i]) * t).toString(16).padStart(2, "0")).join("");
 }
 function klockslag(iso) { const d = new Date(iso); return isNaN(d) ? iso : d.toLocaleTimeString("sv-SE", { hour: "2-digit", minute: "2-digit" }); }
+function namnMedMjukaBindestreck(namn) {   // mjukt bindestreck (U+00AD) i långa partinamn, bara för den synliga texten
+  const SHY = "\u00AD";
+  return namn.replace(/Vänster/g, "Vänster" + SHY).replace(/Social/g, "Social" + SHY).replace(/Miljö/g, "Miljö" + SHY)
+    .replace(/Center/g, "Center" + SHY).replace(/Krist/g, "Krist" + SHY).replace(/Sverige/g, "Sverige" + SHY);
+}
 
 /* ===================================================================== data */
 const data = () => state.data[state.ar];
@@ -186,9 +190,16 @@ function ariaDistrikt(d, val) {
 }
 
 /* ===================================================================== url
-   ?distrikt=14800530&val=kf&lage=styrka&parti=SD&ar=2026 - delbara länkar, t.ex. per kvarter från Beehiiv. */
+   ?distrikt=14800530&val=kf&lage=styrka&parti=SD&ar=2026 - delbara länkar, t.ex. per kvarter från Beehiiv.
+   I Beehiivs sajtbyggare ligger blocket i en <iframe srcdoc> med samma ursprung som sidan: den egna adressen
+   är "about:srcdoc" utan query, så länkar läses och skrivs mot förälderns adress när den går att nå. */
+function sidLocation() {
+  try { if (window.parent !== window && window.parent.location.href !== undefined) return window.parent.location; } catch (e) { /* korsdomän: egen adress gäller */ }
+  return location;
+}
+function sidHistory() { return sidLocation() === location ? history : window.parent.history; }
 function lasUrl() {
-  const q = new URLSearchParams(location.search);
+  const q = new URLSearchParams(sidLocation().search);
   if (KONFIG.ar.includes(q.get("ar"))) state.ar = q.get("ar");
   if (VALNAMN[q.get("val")]) state.val = q.get("val");
   if (["storsta", "styrka"].includes(q.get("lage"))) state.lage = q.get("lage");
@@ -197,14 +208,15 @@ function lasUrl() {
 }
 function skrivUrl() {
   if (KONFIG.skrivUrl === false) return;
-  const q = new URLSearchParams();
-  if (rot.classList.contains("inbaddad")) q.set("inbaddad", "1");
-  if (KONFIG.ar.length > 1 && state.ar !== KONFIG.standardAr) q.set("ar", state.ar);
-  if (state.val !== "rd") q.set("val", state.val);
-  if (state.lage !== "storsta") { q.set("lage", state.lage); q.set("parti", state.parti); }
-  if (state.vald) q.set("distrikt", state.vald);
+  const loc = sidLocation(), hist = sidHistory();
+  const q = new URLSearchParams(loc.search);   // egna nycklar sätts eller tas bort, övriga (t.ex. Beehiivs utm_source) bevaras
+  if (rot.classList.contains("inbaddad")) q.set("inbaddad", "1"); else q.delete("inbaddad");
+  if (KONFIG.ar.length > 1 && state.ar !== KONFIG.standardAr) q.set("ar", state.ar); else q.delete("ar");
+  if (state.val !== "rd") q.set("val", state.val); else q.delete("val");
+  if (state.lage !== "storsta") { q.set("lage", state.lage); q.set("parti", state.parti); } else { q.delete("lage"); q.delete("parti"); }
+  if (state.vald) q.set("distrikt", state.vald); else q.delete("distrikt");
   const qs = q.toString();
-  try { history.replaceState(null, "", location.pathname + (qs ? "?" + qs : "") + location.hash); } catch (e) { /* file:// i vissa webbläsare */ }
+  try { hist.replaceState(hist.state, "", loc.pathname + (qs ? "?" + qs : "") + loc.hash); } catch (e) { /* file:// i vissa webbläsare, eller korsdomän */ }
 }
 
 /* ===================================================================== laddning */
@@ -225,6 +237,7 @@ function monteraMarkup() {
 async function start() {
   monteraMarkup();
   try { Object.assign(KONFIG, await laddaSkript("konfig")); } catch (e) { /* standardkonfig gäller */ }
+  state.ar = KONFIG.ar.includes(KONFIG.standardAr) ? KONFIG.standardAr : KONFIG.ar[0];   // state skapades innan konfigen laddades
   try {
     const [geo, ...valdata] = await Promise.all(["distrikt", ...KONFIG.ar.map(a => "valdata_" + a)].map(laddaSkript));
     state.geo = geo;
@@ -248,7 +261,8 @@ async function start() {
   renderAllt();
   autoOvergang();
   if (state.vald) $("#karta").scrollIntoView({ block: "start" });
-  const ankare = location.hash && location.hash.length > 1 ? rot.querySelector("#" + CSS.escape(location.hash.slice(1))) : null;
+  const sidHash = sidLocation().hash;
+  const ankare = sidHash && sidHash.length > 1 ? rot.querySelector("#" + CSS.escape(sidHash.slice(1))) : null;
   if (ankare && !state.vald) ankare.scrollIntoView({ block: "start" });   // webbläsarens egen ankarrullning sker innan datan finns
 }
 
@@ -258,7 +272,7 @@ function renderAllt() {
 }
 function renderHuvud() {
   const meta = data().meta;
-  $("#topp-etikett").textContent = `Majposten · Valet ${meta.ar}`;
+  $("#topp-etikett").textContent = "Majposten · Valspecial";
   $("#ingress").textContent = `Valresultatet ${meta.ar} för de 23 valdistrikten i klassiska Majorna - riksdag, region och kommun, kvarter för kvarter.`;
   const arval = $("#arval");
   arval.innerHTML = "";
@@ -267,14 +281,20 @@ function renderHuvud() {
     arval.append(h("button", { type: "button", "aria-pressed": String(a === state.ar), class: a === state.ar ? "aktiv" : "",
       onclick: () => { state.ar = a; if (!partierIVal(state.val).includes(state.parti)) state.parti = partierIVal(state.val)[0]; renderAllt(); } }, "Valet " + a));
   }
+  renderBanderoll();
+}
+function renderBanderoll() {   // räknar räknade distrikt för aktuellt val ur distriktsdatan, ritas om vid flikbyte
   const band = $("#valnatt");
-  const vn = meta.valnatt;
-  if (KONFIG.valnatt && vn) {
-    band.hidden = false;
-    band.innerHTML = "";
-    band.append(h("b", {}, `Valnatten ${meta.ar}: ${vn.raknade} av ${vn.totalt} distrikt räknade.`), " ",
-      meta.status === "slutlig" ? "Slutliga siffror." : "Preliminära siffror.", ` Uppdaterat ${klockslag(meta.uppdaterad)}.`);
-  } else band.hidden = true;
+  if (!KONFIG.valnatt) { band.hidden = true; return; }
+  const meta = data().meta, distrikt = data().distrikt || [];
+  let raknade, totalt;
+  if (distrikt.length) { raknade = distrikt.filter(d => raknat(d, state.val)).length; totalt = distrikt.length; }
+  else if (meta.valnatt) { raknade = meta.valnatt.raknade; totalt = meta.valnatt.totalt; }   // reserv när distriktsdatan saknas
+  else { band.hidden = true; return; }
+  band.hidden = false;
+  band.innerHTML = "";
+  band.append(h("b", {}, `Valnatten ${meta.ar}: ${raknade} av ${totalt} distrikt räknade i ${VALNAMN[state.val].toLowerCase()}.`), " ",
+    meta.status === "slutlig" ? "Slutliga siffror." : "Preliminära siffror.", ` Uppdaterat ${klockslag(meta.uppdaterad)}.`);
 }
 
 /* ---- Om Majorna bestämde */
@@ -360,7 +380,7 @@ function renderKontroller() {
   flikar.innerHTML = "";
   for (const [val, namn] of Object.entries(data().meta.val || { rd: "Riksdag", rf: "Region", kf: "Kommun" })) {
     flikar.append(h("button", { type: "button", role: "tab", "aria-selected": String(val === state.val), id: "flik-" + val,
-      onclick: () => { state.val = val; if (!partierIVal(val).includes(state.parti)) state.parti = partierIVal(val)[0]; renderKontroller(); renderKarta(); renderPanel(); renderTabell(); } }, namn));
+      onclick: () => { state.val = val; if (!partierIVal(val).includes(state.parti)) state.parti = partierIVal(val)[0]; renderKontroller(); renderKarta(); renderPanel(); renderTabell(); renderBanderoll(); } }, namn));
   }
   const lage = $("#lage");
   lage.innerHTML = "";
@@ -518,18 +538,22 @@ function renderKarta() {
     const sparvag = s("g", { class: "sparvag" });
     sparvag.append(s("path", { d: (bg.sparvag || []).map(t => dAttr(t.k, proj, false)).join("") }));
     const hallplatser = s("g", { class: "hallplatser" }), urval = state.bild ? [] : desktop ? HALLPLATSER.desktop : HALLPLATSER.mobil;
+    const valdNamn = state.vald && dm[state.vald] ? dm[state.vald].namn : null;
     for (const namn of urval) {
       const hp = (bg.hallplatser || []).find(h => h.namn === namn);
       if (!hp || !iBild(hp.k)) continue;
-      const [x, y] = proj.till(hp.k), w = textBredd(hp.namn, S.hallplats, false), h1 = 0.35 * S.hallplats, h2 = 0.55 * S.hallplats;
+      const [x, y] = proj.till(hp.k);
+      const cirkel = s("circle", { class: "hallplats", cx: x.toFixed(1), cy: y.toFixed(1), r: 4.5 });
+      cirkel.append(s("title", {}, "Hållplats " + hp.namn));
+      hallplatser.append(cirkel);
+      if (hp.namn === valdNamn) continue;   // namnet dubblerar redan det valda distriktets namn på kartan
+      const w = textBredd(hp.namn, S.hallplats, false), h1 = 0.35 * S.hallplats, h2 = 0.55 * S.hallplats;
       const lagen = [{ x: x + 8, anchor: "start", box: { x1: x + 8, x2: x + 8 + w, y1: y - h1, y2: y + h2 } },
                      { x: x - 8, anchor: "end", box: { x1: x - 8 - w, x2: x - 8, y1: y - h1, y2: y + h2 } }];
       const plats = lagen.find(l => !upptaget.some(b => overlappar(b, l.box)) && l.box.x1 >= 4 && l.box.x2 <= proj.bredd - 4);
       if (!plats) continue;
       upptaget.push(plats.box);
-      const cirkel = s("circle", { class: "hallplats", cx: x.toFixed(1), cy: y.toFixed(1), r: 4.5 });
-      cirkel.append(s("title", {}, "Hållplats " + hp.namn));
-      hallplatser.append(cirkel, s("text", { class: "hallplats-namn", x: plats.x.toFixed(1), y: (y + 0.35 * S.hallplats).toFixed(1), "font-size": S.hallplats, "text-anchor": plats.anchor }, hp.namn));
+      hallplatser.append(s("text", { class: "hallplats-namn", x: plats.x.toFixed(1), y: (y + 0.35 * S.hallplats).toFixed(1), "font-size": S.hallplats, "text-anchor": plats.anchor }, hp.namn));
     }
     svg.append(gator, sparvag, hallplatser);
   }
@@ -580,7 +604,7 @@ function valjDistrikt(kod, franKartan) {
   if (p) p.focus({ preventScroll: true });   // omrenderingen tappar annars tangentbordsfokus
   if (!state.vald || arBred()) return;
   const svg = $("#karta svg").getBoundingClientRect();
-  if (svg.height + 80 < innerHeight) $("#panel-topp").scrollIntoView({ block: "nearest", behavior: lugn() ? "auto" : "smooth" });
+  if (svg.height + 80 < innerHeight) $("#panel").scrollIntoView({ block: "nearest", behavior: lugn() ? "auto" : "smooth" });
 }
 
 /* ---- panelen */
@@ -589,7 +613,7 @@ function stapelRad(p, andel, markorer, swing, dampad) {
   const varde = h("div", { class: "stapel-varde" }, procent(andel));
   if (swing !== null && swing !== undefined) varde.append(h("span", { class: "swing", title: "Förändring mot förra valet i procentenheter" }, pe(swing)));
   return h("div", { class: "stapel-rad" + (dampad ? " dampad" : ""), role: "group", "aria-label": `${parti(p).namn} ${procent(andel)}` },
-    h("div", { class: "stapel-namn" }, h("b", {}, p), h("small", {}, parti(p).namn)),
+    h("div", { class: "stapel-namn" }, h("b", {}, p), h("small", {}, namnMedMjukaBindestreck(parti(p).namn))),
     h("div", { class: "stapel-spar" }, h("div", { class: "stapel-fyll", style: `width:${w.toFixed(1)}%;background:${parti(p).farg}` }),
       markorer.filter(m => m.andel !== undefined).map(m => h("span", { class: "markor " + m.klass, style: `left:${Math.min(100, m.andel / state.skalmax * 100).toFixed(1)}%`, title: `${m.namn} ${procent(m.andel)}` }))),
     varde);
@@ -599,7 +623,7 @@ function toppTre(roster, giltiga) {
 }
 function renderPanel() {
   const val = state.val, dm = distriktMap(), d = state.vald ? dm[state.vald] : null, m = majorna(val);
-  const rubrik = $("#panel-rubrik"), tillbaka = $("#panel-tillbaka"), hint = $("#panel-hint"), topp = $("#panel-topp"),
+  const rubrik = $("#panel-rubrik"), tillbaka = $("#panel-tillbaka"), hint = $("#panel-hint"),
         sub = $("#panel-sub"), not = $("#panel-not"), staplar = $("#panel-staplar"), knappar = $("#panel-knappar");
   not.innerHTML = ""; staplar.innerHTML = ""; knappar.innerHTML = "";
   tillbaka.hidden = !d; hint.hidden = !!d;
@@ -615,37 +639,39 @@ function renderPanel() {
       not.append(h("p", { class: "not" }, h("b", {}, `Så röstade ${d.namn} ${bas}`), ` (${VALNAMN[val].toLowerCase()}, ${tal(b.giltiga[val])} giltiga röster).`));
       for (const a of andelar(b[val], b.giltiga[val])) if (a.andel >= 0.01) staplar.append(stapelRad(a.p, a.andel, [], null, true));
     }
-    knappar.append(h("button", { type: "button", onclick: () => valjDistrikt(state.vald) }, "Visa hela Majorna"));
   } else if (d) {
     rubrik.textContent = d.namn;
     toppText = `${VALNAMN[val]} ${state.ar}: ${toppTre(d[val], d.giltiga[val])}.`;
-    subText = `${tal(d.giltiga[val])} giltiga röster.`;
-    if (d.rostberattigade[val]) subText += ` Valdeltagande ${procent(d.rostande[val] / d.rostberattigade[val])}` + (majornaRaknat(val) && m.rostberattigade ? ` (Majorna ${procent(m.rostande / m.rostberattigade)}).` : ".");
+    let vd = "";
+    if (d.rostberattigade[val]) vd = `Valdeltagande ${procent(d.rostande[val] / d.rostberattigade[val])}` + (majornaRaknat(val) && m.rostberattigade ? ` (Majorna ${procent(m.rostande / m.rostberattigade)})` : "");
+    subText = (vd ? vd + ". " : "") + `${tal(d.giltiga[val])} giltiga röster.`;
     const markorer = majornaRaknat(val) ? [{ klass: "majorna", namn: "Majorna" }] : [], swing = swingFor(d.kod, val);
     if (markorer.length) markorNot.push(h("span", { class: "majorna" }, KONFIG.valnatt && data().meta.valnatt && data().meta.valnatt.raknade < data().meta.valnatt.totalt ? "Snittet för räknade distrikt i Majorna" : "Snittet för hela Majorna"));
     markorNot.push(...swingNot(swing));
     for (const a of andelar(d[val], d.giltiga[val])) if (a.andel >= 0.01)
       staplar.append(stapelRad(a.p, a.andel, markorer.map(x => ({ ...x, andel: m.giltiga ? (m.roster[a.p] || 0) / m.giltiga : undefined })), swing ? swing[a.p] : null));
-    knappar.append(h("button", { type: "button", onclick: () => valjDistrikt(state.vald) }, "Visa hela Majorna"),
-                   h("button", { type: "button", class: "till-kartan", onclick: () => $("#karta").scrollIntoView({ block: "start", behavior: lugn() ? "auto" : "smooth" }) }, "Tillbaka till kartan"));
+    knappar.append(h("button", { type: "button", class: "till-kartan", onclick: () => $("#karta").scrollIntoView({ block: "start", behavior: lugn() ? "auto" : "smooth" }) }, "Tillbaka till kartan"));
   } else {
     rubrik.textContent = "Hela Majorna";
     if (!majornaRaknat(val)) {
       toppText = `${VALNAMN[val]} ${state.ar}: inget distrikt räknat än.`;
     } else {
-      const vn = data().meta.valnatt, riket = jamforelse("riket", val), gbg = jamforelse("goteborg", val), swing = swingFor(null, val);
+      const vn = data().meta.valnatt, omr = jamforelseOmrade(val), post = omr.post, swing = swingFor(null, val);
       toppText = `${VALNAMN[val]} ${state.ar}: ${toppTre(m.roster, m.giltiga)}.`;
-      subText = (KONFIG.valnatt && vn && vn.raknade < vn.totalt ? `${vn.raknade} av ${vn.totalt} distrikt räknade. ` : "") + `${tal(m.giltiga)} giltiga röster.`;
-      if (m.rostberattigade) subText += ` Valdeltagande ${procent(m.rostande / m.rostberattigade)}` + (riket && riket.valdeltagande ? ` (${riket.namn === "Riket" || !riket.namn ? "riket" : riket.namn} ${procent(riket.valdeltagande)})` : "") + ".";
+      let vd = "";
+      if (m.rostberattigade) {
+        const namnLabel = val === "rd" ? "riket" : omr.namn;
+        vd = `Valdeltagande ${procent(m.rostande / m.rostberattigade)}` + (post && post.valdeltagande ? ` (${namnLabel} ${procent(post.valdeltagande)})` : "");
+      }
+      subText = (KONFIG.valnatt && vn && vn.raknade < vn.totalt ? `${vn.raknade} av ${vn.totalt} distrikt räknade. ` : "") + (vd ? vd + ". " : "") + `${tal(m.giltiga)} giltiga röster.`;
       const markorer = [];
-      if (gbg && gbg.andel) { markorer.push({ klass: "goteborg", namn: "Göteborg", andelar: gbg.andel }); markorNot.push(h("span", { class: "goteborg" }, "Göteborg")); }
-      if (riket && riket.andel) { const namn = riket.namn && riket.namn !== "Riket" ? riket.namn : "Riket"; markorer.push({ klass: "riket", namn, andelar: riket.andel }); markorNot.push(h("span", { class: "riket" }, namn)); }
+      if (post && post.andel) { markorer.push({ klass: "", namn: omr.namn, andelar: post.andel }); markorNot.push(h("span", {}, `Snittet i ${omr.namn}`)); }
       markorNot.push(...swingNot(swing));
       for (const a of andelar(m.roster, m.giltiga)) if (a.andel >= 0.01)
         staplar.append(stapelRad(a.p, a.andel, markorer.map(x => ({ ...x, andel: x.andelar[a.p] })), swing ? swing[a.p] : null));
     }
   }
-  topp.textContent = toppText; sub.textContent = subText; sub.hidden = !subText;
+  sub.textContent = subText; sub.hidden = !subText;
   if (markorNot.length) not.append(h("div", { class: "markorer", "aria-hidden": "true" }, markorNot));
   $("#panel-live").textContent = `${rubrik.textContent}. ${toppText}`;
   skrivUrl();
@@ -742,12 +768,17 @@ function divergens(val, ar, kompakt = false, bild = false) {
   return { el, omr, rader };
 }
 function renderJamforelse() {
+  const valLista = Object.keys(data().meta.val || VALNAMN);
+  if (!divergens(state.jamforelseVal)) {
+    const forsta = valLista.find(v => divergens(v));   // saknat val: byt till första tillgängliga i stället för att dölja
+    if (forsta) state.jamforelseVal = forsta;
+  }
   const sek = $("#jamforelse"), val = state.jamforelseVal, res = divergens(val, null, true);
   const knappar = $("#jamforelse-val");
   knappar.innerHTML = "";
-  for (const [v, namn] of Object.entries(data().meta.val || VALNAMN)) {
+  for (const v of valLista) {
     if (!divergens(v)) continue;
-    knappar.append(h("button", { type: "button", role: "radio", "aria-checked": String(v === val), onclick: () => { state.jamforelseVal = v; renderJamforelse(); } }, namn));
+    knappar.append(h("button", { type: "button", role: "radio", "aria-checked": String(v === val), onclick: () => { state.jamforelseVal = v; renderJamforelse(); } }, (data().meta.val || VALNAMN)[v]));
   }
   if (!res) { sek.hidden = true; return; }
   sek.hidden = false;

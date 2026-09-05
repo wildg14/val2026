@@ -1,16 +1,14 @@
-import json
 from pathlib import Path
 
 import pytest
 
 from scripts import valnatt
-from scripts.valmyndigheten import MAJORNA_KODER, OVRIGA, SummaFel
+from scripts.valmyndigheten import MAJORNA_KODER, NYCKELPARTIER, OVRIGA, SummaFel
 
-ROT = Path(__file__).resolve().parents[1]
 GENREP = Path("/Users/daniel/code/Temp/Historiska dokument/dl_webb/genrep2026/unz")
 KF = GENREP / "Genrep_2026_preliminar_1480_KF" / "Genrep_2026_preliminar_rostfordelning_1480_KF.json"
 RD = GENREP / "Genrep_2026_preliminar_00_RD" / "Genrep_2026_preliminar_rostfordelning_00_RD.json"
-finns = pytest.mark.skipif(not KF.exists(), reason="genrep-filerna saknas")
+finns = pytest.mark.skipif(not (KF.exists() and RD.exists()), reason="genrep-filerna saknas")
 
 
 def post(forkortning, beteckning, antal):
@@ -54,7 +52,7 @@ def test_las_rostfordelning_syntetisk_kf():
     assert d["roster"]["V"] == 300 and d["roster"]["D"] == 30 and d["roster"][OVRIGA] == 15, "PNy och rosterOvrigaPartier hamnar i Övriga"
     assert d["giltiga"] == 545 and d["rostande"] == 552 and d["rostberattigade"] == 1000
     assert d["okanda"] == {"PNy": 10}
-    assert set(d["roster"]) == {"V", "S", "MP", "M", "SD", "L", "D", "C", "KD", "FI", "K", OVRIGA}
+    assert set(d["roster"]) == {"V", "S", "D", OVRIGA}, "bara partier som står i partiRoster; K, MP med flera redovisas inte i filen och saknas därför"
     o = ra["distrikt"]["14800530"]
     assert o["raknat"] is False and o["jamforbar"] is False and o["roster"] == {}
 
@@ -91,6 +89,7 @@ def test_genrep_kf_svalebo():
     assert d["namn"] == "Svalebo" and d["giltiga"] == 905 and d["rostande"] == 919 and d["rostberattigade"] == 1102
     assert d["roster"]["V"] == 46 and d["roster"]["S"] == 283 and d["roster"]["M"] == 165
     assert sum(d["roster"].values()) == 905
+    assert "K" not in d["roster"] and "FI" in d["roster"], "K är inte rapportparti i den preliminära kommunfilen"
     assert ra["distrikt"]["14800533"]["namn"] == "Sandarna"
     assert sum(1 for d in ra["distrikt"].values() if d["jamforbar"]) == 14
     assert sorted(k for k, d in ra["distrikt"].items() if not d["jamforbar"]) == \
@@ -102,3 +101,40 @@ def test_genrep_rd_goteborg_antal():
     ra = valnatt.las_rostfordelning(RD, kommunkod="1480")
     assert ra["val"] == "rd" and ra["meta"]["totalt"] == 6626 and ra["meta"]["antal_i_omradet"] == 397
     assert len(ra["distrikt"]) == 23 and ra["distrikt"]["14800526"]["roster"]["S"] == 275
+    assert set(NYCKELPARTIER["rd"]) <= set(ra["distrikt"]["14800526"]["roster"]), "alla åtta riksdagspartier är rapportpartier i riksdagsfilen"
+
+
+def test_las_rostfordelning_rot_ej_dict_ger_formatfel():
+    with pytest.raises(valnatt.FormatFel):
+        valnatt.las_rostfordelning([], koder=MAJORNA_KODER)
+
+
+def test_las_rostfordelning_dubblerad_kod_ger_formatfel():
+    d1 = distrikt("14800526", [("V", "Vänsterpartiet", 10)])
+    d2 = distrikt("14800526", [("S", "Arbetarepartiet-Socialdemokraterna", 20)])
+    with pytest.raises(valnatt.FormatFel):
+        valnatt.las_rostfordelning(fil("KF", [d1, d2]), koder=["14800526"])
+
+
+def test_las_rostfordelning_avvisar_fel_summa_rostande():
+    d = distrikt("14800526", [("V", "Vänsterpartiet", 300)], ogiltiga=7)
+    d["totaltAntalRoster"] = 999
+    with pytest.raises(SummaFel):
+        valnatt.las_rostfordelning(fil("KF", [d]), koder=["14800526"])
+
+
+def test_las_rostfordelning_kod_forra_strang_och_none():
+    d_strang = distrikt("14800526", [("V", "Vänsterpartiet", 10)])
+    d_strang["valdistriktskodForegaendeVal"] = "14800999"
+    d_none = distrikt("14800527", [("V", "Vänsterpartiet", 10)])
+    d_none["valdistriktskodForegaendeVal"] = None
+    ra = valnatt.las_rostfordelning(fil("KF", [d_strang, d_none]), koder=["14800526", "14800527"])
+    assert ra["distrikt"]["14800526"]["kod_forra"] == ["14800999"], "sträng blir en lista med ett element"
+    assert ra["distrikt"]["14800527"]["kod_forra"] == [], "None blir en tom lista"
+
+
+def test_las_rostfordelning_rostberattigade_null_ger_noll():
+    d = distrikt("14800526", [("V", "Vänsterpartiet", 10)])
+    d["antalRostberattigade"] = None
+    ra = valnatt.las_rostfordelning(fil("KF", [d]), koder=["14800526"])
+    assert ra["distrikt"]["14800526"]["rostberattigade"] == 0

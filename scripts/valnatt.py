@@ -55,15 +55,18 @@ def _las_objekt(kalla):
 
 
 def _mappa_partiroster(rpm, val):
-    """partiRoster + rosterOvrigaPartier -> röster per nyckelparti och Övriga, samt okända etiketter."""
-    roster = {p: 0 for p in NYCKELPARTIER[val]}
-    roster[OVRIGA] = 0
+    """partiRoster + rosterOvrigaPartier -> röster per redovisat nyckelparti och Övriga, samt okända etiketter.
+
+    Ett nyckelparti som inte förekommer i partiRoster saknas i resultatet: den preliminära filen listar bara
+    rapportpartierna och lägger resten i rosterOvrigaPartier, och en nolla vore en påhittad siffra.
+    """
+    roster = {OVRIGA: 0}
     okanda = {}
     for pr in rpm.get("partiRoster") or []:
         n = _n(pr.get("antalRoster"))
         kod = parti_2026(pr)
-        if kod in roster:
-            roster[kod] += n
+        if kod in NYCKELPARTIER[val]:
+            roster[kod] = roster.get(kod, 0) + n
         else:
             roster[OVRIGA] += n
             if n:
@@ -79,9 +82,13 @@ def las_rostfordelning(kalla, koder=MAJORNA_KODER, kommunkod=None):
     `koder` avgör vilka distrikt som returneras. `kommunkod` räknar hur många distrikt i filen som
     hör till kommunen (för riksdags- och regionfilen), annars räknas alla distrikt i filen.
     Varje post: kod, namn (kort), raknat, jamforbar, kod_forra (lista), roster, giltiga, rostande,
-    rostberattigade, okanda. Oräknade distrikt har tomma röster och None som summor.
+    rostberattigade, okanda. Oräknade distrikt har tomma röster, None som giltiga och röstande, och
+    röstberättigade ur filen (0 när fältet är null). Till skillnad från valmyndigheten.las_rafil larmar
+    funktionen inte när ingen av de önskade koderna finns i filen; det gör uppdatera_2026.py.
     """
     obj = _las_objekt(kalla)
+    if not isinstance(obj, dict):
+        raise FormatFel("filen har inte ett objekt som rot")
     valtyp = _s(obj.get("valtyp")).upper()
     if valtyp not in VALTYP:
         raise FormatFel(f"valtyp {valtyp!r} känns inte igen (RD, RF eller KF)")
@@ -102,6 +109,8 @@ def las_rostfordelning(kalla, koder=MAJORNA_KODER, kommunkod=None):
         kod = _s(d.get("valdistriktskod"))
         if kod not in vill:
             continue
+        if kod in ut["distrikt"]:
+            raise FormatFel(f"distriktskoden {kod} förekommer två gånger i filen")
         forra = d.get("valdistriktskodForegaendeVal")
         if isinstance(forra, str):
             forra = [forra]
@@ -114,11 +123,11 @@ def las_rostfordelning(kalla, koder=MAJORNA_KODER, kommunkod=None):
             roster, okanda = _mappa_partiroster(rpm, val)
             giltiga = _n(rpm.get("antalRoster"))
             if sum(roster.values()) != giltiga:
-                raise SummaFel(f"{post['namn']}: partiröster {sum(roster.values())} != giltiga {giltiga}")
+                raise SummaFel(f"{kod} {post['namn']}: partiröster {sum(roster.values())} != giltiga {giltiga}")
             rostande = _n(d.get("totaltAntalRoster"))
             ogiltiga = _n((rf.get("rosterEjPaverkaMandat") or {}).get("antalRoster"))
             if giltiga + ogiltiga != rostande:
-                raise SummaFel(f"{post['namn']}: giltiga {giltiga} + ogiltiga {ogiltiga} != röstande {rostande}")
+                raise SummaFel(f"{kod} {post['namn']}: giltiga {giltiga} + ogiltiga {ogiltiga} != röstande {rostande}")
             post.update(roster=roster, giltiga=giltiga, rostande=rostande, okanda=okanda)
         ut["distrikt"][kod] = post
     return ut

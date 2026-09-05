@@ -23,6 +23,15 @@ const puppeteer = require('puppeteer-core');
     return ut;
   });
   console.log(JSON.stringify(res, null, 1));
+  // riktigt musklick (inte dispatchEvent) mitt på Kusttorget: gator/hållplatser ligger ovanpå men ska ha pointer-events: none
+  const kusttorget = await page.$('#valgrafik #karta path[data-kod="14800536"]');
+  await kusttorget.scrollIntoView();
+  await new Promise(r => setTimeout(r, 200));
+  const box = await kusttorget.boundingBox();
+  await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2);
+  await new Promise(r => setTimeout(r, 300));
+  const kusttorgetRubrik = await page.evaluate(() => document.getElementById('valgrafik').querySelector('#panel-rubrik').textContent);
+  console.log('kusttorgetRubrik:', kusttorgetRubrik, kusttorgetRubrik === 'Kusttorget' ? 'ok' : 'FEL: musklick nådde inte distriktet');
   console.log(fel.length ? 'FEL: ' + fel.join(' | ') : 'inga JS-fel');
   await page.goto('http://localhost:8765/index.html?bild=karta&val=rd&format=liggande', { waitUntil: 'networkidle0' });
   await new Promise(r => setTimeout(r, 800));

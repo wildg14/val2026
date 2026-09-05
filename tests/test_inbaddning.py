@@ -75,14 +75,29 @@ def test_uppdatera_valnatt_flagga_skriver_konfig(tmp_path):
     csv.write_text("val;kod;parti;roster\nrd;14800530;V;300\nrd;14800530;S;200\nrd;14800530;giltiga;500\n"
                    "rd;14800530;rostande;505\nrd;14800530;rostberattigade;1000\n", "utf-8")
     (tmp_path / "konfig.json").write_text(json.dumps({"ar": ["2022"], "standardAr": "2022", "valnatt": False,
-                                                       "prenumerera": "x", "adress": "y"}), "utf-8")
+                                                       "prenumerera": "x", "adress": "y",
+                                                       "samarbete": {"visa": True, "namn": "Majornas Bryggeri"},
+                                                       "hjalp": {"visa": True, "rubrik": "Behöver du hjälp att rösta?"}}), "utf-8")
     r = subprocess.run([sys.executable, "scripts/uppdatera_2026.py", "--csv", str(csv), "--ut", str(tmp_path), "--ar", "2026", "--valnatt"],
                        cwd=ROT, capture_output=True, text=True)
     assert r.returncode == 0, r.stdout + r.stderr
     k = json.loads((tmp_path / "konfig.json").read_text("utf-8"))
     assert k["ar"] == ["2022", "2026"] and k["standardAr"] == "2026" and k["valnatt"] is True
     assert k["prenumerera"] == "x" and k["adress"] == "y", "övriga fält ska bevaras"
+    assert k["samarbete"]["namn"] == "Majornas Bryggeri" and k["samarbete"]["visa"] is True, "samarbetsblocket ska bevaras"
+    assert k["hjalp"]["rubrik"] == "Behöver du hjälp att rösta?" and k["hjalp"]["visa"] is True, "rösthjälpen ska bevaras"
     assert (tmp_path / "konfig.js").exists()
+
+
+def test_konfig_har_samarbete_och_rosthjalp():
+    k = json.loads((ROT / "data" / "konfig.json").read_text("utf-8"))
+    assert isinstance(k["samarbete"]["visa"], bool), "samarbete.visa ska vara en boolean"
+    assert isinstance(k["samarbete"]["valvaka"]["visa"], bool), "samarbete.valvaka.visa ska vara en boolean"
+    assert isinstance(k["hjalp"]["visa"], bool), "hjalp.visa ska vara en boolean"
+    from scripts import schema
+    assert "samarbete" in schema.KONFIG_STANDARD and "hjalp" in schema.KONFIG_STANDARD
+    js = (ROT / "data" / "konfig.js").read_text("utf-8")
+    assert "samarbete" in js and "hjalp" in js, "konfig.js ska vara omskriven ur konfig.json"
 
 
 def test_layout_foljer_containern_inte_fonstret():
@@ -97,3 +112,15 @@ def test_ingen_prenumerationsknapp():
     assert "Prenumerera på Majposten" not in js and 'class="cta"' not in js
     k = json.loads((ROT / "data" / "konfig.json").read_text("utf-8"))
     assert "prenumerera" not in k
+
+
+def test_scroll_margin_under_beehiivs_klibbiga_meny():
+    css = CSS.read_text("utf-8")
+    assert "scroll-margin-top: var(--mp-sticky-top" in css
+    k = json.loads((ROT / "data" / "konfig.json").read_text("utf-8"))
+    assert isinstance(k["stickyTopp"], (int, float))
+
+
+def test_djuplankar_lases_och_skrivs_mot_foraldern_i_iframen():
+    js = JS.read_text("utf-8")
+    assert "function sidLocation()" in js

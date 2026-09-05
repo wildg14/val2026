@@ -21,7 +21,7 @@ Projektmappen är `/Users/daniel/code/Temp` (git, branch `main`, remote `origin`
 
 ## Arbetsregler som gäller i det här projektet
 
-- **Inga påhittade siffror.** Allt räknas ur datafilerna, och `scripts/kontrollera.py` stämmer av `data/valdata_2022.json` mot `majorna-valresultat-2022.xlsx` (1 149 kontroller). Ändra aldrig ett tal för hand. Kör `.venv/bin/python -m pytest -q` (38 tester) före och efter ändringar.
+- **Inga påhittade siffror.** Allt räknas ur datafilerna, och `scripts/kontrollera.py` stämmer av `data/valdata_2022.json` mot `majorna-valresultat-2022.xlsx` (1 149 kontroller). Ändra aldrig ett tal för hand. Kör `.venv/bin/python -m pytest -q` (41 tester, 37 gröna och 4 överhoppade råfilstester utan lokala xlsx-filer) före och efter ändringar.
 - **Majpostens skrivregler** i all text, även UI-etiketter och README: bindestreck med mellanslag ( - ), aldrig tankstreck; inga utropstecken, inga emoji, inga superlativ; kollade fakta skrivs platt, okollat märks [KOLLA]. Palett: papper #FAF6EE, bläck #2A241E, sten #6E6152, linje #E6DECF, slottsskogsgrön #3F5A3A, mörkgrön #2E4A2C, ockra #C58A34, falurött #8C3B2B. Georgia för rubriker, Arial för brödtext, minst 16 px löptext. Aldrig skuggor, gradienter, ikoner eller dekorelement.
 - **Beehiivs regler för HTML-block**: en enda container-div, all CSS scopad till `.mp-val`, inga regler på `*`, `body`, `html` eller `:root`, inga `vh`-mått, ingen `position: fixed`. `tests/test_inbaddning.py` vaktar detta; kör det efter varje CSS-ändring.
 - **Subagenter och workflows**: Daniel vill inte att de kör Fable (kontextförbrukningen). Sätt `model: 'sonnet'` (eller haiku för mekaniskt arbete) och `effort: 'medium'`, håll antalet agenter till två till fyra, och nämn modellvalet när en workflow startas.
@@ -35,20 +35,21 @@ Projektmappen är `/Users/daniel/code/Temp` (git, branch `main`, remote `origin`
 
 | Del | Fil | Vad |
 |---|---|---|
-| Grafiken | `valgrafik.js` (cirka 53 kB) | Renderar allt inuti `<div class="mp-val" id="valgrafik">`: rubrik, "Om Majorna bestämde", kartan med flikar och lägen, resultatkortet, tabellen, "Majorna mot Sverige", "Röstdelningen", "Om siffrorna", sidfot. Läser `data/konfig.js` och datafilerna från adressen i `data-bas` eller skriptets egen mapp. |
-| Stil | `valgrafik.css` (cirka 17 kB) | All CSS scopad till `.mp-val`. Två layouter via container queries: under 900 px containerbredd en spalt (mobil), från 900 px två kolumner. 600 px styr kartans detaljnivå. |
+| Grafiken | `valgrafik.js` (cirka 63 kB) | Renderar allt inuti `<div class="mp-val" id="valgrafik">`: rubrik, samarbetsrad och rutor (valvaka, rösthjälp), "Om Majorna bestämde", kartan med flikar och lägen, resultatkortet, tabellknappen och tabellen (i samma sektion som kartan), "Majorna mot Sverige", "Röstdelningen" (nu HTML-rader med alla tre valen per parti, inte lutningsdiagram), "Om siffrorna", sidfot. Läser `data/konfig.js` och datafilerna från adressen i `data-bas` eller skriptets egen mapp. |
+| Stil | `valgrafik.css` (cirka 20 kB) | All CSS scopad till `.mp-val`. Två layouter via container queries: under 900 px containerbredd en spalt (mobil), från 900 px två kolumner. 600 px styr kartans detaljnivå (kartans typstorlekar räknas löpande om efter kartans faktiska pixelbredd, inte bara vid tröskeln). |
 | Skal | `index.html` | Tunt skal för lokal visning, bildläge och skärmdumpar. Open Graph-taggar med adressen. |
 | Data | `data/valdata_2022.json` + `.js`, `data/distrikt.geojson` + `.js`, `data/bakgrund.json` + `.js`, `data/konfig.json` + `.js` | `.js`-filerna är identiska kopior av `.json` som sidan laddar via `<script>` (fungerar via file:// och kräver ingen CORS). Skrivs av `scripts/schema.py`. |
 | Pipeline | `scripts/bygg_data.py`, `scripts/kontrollera.py`, `scripts/valmyndigheten.py`, `scripts/mandat.py`, `scripts/geo.py`, `scripts/schema.py` | xlsx + zip till data/, med fem kontrollsteg. |
 | Valnatten | `scripts/uppdatera_2026.py` | Valmyndighetens råfiler (blad `roster_RD`, `roster_RF`, `roster_KF`) till `valdata_2026` + `swing_2026`. `--repetera` reproducerar 2022 exakt ur 2022 års råfiler. `--csv` är reservväg med handifylld fil. `--valnatt` uppdaterar `data/konfig`. |
 | Bakgrund | `scripts/hamta_bakgrund.py` | Gator, spårväg, hållplatser, vatten, parker och platsnamn från OpenStreetMap via Overpass. Valfritt lager. |
 | Stillbilder | `scripts/skapa_bilder.py`, `bilder/` | Chrome headless renderar `index.html?bild=jamforelse` och `?bild=karta` i 1200 x 630 och 1080 x 1080, 2x, med alt-text i `.txt`. |
-| Tester | `tests/` | 38 tester: mandatberäkning, parser mot råfiler, geometri, schema, kontrollskript, bygge, bakgrund, uppdatera, stillbilder, Beehiiv-regler. |
-| Verktyg | `verktyg/` | Puppeteer-skript för skärmdumpar och mätningar (se `verktyg/README.md`). Kräver `npm install puppeteer-core` i mappen. |
+| Tester | `tests/` | 41 tester (37 gröna, 4 överhoppade råfilstester): mandatberäkning, parser mot råfiler, geometri, schema, kontrollskript, bygge, bakgrund, uppdatera, stillbilder, Beehiiv-regler (inklusive scroll-margin-top, `sidLocation`, `stickyTopp` och samarbete/hjälp-nycklarna). |
+| Verktyg | `verktyg/` | Puppeteer-skript för skärmdumpar och mätningar (se `verktyg/README.md`), bland dem `beehiiv-check.js` mot `docs/beehiivtest.html`. Kräver `npm install puppeteer-core` i mappen. |
 | Värdsimulering | `docs/inbaddningstest.html` | Sida med avsiktligt fientlig CSS (rosa Comic Sans-rubriker, svarta runda knappar, Tailwind-liknande reset) som laddar blocket. Verifierat: inget läcker in eller ut. |
+| Värdsimulering | `docs/beehiivtest.html` | Efterliknar Beehiivs sajtbyggare: klibbig meny 89 px hög, blocket i en `iframe srcdoc`, höjd satt av `ResizeObserver`. Används för att testa djuplänkar och rullning under menyn (se Beehiiv-avsnittet i README och `verktyg/beehiiv-check.js`). |
 | Skärmdumpar | `docs/skarmdumpar/` | Referensbilder från bygget. |
 
-Sidvikt (js, css och datafilerna som laddas): cirka 341 kB. Miljö: `.venv` med Python 3.12 (uv), paket i `requirements.txt`. Chrome finns på `/Applications/Google Chrome.app/Contents/MacOS/Google Chrome`. Lokal server: `python3 -m http.server 8765` i projektroten, eller förhandsvisningen `valgrafik` i `.claude/launch.json`.
+Sidvikt (js, css och datafilerna som laddas): cirka 355 kB. Miljö: `.venv` med Python 3.12 (uv), paket i `requirements.txt`. Chrome finns på `/Applications/Google Chrome.app/Contents/MacOS/Google Chrome`. Lokal server: `python3 -m http.server 8765` i projektroten, eller förhandsvisningen `valgrafik` i `.claude/launch.json`.
 
 Källfiler i projektroten som inte ändras: `majorna-valresultat-2022.xlsx` (kurerad, flikarna RD, RF, KF, Sammanfattning, Metod & källor), `valdistrikt-vastra-gotalands-lan.zip` (Valmyndighetens valgeografi 2022, SWEREF99 TM), `Mandatfordelning-jamforelser-mellan-2018-och-2022.xlsx`, tre råfiler `Roster-per-distrikt-...-2022.xlsx` (gitignorerade, 15 till 20 MB var), `fortidsroster.csv` (mottagna förtidsröster per lokal och dag 2022), tre `statistik-alder-och-kon-...-2022.xlsx` (röstberättigade per distrikt, kön, medborgarskap och åldersgrupp), `slutligt-valresultat-riksdagen-jamforande-statistik-2018-2022.xlsx`. Två redaktionella dokument ligger i mappen men är gitignorerade: `interaktiv-valgrafik-brief.md` (ursprungsbriefen med brainstorm) och `majorna-valanalys-2022.md` (analysen, med tvillingdistrikt och känslighetstest av avgränsningen).
 
@@ -82,11 +83,29 @@ Göteborg hade 411 valdistrikt 2022 inklusive uppsamlingsdistriktet. `uppdatera_
 6. **Stillbilder ur sidan.** `?bild=jamforelse` och `?bild=karta` renderar fasta ramar som Chrome headless fotograferar. 2x-upplösning, alt-text ur datan. Bilderna används i mejlet och för delningar; mejl kan aldrig visa interaktivt innehåll.
 7. **Native i Beehiiv, inte iframe.** Beehiivs dokumentation säger att HTML-block i sajtbyggaren kör interaktiva widgets och att script bara körs i Preview och Live; Daniel verifierade själv att JavaScript kör på majposten.se/val2026. Inlägg och mejl kan inte (HTML-snippeten i inlägg sparar varken script eller style). Därför: sida på sajten, filer på GitHub Pages, block med `<link>` och `<script src>` inuti containern. Daniel avvisade iframe uttryckligen ("fungerar kass").
 8. **Inbäddningsbygget.** `index.html` delades i `valgrafik.js` och `valgrafik.css`; all CSS prefixas med `.mp-val`, inga vh, `document`-referenser bara för att hitta containern. En defensiv grundstil sätter färg, typsnitt, transform och länkstil uttryckligen så att värdsidans globala regler inte slår igenom (verifierat i `docs/inbaddningstest.html`). `data-bas` på containern anger var `data/` ligger, som reserv om `document.currentScript` saknas.
-9. **Konfig i `data/konfig.js`** i stället för i koden, så att valnatten bara kräver att `data/` laddas upp. Nycklar: `ar`, `standardAr`, `valnatt`, `adress`, `inbaddad`, `skrivUrl`, `stickyTopp`.
+9. **Konfig i `data/konfig.js`** i stället för i koden, så att valnatten bara kräver att `data/` laddas upp. Nycklar: `ar`, `standardAr`, `valnatt`, `adress`, `inbaddad`, `skrivUrl`, `stickyTopp`, samt (sedan 2026-09-05) `samarbete` (med nästlad `valvaka`) och `hjalp` för de redaktionella blocken, se beslut 18 och README.
 10. **GitHub Pages som host.** Gratis, https, statiskt, ingen Cloudflare. Repot skapades med Daniels `gh`-inloggning (konto wildg14) på hans uttryckliga begäran, namn `val2026`.
 11. **Desktoplayout via container queries** (inte media queries, eftersom vi inte vet hur bred Beehiivs sektion är). Från 900 px: kartan vänster med resultatkortet fastnaglat till höger (`position: sticky`, avstånd `stickyTopp`), halvcirkeln bredvid mandattabellen, "Majorna mot Sverige" bredvid "Röstdelningen", brödtext max 680 px. Under 900 px är mobil-layouten orörd.
 12. **Prenumerationsknappen borttagen.** Beehiivs eget prenumerationsblock läggs på sidan i stället.
 13. **Granskningar.** Två workflows med oberoende granskare gav åtgärdslistorna bakom punkt 3, 4, 5 och 11. Den andra kördes med Sonnet efter Daniels reaktion på kostnaden.
+14. **Etiketten är alltid "Majposten · Valspecial"**, oberoende av vilket år som visas (2026-09-05, Daniels beslut). Sidan ska snart rymma flera år; helhetsgreppet på etiketten och årväljaren tas i tankesmedjan, inte i en löpande fix.
+15. **En enda jämförelsemarkör i "Hela Majorna"**, inte två. Riket för riksdagsvalet, Västra Götaland för regionvalet, Göteborg för kommunvalet - samma områden som "Majorna mot Sverige" använder, i stället för att visa både Göteborg och riket samtidigt (Daniel: "för plottrigt").
+16. **Kortets topp tre-mening borttagen.** Den upprepade det staplarna redan visar. Kvar blir en enda dämpad rad: valdeltagande (med jämförelseområdet inom parentes) och antal giltiga röster.
+17. **"Röstdelningen" ersatt helt.** Det gamla lutningsdiagrammet (SVG) byttes mot HTML-rader i samma stil som "Majorna mot Sverige": en rad per parti med markörer för riksdag (cirkel), region (romb) och kommun (kvadrat) på en gemensam procentaxel, plus exakta tal. Andelarna räknas ur en kohort av distrikt som är räknade i alla val som visas, inte ur de färdiga aggregaten, så att valnattens ofullständiga data inte blandar ihop olika distriktsmängder.
+18. **Samarbetsblock och rösthjälp förberedda, avstängda.** En rad "I samarbete med Majornas Bryggeri" i sidhuvudet och upp till två rutor (valvaka, hjalpmigrosta.se) direkt under, allt styrt av `samarbete`/`hjalp` i `data/konfig.json` med `visa: false` som standard. Texter är Daniels platshållare tills han fyller i riktiga adresser och tider.
+19. **Beehiivs `iframe srcdoc` kartlagd och kompenserad.** Djuplänkar och URL-skrivning går via `window.parent.location` när föräldern går att nå (`sidLocation()`/`sidHistory()`), eftersom iframens egen adress är `about:srcdoc`. `stickyTopp` höjdes från 16 till 105 px (Beehiivs klibbiga meny är 89 px) och används även som `scroll-margin-top`, eftersom `position: sticky` är verkningslöst inuti iframen (inget rullar där). Se README-avsnittet Beehiiv och `docs/beehiivtest.html`.
+
+## Status 2026-09-05: fixomgången efter Daniels genomgång
+
+Daniel gick igenom den tidigare versionens kandidatlista (se git-historiken för hur "Startpunkt för nästa session" såg ut innan den här omgången) och den publicerade sidan majposten.se/val2026, och gav en spec med sina beslut: `docs/superpowers/specs/2026-09-05-fixomgang-design.md`. Fem agenter körde specens grupper A till E i tur och ordning, var och en med gröna tester och en egen commit (`git log --oneline a0ac959..HEAD` visar alla fem).
+
+**Steg 1 (städa nuvarande design) är klart.** Utöver besluten 14 till 19 ovan: kortets dubblettknapp "Visa hela Majorna" borttagen (bara en kvar, i rubrikraden), mjuka bindestreck i långa partinamn så de inte klipps med tre punkter, "under spärren" radbryts inte längre i mandattabellen, hållplatsnamn som är identiska med det valda distriktets namn ritas inte längre ovanpå kartan, tabellknappen och tabellen flyttade in i kartsektionen (ingen egen sektion), halvcirkelns räkneexempel ligger under halvcirkeln på desktop i stället för under hela sektionen, kartans typstorlekar räknas efter kartans faktiska pixelbredd, Partistyrkans toppsteg är alltid partiets egen färg med spridda toner för ljusa partier, klick på en gata eller hållplats träffar distriktet under (`pointer-events: none` på bakgrundslagren), tangentbordsnavigering (piltangenter, roving tabindex) i flikar och knappgrupper, och flera datafel som Codex-granskningen hittade i UI-lagret (fel standardår vid start, URL-parametrar som föll bort vid klick, jämförelsesektionen som doldes i onödan, valnattsbanderollen som kunde visa fel antal räknade distrikt).
+
+**Fynd på den publicerade Beehiiv-sidan** (mätt 2026-09-05, se beslut 19 och README-avsnittet Beehiiv): blocket ligger i en `iframe srcdoc`, samma ursprung, höjden följer innehållet fritt. Djuplänkar fungerade inte tidigare eftersom iframens egen adress saknar query - det är fixat via `sidLocation()`. `position: sticky` fungerar inte inuti iframen, så resultatkortet följer inte med vid rullning på desktop; det är känt och accepterat, inte fixat (kortet ligger ändå bredvid kartan). Beehiivs egen meny är klibbig och 89 px hög, vilket är därför `stickyTopp` nu är 105.
+
+En efterföljande granskningsomgång (samma dag) rättade: det klibbiga kortet som la sig över tabellknappen och tabellen på desktop (kartan, legenden och kortet flyttade in i `#karta-yta`), markörerna i Röstdelningen som täckte varandra (tre höjder kring linjen), talspalten i Röstdelningen som klistrade ihop kolumnrubrikerna (174 px och 8 px kolumnmellanrum), namnspalten i kortet på desktop (160 px, Sverigedemokraterna ryms på en rad), valnattsraden i kortet som räknade räknade distrikt ur `meta` i stället för ur distriktsdatan, URL-parametrarna som lästes ur iframens egen adress i stället för ur värdsidans, och `verktyg/vard-check.js` som kraschade på `getComputedStyle(null)` eftersom grafiken inte har någon länk i standardläget.
+
+**Vad som inte rördes i den här omgången:** datafelen som Codex-granskningen hittade i data- och byggpipelinen (2026 års resultatfiler är ZIP med JSON inte xlsx, distriktsgeografin har ändrats hos Valmyndigheten och nio Majornadistrikt är "Ej jämförbart", CSV-mallen går inte att läsa tillbaka, swing för hela Majorna jämför olika distriktsmängder, negativa röster och okända partikoder accepteras, tom import skriver över befintlig data, `kontrollera.py` täcker inte aggregat och mandat, `skapa_bilder.py` kan märka fel år) - de hör till en egen valnattsomgång, se Startpunkt nedan. Historikspårets egna Codex-fynd (18 till 20) hör till den andra sessionen och rörs inte här heller.
 
 ## Så hänger det ihop tekniskt
 
@@ -122,24 +141,33 @@ Att veta:
 
 ## Startpunkt för nästa session
 
-### Steg 1: städa nuvarande design, med Daniels input
+Steg 1 (städa nuvarande design) är klart, se "Status 2026-09-05" ovan. Kvar är två spår, i den ordning specen `docs/superpowers/specs/2026-09-05-fixomgang-design.md` lämnar dem:
 
-Börja med att fråga Daniel vad han vill ändra, gärna med en kort lista att reagera på. Kandidater som kommit upp eller som jag ser själv:
+### Spår A: valnattsomgången (Codex-fynden om data, brådskande - valdagen är 2026-09-13)
 
-- Rubrik och ingress i grafiken mot Beehiiv-sidans egen rubrik (dubbelt?), och etiketten "MAJPOSTEN · VALET 2022".
-- Halvcirkelns kolumn på desktop har tomrum under sig eftersom tabellen är högre.
-- "under spärren" radbryts i mandattabellen i smala spalter.
-- Kortets underrad är 16 px sten; Daniel kan vilja ha annan hierarki.
-- Kartetiketternas storlek på desktop, hållplatsurvalet (åtta på mobil, tolv på desktop), platsnamnen utanför Majorna.
-- Sektionsordningen: Om Majorna bestämde, kartan, tabellknappen, Majorna mot Sverige, Röstdelningen, Om siffrorna.
-- Legenden i Partistyrka (tre eller fyra steg) och färgvalen för ljusa partifärger (SD, L mörkas 22 % mot bläck i toppsteget).
-- Sidfoten och "Om siffrorna" när Beehiiv redan har sidfot.
+En egen omgång, direkt efter den här, för fel som avgör om valnatten går rätt till. Från Codex-granskningen mot commit 70eaa8a (se specens sista avsnitt "Utanför den här omgången" för Daniels fulla beställning):
 
-Gör ändringarna i `valgrafik.css` och `valgrafik.js`, kör `tests/test_inbaddning.py`, verifiera med `verktyg/sektion.js` på 390 och 1280 px (och `docs/inbaddningstest.html` för läckage), pusha.
+- 2026 års resultatfiler från Valmyndigheten är ZIP med JSON, inte xlsx som 2022 - `scripts/valmyndigheten.py` och `uppdatera_2026.py` behöver troligen ett nytt spår.
+- Distriktsgeografin är ändrad hos Valmyndigheten och nio Majornadistrikt är "Ej jämförbart" enligt övningsfilen - påverkar swing och jämförelser mot 2022.
+- CSV-mallen (`--skriv-mall` / `--csv`, reservvägen) går inte att läsa tillbaka.
+- Swing för hela Majorna jämför olika distriktsmängder mellan åren.
+- Negativa röster och okända partikoder accepteras utan varning.
+- Tom import kan skriva över befintlig data i stället för att avbryta.
+- `kontrollera.py` täcker inte aggregat och mandat, bara distriktsraderna.
+- `skapa_bilder.py` kan märka en bild med fel år.
 
-### Steg 2: brainstorma vidareutveckling
+Läs igenom `scripts/uppdatera_2026.py`, `scripts/valmyndigheten.py`, `scripts/kontrollera.py` och `scripts/skapa_bilder.py` innan du börjar, och kör `--repetera` som facit innan och efter varje ändring.
 
-Daniel vill bryta isär statistiken på fler sätt. Idéer som diskuterats, med datastatus:
+### Spår B: tankesmedjan (helhetsgrepp och vidareutveckling)
+
+Frågor som är för stora för en punktfix och som Daniel vill tänka igenom i ett sammanhang, inte lösa i förbigående:
+
+- Årväljaren och etiketten när sidan ska rymma både 2022, 2026 och (senare) historik: vad ska synas före och efter valdagen, hur ser övergången ut.
+- Röstdelningen som karta (vilket kvarter röstdelar mest) i stället för, eller utöver, radlistan.
+- Sidfoten och "Om siffrorna" mot Beehiivs egen sidfot - dubbleras information.
+- Halvcirkelns plats i förhållande till kartan (briefen sade ovanför kartan, nuvarande layout har den överst av allt; Daniel har inte tagit ställning till att flytta den).
+
+Idéer som diskuterats sedan tidigare, med datastatus:
 
 - **Förtidsröstningsmätare.** `fortidsroster.csv` har mottagna röster per lokal och dag för 2022 (Majornas bibliotek var stor lokal). Förtidsröstningen 2026 pågår sedan 26 augusti. Om Valmyndigheten publicerar samma fil dagligen kan sidan visa "så många har förtidsröstat i Majorna, dag för dag, mot 2022". Aktuellt varje dag fram till valet. [KOLLA] 2026 års publicering.
 - **Valdeltagande som kartläge.** Datan finns i sidan. Ett tredje läge i växeln.
@@ -157,6 +185,7 @@ Prioritera efter tid till valdagen: det som är aktuellt nu (förtidsröstning, 
 ## Fallgropar
 
 - `index.html` innehåller inte sidan längre. Ändra i `valgrafik.js` (MARKUP-strängen) och `valgrafik.css`.
+- Kartan, kartlegenden och resultatkortet ligger i `#karta-yta` inuti `#karta-sektion`. Det är den wrappern som begränsar det klibbiga kortets yta; tar man bort den lägger sig kortet över tabellknappen och tabellen vid rullning på desktop.
 - CSS-lintet i `tests/test_inbaddning.py` faller på varje selektor som inte börjar med `.mp-val`, på `vh` och på `position: fixed`.
 - Regler inne i `@container` kan aldrig träffa `.mp-val` själv, bara dess barn.
 - `swing_2022.js` finns inte och ska inte finnas; basåret hoppas över vid laddning.

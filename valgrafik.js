@@ -18,9 +18,12 @@ const MARKUP = `
     <p class="etikett" id="topp-etikett">Majposten</p>
     <h1>Så röstade Majorna</h1>
     <p class="ingress" id="ingress" data-redaktor="justera">Valresultatet för de 23 valdistrikten i klassiska Majorna - riksdag, region och kommun, kvarter för kvarter.</p>
+    <p class="samarbete" id="samarbete" hidden></p>
     <div id="arval" class="knappar" role="group" aria-label="Välj valår" hidden></div>
     <div id="valnatt" class="banderoll" hidden></div>
   </header>
+
+  <div id="rutor" class="rutor" hidden></div>
 
   <section id="riksdag" aria-labelledby="riksdag-rubrik">
     <h2 id="riksdag-rubrik">Om Majorna bestämde</h2>
@@ -29,6 +32,7 @@ const MARKUP = `
     <div id="halvcirkel"></div>
     <div id="mandat-legend"></div>
     <p class="not" id="mandat-metod"></p>
+    <p id="mandat-live" class="sr-only" aria-live="polite"></p>
   </section>
 
   <section id="karta-sektion" aria-labelledby="karta-rubrik">
@@ -38,21 +42,19 @@ const MARKUP = `
       <div class="knappar" role="radiogroup" aria-label="Färgläggning" id="lage"></div>
       <label class="partival" id="partival" hidden>Parti <select id="parti" aria-label="Välj parti"></select></label>
     </div>
-    <div id="karta-legend" class="karta-legend"></div>
-    <div id="karta"></div>
-    <div id="panel" role="region" aria-labelledby="panel-rubrik">
-      <div class="panel-huvud"><h3 id="panel-rubrik">Hela Majorna</h3><button type="button" id="panel-tillbaka" hidden>Visa hela Majorna</button></div>
-      <p class="panel-hint" id="panel-hint">Tryck på ett distrikt på kartan. Resultatet visas här.</p>
-      <p class="panel-topp" id="panel-topp"></p>
-      <p class="panel-sub" id="panel-sub"></p>
-      <div id="panel-not"></div>
-      <div id="panel-staplar"></div>
-      <div class="panel-knappar" id="panel-knappar"></div>
-      <p id="panel-live" class="sr-only" aria-live="polite"></p>
+    <div id="karta-yta">
+      <div id="karta-legend" class="karta-legend"></div>
+      <div id="karta"></div>
+      <div id="panel" role="region" aria-labelledby="panel-rubrik">
+        <div class="panel-huvud"><h3 id="panel-rubrik">Hela Majorna</h3><button type="button" id="panel-tillbaka" hidden>Visa hela Majorna</button></div>
+        <p class="panel-hint" id="panel-hint">Tryck på ett distrikt på kartan. Resultatet visas här.</p>
+        <p class="panel-sub" id="panel-sub"></p>
+        <div id="panel-not"></div>
+        <div id="panel-staplar"></div>
+        <div class="panel-knappar" id="panel-knappar"></div>
+        <p id="panel-live" class="sr-only" aria-live="polite"></p>
+      </div>
     </div>
-  </section>
-
-  <section id="tabell-sektion" aria-label="Alla distrikt som tabell">
     <button id="tabell-knapp" aria-expanded="false" aria-controls="tabell">Visa alla distrikt som tabell</button>
     <div id="tabell" hidden></div>
   </section>
@@ -66,8 +68,9 @@ const MARKUP = `
 
   <section id="rostdelning" aria-labelledby="rostdelning-rubrik">
     <h2 id="rostdelning-rubrik">Röstdelningen</h2>
-    <p class="not" id="rostdelning-not">Så skiljer sig partiernas andel i Majorna mellan riksdagsvalet och kommunvalet.</p>
-    <div id="lutning"></div>
+    <p class="not" id="rostdelning-not">Så röstar Majorna olika i riksdags-, region- och kommunvalet.</p>
+    <div id="rostdelning-legend" class="rd-legend" aria-hidden="true"></div>
+    <div id="rostdelning-rader"></div>
   </section>
 
 
@@ -84,7 +87,9 @@ const MARKUP = `
 const KONFIG = {   // standardvärden, skrivs över av data/konfig.js
   ar: ["2022"], standardAr: "2022", valnatt: false,
   adress: "https://majposten.se/val2026",
-  inbaddad: false, skrivUrl: true, stickyTopp: 16   // px från fönstrets överkant för det klibbiga kortet på desktop, höj om Beehiivs sidhuvud är klibbigt
+  inbaddad: false, skrivUrl: true, stickyTopp: 16,   // px från fönstrets överkant för det klibbiga kortet på desktop, höj om Beehiivs sidhuvud är klibbigt
+  samarbete: { visa: false, valvaka: { visa: false } },   // samarbetsraden och valvakan, texter och adresser i data/konfig.json
+  hjalp: { visa: false }   // rutan om rösthjälp
 };
 
 const PARTIER = {
@@ -139,6 +144,26 @@ function mix(hex, t) {   // partifärg mot papper, t = 1 ger partifärgen
   return "#" + c.map((v, i) => Math.round(p[i] + (v - p[i]) * t).toString(16).padStart(2, "0")).join("");
 }
 function klockslag(iso) { const d = new Date(iso); return isNaN(d) ? iso : d.toLocaleTimeString("sv-SE", { hour: "2-digit", minute: "2-digit" }); }
+function pilNavigering(container) {   // vänster/höger pil byter aktiv knapp i en flik- eller radioknapprad (roving tabindex)
+  if (container.dataset.pilnav) return;
+  container.dataset.pilnav = "1";
+  container.addEventListener("keydown", e => {
+    if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+    const knappar = [...container.querySelectorAll("button")];
+    if (knappar.length < 2) return;
+    e.preventDefault();
+    const i = Math.max(0, knappar.findIndex(b => b.getAttribute("aria-checked") === "true" || b.getAttribute("aria-selected") === "true"));
+    const ni = (i + (e.key === "ArrowRight" ? 1 : -1) + knappar.length) % knappar.length;
+    knappar[ni].click();
+    const aktiv = container.querySelector('[aria-checked="true"], [aria-selected="true"]');
+    if (aktiv) aktiv.focus();
+  });
+}
+function namnMedMjukaBindestreck(namn) {   // mjukt bindestreck (U+00AD) i långa partinamn, bara för den synliga texten
+  const SHY = "\u00AD";
+  return namn.replace(/Vänster/g, "Vänster" + SHY).replace(/Social/g, "Social" + SHY).replace(/Miljö/g, "Miljö" + SHY)
+    .replace(/Center/g, "Center" + SHY).replace(/Krist/g, "Krist" + SHY).replace(/Sverige/g, "Sverige" + SHY);
+}
 
 /* ===================================================================== data */
 const data = () => state.data[state.ar];
@@ -186,9 +211,16 @@ function ariaDistrikt(d, val) {
 }
 
 /* ===================================================================== url
-   ?distrikt=14800530&val=kf&lage=styrka&parti=SD&ar=2026 - delbara länkar, t.ex. per kvarter från Beehiiv. */
+   ?distrikt=14800530&val=kf&lage=styrka&parti=SD&ar=2026 - delbara länkar, t.ex. per kvarter från Beehiiv.
+   I Beehiivs sajtbyggare ligger blocket i en <iframe srcdoc> med samma ursprung som sidan: den egna adressen
+   är "about:srcdoc" utan query, så länkar läses och skrivs mot förälderns adress när den går att nå. */
+function sidLocation() {
+  try { if (window.parent !== window && window.parent.location.href !== undefined) return window.parent.location; } catch (e) { /* korsdomän: egen adress gäller */ }
+  return location;
+}
+function sidHistory() { return sidLocation() === location ? history : window.parent.history; }
 function lasUrl() {
-  const q = new URLSearchParams(location.search);
+  const q = new URLSearchParams(sidLocation().search);
   if (KONFIG.ar.includes(q.get("ar"))) state.ar = q.get("ar");
   if (VALNAMN[q.get("val")]) state.val = q.get("val");
   if (["storsta", "styrka"].includes(q.get("lage"))) state.lage = q.get("lage");
@@ -197,14 +229,15 @@ function lasUrl() {
 }
 function skrivUrl() {
   if (KONFIG.skrivUrl === false) return;
-  const q = new URLSearchParams();
-  if (rot.classList.contains("inbaddad")) q.set("inbaddad", "1");
-  if (KONFIG.ar.length > 1 && state.ar !== KONFIG.standardAr) q.set("ar", state.ar);
-  if (state.val !== "rd") q.set("val", state.val);
-  if (state.lage !== "storsta") { q.set("lage", state.lage); q.set("parti", state.parti); }
-  if (state.vald) q.set("distrikt", state.vald);
+  const loc = sidLocation(), hist = sidHistory();
+  const q = new URLSearchParams(loc.search);   // egna nycklar sätts eller tas bort, övriga (t.ex. Beehiivs utm_source) bevaras
+  if (rot.classList.contains("inbaddad")) q.set("inbaddad", "1"); else q.delete("inbaddad");
+  if (KONFIG.ar.length > 1 && state.ar !== KONFIG.standardAr) q.set("ar", state.ar); else q.delete("ar");
+  if (state.val !== "rd") q.set("val", state.val); else q.delete("val");
+  if (state.lage !== "storsta") { q.set("lage", state.lage); q.set("parti", state.parti); } else { q.delete("lage"); q.delete("parti"); }
+  if (state.vald) q.set("distrikt", state.vald); else q.delete("distrikt");
   const qs = q.toString();
-  try { history.replaceState(null, "", location.pathname + (qs ? "?" + qs : "") + location.hash); } catch (e) { /* file:// i vissa webbläsare */ }
+  try { hist.replaceState(hist.state, "", loc.pathname + (qs ? "?" + qs : "") + loc.hash); } catch (e) { /* file:// i vissa webbläsare, eller korsdomän */ }
 }
 
 /* ===================================================================== laddning */
@@ -225,6 +258,7 @@ function monteraMarkup() {
 async function start() {
   monteraMarkup();
   try { Object.assign(KONFIG, await laddaSkript("konfig")); } catch (e) { /* standardkonfig gäller */ }
+  state.ar = KONFIG.ar.includes(KONFIG.standardAr) ? KONFIG.standardAr : KONFIG.ar[0];   // state skapades innan konfigen laddades
   try {
     const [geo, ...valdata] = await Promise.all(["distrikt", ...KONFIG.ar.map(a => "valdata_" + a)].map(laddaSkript));
     state.geo = geo;
@@ -238,7 +272,7 @@ async function start() {
   }
   raknaSkalmax();
   lasUrl();
-  const q0 = new URLSearchParams(location.search);
+  const q0 = new URLSearchParams(sidLocation().search);   // i Beehiivs iframe är den egna adressen about:srcdoc, parametrarna står på värdsidan
   if (q0.get("bild")) { renderBild(q0.get("bild")); return; }
   if (q0.get("inbaddad") || KONFIG.inbaddad) rot.classList.add("inbaddad");
   rot.style.setProperty("--mp-sticky-top", (Number(KONFIG.stickyTopp) || 16) + "px");
@@ -248,17 +282,18 @@ async function start() {
   renderAllt();
   autoOvergang();
   if (state.vald) $("#karta").scrollIntoView({ block: "start" });
-  const ankare = location.hash && location.hash.length > 1 ? rot.querySelector("#" + CSS.escape(location.hash.slice(1))) : null;
+  const sidHash = sidLocation().hash;
+  const ankare = sidHash && sidHash.length > 1 ? rot.querySelector("#" + CSS.escape(sidHash.slice(1))) : null;
   if (ankare && !state.vald) ankare.scrollIntoView({ block: "start" });   // webbläsarens egen ankarrullning sker innan datan finns
 }
 
 /* ===================================================================== render */
 function renderAllt() {
-  renderHuvud(); renderRiksdag(); renderKontroller(); renderKarta(); renderPanel(); renderTabell(); renderRostdelning(); renderJamforelse(); renderFakta();
+  renderHuvud(); renderSamarbete(); renderRiksdag(); renderKontroller(); renderKarta(); renderPanel(); renderTabell(); renderRostdelning(); renderJamforelse(); renderFakta();
 }
 function renderHuvud() {
   const meta = data().meta;
-  $("#topp-etikett").textContent = `Majposten · Valet ${meta.ar}`;
+  $("#topp-etikett").textContent = "Majposten · Valspecial";
   $("#ingress").textContent = `Valresultatet ${meta.ar} för de 23 valdistrikten i klassiska Majorna - riksdag, region och kommun, kvarter för kvarter.`;
   const arval = $("#arval");
   arval.innerHTML = "";
@@ -267,14 +302,53 @@ function renderHuvud() {
     arval.append(h("button", { type: "button", "aria-pressed": String(a === state.ar), class: a === state.ar ? "aktiv" : "",
       onclick: () => { state.ar = a; if (!partierIVal(state.val).includes(state.parti)) state.parti = partierIVal(state.val)[0]; renderAllt(); } }, "Valet " + a));
   }
+  renderBanderoll();
+}
+function renderBanderoll() {   // räknar räknade distrikt för aktuellt val ur distriktsdatan, ritas om vid flikbyte
   const band = $("#valnatt");
-  const vn = meta.valnatt;
-  if (KONFIG.valnatt && vn) {
-    band.hidden = false;
-    band.innerHTML = "";
-    band.append(h("b", {}, `Valnatten ${meta.ar}: ${vn.raknade} av ${vn.totalt} distrikt räknade.`), " ",
-      meta.status === "slutlig" ? "Slutliga siffror." : "Preliminära siffror.", ` Uppdaterat ${klockslag(meta.uppdaterad)}.`);
-  } else band.hidden = true;
+  if (!KONFIG.valnatt) { band.hidden = true; return; }
+  const meta = data().meta, distrikt = data().distrikt || [];
+  let raknade, totalt;
+  if (distrikt.length) { raknade = distrikt.filter(d => raknat(d, state.val)).length; totalt = distrikt.length; }
+  else if (meta.valnatt) { raknade = meta.valnatt.raknade; totalt = meta.valnatt.totalt; }   // reserv när distriktsdatan saknas
+  else { band.hidden = true; return; }
+  band.hidden = false;
+  band.innerHTML = "";
+  band.append(h("b", {}, `Valnatten ${meta.ar}: ${raknade} av ${totalt} distrikt räknade i ${VALNAMN[state.val].toLowerCase()}.`), " ",
+    meta.status === "slutlig" ? "Slutliga siffror." : "Preliminära siffror.", ` Uppdaterat ${klockslag(meta.uppdaterad)}.`);
+}
+
+/* ---- samarbete och rösthjälp: konfigstyrda block, avstängda tills redaktionen fyllt i texter och adresser */
+function adressFor(url) {   // absolut adress eller adress relativt data-bas
+  return /^(https?:)?\/\//.test(url) || url.startsWith("/") ? url : BAS + url;
+}
+function lankad(text, url, klass) {   // tom länk ger ren text, aldrig ett tomt href
+  return url ? h("a", { href: url, class: klass || null }, text) : h("span", { class: klass || null }, text);
+}
+function ruta(post, standardLanktext) {
+  const el = h("div", { class: "ruta" }, h("h2", {}, post.rubrik || ""));
+  if (post.text) el.append(h("p", {}, post.text));
+  if (post.lank) el.append(h("p", { class: "ruta-lank" }, h("a", { href: post.lank }, post.lanktext || standardLanktext)));
+  return el;
+}
+function renderSamarbete() {
+  const sam = KONFIG.samarbete || {}, valvaka = sam.valvaka || {}, hjalp = KONFIG.hjalp || {};
+  const rad = $("#samarbete"), rutor = $("#rutor");
+  rad.innerHTML = ""; rutor.innerHTML = "";
+  const visaRad = !!sam.visa && !!sam.namn && !state.bild && !rot.classList.contains("inbaddad");   // raden hör ihop med rubriken, som är dold i bildläget och inbäddat
+  rad.hidden = !visaRad;
+  if (visaRad) {
+    if (sam.logga) {
+      const logga = h("img", { class: "samarbete-logga", src: adressFor(sam.logga), alt: sam.namn });
+      rad.append(sam.lank ? h("a", { href: sam.lank }, logga) : logga);
+    }
+    rad.append(h("span", { class: "samarbete-text" }, (sam.text || "I samarbete med") + " ", lankad(sam.namn, sam.lank)));
+  }
+  const lista = [];
+  if (sam.visa && valvaka.visa) lista.push(ruta(valvaka, "Läs mer"));
+  if (hjalp.visa) lista.push(ruta(hjalp, "Läs mer"));
+  rutor.hidden = !lista.length || state.bild;
+  if (!rutor.hidden) rutor.append(...lista);
 }
 
 /* ---- Om Majorna bestämde */
@@ -310,8 +384,9 @@ function renderRiksdag() {
   const knappar = $("#mandat-lage");
   knappar.innerHTML = "";
   knappar.hidden = lagen.length < 2;
-  for (const [lage, text] of lagen) knappar.append(h("button", { type: "button", role: "radio", "aria-checked": String(lage === state.mandatLage),
+  for (const [lage, text] of lagen) knappar.append(h("button", { type: "button", role: "radio", "aria-checked": String(lage === state.mandatLage), tabindex: lage === state.mandatLage ? "0" : "-1",
     onclick: () => { state.mandatRort = true; sattMandatLage(lage); } }, text));
+  pilNavigering(knappar);
   const fordelning = state.mandatLage === "majorna" ? egen : verklig;
   const antal = Object.values(fordelning).reduce((a, b) => a + b, 0);
   const platser = halvcirkelPlatser(antal), ordning = mandatOrdning(fordelning);
@@ -327,9 +402,16 @@ function sattMandatLage(lage) {
   if (state.mandatLage === lage) return;
   state.mandatLage = lage;
   const m = data().mandat, fordelning = lage === "majorna" ? m.riksdag_majorna : m.riksdag_verklig;
-  const ordning = mandatOrdning(fordelning);
+  const ordning = mandatOrdning(fordelning), antal = ordning.length;
   $("#halvcirkel").querySelectorAll("circle").forEach((c, i) => c.setAttribute("fill", parti(ordning[i]).farg));
-  $("#mandat-lage").querySelectorAll("button").forEach(b => b.setAttribute("aria-checked", String(b.textContent.startsWith("Om") === (lage === "majorna"))));
+  const etikettLage = lage === "majorna" ? "Om Majorna bestämde" : `Riksdagen ${data().meta.ar}`;
+  const fordelningText = Object.entries(fordelning).map(([p, n]) => `${p} ${n}`).join(", ") + ".";
+  $("#halvcirkel svg").setAttribute("aria-label", `${antal} mandat, ${etikettLage.toLowerCase()}. ${fordelningText}`);
+  $("#mandat-live").textContent = `${etikettLage}: ${fordelningText}`;
+  $("#mandat-lage").querySelectorAll("button").forEach(b => {
+    const aktiv = b.textContent.startsWith("Om") === (lage === "majorna");
+    b.setAttribute("aria-checked", String(aktiv)); b.tabIndex = aktiv ? 0 : -1;
+  });
   renderMandatLegend(m.riksdag_verklig, m.riksdag_majorna);
 }
 function renderMandatLegend(verklig, egen) {
@@ -345,7 +427,7 @@ function renderMandatLegend(verklig, egen) {
 }
 function autoOvergang() {
   const sek = $("#riksdag");
-  if (sek.hidden || !("IntersectionObserver" in window)) return;
+  if (sek.hidden || !("IntersectionObserver" in window) || lugn()) return;
   const io = new IntersectionObserver(poster => {
     if (!poster.some(p => p.isIntersecting)) return;
     io.disconnect();
@@ -359,19 +441,22 @@ function renderKontroller() {
   const flikar = $("#flikar");
   flikar.innerHTML = "";
   for (const [val, namn] of Object.entries(data().meta.val || { rd: "Riksdag", rf: "Region", kf: "Kommun" })) {
-    flikar.append(h("button", { type: "button", role: "tab", "aria-selected": String(val === state.val), id: "flik-" + val,
-      onclick: () => { state.val = val; if (!partierIVal(val).includes(state.parti)) state.parti = partierIVal(val)[0]; renderKontroller(); renderKarta(); renderPanel(); renderTabell(); } }, namn));
+    flikar.append(h("button", { type: "button", role: "tab", "aria-selected": String(val === state.val), tabindex: val === state.val ? "0" : "-1", id: "flik-" + val,
+      onclick: () => { state.val = val; if (!partierIVal(val).includes(state.parti)) state.parti = partierIVal(val)[0]; renderKontroller(); renderKarta(); renderPanel(); renderTabell(); renderBanderoll(); } }, namn));
   }
+  pilNavigering(flikar);
   const lage = $("#lage");
   lage.innerHTML = "";
   for (const [l, text] of [["storsta", "Största parti"], ["styrka", "Partistyrka"]]) {
-    lage.append(h("button", { type: "button", role: "radio", "aria-checked": String(l === state.lage),
+    lage.append(h("button", { type: "button", role: "radio", "aria-checked": String(l === state.lage), tabindex: l === state.lage ? "0" : "-1",
       onclick: () => { state.lage = l; renderKontroller(); renderKarta(); renderTabell(); } }, text));
   }
+  pilNavigering(lage);
   const valj = $("#parti");
   valj.innerHTML = "";
   for (const p of partierIVal(state.val)) valj.append(h("option", { value: p, selected: p === state.parti }, `${p} - ${parti(p).namn}`));
   valj.onchange = () => { state.parti = valj.value; renderKarta(); renderTabell(); };
+  valj.disabled = !data().distrikt.some(d => raknat(d, state.val));   // inget distrikt räknat: partival ger ingen mening än
   $("#partival").hidden = state.lage !== "styrka";
 }
 
@@ -382,17 +467,32 @@ const HALLPLATSER = {
 };
 const PLATSNAMN = { mobil: ["Eriksberg", "Slottsberget", "Stigberget", "Högsbohöjd"], desktop: ["Eriksberg", "Slottsberget", "Stigberget", "Högsbohöjd", "Färjenäs"] };
 // typstorlekar i viewBox-enheter (1000 bred). Mobil: 1 enhet = 0,39 px. Desktop: 0,69 px.
+// bildläget (state.bild) behåller dessa fasta enhetsvärden - stillbilderna ska inte ändras.
 const STORLEK = { mobil: { etikett: 28, vald: 31, namn: 26, namnRad2: 22, kontur: 6, hallplats: 22, plats: 22 },
                   desktop: { etikett: 24, vald: 27, namn: 24, namnRad2: 20, kontur: 5, hallplats: 18, plats: 21 } };
+// måltyper i px, oberoende av containerns bredd - räknas om till viewBox-enheter efter kartans faktiska pixelbredd
+const PXMAL = { mobil: { etikett: 11, vald: 12, namn: 11, namnRad2: 9.5, kontur: 2.4, hallplats: 9, plats: 9 },
+                desktop: { etikett: 15, vald: 17, namn: 15, namnRad2: 12.5, kontur: 2, hallplats: 12, plats: 12.5 } };
 const arDesktop = () => rot.getBoundingClientRect().width >= 600;
 const arBred = () => rot.getBoundingClientRect().width >= 900;   // kortet ligger bredvid kartan   // containerns bredd, inte fönstrets: rätt även inbäddad i en annan sida
-let senastDesktop = null;
+function kartBredd() {   // kartans egen pixelbredd, reserv: containerns bredd
+  const el = rot.querySelector("#karta");
+  return (el && el.clientWidth) || rot.getBoundingClientRect().width || 390;
+}
+let senastDesktop = null, senastKartaBredd = null;
 if ("ResizeObserver" in window) new ResizeObserver(() => {
-  const nu = arDesktop();
-  if (senastDesktop !== null && nu !== senastDesktop && state.geo && !state.bild) renderKarta();
-  senastDesktop = nu;
+  const nu = arDesktop(), breddNu = kartBredd();
+  const desktopBytte = senastDesktop !== null && nu !== senastDesktop;
+  const breddBytte = senastKartaBredd !== null && Math.abs(breddNu - senastKartaBredd) / senastKartaBredd > 0.1;
+  if ((desktopBytte || breddBytte) && state.geo && !state.bild) renderKarta();
+  senastDesktop = nu; senastKartaBredd = breddNu;
 }).observe(rot);
-const storlek = () => arDesktop() ? STORLEK.desktop : STORLEK.mobil;
+function storlek() {   // typstorlekar i viewBox-enheter efter kartans faktiska pixelbredd, inte en fast 600 px-tröskel
+  const bredd = kartBredd(), mal = bredd < 600 ? PXMAL.mobil : PXMAL.desktop, faktor = 1000 / bredd;
+  const ut = {};
+  for (const k in mal) ut[k] = mal[k] * faktor;
+  return ut;
+}
 
 function projektion(bbox, padX = 0.045, padY = 0.16) {   // högre ram: mer älv och Slottsskog, cirka 60 vh på en telefon
   const [w0, s0, e0, n0] = bbox, dx = (e0 - w0) * padX, dy = (n0 - s0) * padY;
@@ -426,17 +526,17 @@ function relLuminans(hex) {
   const c = [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16) / 255).map(v => v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4));
   return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
 }
-function morkna(hex, t) {   // mot bläck
-  const c = [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16)), b = [42, 36, 30];
-  return "#" + c.map((v, i) => Math.round(v + (b[i] - v) * t).toString(16).padStart(2, "0")).join("");
-}
 function styrkaSkala(val, p) {
   const varden = data().distrikt.filter(d => raknat(d, val)).map(d => Math.round((d[val][p] || 0) / d.giltiga[val] * 100));
+  if (!varden.length) return { steg: 0, granser: [], klass: () => 0, farg: () => FARG.oraknat };   // inget distrikt räknat än
   const lo = Math.min(...varden), hi = Math.max(...varden), spann = hi - lo;
-  const steg = spann >= 8 ? 4 : 3, toner = steg === 4 ? [0.30, 0.55, 0.80, 1] : [0.35, 0.65, 1];
+  const bas = parti(p).farg, ljus = relLuminans(bas) > 0.35;   // toppsteget är alltid partiets egen färg
+  const steg = spann === 0 ? 1 : spann >= 6 ? 4 : 3;
+  const toner = steg === 1 ? [1]
+    : ljus ? (steg === 4 ? [0.22, 0.48, 0.74, 1] : [0.30, 0.62, 1])   // ljusa färger (SD, L): tonerna sprids mer
+    : (steg === 4 ? [0.30, 0.55, 0.80, 1] : [0.35, 0.65, 1]);
   const granser = Array.from({ length: steg + 1 }, (_, i) => Math.round(lo + spann * i / steg));
-  const bas = parti(p).farg, topp = relLuminans(bas) > 0.35 ? morkna(bas, 0.22) : bas;
-  const farg = k => k === steg - 1 ? topp : mix(bas, toner[k]);
+  const farg = k => mix(bas, toner[k]);
   const klass = v => { let k = 0; for (let i = 1; i < steg; i++) if (v >= granser[i]) k = i; return k; };
   return { lo, hi, steg, granser, klass, farg };
 }
@@ -518,18 +618,22 @@ function renderKarta() {
     const sparvag = s("g", { class: "sparvag" });
     sparvag.append(s("path", { d: (bg.sparvag || []).map(t => dAttr(t.k, proj, false)).join("") }));
     const hallplatser = s("g", { class: "hallplatser" }), urval = state.bild ? [] : desktop ? HALLPLATSER.desktop : HALLPLATSER.mobil;
+    const valdNamn = state.vald && dm[state.vald] ? dm[state.vald].namn : null;
     for (const namn of urval) {
       const hp = (bg.hallplatser || []).find(h => h.namn === namn);
       if (!hp || !iBild(hp.k)) continue;
-      const [x, y] = proj.till(hp.k), w = textBredd(hp.namn, S.hallplats, false), h1 = 0.35 * S.hallplats, h2 = 0.55 * S.hallplats;
+      const [x, y] = proj.till(hp.k);
+      const cirkel = s("circle", { class: "hallplats", cx: x.toFixed(1), cy: y.toFixed(1), r: 4.5 });
+      cirkel.append(s("title", {}, "Hållplats " + hp.namn));
+      hallplatser.append(cirkel);
+      if (hp.namn === valdNamn) continue;   // namnet dubblerar redan det valda distriktets namn på kartan
+      const w = textBredd(hp.namn, S.hallplats, false), h1 = 0.35 * S.hallplats, h2 = 0.55 * S.hallplats;
       const lagen = [{ x: x + 8, anchor: "start", box: { x1: x + 8, x2: x + 8 + w, y1: y - h1, y2: y + h2 } },
                      { x: x - 8, anchor: "end", box: { x1: x - 8 - w, x2: x - 8, y1: y - h1, y2: y + h2 } }];
       const plats = lagen.find(l => !upptaget.some(b => overlappar(b, l.box)) && l.box.x1 >= 4 && l.box.x2 <= proj.bredd - 4);
       if (!plats) continue;
       upptaget.push(plats.box);
-      const cirkel = s("circle", { class: "hallplats", cx: x.toFixed(1), cy: y.toFixed(1), r: 4.5 });
-      cirkel.append(s("title", {}, "Hållplats " + hp.namn));
-      hallplatser.append(cirkel, s("text", { class: "hallplats-namn", x: plats.x.toFixed(1), y: (y + 0.35 * S.hallplats).toFixed(1), "font-size": S.hallplats, "text-anchor": plats.anchor }, hp.namn));
+      hallplatser.append(s("text", { class: "hallplats-namn", x: plats.x.toFixed(1), y: (y + 0.35 * S.hallplats).toFixed(1), "font-size": S.hallplats, "text-anchor": plats.anchor }, hp.namn));
     }
     svg.append(gator, sparvag, hallplatser);
   }
@@ -560,7 +664,7 @@ function renderKartaLegend(val, skala) {
     for (const d of data().distrikt) if (raknat(d, val)) { const p = storsta(d[val]); antal[p] = (antal[p] || 0) + 1; }
     for (const [p, n] of Object.entries(antal).sort((a, b) => b[1] - a[1]))
       ul.append(h("li", {}, h("span", { class: "swatch", style: `background:${parti(p).farg}` }), `${parti(p).namn} störst i ${n} distrikt`));
-  } else {
+  } else if (skala.steg) {
     wrap.append(h("p", { class: "legend-titel" }, `${parti(state.parti).namn}, andel av rösterna i procent`));
     for (let k = 0; k < skala.steg; k++) {
       const fran = skala.granser[k], till = k === skala.steg - 1 ? skala.granser[k + 1] : skala.granser[k + 1] - 1;
@@ -580,7 +684,7 @@ function valjDistrikt(kod, franKartan) {
   if (p) p.focus({ preventScroll: true });   // omrenderingen tappar annars tangentbordsfokus
   if (!state.vald || arBred()) return;
   const svg = $("#karta svg").getBoundingClientRect();
-  if (svg.height + 80 < innerHeight) $("#panel-topp").scrollIntoView({ block: "nearest", behavior: lugn() ? "auto" : "smooth" });
+  if (svg.height + 80 < innerHeight) $("#panel").scrollIntoView({ block: "nearest", behavior: lugn() ? "auto" : "smooth" });
 }
 
 /* ---- panelen */
@@ -589,7 +693,7 @@ function stapelRad(p, andel, markorer, swing, dampad) {
   const varde = h("div", { class: "stapel-varde" }, procent(andel));
   if (swing !== null && swing !== undefined) varde.append(h("span", { class: "swing", title: "Förändring mot förra valet i procentenheter" }, pe(swing)));
   return h("div", { class: "stapel-rad" + (dampad ? " dampad" : ""), role: "group", "aria-label": `${parti(p).namn} ${procent(andel)}` },
-    h("div", { class: "stapel-namn" }, h("b", {}, p), h("small", {}, parti(p).namn)),
+    h("div", { class: "stapel-namn" }, h("b", {}, p), h("small", {}, namnMedMjukaBindestreck(parti(p).namn))),
     h("div", { class: "stapel-spar" }, h("div", { class: "stapel-fyll", style: `width:${w.toFixed(1)}%;background:${parti(p).farg}` }),
       markorer.filter(m => m.andel !== undefined).map(m => h("span", { class: "markor " + m.klass, style: `left:${Math.min(100, m.andel / state.skalmax * 100).toFixed(1)}%`, title: `${m.namn} ${procent(m.andel)}` }))),
     varde);
@@ -599,7 +703,7 @@ function toppTre(roster, giltiga) {
 }
 function renderPanel() {
   const val = state.val, dm = distriktMap(), d = state.vald ? dm[state.vald] : null, m = majorna(val);
-  const rubrik = $("#panel-rubrik"), tillbaka = $("#panel-tillbaka"), hint = $("#panel-hint"), topp = $("#panel-topp"),
+  const rubrik = $("#panel-rubrik"), tillbaka = $("#panel-tillbaka"), hint = $("#panel-hint"),
         sub = $("#panel-sub"), not = $("#panel-not"), staplar = $("#panel-staplar"), knappar = $("#panel-knappar");
   not.innerHTML = ""; staplar.innerHTML = ""; knappar.innerHTML = "";
   tillbaka.hidden = !d; hint.hidden = !!d;
@@ -615,37 +719,40 @@ function renderPanel() {
       not.append(h("p", { class: "not" }, h("b", {}, `Så röstade ${d.namn} ${bas}`), ` (${VALNAMN[val].toLowerCase()}, ${tal(b.giltiga[val])} giltiga röster).`));
       for (const a of andelar(b[val], b.giltiga[val])) if (a.andel >= 0.01) staplar.append(stapelRad(a.p, a.andel, [], null, true));
     }
-    knappar.append(h("button", { type: "button", onclick: () => valjDistrikt(state.vald) }, "Visa hela Majorna"));
   } else if (d) {
     rubrik.textContent = d.namn;
     toppText = `${VALNAMN[val]} ${state.ar}: ${toppTre(d[val], d.giltiga[val])}.`;
-    subText = `${tal(d.giltiga[val])} giltiga röster.`;
-    if (d.rostberattigade[val]) subText += ` Valdeltagande ${procent(d.rostande[val] / d.rostberattigade[val])}` + (majornaRaknat(val) && m.rostberattigade ? ` (Majorna ${procent(m.rostande / m.rostberattigade)}).` : ".");
+    let vd = "";
+    if (d.rostberattigade[val]) vd = `Valdeltagande ${procent(d.rostande[val] / d.rostberattigade[val])}` + (majornaRaknat(val) && m.rostberattigade ? ` (Majorna ${procent(m.rostande / m.rostberattigade)})` : "");
+    subText = (vd ? vd + ". " : "") + `${tal(d.giltiga[val])} giltiga röster.`;
     const markorer = majornaRaknat(val) ? [{ klass: "majorna", namn: "Majorna" }] : [], swing = swingFor(d.kod, val);
     if (markorer.length) markorNot.push(h("span", { class: "majorna" }, KONFIG.valnatt && data().meta.valnatt && data().meta.valnatt.raknade < data().meta.valnatt.totalt ? "Snittet för räknade distrikt i Majorna" : "Snittet för hela Majorna"));
     markorNot.push(...swingNot(swing));
     for (const a of andelar(d[val], d.giltiga[val])) if (a.andel >= 0.01)
       staplar.append(stapelRad(a.p, a.andel, markorer.map(x => ({ ...x, andel: m.giltiga ? (m.roster[a.p] || 0) / m.giltiga : undefined })), swing ? swing[a.p] : null));
-    knappar.append(h("button", { type: "button", onclick: () => valjDistrikt(state.vald) }, "Visa hela Majorna"),
-                   h("button", { type: "button", class: "till-kartan", onclick: () => $("#karta").scrollIntoView({ block: "start", behavior: lugn() ? "auto" : "smooth" }) }, "Tillbaka till kartan"));
+    knappar.append(h("button", { type: "button", class: "till-kartan", onclick: () => $("#karta").scrollIntoView({ block: "start", behavior: lugn() ? "auto" : "smooth" }) }, "Tillbaka till kartan"));
   } else {
     rubrik.textContent = "Hela Majorna";
     if (!majornaRaknat(val)) {
       toppText = `${VALNAMN[val]} ${state.ar}: inget distrikt räknat än.`;
     } else {
-      const vn = data().meta.valnatt, riket = jamforelse("riket", val), gbg = jamforelse("goteborg", val), swing = swingFor(null, val);
+      const omr = jamforelseOmrade(val), post = omr.post, swing = swingFor(null, val);
+      const alla = data().distrikt || [], vn = alla.length ? { raknade: alla.filter(d => raknat(d, val)).length, totalt: alla.length } : data().meta.valnatt;   // samma källa som banderollen, meta som reserv
       toppText = `${VALNAMN[val]} ${state.ar}: ${toppTre(m.roster, m.giltiga)}.`;
-      subText = (KONFIG.valnatt && vn && vn.raknade < vn.totalt ? `${vn.raknade} av ${vn.totalt} distrikt räknade. ` : "") + `${tal(m.giltiga)} giltiga röster.`;
-      if (m.rostberattigade) subText += ` Valdeltagande ${procent(m.rostande / m.rostberattigade)}` + (riket && riket.valdeltagande ? ` (${riket.namn === "Riket" || !riket.namn ? "riket" : riket.namn} ${procent(riket.valdeltagande)})` : "") + ".";
+      let vd = "";
+      if (m.rostberattigade) {
+        const namnLabel = val === "rd" ? "riket" : omr.namn;
+        vd = `Valdeltagande ${procent(m.rostande / m.rostberattigade)}` + (post && post.valdeltagande ? ` (${namnLabel} ${procent(post.valdeltagande)})` : "");
+      }
+      subText = (KONFIG.valnatt && vn && vn.raknade < vn.totalt ? `${vn.raknade} av ${vn.totalt} distrikt räknade. ` : "") + (vd ? vd + ". " : "") + `${tal(m.giltiga)} giltiga röster.`;
       const markorer = [];
-      if (gbg && gbg.andel) { markorer.push({ klass: "goteborg", namn: "Göteborg", andelar: gbg.andel }); markorNot.push(h("span", { class: "goteborg" }, "Göteborg")); }
-      if (riket && riket.andel) { const namn = riket.namn && riket.namn !== "Riket" ? riket.namn : "Riket"; markorer.push({ klass: "riket", namn, andelar: riket.andel }); markorNot.push(h("span", { class: "riket" }, namn)); }
+      if (post && post.andel) { markorer.push({ klass: "", namn: omr.namn, andelar: post.andel }); markorNot.push(h("span", {}, `Snittet i ${omr.namn}`)); }
       markorNot.push(...swingNot(swing));
       for (const a of andelar(m.roster, m.giltiga)) if (a.andel >= 0.01)
         staplar.append(stapelRad(a.p, a.andel, markorer.map(x => ({ ...x, andel: x.andelar[a.p] })), swing ? swing[a.p] : null));
     }
   }
-  topp.textContent = toppText; sub.textContent = subText; sub.hidden = !subText;
+  sub.textContent = subText; sub.hidden = !subText;
   if (markorNot.length) not.append(h("div", { class: "markorer", "aria-hidden": "true" }, markorNot));
   $("#panel-live").textContent = `${rubrik.textContent}. ${toppText}`;
   skrivUrl();
@@ -671,44 +778,80 @@ function renderTabell() {
     const x = a[kol] ?? -1, y = b[kol] ?? -1;
     return (y - x) * (fallande ? 1 : -1);
   });
-  const th = (kolNamn, text) => h("th", { scope: "col", "aria-sort": kol === kolNamn ? (fallande ? "descending" : "ascending") : "none",
-    onclick: () => { state.sortering = { kol: kolNamn, fallande: kol === kolNamn ? !fallande : kolNamn !== "namn" }; renderTabell(); } }, text);
+  const sortera = kolNamn => { state.sortering = { kol: kolNamn, fallande: kol === kolNamn ? !fallande : kolNamn !== "namn" }; renderTabell(); };
+  const th = (kolNamn, text) => h("th", { scope: "col", "aria-sort": kol === kolNamn ? (fallande ? "descending" : "ascending") : "none" },
+    h("button", { type: "button", onclick: () => sortera(kolNamn) }, text));
+  const radTangent = (r, e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); valjDistrikt(r.kod); } };
   const tabell = h("table", { class: "distrikt" },
     h("caption", {}, `${VALNAMN[val]} ${state.ar}, andel av giltiga röster per distrikt. Tryck på en kolumn för att sortera, på en rad för att välja distrikt.`),
     h("thead", {}, h("tr", {}, th("namn", "Distrikt"), partier.map(p => th(p, p)), th("vd", "Valdelt."))),
-    h("tbody", {}, rader.map(r => h("tr", { class: r.kod === state.vald ? "vald" : "", onclick: () => valjDistrikt(r.kod) },
+    h("tbody", {}, rader.map(r => h("tr", { class: r.kod === state.vald ? "vald" : "", tabindex: "0",
+      onclick: () => valjDistrikt(r.kod), onkeydown: e => radTangent(r, e) },
       h("td", {}, r.namn), partier.map(p => h("td", {}, r.raknat ? procent(r[p]) : "-")), h("td", {}, r.vd !== null && r.raknat ? procent(r.vd) : "-")))));
   wrap.replaceChildren(h("div", { class: "tabell-wrap" }, tabell));
 }
 
-/* ---- röstdelningen */
+/* ---- röstdelningen: riksdag, region och kommun för varje parti på en gemensam procentaxel */
+const RD_FORM = { rd: "cirkel", rf: "romb", kf: "kvadrat" };
+const RD_KORT = { rd: "Riksdag", rf: "Region", kf: "Kommun" };
+const RD_LED = { rd: "riksdags", rf: "region", kf: "kommun" };   // "riksdags-, region- och kommunvalet"
+const andelTal = a => (a * 100).toLocaleString("sv-SE", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
 function renderRostdelning() {
-  const sek = $("#rostdelning"), rd = majorna("rd"), kf = majorna("kf");
-  if (!(rd && rd.giltiga && kf && kf.giltiga)) { sek.hidden = true; return; }
+  const sek = $("#rostdelning"), rader = $("#rostdelning-rader"), legend = $("#rostdelning-legend");
+  const namnPaVal = data().meta.val || VALNAMN, distrikt = data().distrikt || [];
+  const val = ["rd", "rf", "kf"].filter(v => distrikt.some(d => raknat(d, v)));
+  if (val.length < 2) { sek.hidden = true; return; }
+  // kohort: bara distrikt som är räknade i alla val som visas, annars jämförs olika områden med varandra
+  const kohort = distrikt.filter(d => val.every(v => raknat(d, v)));
+  if (!kohort.length) { sek.hidden = true; return; }
   sek.hidden = false;
-  const partier = Object.keys(kf.roster).filter(p => p !== "Övriga" && rd.roster[p] !== undefined);
-  const serier = partier.map(p => ({ p, a: rd.roster[p] / rd.giltiga, b: kf.roster[p] / kf.giltiga }));
-  const fokus = ["V", "S", "MP"];
-  const W = 600, H = 360, x1 = 190, x2 = 410, topp = 40, botten = 320;
-  const max = Math.max(0.1, Math.ceil(Math.max(...serier.flatMap(q => [q.a, q.b])) * 10) / 10);
-  const y = v => botten - (v / max) * (botten - topp);
-  const svg = s("svg", { viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": "Röstdelning: " + serier.filter(q => fokus.includes(q.p)).map(q => `${q.p} ${procent(q.a)} i riksdagsvalet, ${procent(q.b)} i kommunvalet`).join("; ") });
-  svg.append(s("text", { x: x1, y: 24, "text-anchor": "middle", "font-size": 15, "font-weight": 700, fill: FARG.black }, "Riksdag"),
-             s("text", { x: x2, y: 24, "text-anchor": "middle", "font-size": 15, "font-weight": 700, fill: FARG.black }, "Kommun"),
-             s("line", { x1, x2: x1, y1: topp, y2: botten, stroke: FARG.linje }), s("line", { x1: x2, x2, y1: topp, y2: botten, stroke: FARG.linje }));
-  for (const q of serier.filter(q => !fokus.includes(q.p)))
-    svg.append(s("line", { x1, y1: y(q.a), x2, y2: y(q.b), stroke: FARG.sten, "stroke-opacity": .35, "stroke-width": 2 }));
-  const dodge = (poster, nyckel) => { poster.sort((a, b) => a[nyckel] - b[nyckel]); for (let i = 1; i < poster.length; i++) if (poster[i][nyckel] - poster[i - 1][nyckel] < 18) poster[i][nyckel] = poster[i - 1][nyckel] + 18; return poster; };
-  const fokusSerier = serier.filter(q => fokus.includes(q.p)).map(q => ({ ...q, ya: y(q.a), yb: y(q.b), la: y(q.a), lb: y(q.b) }));
-  dodge(fokusSerier, "la"); dodge(fokusSerier, "lb");
-  for (const q of fokusSerier) {
-    svg.append(s("line", { x1, y1: q.ya, x2, y2: q.yb, stroke: parti(q.p).farg, "stroke-width": 6, "stroke-linecap": "round" }),
-      s("circle", { cx: x1, cy: q.ya, r: 6, fill: parti(q.p).farg }), s("circle", { cx: x2, cy: q.yb, r: 6, fill: parti(q.p).farg }),
-      s("text", { x: x1 - 14, y: q.la + 5, "text-anchor": "end", "font-size": 15, fill: FARG.black }, `${q.p} ${procent(q.a)}`),
-      s("text", { x: x2 + 14, y: q.lb + 5, "font-size": 15, fill: FARG.black }, `${procent(q.b)} ${q.p}`));
+  const summa = {};
+  for (const v of val) {
+    const post = { giltiga: 0, roster: {} };
+    for (const d of kohort) { post.giltiga += d.giltiga[v]; for (const [p, n] of Object.entries(d[v])) post.roster[p] = (post.roster[p] || 0) + n; }
+    summa[v] = post;
   }
-  $("#lutning").replaceChildren(svg);
-  $("#rostdelning-not").textContent = `Så skiljer sig partiernas andel i Majorna mellan riksdagsvalet och kommunvalet ${state.ar}. Grå linjer är övriga partier.`;
+  const andel = (v, p) => (summa[v].roster[p] !== undefined && summa[v].giltiga) ? summa[v].roster[p] / summa[v].giltiga : null;
+  const alla = [...new Set(val.flatMap(v => Object.keys(summa[v].roster)))].filter(p => p !== "Övriga");
+  const poster = alla.map(p => ({ p, varden: val.map(v => andel(v, p)) })).filter(r => r.varden.some(a => a !== null && a >= 0.01));
+  if (!poster.length) { sek.hidden = true; return; }
+  const huvud = val.includes("rd") ? "rd" : val[0], sist = val.includes("kf") ? "kf" : val[val.length - 1];
+  poster.sort((a, b) => {   // fallande på riksdagsandel, partier utan riksdagsröster sist på kommunandel
+    const av = andel(huvud, a.p), bv = andel(huvud, b.p);
+    if (av === null && bv === null) return (andel(sist, b.p) || 0) - (andel(sist, a.p) || 0);
+    if (av === null) return 1;
+    if (bv === null) return -1;
+    return bv - av;
+  });
+  const hogsta = Math.max(...poster.flatMap(r => r.varden.filter(a => a !== null)));
+  const max = Math.max(0.05, Math.ceil(hogsta * 20) / 20);   // närmaste 5 procent över högsta värdet
+  const pos = a => a / max * 100;
+  const kolumner = barn => h("div", { class: "rd-tal" }, barn);
+  legend.replaceChildren(...val.map(v => h("span", {}, h("i", { class: "rd-form rd-" + RD_FORM[v] }), RD_KORT[v])));
+  const beskrivning = poster.map(r => `${parti(r.p).namn}: ` + val.map((v, i) => `${namnPaVal[v].toLowerCase()} ${r.varden[i] === null ? "inget resultat" : procent(r.varden[i])}`).join(", ")).join("; ") + ".";
+  const grafik = h("div", { class: "rd-grafik", role: "img", "aria-label": `Andel av giltiga röster per val och parti. ${beskrivning}` });
+  grafik.append(h("div", { class: "rd-huvud", "aria-hidden": "true" }, h("div"), h("div"),
+    kolumner(val.map(v => h("span", {}, RD_KORT[v])))));
+  for (const r of poster) {
+    const finns = r.varden.filter(a => a !== null);
+    const lo = Math.min(...finns), hi = Math.max(...finns);
+    const axel = h("div", { class: "rd-axel" }, h("span", { class: "rd-spar" }),
+      finns.length > 1 ? h("span", { class: "rd-spann", style: `left:${pos(lo).toFixed(2)}%;width:${(pos(hi) - pos(lo)).toFixed(2)}%` }) : null,
+      val.map((v, i) => r.varden[i] === null ? null
+        : h("span", { class: "rd-markor rd-" + RD_FORM[v], style: `left:${pos(r.varden[i]).toFixed(2)}%;background:${parti(r.p).farg}` })));
+    grafik.append(h("div", { class: "rd-rad" },
+      h("div", { class: "rd-parti" }, h("b", {}, r.p), h("small", {}, namnMedMjukaBindestreck(parti(r.p).namn))), axel,
+      kolumner(r.varden.map(a => h("span", {}, a === null ? "-" : andelTal(a))))));
+  }
+  const steg = max > 0.25 ? 0.1 : 0.05, ticks = [];
+  for (let v = 0; v <= max + 1e-9; v += steg) ticks.push(Math.round(v * 1000) / 1000);
+  grafik.append(h("div", { class: "rd-rad rd-axelrad", "aria-hidden": "true" }, h("div"),
+    h("div", { class: "rd-axel-tal" }, ticks.map((v, i) => h("span", {   // ytterkanternas tal hålls innanför axeln, annars rullar sidan i sidled
+      style: `left:${pos(v).toFixed(2)}%;transform:translateX(${i === 0 ? "0" : i === ticks.length - 1 ? "-100%" : "-50%"})` }, Math.round(v * 100) + (i === 0 ? " %" : "")))), h("div")));
+  rader.replaceChildren(grafik);
+  const led = val.map(v => RD_LED[v]), valText = led.slice(0, -1).join("-, ") + "- och " + led[led.length - 1] + "valet";
+  const kohortText = kohort.length < distrikt.length ? ` Räknat på ${kohort.length} av ${distrikt.length} distrikt.` : "";
+  $("#rostdelning-not").textContent = `Så röstar Majorna olika i ${valText} ${state.ar}. Ju längre streck, desto mer röstdelning.` + kohortText;
 }
 
 /* ---- Majorna mot Sverige: divergerande staplar mot riket, Västra Götaland eller Göteborg */
@@ -742,13 +885,20 @@ function divergens(val, ar, kompakt = false, bild = false) {
   return { el, omr, rader };
 }
 function renderJamforelse() {
+  const valLista = Object.keys(data().meta.val || VALNAMN);
+  if (!divergens(state.jamforelseVal)) {
+    const forsta = valLista.find(v => divergens(v));   // saknat val: byt till första tillgängliga i stället för att dölja
+    if (forsta) state.jamforelseVal = forsta;
+  }
   const sek = $("#jamforelse"), val = state.jamforelseVal, res = divergens(val, null, true);
   const knappar = $("#jamforelse-val");
   knappar.innerHTML = "";
-  for (const [v, namn] of Object.entries(data().meta.val || VALNAMN)) {
+  for (const v of valLista) {
     if (!divergens(v)) continue;
-    knappar.append(h("button", { type: "button", role: "radio", "aria-checked": String(v === val), onclick: () => { state.jamforelseVal = v; renderJamforelse(); } }, namn));
+    knappar.append(h("button", { type: "button", role: "radio", "aria-checked": String(v === val), tabindex: v === val ? "0" : "-1",
+      onclick: () => { state.jamforelseVal = v; renderJamforelse(); } }, (data().meta.val || VALNAMN)[v]));
   }
+  pilNavigering(knappar);
   if (!res) { sek.hidden = true; return; }
   sek.hidden = false;
   $("#jamforelse-rubrik").textContent = `Majorna mot ${res.omr.namn}`;

@@ -7,5 +7,25 @@
  "adress": "https://majposten.se/val2026",
  "inbaddad": false,
  "skrivUrl": true,
- "stickyTopp": 16
+ "stickyTopp": 105,
+ "samarbete": {
+  "visa": false,
+  "namn": "Majornas Bryggeri",
+  "text": "I samarbete med",
+  "lank": "",
+  "logga": "",
+  "valvaka": {
+   "visa": false,
+   "rubrik": "Valvaka på Majornas Bryggeri",
+   "text": "[KOLLA] Tid, plats och vad som händer.",
+   "lank": ""
+  }
+ },
+ "hjalp": {
+  "visa": false,
+  "rubrik": "Behöver du hjälp att rösta?",
+  "text": "hjalpmigrosta.se förklarar hur valet går till, på flera språk.",
+  "lank": "https://hjalpmigrosta.se",
+  "lanktext": "Till hjalpmigrosta.se"
+ }
 }

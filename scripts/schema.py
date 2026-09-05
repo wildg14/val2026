@@ -11,6 +11,17 @@ KONFIG_STANDARD = {
     "ar": ["2022"], "standardAr": "2022", "valnatt": False,
     "adress": "https://majposten.se/val2026",
     "inbaddad": False, "skrivUrl": True, "stickyTopp": 16,
+    # Samarbetsblocket och rösthjälpen är avstängda tills redaktionen fyllt i texter och adresser.
+    "samarbete": {
+        "visa": False, "namn": "Majornas Bryggeri", "text": "I samarbete med", "lank": "", "logga": "",
+        "valvaka": {"visa": False, "rubrik": "Valvaka på Majornas Bryggeri",
+                    "text": "[KOLLA] Tid, plats och vad som händer.", "lank": ""},
+    },
+    "hjalp": {
+        "visa": False, "rubrik": "Behöver du hjälp att rösta?",
+        "text": "hjalpmigrosta.se förklarar hur valet går till, på flera språk.",
+        "lank": "https://hjalpmigrosta.se", "lanktext": "Till hjalpmigrosta.se",
+    },
 }
 
 

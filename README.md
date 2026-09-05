@@ -13,6 +13,7 @@ valgrafik.js                  hela grafiken, renderar inuti <div class="mp-val" 
 valgrafik.css                 all CSS, scopad till .mp-val (Beehiivs krav för HTML-block)
 index.html                    tunt skal som laddar de två filerna: lokal visning, bildläge, skärmdumpar
 docs/inbaddningstest.html     simulerad värdsida med avsiktligt fientlig CSS, för att testa blocket lokalt
+docs/beehiivtest.html         simulerad Beehiiv-sida (klibbig meny 89 px, iframe srcdoc), för att testa djuplänkar och rullning
 data/konfig.json / .js        KONFIG: ar, standardAr, valnatt, adress, inbaddad, skrivUrl, stickyTopp
 data/valdata_2022.json        röster per distrikt och val, aggregat, mandat (kanonisk fil)
 data/valdata_2022.js          samma data som JS, laddas av sidan (fungerar även via file://)
@@ -28,7 +29,7 @@ bilder/                       genererade stillbilder
 scripts/valmyndigheten.py     parser för Valmyndighetens filer, partimappning
 scripts/mandat.py             jämkade uddatalsmetoden
 scripts/geo.py, schema.py     geodata respektive datafilernas schema
-tests/                        pytest, 27 tester
+tests/                        pytest, 41 tester (37 gröna, 4 överhoppade råfilstester utan lokala xlsx-filer)
 docs/superpowers/             designspec och plan
 ```
 
@@ -102,7 +103,7 @@ Två delar: statisk hosting av filerna, och ett HTML-block på Beehiiv-sidan.
 
 Beehiivs regler som bygget följer: koden börjar med en enda container-div, all CSS är scopad till `.mp-val`, inga regler på `*`, `body` eller `html`, inga `vh`-mått, ingen `position: fixed`. Testet `tests/test_inbaddning.py` vaktar det.
 
-Total sidvikt är cirka 340 kB.
+Total sidvikt är cirka 355 kB.
 
 ## Beehiiv
 
@@ -111,6 +112,34 @@ Majposten ligger på Beehiivs Scale-plan (enligt Beehiivs API 2026-09-03). Sajtb
 Inlägg och mejl kan inte köra script (HTML-snippeten i inlägg sparar varken `<script>` eller `<style>`, och mejl döljer iframe, video och script på alla planer). Där gäller stillbild plus länk till sidan: Image-block med alt-texten ur `.txt`-filen, länkad till sidan, och en Button-block under. Ge bild och knapp olika `utm_content`. Gmail klipper mejl med över 102 kB HTML.
 
 Källor: Beehiivs supportartiklar "Using HTML in the Website Builder", "Using HTML in beehiiv posts", "Adding thumbnails, images, and GIFs to your posts" och "Using UTM parameter tracking with beehiiv" (alla uppdaterade sommaren 2026).
+
+Mätt på den publicerade sidan (majposten.se/val2026, 2026-09-05): Beehiiv lägger HTML-blocket i en `<iframe srcdoc>` med samma ursprung som sidan, bredd 100 % och höjd som följer innehållet (blocket växer och krymper fritt, till exempel när tabellen fälls ut). Iframens egen adress är `about:srcdoc` utan query, så `?distrikt=...` når aldrig skriptet direkt: djuplänkarna läser och skriver därför mot `window.parent.location` när föräldern går att nå (samma ursprung, `parent.history.replaceState` fungerar). `position: sticky` är verkningslöst inuti iframen eftersom inget rullar där; resultatkortet på desktop följer alltså inte med vid rullning, vilket vi fått acceptera. Beehiivs egen sidmeny är klibbig och 89 px hög, så `stickyTopp` i `data/konfig.json` står på 105 (89 plus 16 px marginal) och används som `scroll-margin-top` när sidan rullar till kartan, kortet eller tabellen - annars hamnar överkanten under menyn. Sidan har ingen egen rubrik utanför blocket, så `inbaddad` behöver inte slås på. Uppsättningen testas lokalt mot `docs/beehiivtest.html` (klibbig meny plus `iframe srcdoc`) med `verktyg/beehiiv-check.js`.
+
+## Samarbete och rösthjälp
+
+Två redaktionella block som styrs helt från `data/konfig.json`: en samarbetsrad i sidhuvudet och upp till två rutor direkt under huvudet (valvakan och rösthjälpen). Båda är avstängda som de ligger, och texterna är platshållare som redaktören skriver om. Rader märkta `[KOLLA]` är okontrollerade.
+
+```json
+"samarbete": { "visa": false, "namn": "Majornas Bryggeri", "text": "I samarbete med", "lank": "", "logga": "",
+               "valvaka": { "visa": false, "rubrik": "Valvaka på Majornas Bryggeri",
+                            "text": "[KOLLA] Tid, plats och vad som händer.", "lank": "" } },
+"hjalp":     { "visa": false, "rubrik": "Behöver du hjälp att rösta?",
+               "text": "hjalpmigrosta.se förklarar hur valet går till, på flera språk.",
+               "lank": "https://hjalpmigrosta.se", "lanktext": "Till hjalpmigrosta.se" }
+```
+
+- `samarbete.visa` slår på raden "I samarbete med Majornas Bryggeri" under ingressen. Raden visas inte i bildläget och inte när `inbaddad` är på, eftersom rubriken och ingressen då är dolda.
+- `samarbete.logga` är en adress till en bild, antingen absolut eller relativ till `data-bas` (lägg filen i `bilder/`, till exempel `bilder/majornas-bryggeri.png`). Loggan visas i högst 44 px höjd med namnet som alt-text. Tom logga ger bara text.
+- `samarbete.valvaka.visa` slår på valvakerutan, och kräver att `samarbete.visa` också är på. `hjalp.visa` slår på rösthjälpsrutan för sig. Rutorna ligger sida vid sida från 900 px containerbredd, under varandra på mobil, och visas även när `inbaddad` är på.
+- Alla `lank` är tomma platshållare tills adresserna är klara. Med tom länk renderas texten som ren text, aldrig som en tom länk.
+
+Slå på ett block genom att sätta `visa` till `true` i `data/konfig.json` och skriva om `konfig.js`, så att de två filerna aldrig glider isär:
+
+```bash
+.venv/bin/python -c "from scripts import schema; schema.skriv_konfig('data', schema.las_konfig('data'))"
+```
+
+Nycklarnas standardvärden ligger i `scripts/schema.KONFIG_STANDARD` och bevaras av `uppdatera_2026.py --valnatt`.
 
 ## Stillbilder för nyhetsbrevet
 
@@ -257,15 +286,19 @@ Andelar räknas alltid i sidan som parti delat med giltiga röster. Inga tal är
 
 ## Designval
 
-Kartan är inline-SVG utan kartbibliotek: inga externa beroenden, fungerar offline, kapar inte sidscrollen på mobil. Orienteringen kommer från ett lokalt bakgrundslager (OpenStreetMap, hämtat vid byggtid). Saknas `data/bakgrund.js` ritas kartan mot enfärgad bakgrund. Färger kompletteras alltid med text: partibokstav och procent på kartan, tabellvy för alla distrikt, aria-etiketter på varje distrikt.
+Kartan är inline-SVG utan kartbibliotek: inga externa beroenden, fungerar offline, kapar inte sidscrollen på mobil. Orienteringen kommer från ett lokalt bakgrundslager (OpenStreetMap, hämtat vid byggtid). Saknas `data/bakgrund.js` ritas kartan mot enfärgad bakgrund. Färger kompletteras alltid med text: partibokstav och procent på kartan, tabellvy för alla distrikt, aria-etiketter på varje distrikt. Kartans typstorlekar (etiketter, hållplatsnamn, kontur) räknas om löpande efter kartans faktiska pixelbredd, inte efter en fast 600 px-tröskel, så texten håller samma storlek i pixlar oavsett hur brett Beehiivs sektion råkar vara.
 
-Utseendet följer Majpostens palett och typografi (Georgia och Arial, papper och slottsskogsgrön, inga skuggor eller gradienter).
+Utseendet följer Majpostens palett och typografi (Georgia och Arial, papper och slottsskogsgrön, inga skuggor eller gradienter). I Partistyrka är toppsteget i legenden alltid partiets egen färg, aldrig mörkad mot bläck; för ljusa partifärger (SD, Liberalerna) sprids de undre stegens toner mer så att de fortfarande syns som skilda nyanser.
 
-Två layouter i en DOM, styrda av containerns bredd (CSS container queries), inte fönstrets: under 900 px en spalt som på mobil, från 900 px kartan till vänster med resultatkortet fastnaglat till höger, halvcirkeln bredvid mandattabellen och de två jämförelsegrafikerna sida vid sida. Brödtexten håller smal spalt även på desktop. Sektionen som blocket ligger i på Beehiiv behöver vara minst cirka 1 000 px bred för att desktopläget ska slå till. Ingen egen prenumerationsknapp: Beehiivs eget prenumerationsblock läggs på sidan.
+Resultatkortet ("Hela Majorna" eller ett valt distrikt) visar en enda jämförelsemarkör per stapel: hela Majorna mot riket (riksdag), Västra Götaland (region) eller Göteborg (kommun), samma svarta markör som används när ett distrikt jämförs mot hela Majorna. "Röstdelningen" är byggd som HTML-rader (som "Majorna mot Sverige", inte SVG): en rad per parti med markörer för riksdag (cirkel), region (romb) och kommun (kvadrat) på en gemensam procentaxel, så att man ser hur mycket ett parti röstdelar mellan valen. Markörerna ligger på tre höjder kring linjen (riksdag på linjen, region strax över, kommun strax under) eftersom de annars täcker varandra när ett parti får nästan samma andel i alla tre valen.
+
+Två layouter i en DOM, styrda av containerns bredd (CSS container queries), inte fönstrets: under 900 px en spalt som på mobil, från 900 px kartan till vänster med resultatkortet fastnaglat till höger, halvcirkeln bredvid mandattabellen (räkneexemplet under halvcirkeln, inte under hela sektionen) och de två jämförelsegrafikerna sida vid sida. Tabellknappen och tabellen ligger sist i kartsektionen, under kartan och kortet, inte i en egen sektion; kartan, kartlegenden och kortet ligger i sin tur i ett eget rutnät (`#karta-yta`) så att det fastnaglade kortet inte kan följa med ned över tabellknappen och tabellen. Brödtexten håller smal spalt även på desktop. Sektionen som blocket ligger i på Beehiiv behöver vara minst cirka 1 000 px bred för att desktopläget ska slå till. Ingen egen prenumerationsknapp: Beehiivs eget prenumerationsblock läggs på sidan.
 
 Två oberoende brytpunkter: 600 px containerbredd styr kartans detaljnivå (fler hållplatser och platsnamn, procent i etiketterna), 900 px styr tvåkolumnslayouten. Mellan 600 och 900 px visas alltså den detaljerade kartan i en spalt, vilket är avsett.
 
-Resultatkortet på desktop är fastnaglat med `position: sticky` och avståndet `stickyTopp` (px) i `data/konfig.json`, standard 16. Är Beehiivs sidhuvud klibbigt: sätt värdet till sidhuvudets höjd plus marginal. Sticky faller tyst tillbaka till vanlig placering om värdsidan lägger `overflow` eller `transform` på ett element runt blocket, vilket vi inte kan skydda oss mot i förväg; kontrollera på den publicerade sidan.
+En tredje brytpunkt gäller bara "Röstdelningen": partinamnet bredvid partibokstaven ("V Vänsterpartiet") kräver 1 100 px containerbredd. Mellan 900 och 1 100 px delar sektionen rad med "Majorna mot Sverige" och blir så smal att namnen radbryter, så där visas bara partibokstaven. Under 900 px är sektionen full bredd och namnen syns igen (från 600 px containerbredd).
+
+Resultatkortet på desktop är fastnaglat med `position: sticky` inuti `#karta-yta` (kartan, legenden och kortet), vilket är vad som håller kortet ovanför tabellknappen, och avståndet `stickyTopp` (px) i `data/konfig.json`, standard 105 (Beehiivs egen klibbiga sidmeny är 89 px hög, plus 16 px marginal). Samma värde används som `scroll-margin-top` när sidan rullar till kartan, kortet eller tabellen. I Beehiivs `iframe srcdoc` är `position: sticky` verkningslöst (inget rullar inuti iframen), så kortet följer inte med vid rullning där - det är känt och accepterat, se avsnittet Beehiiv. Sticky faller också tyst tillbaka till vanlig placering om värdsidan lägger `overflow` eller `transform` på ett element runt blocket; kontrollera på den publicerade sidan.
 
 ## Källor och licenser
 

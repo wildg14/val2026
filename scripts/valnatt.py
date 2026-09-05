@@ -134,15 +134,30 @@ def las_rostfordelning(kalla, koder=MAJORNA_KODER, kommunkod=None):
 
 
 def _omrade(v, val, namn=None):
-    """Ett valområde eller en kommun med rostfordelning -> samma form som valmyndigheten.aggregat_andelar."""
-    rpm = ((v.get("rostfordelning") or {}).get("rosterPaverkaMandat")) or {}
+    """Ett valområde eller en kommun med rostfordelning -> aggregat.
+
+    Formen är som valmyndigheten.aggregat_andelar (andel, valdeltagande, giltiga, rostande,
+    rostberattigade, antal_distrikt) plus totalt_distrikt. namn sätts även för kommunen, inte bara
+    för valmyndighetens eget valområde.
+    """
+    if val not in NYCKELPARTIER:
+        raise FormatFel(f"okänt val {val!r}")
+    rf = v.get("rostfordelning") or {}
+    rpm = rf.get("rosterPaverkaMandat") or {}
     giltiga = _n(rpm.get("antalRoster"))
     if not giltiga:
         return None
     roster, _ = _mappa_partiroster(rpm, val)
     if sum(roster.values()) != giltiga:
         raise SummaFel(f"aggregat {namn or v.get('namn')}: partiröster {sum(roster.values())} != giltiga {giltiga}")
-    rostande, rostberattigade = _n(v.get("totaltAntalRoster")), _n(v.get("antalRostberattigade"))
+    rostande = _n(v.get("totaltAntalRoster"))
+    rem = rf.get("rosterEjPaverkaMandat")
+    if rem is not None:
+        ogiltiga = _n(rem.get("antalRoster"))
+        if giltiga + ogiltiga != rostande:
+            raise SummaFel(f"aggregat {namn or v.get('namn')}: giltiga {giltiga} + ogiltiga {ogiltiga} != röstande {rostande}")
+    # nämnaren är röstberättigade i de räknade distrikten, annars blir valdeltagandet fel så länge räkningen pågår
+    rostberattigade = _n(v.get("antalRostberattigadeIRaknadeValdistrikt")) or _n(v.get("antalRostberattigade"))
     return {"namn": namn or _s(v.get("namn")),
             "andel": {p: n / giltiga for p, n in roster.items() if p != OVRIGA},
             "valdeltagande": rostande / rostberattigade if rostberattigade else None,
@@ -153,6 +168,11 @@ def _omrade(v, val, namn=None):
 def las_valomrade(kalla, val, namn=None):
     """Mandatfördelningsfilens valomrade (riket, ett län eller en kommun) -> aggregat."""
     obj = _las_objekt(kalla)
+    if not isinstance(obj, dict):
+        raise FormatFel("filen har inte ett objekt som rot")
+    valtyp = obj.get("valtyp")
+    if "valtyp" in obj and VALTYP.get(_s(valtyp).upper()) != val:
+        raise FormatFel(f"filen gäller {valtyp} men {val.upper()} väntades")
     v = obj.get("valomrade")
     if not isinstance(v, dict):
         raise FormatFel("mandatfördelningsfilen saknar objektet valomrade")
@@ -162,11 +182,16 @@ def las_valomrade(kalla, val, namn=None):
 def las_kommun(kalla, val, kommunkod=KOMMUNKOD_GOTEBORG, namn="Göteborg"):
     """Summeringsfilens kommuner[] -> aggregat för en kommun."""
     obj = _las_objekt(kalla)
+    if not isinstance(obj, dict):
+        raise FormatFel("filen har inte ett objekt som rot")
+    valtyp = obj.get("valtyp")
+    if "valtyp" in obj and VALTYP.get(_s(valtyp).upper()) != val:
+        raise FormatFel(f"filen gäller {valtyp} men {val.upper()} väntades")
     lista = obj.get("kommuner")
     if not isinstance(lista, list):
         raise FormatFel("summeringsfilen saknar listan kommuner")
     for k in lista:
-        if _s(k.get("kommunkod")) == str(kommunkod):
+        if isinstance(k, dict) and _s(k.get("kommunkod")) == str(kommunkod):
             return _omrade(k, val, namn)
     raise FormatFel(f"kommun {kommunkod} finns inte i summeringsfilen")
 
@@ -190,4 +215,4 @@ def aggregat_2026(val, mandat, summering=None):
         ut["goteborg"] = las_valomrade(mandat, val, "Göteborg")
     else:
         raise FormatFel(f"okänt val {val!r}")
-    return {k: v for k, v in ut.items() if v}
+    return {k: v for k, v in ut.items() if v is not None}

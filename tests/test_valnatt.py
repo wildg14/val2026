@@ -153,7 +153,8 @@ def omrade(namn, partier, ovriga=0, ogiltiga=0, rostberattigade=10000, raknade=5
     return {"namn": namn, "totaltAntalRoster": giltiga + ogiltiga, "antalRostberattigade": rostberattigade,
             "antalValdistriktRaknade": raknade, "antalValdistriktSomSkaRaknas": totalt,
             "rostfordelning": {"rosterPaverkaMandat": {"antalRoster": giltiga, "partiRoster": [post(f, b, n) for f, b, n in partier],
-                                                        "rosterOvrigaPartier": {"antalRoster": ovriga}}}, **extra}
+                                                        "rosterOvrigaPartier": {"antalRoster": ovriga}},
+                               "rosterEjPaverkaMandat": {"antalRoster": ogiltiga}}, **extra}
 
 
 def test_aggregat_2026_syntetiskt_rd():
@@ -182,6 +183,88 @@ def test_aggregat_avvisar_fel_summa():
     mandat["valomrade"]["rostfordelning"]["rosterPaverkaMandat"]["antalRoster"] = 601
     with pytest.raises(SummaFel):
         valnatt.aggregat_2026("rd", mandat)
+
+
+def test_omrade_avvisar_fel_summa_rostande():
+    v = omrade("Riket", [("S", "Arbetarepartiet-Socialdemokraterna", 100)])
+    v["totaltAntalRoster"] = 999
+    with pytest.raises(SummaFel):
+        valnatt.aggregat_2026("rd", {"valomrade": v})
+
+
+def test_omrade_utan_ogiltigfalt_hoppar_over_summakontroll():
+    v = omrade("Riket", [("S", "Arbetarepartiet-Socialdemokraterna", 100)])
+    v["totaltAntalRoster"] = 999
+    del v["rostfordelning"]["rosterEjPaverkaMandat"]
+    agg = valnatt.aggregat_2026("rd", {"valomrade": v})
+    assert agg["riket"]["giltiga"] == 100, "utan rosterEjPaverkaMandat görs ingen summakontroll av röstande"
+
+
+def test_aggregat_valdeltagande_mot_raknade_distrikt():
+    """Nämnaren ska vara röstberättigade i räknade distrikt, inte hela väljarkåren, annars blir kvoten
+    fel så länge räkningen pågår (t ex 12,5 procent i stället för 83 tidigt på valkvällen)."""
+    mandat = {"valomrade": omrade("Riket", [("S", "Arbetarepartiet-Socialdemokraterna", 833000)],
+                                   rostberattigade=7996396, raknade=900, totalt=6626,
+                                   antalRostberattigadeIRaknadeValdistrikt=1000000)}
+    agg = valnatt.aggregat_2026("rd", mandat)
+    assert agg["riket"]["rostberattigade"] == 1000000
+    assert agg["riket"]["valdeltagande"] == pytest.approx(0.833)
+
+
+def test_aggregat_giltiga_noll_ger_ingen_nyckel():
+    mandat = {"valomrade": omrade("Riket", [])}
+    agg = valnatt.aggregat_2026("rd", mandat)
+    assert "riket" not in agg
+
+
+def test_aggregat_rostberattigade_null_ger_ingen_kvot():
+    mandat = {"valomrade": omrade("Riket", [("S", "Arbetarepartiet-Socialdemokraterna", 100)],
+                                   rostberattigade=None, antalRostberattigadeIRaknadeValdistrikt=None)}
+    agg = valnatt.aggregat_2026("rd", mandat)
+    assert agg["riket"]["valdeltagande"] is None and agg["riket"]["rostberattigade"] == 0
+
+
+def test_las_valomrade_rot_ej_dict_ger_formatfel():
+    with pytest.raises(valnatt.FormatFel):
+        valnatt.las_valomrade([], "rd")
+
+
+def test_las_kommun_rot_ej_dict_ger_formatfel():
+    with pytest.raises(valnatt.FormatFel):
+        valnatt.las_kommun([], "rd")
+
+
+def test_las_kommun_kommun_saknas_ger_formatfel():
+    summering = {"kommuner": [{"kommunkod": "0114",
+                               **omrade("Upplands Väsby", [("S", "Arbetarepartiet-Socialdemokraterna", 1)])}]}
+    with pytest.raises(valnatt.FormatFel):
+        valnatt.las_kommun(summering, "rd")
+
+
+def test_las_kommun_hoppar_over_icke_dict_element():
+    summering = {"kommuner": ["felformat element",
+                              {"kommunkod": "1480", **omrade("Göteborg", [("S", "Arbetarepartiet-Socialdemokraterna", 1)])}]}
+    agg = valnatt.las_kommun(summering, "rd")
+    assert agg["namn"] == "Göteborg"
+
+
+def test_las_valomrade_avvisar_fel_valtyp():
+    mandat = {"valtyp": "RF", "valomrade": omrade("Riket", [("S", "Arbetarepartiet-Socialdemokraterna", 100)])}
+    with pytest.raises(valnatt.FormatFel):
+        valnatt.las_valomrade(mandat, "rd")
+
+
+def test_las_kommun_avvisar_fel_valtyp():
+    summering = {"valtyp": "KF", "kommuner": [{"kommunkod": "1480",
+                                               **omrade("Göteborg", [("S", "Arbetarepartiet-Socialdemokraterna", 1)])}]}
+    with pytest.raises(valnatt.FormatFel):
+        valnatt.las_kommun(summering, "rd")
+
+
+def test_las_valomrade_okant_val_ger_formatfel_inte_keyerror():
+    mandat = {"valomrade": omrade("Riket", [("S", "Arbetarepartiet-Socialdemokraterna", 100)])}
+    with pytest.raises(valnatt.FormatFel):
+        valnatt.las_valomrade(mandat, "ogiltigt")
 
 
 @finns

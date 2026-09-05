@@ -122,7 +122,7 @@
 .mp-val .rd-form.rd-cirkel { border-radius: 50%; }
 .mp-val .rd-form.rd-romb { transform: rotate(45deg); }
 .mp-val .rd-huvud, .mp-val .rd-rad { display: grid; grid-template-columns: 36px 1fr 174px; gap: 10px; align-items: center; }
-.mp-val .rd-huvud { font-size: 12px; color: var(--sten); margin-bottom: 2px; }   /* smal spalt: 13 px ryms först på desktop */
+.mp-val .rd-huvud { font-size: 13px; color: var(--sten); margin-bottom: 2px; }   /* talspalten är 174 px, så 13 px ryms i alla lägen */
 .mp-val .rd-huvud .rd-tal { font-size: inherit; }
 .mp-val .rd-rad { min-height: 34px; }
 .mp-val .rd-parti { line-height: 1.2; }
@@ -201,7 +201,6 @@
   .mp-val .stapel-namn b { display: inline; margin-right: 6px; }
   .mp-val .stapel-namn small { display: inline; font-size: 13px; }
   .mp-val .rd-huvud, .mp-val .rd-rad { grid-template-columns: 162px 1fr 168px; }   /* 162 px rymmer det längsta partinamnet på en rad */
-  .mp-val .rd-huvud { font-size: 13px; }
   .mp-val .rd-parti small { display: inline; }
   .mp-val .rd-parti b { margin-right: 6px; }
 }
@@ -232,12 +231,10 @@
   .mp-val .till-kartan { display: none; }
   /* Röstdelningen delar rad med jämförelsen här och blir smal: partibokstaven ensam tills spalten rymmer namnen igen */
   .mp-val .rd-huvud, .mp-val .rd-rad { grid-template-columns: 36px 1fr 174px; }
-  .mp-val .rd-huvud { font-size: 12px; }
   .mp-val .rd-parti small { display: none; }
 }
 
 @container (min-width: 1100px) {
   .mp-val .rd-huvud, .mp-val .rd-rad { grid-template-columns: 162px 1fr 168px; }
-  .mp-val .rd-huvud { font-size: 13px; }
   .mp-val .rd-parti small { display: inline; }
 }

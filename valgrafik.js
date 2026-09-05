@@ -18,9 +18,12 @@ const MARKUP = `
     <p class="etikett" id="topp-etikett">Majposten</p>
     <h1>Så röstade Majorna</h1>
     <p class="ingress" id="ingress" data-redaktor="justera">Valresultatet för de 23 valdistrikten i klassiska Majorna - riksdag, region och kommun, kvarter för kvarter.</p>
+    <p class="samarbete" id="samarbete" hidden></p>
     <div id="arval" class="knappar" role="group" aria-label="Välj valår" hidden></div>
     <div id="valnatt" class="banderoll" hidden></div>
   </header>
+
+  <div id="rutor" class="rutor" hidden></div>
 
   <section id="riksdag" aria-labelledby="riksdag-rubrik">
     <h2 id="riksdag-rubrik">Om Majorna bestämde</h2>
@@ -82,7 +85,9 @@ const MARKUP = `
 const KONFIG = {   // standardvärden, skrivs över av data/konfig.js
   ar: ["2022"], standardAr: "2022", valnatt: false,
   adress: "https://majposten.se/val2026",
-  inbaddad: false, skrivUrl: true, stickyTopp: 16   // px från fönstrets överkant för det klibbiga kortet på desktop, höj om Beehiivs sidhuvud är klibbigt
+  inbaddad: false, skrivUrl: true, stickyTopp: 16,   // px från fönstrets överkant för det klibbiga kortet på desktop, höj om Beehiivs sidhuvud är klibbigt
+  samarbete: { visa: false, valvaka: { visa: false } },   // samarbetsraden och valvakan, texter och adresser i data/konfig.json
+  hjalp: { visa: false }   // rutan om rösthjälp
 };
 
 const PARTIER = {
@@ -282,7 +287,7 @@ async function start() {
 
 /* ===================================================================== render */
 function renderAllt() {
-  renderHuvud(); renderRiksdag(); renderKontroller(); renderKarta(); renderPanel(); renderTabell(); renderRostdelning(); renderJamforelse(); renderFakta();
+  renderHuvud(); renderSamarbete(); renderRiksdag(); renderKontroller(); renderKarta(); renderPanel(); renderTabell(); renderRostdelning(); renderJamforelse(); renderFakta();
 }
 function renderHuvud() {
   const meta = data().meta;
@@ -309,6 +314,39 @@ function renderBanderoll() {   // räknar räknade distrikt för aktuellt val ur
   band.innerHTML = "";
   band.append(h("b", {}, `Valnatten ${meta.ar}: ${raknade} av ${totalt} distrikt räknade i ${VALNAMN[state.val].toLowerCase()}.`), " ",
     meta.status === "slutlig" ? "Slutliga siffror." : "Preliminära siffror.", ` Uppdaterat ${klockslag(meta.uppdaterad)}.`);
+}
+
+/* ---- samarbete och rösthjälp: konfigstyrda block, avstängda tills redaktionen fyllt i texter och adresser */
+function adressFor(url) {   // absolut adress eller adress relativt data-bas
+  return /^(https?:)?\/\//.test(url) || url.startsWith("/") ? url : BAS + url;
+}
+function lankad(text, url, klass) {   // tom länk ger ren text, aldrig ett tomt href
+  return url ? h("a", { href: url, class: klass || null }, text) : h("span", { class: klass || null }, text);
+}
+function ruta(post, standardLanktext) {
+  const el = h("div", { class: "ruta" }, h("h2", {}, post.rubrik || ""));
+  if (post.text) el.append(h("p", {}, post.text));
+  if (post.lank) el.append(h("p", { class: "ruta-lank" }, h("a", { href: post.lank }, post.lanktext || standardLanktext)));
+  return el;
+}
+function renderSamarbete() {
+  const sam = KONFIG.samarbete || {}, valvaka = sam.valvaka || {}, hjalp = KONFIG.hjalp || {};
+  const rad = $("#samarbete"), rutor = $("#rutor");
+  rad.innerHTML = ""; rutor.innerHTML = "";
+  const visaRad = !!sam.visa && !!sam.namn && !state.bild && !rot.classList.contains("inbaddad");   // raden hör ihop med rubriken, som är dold i bildläget och inbäddat
+  rad.hidden = !visaRad;
+  if (visaRad) {
+    if (sam.logga) {
+      const logga = h("img", { class: "samarbete-logga", src: adressFor(sam.logga), alt: sam.namn });
+      rad.append(sam.lank ? h("a", { href: sam.lank }, logga) : logga);
+    }
+    rad.append(h("span", { class: "samarbete-text" }, (sam.text || "I samarbete med") + " ", lankad(sam.namn, sam.lank)));
+  }
+  const lista = [];
+  if (sam.visa && valvaka.visa) lista.push(ruta(valvaka, "Läs mer"));
+  if (hjalp.visa) lista.push(ruta(hjalp, "Läs mer"));
+  rutor.hidden = !lista.length || state.bild;
+  if (!rutor.hidden) rutor.append(...lista);
 }
 
 /* ---- Om Majorna bestämde */

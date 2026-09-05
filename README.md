@@ -112,6 +112,32 @@ Inlägg och mejl kan inte köra script (HTML-snippeten i inlägg sparar varken `
 
 Källor: Beehiivs supportartiklar "Using HTML in the Website Builder", "Using HTML in beehiiv posts", "Adding thumbnails, images, and GIFs to your posts" och "Using UTM parameter tracking with beehiiv" (alla uppdaterade sommaren 2026).
 
+## Samarbete och rösthjälp
+
+Två redaktionella block som styrs helt från `data/konfig.json`: en samarbetsrad i sidhuvudet och upp till två rutor direkt under huvudet (valvakan och rösthjälpen). Båda är avstängda som de ligger, och texterna är platshållare som redaktören skriver om. Rader märkta `[KOLLA]` är okontrollerade.
+
+```json
+"samarbete": { "visa": false, "namn": "Majornas Bryggeri", "text": "I samarbete med", "lank": "", "logga": "",
+               "valvaka": { "visa": false, "rubrik": "Valvaka på Majornas Bryggeri",
+                            "text": "[KOLLA] Tid, plats och vad som händer.", "lank": "" } },
+"hjalp":     { "visa": false, "rubrik": "Behöver du hjälp att rösta?",
+               "text": "hjalpmigrosta.se förklarar hur valet går till, på flera språk.",
+               "lank": "https://hjalpmigrosta.se", "lanktext": "Till hjalpmigrosta.se" }
+```
+
+- `samarbete.visa` slår på raden "I samarbete med Majornas Bryggeri" under ingressen. Raden visas inte i bildläget och inte när `inbaddad` är på, eftersom rubriken och ingressen då är dolda.
+- `samarbete.logga` är en adress till en bild, antingen absolut eller relativ till `data-bas` (lägg filen i `bilder/`, till exempel `bilder/majornas-bryggeri.png`). Loggan visas i högst 44 px höjd med namnet som alt-text. Tom logga ger bara text.
+- `samarbete.valvaka.visa` slår på valvakerutan, och kräver att `samarbete.visa` också är på. `hjalp.visa` slår på rösthjälpsrutan för sig. Rutorna ligger sida vid sida från 900 px containerbredd, under varandra på mobil, och visas även när `inbaddad` är på.
+- Alla `lank` är tomma platshållare tills adresserna är klara. Med tom länk renderas texten som ren text, aldrig som en tom länk.
+
+Slå på ett block genom att sätta `visa` till `true` i `data/konfig.json` och skriva om `konfig.js`, så att de två filerna aldrig glider isär:
+
+```bash
+.venv/bin/python -c "from scripts import schema; schema.skriv_konfig('data', schema.las_konfig('data'))"
+```
+
+Nycklarnas standardvärden ligger i `scripts/schema.KONFIG_STANDARD` och bevaras av `uppdatera_2026.py --valnatt`.
+
 ## Stillbilder för nyhetsbrevet
 
 Mejlet kan inte visa interaktiv grafik. Skriptet renderar sektionen "Majorna mot Sverige" (skillnad mot riket, Västra Götaland respektive Göteborg i procentenheter) som PNG med Chrome headless:

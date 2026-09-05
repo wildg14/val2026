@@ -42,16 +42,18 @@ const MARKUP = `
       <div class="knappar" role="radiogroup" aria-label="Färgläggning" id="lage"></div>
       <label class="partival" id="partival" hidden>Parti <select id="parti" aria-label="Välj parti"></select></label>
     </div>
-    <div id="karta-legend" class="karta-legend"></div>
-    <div id="karta"></div>
-    <div id="panel" role="region" aria-labelledby="panel-rubrik">
-      <div class="panel-huvud"><h3 id="panel-rubrik">Hela Majorna</h3><button type="button" id="panel-tillbaka" hidden>Visa hela Majorna</button></div>
-      <p class="panel-hint" id="panel-hint">Tryck på ett distrikt på kartan. Resultatet visas här.</p>
-      <p class="panel-sub" id="panel-sub"></p>
-      <div id="panel-not"></div>
-      <div id="panel-staplar"></div>
-      <div class="panel-knappar" id="panel-knappar"></div>
-      <p id="panel-live" class="sr-only" aria-live="polite"></p>
+    <div id="karta-yta">
+      <div id="karta-legend" class="karta-legend"></div>
+      <div id="karta"></div>
+      <div id="panel" role="region" aria-labelledby="panel-rubrik">
+        <div class="panel-huvud"><h3 id="panel-rubrik">Hela Majorna</h3><button type="button" id="panel-tillbaka" hidden>Visa hela Majorna</button></div>
+        <p class="panel-hint" id="panel-hint">Tryck på ett distrikt på kartan. Resultatet visas här.</p>
+        <p class="panel-sub" id="panel-sub"></p>
+        <div id="panel-not"></div>
+        <div id="panel-staplar"></div>
+        <div class="panel-knappar" id="panel-knappar"></div>
+        <p id="panel-live" class="sr-only" aria-live="polite"></p>
+      </div>
     </div>
     <button id="tabell-knapp" aria-expanded="false" aria-controls="tabell">Visa alla distrikt som tabell</button>
     <div id="tabell" hidden></div>
@@ -270,7 +272,7 @@ async function start() {
   }
   raknaSkalmax();
   lasUrl();
-  const q0 = new URLSearchParams(location.search);
+  const q0 = new URLSearchParams(sidLocation().search);   // i Beehiivs iframe är den egna adressen about:srcdoc, parametrarna står på värdsidan
   if (q0.get("bild")) { renderBild(q0.get("bild")); return; }
   if (q0.get("inbaddad") || KONFIG.inbaddad) rot.classList.add("inbaddad");
   rot.style.setProperty("--mp-sticky-top", (Number(KONFIG.stickyTopp) || 16) + "px");
@@ -734,7 +736,8 @@ function renderPanel() {
     if (!majornaRaknat(val)) {
       toppText = `${VALNAMN[val]} ${state.ar}: inget distrikt räknat än.`;
     } else {
-      const vn = data().meta.valnatt, omr = jamforelseOmrade(val), post = omr.post, swing = swingFor(null, val);
+      const omr = jamforelseOmrade(val), post = omr.post, swing = swingFor(null, val);
+      const alla = data().distrikt || [], vn = alla.length ? { raknade: alla.filter(d => raknat(d, val)).length, totalt: alla.length } : data().meta.valnatt;   // samma källa som banderollen, meta som reserv
       toppText = `${VALNAMN[val]} ${state.ar}: ${toppTre(m.roster, m.giltiga)}.`;
       let vd = "";
       if (m.rostberattigade) {

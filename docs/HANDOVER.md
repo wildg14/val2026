@@ -103,6 +103,8 @@ Daniel gick igenom den tidigare versionens kandidatlista (se git-historiken för
 
 **Fynd på den publicerade Beehiiv-sidan** (mätt 2026-09-05, se beslut 19 och README-avsnittet Beehiiv): blocket ligger i en `iframe srcdoc`, samma ursprung, höjden följer innehållet fritt. Djuplänkar fungerade inte tidigare eftersom iframens egen adress saknar query - det är fixat via `sidLocation()`. `position: sticky` fungerar inte inuti iframen, så resultatkortet följer inte med vid rullning på desktop; det är känt och accepterat, inte fixat (kortet ligger ändå bredvid kartan). Beehiivs egen meny är klibbig och 89 px hög, vilket är därför `stickyTopp` nu är 105.
 
+En efterföljande granskningsomgång (samma dag) rättade: det klibbiga kortet som la sig över tabellknappen och tabellen på desktop (kartan, legenden och kortet flyttade in i `#karta-yta`), markörerna i Röstdelningen som täckte varandra (tre höjder kring linjen), talspalten i Röstdelningen som klistrade ihop kolumnrubrikerna (174 px och 8 px kolumnmellanrum), namnspalten i kortet på desktop (160 px, Sverigedemokraterna ryms på en rad), valnattsraden i kortet som räknade räknade distrikt ur `meta` i stället för ur distriktsdatan, URL-parametrarna som lästes ur iframens egen adress i stället för ur värdsidans, och `verktyg/vard-check.js` som kraschade på `getComputedStyle(null)` eftersom grafiken inte har någon länk i standardläget.
+
 **Vad som inte rördes i den här omgången:** datafelen som Codex-granskningen hittade i data- och byggpipelinen (2026 års resultatfiler är ZIP med JSON inte xlsx, distriktsgeografin har ändrats hos Valmyndigheten och nio Majornadistrikt är "Ej jämförbart", CSV-mallen går inte att läsa tillbaka, swing för hela Majorna jämför olika distriktsmängder, negativa röster och okända partikoder accepteras, tom import skriver över befintlig data, `kontrollera.py` täcker inte aggregat och mandat, `skapa_bilder.py` kan märka fel år) - de hör till en egen valnattsomgång, se Startpunkt nedan. Historikspårets egna Codex-fynd (18 till 20) hör till den andra sessionen och rörs inte här heller.
 
 ## Så hänger det ihop tekniskt
@@ -180,6 +182,7 @@ Prioritera efter tid till valdagen: det som är aktuellt nu (förtidsröstning, 
 ## Fallgropar
 
 - `index.html` innehåller inte sidan längre. Ändra i `valgrafik.js` (MARKUP-strängen) och `valgrafik.css`.
+- Kartan, kartlegenden och resultatkortet ligger i `#karta-yta` inuti `#karta-sektion`. Det är den wrappern som begränsar det klibbiga kortets yta; tar man bort den lägger sig kortet över tabellknappen och tabellen vid rullning på desktop.
 - CSS-lintet i `tests/test_inbaddning.py` faller på varje selektor som inte börjar med `.mp-val`, på `vh` och på `position: fixed`.
 - Regler inne i `@container` kan aldrig träffa `.mp-val` själv, bara dess barn.
 - `swing_2022.js` finns inte och ska inte finnas; basåret hoppas över vid laddning.

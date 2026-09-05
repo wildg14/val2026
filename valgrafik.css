@@ -121,7 +121,7 @@
 .mp-val .rd-form { display: inline-block; width: 11px; height: 11px; flex: none; background: var(--sten); border: 1px solid var(--black); }
 .mp-val .rd-form.rd-cirkel { border-radius: 50%; }
 .mp-val .rd-form.rd-romb { transform: rotate(45deg); }
-.mp-val .rd-huvud, .mp-val .rd-rad { display: grid; grid-template-columns: 36px 1fr 150px; gap: 10px; align-items: center; }
+.mp-val .rd-huvud, .mp-val .rd-rad { display: grid; grid-template-columns: 36px 1fr 174px; gap: 10px; align-items: center; }
 .mp-val .rd-huvud { font-size: 12px; color: var(--sten); margin-bottom: 2px; }   /* smal spalt: 13 px ryms först på desktop */
 .mp-val .rd-huvud .rd-tal { font-size: inherit; }
 .mp-val .rd-rad { min-height: 34px; }
@@ -134,7 +134,11 @@
 .mp-val .rd-markor { position: absolute; top: 50%; width: 12px; height: 12px; border: 1px solid var(--black); transform: translate(-50%, -50%); }
 .mp-val .rd-markor.rd-cirkel { border-radius: 50%; }
 .mp-val .rd-markor.rd-romb { transform: translate(-50%, -50%) rotate(45deg); }
-.mp-val .rd-tal { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); font-size: 16px; font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+/* Markörerna hamnar ofta inom några pixlar från varandra. Riksdagen ligger på linjen, regionen strax över och kommunen strax under,
+   så att formerna går att skilja åt även när partiet får nästan samma andel i alla tre valen. */
+.mp-val .rd-markor.rd-romb { margin-top: -6px; }
+.mp-val .rd-markor.rd-kvadrat { margin-top: 6px; }
+.mp-val .rd-tal { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 0 8px; font-size: 16px; font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
 .mp-val .rd-axelrad { height: 22px; }
 .mp-val .rd-axel-tal { position: relative; height: 100%; font-size: 13px; color: var(--sten); }
 .mp-val .rd-axel-tal span { position: absolute; top: 2px; transform: translateX(-50%); white-space: nowrap; }
@@ -216,16 +220,18 @@
   .mp-val #mandat-legend { grid-column: 2; }
   .mp-val #mandat-metod { grid-column: 1; }
   .mp-val #halvcirkel svg { max-height: none; }
-  .mp-val #karta-sektion { display: grid; grid-template-columns: 1.35fr 1fr; column-gap: 32px; align-items: start; }
-  .mp-val #karta-sektion > * { grid-column: 1 / -1; }
-  .mp-val #karta { grid-column: 1; grid-row: 4; }
-  .mp-val #karta-legend { grid-column: 1; grid-row: 5; margin: 10px 0 0; }
-  .mp-val #panel { grid-column: 2; grid-row: 4 / 6; position: sticky; top: var(--mp-sticky-top, 16px); padding-top: 0; }
+  /* Kartan, legenden och kortet i ett eget rutnät. Kortets sticky-yta blir då #karta-yta och inte hela sektionen,
+     så att kortet inte kan följa med ned över tabellknappen och distriktstabellen. */
+  .mp-val #karta-yta { display: grid; grid-template-columns: 1.35fr 1fr; column-gap: 32px; align-items: start; }
+  .mp-val #karta { grid-column: 1; grid-row: 1; }
+  .mp-val #karta-legend { grid-column: 1; grid-row: 2; margin: 10px 0 0; }
+  .mp-val #panel { grid-column: 2; grid-row: 1 / 3; position: sticky; top: var(--mp-sticky-top, 16px); padding-top: 0; }
+  .mp-val .stapel-rad { grid-template-columns: 160px 1fr 96px; }   /* kortet är smalare på desktop: 160 px så att Sverigedemokraterna ryms på en rad */
   .mp-val #tabell-knapp { margin-top: 20px; }
   .mp-val #karta svg { max-height: none; }
   .mp-val .till-kartan { display: none; }
   /* Röstdelningen delar rad med jämförelsen här och blir smal: partibokstaven ensam tills spalten rymmer namnen igen */
-  .mp-val .rd-huvud, .mp-val .rd-rad { grid-template-columns: 36px 1fr 150px; }
+  .mp-val .rd-huvud, .mp-val .rd-rad { grid-template-columns: 36px 1fr 174px; }
   .mp-val .rd-huvud { font-size: 12px; }
   .mp-val .rd-parti small { display: none; }
 }

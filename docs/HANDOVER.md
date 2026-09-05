@@ -141,6 +141,8 @@ Att veta:
 
 ## Startpunkt för nästa session
 
+**Läs först (2026-09-05 kväll):** två implementationsplaner är skrivna och väntar på att byggas, i den här ordningen: `docs/superpowers/plans/2026-09-05-valnatt-2026.md` (Valmyndighetens JSON-pipeline, skydd mot tom import, geometri per år, toppsvar, kortets förändringsrad; tolv tasks) och sedan `docs/superpowers/plans/2026-09-05-historik-sektion.md` (områdesserien, swing 2022 mot 2018, konturkartor, sektionen Majorna sedan 2006; tio tasks). Specen `docs/superpowers/specs/2026-09-05-historik-2026-design.md` har Daniels beslut i avsnitt 11. Planerna är skrivna för `superpowers:subagent-driven-development` eller `superpowers:executing-plans`, med kompletta tester och kod per steg. Formatet på Valmyndighetens 2026-filer är kontrollerat mot genrep-filerna, formatbeskrivningarna och val.se och står i valnattsplanens inledning; ingen behöver öppna råfilerna igen för att förstå det. Modellval för subagenter: se minnesfilen `subagenter-modellval.md` (Sonnet på mekaniska tasks, Opus på JS-tasks med visuell granskning, ingen Fable).
+
 Steg 1 (städa nuvarande design) är klart, se "Status 2026-09-05" ovan. Kvar är två spår, i den ordning specen `docs/superpowers/specs/2026-09-05-fixomgang-design.md` lämnar dem:
 
 ### Spår A: valnattsomgången (Codex-fynden om data, brådskande - valdagen är 2026-09-13)

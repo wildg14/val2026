@@ -122,6 +122,8 @@ Saknas och visas inte: 2002 som Majorna (ingen geografi, gränserna omritade hel
 
 ## 11. Beslut som är Daniels
 
+**Beslut 2026-09-05 kväll:** Daniel valde rekommendationerna på alla punkter nedan, och att serien börjar 2006 (2002 utelämnas helt). Bygget beskrivs i `docs/superpowers/plans/2026-09-05-valnatt-2026.md` (spår A, först) och `docs/superpowers/plans/2026-09-05-historik-sektion.md` (spår B).
+
 1. **"Om Majorna bestämde"**: kvar ovanför kartan (briefen) eller flyttad under "Majorna sedan 2006" (Majornabon, båda koncepten). Rekommendation: flytta, eftersom toppsvaret redan ger första skärmen ett resultat och kartan då kommer direkt efter.
 2. **Ordningen mellan spåren** (avsnitt 12): valnatten först eller historiken först.
 3. **Omritade distrikt**: bara mening och områdesrad (rekommendation) eller areaviktad skattning tydligt märkt.

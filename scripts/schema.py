@@ -127,7 +127,14 @@ def _omradesniva(ny, bas, bas_d, val, jamforbara, samma_yta):
 
     Är alla distrikt i ny räknade för valet jämförs hela området mot hela basåret (helomrade).
     Annars räknas bara på kohorten: räknade distrikt vars kod är jämförbar och finns med giltig
-    data i bas, mot samma koder i bas. Returnerar (diff, kohortpost)."""
+    data i bas, mot samma koder i bas.
+
+    `samma_yta` styr när helomrade får gälla: None (standard) kräver dessutom att ny och bas har
+    lika många distrikt. True intygar att området täcker samma yta i båda åren och kräver bara att
+    alla distrikt i ny är räknade, oavsett antal distrikt i bas. False stänger av helomrade helt,
+    så att kohorten alltid används.
+
+    Returnerar (diff, kohortpost)."""
     ny_d = ny["distrikt"]
     raknade = [d for d in ny_d if d.get("raknat", True) and d.get(val) and d["giltiga"].get(val)]
     if samma_yta is False:

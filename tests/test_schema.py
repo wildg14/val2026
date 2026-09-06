@@ -1,4 +1,5 @@
 import json
+import math
 from pathlib import Path
 
 from scripts import schema
@@ -128,7 +129,8 @@ def test_swing_hoppar_over_partier_som_inte_redovisas():
 
 def test_diff_ger_inte_negativ_nolla():
     d = schema._diff({"V": 5000}, 10000, {"V": 5004}, 10000)
-    assert d["V"] == 0.0, "0,04 procentenhets tillbakagång ska avrundas till 0.0, inte -0.0"
+    # d["V"] == 0.0 är sant även för -0.0, så det bevisar inget; math.copysign avslöjar tecknet.
+    assert math.copysign(1.0, d["V"]) == 1.0, "0,04 procentenhets tillbakagång ska avrundas till 0.0, inte -0.0"
     assert json.dumps(d) == '{"V": 0.0}'
 
 
@@ -173,6 +175,15 @@ def test_swing_samma_yta_false_stanger_av_helomrade():
     s = schema.swing(v, v, samma_yta=False)
     for val in ("rd", "rf", "kf"):
         assert s["kohort"][val]["helomrade"] is False
+
+
+def test_swing_samma_yta_true_kraver_alla_raknade():
+    bas_d = [_d("1", "A", True, {"V": 20, "S": 80}, 100), _d("2", "B", True, {"V": 50, "S": 50}, 100)]
+    bas = {"meta": {"ar": 2018}, "distrikt": bas_d, "aggregat": _agg(bas_d)}
+    ny_d = [_d("1", "A", True, {"V": 30, "S": 70}, 100), _d("2", "B", False, {}, 0)]
+    ny = {"meta": {"ar": 2022}, "distrikt": ny_d, "aggregat": _agg(ny_d)}
+    s = schema.swing(ny, bas, samma_yta=True)
+    assert s["kohort"]["rd"]["helomrade"] is False, "distrikt 2 är oräknat: samma_yta=True kräver ändå att alla i ny är räknade"
 
 
 def test_swing_omrade_delvis_raknat_kohort_pa_jamforbara_delmangd():

@@ -1,6 +1,8 @@
 import hashlib
+import http.client
 import io
 import os
+import re
 import subprocess
 import sys
 import zipfile
@@ -196,6 +198,7 @@ def test_signatur_saknas_ger_tydligt_fel(tmp_path):
 # --- Punkt 2: ett återförsök när filerna ändras under hämtningen ---
 
 def test_atermforsok_vid_andrade_filer(monkeypatch, tmp_path, capsys):
+    monkeypatch.setattr(hm, "PAUS_SEKUNDER", 0)  # ingen anledning att vänta 3 sekunder i ett test
     zip_ratt = _bygg_zip(suffix="TEST")
     md5_ratt = hashlib.md5(zip_ratt).hexdigest()
     index_text = (
@@ -221,6 +224,27 @@ def test_atermforsok_vid_andrade_filer(monkeypatch, tmp_path, capsys):
     assert kod == 0
     assert tillstand["index"] == 2
     assert "Filerna ändrades under hämtningen, försöker igen" in capsys.readouterr().out
+
+
+def test_atermforsok_gors_bara_vid_andrade_filer_inte_vid_404(monkeypatch, tmp_path, capsys):
+    """404 på index är ett vanligt HamtFel, inte AndradUnderHamtning: inget andra försök, ingen paus."""
+    monkeypatch.setattr(hm, "PAUS_SEKUNDER", 0)
+    antal = {"index": 0}
+
+    def fake_hamta(url, timeout=30):
+        if url.endswith("index.md5"):
+            antal["index"] += 1
+            raise hm.HamtFel(f"{url} svarar 404: resultatfilerna publiceras först på valkvällen")
+        raise AssertionError("zip-filer ska inte hämtas: 404 på index ska avbryta direkt")
+
+    monkeypatch.setattr(hm, "hamta", fake_hamta)
+
+    kod = _huvud(["--bas-url", "https://example.invalid/", "--utan-signatur", "--ut", str(tmp_path)])
+
+    assert kod == 1
+    assert antal["index"] == 1, "bara en indexhämtning, inget andra försök"
+    ut = capsys.readouterr()
+    assert "försöker igen" not in ut.out
 
 
 # --- Punkt 3: peka_senaste byter länken atomärt och relativt ---
@@ -255,8 +279,23 @@ def test_peka_senaste_vagrar_riktig_katalog(tmp_path):
     (ut / "senaste").mkdir()  # riktig katalog, inte en länk
     mapp = ut / "20260905-120000"
     mapp.mkdir()
-    with pytest.raises(hm.HamtFel):
+    with pytest.raises(hm.HamtFel, match=re.escape(str(ut / "senaste"))):
         hm.peka_senaste(ut, mapp)
+
+
+def test_main_vagrar_riktig_katalog_som_senaste_innan_hamtning(monkeypatch, tmp_path):
+    """Vakten mot en riktig katalog i stället för länken ska köras tidigt i main, före hämtning."""
+    ut = tmp_path / "ut"
+    ut.mkdir()
+    (ut / "senaste").mkdir()  # riktig katalog i stället för en länk
+
+    def fake_hamta(url, timeout=30):
+        raise AssertionError("katalogvakten ska stoppa körningen innan någon hämtning görs")
+
+    monkeypatch.setattr(hm, "hamta", fake_hamta)
+
+    kod = _huvud(["--ut", str(ut)])
+    assert kod == 1
 
 
 # --- Punkt 4: --bara-om-nytt jämför bara md5 för de tre valda filerna ---
@@ -312,6 +351,71 @@ def test_hamta_natverksfel_namner_adressen(monkeypatch):
 def test_hamta_timeout_ar_30_sekunder():
     import inspect
     assert inspect.signature(hm.hamta).parameters["timeout"].default == 30
+
+
+def test_hamta_incomplete_read_ger_hamtfel_med_adress(monkeypatch):
+    class FelanadeSvar:
+        def read(self):
+            raise http.client.IncompleteRead(b"", 10)
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *a):
+            return False
+
+    def fake_urlopen(req, timeout=30):
+        return FelanadeSvar()
+
+    monkeypatch.setattr(hm, "urlopen", fake_urlopen)
+    with pytest.raises(hm.HamtFel, match="example.invalid"):
+        hm.hamta("https://example.invalid/x.zip")
+
+
+# --- Punkt 2 (fortsättning): las_index, valj_lokala_filer och packa_upp gör fler undantag till HamtFel ---
+
+def test_las_index_med_bytes_ogiltig_kodning_ger_hamtfel():
+    with pytest.raises(hm.HamtFel):
+        hm.las_index(b"\xe5\xe4\xf6  ./p/rd/x.zip\n")
+
+
+def test_valj_lokala_filer_hoppar_over_indexfil_med_fel_teckenkodning(tmp_path):
+    for suffix in ("00_RD", "14_RF", "1480_KF"):
+        (tmp_path / f"Test_{suffix}.zip").write_bytes(b"")
+    (tmp_path / "index_1_latin1.md5").write_bytes(b"\xe5\xe4\xf6, inte giltig utf-8\n")
+    riktigt = "\n".join(
+        f"{'0' * 32}  ./p/{kat}/Test_{suffix}.zip"
+        for kat, suffix in (("rd", "00_RD"), ("rf", "14_RF"), ("kf", "1480_KF"))
+    ) + "\n"
+    (tmp_path / "index_2_giltig.md5").write_text(riktigt, "utf-8")
+
+    index_text, index, urval = hm.valj_lokala_filer(tmp_path, "p")
+    assert index is not None
+    assert urval["kf"][1] == "0" * 32
+
+
+def test_packa_upp_ogiltig_zip_ger_hamtfel(tmp_path):
+    with pytest.raises(hm.HamtFel):
+        hm.packa_upp(b"inte en zip", tmp_path / "x")
+
+
+def test_main_ovantat_fel_ger_fel_rad_och_kod_2(monkeypatch, tmp_path, capsys):
+    """Ett undantag som inte är HamtFel eller OSError ska ändå ge en tydlig FEL-rad och returkod 2,
+    så att in-process-anrop (till exempel från uppdatera_2026.py) alltid får en returkod."""
+    lokal = tmp_path / "kalla"
+    lokal.mkdir()
+    for suffix in ("00_RD", "14_RF", "1480_KF"):
+        (lokal / f"X_{suffix}.zip").write_bytes(_bygg_zip(suffix=suffix))
+
+    def fake_peka_senaste(ut, mapp):
+        raise ValueError("kaboom")
+
+    monkeypatch.setattr(hm, "peka_senaste", fake_peka_senaste)
+
+    kod = _huvud(["--lokal", str(lokal), "--ut", str(tmp_path / "ut"), "--utan-signatur"])
+
+    assert kod == 2
+    assert "FEL: oväntat fel: ValueError: kaboom" in capsys.readouterr().err
 
 
 # --- Punkt 8: --lokal hoppar över index som inte går att tolka, skiftlägesokänslig slutlig-markör ---

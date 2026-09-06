@@ -138,3 +138,12 @@ def test_geometri_per_ar_dynamiskt_antal_och_swing_for_alla_ar():
     assert "sort()[0]" not in js, "basåret väljs inte längre implicit, swing laddas för alla år som har en fil"
     assert "function gemensamBbox()" in js
     assert (ROT / "data" / "distrikt_2022.js").exists() and not (ROT / "data" / "distrikt.js").exists()
+
+
+def test_toppsvar_och_statusrad_ersatter_banderollen():
+    js = JS.read_text("utf-8")
+    css = CSS.read_text("utf-8")
+    assert 'id="statusrad"' in js and 'id="toppsvar"' in js and "function renderToppsvar()" in js
+    assert 'id="valnatt"' not in js and "renderBanderoll" not in js and 'id="ingress"' not in js
+    assert ".banderoll" not in css and ".toppsvar-rad" in css
+    assert "Ladda om" in js

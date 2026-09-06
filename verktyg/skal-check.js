@@ -21,6 +21,8 @@ const valfriFil = m => /\/data\/swing_\d+\.js(\?|$)/.test((m.location() || {}).u
     rot.querySelector('#flik-rd').click(); valj('14800530'); ut.stick.mariaplan_rd_V = varde('Vänsterpartiet');
     rot.querySelector('#flik-kf').click(); valj('14800527'); ut.stick.skytteskogen_kf_MP = varde('Miljöpartiet');
     rot.querySelector('#flik-rf').click(); valj('14800526'); ut.stick.svalebo_rf_V = varde('Vänsterpartiet');
+    ut.statusrad = rot.querySelector('#statusrad').textContent;
+    ut.toppsvarRader = rot.querySelectorAll('.toppsvar-rad').length;
     ut.konfig = window.MAJPOSTEN.data.konfig ? 'laddad' : 'saknas';
     ut.mpMain = !!rot.querySelector('.mp-main');
     ut.sektioner = [...rot.querySelectorAll('section h2')].map(h => h.textContent);
@@ -28,6 +30,7 @@ const valfriFil = m => /\/data\/swing_\d+\.js(\?|$)/.test((m.location() || {}).u
     return ut;
   });
   console.log(JSON.stringify(res, null, 1));
+  console.log(res.toppsvarRader === 4 && res.statusrad.startsWith('Slutligt resultat 2022') ? 'toppsvar ok' : 'TOPPSVAR FEL');
   // riktigt musklick (inte dispatchEvent) mitt på Kusttorget: gator/hållplatser ligger ovanpå men ska ha pointer-events: none
   const kusttorget = await page.$('#valgrafik #karta path[data-kod="14800536"]');
   await kusttorget.scrollIntoView();
@@ -39,9 +42,13 @@ const valfriFil = m => /\/data\/swing_\d+\.js(\?|$)/.test((m.location() || {}).u
   console.log('kusttorgetRubrik:', kusttorgetRubrik, kusttorgetRubrik === 'Kusttorget' ? 'ok' : 'FEL: musklick nådde inte distriktet');
   if (saknade.length) console.log('valfria filer som saknas:', [...new Set(saknade)].join(' | '));
   console.log(fel.length ? 'FEL: ' + fel.join(' | ') : 'inga JS-fel');
-  await page.goto('http://localhost:8765/index.html?bild=karta&val=rd&format=liggande', { waitUntil: 'networkidle0' });
-  await new Promise(r => setTimeout(r, 800));
-  const ram = await page.evaluate(() => { const r = document.querySelector('.bildram'); return r ? { w: r.offsetWidth, h: r.offsetHeight, klass: document.getElementById('valgrafik').className } : null; });
-  console.log('bildläge:', JSON.stringify(ram));
+  for (const fraga of ['bild=karta&val=rd&format=liggande', 'bild=jamforelse&val=rd&format=kvadrat']) {
+    const fore = fel.length;
+    await page.goto('http://localhost:8765/index.html?' + fraga, { waitUntil: 'networkidle0' });
+    await new Promise(r => setTimeout(r, 800));
+    const ram = await page.evaluate(() => { const r = document.querySelector('.bildram'); return r ? { w: r.offsetWidth, h: r.offsetHeight, klass: document.getElementById('valgrafik').className } : null; });
+    const nya = fel.slice(fore);
+    console.log('bildläge ' + fraga + ':', JSON.stringify(ram), nya.length ? 'FEL: ' + nya.join(' | ') : 'inga JS-fel');
+  }
   await browser.close();
 })().catch(e => { console.error(e); process.exit(1); });

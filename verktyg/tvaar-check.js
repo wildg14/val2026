@@ -5,6 +5,8 @@ const valfriFil = m => /\/data\/swing_\d+\.js(\?|$)/.test((m.location() || {}).u
 const url = process.argv[2] || 'http://localhost:8765/tmp/tvaar/index.html';
 const kfUrl = process.argv[3] || null;   // valfri testsida byggd med --kf-raknade 3, för markörtexten per val
 const snallt = text => { const e = new Error(text); e.snallt = true; return e; };
+// Statusraden gäller alltid riksdagsvalet, som är färdigräknat i testdatan - även på sidan där kf bara har 3 distrikt.
+const STATUS_2026 = 'Preliminärt, 23 av 23 distrikt räknade i riksdagsvalet';
 
 (async () => {
   const browser = await puppeteer.launch({ executablePath: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', headless: true, args: ['--no-first-run', '--disable-gpu'] });
@@ -28,6 +30,7 @@ const snallt = text => { const e = new Error(text); e.snallt = true; return e; }
       const namn = [...rot.querySelectorAll('#karta path.distrikt')].map(p => p.getAttribute('aria-label').split('.')[0]);
       return { arknappar: [...rot.querySelectorAll('#arval button')].map(b => b.textContent), aktivtAr: (rot.querySelector('#arval button.aktiv') || {}).textContent,
                antalPaths: namn.length, harSandarna: namn.includes('Sandarna'), harSandarne: namn.includes('Sandarne'),
+               statusrad: rot.querySelector('#statusrad').textContent, toppsvarRader: rot.querySelectorAll('.toppsvar-rad').length,
                ariaKarta: svg.getAttribute('aria-label'), viewBox: svg.getAttribute('viewBox') };
     });
     if (res.saknas) throw snallt(`kartan ritades inte på ${url}: ${res.saknas}.` + (res.felruta ? ` Sidans egen felruta: ${res.felruta}` : '')
@@ -49,7 +52,9 @@ const snallt = text => { const e = new Error(text); e.snallt = true; return e; }
     ['2022 aktivt efter klick', y2022.aktivtAr === 'Valet 2022'],
     ['23 polygoner 2022', y2022.antalPaths === 23],
     ['Sandarne finns 2022', y2022.harSandarne],
-    ['samma kartram båda åren', y2026.viewBox === y2022.viewBox]
+    ['samma kartram båda åren', y2026.viewBox === y2022.viewBox],
+    ['fyra partier i toppsvaret 2026', y2026.toppsvarRader === 4],
+    ['statusraden räknar riksdagsvalet', y2026.statusrad.startsWith(STATUS_2026)]
   ];
 
   if (kfUrl) {   // markörtexten ska räkna räknade distrikt per val, inte per fil
@@ -67,14 +72,13 @@ const snallt = text => { const e = new Error(text); e.snallt = true; return e; }
       const ut = {};
       rot.querySelector('#flik-rd').click(); ut.rdDistrikt = valjRaknat(); ut.rdMarkor = markor();
       rot.querySelector('#flik-kf').click(); ut.kfDistrikt = valjRaknat(); ut.kfMarkor = markor();
-      const band = rot.querySelector('#valnatt');
-      ut.banderoll = band ? (band.hidden ? null : band.textContent) : 'finns inte';
+      ut.statusrad = rot.querySelector('#statusrad').textContent;
       return ut;
     });
     console.log('kf-sidan:', JSON.stringify(kf, null, 1));
     kontroller.push(['markörtext rd: hela Majorna', kf.rdMarkor === 'Snittet för hela Majorna'],
-                    ['markörtext kf: räknade distrikt', kf.kfMarkor === 'Snittet för räknade distrikt i Majorna']);
-    if (kf.banderoll !== 'finns inte') kontroller.push(['banderollen säger 3 av 23 för kf', !!kf.banderoll && kf.banderoll.includes('3 av 23')]);
+                    ['markörtext kf: räknade distrikt', kf.kfMarkor === 'Snittet för räknade distrikt i Majorna'],
+                    ['statusraden gäller riksdagsvalet på kf-sidan', kf.statusrad.startsWith(STATUS_2026)]);
     await kfSida.close();
   } else {
     console.log('kf-sidan: hoppas över (ingen andra URL angiven)');

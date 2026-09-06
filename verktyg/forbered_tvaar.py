@@ -36,6 +36,8 @@ def kopiera(kalla, mal, obligatorisk):
 
 def doktorera_kf(fil, antal):
     """Tömmer kommunvalet i alla distrikt utom de `antal` första och räknar om aggregatet."""
+    if antal < 0:
+        raise SystemExit(f"FEL: --kf-raknade {antal} är negativt")
     valdata = schema.las_js(fil)
     distrikt = valdata["distrikt"]
     if antal > len(distrikt):

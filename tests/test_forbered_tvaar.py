@@ -70,3 +70,23 @@ def test_kf_raknade_lamnar_kvar_exakt_tre_raknade_distrikt(tmp_path):
     assert all(d["rd"] and d["giltiga"]["rd"] for d in valdata["distrikt"]), "riksdagsvalet ska vara orört"
     assert valdata["aggregat"]["majorna"]["kf"] == schema._summa(valdata["distrikt"], "kf")
     assert valdata["aggregat"]["majorna"]["kf"]["giltiga"] == 3 * 480
+
+
+def test_saknad_obligatorisk_fil_avbryter(tmp_path):
+    tom = tmp_path / "tom"
+    tom.mkdir()
+    r = _kor(tom, tmp_path / "ut")
+    assert r.returncode == 1, r.stdout + r.stderr
+    assert "valdata_2026.js saknas" in r.stderr
+
+
+def test_kf_raknade_over_antalet_distrikt_avbryter(tmp_path):
+    r = _kor(_valnattsmapp(tmp_path / "valnatt"), tmp_path / "ut", "--kf-raknade", "99")
+    assert r.returncode == 1, r.stdout + r.stderr
+    assert "men filen har" in r.stderr
+
+
+def test_negativt_kf_raknade_avbryter(tmp_path):
+    r = _kor(_valnattsmapp(tmp_path / "valnatt"), tmp_path / "ut", "--kf-raknade", "-1")
+    assert r.returncode == 1, r.stdout + r.stderr
+    assert "negativt" in r.stderr

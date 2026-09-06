@@ -18,7 +18,21 @@
 .mp-val section { padding: 28px 0 8px; border-top: 1px solid var(--linje); }
 .mp-val header.topp { padding: 28px 0 20px; }
 .mp-val .etikett { font: 700 12px/16px var(--sans); letter-spacing: 2px; color: var(--gron); margin: 0 0 8px; text-transform: uppercase; }
-.mp-val .ingress { font: italic 19px/27px var(--serif); color: #4A4038; margin: 0 0 16px; }
+/* Toppsvaret: statusrad, de fyra största partierna och en mening. Höjden är reserverad så att sidan inte hoppar när datan kommer. */
+.mp-val .statusrad { font-size: 16px; color: var(--sten); margin: 0 0 12px; min-height: 26px; }
+.mp-val .statusrad .ladda-om { color: var(--gron); }
+.mp-val .toppsvar { min-height: 200px; margin: 0 0 16px; }
+.mp-val .toppsvar-rubrik { font-size: 16px; margin: 0 0 6px; }
+.mp-val .toppsvar-rader { display: grid; gap: 6px; }
+.mp-val .toppsvar-rad { display: grid; grid-template-columns: 36px 1fr 64px; gap: 10px; align-items: center; height: 30px; }
+.mp-val .toppsvar-parti { font-weight: 700; }
+.mp-val .toppsvar-spar { display: block; height: 18px; background: var(--linje); border-radius: 2px; }
+.mp-val .toppsvar-stapel { display: block; height: 100%; border-radius: 2px; }
+.mp-val .toppsvar-tal { text-align: right; font-variant-numeric: tabular-nums; }
+.mp-val .toppsvar-mening { margin: 10px 0 0; }
+.mp-val .toppsvar-tom { color: var(--sten); }
+/* Förbehåll under ett diagram: så länge jämförelseområdet eller riksdagens mandat bara är delvis räknade */
+.mp-val .forbehall { font-size: 16px; color: var(--sten); margin: 10px 0 0; }
 /* Samarbetsraden i sidhuvudet och rutorna för valvaka och rösthjälp, båda konfigstyrda */
 .mp-val .samarbete { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin: 0 0 16px; font-size: 14px; color: var(--sten); }
 .mp-val .samarbete-logga { max-height: 44px; width: auto; display: block; }
@@ -40,8 +54,6 @@
 .mp-val .rad .knappar { margin: 0; }
 .mp-val select { font: inherit; min-height: 44px; padding: 6px 10px; border: 1px solid var(--sten); border-radius: 4px; background: #fff; color: var(--black); }
 .mp-val .partival { display: inline-flex; align-items: center; gap: 8px; }
-.mp-val .banderoll { background: var(--morkgron); color: var(--papper); padding: 12px 16px; border-radius: 4px; margin: 12px 0 0; font-size: 16px; }
-.mp-val .banderoll b { color: #fff; }
 .mp-val #halvcirkel svg { width: 100%; height: auto; display: block; max-height: 520px; }
 .mp-val #halvcirkel circle { transition: fill .6s ease; transition-delay: calc(var(--i) * 1.4ms); }
 @media (prefers-reduced-motion: reduce) {
@@ -177,7 +189,7 @@
 .mp-val .bildram .bild-fot { margin-top: auto; font-size: 18px; color: var(--sten); }
 .mp-val .bildram[data-format="kvadrat"] .bild-fot { font-size: 20px; }
 .mp-val.inbaddad header.topp { padding-top: 8px; }
-.mp-val.inbaddad #topp-etikett, .mp-val.inbaddad h1, .mp-val.inbaddad #ingress, .mp-val.inbaddad footer { display: none; }
+.mp-val.inbaddad #topp-etikett, .mp-val.inbaddad h1, .mp-val.inbaddad footer { display: none; }
 .mp-val .bildram.karta-bild[data-format="liggande"] { flex-direction: row; gap: 36px; }
 .mp-val .bildram.karta-bild .bild-text { display: flex; flex-direction: column; width: 590px; flex: none; }
 .mp-val .bildram.karta-bild #karta { flex: 1 1 auto; min-width: 0; margin: 0; display: flex; justify-content: center; align-items: center; }
@@ -217,7 +229,7 @@
   .mp-val #riksdag > * { grid-column: 1 / -1; }
   .mp-val #halvcirkel { grid-column: 1; }
   .mp-val #mandat-legend { grid-column: 2; }
-  .mp-val #mandat-metod { grid-column: 1; }
+  .mp-val #mandat-metod, .mp-val #mandat-forbehall { grid-column: 1; }
   .mp-val #halvcirkel svg { max-height: none; }
   /* Kartan, legenden och kortet i ett eget rutnät. Kortets sticky-yta blir då #karta-yta och inte hela sektionen,
      så att kortet inte kan följa med ned över tabellknappen och distriktstabellen. */

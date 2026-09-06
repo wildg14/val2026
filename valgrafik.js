@@ -18,10 +18,10 @@ const MARKUP = `
 <header class="topp">
     <p class="etikett" id="topp-etikett">Majposten</p>
     <h1>Så röstade Majorna</h1>
-    <p class="ingress" id="ingress" data-redaktor="justera">Valresultatet för valdistrikten i klassiska Majorna - riksdag, region och kommun, kvarter för kvarter.</p>
+    <p class="statusrad" id="statusrad"></p>
+    <div id="toppsvar" class="toppsvar"></div>
     <p class="samarbete" id="samarbete" hidden></p>
     <div id="arval" class="knappar" role="group" aria-label="Välj valår" hidden></div>
-    <div id="valnatt" class="banderoll" hidden></div>
   </header>
 
   <div id="rutor" class="rutor" hidden></div>
@@ -33,6 +33,7 @@ const MARKUP = `
     <div id="halvcirkel"></div>
     <div id="mandat-legend"></div>
     <p class="not" id="mandat-metod"></p>
+    <p class="forbehall" id="mandat-forbehall" hidden></p>
     <p id="mandat-live" class="sr-only" aria-live="polite"></p>
   </section>
 
@@ -65,6 +66,7 @@ const MARKUP = `
     <p class="not" id="jamforelse-not"></p>
     <div class="knappar" role="radiogroup" aria-label="Välj val för jämförelsen" id="jamforelse-val"></div>
     <div id="divergens"></div>
+    <p class="forbehall" id="jamforelse-forbehall" hidden></p>
   </section>
 
   <section id="rostdelning" aria-labelledby="rostdelning-rubrik">
@@ -192,6 +194,10 @@ function storsta(roster) {
 }
 const majorna = val => data().aggregat.majorna[val];
 const jamforelse = (omrade, val) => (data().aggregat[omrade] || {})[val] || null;
+// Riket, regionen och kommunen räknas färdigt under valnatten. Talen finns bara i 2026 års aggregat: saknas de är området färdigräknat.
+const harRaknade = post => !!post && post.antal_distrikt != null && post.totalt_distrikt != null;
+const omradeDelvis = post => harRaknade(post) && post.antal_distrikt < post.totalt_distrikt;
+const raknadeText = post => `${tal(post.antal_distrikt)} av ${tal(post.totalt_distrikt)} distrikt räknade`;
 const majornaRaknat = val => majorna(val) && majorna(val).giltiga > 0;
 function partierIVal(val) {
   const nycklar = Object.keys(majorna(val).roster || {}).filter(p => p !== "Övriga");
@@ -319,9 +325,7 @@ function renderAllt() {
   renderHuvud(); renderSamarbete(); renderRiksdag(); renderKontroller(); renderKarta(); renderPanel(); renderTabell(); renderRostdelning(); renderJamforelse(); renderFakta();
 }
 function renderHuvud() {
-  const meta = data().meta;
   $("#topp-etikett").textContent = "Majposten · Valspecial";
-  $("#ingress").textContent = `Valresultatet ${meta.ar} för de ${antalDistrikt()} valdistrikten i klassiska Majorna - riksdag, region och kommun, kvarter för kvarter.`;
   const arval = $("#arval");
   arval.innerHTML = "";
   arval.hidden = KONFIG.ar.length < 2;
@@ -329,18 +333,43 @@ function renderHuvud() {
     arval.append(h("button", { type: "button", "aria-pressed": String(a === state.ar), class: a === state.ar ? "aktiv" : "",
       onclick: () => { state.ar = a; if (!partierIVal(state.val).includes(state.parti)) state.parti = partierIVal(state.val)[0]; renderAllt(); } }, "Valet " + a));
   }
-  renderBanderoll();
+  renderToppsvar();
 }
-function renderBanderoll() {   // räknar räknade distrikt för aktuellt val ur distriktsdatan, ritas om vid flikbyte
-  const band = $("#valnatt");
-  if (!KONFIG.valnatt) { band.hidden = true; return; }
-  const meta = data().meta, rak = raknadeIVal(state.val);
-  const vn = rak.totalt ? rak : meta.valnatt;   // reserv när distriktsdatan saknas
-  if (!vn) { band.hidden = true; return; }
-  band.hidden = false;
-  band.innerHTML = "";
-  band.append(h("b", {}, `Valnatten ${meta.ar}: ${vn.raknade} av ${vn.totalt} distrikt räknade i ${VALNAMN[state.val].toLowerCase()}.`), " ",
-    meta.status === "slutlig" ? "Slutliga siffror." : "Preliminära siffror.", ` Uppdaterat ${klockslag(meta.uppdaterad)}.`);
+
+/* ---- toppsvaret: svaret högst upp, alltid riksdagsvalet, inget att trycka på utom "Ladda om" på valnatten */
+function datumText(iso) {   // "2026-09-13" -> "söndag 13 september"
+  const d = new Date(iso + "T12:00:00");
+  return isNaN(d) ? iso : d.toLocaleDateString("sv-SE", { weekday: "long", day: "numeric", month: "long" });
+}
+function laddaOm() { try { window.parent.location.reload(); } catch (e) { location.reload(); } }
+function statusText() {
+  const meta = data().meta, { raknade, totalt } = raknadeIVal("rd"), delvis = raknade < totalt;
+  const valdagAr = Number(String(KONFIG.valdag || "").slice(0, 4));
+  if (KONFIG.valnatt && meta.status !== "slutlig") return { text: `Preliminärt, ${raknade} av ${totalt} distrikt räknade i riksdagsvalet. Uppdaterad ${klockslag(meta.uppdaterad)}.`, laddaOm: true, delvis };
+  if (meta.status === "slutlig" && valdagAr > Number(meta.ar)) return { text: `Slutligt resultat ${meta.ar}. Valet ${valdagAr} är ${datumText(KONFIG.valdag)}.`, laddaOm: false, delvis };
+  if (meta.status === "slutlig") return { text: `Slutligt resultat, riksdagsvalet ${meta.ar}.`, laddaOm: false, delvis };
+  return { text: `Preliminärt resultat ${meta.ar}` + (delvis ? `, ${raknade} av ${totalt} distrikt räknade.` : "."), laddaOm: false, delvis };
+}
+function renderToppsvar() {
+  const val = "rd", meta = data().meta, m = majorna(val), el = $("#toppsvar"), status = $("#statusrad");
+  const st = statusText();
+  status.replaceChildren(st.text);
+  if (st.laddaOm) status.append(" ", h("a", { href: "#", class: "ladda-om", onclick: e => { e.preventDefault(); laddaOm(); } }, "Ladda om"));
+  el.innerHTML = "";
+  if (!majornaRaknat(val)) { el.append(h("p", { class: "toppsvar-tom" }, `Riksdagsvalet ${meta.ar}: inget distrikt räknat än.`)); return; }
+  const rader = andelar(m.roster, m.giltiga).filter(a => a.p !== "Övriga").slice(0, 4);
+  const lista = h("div", { class: "toppsvar-rader", role: "list", "aria-label": `${VALNAMN[val]} ${meta.ar}, de fyra största partierna i Majorna` });
+  for (const a of rader) lista.append(h("div", { class: "toppsvar-rad", role: "listitem", "aria-label": `${parti(a.p).namn} ${procent(a.andel)}` },
+    h("b", { class: "toppsvar-parti" }, a.p),
+    h("span", { class: "toppsvar-spar" }, h("span", { class: "toppsvar-stapel", style: `width:${Math.min(100, a.andel / 0.4 * 100).toFixed(1)}%;background:${parti(a.p).farg}` })),
+    h("span", { class: "toppsvar-tal" }, procent(a.andel))));
+  el.append(h("p", { class: "toppsvar-rubrik" }, st.delvis ? `Räknat hittills, riksdagsvalet ${meta.ar}` : `Riksdagsvalet ${meta.ar} i Majorna`), lista);
+  const post = jamforelseOmrade(val).post;
+  if (m.rostberattigade && !st.delvis) {   // riket tas med först när även riket är färdigräknat: de första distrikten är små och lantliga
+    el.append(h("p", { class: "toppsvar-mening" }, `${procent(m.rostande / m.rostberattigade)} röstade`
+      + (post && post.valdeltagande && !omradeDelvis(post) ? `, mot ${procent(post.valdeltagande)} i riket` : "") + "."));
+  }
+  if (KONFIG.toppsvar && KONFIG.toppsvar.mening) el.append(h("p", { class: "toppsvar-mening" }, KONFIG.toppsvar.mening));
 }
 
 /* ---- samarbete och rösthjälp: konfigstyrda block, avstängda tills redaktionen fyllt i texter och adresser */
@@ -397,13 +426,13 @@ function mandatOrdning(fordelning) {
   return ordning;
 }
 function renderRiksdag() {
-  const sek = $("#riksdag"), m = data().mandat || {};
+  const sek = $("#riksdag"), m = data().mandat || {}, meta = data().meta;
   const verklig = m.riksdag_verklig && Object.keys(m.riksdag_verklig).length ? m.riksdag_verklig : null;
   const egen = m.riksdag_majorna && Object.keys(m.riksdag_majorna).length ? m.riksdag_majorna : null;
   if (!egen && !verklig) { sek.hidden = true; return; }
   sek.hidden = false;
   const lagen = [];
-  if (verklig) lagen.push(["verklig", `Riksdagen ${data().meta.ar}`]);
+  if (verklig) lagen.push(["verklig", `Riksdagen ${meta.ar}`]);
   if (egen) lagen.push(["majorna", "Om Majorna bestämde"]);
   if (!lagen.some(l => l[0] === state.mandatLage)) state.mandatLage = lagen[0][0];
   const knappar = $("#mandat-lage");
@@ -421,7 +450,15 @@ function renderRiksdag() {
   $("#halvcirkel").replaceChildren(svg);
   renderMandatLegend(verklig, egen);
   $("#mandat-metod").textContent = m.metod || "";
+  // Riksdagens mandat kommer in preliminärt på valnatten och ändras under kvällen: då heter det bara "riksdagen".
+  const preliminar = meta.status === "preliminar" && !!verklig, rike = jamforelse("riket", "rd");
+  $("#mandat-ingress").textContent = "Riksdagens 349 mandat fördelade på Majornas riksdagsröster, jämfört med "
+    + (preliminar ? "riksdagen" : "den verkliga riksdagen") + ".";
   $("#mandat-ingress").hidden = !(verklig && egen);
+  const forbehall = $("#mandat-forbehall");
+  forbehall.hidden = !preliminar;
+  forbehall.textContent = !preliminar ? ""
+    : harRaknade(rike) ? `Preliminär fördelning, riket: ${raknadeText(rike)}.` : "Preliminär mandatfördelning.";
 }
 function sattMandatLage(lage) {
   if (state.mandatLage === lage) return;
@@ -467,7 +504,7 @@ function renderKontroller() {
   flikar.innerHTML = "";
   for (const [val, namn] of Object.entries(data().meta.val || { rd: "Riksdag", rf: "Region", kf: "Kommun" })) {
     flikar.append(h("button", { type: "button", role: "tab", "aria-selected": String(val === state.val), tabindex: val === state.val ? "0" : "-1", id: "flik-" + val,
-      onclick: () => { state.val = val; if (!partierIVal(val).includes(state.parti)) state.parti = partierIVal(val)[0]; renderKontroller(); renderKarta(); renderPanel(); renderTabell(); renderBanderoll(); } }, namn));
+      onclick: () => { state.val = val; if (!partierIVal(val).includes(state.parti)) state.parti = partierIVal(val)[0]; renderKontroller(); renderKarta(); renderPanel(); renderTabell(); } }, namn));
   }
   pilNavigering(flikar);
   const lage = $("#lage");
@@ -773,7 +810,7 @@ function renderPanel() {
       toppText = `${VALNAMN[val]} ${state.ar}: inget distrikt räknat än.`;
     } else {
       const omr = jamforelseOmrade(val), post = omr.post, swing = swingFor(null, val);
-      const rak = raknadeIVal(val), vn = rak.totalt ? rak : data().meta.valnatt;   // samma källa som banderollen, meta som reserv
+      const rak = raknadeIVal(val), vn = rak.totalt ? rak : data().meta.valnatt;   // samma källa som statusraden, meta som reserv
       toppText = `${VALNAMN[val]} ${state.ar}: ${toppTre(m.roster, m.giltiga)}.`;
       let vd = "";
       if (m.rostberattigade) {
@@ -940,12 +977,16 @@ function renderJamforelse() {
   $("#jamforelse-rubrik").textContent = `Majorna mot ${res.omr.namn}`;
   $("#jamforelse-not").textContent = `${VALNAMN[val]} ${state.ar} - skillnad i procentenheter mellan Majorna och ${res.omr.namn}. Noll är ${res.omr.genitiv} nivå.`;
   $("#divergens").replaceChildren(res.el);
+  const forbehall = $("#jamforelse-forbehall"), delvis = omradeDelvis(res.omr.post);
+  forbehall.hidden = !delvis;
+  forbehall.textContent = delvis ? `${res.omr.post.namn || res.omr.namn}: ${raknadeText(res.omr.post)}.` : "";
 }
 /* ---- bildläge för nyhetsbrev och sociala medier: ?bild=jamforelse&val=rd&format=liggande|kvadrat&etikett=... */
 function renderBild(typ) {
   const q = new URLSearchParams(location.search), format = q.get("format") === "kvadrat" ? "kvadrat" : "liggande";
   const val = VALNAMN[q.get("val")] ? q.get("val") : "rd";
   rot.classList.add("bild");
+  state.bild = true;   // gäller båda bilderna: ResizeObserver får inte rita om en karta som bildramen ersatt
   const ram = h("div", { class: "bildram", "data-format": format });
   const vard = (() => { try { return new URL(KONFIG.adress).host; } catch (e) { return KONFIG.adress; } })();
   if (typ === "jamforelse") {
@@ -967,7 +1008,7 @@ function renderBild(typ) {
       return;
     }
   } else if (typ === "karta") {
-    state.bild = true; state.vald = null;
+    state.vald = null;
     if (!VALNAMN[state.val]) state.val = "rd";
     if (!partierIVal(state.val).includes(state.parti)) state.parti = partierIVal(state.val)[0];
     ram.classList.add("karta-bild");

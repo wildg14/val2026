@@ -147,3 +147,16 @@ def test_toppsvar_och_statusrad_ersatter_banderollen():
     assert 'id="valnatt"' not in js and "renderBanderoll" not in js and 'id="ingress"' not in js
     assert ".banderoll" not in css and ".toppsvar-rad" in css
     assert "Ladda om" in js
+    assert 'class: "ladda-om"' in js and '"button"' in js, "Ladda om är en knapp, inte en tom länk"
+    assert 'href: "#"' not in js, "inga tomma länkar i grafiken"
+
+
+def test_reserverade_hojder_i_sidhuvudet():
+    """Statusraden, toppsvaret och årsknapparna tar plats redan innan datan kommer, så att sidhuvudet inte hoppar."""
+    css = CSS.read_text("utf-8")
+    js = JS.read_text("utf-8")
+    for regel in (".mp-val .statusrad", ".mp-val .toppsvar", ".mp-val.har-mening .toppsvar", ".mp-val #arval"):
+        rad = next((r for r in css.splitlines() if r.startswith(regel + " {")), None)
+        assert rad and "min-height:" in rad, f"{regel} saknar reserverad höjd"
+    assert '"har-mening"' in js, "klassen har-mening sätts när konfigen har en mening"
+    assert '$("#arval").hidden' in js, "årsknapparnas rad tar plats så snart konfigen är läst"

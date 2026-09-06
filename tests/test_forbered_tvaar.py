@@ -1,4 +1,4 @@
-"""verktyg/forbered_tvaar.py bygger tvåårssidan: obligatoriska filer, valfria som får saknas, --kf-raknade."""
+"""verktyg/forbered_tvaar.py bygger tvåårssidan: obligatoriska filer, valfria som får saknas, --kf-raknade, --status."""
 import json
 import subprocess
 import sys
@@ -86,7 +86,36 @@ def test_kf_raknade_over_antalet_distrikt_avbryter(tmp_path):
     assert "men filen har" in r.stderr
 
 
-def test_negativt_kf_raknade_avbryter(tmp_path):
-    r = _kor(_valnattsmapp(tmp_path / "valnatt"), tmp_path / "ut", "--kf-raknade", "-1")
-    assert r.returncode == 1, r.stdout + r.stderr
+def test_negativt_kf_raknade_avbryter_utan_att_tomma_utmappen(tmp_path):
+    ut = tmp_path / "ut"
+    ut.mkdir()
+    (ut / "gammal.txt").write_text("en tidigare testsida", "utf-8")
+    r = _kor(_valnattsmapp(tmp_path / "valnatt"), ut, "--kf-raknade", "-1")
+    assert r.returncode != 0, r.stdout + r.stderr
     assert "negativt" in r.stderr
+    assert (ut / "gammal.txt").exists(), "argumentfelet ska fångas innan --ut töms"
+
+
+def test_status_slutlig_skriver_om_metastatus(tmp_path):
+    ut = tmp_path / "ut"
+    r = _kor(_valnattsmapp(tmp_path / "valnatt"), ut, "--status", "slutlig")
+    assert r.returncode == 0, r.stdout + r.stderr
+    valdata = schema.las_js(ut / "data" / "valdata_2026.js")
+    assert valdata["meta"]["status"] == "slutlig"
+    assert len(valdata["distrikt"]) == 5, "bara status ska ändras"
+    assert json.loads((ut / "data" / "konfig.json").read_text("utf-8"))["valnatt"] is False
+
+
+def test_status_tillsammans_med_kf_raknade(tmp_path):
+    ut = tmp_path / "ut"
+    r = _kor(_valnattsmapp(tmp_path / "valnatt"), ut, "--kf-raknade", "2", "--status", "preliminar")
+    assert r.returncode == 0, r.stdout + r.stderr
+    valdata = schema.las_js(ut / "data" / "valdata_2026.js")
+    assert valdata["meta"]["status"] == "preliminar"
+    assert len([d for d in valdata["distrikt"] if d["kf"]]) == 2, "doktoreringen av kf ska överleva statusbytet"
+
+
+def test_okand_status_avbryter(tmp_path):
+    r = _kor(_valnattsmapp(tmp_path / "valnatt"), tmp_path / "ut", "--status", "nastan")
+    assert r.returncode != 0, r.stdout + r.stderr
+    assert "--status" in r.stderr

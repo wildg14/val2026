@@ -2,11 +2,21 @@ const puppeteer = require('puppeteer-core');
 // data/swing_<år>.js är valfri: saknas den visar sidan ingen förändringsrad för året. Webbläsarens 404 för
 // en sådan fil är alltså väntad och räknas inte som JS-fel, men skrivs ut så att en oväntad lucka syns.
 const valfriFil = m => /\/data\/swing_\d+\.js(\?|$)/.test((m.location() || {}).url || '') && m.text().includes('404');
-const url = process.argv[2] || 'http://localhost:8765/tmp/tvaar/index.html';
-const kfUrl = process.argv[3] || null;   // valfri testsida byggd med --kf-raknade 3, för markörtexten per val
+// Adresser: positionellt (sida, kf-sida) som förr, eller namngivet --sida= --kf= --slutlig= --prel=.
+// De två sista är sidor byggda utan --valnatt, med --status slutlig respektive preliminar, för statusradens stillsamma grenar.
+const argv = process.argv.slice(2);
+const namngivet = (namn, standard) => {
+  const p = argv.find(a => a.startsWith(`--${namn}=`));
+  return p ? p.slice(namn.length + 3) : standard;
+};
+const positionella = argv.filter(a => !a.startsWith('--'));
+const url = namngivet('sida', positionella[0] || 'http://localhost:8765/tmp/tvaar/index.html');
+const kfUrl = namngivet('kf', positionella[1] || null);   // valfri testsida byggd med --kf-raknade 3, för markörtexten per val
+const slutligUrl = namngivet('slutlig', null);            // valfri sida utan --valnatt, --status slutlig
+const prelUrl = namngivet('prel', null);                  // valfri sida utan --valnatt, --status preliminar
 const snallt = text => { const e = new Error(text); e.snallt = true; return e; };
 // Statusraden gäller alltid riksdagsvalet, som är färdigräknat i testdatan - även på sidan där kf bara har 3 distrikt.
-const STATUS_2026 = 'Preliminärt, 23 av 23 distrikt räknade i riksdagsvalet';
+const STATUS_2026 = 'Preliminärt, 23 av 23 distrikt räknade.';
 
 (async () => {
   const browser = await puppeteer.launch({ executablePath: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', headless: true, args: ['--no-first-run', '--disable-gpu'] });
@@ -31,6 +41,7 @@ const STATUS_2026 = 'Preliminärt, 23 av 23 distrikt räknade i riksdagsvalet';
       return { arknappar: [...rot.querySelectorAll('#arval button')].map(b => b.textContent), aktivtAr: (rot.querySelector('#arval button.aktiv') || {}).textContent,
                antalPaths: namn.length, harSandarna: namn.includes('Sandarna'), harSandarne: namn.includes('Sandarne'),
                statusrad: rot.querySelector('#statusrad').textContent, toppsvarRader: rot.querySelectorAll('.toppsvar-rad').length,
+               laddaOm: !!rot.querySelector('#statusrad button.ladda-om'),
                ariaKarta: svg.getAttribute('aria-label'), viewBox: svg.getAttribute('viewBox') };
     });
     if (res.saknas) throw snallt(`kartan ritades inte på ${url}: ${res.saknas}.` + (res.felruta ? ` Sidans egen felruta: ${res.felruta}` : '')
@@ -54,7 +65,11 @@ const STATUS_2026 = 'Preliminärt, 23 av 23 distrikt räknade i riksdagsvalet';
     ['Sandarne finns 2022', y2022.harSandarne],
     ['samma kartram båda åren', y2026.viewBox === y2022.viewBox],
     ['fyra partier i toppsvaret 2026', y2026.toppsvarRader === 4],
-    ['statusraden räknar riksdagsvalet', y2026.statusrad.startsWith(STATUS_2026)]
+    ['statusraden räknar distrikten', y2026.statusrad.startsWith(STATUS_2026)],
+    ['Ladda om finns på valnatten', y2026.laddaOm],
+    ['statusraden för 2022 på valnatten', y2022.statusrad.startsWith('Slutligt resultat 2022.')],
+    ['ingen valdagsmening i 2022-raden', !y2022.statusrad.includes('Valet 2026 är')],
+    ['Ladda om leder tillbaka från 2022', y2022.laddaOm]
   ];
 
   if (kfUrl) {   // markörtexten ska räkna räknade distrikt per val, inte per fil
@@ -83,6 +98,22 @@ const STATUS_2026 = 'Preliminärt, 23 av 23 distrikt räknade i riksdagsvalet';
   } else {
     console.log('kf-sidan: hoppas över (ingen andra URL angiven)');
   }
+
+  // Statusradens två grenar utan valnattsläge: sidorna byggs med --status slutlig respektive preliminar och utan --valnatt.
+  const utanValnatt = async (namn, adress, vantad) => {
+    if (!adress) { console.log(`${namn}-sidan: hoppas över (ingen adress angiven)`); return; }
+    const sida = await oppna(adress);
+    const res = await sida.evaluate(() => {
+      const rot = document.getElementById('valgrafik');
+      return { statusrad: rot.querySelector('#statusrad').textContent, laddaOm: !!rot.querySelector('#statusrad button.ladda-om') };
+    });
+    console.log(`${namn}-sidan:`, JSON.stringify(res));
+    kontroller.push([`statusraden på ${namn}-sidan`, res.statusrad.trim() === vantad],
+                    [`inget Ladda om på ${namn}-sidan`, !res.laddaOm]);
+    await sida.close();
+  };
+  await utanValnatt('slutlig', slutligUrl, 'Slutligt resultat, riksdagsvalet 2026.');
+  await utanValnatt('preliminär', prelUrl, 'Preliminärt resultat 2026.');
 
   kontroller.push(['inga JS-fel', fel.length === 0]);
   if (saknade.length) console.log('valfria filer som saknas:', [...new Set(saknade)].join(' | '));

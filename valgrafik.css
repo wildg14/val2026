@@ -18,10 +18,14 @@
 .mp-val section { padding: 28px 0 8px; border-top: 1px solid var(--linje); }
 .mp-val header.topp { padding: 28px 0 20px; }
 .mp-val .etikett { font: 700 12px/16px var(--sans); letter-spacing: 2px; color: var(--gron); margin: 0 0 8px; text-transform: uppercase; }
-/* Toppsvaret: statusrad, de fyra största partierna och en mening. Höjden är reserverad så att sidan inte hoppar när datan kommer. */
-.mp-val .statusrad { font-size: 16px; color: var(--sten); margin: 0 0 12px; min-height: 26px; }
-.mp-val .statusrad .ladda-om { color: var(--gron); }
-.mp-val .toppsvar { min-height: 200px; margin: 0 0 16px; }
+/* Toppsvaret: statusrad, de fyra största partierna och en mening. Höjderna är reserverade så att sidhuvudet inte hoppar när datan kommer:
+   statusraden blir två rader på smala containrar, och toppsvaret får en rad extra när konfigen har en redaktionell mening. */
+.mp-val .statusrad { font-size: 16px; color: var(--sten); margin: 0 0 12px; min-height: 52px; }
+/* "Ladda om" ser ut som en länk men är en knapp: blanksteg fungerar och cmd-klick öppnar ingen tom flik. Fokusramen kommer från button:focus-visible. */
+.mp-val .ladda-om { font: inherit; color: var(--gron); background: none; border: 0; border-radius: 0; min-height: 0; padding: 0; text-decoration: underline; cursor: pointer; }
+.mp-val .toppsvar { min-height: 208px; margin: 0 0 16px; }
+.mp-val.har-mening .toppsvar { min-height: 270px; }   /* meningen tar två rader på smala containrar */
+.mp-val #arval { min-height: 44px; }   /* årsknapparnas rad står tom tills datan kommit, men tar plats från början */
 .mp-val .toppsvar-rubrik { font-size: 16px; margin: 0 0 6px; }
 .mp-val .toppsvar-rader { display: grid; gap: 6px; }
 .mp-val .toppsvar-rad { display: grid; grid-template-columns: 36px 1fr 64px; gap: 10px; align-items: center; height: 30px; }
@@ -207,6 +211,11 @@
 .mp-val #faktalista li { margin-bottom: 6px; }
 .mp-val footer { border-top: 1px solid var(--linje); padding-top: 16px; font-size: 13px; color: var(--sten); }
 .mp-val .fel { background: #F3E3DF; color: var(--falu); padding: 12px 16px; border-radius: 4px; }
+@container (min-width: 700px) {
+  .mp-val .statusrad { min-height: 26px; }   /* här ryms hela raden på en rad, även den längsta valnattsvarianten */
+  .mp-val.har-mening .toppsvar { min-height: 244px; }
+}
+
 @container (min-width: 600px) {
   .mp-val h1 { font-size: 44px; }
   .mp-val .stapel-rad { grid-template-columns: 150px 1fr 96px; }

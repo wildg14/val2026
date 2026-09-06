@@ -2,7 +2,7 @@
    Renderar hela grafiken inuti <div class="mp-val" id="valgrafik"></div>. Datafiler och konfig läses från
    mappen data/ bredvid den här filen (adressen tas ur skriptets egen src). Inga globala stilar, inga vh-mått:
    filen kan ligga i ett HTML-block i Beehiivs sajtbyggare eller i det tunna skalet index.html.
-   Konfig: data/konfig.js (ar, standardAr, valnatt, adress, inbaddad, skrivUrl, stickyTopp).
+   Konfig: data/konfig.js (ar, standardAr, valnatt, adress, inbaddad, skrivUrl, stickyTopp, valdag, toppsvar, historik).
    Geometri: data/distrikt_<år>.js per år i ar - kartan ritar det visade årets polygoner. */
 (function () {
 "use strict";
@@ -28,7 +28,7 @@ const MARKUP = `
 
   <section id="riksdag" aria-labelledby="riksdag-rubrik">
     <h2 id="riksdag-rubrik">Om Majorna bestämde</h2>
-    <p class="not" id="mandat-ingress">Riksdagens 349 mandat fördelade på Majornas riksdagsröster, jämfört med den verkliga riksdagen.</p>
+    <p class="not" id="mandat-ingress"></p>
     <div class="knappar" role="radiogroup" aria-label="Välj fördelning" id="mandat-lage"></div>
     <div id="halvcirkel"></div>
     <div id="mandat-legend"></div>
@@ -88,10 +88,13 @@ const MARKUP = `
    Lägg till "2026" i ar och sätt valnatt: true på valnatten. Datafilerna
    data/valdata_<år>.js (och swing_<år>.js) skrivs av scripts/uppdatera_2026.py.
    Geometrin ligger i data/distrikt_<år>.js per år i ar och byggs av scripts/bygg_geo.py. */
-const KONFIG = {   // standardvärden, skrivs över av data/konfig.js
+const KONFIG = {   // standardvärden, samma som scripts/schema.KONFIG_STANDARD, skrivs över av data/konfig.js
   ar: ["2022"], standardAr: "2022", valnatt: false,
   adress: "https://majposten.se/val2026",
   inbaddad: false, skrivUrl: true, stickyTopp: 16,   // px från fönstrets överkant för det klibbiga kortet på desktop, höj om Beehiivs sidhuvud är klibbigt
+  valdag: "2026-09-13",   // visas i statusraden före valdagen
+  toppsvar: { mening: "" },   // redaktionell mening under toppsvaret, tom = ingen mening
+  historik: { visa: true, mening: { rd: "", rf: "", kf: "" } },   // sektionen Majorna sedan 2006, egen plan
   samarbete: { visa: false, valvaka: { visa: false } },   // samarbetsraden och valvakan, texter och adresser i data/konfig.json
   hjalp: { visa: false }   // rutan om rösthjälp
 };
@@ -197,6 +200,7 @@ const jamforelse = (omrade, val) => (data().aggregat[omrade] || {})[val] || null
 // Riket, regionen och kommunen räknas färdigt under valnatten. Talen finns bara i 2026 års aggregat: saknas de är området färdigräknat.
 const harRaknade = post => !!post && post.antal_distrikt != null && post.totalt_distrikt != null;
 const omradeDelvis = post => harRaknade(post) && post.antal_distrikt < post.totalt_distrikt;
+const arPreliminar = () => data().meta.status !== "slutlig";
 const raknadeText = post => `${tal(post.antal_distrikt)} av ${tal(post.totalt_distrikt)} distrikt räknade`;
 const majornaRaknat = val => majorna(val) && majorna(val).giltiga > 0;
 function partierIVal(val) {
@@ -279,6 +283,10 @@ function monteraMarkup() {
 async function start() {
   monteraMarkup();
   try { Object.assign(KONFIG, await laddaSkript("konfig")); } catch (e) { /* standardkonfig gäller */ }
+  // Reserverad plats redan innan datan kommer, så att sidhuvudet inte hoppar: en rad extra i toppsvaret när
+  // konfigen har en redaktionell mening, och årsknapparnas rad när konfigen räknar upp mer än ett år.
+  rot.classList.toggle("har-mening", !!(KONFIG.toppsvar || {}).mening);
+  $("#arval").hidden = (KONFIG.ar || []).length < 2;   // renderHuvud sätter om den efter vilka år som gick att ladda
   try {
     // Ett svep efter konfigen: geometri, valdata, bakgrund och swing startar samtidigt. Varje fil fångas
     // för sig, så att ett år utan filer hoppas över i stället för att släcka hela sidan.
@@ -345,24 +353,31 @@ function laddaOm() { try { window.parent.location.reload(); } catch (e) { locati
 function statusText() {
   const meta = data().meta, { raknade, totalt } = raknadeIVal("rd"), delvis = raknade < totalt;
   const valdagAr = Number(String(KONFIG.valdag || "").slice(0, 4));
-  if (KONFIG.valnatt && meta.status !== "slutlig") return { text: `Preliminärt, ${raknade} av ${totalt} distrikt räknade i riksdagsvalet. Uppdaterad ${klockslag(meta.uppdaterad)}.`, laddaOm: true, delvis };
-  if (meta.status === "slutlig" && valdagAr > Number(meta.ar)) return { text: `Slutligt resultat ${meta.ar}. Valet ${valdagAr} är ${datumText(KONFIG.valdag)}.`, laddaOm: false, delvis };
-  if (meta.status === "slutlig") return { text: `Slutligt resultat, riksdagsvalet ${meta.ar}.`, laddaOm: false, delvis };
-  return { text: `Preliminärt resultat ${meta.ar}` + (delvis ? `, ${raknade} av ${totalt} distrikt räknade.` : "."), laddaOm: false, delvis };
+  const rad = () => {
+    // På valnatten men i ett annat år än det levande: bara resultatraden, och "Ladda om" som väg tillbaka.
+    if (KONFIG.valnatt && state.ar !== KONFIG.standardAr) return { text: `${arPreliminar() ? "Preliminärt" : "Slutligt"} resultat ${meta.ar}.`, laddaOm: true };
+    // Rubriken under raden säger redan att det är riksdagsvalet, så valnattsraden nämner inte valet.
+    if (KONFIG.valnatt && arPreliminar()) return { text: `Preliminärt, ${raknade} av ${totalt} distrikt räknade. Uppdaterad ${klockslag(meta.uppdaterad)}.`, laddaOm: true };
+    if (!arPreliminar() && valdagAr > Number(meta.ar)) return { text: `Slutligt resultat ${meta.ar}. Valet ${valdagAr} är ${datumText(KONFIG.valdag)}.`, laddaOm: false };
+    if (!arPreliminar()) return { text: `Slutligt resultat, riksdagsvalet ${meta.ar}.`, laddaOm: false };
+    return { text: `Preliminärt resultat ${meta.ar}` + (delvis ? `, ${raknade} av ${totalt} distrikt räknade.` : "."), laddaOm: false };
+  };
+  return Object.assign(rad(), { delvis });
 }
 function renderToppsvar() {
   const val = "rd", meta = data().meta, m = majorna(val), el = $("#toppsvar"), status = $("#statusrad");
   const st = statusText();
   status.replaceChildren(st.text);
-  if (st.laddaOm) status.append(" ", h("a", { href: "#", class: "ladda-om", onclick: e => { e.preventDefault(); laddaOm(); } }, "Ladda om"));
+  if (st.laddaOm) status.append(" ", h("button", { type: "button", class: "ladda-om", onclick: laddaOm }, "Ladda om"));
   el.innerHTML = "";
   if (!majornaRaknat(val)) { el.append(h("p", { class: "toppsvar-tom" }, `Riksdagsvalet ${meta.ar}: inget distrikt räknat än.`)); return; }
   const rader = andelar(m.roster, m.giltiga).filter(a => a.p !== "Övriga").slice(0, 4);
   const lista = h("div", { class: "toppsvar-rader", role: "list", "aria-label": `${VALNAMN[val]} ${meta.ar}, de fyra största partierna i Majorna` });
+  // Raden har hela svaret i aria-label; innehållet döljs för skärmläsare så att talet inte läses två gånger.
   for (const a of rader) lista.append(h("div", { class: "toppsvar-rad", role: "listitem", "aria-label": `${parti(a.p).namn} ${procent(a.andel)}` },
-    h("b", { class: "toppsvar-parti" }, a.p),
-    h("span", { class: "toppsvar-spar" }, h("span", { class: "toppsvar-stapel", style: `width:${Math.min(100, a.andel / 0.4 * 100).toFixed(1)}%;background:${parti(a.p).farg}` })),
-    h("span", { class: "toppsvar-tal" }, procent(a.andel))));
+    h("b", { class: "toppsvar-parti", "aria-hidden": "true" }, a.p),
+    h("span", { class: "toppsvar-spar", "aria-hidden": "true" }, h("span", { class: "toppsvar-stapel", style: `width:${Math.min(100, a.andel / 0.4 * 100).toFixed(1)}%;background:${parti(a.p).farg}` })),
+    h("span", { class: "toppsvar-tal", "aria-hidden": "true" }, procent(a.andel))));
   el.append(h("p", { class: "toppsvar-rubrik" }, st.delvis ? `Räknat hittills, riksdagsvalet ${meta.ar}` : `Riksdagsvalet ${meta.ar} i Majorna`), lista);
   const post = jamforelseOmrade(val).post;
   if (m.rostberattigade && !st.delvis) {   // riket tas med först när även riket är färdigräknat: de första distrikten är små och lantliga
@@ -406,6 +421,8 @@ function renderSamarbete() {
 }
 
 /* ---- Om Majorna bestämde */
+// Ingressen står bara här: MARKUP lämnar <p id="mandat-ingress"> tom och renderRiksdag fyller den.
+const MANDAT_INGRESS = jmf => `Riksdagens 349 mandat fördelade på Majornas riksdagsröster, jämfört med ${jmf}.`;
 function halvcirkelPlatser(n, rader = 8, r0 = 0.5, r1 = 1.0) {
   const radier = Array.from({ length: rader }, (_, i) => r0 + (r1 - r0) * i / (rader - 1));
   const summa = radier.reduce((a, b) => a + b, 0);
@@ -451,14 +468,14 @@ function renderRiksdag() {
   renderMandatLegend(verklig, egen);
   $("#mandat-metod").textContent = m.metod || "";
   // Riksdagens mandat kommer in preliminärt på valnatten och ändras under kvällen: då heter det bara "riksdagen".
-  const preliminar = meta.status === "preliminar" && !!verklig, rike = jamforelse("riket", "rd");
-  $("#mandat-ingress").textContent = "Riksdagens 349 mandat fördelade på Majornas riksdagsröster, jämfört med "
-    + (preliminar ? "riksdagen" : "den verkliga riksdagen") + ".";
+  const preliminar = arPreliminar() && !!verklig, rike = jamforelse("riket", "rd");
+  $("#mandat-ingress").textContent = MANDAT_INGRESS(preliminar ? "riksdagen" : "den verkliga riksdagen");
   $("#mandat-ingress").hidden = !(verklig && egen);
   const forbehall = $("#mandat-forbehall");
   forbehall.hidden = !preliminar;
+  // Talet skrivs bara ut medan riket är delvis räknat: ett färdigräknat riket sent på kvällen ska inte säga "6 626 av 6 626".
   forbehall.textContent = !preliminar ? ""
-    : harRaknade(rike) ? `Preliminär fördelning, riket: ${raknadeText(rike)}.` : "Preliminär mandatfördelning.";
+    : omradeDelvis(rike) ? `Preliminär fördelning, riket: ${raknadeText(rike)}.` : "Preliminär mandatfördelning.";
 }
 function sattMandatLage(lage) {
   if (state.mandatLage === lage) return;
@@ -979,7 +996,7 @@ function renderJamforelse() {
   $("#divergens").replaceChildren(res.el);
   const forbehall = $("#jamforelse-forbehall"), delvis = omradeDelvis(res.omr.post);
   forbehall.hidden = !delvis;
-  forbehall.textContent = delvis ? `${res.omr.post.namn || res.omr.namn}: ${raknadeText(res.omr.post)}.` : "";
+  forbehall.textContent = delvis ? `${res.omr.namn}: ${raknadeText(res.omr.post)}.` : "";   // områdets visningsnamn ("Sverige"), samma som i rubriken
 }
 /* ---- bildläge för nyhetsbrev och sociala medier: ?bild=jamforelse&val=rd&format=liggande|kvadrat&etikett=... */
 function renderBild(typ) {

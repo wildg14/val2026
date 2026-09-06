@@ -143,6 +143,135 @@ def test_csv_normaliserar_partikod_till_versaler(tmp_path):
     assert {x["kod"]: x for x in v["distrikt"]}["14800530"]["rd"] == {"V": 300, "S": 200}
 
 
+def test_csv_radnummer_i_fel_stammer_med_fysisk_rad(tmp_path):
+    """Mallen har en tom rad före varje distrikt, som csv.DictReader hoppar över utan att räkna med
+    i sin egen radräkning om man enumererar de utlästa posterna. Radnumret i FEL-texten ska ändå
+    stämma med den fysiska raden i filen (räknat med de tomma raderna), inte med antalet utlästa poster."""
+    mall = tmp_path / "mall.csv"
+    assert kor("--skriv-mall", str(mall)).returncode == 0
+    rader = mall.read_text("utf-8").splitlines()
+    idx = next(i for i, r in enumerate(rader) if r.startswith("rd;14800530;giltiga;"))
+    radnummer = idx + 1   # 1-baserat fysiskt radnummer i filen
+    rader[idx] = "rd;14800530;giltiga;abc"
+    mall.write_text("\n".join(rader) + "\n", "utf-8")
+    r = kor("--csv", str(mall), "--ut", str(tmp_path), "--ar", "2026")
+    assert r.returncode != 0
+    assert f"rad {radnummer}:" in (r.stdout + r.stderr), r.stdout + r.stderr
+
+
+def test_csv_for_manga_falt_ger_fel_rad_inte_traceback(tmp_path):
+    csv = tmp_path / "extra.csv"
+    csv.write_text("val;kod;parti;roster\nrd;14800530;V;300;\nrd;14800530;giltiga;300\n"
+                   "rd;14800530;rostande;300\nrd;14800530;rostberattigade;1000\n", "utf-8")
+    r = kor("--csv", str(csv), "--ut", str(tmp_path), "--ar", "2026")
+    assert r.returncode == 1
+    assert "fler kolumner än rubriken" in (r.stdout + r.stderr)
+    assert "Traceback" not in (r.stdout + r.stderr)
+
+
+def test_csv_fel_teckenkodning_ger_fel_rad_inte_traceback(tmp_path):
+    csv = tmp_path / "cp1252.csv"
+    text = ("val;kod;parti;roster\n# Björkö\nrd;14800530;V;300\nrd;14800530;giltiga;300\n"
+            "rd;14800530;rostande;300\nrd;14800530;rostberattigade;1000\n")
+    csv.write_bytes(text.encode("cp1252"))
+    r = kor("--csv", str(csv), "--ut", str(tmp_path), "--ar", "2026")
+    assert r.returncode == 1
+    assert "kunde inte läsas" in (r.stdout + r.stderr)
+    assert "Traceback" not in (r.stdout + r.stderr)
+
+
+def test_csv_saknad_fil_ger_fel_rad_inte_traceback(tmp_path):
+    r = kor("--csv", str(tmp_path / "finns-inte.csv"), "--ut", str(tmp_path), "--ar", "2026")
+    assert r.returncode == 1
+    assert "kunde inte läsas" in (r.stdout + r.stderr)
+    assert "Traceback" not in (r.stdout + r.stderr)
+
+
+def test_rostberattigade_blandat_i_samma_val_ger_fel(tmp_path):
+    csv = tmp_path / "blandat.csv"
+    csv.write_text("val;kod;parti;roster\n"
+                   "rd;14800530;V;300\nrd;14800530;giltiga;300\nrd;14800530;rostande;300\nrd;14800530;rostberattigade;1000\n"
+                   "rd;14800531;V;100\nrd;14800531;giltiga;100\nrd;14800531;rostande;100\n", "utf-8")
+    r = kor("--csv", str(csv), "--ut", str(tmp_path), "--ar", "2026")
+    assert r.returncode != 0
+    utskrift = r.stdout + r.stderr
+    assert "rostberattigade" in utskrift and "14800531" in utskrift
+
+
+def test_rostberattigade_saknas_for_alla_ger_varning_och_deltagande_noll(tmp_path):
+    csv = tmp_path / "utan_rb.csv"
+    csv.write_text("val;kod;parti;roster\n"
+                   "rd;14800530;V;300\nrd;14800530;giltiga;300\nrd;14800530;rostande;300\n"
+                   "rd;14800531;V;100\nrd;14800531;giltiga;100\nrd;14800531;rostande;100\n", "utf-8")
+    r = kor("--csv", str(csv), "--ut", str(tmp_path), "--ar", "2026")
+    assert r.returncode == 0, r.stdout + r.stderr
+    assert "rostberattigade" in (r.stdout + r.stderr)
+    v = json.loads((tmp_path / "valdata_2026.json").read_text("utf-8"))
+    assert v["aggregat"]["majorna"]["rd"]["rostberattigade"] == 0
+
+
+def test_csv_hart_mellanslag_i_tal_tolkas(tmp_path):
+    csv = tmp_path / "hart.csv"
+    csv.write_text("val;kod;parti;roster\n"
+                   "rd;14800530;V;1\xa0300\nrd;14800530;giltiga;1\xa0300\n"
+                   "rd;14800530;rostande;1\xa0300\nrd;14800530;rostberattigade;2 000\n", "utf-8")
+    r = kor("--csv", str(csv), "--ut", str(tmp_path), "--ar", "2026")
+    assert r.returncode == 0, r.stdout + r.stderr
+    v = json.loads((tmp_path / "valdata_2026.json").read_text("utf-8"))
+    d = {x["kod"]: x for x in v["distrikt"]}["14800530"]
+    assert d["rd"]["V"] == 1300 and d["giltiga"]["rd"] == 1300 and d["rostberattigade"]["rd"] == 2000
+
+
+def test_csv_rad_med_tal_men_utan_val_eller_kod_ger_fel(tmp_path):
+    csv = tmp_path / "trasig.csv"
+    csv.write_text("val;kod;parti;roster\nrd;14800530;V;300\nrd;14800530;giltiga;300\n"
+                   "rd;14800530;rostande;300\nrd;14800530;rostberattigade;1000\n"
+                   ";;;500\n", "utf-8")
+    r = kor("--csv", str(csv), "--ut", str(tmp_path), "--ar", "2026")
+    assert r.returncode != 0
+    assert "saknar val eller kod" in (r.stdout + r.stderr)
+
+
+def test_rostande_saknas_varningstext(tmp_path):
+    csv = tmp_path / "utan_rostande.csv"
+    csv.write_text("val;kod;parti;roster\nrd;14800530;V;300\nrd;14800530;giltiga;300\n"
+                   "rd;14800530;rostberattigade;1000\n", "utf-8")
+    r = kor("--csv", str(csv), "--ut", str(tmp_path), "--ar", "2026")
+    assert r.returncode == 0, r.stdout + r.stderr
+    assert ("'rostande' saknas, sätts lika med giltiga. Valdeltagandet visas då cirka en procentenhet för lågt "
+            "eftersom ogiltiga röster inte räknas med.") in (r.stdout + r.stderr)
+
+
+def test_mallen_har_instruktionsrader(tmp_path):
+    mall = tmp_path / "mall.csv"
+    assert kor("--skriv-mall", str(mall)).returncode == 0
+    text = mall.read_text("utf-8")
+    assert "Fyll i bara sista kolumnen" in text
+    assert "Region (rf) och kommun (kf)" in text
+
+
+@genrep_finns
+def test_komplettering_med_csv_slas_ihop_med_json_vagen(tmp_path):
+    """Spärrtexten mot färre räknade distrikt föreslår --tvinga, men den ersätter hela filen. Ska man
+    bara komplettera enstaka distrikt för hand medan JSON-vägen redan gett en komplett fil, ska
+    --valnatt-mapp tillsammans med --csv köras om: CSV:n slås ihop med JSON-vägens distrikt (och vinner
+    per distrikt och val), i stället för att kasta jämförelseaggregaten från JSON-vägen."""
+    mapp = hamta_lokalt(tmp_path)
+    ut = tmp_path / "data"
+    r = kor("--valnatt-mapp", str(mapp), "--ut", str(ut), "--ar", "2026")
+    assert r.returncode == 0, r.stdout + r.stderr
+    csv = tmp_path / "komplettering.csv"
+    csv.write_text("val;kod;parti;roster\nrd;14800530;V;999\nrd;14800530;S;1\nrd;14800530;giltiga;1000\n"
+                   "rd;14800530;rostande;1000\nrd;14800530;rostberattigade;1200\n", "utf-8")
+    r2 = kor("--valnatt-mapp", str(mapp), "--csv", str(csv), "--ut", str(ut), "--ar", "2026")
+    assert r2.returncode == 0, r2.stdout + r2.stderr
+    v = json.loads((ut / "valdata_2026.json").read_text("utf-8"))
+    assert v["meta"]["valnatt"] == {"raknade": 23, "totalt": 23}
+    d = {x["kod"]: x for x in v["distrikt"]}["14800530"]
+    assert d["rd"] == {"V": 999, "S": 1}
+    assert "rd" in v["aggregat"]["riket"]
+
+
 def test_skadad_valdata_ger_fel_rad_inte_traceback(tmp_path):
     (tmp_path / "valdata_2026.json").write_text('{"meta": {', "utf-8")   # halvskriven under en tidigare körning
     csv = tmp_path / "v.csv"
@@ -222,6 +351,7 @@ def test_mindre_eller_tom_import_skriver_inte_over(tmp_path):
     utskrift = r.stdout + r.stderr
     assert "rf: 0 mot 23, kf: 0 mot 23" in utskrift, "valen med talen ska stå samlade på en rad"
     assert utskrift.count("--valnatt-mapp data/valnatt/senaste --tvinga") == 1, "instruktionen ska stå en gång, inte en gång per val"
+    assert "--valnatt-mapp data/valnatt/senaste --csv" in utskrift, "rådet om komplettering för hand med CSV ska stå med"
     assert (ut / "valdata_2026.json").read_bytes() == fore, "filen får inte röras"
     r = kor("--valnatt-mapp", str(bara_rd), "--ut", str(ut), "--ar", "2026", "--tvinga")
     assert r.returncode == 0 and (ut / "valdata_2026.json").read_bytes() != fore

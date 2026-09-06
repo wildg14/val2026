@@ -147,18 +147,29 @@ SUMMANYCKLAR = ("giltiga", "rostande", "rostberattigade")
 
 
 def las_csv(path, distrikt):
-    text = Path(path).read_text("utf-8-sig")
+    try:
+        text = Path(path).read_text("utf-8-sig")
+    except (UnicodeDecodeError, OSError) as ex:
+        fel(f"{path}: kunde inte läsas: {ex}. Spara som CSV UTF-8 i Excel.")
     forsta = text.splitlines()[0] if text.strip() else ""
     avgransare = ";" if forsta.count(";") >= forsta.count(",") else ","
-    rader = list(csv.DictReader(text.splitlines(), delimiter=avgransare))
+    lasare = csv.DictReader(text.splitlines(), delimiter=avgransare)
     krav = {"val", "kod", "parti", "roster"}
-    if not rader or not krav <= {k.strip().lower() for k in rader[0].keys() if k}:
+    if not lasare.fieldnames or not krav <= {(k or "").strip().lower() for k in lasare.fieldnames if k}:
         fel(f"{path}: CSV-filen måste ha kolumnerna val;kod;parti;roster")
+    tillatna_per_val = {v: {q.upper(): q for q in NYCKELPARTIER[v] + [OVRIGA]} for v in VAL}
     poster = {}
-    for i, r in enumerate(rader, start=2):
+    for r in lasare:
+        i = lasare.line_num
+        if None in r:
+            fel(f"{path} rad {i}: fler kolumner än rubriken (ett semikolon för mycket?)")
         r = {(k or "").strip().lower(): (v or "").strip() for k, v in r.items()}
-        if not r.get("val") or r["val"].startswith("#") or not r.get("kod"):
-            continue   # tom rad eller kommentarrad ur mallen
+        if r.get("val", "").startswith("#"):
+            continue   # kommentarrad ur mallen
+        if not r.get("val") or not r.get("kod"):
+            if r.get("roster"):
+                fel(f"{path} rad {i}: raden har ett tal men saknar val eller kod")
+            continue   # tom rad ur mallen
         val, kod, parti = r["val"].lower(), r["kod"], r["parti"]
         if val not in VAL:
             fel(f"{path} rad {i}: okänt val '{val}' (rd, rf eller kf)")
@@ -167,7 +178,7 @@ def las_csv(path, distrikt):
         if r["roster"] == "":
             continue
         try:
-            n = int(r["roster"].replace(" ", ""))
+            n = int("".join(r["roster"].split()))
         except ValueError:
             fel(f"{path} rad {i}: '{r['roster']}' är inte ett heltal")
         if n < 0:
@@ -176,27 +187,33 @@ def las_csv(path, distrikt):
         if parti.lower() in SUMMANYCKLAR:
             p[parti.lower()] = n
             continue
-        tillatna = {q.upper(): q for q in NYCKELPARTIER[val] + [OVRIGA]}
+        tillatna = tillatna_per_val[val]
         if parti.upper() not in tillatna:
             fel(f"{path} rad {i}: okänt parti '{parti}' för {val} (tillåtna: {', '.join(NYCKELPARTIER[val] + [OVRIGA])})")
         kanon = tillatna[parti.upper()]
         p["roster"][kanon] = p["roster"].get(kanon, 0) + n
+    saknar_rb, har_rb = {}, {}
     for (val, kod), p in sorted(poster.items()):
         if p["giltiga"] is None:
             fel(f"{path}: {val} {kod} saknar raden 'giltiga'")
         if sum(p["roster"].values()) != p["giltiga"]:
             fel(f"{path}: {val} {kod}: partiröster {sum(p['roster'].values())} != giltiga {p['giltiga']}")
         if p["rostande"] is None:
-            varning(f"{val} {kod}: 'rostande' saknas, sätts lika med giltiga")
+            varning(f"{val} {kod}: 'rostande' saknas, sätts lika med giltiga. Valdeltagandet visas då cirka en "
+                    "procentenhet för lågt eftersom ogiltiga röster inte räknas med.")
             p["rostande"] = p["giltiga"]
         if p["rostande"] < p["giltiga"]:
             fel(f"{path}: {val} {kod}: röstande {p['rostande']} < giltiga {p['giltiga']}")
         if p["rostberattigade"] and p["rostande"] > p["rostberattigade"]:
             fel(f"{path}: {val} {kod}: röstande {p['rostande']} > röstberättigade {p['rostberattigade']}")
-        if not p["rostberattigade"]:
-            varning(f"{val} {kod}: 'rostberattigade' saknas, valdeltagande kan inte visas")
+        (har_rb if p["rostberattigade"] else saknar_rb).setdefault(val, []).append(kod)
         fyll(distrikt, kod, val, p)
-    return {"goteborg": {}, "riket": {}}
+    for val in VAL:
+        if val in saknar_rb and val in har_rb:
+            fel(f"{path}: {val}: 'rostberattigade' är ifyllt för vissa distrikt men inte för {saknar_rb[val][0]}. "
+                "Fyll i för alla eller för inget, annars blir Majornas valdeltagande fel.")
+        elif val in saknar_rb:
+            varning(f"{val}: 'rostberattigade' saknas, valdeltagande kan inte visas")
 
 
 def las_jamforelsefil(path):
@@ -325,6 +342,10 @@ def skriv_mall(path):
     with open(path, "w", encoding="utf-8", newline="") as f:
         w = csv.writer(f, delimiter=";")
         w.writerow(["val", "kod", "parti", "roster"])
+        w.writerow(["#", "Fyll i bara sista kolumnen (roster). Rader som börjar med # ignoreras. giltiga ska vara "
+                          "summan av partiraderna; rostande och rostberattigade hämtas från val.se."])
+        w.writerow(["#", "Mallen täcker riksdagsvalet (rd). Region (rf) och kommun (kf) skrivs med samma format: "
+                          "val;kod;parti;roster."])
         bas = las_bas(ROT / "data" / "valdata_2022.json")
         for kod in MAJORNA_KODER:
             w.writerow([])
@@ -341,7 +362,7 @@ def las_bas(path):
     try:
         return json.loads(path.read_text("utf-8"))
     except (json.JSONDecodeError, UnicodeDecodeError, OSError) as ex:
-        fel(f"{path}: har inte formen av en JSON-fil: {ex}")
+        fel(f"{path}: har inte formen av en JSON-fil: {ex}. Ta bort eller flytta filen och kör om.")
 
 
 def bygg(ar, distrikt, status, jamforelser, tid, kalla, verklig=None, test=False):
@@ -388,7 +409,9 @@ def kontrollera_mot_befintlig(ny, path, tvinga):
         problem.append(
             f"färre räknade distrikt än i {path.name} ({tal}). "
             "Vill du skriva ändå: kör med --valnatt-mapp data/valnatt/senaste --tvinga. --tvinga ersätter "
-            "hela filen (val som saknas i den nya blir tomma), skriptet slår inte ihop med den gamla.")
+            "hela filen (val som saknas i den nya blir tomma), skriptet slår inte ihop med den gamla. "
+            "Kompletterar du för hand: kör om med --valnatt-mapp data/valnatt/senaste --csv FIL, då slås CSV:n "
+            "ihop med JSON-vägen (CSV:n vinner per distrikt och val); --tvinga ersätter i stället hela filen.")
     if ny["meta"].get("test") and not gammal["meta"].get("test"):
         problem.append(f"{path.name} är skarp data men den nya filen är testdata")
     if not problem:
@@ -527,6 +550,8 @@ def main():
             jamforelser = las_rafiler(filer, distrikt, bas)
         if a.csv:
             print(f"Läser CSV: {a.csv}")
+            # CSV-vägen ger inga jämförelseaggregat (goteborg/riket): finns en JSON-väg körd innan (eller i
+            # samma anrop via --valnatt-mapp) behålls dess jamforelser oförändrade här.
             las_csv(a.csv, distrikt)
     except FormatFel as ex:
         fel(str(ex))

@@ -198,6 +198,19 @@ def test_csv_kommentarrad_med_for_manga_falt_hoppas_over(tmp_path):
     assert "fler kolumner än rubriken" not in (r.stdout + r.stderr)
 
 
+def test_csv_rubrik_med_stor_bokstav_hoppar_over_kommentarrad(tmp_path):
+    """Radens nycklar ska normaliseras (till gemener) innan kommentar- och tomradskontrollen, inte
+    bara vid den slutliga uppslagningen: annars missar kontrollen kommentarraden när rubriken har en
+    annan bokstavsstorlek än 'val', och mallens kommentarrad #;kod;namn; tolkas som en datarad."""
+    csv = tmp_path / "stor_rubrik.csv"
+    csv.write_text("Val;Kod;Parti;Roster\n"
+                   "#;14800530;Kungsladugård Västra;\n"
+                   "rd;14800530;V;300\nrd;14800530;giltiga;300\n"
+                   "rd;14800530;rostande;300\nrd;14800530;rostberattigade;1000\n", "utf-8")
+    r = kor("--csv", str(csv), "--ut", str(tmp_path), "--ar", "2026")
+    assert r.returncode == 0, r.stdout + r.stderr
+
+
 def test_csv_fel_teckenkodning_ger_fel_rad_inte_traceback(tmp_path):
     csv = tmp_path / "cp1252.csv"
     text = ("val;kod;parti;roster\n# Björkö\nrd;14800530;V;300\nrd;14800530;giltiga;300\n"
@@ -348,6 +361,20 @@ def test_komplettering_med_explicit_noll_och_json_utan_varde_ger_fel(tmp_path):
     assert "saknas för" in utskrift and "14800530" in utskrift
 
 
+@genrep_finns
+def test_json_vagen_ensam_med_saknad_rostberattigade_for_ett_distrikt_ger_fel(tmp_path):
+    """Allt-eller-inget för 'rostberattigade' ska gälla slutläget oavsett källa, inte bara när en CSV
+    körs: JSON-vägen ensam (utan --csv) med ett distrikt utan antalRostberattigade bredvid 22 med tal
+    ska stoppa körningen, inte tyst ge fem procent för högt valdeltagande utan varning."""
+    mapp = hamta_lokalt(tmp_path)
+    doktorerad = doktorera_utan_rostberattigade(mapp, tmp_path / "utan_rb_ensam", {"rd": {"14800530"}})
+    ut = tmp_path / "data"
+    r = kor("--valnatt-mapp", str(doktorerad), "--ut", str(ut), "--ar", "2026")
+    assert r.returncode != 0
+    utskrift = r.stdout + r.stderr
+    assert "rostberattigade" in utskrift and "saknas för" in utskrift and "14800530" in utskrift
+
+
 def test_skadad_valdata_ger_fel_rad_inte_traceback(tmp_path):
     (tmp_path / "valdata_2026.json").write_text('{"meta": {', "utf-8")   # halvskriven under en tidigare körning
     csv = tmp_path / "v.csv"
@@ -374,6 +401,16 @@ def test_fel_format_avbryter(tmp_path):
     r = kor("--rd", str(ROT / "majorna-valresultat-2022.xlsx"), "--ut", str(tmp_path), "--ar", "2026")
     assert r.returncode != 0
     assert "roster_" in r.stdout + r.stderr
+
+
+def test_rd_pekar_pa_oläsbar_fil_ger_fel_rad_inte_traceback(tmp_path):
+    skrap = tmp_path / "skrap.xlsx"
+    skrap.write_text("det här är inte en xlsx-fil, bara skräptext", "utf-8")
+    r = kor("--rd", str(skrap), "--ut", str(tmp_path), "--ar", "2026")
+    assert r.returncode == 1
+    utskrift = r.stdout + r.stderr
+    assert "kunde inte läsas" in utskrift
+    assert "Traceback" not in utskrift
 
 
 @pytest.mark.skipif(not (RD.exists() and RF.exists() and KF.exists()), reason="rådatafiler saknas")

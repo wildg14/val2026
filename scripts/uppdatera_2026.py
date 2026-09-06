@@ -163,14 +163,13 @@ def las_csv(path, distrikt):
     poster = {}
     for r in lasare:
         i = lasare.line_num
-        val_ratt = (r.get("val") or "").strip()
-        namngivna = [v for k, v in r.items() if k is not None]
-        if val_ratt.startswith("#") or not any((v or "").strip() for v in namngivna):
+        ra = r
+        r = {(k or "").strip().lower(): (v or "").strip() for k, v in r.items() if k is not None}
+        if r.get("val", "").startswith("#") or not any(r.values()):
             continue   # kommentarrad eller tom rad ur mallen, före kolumnvakten så att en kommentarrad
                        # med för många semikolon inte avvisas som "fler kolumner"
-        if None in r:
+        if None in ra:
             fel(f"{path} rad {i}: fler kolumner än rubriken (ett semikolon för mycket?)")
-        r = {(k or "").strip().lower(): (v or "").strip() for k, v in r.items()}
         if not r.get("val") or not r.get("kod"):
             if r.get("roster"):
                 fel(f"{path} rad {i}: raden har ett tal men saknar val eller kod")
@@ -216,17 +215,21 @@ def las_csv(path, distrikt):
         if p["rostberattigade"] and p["rostande"] > p["rostberattigade"]:
             fel(f"{path}: {val} {kod}: röstande {p['rostande']} > röstberättigade {p['rostberattigade']}")
         fyll(distrikt, kod, val, p)
-    # Allt-eller-inget för 'rostberattigade' gäller slutläget över alla källor (JSON- och CSV-vägen
-    # tillsammans), inte bara CSV-filens egna rader: annars kan en komplettering som saknar
-    # 'rostberattigade' skriva över ett tal JSON-vägen redan satt, eller så kan CSV-rader se
-    # kompletta ut var för sig men ändå ge ett blandat slutläge tillsammans med JSON-vägens distrikt.
+
+
+def kontrollera_rostberattigade(distrikt):
+    """Allt-eller-inget för 'rostberattigade' gäller slutläget över alla källor tillsammans (JSON,
+    xlsx och CSV), inte bara en enskild källas egna rader: annars kan en komplettering som saknar
+    'rostberattigade' skriva över ett tal en tidigare källa redan satt, eller så kan varje källa se
+    komplett ut för sig men ändå ge ett blandat slutläge tillsammans med de andra källornas distrikt.
+    Anropas av main på slutläget, efter att alla källor fyllt distrikt, före bygg."""
     for val in VAL:
         raknade = [d for d in distrikt.values() if d.get(val)]
         utan = sorted(d["kod"] for d in raknade if not d["rostberattigade"].get(val))
         med = sorted(d["kod"] for d in raknade if d["rostberattigade"].get(val))
         if med and utan:
-            fel(f"{path}: {val}: 'rostberattigade' saknas för {', '.join(utan)} men finns för andra distrikt. "
-                "Fyll i för alla eller för inget, annars blir Majornas valdeltagande fel.")
+            fel(f"{val}: 'rostberattigade' saknas för {', '.join(utan)} men finns för andra distrikt. "
+                "Fyll i eller kontrollera källan, annars blir Majornas valdeltagande fel.")
         elif utan:
             varning(f"{val}: 'rostberattigade' saknas, valdeltagande kan inte visas")
 
@@ -371,8 +374,10 @@ def skriv_mall(path):
 
 
 def las_bas(path, roll="ny"):
-    """roll="ny": path är årets egen fil (t.ex. valdata_2026.json, för --tvinga-jämförelser eller mallens
-    distriktsnamn). roll="bas": path är --bas, basåret för swing. Rådet i felet skiljer sig därefter."""
+    """roll="bas": path är basåret för swing (t.ex. valdata_2022.json). Används av skriv_mall (för
+    distriktsnamnen i mallen) och av repetera/main (--bas, basåret för swing). roll="ny" (standard):
+    path är årets egen, redan skrivna fil; används bara av kontrollera_mot_befintlig, som jämför med
+    filen från en tidigare körning innan den skrivs över. Rådet i felet skiljer sig därefter."""
     path = Path(path)
     if not path.exists():
         return None
@@ -566,7 +571,12 @@ def main():
         if a.valnatt_mapp:
             jamforelser, verklig = las_valnattsmapp(a.valnatt_mapp, distrikt, bas)
         if filer:
-            jamforelser = las_rafiler(filer, distrikt, bas)
+            try:
+                jamforelser = las_rafiler(filer, distrikt, bas)
+            except FormatFel:
+                raise
+            except Exception as ex:
+                fel(f"{', '.join(str(p) for p in filer.values())}: kunde inte läsas: {type(ex).__name__}: {ex}")
         if a.csv:
             print(f"Läser CSV: {a.csv}")
             # CSV-vägen ger inga jämförelseaggregat (goteborg/riket): finns en JSON-väg körd innan (eller i
@@ -574,6 +584,7 @@ def main():
             las_csv(a.csv, distrikt)
     except FormatFel as ex:
         fel(str(ex))
+    kontrollera_rostberattigade(distrikt)
     if not JAMFORBAR:
         varning("ingen uppgift om jämförbarhet mot 2022 (varken JSON eller jämförelsefil): alla distrikt antas jämförbara")
     if META_TEST:

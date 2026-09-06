@@ -176,8 +176,11 @@ const data = () => state.data[state.ar];
 const distriktMap = () => Object.fromEntries(data().distrikt.map(d => [d.kod, d]));
 const geo = () => state.geo[state.ar];            // det visade årets polygoner
 const antalDistrikt = () => (data().distrikt || []).length;
-const geoMap = () => Object.fromEntries(geo().features.map(f => [f.properties.kod, f]));
 const raknat = (d, val) => !!(d.raknat && d[val] && Object.keys(d[val]).length && d.giltiga[val]);
+const raknadeIVal = val => {   // distrikt räknade i just det här valet; meta.valnatt räknar "något val"
+  const alla = data().distrikt || [];
+  return { raknade: alla.filter(d => raknat(d, val)).length, totalt: alla.length };
+};
 function andelar(roster, giltiga) {
   return Object.entries(roster).map(([p, n]) => ({ p, n, andel: giltiga ? n / giltiga : 0 }))
     .sort((a, b) => b.n - a.n || a.p.localeCompare(b.p, "sv"));
@@ -252,7 +255,10 @@ function skrivUrl() {
 function laddaSkript(namn) {
   return new Promise((ok, fel) => {
     const el = document.createElement("script");
-    const farsk = namn === "konfig" ? "?v=" + Date.now() : KONFIG.valnatt ? "?v=" + Math.floor(Date.now() / 60000) : "";
+    // konfigen alltid färsk; valdata och swing skrivs om under valnatten och får en minutnyckel.
+    // Geometri och bakgrund ändras inte den natten och laddas utan parameter, så att cachen håller.
+    const farsk = namn === "konfig" ? "?v=" + Date.now()
+      : KONFIG.valnatt && /^(valdata|swing)_/.test(namn) ? "?v=" + Math.floor(Date.now() / 60000) : "";
     el.src = BAS + "data/" + namn + ".js" + farsk;
     el.onload = () => (window.MAJPOSTEN && window.MAJPOSTEN.data[namn]) ? ok(window.MAJPOSTEN.data[namn]) : fel(new Error(namn + " saknar data"));
     el.onerror = () => fel(new Error("kunde inte ladda data/" + namn + ".js"));
@@ -267,14 +273,26 @@ function monteraMarkup() {
 async function start() {
   monteraMarkup();
   try { Object.assign(KONFIG, await laddaSkript("konfig")); } catch (e) { /* standardkonfig gäller */ }
-  state.ar = KONFIG.ar.includes(KONFIG.standardAr) ? KONFIG.standardAr : KONFIG.ar[0];   // state skapades innan konfigen laddades
   try {
-    const geon = await Promise.all(KONFIG.ar.map(a => laddaSkript("distrikt_" + a)));
-    const valdata = await Promise.all(KONFIG.ar.map(a => laddaSkript("valdata_" + a)));
-    KONFIG.ar.forEach((a, i) => { state.geo[a] = geon[i]; state.data[a] = valdata[i]; });
-    if (!state.data[state.ar]) state.ar = KONFIG.ar[0];
-    state.bakgrund = await laddaSkript("bakgrund").catch(() => null);
-    for (const a of KONFIG.ar) state.swing[a] = await laddaSkript("swing_" + a).catch(() => null);   // basåret står i filen, saknad fil ger ingen swing
+    // Ett svep efter konfigen: geometri, valdata, bakgrund och swing startar samtidigt. Varje fil fångas
+    // för sig, så att ett år utan filer hoppas över i stället för att släcka hela sidan.
+    const onskade = KONFIG.ar.slice();
+    const [geon, valdata, bakgrund, swingar] = await Promise.all([
+      Promise.all(onskade.map(a => laddaSkript("distrikt_" + a).catch(() => null))),
+      Promise.all(onskade.map(a => laddaSkript("valdata_" + a).catch(() => null))),
+      laddaSkript("bakgrund").catch(() => null),
+      Promise.all(onskade.map(a => laddaSkript("swing_" + a).catch(() => null)))   // basåret står i filen, saknad fil ger ingen swing
+    ]);
+    const utan = [];
+    onskade.forEach((a, i) => {
+      if (geon[i] && valdata[i]) { state.geo[a] = geon[i]; state.data[a] = valdata[i]; state.swing[a] = swingar[i]; }
+      else utan.push(a);
+    });
+    if (utan.length) console.warn("valgrafik: hoppar över år utan data: " + utan.join(", "));
+    KONFIG.ar = onskade.filter(a => state.data[a]);   // årväljaren visar bara år som gick att ladda
+    if (!KONFIG.ar.length) throw new Error("inget år kunde laddas");
+    state.bakgrund = bakgrund;
+    state.ar = KONFIG.ar.includes(KONFIG.standardAr) ? KONFIG.standardAr : KONFIG.ar[0];   // state skapades innan konfigen laddades
   } catch (e) {
     $("header.topp").append(h("p", { class: "fel" }, "Datafilerna kunde inte laddas: " + e.message + ". Kör scripts/bygg_data.py och kontrollera att data/ ligger bredvid valgrafik.js."));
     return;
@@ -316,14 +334,12 @@ function renderHuvud() {
 function renderBanderoll() {   // räknar räknade distrikt för aktuellt val ur distriktsdatan, ritas om vid flikbyte
   const band = $("#valnatt");
   if (!KONFIG.valnatt) { band.hidden = true; return; }
-  const meta = data().meta, distrikt = data().distrikt || [];
-  let raknade, totalt;
-  if (distrikt.length) { raknade = distrikt.filter(d => raknat(d, state.val)).length; totalt = distrikt.length; }
-  else if (meta.valnatt) { raknade = meta.valnatt.raknade; totalt = meta.valnatt.totalt; }   // reserv när distriktsdatan saknas
-  else { band.hidden = true; return; }
+  const meta = data().meta, rak = raknadeIVal(state.val);
+  const vn = rak.totalt ? rak : meta.valnatt;   // reserv när distriktsdatan saknas
+  if (!vn) { band.hidden = true; return; }
   band.hidden = false;
   band.innerHTML = "";
-  band.append(h("b", {}, `Valnatten ${meta.ar}: ${raknade} av ${totalt} distrikt räknade i ${VALNAMN[state.val].toLowerCase()}.`), " ",
+  band.append(h("b", {}, `Valnatten ${meta.ar}: ${vn.raknade} av ${vn.totalt} distrikt räknade i ${VALNAMN[state.val].toLowerCase()}.`), " ",
     meta.status === "slutlig" ? "Slutliga siffror." : "Preliminära siffror.", ` Uppdaterat ${klockslag(meta.uppdaterad)}.`);
 }
 
@@ -510,7 +526,8 @@ function projektion(bbox, padX = 0.045, padY = 0.16) {   // högre ram: mer älv
   return { bredd, hojd: (N - S) * skala, till: ([lon, lat]) => [(lon - W) * kx * skala, (N - lat) * skala], W, E, S, N };
 }
 function gemensamBbox() {   // en ram för alla laddade år, så att kartan inte hoppar vid årsbyte
-  const bb = Object.values(state.geo).map(g => g.bbox);
+  const bb = Object.values(state.geo).map(g => g && g.bbox).filter(Boolean);
+  if (!bb.length) return geo().bbox;   // inget år har en bbox: det visade årets egen ram får duga
   return [Math.min(...bb.map(b => b[0])), Math.min(...bb.map(b => b[1])), Math.max(...bb.map(b => b[2])), Math.max(...bb.map(b => b[3]))];
 }
 const dAttr = (ring, proj, stang) => ring.map((c, i) => (i ? "L" : "M") + proj.till(c).map(v => v.toFixed(1)).join(",")).join("") + (stang ? "Z" : "");
@@ -593,7 +610,9 @@ function renderKarta() {
   }
   const gDistrikt = s("g", { class: "distrikt-lager" }), ringar = {};
   for (const f of geo().features) {
-    const d = dm[f.properties.kod], ringSvg = f.geometry.coordinates[0].map(proj.till);
+    const d = dm[f.properties.kod];
+    if (!d) continue;   // geometrikod utan valdata: hoppa över polygonen i stället för att kasta
+    const ringSvg = f.geometry.coordinates[0].map(proj.till);
     ringar[d.kod] = ringSvg;
     const p = s("path", { class: "distrikt" + (state.vald === d.kod ? " vald" : ""), d: dRing(ringSvg, true),
       fill: fyllFor(d, val, skala), role: "button", tabindex: 0, "data-kod": d.kod, "aria-label": ariaDistrikt(d, val), "aria-pressed": String(state.vald === d.kod) });
@@ -605,7 +624,9 @@ function renderKarta() {
   // distriktsetiketter bestäms först så att hållplatsnamn och platsnamn väjer för dem
   const etiketter = s("g", { class: "etiketter" }), upptaget = [];
   for (const f of geo().features) {
-    const d = dm[f.properties.kod], [lx, ly] = proj.till(f.properties.etikett), sp = spannVid(ringar[d.kod], ly, lx);
+    const d = dm[f.properties.kod];
+    if (!d) continue;
+    const [lx, ly] = proj.till(f.properties.etikett), sp = spannVid(ringar[d.kod], ly, lx);
     const text = etikettText(d, val, sp.bredd), vald = state.vald === d.kod;
     if (!text && !vald) continue;
     const x = sp.bredd > 0 ? sp.mitt : lx;
@@ -740,7 +761,8 @@ function renderPanel() {
     subText = (vd ? vd + ". " : "") + `${tal(d.giltiga[val])} giltiga röster.`;
     const markorer = majornaRaknat(val) ? [{ klass: "majorna", namn: "Majorna" }] : [], swing = swingFor(d.kod, val);
     // meta.valnatt räknar distrikt där något val är räknat: räkna per visat val, som statusraden nedan gör
-    if (markorer.length) markorNot.push(h("span", { class: "majorna" }, KONFIG.valnatt && data().distrikt.filter(x => raknat(x, val)).length < antalDistrikt() ? "Snittet för räknade distrikt i Majorna" : "Snittet för hela Majorna"));
+    const vnD = raknadeIVal(val);
+    if (markorer.length) markorNot.push(h("span", { class: "majorna" }, KONFIG.valnatt && vnD.raknade < vnD.totalt ? "Snittet för räknade distrikt i Majorna" : "Snittet för hela Majorna"));
     markorNot.push(...swingNot(swing));
     for (const a of andelar(d[val], d.giltiga[val])) if (a.andel >= 0.01)
       staplar.append(stapelRad(a.p, a.andel, markorer.map(x => ({ ...x, andel: m.giltiga ? (m.roster[a.p] || 0) / m.giltiga : undefined })), swing ? swing[a.p] : null));
@@ -751,7 +773,7 @@ function renderPanel() {
       toppText = `${VALNAMN[val]} ${state.ar}: inget distrikt räknat än.`;
     } else {
       const omr = jamforelseOmrade(val), post = omr.post, swing = swingFor(null, val);
-      const alla = data().distrikt || [], vn = alla.length ? { raknade: alla.filter(d => raknat(d, val)).length, totalt: alla.length } : data().meta.valnatt;   // samma källa som banderollen, meta som reserv
+      const rak = raknadeIVal(val), vn = rak.totalt ? rak : data().meta.valnatt;   // samma källa som banderollen, meta som reserv
       toppText = `${VALNAMN[val]} ${state.ar}: ${toppTre(m.roster, m.giltiga)}.`;
       let vd = "";
       if (m.rostberattigade) {

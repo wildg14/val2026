@@ -47,11 +47,16 @@ def test_css_utan_vh_fixed_och_globala_reset():
     assert not re.search(r"(^|[,{}\s])(html|body|:root)\s*[{,]", text), "globala regler på html, body eller :root"
 
 
+# Allt utanför .mp-val är förbjudet mark i Beehiivs HTML-block: bara de här document-medlemmarna
+# skapar noder eller hittar containern, ingen av dem läser eller ändrar värdsidan.
+DOCUMENT_TILLATNA = {"currentScript", "createElement", "createElementNS", "createTextNode", "head", "getElementsByClassName"}
+
+
 def test_js_renderar_i_container_utan_globala_dokumentreferenser():
     js = JS.read_text("utf-8")
     assert "document.currentScript" in js, "basadressen för data ska tas från skriptets egen src"
-    assert "document.body" not in js
-    assert "document.querySelector(" not in js and "document.getElementById(" not in js
+    otillatna = sorted({m for m in re.findall(r"document\.(\w+)", js) if m not in DOCUMENT_TILLATNA})
+    assert not otillatna, f"document-medlemmar utanför tillåtlistan: {otillatna}"
     assert 'querySelector(".mp-main")' in js or "'.mp-main'" in js
 
 

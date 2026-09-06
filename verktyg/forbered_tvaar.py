@@ -8,12 +8,15 @@ http://localhost:8765/tmp/tvaar/index.html när servern kör i projektroten.
 
 Med --kf-raknade N doktoreras den kopierade valdata_2026.js så att bara de N första distrikten har
 kommunvalet räknat. Då går det att kontrollera att panelens markörtext räknar per val och inte per fil.
+Swingfilen räknas om ur den doktorerade valdatan mot data/valdata_2022.json, annars skulle kohorten i
+swing_2026.js fortfarande säga att alla distrikt är räknade och kortets kohorttext utebli.
 
 Med --status slutlig|preliminar skrivs meta.status om i den kopierade valdata_2026.js. Tillsammans med
 --valnatt av ger det statusradens två stillsamma grenar: "Slutligt resultat, riksdagsvalet 2026." och
 "Preliminärt resultat 2026.", båda utan "Ladda om".
 """
 import argparse
+import json
 import shutil
 import sys
 from pathlib import Path
@@ -61,6 +64,20 @@ def doktorera_kf(fil, antal):
     return antal
 
 
+def rakna_om_swing(mapp):
+    """Räknar om swing_2026.js ur den doktorerade valdatan, mot samma basår som uppdatera_2026.py använder.
+
+    Kohorten i swingfilen ska spegla testsidans räknade distrikt, annars säger kortet "räknat på 23
+    jämförbara distrikt av 23" på en sida där bara några distrikt är räknade i kommunvalet."""
+    bas_fil = ROT / "data" / "valdata_2022.json"
+    if not bas_fil.exists():
+        raise SystemExit(f"FEL: {bas_fil} saknas, swingen kan inte räknas om")
+    ny = schema.las_js(mapp / "valdata_2026.js")
+    bas = json.loads(bas_fil.read_text("utf-8"))
+    jamforbara = [d["kod"] for d in ny["distrikt"] if d.get("jamforbar_mot_bas", True)]
+    schema.skriv_js(mapp / "swing_2026", schema.swing(ny, bas, jamforbara=jamforbara))
+
+
 def satt_status(fil, status):
     """Skriver om meta.status i den kopierade valdata_2026.js."""
     valdata = schema.las_js(fil)
@@ -90,6 +107,9 @@ def main():
     if a.kf_raknade is not None:
         doktorera_kf(ut / "data" / "valdata_2026.js", a.kf_raknade)
         print(f"valdata_2026.js doktorerad: {a.kf_raknade} distrikt har kommunvalet räknat")
+        if (ut / "data" / "swing_2026.js").exists():
+            rakna_om_swing(ut / "data")
+            print("swing_2026.js omräknad mot data/valdata_2022.json, kohorten följer den doktorerade valdatan")
     if a.status:
         satt_status(ut / "data" / "valdata_2026.js", a.status)
         print(f"valdata_2026.js doktorerad: meta.status = {a.status}")

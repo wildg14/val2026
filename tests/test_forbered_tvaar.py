@@ -19,9 +19,12 @@ def _distrikt(kod, namn):
 
 
 def _valnattsmapp(mapp, med_swing=True):
-    """Minimal valnattsdata: fem distrikt, alla räknade i alla tre valen."""
+    """Minimal valnattsdata: fem distrikt, alla räknade i alla tre valen.
+
+    Koderna är Majornas fem första, så att distrikten finns i data/valdata_2022.json och swingen går
+    att räkna om när --kf-raknade doktorerar kommunvalet."""
     mapp.mkdir(parents=True, exist_ok=True)
-    distrikt = [_distrikt(f"1480050{i}", f"Distrikt {i}") for i in range(1, 6)]
+    distrikt = [_distrikt(f"148005{25 + i}", f"Distrikt {i}") for i in range(1, 6)]
     schema.skriv(mapp / "valdata_2026", schema.bygg_valdata("2026", distrikt, status="preliminar"))
     if med_swing:
         schema.skriv(mapp / "swing_2026", {"bas": "2022", "majorna": {}, "distrikt": {}})
@@ -70,6 +73,18 @@ def test_kf_raknade_lamnar_kvar_exakt_tre_raknade_distrikt(tmp_path):
     assert all(d["rd"] and d["giltiga"]["rd"] for d in valdata["distrikt"]), "riksdagsvalet ska vara orört"
     assert valdata["aggregat"]["majorna"]["kf"] == schema._summa(valdata["distrikt"], "kf")
     assert valdata["aggregat"]["majorna"]["kf"]["giltiga"] == 3 * 480
+
+
+def test_kf_raknade_raknar_om_swingens_kohort(tmp_path):
+    """Kortets kohorttext ska säga hur många jämförbara distrikt talen vilar på, även på testsidan."""
+    ut = tmp_path / "ut"
+    r = _kor(_valnattsmapp(tmp_path / "valnatt"), ut, "--valnatt", "--kf-raknade", "3")
+    assert r.returncode == 0, r.stdout + r.stderr
+    swing = schema.las_js(ut / "data" / "swing_2026.js")
+    assert swing["kohort"]["kf"]["antal"] == 3 and swing["kohort"]["kf"]["totalt"] == 5
+    assert swing["kohort"]["kf"]["helomrade"] is False
+    assert swing["kohort"]["rd"]["antal"] == 5, "riksdagsvalet är orört, alla fem distrikten ingår"
+    assert swing["bas"] == 2022 and swing["majorna"]["kf"], "swingen är omräknad, inte stubben ur valnattsmappen"
 
 
 def test_saknad_obligatorisk_fil_avbryter(tmp_path):

@@ -160,3 +160,9 @@ def test_reserverade_hojder_i_sidhuvudet():
         assert rad and "min-height:" in rad, f"{regel} saknar reserverad höjd"
     assert '"har-mening"' in js, "klassen har-mening sätts när konfigen har en mening"
     assert '$("#arval").hidden' in js, "årsknapparnas rad tar plats så snart konfigen är läst"
+
+
+def test_kortets_forandringsrad_styrs_av_swingfilen():
+    js = JS.read_text("utf-8")
+    assert "function hurAndrat(" in js and "ej_jamforbara" in js and "kohort" in js
+    assert "Hur har det ändrats" in js

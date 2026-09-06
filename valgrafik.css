@@ -118,6 +118,13 @@
 .mp-val .markorer { font-size: 13px; color: var(--sten); display: flex; flex-wrap: wrap; gap: 4px 14px; margin: 4px 0 12px; }
 .mp-val .markorer span::before { content: ""; display: inline-block; width: 3px; height: 14px; background: var(--black); margin-right: 6px; vertical-align: -2px; }
 .mp-val .panel-knappar { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+/* Hur har det ändrats: talrad för jämförbara distrikt, mening i brödtext för omritade */
+.mp-val .andrat { margin: 12px 0 0; padding-top: 10px; border-top: 1px solid var(--linje); }
+.mp-val .andrat-rubrik { font: 700 16px/1.4 var(--sans); margin: 0 0 4px; }
+.mp-val .andrat-rad { margin: 0 0 4px; font-variant-numeric: tabular-nums; }
+.mp-val .andrat-tal { margin-right: 12px; white-space: nowrap; }
+.mp-val .andrat-enhet { color: var(--sten); }
+.mp-val .andrat-text { margin: 0 0 6px; }
 .mp-val .dampad .stapel-fyll { opacity: .45; }
 .mp-val .tabell-wrap { overflow-x: auto; margin-top: 12px; }
 .mp-val table.distrikt { border-collapse: collapse; font-size: 14px; white-space: nowrap; }
@@ -211,12 +218,9 @@
 .mp-val #faktalista li { margin-bottom: 6px; }
 .mp-val footer { border-top: 1px solid var(--linje); padding-top: 16px; font-size: 13px; color: var(--sten); }
 .mp-val .fel { background: #F3E3DF; color: var(--falu); padding: 12px 16px; border-radius: 4px; }
-@container (min-width: 700px) {
+@container (min-width: 600px) {
   .mp-val .statusrad { min-height: 26px; }   /* här ryms hela raden på en rad, även den längsta valnattsvarianten */
   .mp-val.har-mening .toppsvar { min-height: 244px; }
-}
-
-@container (min-width: 600px) {
   .mp-val h1 { font-size: 44px; }
   .mp-val .stapel-rad { grid-template-columns: 150px 1fr 96px; }
   .mp-val .stapel-namn b { display: inline; margin-right: 6px; }

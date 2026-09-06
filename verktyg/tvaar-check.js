@@ -17,6 +17,9 @@ const prelUrl = namngivet('prel', null);                  // valfri sida utan --
 const snallt = text => { const e = new Error(text); e.snallt = true; return e; };
 // Statusraden gäller alltid riksdagsvalet, som är färdigräknat i testdatan - även på sidan där kf bara har 3 distrikt.
 const STATUS_2026 = 'Preliminärt, 23 av 23 distrikt räknade.';
+// Kohorten räknar distrikt som är både räknade och jämförbara: de tre första Majornadistrikten är alla
+// jämförbara mot 2022, så kf-sidan byggd med --kf-raknade 3 ska säga tre.
+const KOHORT_KF = 'räknat på 3 jämförbara distrikt av 23';
 
 (async () => {
   const browser = await puppeteer.launch({ executablePath: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', headless: true, args: ['--no-first-run', '--disable-gpu'] });
@@ -72,6 +75,32 @@ const STATUS_2026 = 'Preliminärt, 23 av 23 distrikt räknade.';
     ['Ladda om leder tillbaka från 2022', y2022.laddaOm]
   ];
 
+  // Kortets rad "Hur har det ändrats" på 2026: jämförbart distrikt får talen, omritat meningen och
+  // områdesraden, hela Majorna talen utan kohorttext så länge alla distrikt är räknade.
+  await page.evaluate(() => [...document.getElementById('valgrafik').querySelectorAll('#arval button')].find(b => b.textContent.endsWith('2026')).click());
+  await new Promise(r => setTimeout(r, 600));
+  const panelText = () => page.evaluate(() => document.getElementById('valgrafik').querySelector('#panel').textContent);
+  const kort = async kod => {
+    await page.evaluate(k => document.getElementById('valgrafik').querySelector('#karta path[data-kod="' + k + '"]').dispatchEvent(new MouseEvent('click', { bubbles: true })), kod);
+    await new Promise(r => setTimeout(r, 400));
+    return panelText();
+  };
+  const svalebo = await kort('14800526'), mariaplan = await kort('14800530');
+  await page.evaluate(() => document.getElementById('valgrafik').querySelector('#panel-tillbaka').click());
+  await new Promise(r => setTimeout(r, 400));
+  const helaMajorna = await panelText();
+  const andratRad = text => (text.match(/Sedan \d{4}:[^]*?procentenheter[^]*?(?=Tillbaka|$)/) || ['(ingen talrad)'])[0].trim();
+  console.log('kortet:', JSON.stringify({ svalebo: andratRad(svalebo), mariaplan: (mariaplan.match(/Gränserna[^]*?sedan \d{4}[^.]*\./) || ['(ingen mening)'])[0],
+                                          helaMajorna: andratRad(helaMajorna) }, null, 1));
+  kontroller.push(
+    ['Svalebo har talraden', svalebo.includes('Sedan 2022:')],
+    ['Svalebo saknar omritningsmeningen', !svalebo.includes('ritades om')],
+    ['Mariaplan har omritningsmeningen', mariaplan.includes('ritades om till 2026')],
+    ['Mariaplan har områdesraden', mariaplan.includes('Hela Majorna:')],
+    ['Mariaplan saknar talraden', !mariaplan.includes('Sedan 2022:')],
+    ['hela Majorna har talraden', helaMajorna.includes('Sedan 2022:')],
+    ['hela Majorna utan kohorttext när allt är räknat', !helaMajorna.includes('jämförbara distrikt')]);
+
   if (kfUrl) {   // markörtexten ska räkna räknade distrikt per val, inte per fil
     const kfSida = await oppna(kfUrl);
     const kf = await kfSida.evaluate(() => {
@@ -87,13 +116,16 @@ const STATUS_2026 = 'Preliminärt, 23 av 23 distrikt räknade.';
       const ut = {};
       rot.querySelector('#flik-rd').click(); ut.rdDistrikt = valjRaknat(); ut.rdMarkor = markor();
       rot.querySelector('#flik-kf').click(); ut.kfDistrikt = valjRaknat(); ut.kfMarkor = markor();
+      rot.querySelector('#panel-tillbaka').click();   // tillbaka till hela Majorna, kommunvalet kvar
+      ut.kfMajornaKort = rot.querySelector('#panel').textContent;
       ut.statusrad = rot.querySelector('#statusrad').textContent;
       return ut;
     });
     console.log('kf-sidan:', JSON.stringify(kf, null, 1));
     kontroller.push(['markörtext rd: hela Majorna', kf.rdMarkor === 'Snittet för hela Majorna'],
                     ['markörtext kf: räknade distrikt', kf.kfMarkor === 'Snittet för räknade distrikt i Majorna'],
-                    ['statusraden gäller riksdagsvalet på kf-sidan', kf.statusrad.startsWith(STATUS_2026)]);
+                    ['statusraden gäller riksdagsvalet på kf-sidan', kf.statusrad.startsWith(STATUS_2026)],
+                    ['kortets kohorttext räknar jämförbara distrikt i kommunvalet', kf.kfMajornaKort.includes(KOHORT_KF)]);
     await kfSida.close();
   } else {
     console.log('kf-sidan: hoppas över (ingen andra URL angiven)');

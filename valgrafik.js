@@ -88,7 +88,7 @@ const MARKUP = `
    Lägg till "2026" i ar och sätt valnatt: true på valnatten. Datafilerna
    data/valdata_<år>.js (och swing_<år>.js) skrivs av scripts/uppdatera_2026.py.
    Geometrin ligger i data/distrikt_<år>.js per år i ar och byggs av scripts/bygg_geo.py. */
-const KONFIG = {   // standardvärden, samma som scripts/schema.KONFIG_STANDARD, skrivs över av data/konfig.js
+const KONFIG = {   // standardvärden som speglar schemat, men med de nästlade blocken förkortade (bara visa-flaggorna); data/konfig.js skriver över
   ar: ["2022"], standardAr: "2022", valnatt: false,
   adress: "https://majposten.se/val2026",
   inbaddad: false, skrivUrl: true, stickyTopp: 16,   // px från fönstrets överkant för det klibbiga kortet på desktop, höj om Beehiivs sidhuvud är klibbigt
@@ -789,6 +789,48 @@ function stapelRad(p, andel, markorer, swing, dampad) {
 function toppTre(roster, giltiga) {
   return andelar(roster, giltiga).filter(a => a.p !== "Övriga").slice(0, 3).map(a => `${a.p} ${procent(a.andel)}`).join(", ");
 }
+/* ---- "Hur har det ändrats": bara det swingfilen tillåter. Jämförbart distrikt får talen, omritat får en
+   mening och områdesraden, hela Majorna får talen med kohorttext. Ett parti utan tal i swingen (inte
+   redovisat båda åren) hoppas över helt, det skrivs aldrig som 0,0. Kohorten räknar distrikt som är både
+   räknade och jämförbara, därför står det "jämförbara distrikt" och inte bara "distrikt" som statusraden. */
+const toppMedTal = (roster, giltiga, tal) =>
+  andelar(roster, giltiga).filter(a => a.p !== "Övriga" && tal[a.p] !== undefined).slice(0, 3);
+const kohortSlut = k => k.helomrade ? "" : `, räknat på ${k.antal} jämförbara distrikt av ${k.totalt}`;
+function omradesRad(sw, val, p) {
+  const omrade = (sw.majorna || {})[val], k = (sw.kohort || {})[val];
+  if (!omrade || omrade[p] === undefined || !k || !k.antal) return null;
+  return h("p", { class: "andrat-rad" }, `Hela Majorna: ${p} ${pe(omrade[p])} sedan ${sw.bas}${kohortSlut(k)}.`);
+}
+function hurAndrat(d, val) {
+  const sw = state.swing[state.ar];
+  if (!sw || !raknat(d, val)) return null;
+  const rubrik = h("p", { class: "andrat-rubrik" }, "Hur har det ändrats");
+  const post = (sw.distrikt || {})[d.kod], ej = (sw.ej_jamforbara || {})[d.kod];
+  const storst = storsta(d[val]);
+  if (post && post[val]) {
+    const topp = toppMedTal(d[val], d.giltiga[val], post[val]);
+    if (!topp.length) return null;   // inget av distriktets partier redovisas båda åren
+    return h("div", { class: "andrat" }, rubrik,
+      h("p", { class: "andrat-rad" }, `Sedan ${sw.bas}: `, topp.map(a => h("span", { class: "andrat-tal" }, `${a.p} ${pe(post[val][a.p])}`)), h("span", { class: "andrat-enhet" }, "procentenheter")));
+  }
+  if (ej) {
+    const delar = [rubrik, h("p", { class: "andrat-text" }, ej.mening || `Gränserna för ${d.namn} ritades om till ${sw.ar}. Siffrorna går inte att jämföra med ${sw.bas}.`)];
+    if (ej.omradesrad !== false && storst) { const rad = omradesRad(sw, val, storst); if (rad) delar.push(rad); }
+    return h("div", { class: "andrat" }, delar);
+  }
+  return null;
+}
+function hurAndratMajorna(val) {
+  const sw = state.swing[state.ar], m = majorna(val);
+  if (!sw || !m || !m.giltiga) return null;
+  const omrade = (sw.majorna || {})[val], k = (sw.kohort || {})[val];
+  if (!omrade || !Object.keys(omrade).length || !k || !k.antal) return null;
+  const topp = toppMedTal(m.roster, m.giltiga, omrade);
+  if (!topp.length) return null;
+  const slut = k.helomrade ? "" : `${kohortSlut(k)}.`;
+  return h("div", { class: "andrat" }, h("p", { class: "andrat-rubrik" }, "Hur har det ändrats"),
+    h("p", { class: "andrat-rad" }, `Sedan ${sw.bas}: `, topp.map(a => h("span", { class: "andrat-tal" }, `${a.p} ${pe(omrade[a.p])}`)), h("span", { class: "andrat-enhet" }, "procentenheter" + slut)));
+}
 function renderPanel() {
   const val = state.val, dm = distriktMap(), d = state.vald ? dm[state.vald] : null, m = majorna(val);
   const rubrik = $("#panel-rubrik"), tillbaka = $("#panel-tillbaka"), hint = $("#panel-hint"),
@@ -820,6 +862,8 @@ function renderPanel() {
     markorNot.push(...swingNot(swing));
     for (const a of andelar(d[val], d.giltiga[val])) if (a.andel >= 0.01)
       staplar.append(stapelRad(a.p, a.andel, markorer.map(x => ({ ...x, andel: m.giltiga ? (m.roster[a.p] || 0) / m.giltiga : undefined })), swing ? swing[a.p] : null));
+    const andrat = hurAndrat(d, val);
+    if (andrat) staplar.append(andrat);
     knappar.append(h("button", { type: "button", class: "till-kartan", onclick: () => $("#karta").scrollIntoView({ block: "start", behavior: lugn() ? "auto" : "smooth" }) }, "Tillbaka till kartan"));
   } else {
     rubrik.textContent = "Hela Majorna";
@@ -840,6 +884,8 @@ function renderPanel() {
       markorNot.push(...swingNot(swing));
       for (const a of andelar(m.roster, m.giltiga)) if (a.andel >= 0.01)
         staplar.append(stapelRad(a.p, a.andel, markorer.map(x => ({ ...x, andel: x.andelar[a.p] })), swing ? swing[a.p] : null));
+      const andratM = hurAndratMajorna(val);
+      if (andratM) staplar.append(andratM);
     }
   }
   sub.textContent = subText; sub.hidden = !subText;

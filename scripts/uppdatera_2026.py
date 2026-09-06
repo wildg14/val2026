@@ -143,18 +143,22 @@ def bas_namn(bas, kod):
     return next((d["namn"] for d in bas["distrikt"] if d["kod"] == kod), kod)
 
 
+SUMMANYCKLAR = ("giltiga", "rostande", "rostberattigade")
+
+
 def las_csv(path, distrikt):
     text = Path(path).read_text("utf-8-sig")
-    avgransare = ";" if text.splitlines()[0].count(";") >= text.splitlines()[0].count(",") else ","
+    forsta = text.splitlines()[0] if text.strip() else ""
+    avgransare = ";" if forsta.count(";") >= forsta.count(",") else ","
     rader = list(csv.DictReader(text.splitlines(), delimiter=avgransare))
     krav = {"val", "kod", "parti", "roster"}
-    if not rader or not krav <= {k.strip().lower() for k in rader[0].keys()}:
+    if not rader or not krav <= {k.strip().lower() for k in rader[0].keys() if k}:
         fel(f"{path}: CSV-filen måste ha kolumnerna val;kod;parti;roster")
     poster = {}
     for i, r in enumerate(rader, start=2):
-        r = {k.strip().lower(): (v or "").strip() for k, v in r.items()}
-        if not r["kod"]:
-            continue
+        r = {(k or "").strip().lower(): (v or "").strip() for k, v in r.items()}
+        if not r.get("val") or r["val"].startswith("#") or not r.get("kod"):
+            continue   # tom rad eller kommentarrad ur mallen
         val, kod, parti = r["val"].lower(), r["kod"], r["parti"]
         if val not in VAL:
             fel(f"{path} rad {i}: okänt val '{val}' (rd, rf eller kf)")
@@ -166,11 +170,17 @@ def las_csv(path, distrikt):
             n = int(r["roster"].replace(" ", ""))
         except ValueError:
             fel(f"{path} rad {i}: '{r['roster']}' är inte ett heltal")
+        if n < 0:
+            fel(f"{path} rad {i}: negativt tal {n}")
         p = poster.setdefault((val, kod), {"roster": {}, "giltiga": None, "rostande": None, "rostberattigade": 0})
-        if parti.lower() in ("giltiga", "rostande", "rostberattigade"):
+        if parti.lower() in SUMMANYCKLAR:
             p[parti.lower()] = n
-        else:
-            p["roster"][parti] = p["roster"].get(parti, 0) + n
+            continue
+        tillatna = {q.upper(): q for q in NYCKELPARTIER[val] + [OVRIGA]}
+        if parti.upper() not in tillatna:
+            fel(f"{path} rad {i}: okänt parti '{parti}' för {val} (tillåtna: {', '.join(NYCKELPARTIER[val] + [OVRIGA])})")
+        kanon = tillatna[parti.upper()]
+        p["roster"][kanon] = p["roster"].get(kanon, 0) + n
     for (val, kod), p in sorted(poster.items()):
         if p["giltiga"] is None:
             fel(f"{path}: {val} {kod} saknar raden 'giltiga'")
@@ -181,6 +191,8 @@ def las_csv(path, distrikt):
             p["rostande"] = p["giltiga"]
         if p["rostande"] < p["giltiga"]:
             fel(f"{path}: {val} {kod}: röstande {p['rostande']} < giltiga {p['giltiga']}")
+        if p["rostberattigade"] and p["rostande"] > p["rostberattigade"]:
+            fel(f"{path}: {val} {kod}: röstande {p['rostande']} > röstberättigade {p['rostberattigade']}")
         if not p["rostberattigade"]:
             varning(f"{val} {kod}: 'rostberattigade' saknas, valdeltagande kan inte visas")
         fyll(distrikt, kod, val, p)

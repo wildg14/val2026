@@ -102,6 +102,47 @@ def test_csv_med_felaktig_summa_avbryter(tmp_path):
     assert "14800530" in r.stdout + r.stderr
 
 
+def test_mallen_gar_att_lasa_tillbaka(tmp_path):
+    mall = tmp_path / "mall.csv"
+    assert kor("--skriv-mall", str(mall)).returncode == 0
+    rader = mall.read_text("utf-8").splitlines()
+    assert any(r.startswith("#;") for r in rader), "mallen har kommentarrader som börjar med #"
+    ifylld = []
+    for r in rader:
+        if r.startswith("rd;14800530;"):
+            val, kod, parti, _ = r.split(";")
+            tal = {"V": "300", "S": "200", "Övriga": "0", "giltiga": "500", "rostande": "505", "rostberattigade": "1000"}.get(parti, "0")
+            ifylld.append(f"{val};{kod};{parti};{tal}")
+        else:
+            ifylld.append(r)
+    mall.write_text("\n".join(ifylld) + "\n", "utf-8")
+    r = kor("--csv", str(mall), "--ut", str(tmp_path), "--ar", "2026")
+    assert r.returncode == 0, r.stdout + r.stderr
+    v = json.loads((tmp_path / "valdata_2026.json").read_text("utf-8"))
+    assert v["meta"]["valnatt"]["raknade"] == 1
+
+
+@pytest.mark.parametrize("rad,fras", [
+    ("rd;14800530;V;-10\nrd;14800530;S;510\nrd;14800530;giltiga;500\nrd;14800530;rostande;505\nrd;14800530;rostberattigade;1000\n", "negativ"),
+    ("rd;14800530;X;500\nrd;14800530;giltiga;500\nrd;14800530;rostande;505\nrd;14800530;rostberattigade;1000\n", "okänt parti"),
+    ("rd;14800530;V;500\nrd;14800530;giltiga;500\nrd;14800530;rostande;505\nrd;14800530;rostberattigade;400\n", "röstberättigade"),
+])
+def test_csv_avvisar_orimliga_tal(tmp_path, rad, fras):
+    csv = tmp_path / "fel.csv"
+    csv.write_text("val;kod;parti;roster\n" + rad, "utf-8")
+    r = kor("--csv", str(csv), "--ut", str(tmp_path), "--ar", "2026")
+    assert r.returncode != 0 and fras in (r.stdout + r.stderr).lower()
+
+
+def test_csv_normaliserar_partikod_till_versaler(tmp_path):
+    csv = tmp_path / "v.csv"
+    csv.write_text("val;kod;parti;roster\nrd;14800530;v;300\nrd;14800530;s;200\nrd;14800530;giltiga;500\nrd;14800530;rostande;505\nrd;14800530;rostberattigade;1000\n", "utf-8")
+    r = kor("--csv", str(csv), "--ut", str(tmp_path), "--ar", "2026")
+    assert r.returncode == 0, r.stdout + r.stderr
+    v = json.loads((tmp_path / "valdata_2026.json").read_text("utf-8"))
+    assert {x["kod"]: x for x in v["distrikt"]}["14800530"]["rd"] == {"V": 300, "S": 200}
+
+
 def test_skadad_valdata_ger_fel_rad_inte_traceback(tmp_path):
     (tmp_path / "valdata_2026.json").write_text('{"meta": {', "utf-8")   # halvskriven under en tidigare körning
     csv = tmp_path / "v.csv"

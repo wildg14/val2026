@@ -16,6 +16,8 @@ interaktiv-valgrafik-brief.md
 majorna-valanalys-2022.md
 verktyg/node_modules/
 verktyg/package*.json
+# testsidor som byggs om av verktyg/forbered_tvaar.py
+tmp/
 # nedladdat och reparerat källmaterial för historiken (cirka 260 MB), hämtas om med scripts/historik/*_fetch.py
 Historiska dokument/dl2002/
 Historiska dokument/dl2006/

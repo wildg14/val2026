@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Hämtar ett bakgrundslager för kartan från OpenStreetMap (Overpass) och skriver data/bakgrund.json/.js.
 
-    .venv/bin/python scripts/hamta_bakgrund.py [--ut data] [--geojson data/distrikt.geojson]
+    .venv/bin/python scripts/hamta_bakgrund.py [--ut data] [--geojson data/distrikt_2022.geojson]
 
 Lagret är valfritt: saknas filen ritar sidan kartan mot enfärgad bakgrund. Vid nätverksfel
 lämnas befintliga filer orörda och skriptet avslutas med kod 2.
@@ -153,7 +153,7 @@ def packa(elements, bbox, tolerans_m=2.0, decimaler=5):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--geojson", default=ROT / "data" / "distrikt.geojson")
+    ap.add_argument("--geojson", default=ROT / "data" / "distrikt_2022.geojson")
     ap.add_argument("--ut", default=ROT / "data")
     ap.add_argument("--url", default=OVERPASS)
     a = ap.parse_args()

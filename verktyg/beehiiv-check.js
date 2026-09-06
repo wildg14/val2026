@@ -14,16 +14,20 @@ async function nyIframeFrame(page) {
   return { handle, frame: await handle.contentFrame() };
 }
 
+// data/swing_<år>.js är valfri: saknas den visar sidan ingen förändringsrad för året. Webbläsarens 404 för
+// en sådan fil är alltså väntad och räknas inte som JS-fel, men skrivs ut så att en oväntad lucka syns.
+const valfriFil = m => /\/data\/swing_\d+\.js(\?|$)/.test((m.location() || {}).url || '') && m.text().includes('404');
+
 (async () => {
   const browser = await puppeteer.launch({ executablePath: KROM, headless: true, args: ['--no-first-run', '--disable-gpu'] });
   const ut = {};
-  const fel = [];
+  const fel = [], saknade = [];
 
   // --- Desktop: djuplänk in, klick byter distrikt, förälderns URL uppdateras, tabellen växer iframen ---
   {
     const page = await browser.newPage();
     page.on('pageerror', e => fel.push('desktop: ' + e));
-    page.on('console', m => { if (m.type() === 'error') fel.push('desktop console: ' + m.text()); });
+    page.on('console', m => { if (m.type() !== 'error') return; if (valfriFil(m)) saknade.push(m.location().url); else fel.push('desktop console: ' + m.text()); });
     await page.setViewport({ width: 1280, height: 900 });
     await page.goto(BAS + '?distrikt=14800530', { waitUntil: 'networkidle0' });
     const { handle, frame } = await nyIframeFrame(page);
@@ -52,7 +56,7 @@ async function nyIframeFrame(page) {
   {
     const page = await browser.newPage();
     page.on('pageerror', e => fel.push('mobil: ' + e));
-    page.on('console', m => { if (m.type() === 'error') fel.push('mobil console: ' + m.text()); });
+    page.on('console', m => { if (m.type() !== 'error') return; if (valfriFil(m)) saknade.push(m.location().url); else fel.push('mobil console: ' + m.text()); });
     await page.setViewport({ width: 390, height: 844, deviceScaleFactor: 2, isMobile: true, hasTouch: true });
     await page.goto(BAS + '?distrikt=14800530', { waitUntil: 'networkidle0' });
     const { handle, frame } = await nyIframeFrame(page);
@@ -74,6 +78,7 @@ async function nyIframeFrame(page) {
   }
 
   console.log(JSON.stringify(ut, null, 1));
+  if (saknade.length) console.log('valfria filer som saknas:', [...new Set(saknade)].join(' | '));
   console.log(fel.length ? 'FEL: ' + fel.join(' | ') : 'inga JS-fel');
   await browser.close();
   if (fel.length) process.exit(1);

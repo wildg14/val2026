@@ -1,9 +1,14 @@
 const puppeteer = require('puppeteer-core');
+// data/swing_<år>.js är valfri: saknas den visar sidan ingen förändringsrad för året. Webbläsarens 404 för
+// en sådan fil är alltså väntad och räknas inte som JS-fel, men skrivs ut så att en oväntad lucka syns.
+const valfriFil = m => /\/data\/swing_\d+\.js(\?|$)/.test((m.location() || {}).url || '') && m.text().includes('404');
 (async () => {
   const browser = await puppeteer.launch({ executablePath: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', headless: true, args: ['--no-first-run', '--disable-gpu'] });
   const page = await browser.newPage();
   await page.setViewport({ width: 390, height: 844, deviceScaleFactor: 2, isMobile: true, hasTouch: true });
-  const fel = []; page.on('pageerror', e => fel.push(String(e))); page.on('console', m => { if (m.type() === 'error') fel.push('console: ' + m.text()); });
+  const fel = [], saknade = [];
+  page.on('pageerror', e => fel.push(String(e)));
+  page.on('console', m => { if (m.type() !== 'error') return; if (valfriFil(m)) saknade.push(m.location().url); else fel.push('console: ' + m.text()); });
   await page.goto('http://localhost:8765/index.html', { waitUntil: 'networkidle0' });
   await new Promise(r => setTimeout(r, 1500));
   const res = await page.evaluate(() => {
@@ -32,6 +37,7 @@ const puppeteer = require('puppeteer-core');
   await new Promise(r => setTimeout(r, 300));
   const kusttorgetRubrik = await page.evaluate(() => document.getElementById('valgrafik').querySelector('#panel-rubrik').textContent);
   console.log('kusttorgetRubrik:', kusttorgetRubrik, kusttorgetRubrik === 'Kusttorget' ? 'ok' : 'FEL: musklick nådde inte distriktet');
+  if (saknade.length) console.log('valfria filer som saknas:', [...new Set(saknade)].join(' | '));
   console.log(fel.length ? 'FEL: ' + fel.join(' | ') : 'inga JS-fel');
   await page.goto('http://localhost:8765/index.html?bild=karta&val=rd&format=liggande', { waitUntil: 'networkidle0' });
   await new Promise(r => setTimeout(r, 800));

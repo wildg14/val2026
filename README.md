@@ -17,7 +17,7 @@ docs/beehiivtest.html         simulerad Beehiiv-sida (klibbig meny 89 px, iframe
 data/konfig.json / .js        KONFIG: ar, standardAr, valnatt, adress, inbaddad, skrivUrl, stickyTopp
 data/valdata_2022.json        röster per distrikt och val, aggregat, mandat (kanonisk fil)
 data/valdata_2022.js          samma data som JS, laddas av sidan (fungerar även via file://)
-data/distrikt.geojson / .js   de 23 distriktspolygonerna i WGS84
+data/distrikt_2022.geojson / .js   de 23 distriktspolygonerna i WGS84, en fil per år i konfigens ar
 data/bakgrund.json / .js      gator, spårväg, hållplatser, vatten, parker från OpenStreetMap (valfri)
 data/valdata_2026.* + swing_2026.*   skrivs av uppdatera_2026.py på valnatten
 scripts/bygg_data.py          xlsx + zip -> data/, med kontroller

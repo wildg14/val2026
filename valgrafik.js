@@ -2,7 +2,8 @@
    Renderar hela grafiken inuti <div class="mp-val" id="valgrafik"></div>. Datafiler och konfig läses från
    mappen data/ bredvid den här filen (adressen tas ur skriptets egen src). Inga globala stilar, inga vh-mått:
    filen kan ligga i ett HTML-block i Beehiivs sajtbyggare eller i det tunna skalet index.html.
-   Konfig: data/konfig.js (ar, standardAr, valnatt, adress, inbaddad, skrivUrl, stickyTopp). */
+   Konfig: data/konfig.js (ar, standardAr, valnatt, adress, inbaddad, skrivUrl, stickyTopp).
+   Geometri: data/distrikt_<år>.js per år i ar - kartan ritar det visade årets polygoner. */
 (function () {
 "use strict";
 const rot = (document.currentScript && document.currentScript.closest && document.currentScript.closest(".mp-val")) || document.getElementsByClassName("mp-val")[0];
@@ -17,7 +18,7 @@ const MARKUP = `
 <header class="topp">
     <p class="etikett" id="topp-etikett">Majposten</p>
     <h1>Så röstade Majorna</h1>
-    <p class="ingress" id="ingress" data-redaktor="justera">Valresultatet för de 23 valdistrikten i klassiska Majorna - riksdag, region och kommun, kvarter för kvarter.</p>
+    <p class="ingress" id="ingress" data-redaktor="justera">Valresultatet för valdistrikten i klassiska Majorna - riksdag, region och kommun, kvarter för kvarter.</p>
     <p class="samarbete" id="samarbete" hidden></p>
     <div id="arval" class="knappar" role="group" aria-label="Välj valår" hidden></div>
     <div id="valnatt" class="banderoll" hidden></div>
@@ -83,7 +84,8 @@ const MARKUP = `
 `;
 /* ===================================================================== KONFIG
    Lägg till "2026" i ar och sätt valnatt: true på valnatten. Datafilerna
-   data/valdata_<år>.js (och swing_<år>.js) skrivs av scripts/uppdatera_2026.py. */
+   data/valdata_<år>.js (och swing_<år>.js) skrivs av scripts/uppdatera_2026.py.
+   Geometrin ligger i data/distrikt_<år>.js per år i ar och byggs av scripts/bygg_geo.py. */
 const KONFIG = {   // standardvärden, skrivs över av data/konfig.js
   ar: ["2022"], standardAr: "2022", valnatt: false,
   adress: "https://majposten.se/val2026",
@@ -111,7 +113,7 @@ const VALNAMN = { rd: "Riksdagsvalet", rf: "Regionvalet", kf: "Kommunvalet" };
 const FARG = { papper: "#FAF6EE", black: "#2A241E", sten: "#6E6152", linje: "#E6DECF", ockra: "#C58A34", oraknat: "#DDD5C6" };
 
 const state = { ar: KONFIG.standardAr, val: "rd", lage: "storsta", parti: "V", vald: null,
-                mandatLage: "verklig", mandatRort: false, data: {}, swing: {}, geo: null, bakgrund: null,
+                mandatLage: "verklig", mandatRort: false, data: {}, swing: {}, geo: {}, bakgrund: null,
                 sortering: { kol: "namn", fallande: false }, tabellOppen: false, skalmax: 0.5, jamforelseVal: "rd", bild: false };
 
 /* ===================================================================== hjälp */
@@ -137,7 +139,11 @@ function s(tag, attrs = {}, ...barn) {
 }
 const procent = (x, dec = 1) => (x * 100).toLocaleString("sv-SE", { minimumFractionDigits: dec, maximumFractionDigits: dec }) + " %";
 const tal = n => Math.round(n).toLocaleString("sv-SE");
-const pe = x => (x > 0 ? "+" : "") + x.toLocaleString("sv-SE", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+const pe = x => {   // avrundas först: ett värde som blir noll skrivs "0,0" utan tecken, aldrig "-0,0"
+  let v = Math.round(x * 10) / 10;
+  if (v === 0) v = 0;   // gäller även negativ noll
+  return (v > 0 ? "+" : "") + v.toLocaleString("sv-SE", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+};
 const parti = p => PARTIER[p] || { namn: (data().meta.partier || {})[p] || p, farg: "#A79C8E", text: FARG.black };
 function mix(hex, t) {   // partifärg mot papper, t = 1 ger partifärgen
   const c = [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16)), p = [250, 246, 238];
@@ -168,7 +174,9 @@ function namnMedMjukaBindestreck(namn) {   // mjukt bindestreck (U+00AD) i lång
 /* ===================================================================== data */
 const data = () => state.data[state.ar];
 const distriktMap = () => Object.fromEntries(data().distrikt.map(d => [d.kod, d]));
-const geoMap = () => Object.fromEntries(state.geo.features.map(f => [f.properties.kod, f]));
+const geo = () => state.geo[state.ar];            // det visade årets polygoner
+const antalDistrikt = () => (data().distrikt || []).length;
+const geoMap = () => Object.fromEntries(geo().features.map(f => [f.properties.kod, f]));
 const raknat = (d, val) => !!(d.raknat && d[val] && Object.keys(d[val]).length && d.giltiga[val]);
 function andelar(roster, giltiga) {
   return Object.entries(roster).map(([p, n]) => ({ p, n, andel: giltiga ? n / giltiga : 0 }))
@@ -244,7 +252,8 @@ function skrivUrl() {
 function laddaSkript(namn) {
   return new Promise((ok, fel) => {
     const el = document.createElement("script");
-    el.src = BAS + "data/" + namn + ".js";
+    const farsk = namn === "konfig" ? "?v=" + Date.now() : KONFIG.valnatt ? "?v=" + Math.floor(Date.now() / 60000) : "";
+    el.src = BAS + "data/" + namn + ".js" + farsk;
     el.onload = () => (window.MAJPOSTEN && window.MAJPOSTEN.data[namn]) ? ok(window.MAJPOSTEN.data[namn]) : fel(new Error(namn + " saknar data"));
     el.onerror = () => fel(new Error("kunde inte ladda data/" + namn + ".js"));
     document.head.appendChild(el);
@@ -260,12 +269,12 @@ async function start() {
   try { Object.assign(KONFIG, await laddaSkript("konfig")); } catch (e) { /* standardkonfig gäller */ }
   state.ar = KONFIG.ar.includes(KONFIG.standardAr) ? KONFIG.standardAr : KONFIG.ar[0];   // state skapades innan konfigen laddades
   try {
-    const [geo, ...valdata] = await Promise.all(["distrikt", ...KONFIG.ar.map(a => "valdata_" + a)].map(laddaSkript));
-    state.geo = geo;
-    KONFIG.ar.forEach((a, i) => { state.data[a] = valdata[i]; });
+    const geon = await Promise.all(KONFIG.ar.map(a => laddaSkript("distrikt_" + a)));
+    const valdata = await Promise.all(KONFIG.ar.map(a => laddaSkript("valdata_" + a)));
+    KONFIG.ar.forEach((a, i) => { state.geo[a] = geon[i]; state.data[a] = valdata[i]; });
     if (!state.data[state.ar]) state.ar = KONFIG.ar[0];
     state.bakgrund = await laddaSkript("bakgrund").catch(() => null);
-    for (const a of KONFIG.ar) state.swing[a] = a === [...KONFIG.ar].sort()[0] ? null : await laddaSkript("swing_" + a).catch(() => null);   // basåret har ingen swing
+    for (const a of KONFIG.ar) state.swing[a] = await laddaSkript("swing_" + a).catch(() => null);   // basåret står i filen, saknad fil ger ingen swing
   } catch (e) {
     $("header.topp").append(h("p", { class: "fel" }, "Datafilerna kunde inte laddas: " + e.message + ". Kör scripts/bygg_data.py och kontrollera att data/ ligger bredvid valgrafik.js."));
     return;
@@ -294,7 +303,7 @@ function renderAllt() {
 function renderHuvud() {
   const meta = data().meta;
   $("#topp-etikett").textContent = "Majposten · Valspecial";
-  $("#ingress").textContent = `Valresultatet ${meta.ar} för de 23 valdistrikten i klassiska Majorna - riksdag, region och kommun, kvarter för kvarter.`;
+  $("#ingress").textContent = `Valresultatet ${meta.ar} för de ${antalDistrikt()} valdistrikten i klassiska Majorna - riksdag, region och kommun, kvarter för kvarter.`;
   const arval = $("#arval");
   arval.innerHTML = "";
   arval.hidden = KONFIG.ar.length < 2;
@@ -484,7 +493,7 @@ if ("ResizeObserver" in window) new ResizeObserver(() => {
   const nu = arDesktop(), breddNu = kartBredd();
   const desktopBytte = senastDesktop !== null && nu !== senastDesktop;
   const breddBytte = senastKartaBredd !== null && Math.abs(breddNu - senastKartaBredd) / senastKartaBredd > 0.1;
-  if ((desktopBytte || breddBytte) && state.geo && !state.bild) renderKarta();
+  if ((desktopBytte || breddBytte) && geo() && !state.bild) renderKarta();
   senastDesktop = nu; senastKartaBredd = breddNu;
 }).observe(rot);
 function storlek() {   // typstorlekar i viewBox-enheter efter kartans faktiska pixelbredd, inte en fast 600 px-tröskel
@@ -499,6 +508,10 @@ function projektion(bbox, padX = 0.045, padY = 0.16) {   // högre ram: mer älv
   const W = w0 - dx, E = e0 + dx, S = s0 - dy, N = n0 + dy;
   const kx = Math.cos((S + N) / 2 * Math.PI / 180), bredd = 1000, skala = bredd / ((E - W) * kx);
   return { bredd, hojd: (N - S) * skala, till: ([lon, lat]) => [(lon - W) * kx * skala, (N - lat) * skala], W, E, S, N };
+}
+function gemensamBbox() {   // en ram för alla laddade år, så att kartan inte hoppar vid årsbyte
+  const bb = Object.values(state.geo).map(g => g.bbox);
+  return [Math.min(...bb.map(b => b[0])), Math.min(...bb.map(b => b[1])), Math.max(...bb.map(b => b[2])), Math.max(...bb.map(b => b[3]))];
 }
 const dAttr = (ring, proj, stang) => ring.map((c, i) => (i ? "L" : "M") + proj.till(c).map(v => v.toFixed(1)).join(",")).join("") + (stang ? "Z" : "");
 const dRing = (ringSvg, stang) => ringSvg.map((c, i) => (i ? "L" : "M") + c.map(v => v.toFixed(1)).join(",")).join("") + (stang ? "Z" : "");
@@ -566,9 +579,9 @@ function namnRader(namn) {
   return [namn.slice(0, i), namn.slice(i + 1)];
 }
 function renderKarta() {
-  const val = state.val, dm = distriktMap(), proj = projektion(state.geo.bbox), S = state.bild ? STORLEK.mobil : storlek(), desktop = arDesktop() && !state.bild;
+  const val = state.val, dm = distriktMap(), proj = projektion(gemensamBbox()), S = state.bild ? STORLEK.mobil : storlek(), desktop = arDesktop() && !state.bild;
   const skala = state.lage === "styrka" ? styrkaSkala(val, state.parti) : null;
-  const svg = s("svg", { viewBox: `0 0 ${proj.bredd} ${proj.hojd.toFixed(1)}`, role: "group", "aria-label": `Karta över Majornas 23 valdistrikt, ${VALNAMN[val].toLowerCase()} ${state.ar}` });
+  const svg = s("svg", { viewBox: `0 0 ${proj.bredd} ${proj.hojd.toFixed(1)}`, role: "group", "aria-label": `Karta över Majornas ${antalDistrikt()} valdistrikt, ${VALNAMN[val].toLowerCase()} ${state.ar}` });
   svg.append(s("title", {}, `Karta: ${VALNAMN[val]} ${state.ar} per valdistrikt`));
   const bg = state.bakgrund;
   const iBild = ([lon, lat]) => lon >= proj.W && lon <= proj.E && lat >= proj.S && lat <= proj.N;
@@ -579,7 +592,7 @@ function renderKarta() {
     svg.append(parker, vatten);
   }
   const gDistrikt = s("g", { class: "distrikt-lager" }), ringar = {};
-  for (const f of state.geo.features) {
+  for (const f of geo().features) {
     const d = dm[f.properties.kod], ringSvg = f.geometry.coordinates[0].map(proj.till);
     ringar[d.kod] = ringSvg;
     const p = s("path", { class: "distrikt" + (state.vald === d.kod ? " vald" : ""), d: dRing(ringSvg, true),
@@ -591,7 +604,7 @@ function renderKarta() {
   svg.append(gDistrikt);
   // distriktsetiketter bestäms först så att hållplatsnamn och platsnamn väjer för dem
   const etiketter = s("g", { class: "etiketter" }), upptaget = [];
-  for (const f of state.geo.features) {
+  for (const f of geo().features) {
     const d = dm[f.properties.kod], [lx, ly] = proj.till(f.properties.etikett), sp = spannVid(ringar[d.kod], ly, lx);
     const text = etikettText(d, val, sp.bredd), vald = state.vald === d.kod;
     if (!text && !vald) continue;
@@ -726,7 +739,8 @@ function renderPanel() {
     if (d.rostberattigade[val]) vd = `Valdeltagande ${procent(d.rostande[val] / d.rostberattigade[val])}` + (majornaRaknat(val) && m.rostberattigade ? ` (Majorna ${procent(m.rostande / m.rostberattigade)})` : "");
     subText = (vd ? vd + ". " : "") + `${tal(d.giltiga[val])} giltiga röster.`;
     const markorer = majornaRaknat(val) ? [{ klass: "majorna", namn: "Majorna" }] : [], swing = swingFor(d.kod, val);
-    if (markorer.length) markorNot.push(h("span", { class: "majorna" }, KONFIG.valnatt && data().meta.valnatt && data().meta.valnatt.raknade < data().meta.valnatt.totalt ? "Snittet för räknade distrikt i Majorna" : "Snittet för hela Majorna"));
+    // meta.valnatt räknar distrikt där något val är räknat: räkna per visat val, som statusraden nedan gör
+    if (markorer.length) markorNot.push(h("span", { class: "majorna" }, KONFIG.valnatt && data().distrikt.filter(x => raknat(x, val)).length < antalDistrikt() ? "Snittet för räknade distrikt i Majorna" : "Snittet för hela Majorna"));
     markorNot.push(...swingNot(swing));
     for (const a of andelar(d[val], d.giltiga[val])) if (a.andel >= 0.01)
       staplar.append(stapelRad(a.p, a.andel, markorer.map(x => ({ ...x, andel: m.giltiga ? (m.roster[a.p] || 0) / m.giltiga : undefined })), swing ? swing[a.p] : null));
@@ -936,8 +950,8 @@ function renderBild(typ) {
     if (!partierIVal(state.val).includes(state.parti)) state.parti = partierIVal(state.val)[0];
     ram.classList.add("karta-bild");
     const under = state.lage === "styrka"
-      ? `${parti(state.parti).namn}s andel i ${VALNAMN[state.val].toLowerCase()} ${state.ar}, 23 valdistrikt`
-      : `Största parti i ${VALNAMN[state.val].toLowerCase()} ${state.ar}, 23 valdistrikt`;
+      ? `${parti(state.parti).namn}s andel i ${VALNAMN[state.val].toLowerCase()} ${state.ar}, ${antalDistrikt()} valdistrikt`
+      : `Största parti i ${VALNAMN[state.val].toLowerCase()} ${state.ar}, ${antalDistrikt()} valdistrikt`;
     const etikett = h("p", { class: "etikett" }, q.get("etikett") || `Majposten · Valet ${state.ar}`);
     const rubrik = h("h1", {}, "Så röstade ditt kvarter"), sub = h("p", { class: "bild-sub" }, under);
     const legend = h("div", { id: "karta-legend", class: "karta-legend" }), karta = h("div", { id: "karta" });

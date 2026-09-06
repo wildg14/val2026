@@ -124,3 +124,12 @@ def test_scroll_margin_under_beehiivs_klibbiga_meny():
 def test_djuplankar_lases_och_skrivs_mot_foraldern_i_iframen():
     js = JS.read_text("utf-8")
     assert "function sidLocation()" in js
+
+
+def test_geometri_per_ar_dynamiskt_antal_och_swing_for_alla_ar():
+    js = JS.read_text("utf-8")
+    assert '"distrikt_" + a' in js, "sidan laddar distrikt_<år> för varje år i KONFIG.ar"
+    assert "23 valdistrikt" not in js and "de 23 valdistrikten" not in js, "antalet distrikt läses ur datan"
+    assert "sort()[0]" not in js, "basåret väljs inte längre implicit, swing laddas för alla år som har en fil"
+    assert "function gemensamBbox()" in js
+    assert (ROT / "data" / "distrikt_2022.js").exists() and not (ROT / "data" / "distrikt.js").exists()

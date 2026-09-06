@@ -105,6 +105,23 @@ def test_genrep_rd_goteborg_antal():
     assert set(NYCKELPARTIER["rd"]) <= set(ra["distrikt"]["14800526"]["roster"]), "alla åtta riksdagspartier är rapportpartier i riksdagsfilen"
 
 
+@finns
+def test_las_objekt_trunkerad_fil_ger_formatfel_inte_traceback(tmp_path):
+    """En halvskriven fil (avbruten hämtning eller läsning mitt i en skrivning) ska ge FormatFel med
+    filnamnet i texten, aldrig en JSONDecodeError-traceback som stoppar hela körningen med fel typ."""
+    text = RD.read_text("utf-8")
+    trasig = tmp_path / "trasig.json"
+    trasig.write_text(text[: len(text) // 3], "utf-8")
+    with pytest.raises(valnatt.FormatFel) as exc:
+        valnatt.las_rostfordelning(trasig)
+    assert "trasig.json" in str(exc.value)
+
+
+def test_las_objekt_saknad_fil_ger_formatfel_inte_oserror(tmp_path):
+    with pytest.raises(valnatt.FormatFel):
+        valnatt.las_rostfordelning(tmp_path / "finns-inte.json")
+
+
 def test_las_rostfordelning_rot_ej_dict_ger_formatfel():
     with pytest.raises(valnatt.FormatFel):
         valnatt.las_rostfordelning([], koder=MAJORNA_KODER)

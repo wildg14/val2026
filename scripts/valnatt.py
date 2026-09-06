@@ -49,8 +49,20 @@ def ar_raknat(d):
 
 
 def _las_objekt(kalla):
+    """Läser en sökväg som JSON, eller returnerar objektet oförändrat om det redan är ett.
+
+    En halvskriven fil (avbruten hämtning, eller läst mitt i en skrivning på valnatten) ska aldrig
+    stoppa körningen med en traceback: JSONDecodeError, fel teckenkodning och läsfel (saknad fil,
+    rättighetsfel) fångas här och blir ett kort FormatFel med filnamnet, som uppdatera_2026.py visar
+    som en vanlig FEL-rad.
+    """
     if isinstance(kalla, (str, Path)):
-        return json.loads(Path(kalla).read_text("utf-8"))
+        path = Path(kalla)
+        try:
+            text = path.read_text("utf-8")
+            return json.loads(text)
+        except (json.JSONDecodeError, UnicodeDecodeError, OSError) as ex:
+            raise FormatFel(f"{path.name} har inte formen av en JSON-fil: {ex}") from ex
     return kalla
 
 

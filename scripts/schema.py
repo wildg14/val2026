@@ -1,9 +1,10 @@
 """Datafilernas schema: bygger valdata-objektet, swing mot ett basår, skriver .json + .js."""
 import datetime as dt
 import json
+import os
 from pathlib import Path
 
-from .valmyndigheten import AVGRANSNING, VAL, partinamn
+from .valmyndigheten import AVGRANSNING, OVRIGA, VAL, partinamn
 
 JS_PREFIX = 'window.MAJPOSTEN=window.MAJPOSTEN||{data:{}};window.MAJPOSTEN.data['
 KALLA_STANDARD = "Valmyndigheten, rösträkning per valdistrikt"
@@ -11,6 +12,9 @@ KONFIG_STANDARD = {
     "ar": ["2022"], "standardAr": "2022", "valnatt": False,
     "adress": "https://majposten.se/val2026",
     "inbaddad": False, "skrivUrl": True, "stickyTopp": 16,
+    "valdag": "2026-09-13",                       # visas i statusraden före valdagen
+    "toppsvar": {"mening": ""},                    # redaktionell mening under toppsvaret, tom = ingen mening
+    "historik": {"visa": True, "mening": {"rd": "", "rf": "", "kf": ""}},   # sektionen Majorna sedan 2006, egen plan
     # Samarbetsblocket och rösthjälpen är avstängda tills redaktionen fyllt i texter och adresser.
     "samarbete": {
         "visa": False, "namn": "Majornas Bryggeri", "text": "I samarbete med", "lank": "", "logga": "",
@@ -25,20 +29,27 @@ KONFIG_STANDARD = {
 }
 
 
+def _skriv_atomiskt(path, text):
+    """Skriver till <fil>.tmp och byter namn: läsaren ser aldrig en halvskriven fil."""
+    tmp = path.with_name(path.name + ".tmp")
+    tmp.write_text(text, "utf-8")
+    os.replace(tmp, path)
+
+
 def skriv_js(stam, obj):
     """Skriver <stam>.js: samma data som JSON-filen, laddningsbar via <script> även från file://."""
     stam = Path(stam)
     stam.parent.mkdir(parents=True, exist_ok=True)
     kompakt = json.dumps(obj, ensure_ascii=False, separators=(",", ":"))
-    stam.with_suffix(".js").write_text(f"{JS_PREFIX}{json.dumps(stam.name)}]={kompakt};\n", "utf-8")
+    _skriv_atomiskt(stam.with_suffix(".js"), f"{JS_PREFIX}{json.dumps(stam.name)}]={kompakt};\n")
     return stam.with_suffix(".js")
 
 
 def skriv(stam, obj, json_suffix=".json"):
-    """Skriver <stam>.json (läsbar) och <stam>.js (identisk data)."""
+    """Skriver <stam>.json (läsbar) och <stam>.js (identisk data), båda atomiskt."""
     stam = Path(stam)
     stam.parent.mkdir(parents=True, exist_ok=True)
-    stam.with_suffix(json_suffix).write_text(json.dumps(obj, ensure_ascii=False, indent=1) + "\n", "utf-8")
+    _skriv_atomiskt(stam.with_suffix(json_suffix), json.dumps(obj, ensure_ascii=False, indent=1) + "\n")
     return stam.with_suffix(json_suffix), skriv_js(stam, obj)
 
 
@@ -99,18 +110,41 @@ def bygg_valdata(ar, distrikt, status="slutlig", jamforelser=None, mandat=None, 
 
 
 def _diff(ny_roster, ny_giltiga, bas_roster, bas_giltiga):
-    partier = list(ny_roster) + [p for p in bas_roster if p not in ny_roster]
-    return {p: round((ny_roster.get(p, 0) / ny_giltiga - bas_roster.get(p, 0) / bas_giltiga) * 100, 1)
-            for p in partier}
+    """Procentenheter per parti, bara för partier som finns i båda åren: ett parti som saknas i ett års
+    data är inte redovisat där (rösterna ligger i Övriga). Skiljer sig partiuppsättningen utelämnas
+    även Övriga, eftersom dess sammansättning då inte är densamma."""
+    gemensamma = [p for p in ny_roster if p in bas_roster]
+    if set(ny_roster) - {OVRIGA} != set(bas_roster) - {OVRIGA}:
+        gemensamma = [p for p in gemensamma if p != OVRIGA]
+    return {p: round((ny_roster[p] / ny_giltiga - bas_roster[p] / bas_giltiga) * 100, 1) for p in gemensamma}
 
 
-def swing(ny, bas):
-    """Förändring i procentenheter per distrikt och för hela Majorna, ny mot bas. Bara räknade distrikt."""
+def swing(ny, bas, jamforbara=None, meningar=None):
+    """Förändring i procentenheter, ny mot bas.
+
+    `distrikt` får bara räknade distrikt vars kod finns i `jamforbara` (None = alla koder som finns i bas,
+    bakåtkompatibelt). Övriga distrikt i ny hamnar i `ej_jamforbara` med den mening kortet ska visa
+    (`meningar` kan skriva över standardmeningen per kod). Områdesnivån `majorna` räknas på kohorten:
+    är alla distrikt räknade jämförs hela området mot hela basåret (giltigt när ytan är densamma),
+    annars bara räknade och jämförbara distrikt mot samma koder i bas. `kohort` säger vilka.
+    """
     bas_d = {d["kod"]: d for d in bas["distrikt"]}
-    ut = {"ar": ny["meta"]["ar"], "bas": bas["meta"]["ar"], "enhet": "procentenheter", "distrikt": {}, "majorna": {}}
-    for d in ny["distrikt"]:
+    ny_d = list(ny["distrikt"])
+    if jamforbara is None:
+        jamforbara = [d["kod"] for d in ny_d if d["kod"] in bas_d]
+    jamforbara = set(jamforbara)
+    meningar = meningar or {}
+    ar_ny, ar_bas = ny["meta"]["ar"], bas["meta"]["ar"]
+    ut = {"ar": ar_ny, "bas": ar_bas, "enhet": "procentenheter", "distrikt": {}, "ej_jamforbara": {}, "majorna": {}, "kohort": {}}
+    for d in ny_d:
         b = bas_d.get(d["kod"])
-        if not d.get("raknat", True) or b is None:
+        if d["kod"] not in jamforbara or b is None:
+            ut["ej_jamforbara"][d["kod"]] = {
+                "orsak": "saknas i basåret" if b is None else "ej jämförbart enligt källan",
+                "mening": meningar.get(d["kod"]) or f"Gränserna för {d['namn']} ritades om till {ar_ny}. Siffrorna går inte att jämföra med {ar_bas}.",
+                "omradesrad": True}
+            continue
+        if not d.get("raknat", True):
             continue
         per_val = {}
         for val in VAL:
@@ -119,12 +153,17 @@ def swing(ny, bas):
         if per_val:
             ut["distrikt"][d["kod"]] = per_val
     for val in VAL:
-        n = ny["aggregat"]["majorna"].get(val, {})
-        b = bas["aggregat"]["majorna"].get(val, {})
-        if n.get("giltiga") and b.get("giltiga"):
-            ut["majorna"][val] = _diff(n["roster"], n["giltiga"], b["roster"], b["giltiga"])
+        raknade = [d for d in ny_d if d.get("raknat", True) and d.get(val) and d["giltiga"].get(val)]
+        helomrade = bool(raknade) and len(raknade) == len(ny_d) and len(ny_d) == len(bas["distrikt"])
+        if helomrade:
+            n, b = ny["aggregat"]["majorna"].get(val, {}), bas["aggregat"]["majorna"].get(val, {})
+            koder = [d["kod"] for d in raknade]
         else:
-            ut["majorna"][val] = {}
+            kohort = [d for d in raknade if d["kod"] in jamforbara and bas_d.get(d["kod"], {}).get(val) and bas_d[d["kod"]]["giltiga"].get(val)]
+            koder = [d["kod"] for d in kohort]
+            n, b = _summa(kohort, val), _summa([bas_d[k] for k in koder], val)
+        ut["majorna"][val] = _diff(n["roster"], n["giltiga"], b["roster"], b["giltiga"]) if n.get("giltiga") and b.get("giltiga") else {}
+        ut["kohort"][val] = {"antal": len(koder), "totalt": len(ny_d), "helomrade": helomrade, "koder": koder}
     return ut
 
 

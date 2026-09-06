@@ -8,6 +8,18 @@
  "inbaddad": false,
  "skrivUrl": true,
  "stickyTopp": 105,
+ "valdag": "2026-09-13",
+ "toppsvar": {
+  "mening": ""
+ },
+ "historik": {
+  "visa": true,
+  "mening": {
+   "rd": "",
+   "rf": "",
+   "kf": ""
+  }
+ },
  "samarbete": {
   "visa": false,
   "namn": "Majornas Bryggeri",

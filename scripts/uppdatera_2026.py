@@ -326,7 +326,10 @@ def las_bas(path):
     path = Path(path)
     if not path.exists():
         return None
-    return json.loads(path.read_text("utf-8"))
+    try:
+        return json.loads(path.read_text("utf-8"))
+    except (json.JSONDecodeError, UnicodeDecodeError, OSError) as ex:
+        fel(f"{path}: har inte formen av en JSON-fil: {ex}")
 
 
 def bygg(ar, distrikt, status, jamforelser, tid, kalla, verklig=None, test=False):
@@ -367,12 +370,13 @@ def kontrollera_mot_befintlig(ny, path, tvinga):
         return
     raknade_gammal = {val: sum(1 for d in gammal["distrikt"] if d[val]) for val in VAL}
     problem = []
-    for val in VAL:
-        if raknade_ny[val] < raknade_gammal[val]:
-            problem.append(
-                f"{val}: färre räknade distrikt än i {path.name} ({raknade_ny[val]} mot {raknade_gammal[val]}). "
-                "Vill du skriva ändå: kör med --valnatt-mapp data/valnatt/senaste --tvinga. --tvinga ersätter "
-                "hela filen (val som saknas i den nya blir tomma), skriptet slår inte ihop med den gamla.")
+    farre = [val for val in VAL if raknade_ny[val] < raknade_gammal[val]]
+    if farre:
+        tal = ", ".join(f"{val}: {raknade_ny[val]} mot {raknade_gammal[val]}" for val in farre)
+        problem.append(
+            f"färre räknade distrikt än i {path.name} ({tal}). "
+            "Vill du skriva ändå: kör med --valnatt-mapp data/valnatt/senaste --tvinga. --tvinga ersätter "
+            "hela filen (val som saknas i den nya blir tomma), skriptet slår inte ihop med den gamla.")
     if ny["meta"].get("test") and not gammal["meta"].get("test"):
         problem.append(f"{path.name} är skarp data men den nya filen är testdata")
     if not problem:
@@ -530,7 +534,10 @@ def main():
         swing_obj = schema.swing(v, bas, jamforbara=jamforbara)
     konfig = None
     if a.valnatt:
-        konfig = schema.las_konfig(ut)
+        try:
+            konfig = schema.las_konfig(ut)
+        except (json.JSONDecodeError, UnicodeDecodeError, OSError) as ex:
+            fel(f"{ut / 'konfig.json'}: kunde inte läsas: {type(ex).__name__}: {ex}")
         konfig["ar"] = sorted(set(konfig.get("ar", [])) | {str(a.ar)})
         konfig["standardAr"] = str(a.ar)
         konfig["valnatt"] = True

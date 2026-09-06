@@ -102,6 +102,28 @@ def test_csv_med_felaktig_summa_avbryter(tmp_path):
     assert "14800530" in r.stdout + r.stderr
 
 
+def test_skadad_valdata_ger_fel_rad_inte_traceback(tmp_path):
+    (tmp_path / "valdata_2026.json").write_text('{"meta": {', "utf-8")   # halvskriven under en tidigare körning
+    csv = tmp_path / "v.csv"
+    csv.write_text("val;kod;parti;roster\nrd;14800530;V;300\nrd;14800530;giltiga;300\n"
+                   "rd;14800530;rostande;300\nrd;14800530;rostberattigade;1000\n", "utf-8")
+    r = kor("--csv", str(csv), "--ut", str(tmp_path), "--ar", "2026")
+    assert r.returncode == 1
+    assert "har inte formen av en JSON-fil" in r.stdout + r.stderr
+    assert "Traceback" not in r.stdout + r.stderr
+
+
+def test_skadad_konfig_ger_fel_rad_inte_traceback(tmp_path):
+    (tmp_path / "konfig.json").write_text('{"ar": [', "utf-8")   # halvskriven under en tidigare körning
+    csv = tmp_path / "v.csv"
+    csv.write_text("val;kod;parti;roster\nrd;14800530;V;300\nrd;14800530;giltiga;300\n"
+                   "rd;14800530;rostande;300\nrd;14800530;rostberattigade;1000\n", "utf-8")
+    r = kor("--csv", str(csv), "--ut", str(tmp_path), "--ar", "2026", "--valnatt")
+    assert r.returncode == 1
+    assert "konfig.json" in r.stdout + r.stderr and "kunde inte läsas" in r.stdout + r.stderr
+    assert "Traceback" not in r.stdout + r.stderr
+
+
 def test_fel_format_avbryter(tmp_path):
     r = kor("--rd", str(ROT / "majorna-valresultat-2022.xlsx"), "--ut", str(tmp_path), "--ar", "2026")
     assert r.returncode != 0
@@ -157,11 +179,33 @@ def test_mindre_eller_tom_import_skriver_inte_over(tmp_path):
     r = kor("--valnatt-mapp", str(bara_rd), "--ut", str(ut), "--ar", "2026")
     assert r.returncode != 0 and "färre räknade" in r.stdout + r.stderr
     utskrift = r.stdout + r.stderr
-    assert "rf:" in utskrift and "kf:" in utskrift, "spärrfelen för alla drabbade val ska samlas i ett FEL, inte bara det första"
-    assert "--valnatt-mapp data/valnatt/senaste --tvinga" in utskrift, "FEL-texten ska säga vilket kommando som gäller efter ett stopp"
+    assert "rf: 0 mot 23, kf: 0 mot 23" in utskrift, "valen med talen ska stå samlade på en rad"
+    assert utskrift.count("--valnatt-mapp data/valnatt/senaste --tvinga") == 1, "instruktionen ska stå en gång, inte en gång per val"
     assert (ut / "valdata_2026.json").read_bytes() == fore, "filen får inte röras"
     r = kor("--valnatt-mapp", str(bara_rd), "--ut", str(ut), "--ar", "2026", "--tvinga")
     assert r.returncode == 0 and (ut / "valdata_2026.json").read_bytes() != fore
+
+
+@genrep_finns
+def test_skarp_fil_skyddas_mot_ny_testdata(tmp_path):
+    """Genrep-filerna har alltid test: true. Tas den flaggan bort ur en befintlig fil (som om den
+    vore skarp data) ska en ny testdatakörning stoppas, inte skriva över den i tysthet."""
+    mapp = hamta_lokalt(tmp_path)
+    ut = tmp_path / "data"
+    ut.mkdir()
+    assert kor("--valnatt-mapp", str(mapp), "--ut", str(ut), "--ar", "2026").returncode == 0
+    p = ut / "valdata_2026.json"
+    v = json.loads(p.read_text("utf-8"))
+    del v["meta"]["test"]
+    p.write_text(json.dumps(v, ensure_ascii=False), "utf-8")
+    fore = p.read_bytes()
+    r = kor("--valnatt-mapp", str(mapp), "--ut", str(ut), "--ar", "2026")
+    assert r.returncode != 0
+    assert "skarp data men den nya filen är testdata" in r.stdout + r.stderr
+    assert p.read_bytes() == fore, "filen får inte röras"
+    r = kor("--valnatt-mapp", str(mapp), "--ut", str(ut), "--ar", "2026", "--tvinga")
+    assert r.returncode == 0
+    assert p.read_bytes() != fore
 
 
 @genrep_finns

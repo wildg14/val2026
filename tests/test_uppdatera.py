@@ -56,6 +56,21 @@ def doktorera_raknade(mapp, ut, noll):
     return ut
 
 
+def doktorera_utan_rostberattigade(mapp, ut, per_val):
+    """Kopierar en valnattsmapp och sätter antalRostberattigade till null för angivna distriktskoder
+    per val ({val: {koder}}), som om Valmyndighetens fil saknade uppgiften för de distrikten."""
+    shutil.copytree(mapp, ut)
+    for val, koder in per_val.items():
+        koder = {str(k) for k in koder}
+        for path in sorted((ut / val).glob("*_rostfordelning_*.json")):
+            obj = json.loads(path.read_text("utf-8"))
+            for d in obj.get("valdistrikt", []):
+                if str(d.get("valdistriktskod")) in koder:
+                    d["antalRostberattigade"] = None
+            path.write_text(json.dumps(obj, ensure_ascii=False), "utf-8")
+    return ut
+
+
 @pytest.mark.skipif(not RD.exists(), reason="rådatafil saknas")
 def test_bara_rd_ger_tomma_rf_kf_och_swing(tmp_path):
     r = kor("--rd", str(RD), "--ut", str(tmp_path), "--ar", "2026", "--status", "preliminar", "--tid", "2026-09-13T20:45:00")
@@ -169,6 +184,20 @@ def test_csv_for_manga_falt_ger_fel_rad_inte_traceback(tmp_path):
     assert "Traceback" not in (r.stdout + r.stderr)
 
 
+def test_csv_kommentarrad_med_for_manga_falt_hoppas_over(tmp_path):
+    """Kommentar- och tomradskontrollen ska ligga före kolumnvakten: en kommentarrad med för många
+    semikolon (fler fält än rubriken) ska hoppas över som vilken annan kommentarrad som helst, inte
+    avvisas som 'fler kolumner än rubriken'."""
+    csv = tmp_path / "kommentar_extra_falt.csv"
+    csv.write_text("val;kod;parti;roster\n"
+                   "rd;14800530;V;300\n"
+                   "#;text;med;många;semikolon\n"
+                   "rd;14800530;giltiga;300\nrd;14800530;rostande;300\nrd;14800530;rostberattigade;1000\n", "utf-8")
+    r = kor("--csv", str(csv), "--ut", str(tmp_path), "--ar", "2026")
+    assert r.returncode == 0, r.stdout + r.stderr
+    assert "fler kolumner än rubriken" not in (r.stdout + r.stderr)
+
+
 def test_csv_fel_teckenkodning_ger_fel_rad_inte_traceback(tmp_path):
     csv = tmp_path / "cp1252.csv"
     text = ("val;kod;parti;roster\n# Björkö\nrd;14800530;V;300\nrd;14800530;giltiga;300\n"
@@ -176,15 +205,19 @@ def test_csv_fel_teckenkodning_ger_fel_rad_inte_traceback(tmp_path):
     csv.write_bytes(text.encode("cp1252"))
     r = kor("--csv", str(csv), "--ut", str(tmp_path), "--ar", "2026")
     assert r.returncode == 1
-    assert "kunde inte läsas" in (r.stdout + r.stderr)
-    assert "Traceback" not in (r.stdout + r.stderr)
+    utskrift = r.stdout + r.stderr
+    assert "kunde inte läsas" in utskrift
+    assert "Spara som CSV UTF-8 i Excel." in utskrift, "en teckenkodningsmiss ska ge rådet om att spara om filen"
+    assert "Traceback" not in utskrift
 
 
 def test_csv_saknad_fil_ger_fel_rad_inte_traceback(tmp_path):
     r = kor("--csv", str(tmp_path / "finns-inte.csv"), "--ut", str(tmp_path), "--ar", "2026")
     assert r.returncode == 1
-    assert "kunde inte läsas" in (r.stdout + r.stderr)
-    assert "Traceback" not in (r.stdout + r.stderr)
+    utskrift = r.stdout + r.stderr
+    assert "kunde inte läsas" in utskrift
+    assert "Spara som CSV UTF-8 i Excel." not in utskrift, "en saknad fil har inget med teckenkodning att göra"
+    assert "Traceback" not in utskrift
 
 
 def test_rostberattigade_blandat_i_samma_val_ger_fel(tmp_path):
@@ -270,6 +303,49 @@ def test_komplettering_med_csv_slas_ihop_med_json_vagen(tmp_path):
     d = {x["kod"]: x for x in v["distrikt"]}["14800530"]
     assert d["rd"] == {"V": 999, "S": 1}
     assert "rd" in v["aggregat"]["riket"]
+
+
+@genrep_finns
+def test_komplettering_utan_rostberattigade_behaller_json_vagens_tal(tmp_path):
+    """Kompletterar man ett distrikt för hand med en CSV-rad som saknar 'rostberattigade', ska talet
+    JSON-vägen redan satt för det distriktet behållas, inte skrivas över med 0 (annars blir Majornas
+    valdeltagande fel, se ärendet)."""
+    mapp = hamta_lokalt(tmp_path)
+    ut = tmp_path / "data"
+    r = kor("--valnatt-mapp", str(mapp), "--ut", str(ut), "--ar", "2026")
+    assert r.returncode == 0, r.stdout + r.stderr
+    fore = json.loads((ut / "valdata_2026.json").read_text("utf-8"))
+    rb_fore = fore["aggregat"]["majorna"]["rd"]["rostberattigade"]
+    assert rb_fore > 0
+    csv = tmp_path / "komplettering_utan_rb.csv"
+    csv.write_text("val;kod;parti;roster\nrd;14800530;V;999\nrd;14800530;S;1\nrd;14800530;giltiga;1000\n"
+                   "rd;14800530;rostande;1000\n", "utf-8")   # ingen rostberattigade-rad alls
+    r2 = kor("--valnatt-mapp", str(mapp), "--csv", str(csv), "--ut", str(ut), "--ar", "2026")
+    assert r2.returncode == 0, r2.stdout + r2.stderr
+    utskrift = r2.stdout + r2.stderr
+    assert "rostberattigade' saknas i CSV-filen, behåller" in utskrift
+    efter = json.loads((ut / "valdata_2026.json").read_text("utf-8"))
+    assert efter["aggregat"]["majorna"]["rd"]["rostberattigade"] == rb_fore
+    d = {x["kod"]: x for x in efter["distrikt"]}["14800530"]
+    assert d["rd"] == {"V": 999, "S": 1}
+
+
+@genrep_finns
+def test_komplettering_med_explicit_noll_och_json_utan_varde_ger_fel(tmp_path):
+    """Sätter CSV-raden 'rostberattigade' uttryckligen till 0 för ett distrikt där JSON-vägen också
+    saknar uppgiften (antalRostberattigade null i filen), finns inget tal att falla tillbaka på från
+    den andra källan. De övriga 22 distrikten har riktiga tal från JSON-vägen, så slutläget blir
+    blandat och ska ge FEL, inte en tyst nolla."""
+    mapp = hamta_lokalt(tmp_path)
+    doktorerad = doktorera_utan_rostberattigade(mapp, tmp_path / "utan_rb_json", {"rd": {"14800530"}})
+    csv = tmp_path / "komplettering_noll.csv"
+    csv.write_text("val;kod;parti;roster\nrd;14800530;V;999\nrd;14800530;S;1\nrd;14800530;giltiga;1000\n"
+                   "rd;14800530;rostande;1000\nrd;14800530;rostberattigade;0\n", "utf-8")
+    ut = tmp_path / "data"
+    r = kor("--valnatt-mapp", str(doktorerad), "--csv", str(csv), "--ut", str(ut), "--ar", "2026")
+    assert r.returncode != 0
+    utskrift = r.stdout + r.stderr
+    assert "saknas för" in utskrift and "14800530" in utskrift
 
 
 def test_skadad_valdata_ger_fel_rad_inte_traceback(tmp_path):

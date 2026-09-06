@@ -149,8 +149,10 @@ SUMMANYCKLAR = ("giltiga", "rostande", "rostberattigade")
 def las_csv(path, distrikt):
     try:
         text = Path(path).read_text("utf-8-sig")
-    except (UnicodeDecodeError, OSError) as ex:
+    except UnicodeDecodeError as ex:
         fel(f"{path}: kunde inte läsas: {ex}. Spara som CSV UTF-8 i Excel.")
+    except OSError as ex:
+        fel(f"{path}: kunde inte läsas: {ex}")
     forsta = text.splitlines()[0] if text.strip() else ""
     avgransare = ";" if forsta.count(";") >= forsta.count(",") else ","
     lasare = csv.DictReader(text.splitlines(), delimiter=avgransare)
@@ -161,11 +163,14 @@ def las_csv(path, distrikt):
     poster = {}
     for r in lasare:
         i = lasare.line_num
+        val_ratt = (r.get("val") or "").strip()
+        namngivna = [v for k, v in r.items() if k is not None]
+        if val_ratt.startswith("#") or not any((v or "").strip() for v in namngivna):
+            continue   # kommentarrad eller tom rad ur mallen, före kolumnvakten så att en kommentarrad
+                       # med för många semikolon inte avvisas som "fler kolumner"
         if None in r:
             fel(f"{path} rad {i}: fler kolumner än rubriken (ett semikolon för mycket?)")
         r = {(k or "").strip().lower(): (v or "").strip() for k, v in r.items()}
-        if r.get("val", "").startswith("#"):
-            continue   # kommentarrad ur mallen
         if not r.get("val") or not r.get("kod"):
             if r.get("roster"):
                 fel(f"{path} rad {i}: raden har ett tal men saknar val eller kod")
@@ -192,7 +197,6 @@ def las_csv(path, distrikt):
             fel(f"{path} rad {i}: okänt parti '{parti}' för {val} (tillåtna: {', '.join(NYCKELPARTIER[val] + [OVRIGA])})")
         kanon = tillatna[parti.upper()]
         p["roster"][kanon] = p["roster"].get(kanon, 0) + n
-    saknar_rb, har_rb = {}, {}
     for (val, kod), p in sorted(poster.items()):
         if p["giltiga"] is None:
             fel(f"{path}: {val} {kod} saknar raden 'giltiga'")
@@ -204,15 +208,26 @@ def las_csv(path, distrikt):
             p["rostande"] = p["giltiga"]
         if p["rostande"] < p["giltiga"]:
             fel(f"{path}: {val} {kod}: röstande {p['rostande']} < giltiga {p['giltiga']}")
+        if not p["rostberattigade"]:
+            befintlig = distrikt[kod]["rostberattigade"].get(val)
+            if befintlig:
+                varning(f"{val} {kod}: 'rostberattigade' saknas i CSV-filen, behåller {befintlig} från den andra källan")
+                p["rostberattigade"] = befintlig
         if p["rostberattigade"] and p["rostande"] > p["rostberattigade"]:
             fel(f"{path}: {val} {kod}: röstande {p['rostande']} > röstberättigade {p['rostberattigade']}")
-        (har_rb if p["rostberattigade"] else saknar_rb).setdefault(val, []).append(kod)
         fyll(distrikt, kod, val, p)
+    # Allt-eller-inget för 'rostberattigade' gäller slutläget över alla källor (JSON- och CSV-vägen
+    # tillsammans), inte bara CSV-filens egna rader: annars kan en komplettering som saknar
+    # 'rostberattigade' skriva över ett tal JSON-vägen redan satt, eller så kan CSV-rader se
+    # kompletta ut var för sig men ändå ge ett blandat slutläge tillsammans med JSON-vägens distrikt.
     for val in VAL:
-        if val in saknar_rb and val in har_rb:
-            fel(f"{path}: {val}: 'rostberattigade' är ifyllt för vissa distrikt men inte för {saknar_rb[val][0]}. "
+        raknade = [d for d in distrikt.values() if d.get(val)]
+        utan = sorted(d["kod"] for d in raknade if not d["rostberattigade"].get(val))
+        med = sorted(d["kod"] for d in raknade if d["rostberattigade"].get(val))
+        if med and utan:
+            fel(f"{path}: {val}: 'rostberattigade' saknas för {', '.join(utan)} men finns för andra distrikt. "
                 "Fyll i för alla eller för inget, annars blir Majornas valdeltagande fel.")
-        elif val in saknar_rb:
+        elif utan:
             varning(f"{val}: 'rostberattigade' saknas, valdeltagande kan inte visas")
 
 
@@ -346,7 +361,7 @@ def skriv_mall(path):
                           "summan av partiraderna; rostande och rostberattigade hämtas från val.se."])
         w.writerow(["#", "Mallen täcker riksdagsvalet (rd). Region (rf) och kommun (kf) skrivs med samma format: "
                           "val;kod;parti;roster."])
-        bas = las_bas(ROT / "data" / "valdata_2022.json")
+        bas = las_bas(ROT / "data" / "valdata_2022.json", roll="bas")
         for kod in MAJORNA_KODER:
             w.writerow([])
             w.writerow(["#", kod, bas_namn(bas, kod) if bas else "", ""])
@@ -355,14 +370,18 @@ def skriv_mall(path):
     print(f"Mall skriven: {path} (rader som börjar med # ignoreras)")
 
 
-def las_bas(path):
+def las_bas(path, roll="ny"):
+    """roll="ny": path är årets egen fil (t.ex. valdata_2026.json, för --tvinga-jämförelser eller mallens
+    distriktsnamn). roll="bas": path är --bas, basåret för swing. Rådet i felet skiljer sig därefter."""
     path = Path(path)
     if not path.exists():
         return None
     try:
         return json.loads(path.read_text("utf-8"))
     except (json.JSONDecodeError, UnicodeDecodeError, OSError) as ex:
-        fel(f"{path}: har inte formen av en JSON-fil: {ex}. Ta bort eller flytta filen och kör om.")
+        rad = ("Basårets fil måste vara hel, ingen swing beräknas annars." if roll == "bas"
+               else "Ta bort eller flytta filen och kör om.")
+        fel(f"{path}: har inte formen av en JSON-fil: {ex}. {rad}")
 
 
 def bygg(ar, distrikt, status, jamforelser, tid, kalla, verklig=None, test=False):
@@ -430,7 +449,7 @@ def repetera(ut_bas):
         if not traffar:
             fel(f"hittar ingen råfil för {val} ({monster}) i {ROT}")
         filer[val] = traffar[0]
-    bas = las_bas(ut_bas)
+    bas = las_bas(ut_bas, roll="bas")
     if bas is None:
         fel(f"{ut_bas} saknas, kör scripts/bygg_data.py först")
     distrikt = tomma_distrikt(bas)
@@ -530,7 +549,7 @@ def main():
         a.valnatt_mapp = str(Path(a.ut) / "valnatt" / "senaste")
     if not filer and not a.csv and not a.valnatt_mapp:
         ap.error("ange --valnatt-mapp, --hamta, minst en av --rd/--rf/--kf, eller --csv (eller --repetera / --skriv-mall)")
-    bas = las_bas(a.bas)
+    bas = las_bas(a.bas, roll="bas")
     if bas is None:
         varning(f"{a.bas} saknas: ingen swing beräknas och distriktsnamnen tas ur filen")
     distrikt = tomma_distrikt(bas)

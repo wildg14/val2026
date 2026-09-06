@@ -1,7 +1,13 @@
 #!/usr/bin/env python3
 """Tar in valresultat för ett nytt val (2026) och skriver data/valdata_<år>.json/.js samt swing mot 2022.
 
-Vanlig körning på valnatten (en, två eller tre filer):
+Valnatten, JSON-vägen (rekommenderad):
+    .venv/bin/python scripts/uppdatera_2026.py --hamta --status preliminar --valnatt
+hämtar Valmyndighetens resultatfiler (scripts/hamta_2026.py, --tillfalle p eller s, --genrep för
+simuleringarna), packar upp dem och läser rd/, rf/ och kf/ direkt. Har mappen redan hämtats:
+    .venv/bin/python scripts/uppdatera_2026.py --valnatt-mapp data/valnatt/senaste --status preliminar
+
+Slutlig-vägen 2022 (en, två eller tre filer):
     .venv/bin/python scripts/uppdatera_2026.py --rd RD-FIL.xlsx [--rf RF-FIL.xlsx] [--kf KF-FIL.xlsx] \\
         --status preliminar [--tid 2026-09-13T21:30:00]
 
@@ -12,9 +18,15 @@ Mall: --skriv-mall valnatt.csv
 
 Generalrepetition: --repetera kör parsern på 2022 års råfiler och jämför med data/valdata_2022.json.
 
+Jämförbarhet mot 2022 (jamforbar_mot_bas, grans_andrad per distrikt) hämtas i första hand ur
+JSON-filernas statusJamforelse, i andra hand ur Valmyndighetens --jamforelsefil (standard: filen
+under Historiska dokument/dl_webb/2026/), annars antas alla distrikt jämförbara med en varning.
+
 Skriptet filtrerar på de 23 distriktskoderna, larmar (VARNING:) om distrikt saknas, bytt namn,
 om Göteborgs distriktsindelning ser ändrad ut eller om okända partier får röster, och avbryter (FEL:)
-om filformatet inte känns igen eller om summorna inte går ihop.
+om filformatet inte känns igen eller om summorna inte går ihop. --tvinga skriver ändå vid färre
+räknade distrikt än den befintliga filen eller en tom import, som annars stoppas för att en trasig
+hämtning inte ska skriva över fungerande data.
 """
 import argparse
 import csv
@@ -23,17 +35,22 @@ import json
 import sys
 from pathlib import Path
 
+import openpyxl
+
 ROT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROT))
 
-from scripts import schema  # noqa: E402
+from scripts import hamta_2026, schema, valnatt  # noqa: E402
 from scripts.mandat import jamkade_uddatal  # noqa: E402
 from scripts.valmyndigheten import (MAJORNA_KODER, NYCKELPARTIER, OVRIGA, VAL, FormatFel, SummaFel,  # noqa: E402
                                     aggregat_andelar, las_rafil, till_distrikt)
 
 RAFIL_MONSTER = {"rd": "*oster-per-distrikt*riksdagsval*.xlsx", "rf": "*oster-per-distrikt*regionval*.xlsx",
                  "kf": "*oster-per-distrikt*kommunval*.xlsx"}
-GOTEBORG_DISTRIKT_2022 = 411
+GOTEBORG_DISTRIKT = {"xlsx_2022": 411, "json_2026": 397}   # 2022: 410 valdistrikt plus uppsamling; 2026: 396 plus uppsamling (genrep-filerna)
+JAMFORELSEFIL_STANDARD = ROT / "Historiska dokument" / "dl_webb" / "2026" / "valdistrikt-jamforelser-mellan-2022-och-2026.xlsx"
+JAMFORBAR = {}        # kod -> bool, fylls av JSON-vägen eller jämförelsefilen
+META_TEST = False     # sätts när någon fil har test: true
 METOD = "Räkneexempel: 4 %-spärr och jämkade uddatalsmetoden tillämpade på Majornas riksdagsröster {ar}."
 VARNINGAR = []
 
@@ -61,6 +78,8 @@ def fyll(distrikt, kod, val, post):
     d["rostande"][val] = post["rostande"]
     d["rostberattigade"][val] = post["rostberattigade"]
     d["raknat"] = True
+    if post.get("namn"):
+        d["namn"] = post["namn"]
 
 
 def las_rafiler(filer, distrikt, bas):
@@ -72,8 +91,8 @@ def las_rafiler(filer, distrikt, bas):
         if ra["val"] != val:
             fel(f"{path}: bladet gäller {ra['val'].upper()}, men filen angavs som --{val}")
         gbg = ra["aggregat"]["goteborg"]["antal_distrikt"]
-        if gbg != GOTEBORG_DISTRIKT_2022:
-            varning(f"{val}: Göteborg har {gbg} valdistrikt i filen (2022: {GOTEBORG_DISTRIKT_2022}). "
+        if gbg != GOTEBORG_DISTRIKT["xlsx_2022"]:
+            varning(f"{val}: Göteborg har {gbg} valdistrikt i filen (2022: {GOTEBORG_DISTRIKT['xlsx_2022']}). "
                     "Distriktsindelningen kan ha ändrats, kontrollera att de 23 koderna fortfarande täcker Majorna.")
         for kod in MAJORNA_KODER:
             post = ra["distrikt"].get(kod)
@@ -148,6 +167,117 @@ def las_csv(path, distrikt):
     return {"goteborg": {}, "riket": {}}
 
 
+def las_jamforelsefil(path):
+    """Valmyndighetens valdistrikt-jamforelser-mellan-2022-och-2026.xlsx -> {kod: True/False} för Majornas koder."""
+    wb = openpyxl.load_workbook(path, read_only=True, data_only=True)
+    try:
+        ws = wb["Jämförelser"] if "Jämförelser" in wb.sheetnames else wb.worksheets[0]
+        rader = ws.iter_rows(values_only=True)
+        huvud = [str(h).strip() if h is not None else "" for h in next(rader)]
+        if "Valdistriktskod 2026" not in huvud or "Jämförbarhet" not in huvud:
+            fel(f"{path}: väntade kolumnerna 'Valdistriktskod 2026' och 'Jämförbarhet', fick {huvud}")
+        ik, ij = huvud.index("Valdistriktskod 2026"), huvud.index("Jämförbarhet")
+        ut = {}
+        for r in rader:
+            kod = str(r[ik]).strip() if r[ik] is not None else ""
+            if kod in MAJORNA_KODER:
+                ut[kod] = str(r[ij]).strip() == valnatt.STATUS_JAMFORBAR
+        return ut
+    finally:
+        wb.close()
+
+
+def satt_jamforbar(kod, varde, kalla):
+    """Samma distrikt får inte bedömas olika av två filer; då vinner 'inte jämförbart' med en varning."""
+    if kod in JAMFORBAR and JAMFORBAR[kod] != varde:
+        varning(f"{kalla}: {kod} bedöms {'jämförbart' if varde else 'ej jämförbart'} men en tidigare fil sa tvärtom, sätts till ej jämförbart")
+        JAMFORBAR[kod] = False
+    else:
+        JAMFORBAR[kod] = varde
+
+
+def las_valnattsmapp(mapp, distrikt, bas):
+    """Mappen från hamta_2026.py (rd/, rf/, kf/ med JSON). Fyller distrikt, returnerar jämförelseaggregat och riksdagens mandat.
+
+    Fel i jämförelseaggregaten eller riksdagens mandat får aldrig stoppa distriktsimporten: de är bara
+    jämförelsemarkörer, distrikten ligger i en annan fil. Ett sådant fel ger varning och lämnar
+    aggregatet respektive mandaten tomma för det valet.
+    """
+    global META_TEST
+    mapp = Path(mapp)
+    jamforelser = {"goteborg": {}, "riket": {}}
+    verklig = {}
+    hittade = 0
+    for val in VAL:
+        sub = mapp / val
+        if not sub.is_dir():
+            varning(f"{val}: ingen mapp {sub}, valet markeras som oräknat")
+            continue
+        rost = sorted(sub.glob("*_rostfordelning_*.json"))
+        mandat = sorted(sub.glob("*_mandatfordelning_*.json"))
+        summering = sorted(sub.glob("*_summering_*.json"))
+        if not rost:
+            fel(f"{val}: ingen röstfördelningsfil i {sub}")
+        print(f"Läser {val}: {rost[0].name}")
+        hittade += 1
+        try:
+            ra = valnatt.las_rostfordelning(rost[0], MAJORNA_KODER, kommunkod=None if val == "kf" else valnatt.KOMMUNKOD_GOTEBORG)
+        except valnatt.FormatFel as ex:
+            fel(f"{val}: {ex}")
+        except SummaFel as ex:
+            fel(f"{val}: {ex}")
+        if ra["val"] != val:
+            fel(f"{rost[0]}: filen gäller {ra['val'].upper()} men ligger i mappen {val}")
+        if ra["meta"]["test"]:
+            META_TEST = True
+        if ra["meta"]["antal_i_omradet"] != GOTEBORG_DISTRIKT["json_2026"]:
+            varning(f"{val}: Göteborg har {ra['meta']['antal_i_omradet']} distrikt i filen (genrep 2026: {GOTEBORG_DISTRIKT['json_2026']}). "
+                    "Kontrollera att de 23 koderna fortfarande täcker Majorna.")
+        raknade_har = 0
+        for kod in MAJORNA_KODER:
+            post = ra["distrikt"].get(kod)
+            if post is None:
+                varning(f"{val}: distrikt {kod} ({distrikt[kod]['namn']}) saknas i filen, markeras som oräknat")
+                continue
+            satt_jamforbar(kod, post["jamforbar"], f"{val}-filen")
+            if bas and post["namn"] != bas_namn(bas, kod):
+                varning(f"{val}: {kod} heter '{post['namn']}' i filen men '{bas_namn(bas, kod)}' 2022")
+            if not post["raknat"]:
+                continue
+            for etikett, n in post["okanda"].items():
+                if n / post["giltiga"] >= 0.005:
+                    varning(f"{val}: okänt parti '{etikett}' med {n} röster ({n / post['giltiga']:.1%}) i {post['namn']}, läggs i {OVRIGA}")
+            fyll(distrikt, kod, val, post)
+            raknade_har += 1
+        if raknade_har != min(ra["meta"]["raknade"], 23) and ra["meta"]["raknade"] >= ra["meta"]["totalt"]:
+            varning(f"{val}: filhuvudet säger {ra['meta']['raknade']} av {ra['meta']['totalt']} räknade men {raknade_har} av 23 Majornadistrikt är räknade")
+        if mandat:
+            try:
+                agg = valnatt.aggregat_2026(val, mandat[0], summering[0] if summering else None)
+                for omrade, post in agg.items():
+                    jamforelser[omrade][val] = post
+            except Exception as ex:
+                varning(f"{val}: jämförelseaggregat kunde inte läsas: {type(ex).__name__}: {ex}")
+            if val == "rd":
+                try:
+                    verklig = valnatt.riksdag_verklig(mandat[0])
+                except Exception as ex:
+                    varning(f"rd: riksdagens mandat kunde inte läsas: {type(ex).__name__}: {ex}")
+                    verklig = {}
+                if verklig:
+                    summa = sum(verklig.values())
+                    if summa != 349:
+                        varning(f"rd: riksdagens mandat summerar till {summa}, inte 349")
+                    for kod, n in verklig.items():
+                        if kod not in NYCKELPARTIER["rd"]:
+                            varning(f"rd: partikoden {kod} med {n} mandat finns inte bland sidans riksdagspartier")
+        else:
+            varning(f"{val}: ingen mandatfördelningsfil, jämförelseaggregat saknas")
+    if not hittade:
+        fel(f"{mapp}: inga av mapparna rd, rf, kf finns")
+    return jamforelser, verklig
+
+
 def skriv_mall(path):
     with open(path, "w", encoding="utf-8", newline="") as f:
         w = csv.writer(f, delimiter=";")
@@ -168,7 +298,7 @@ def las_bas(path):
     return json.loads(path.read_text("utf-8"))
 
 
-def bygg(ar, distrikt, status, jamforelser, tid, kalla):
+def bygg(ar, distrikt, status, jamforelser, tid, kalla, verklig=None, test=False):
     mandat = {"metod": METOD.format(ar=ar)}
     rd = [d for d in distrikt.values() if d.get("rd")]
     if rd:
@@ -177,8 +307,31 @@ def bygg(ar, distrikt, status, jamforelser, tid, kalla):
             for p, n in d["rd"].items():
                 roster[p] = roster.get(p, 0) + n
         mandat["riksdag_majorna"] = jamkade_uddatal(roster, 349)
-        mandat["riksdag_verklig"] = {}
-    return schema.bygg_valdata(ar, list(distrikt.values()), status, jamforelser, mandat, uppdaterad=tid, kalla=kalla)
+        mandat["riksdag_verklig"] = dict(verklig or {})
+    v = schema.bygg_valdata(ar, list(distrikt.values()), status, jamforelser, mandat, uppdaterad=tid, kalla=kalla)
+    for d in v["distrikt"]:
+        d["jamforbar_mot_bas"] = bool(JAMFORBAR.get(d["kod"], True))
+        d["grans_andrad"] = not d["jamforbar_mot_bas"]
+    if test:
+        v["meta"]["test"] = True
+    return v
+
+
+def kontrollera_mot_befintlig(ny, path, tvinga):
+    """Vägrar skriva över en fil med färre räknade distrikt, eller en skarp fil med testdata."""
+    gammal = las_bas(path)
+    raknade_ny = {val: sum(1 for d in ny["distrikt"] if d[val]) for val in VAL}
+    if sum(raknade_ny.values()) == 0:
+        (varning if tvinga else fel)("tom import: inget distrikt räknat i något val")
+    if gammal is None:
+        return
+    raknade_gammal = {val: sum(1 for d in gammal["distrikt"] if d[val]) for val in VAL}
+    for val in VAL:
+        if raknade_ny[val] < raknade_gammal[val]:
+            text = f"{val}: färre räknade distrikt än i {path.name} ({raknade_ny[val]} mot {raknade_gammal[val]})"
+            (varning if tvinga else fel)(text + ("" if tvinga else ". Kör med --tvinga om det är avsiktligt."))
+    if ny["meta"].get("test") and not gammal["meta"].get("test"):
+        (varning if tvinga else fel)(f"{path.name} är skarp data men den nya filen är testdata")
 
 
 def repetera(ut_bas):
@@ -229,11 +382,20 @@ def repetera(ut_bas):
 
 
 def main():
+    VARNINGAR.clear()
+    JAMFORBAR.clear()
+    global META_TEST
+    META_TEST = False
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     for val in VAL:
-        ap.add_argument(f"--{val}", help=f"Valmyndighetens råfil för {VAL[val].lower()}valet (blad roster_{val.upper()})")
+        ap.add_argument(f"--{val}", help=f"Valmyndighetens xlsx-råfil för {VAL[val].lower()}valet (blad roster_{val.upper()}), slutlig-vägen")
+    ap.add_argument("--valnatt-mapp", metavar="MAPP", help="mappen från hamta_2026.py med rd/, rf/ och kf/ (JSON)")
+    ap.add_argument("--hamta", action="store_true", help="kör hamta_2026.py först och använd dess mapp")
+    ap.add_argument("--tillfalle", choices=["p", "s"], default="p", help="för --hamta: p preliminär, s slutlig")
+    ap.add_argument("--genrep", action="store_true", help="för --hamta: simuleringarna i stället för val2026")
     ap.add_argument("--csv", help="reservväg: manuellt ifylld CSV (val;kod;parti;roster)")
     ap.add_argument("--skriv-mall", metavar="FIL", help="skriv en tom CSV-mall och avsluta")
+    ap.add_argument("--jamforelsefil", default=JAMFORELSEFIL_STANDARD, help="Valmyndighetens xlsx med jämförbarhet 2022 mot 2026")
     ap.add_argument("--ar", type=int, default=2026)
     ap.add_argument("--status", choices=["preliminar", "slutlig"], default="preliminar")
     ap.add_argument("--tid", help="tidsstämpel ISO 8601, t.ex. 2026-09-13T21:30:00 (standard: nu)")
@@ -242,6 +404,7 @@ def main():
     ap.add_argument("--repetera", action="store_true", help="kör 2022 års råfiler och jämför med --bas")
     ap.add_argument("--valnatt", action="store_true",
                     help="uppdatera data/konfig: lägg till året, gör det till standard och slå på valnattsläget")
+    ap.add_argument("--tvinga", action="store_true", help="skriv även vid färre räknade distrikt eller tom import")
     a = ap.parse_args()
 
     if a.skriv_mall:
@@ -250,14 +413,36 @@ def main():
     if a.repetera:
         return repetera(a.bas)
     filer = {val: getattr(a, val) for val in VAL if getattr(a, val)}
-    if not filer and not a.csv:
-        ap.error("ange minst en av --rd, --rf, --kf eller --csv (eller --repetera / --skriv-mall)")
+    if a.hamta:
+        argv = ["hamta_2026.py", "--tillfalle", a.tillfalle, "--ut", str(Path(a.ut) / "valnatt"), "--bara-om-nytt"] + (["--genrep"] if a.genrep else [])
+        sparad = sys.argv
+        sys.argv = argv
+        try:
+            kod = hamta_2026.main()
+        except Exception as ex:
+            fel(f"hämtningen misslyckades: {type(ex).__name__}: {ex}")
+        finally:
+            sys.argv = sparad
+        if kod == 3:
+            print("Inget nytt att läsa in.")
+            return 3
+        if kod != 0:
+            fel("hämtningen misslyckades, inget skrivet")
+        a.valnatt_mapp = str(Path(a.ut) / "valnatt" / "senaste")
+    if not filer and not a.csv and not a.valnatt_mapp:
+        ap.error("ange --valnatt-mapp, --hamta, minst en av --rd/--rf/--kf, eller --csv (eller --repetera / --skriv-mall)")
     bas = las_bas(a.bas)
     if bas is None:
         varning(f"{a.bas} saknas: ingen swing beräknas och distriktsnamnen tas ur filen")
     distrikt = tomma_distrikt(bas)
     jamforelser = {"goteborg": {}, "riket": {}}
+    verklig = {}
+    if Path(a.jamforelsefil).exists():
+        for kod, ok in las_jamforelsefil(a.jamforelsefil).items():
+            satt_jamforbar(kod, ok, "jämförelsefilen")
     try:
+        if a.valnatt_mapp:
+            jamforelser, verklig = las_valnattsmapp(a.valnatt_mapp, distrikt, bas)
         if filer:
             jamforelser = las_rafiler(filer, distrikt, bas)
         if a.csv:
@@ -265,27 +450,36 @@ def main():
             las_csv(a.csv, distrikt)
     except FormatFel as ex:
         fel(str(ex))
+    if not JAMFORBAR:
+        varning("ingen uppgift om jämförbarhet mot 2022 (varken JSON eller jämförelsefil): alla distrikt antas jämförbara")
+    if META_TEST:
+        varning("TESTDATA: minst en fil har test: true. Filerna skrivs med meta.test och får inte publiceras som skarpa.")
     kalla = f"Valmyndigheten, {'preliminär' if a.status == 'preliminar' else 'slutlig'} rösträkning per valdistrikt {a.ar}"
-    v = bygg(a.ar, distrikt, a.status, jamforelser, a.tid, kalla)
+    v = bygg(a.ar, distrikt, a.status, jamforelser, a.tid, kalla, verklig, META_TEST)
     ut = Path(a.ut)
+    kontrollera_mot_befintlig(v, ut / f"valdata_{a.ar}.json", a.tvinga)
     filer_ut = list(schema.skriv(ut / f"valdata_{a.ar}", v))
+    if bas:
+        jamforbara = [d["kod"] for d in v["distrikt"] if d["jamforbar_mot_bas"]]
+        filer_ut += list(schema.skriv(ut / f"swing_{a.ar}", schema.swing(v, bas, jamforbara=jamforbara)))
     if a.valnatt:
         konfig = schema.las_konfig(ut)
         konfig["ar"] = sorted(set(konfig.get("ar", [])) | {str(a.ar)})
         konfig["standardAr"] = str(a.ar)
         konfig["valnatt"] = True
         filer_ut += list(schema.skriv_konfig(ut, konfig))
-    if bas:
-        filer_ut += list(schema.skriv(ut / f"swing_{a.ar}", schema.swing(v, bas)))
     raknade = {val: sum(1 for d in v["distrikt"] if d[val]) for val in VAL}
-    print("Räknade distrikt: " + ", ".join(f"{VAL[val]} {n}/23" for val, n in raknade.items()))
+    n = len(v["distrikt"])
+    print("Räknade distrikt: " + ", ".join(f"{VAL[val]} {k}/{n}" for val, k in raknade.items()))
+    ej = [d["namn"] for d in v["distrikt"] if d["grans_andrad"]]
+    print(f"Jämförbara mot {bas['meta']['ar'] if bas else 'basåret'}: {n - len(ej)} av {n}. Omritade: {', '.join(ej) or 'inga'}")
     for f in filer_ut:
         print(f"    {f.stat().st_size / 1024:6.1f} kB  {f}")
     print(f"{len(VARNINGAR)} varningar. Status: {a.status}. Uppdaterad: {v['meta']['uppdaterad']}")
     if a.valnatt:
         print(f"Konfigen uppdaterad: ar {konfig['ar']}, standardAr {a.ar}, valnatt på. Ladda upp data/ (valdata, swing och konfig).")
     else:
-        print(f"Nästa steg: kör med --valnatt för att slå på valnattsläget i data/konfig.js, eller redigera filen för hand. Ladda sedan upp data/.")
+        print("Nästa steg: kör med --valnatt för att slå på valnattsläget i data/konfig.js, eller redigera filen för hand. Ladda sedan upp data/.")
     return 0
 
 

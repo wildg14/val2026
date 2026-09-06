@@ -12,6 +12,14 @@ def kort_namn(vdnamn):
     return str(vdnamn).split(", ", 1)[-1].strip()
 
 
+def egenskaper(props):
+    """(kod, kort namn) ur en features egenskaper. 2022: Lkfv och Vdnamn. 2026: Valdistriktskod och Valdistriktsnamn."""
+    kod = props.get("Lkfv", props.get("Valdistriktskod", ""))
+    namn = props.get("Vdnamn", props.get("Valdistriktsnamn", ""))
+    kod = str(kod).strip() if kod is not None else ""
+    return kod, kort_namn(namn) if namn else ""
+
+
 def _runda(koordinater, decimaler):
     return [[round(x, decimaler), round(y, decimaler)] for x, y in koordinater]
 
@@ -22,17 +30,20 @@ def las_distrikt(zip_path, koder, decimaler=6):
 
     Polygonerna har 12 till 121 hörn i källan, så de förenklas inte: gemensamma gränser
     bevaras därmed exakt. Egenskaper: kod, namn, etikett (punkt inuti polygonen), area_km2.
+
+    Egenskapsnamnen skiljer sig mellan år: 2022 har Lkfv och Vdnamn, 2026 har Valdistriktskod
+    och Valdistriktsnamn (se egenskaper()). Zip-filen kan innehålla antingen .json eller .geojson.
     """
     with zipfile.ZipFile(zip_path) as z:
-        namn = [n for n in z.namelist() if n.lower().endswith(".json")]
+        namn = [n for n in z.namelist() if n.lower().endswith((".json", ".geojson"))]
         if not namn:
-            raise ValueError(f"{zip_path}: innehåller ingen .json-fil")
+            raise ValueError(f"{zip_path}: innehåller ingen .json- eller .geojson-fil")
         gj = json.loads(z.read(namn[0]).decode("utf-8"))
     tr = Transformer.from_crs("EPSG:3006", "EPSG:4326", always_xy=True)
     vill = set(str(k) for k in koder)
     features = []
     for ft in gj["features"]:
-        kod = str(ft["properties"].get("Lkfv", "")).strip()
+        kod, namn_kort = egenskaper(ft["properties"])
         if kod not in vill:
             continue
         g = shape(ft["geometry"])
@@ -50,7 +61,7 @@ def las_distrikt(zip_path, koder, decimaler=6):
             "type": "Feature",
             "properties": {
                 "kod": kod,
-                "namn": kort_namn(ft["properties"].get("Vdnamn", kod)),
+                "namn": namn_kort or kod,
                 "etikett": [round(etikett.x, decimaler), round(etikett.y, decimaler)],
                 "area_km2": round(g.area / 1e6, 4),
             },

@@ -173,7 +173,7 @@ def main():
                             kalla=f"Valmyndigheten, slutlig rösträkning per valdistrikt {a.ar}")
     ut = Path(a.ut)
     filer = list(schema.skriv(ut / f"valdata_{a.ar}", v))
-    filer += list(schema.skriv(ut / "distrikt", fc, json_suffix=".geojson"))
+    filer += list(schema.skriv(ut / "distrikt_2022", fc, json_suffix=".geojson"))
     if not (ut / "konfig.json").exists():   # redaktörens ändringar skrivs aldrig över
         filer += list(schema.skriv_konfig(ut, schema.KONFIG_STANDARD))
         print("    data/konfig.json saknades: standardkonfig skriven (ar 2022, valnatt av)")

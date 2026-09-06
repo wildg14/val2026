@@ -22,8 +22,8 @@ def test_bygg_data_skriver_filer_och_mandat(tmp_path):
     assert v["aggregat"]["riket"]["rd"]["valdeltagande"] == pytest.approx(0.842118659, abs=1e-9)
     assert v["aggregat"]["riket"]["rf"]["namn"] == "Västra Götaland"
     assert v["aggregat"]["goteborg"]["kf"]["andel"]["V"] == pytest.approx(0.1582096615, abs=1e-9)
-    g = json.loads((tmp_path / "distrikt.geojson").read_text("utf-8"))
+    g = json.loads((tmp_path / "distrikt_2022.geojson").read_text("utf-8"))
     assert len(g["features"]) == 23
-    for namn in ("valdata_2022.js", "distrikt.js"):
+    for namn in ("valdata_2022.js", "distrikt_2022.js"):
         assert (tmp_path / namn).exists()
     assert "OK" in r.stdout

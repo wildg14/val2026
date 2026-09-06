@@ -3,6 +3,8 @@
 __pycache__/
 *.pyc
 .DS_Store
+# halvskrivna datafiler från schema.skriv om en körning avbryts
+*.tmp
 # Valmyndighetens råfiler (15-20 MB styck) behövs bara för kontrollsteget och repetitionen
 Roster-per-distrikt-*.xlsx
 roster-per-distrikt-*.xlsx

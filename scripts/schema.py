@@ -110,23 +110,58 @@ def bygg_valdata(ar, distrikt, status="slutlig", jamforelser=None, mandat=None, 
 
 
 def _diff(ny_roster, ny_giltiga, bas_roster, bas_giltiga):
-    """Procentenheter per parti, bara för partier som finns i båda åren: ett parti som saknas i ett års
-    data är inte redovisat där (rösterna ligger i Övriga). Skiljer sig partiuppsättningen utelämnas
-    även Övriga, eftersom dess sammansättning då inte är densamma."""
+    """Procentenheter per parti, bara för partier som finns i båda åren. Ett parti som saknas i ett års
+    data behandlas som inte redovisat det året, oavsett orsak: i en preliminär fil därför att det inte är
+    rapportparti (rösterna ligger i Övriga), i en slutlig fil därför att det fick noll röster. Funktionen
+    visar därför aldrig ett sådant parti som ett fall till noll - det är ett medvetet val. Skiljer sig
+    partiuppsättningen mellan åren utelämnas även Övriga, eftersom dess sammansättning då inte är densamma."""
     gemensamma = [p for p in ny_roster if p in bas_roster]
     if set(ny_roster) - {OVRIGA} != set(bas_roster) - {OVRIGA}:
         gemensamma = [p for p in gemensamma if p != OVRIGA]
-    return {p: round((ny_roster[p] / ny_giltiga - bas_roster[p] / bas_giltiga) * 100, 1) for p in gemensamma}
+    # + 0.0 normaliserar bort negativ nolla (t.ex. round(-0.04, 1) == -0.0) så sidan aldrig visar "-0,0".
+    return {p: round((ny_roster[p] / ny_giltiga - bas_roster[p] / bas_giltiga) * 100, 1) + 0.0 for p in gemensamma}
 
 
-def swing(ny, bas, jamforbara=None, meningar=None):
+def _omradesniva(ny, bas, bas_d, val, jamforbara, samma_yta):
+    """Områdesnivån för ett val: räknar ut majorna-diffen och kohortposten för `swing`.
+
+    Är alla distrikt i ny räknade för valet jämförs hela området mot hela basåret (helomrade).
+    Annars räknas bara på kohorten: räknade distrikt vars kod är jämförbar och finns med giltig
+    data i bas, mot samma koder i bas. Returnerar (diff, kohortpost)."""
+    ny_d = ny["distrikt"]
+    raknade = [d for d in ny_d if d.get("raknat", True) and d.get(val) and d["giltiga"].get(val)]
+    if samma_yta is False:
+        helomrade = False
+    elif samma_yta is True:
+        helomrade = bool(raknade) and len(raknade) == len(ny_d)
+    else:
+        helomrade = bool(raknade) and len(raknade) == len(ny_d) and len(ny_d) == len(bas["distrikt"])
+    if helomrade:
+        n, b = ny["aggregat"]["majorna"].get(val, {}), bas["aggregat"]["majorna"].get(val, {})
+        koder = [d["kod"] for d in raknade]
+    else:
+        kohort = [d for d in raknade if d["kod"] in jamforbara and bas_d.get(d["kod"], {}).get(val) and bas_d[d["kod"]]["giltiga"].get(val)]
+        koder = [d["kod"] for d in kohort]
+        n, b = _summa(kohort, val), _summa([bas_d[k] for k in koder], val)
+    diff = _diff(n["roster"], n["giltiga"], b["roster"], b["giltiga"]) if n.get("giltiga") and b.get("giltiga") else {}
+    kohortpost = {"antal": len(koder), "totalt": len(ny_d), "helomrade": helomrade, "koder": koder}
+    return diff, kohortpost
+
+
+def swing(ny, bas, jamforbara=None, meningar=None, samma_yta=None):
     """Förändring i procentenheter, ny mot bas.
 
     `distrikt` får bara räknade distrikt vars kod finns i `jamforbara` (None = alla koder som finns i bas,
     bakåtkompatibelt). Övriga distrikt i ny hamnar i `ej_jamforbara` med den mening kortet ska visa
     (`meningar` kan skriva över standardmeningen per kod). Områdesnivån `majorna` räknas på kohorten:
-    är alla distrikt räknade jämförs hela området mot hela basåret (giltigt när ytan är densamma),
-    annars bara räknade och jämförbara distrikt mot samma koder i bas. `kohort` säger vilka.
+    är alla distrikt räknade jämförs hela området mot hela basåret (helomrade betyder hela området mot
+    hela basåret, giltigt när ytan är densamma), annars bara räknade och jämförbara distrikt mot samma
+    koder i bas. `kohort` säger vilka.
+
+    `samma_yta` styr när helomrade får gälla, oberoende av jamforbara: None (standard) kräver att ny och
+    bas har lika många distrikt, det bakåtkompatibla fallet. True intygar att området täcker samma yta i
+    båda åren (till exempel 2022 mot 2018, 23 mot 22 distrikt): helomrade gäller då så snart alla
+    distrikt i ny är räknade, oavsett antal. False stänger av helomrade helt.
     """
     bas_d = {d["kod"]: d for d in bas["distrikt"]}
     ny_d = list(ny["distrikt"])
@@ -139,9 +174,13 @@ def swing(ny, bas, jamforbara=None, meningar=None):
     for d in ny_d:
         b = bas_d.get(d["kod"])
         if d["kod"] not in jamforbara or b is None:
+            if b is None:
+                mening_standard = f"{d['namn']} fanns inte som valdistrikt {ar_bas}. Siffrorna går inte att jämföra med {ar_bas}."
+            else:
+                mening_standard = f"Gränserna för {d['namn']} ritades om till {ar_ny}. Siffrorna går inte att jämföra med {ar_bas}."
             ut["ej_jamforbara"][d["kod"]] = {
                 "orsak": "saknas i basåret" if b is None else "ej jämförbart enligt källan",
-                "mening": meningar.get(d["kod"]) or f"Gränserna för {d['namn']} ritades om till {ar_ny}. Siffrorna går inte att jämföra med {ar_bas}.",
+                "mening": meningar.get(d["kod"]) or mening_standard,
                 "omradesrad": True}
             continue
         if not d.get("raknat", True):
@@ -153,17 +192,7 @@ def swing(ny, bas, jamforbara=None, meningar=None):
         if per_val:
             ut["distrikt"][d["kod"]] = per_val
     for val in VAL:
-        raknade = [d for d in ny_d if d.get("raknat", True) and d.get(val) and d["giltiga"].get(val)]
-        helomrade = bool(raknade) and len(raknade) == len(ny_d) and len(ny_d) == len(bas["distrikt"])
-        if helomrade:
-            n, b = ny["aggregat"]["majorna"].get(val, {}), bas["aggregat"]["majorna"].get(val, {})
-            koder = [d["kod"] for d in raknade]
-        else:
-            kohort = [d for d in raknade if d["kod"] in jamforbara and bas_d.get(d["kod"], {}).get(val) and bas_d[d["kod"]]["giltiga"].get(val)]
-            koder = [d["kod"] for d in kohort]
-            n, b = _summa(kohort, val), _summa([bas_d[k] for k in koder], val)
-        ut["majorna"][val] = _diff(n["roster"], n["giltiga"], b["roster"], b["giltiga"]) if n.get("giltiga") and b.get("giltiga") else {}
-        ut["kohort"][val] = {"antal": len(koder), "totalt": len(ny_d), "helomrade": helomrade, "koder": koder}
+        ut["majorna"][val], ut["kohort"][val] = _omradesniva(ny, bas, bas_d, val, jamforbara, samma_yta)
     return ut
 
 

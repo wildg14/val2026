@@ -7,7 +7,7 @@ Steg: (1) läser majorna-valresultat-2022.xlsx och kontrollerar rad- och kolumns
 totalraden och fliken Sammanfattning, (2) läser riksdagens verkliga mandat och räknar
 "Om Majorna bestämde", (3) läser valgeografin och kontrollerar att alla 23 distrikt finns,
 (4) stämmer av mot Valmyndighetens rådatafiler om de finns (generalrepetition för 2026),
-(5) skriver data/valdata_2022.json/.js och data/distrikt.geojson/.js,
+(5) skriver data/valdata_2022.json/.js och data/distrikt_2022.geojson/.js,
 (6) kör kontrollera.py, (7) skriver ut filstorlekar.
 Avbryter vid minsta diff.
 """
@@ -188,8 +188,12 @@ def main():
         fel("kontrollera.py rapporterar diffar")
 
     steg(7, "Sidvikt (html + js-data)")
+    konfig = schema.las_konfig(ut)
+    filer_sidvikt = [ROT / "index.html", ut / "konfig.js", ut / "bakgrund.js"]
+    for ar_konfig in konfig["ar"]:
+        filer_sidvikt += [ut / f"distrikt_{ar_konfig}.js", ut / f"valdata_{ar_konfig}.js", ut / f"swing_{ar_konfig}.js"]
     total = 0
-    for f in [ROT / "index.html", *sorted(ut.glob("*.js"))]:
+    for f in filer_sidvikt:
         if f.exists():
             total += f.stat().st_size
             print(f"    {f.stat().st_size / 1024:7.1f} kB  {f.name}")

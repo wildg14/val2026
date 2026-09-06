@@ -4,7 +4,7 @@ import zipfile
 
 from pyproj import Transformer
 from shapely.geometry import mapping, shape
-from shapely.ops import polylabel
+from shapely.ops import polylabel, transform, unary_union
 
 
 def kort_namn(vdnamn):
@@ -13,11 +13,11 @@ def kort_namn(vdnamn):
 
 
 def egenskaper(props):
-    """(kod, kort namn) ur en features egenskaper. 2022: Lkfv och Vdnamn. 2026: Valdistriktskod och Valdistriktsnamn."""
-    kod = props.get("Lkfv", props.get("Valdistriktskod", ""))
-    namn = props.get("Vdnamn", props.get("Valdistriktsnamn", ""))
-    kod = str(kod).strip() if kod is not None else ""
-    return kod, kort_namn(namn) if namn else ""
+    """(kod, kort namn) ur en features egenskaper. 2022: Lkfv och Vdnamn. 2026: Valdistriktskod och
+    Valdistriktsnamn. Faller tillbaka på den andra kolumnen även när den första är null eller tom sträng."""
+    kod = props.get("Lkfv") or props.get("Valdistriktskod") or ""
+    namn = props.get("Vdnamn") or props.get("Valdistriktsnamn") or ""
+    return str(kod).strip(), kort_namn(namn) if namn else ""
 
 
 def _runda(koordinater, decimaler):
@@ -35,10 +35,14 @@ def las_distrikt(zip_path, koder, decimaler=6):
     och Valdistriktsnamn (se egenskaper()). Zip-filen kan innehålla antingen .json eller .geojson.
     """
     with zipfile.ZipFile(zip_path) as z:
-        namn = [n for n in z.namelist() if n.lower().endswith((".json", ".geojson"))]
+        namn = sorted((n for n in z.namelist() if n.lower().endswith((".json", ".geojson"))),
+                      key=lambda n: not n.lower().endswith(".geojson"))
         if not namn:
             raise ValueError(f"{zip_path}: innehåller ingen .json- eller .geojson-fil")
-        gj = json.loads(z.read(namn[0]).decode("utf-8"))
+        vald = namn[0]
+        gj = json.loads(z.read(vald).decode("utf-8"))
+        if "features" not in gj:
+            raise ValueError(f"{vald}: saknar features")
     tr = Transformer.from_crs("EPSG:3006", "EPSG:4326", always_xy=True)
     vill = set(str(k) for k in koder)
     features = []
@@ -75,3 +79,33 @@ def las_distrikt(zip_path, koder, decimaler=6):
     xs = [c[0] for f in features for c in f["geometry"]["coordinates"][0]]
     ys = [c[1] for f in features for c in f["geometry"]["coordinates"][0]]
     return {"type": "FeatureCollection", "bbox": [min(xs), min(ys), max(xs), max(ys)], "features": features}
+
+
+def _union_3006(fc, tr):
+    """Featurecollectionens polygoner (WGS84), projicerade till EPSG:3006 och slagna ihop till en union."""
+    polygoner = [transform(tr.transform, shape(f["geometry"])) for f in fc["features"]]
+    return unary_union(polygoner)
+
+
+def union_yta(fc):
+    """Unionens area i kvadratmeter, med fc:s koordinater (WGS84) projicerade till EPSG:3006."""
+    tr = Transformer.from_crs("EPSG:4326", "EPSG:3006", always_xy=True)
+    return _union_3006(fc, tr).area
+
+
+def jamfor_union(fc_a, fc_b):
+    """Projicerar två featurecollections (WGS84) till EPSG:3006, tar unionen av var och en, och
+    jämför dem geometriskt - inte bara som en summa av avrundade ytor, som varken ser luckor eller
+    överlapp. `skillnad` är fc_b:s unionsyta minus fc_a:s (kvadratmeter). `symmetrisk_differens` är
+    arean som skiljer mellan unionerna, dvs luckor och överlapp tillsammans (kvadratmeter): nära noll
+    betyder att områdena täcker exakt samma yta, även om enskilda distrikt inom dem är omritade."""
+    tr = Transformer.from_crs("EPSG:4326", "EPSG:3006", always_xy=True)
+    union_a = _union_3006(fc_a, tr)
+    union_b = _union_3006(fc_b, tr)
+    yta_a, yta_b = union_a.area, union_b.area
+    return {
+        "yta_a": yta_a,
+        "yta_b": yta_b,
+        "skillnad": yta_b - yta_a,
+        "symmetrisk_differens": union_a.symmetric_difference(union_b).area,
+    }

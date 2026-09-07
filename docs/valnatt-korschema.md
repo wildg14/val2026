@@ -37,6 +37,7 @@ Jämförbara mot 2022: 14 av 23. Omritade: Kungsladugård Västra, Mariaplan, Si
 Nästa steg: kör med --valnatt för att slå på valnattsläget i data/konfig.js, eller redigera filen för hand. Ladda sedan upp data/.
 ```
 
+- [ ] Skriptet vägrar skriva testdata (`meta.test`) till repots `data/` utan `--tvinga`: glöms `--ut` bort stoppar den spärren en torrkörning i stället för att skriva testmärkt data i skarp mapp.
 - [ ] Kör samma kommando en gång till: väntat `Inget nytt: de tre filerna har samma md5 som senaste körning`, `Inget nytt att läsa in.` och returkod 3.
 - [ ] Testsidan med båda åren:
 

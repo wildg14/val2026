@@ -36,8 +36,8 @@ Projektmappen är `/Users/daniel/code/Temp` (git, branch `main`, remote `origin`
 
 | Del | Fil | Vad |
 |---|---|---|
-| Grafiken | `valgrafik.js` (cirka 63 kB) | Renderar allt inuti `<div class="mp-val" id="valgrafik">`: rubrik, samarbetsrad och rutor (valvaka, rösthjälp), "Om Majorna bestämde", kartan med flikar och lägen, resultatkortet, tabellknappen och tabellen (i samma sektion som kartan), "Majorna mot Sverige", "Röstdelningen" (nu HTML-rader med alla tre valen per parti, inte lutningsdiagram), "Om siffrorna", sidfot. Läser `data/konfig.js` och datafilerna från adressen i `data-bas` eller skriptets egen mapp. |
-| Stil | `valgrafik.css` (cirka 20 kB) | All CSS scopad till `.mp-val`. Två layouter via container queries: under 900 px containerbredd en spalt (mobil), från 900 px två kolumner. 600 px styr kartans detaljnivå (kartans typstorlekar räknas löpande om efter kartans faktiska pixelbredd, inte bara vid tröskeln). |
+| Grafiken | `valgrafik.js` (cirka 74 kB) | Renderar allt inuti `<div class="mp-val" id="valgrafik">`: rubrik, samarbetsrad och rutor (valvaka, rösthjälp), "Om Majorna bestämde", kartan med flikar och lägen, resultatkortet, tabellknappen och tabellen (i samma sektion som kartan), "Majorna mot Sverige", "Röstdelningen" (nu HTML-rader med alla tre valen per parti, inte lutningsdiagram), "Om siffrorna", sidfot. Läser `data/konfig.js` och datafilerna från adressen i `data-bas` eller skriptets egen mapp. |
+| Stil | `valgrafik.css` (cirka 23 kB) | All CSS scopad till `.mp-val`. Två layouter via container queries: under 900 px containerbredd en spalt (mobil), från 900 px två kolumner. 600 px styr kartans detaljnivå (kartans typstorlekar räknas löpande om efter kartans faktiska pixelbredd, inte bara vid tröskeln). |
 | Skal | `index.html` | Tunt skal för lokal visning, bildläge och skärmdumpar. Open Graph-taggar med adressen. |
 | Data | `data/valdata_2022.json` + `.js`, `data/distrikt_2022.*` och `data/distrikt_2026.*` (en geometrifil per år i konfigens `ar`), `data/bakgrund.json` + `.js`, `data/konfig.json` + `.js` | `.js`-filerna är identiska kopior av `.json` som sidan laddar via `<script>` (fungerar via file:// och kräver ingen CORS). Skrivs av `scripts/schema.py`, atomiskt. På valnatten tillkommer `valdata_2026.*` och `swing_2026.*`, och `data/valnatt/` (gitignorerad) med Valmyndighetens hämtade filer. |
 | Pipeline | `scripts/bygg_data.py`, `scripts/kontrollera.py`, `scripts/valmyndigheten.py`, `scripts/mandat.py`, `scripts/geo.py`, `scripts/schema.py`, `scripts/bygg_geo.py` | xlsx + zip till data/, med fem kontrollsteg. `bygg_geo.py` skriver `data/distrikt_<år>` ur Valmyndighetens valgeografi och jämför unionsytan mellan åren. |
@@ -125,7 +125,7 @@ En efterföljande granskningsomgång (samma dag) rättade: det klibbiga kortet s
 
 ## Status 2026-09-07: valnattsomgången är byggd
 
-Planen `docs/superpowers/plans/2026-09-05-valnatt-2026.md` är genomförd, task 1 till 12, i 30 commits (`git log --oneline 5a1f40e..HEAD`). Varje task kördes av en egen agent med testerna först, granskades av en oberoende agent och rättades innan nästa startade. Vad som byggdes:
+Planen `docs/superpowers/plans/2026-09-05-valnatt-2026.md` är genomförd, task 1 till 12, i 31 commits (`git log --oneline 5a1f40e..bd163ae`). Varje task kördes av en egen agent med testerna först, granskades av en oberoende agent och rättades innan nästa startade. Vad som byggdes:
 
 - **`scripts/valnatt.py`** (task 1 till 3): läser Valmyndighetens JSON 2026. `las_rostfordelning` ger de 23 distrikten med röster, giltiga, röstande, röstberättigade och jämförbarhet; `aggregat_2026` ger riket, Västra Götaland och Göteborg ur mandat- och summeringsfilerna; `riksdag_verklig` ger riksdagens mandat till halvcirkeln.
 - **`scripts/hamta_2026.py`** (task 4): hämtar `index.md5` och de tre zip-filerna, kontrollerar md5 och signaturer, packar upp per körning, `senaste` som atomärt bytt symlänk, `--bara-om-nytt`, `--genrep`, `--lokal`, `--utan-signatur`.
@@ -259,6 +259,6 @@ Från valnattsomgången:
 - Kohorten i swingfilen räknar distrikt som är både räknade och jämförbara, statusraden räknar alla räknade. Samma tal på båda ställena är fel.
 - Sidhuvudets reserverade höjd sätts när `konfig.js` lästs (årväljarens rad och toppsvarets höjd), inte vid första målningen. I det degraderade läget där ett år inte kan laddas krymper sidhuvudet 56 px när årväljaren döljs.
 - `KONFIG.toppsvar.mening` bör hållas till cirka 60 tecken: sidan reserverar höjd för en rad extra.
-- "Majornas 23 valdistrikt" är hårdkodat i `meta description` och `og:description` i `index.html`, `docs/beehiivtest.html` och `docs/inbaddningstest.html`. Antalet är 23 båda åren, så det får stå, men det uppdateras inte av datan.
+- "Majornas 23 valdistrikt" är hårdkodat i `meta description` och `og:description` i `index.html` (rad 8 och 11); `docs/beehiivtest.html` och `docs/inbaddningstest.html` har ingen description-metatagg. Antalet är 23 båda åren, så det får stå, men det uppdateras inte av datan.
 - `.forbehall` är 16 px (brödtextens minimum) medan `.not` är 14 px; det är avsiktligt.
 - `docs/skarmdumpar/` är tagna före toppsvaret och kortets rad "Hur har det ändrats" och visar alltså en äldre sida.

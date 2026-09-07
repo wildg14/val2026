@@ -38,7 +38,7 @@ bilder/                       genererade stillbilder
 scripts/valmyndigheten.py     parser för Valmyndighetens xlsx-filer, partimappning
 scripts/mandat.py             jämkade uddatalsmetoden
 scripts/geo.py, schema.py     geodata respektive datafilernas schema
-verktyg/                      forbered_tvaar.py och Puppeteer-kontrollerna, se verktyg/README.md
+verktyg/                      forbered_tvaar.py och Puppeteer-kontrollerna (bland dem tvaar-check.js), se verktyg/README.md
 tests/                        pytest, 224 tester
 docs/superpowers/             designspec och plan
 ```
@@ -316,7 +316,9 @@ Hämtningen:
 Inläsningen:
 
 - `FEL: färre räknade distrikt än i valdata_2026.json (rd: 12 mot 18)` - Valmyndigheten har dragit tillbaka distrikt, eller en fil är trasig. En trasig fil i ett val stoppar hela skrivningen, avsiktligt. Gå vidare med `--valnatt-mapp data/valnatt/senaste --tvinga`, som ersätter hela filen.
-- `FEL: <fil>: har inte formen av en JSON-fil` - halvskriven fil hos Valmyndigheten. Kör igen.
+- `--tvinga` låser upp tre spärrar på en gång: färre räknade distrikt, testdata över skarp data, och testdata till repots `data/` - inte bara den som utlöste stoppet. En `--genrep`-körning med standard-`--ut` följd av återstartskommandot med `--tvinga` skriver alltså testmärkt data till `data/` utan att stoppas. Se avsnittet Under kvällen.
+- `FEL: <val>: <fil> har inte formen av en JSON-fil: <detalj>` - halvskriven fil hos Valmyndigheten. Kör igen.
+- `FEL: <sökväg>: har inte formen av en JSON-fil: <detalj>. <råd>` - en befintlig fil i `data/` går inte att läsa (skadad eller halvskriven från en tidigare körning). Rådet skiljer mellan basårets fil och årets egen.
 - `FEL: valdata_2026.json är skarp data men den nya filen är testdata` - en `--genrep`-körning mot skarp data.
 - `FEL: filerna är testdata (test: true) och --ut är repots data/` - torrkörningen saknar `--ut` till en annan mapp.
 - `FEL: <mapp>: inga av mapparna rd, rf, kf finns` - fel mapp angiven i `--valnatt-mapp`.
@@ -408,7 +410,7 @@ Andelar räknas alltid i sidan som parti delat med giltiga röster. Inga tal är
 
 ## Designval
 
-Sidhuvudet svarar på frågan innan läsaren scrollar: en statusrad ("Preliminärt, 12 av 23 distrikt räknade. Uppdaterad 21:35.", "Slutligt resultat 2022. Valet 2026 är söndag 13 september.") och under den ett toppsvar med de fyra största partierna i riksdagsvalet som korta staplar, plus valdeltagandet i en mening. Banderollen och ingressen som fanns tidigare är borttagna: de sade samma sak två gånger och sköt ned kartan. Statusraden och toppsvaret har reserverad höjd (52 px respektive 208 px, statusraden 26 px från 600 px containerbredd) och årväljarens rad reserveras så fort konfigen listar två år, så att sidhuvudet inte hoppar när datan kommer. "Ladda om" är en `<button>` med länkutseende, inte en länk: den laddar om värdsidan, och en länk hade gått att cmd-klicka till ingenstans.
+Sidhuvudet svarar på frågan innan läsaren scrollar: en statusrad ("Preliminärt, 12 av 23 distrikt räknade. Uppdaterad 21:35.", "Slutligt resultat 2022. Valet 2026 är söndag 13 september.") och under den ett toppsvar med de fyra största partierna i riksdagsvalet som korta staplar, plus valdeltagandet i en mening. Banderollen och ingressen som fanns tidigare är borttagna: de sade samma sak två gånger och sköt ned kartan. Statusraden och toppsvaret har reserverad höjd (52 px respektive 208 px, statusraden 26 px från 600 px containerbredd) och årväljarens rad reserveras så fort konfigen listar två år, så att sidhuvudet inte hoppar när datan kommer. I nolläget (0 av 23 räknade) visar toppsvaret bara en rad ("Riksdagsvalet 2026: inget distrikt räknat än.") i den 208 px höga rutan i stället för att krympa den - avsiktligt, så att höjden är densamma före och efter att det första distriktet räknas. "Ladda om" är en `<button>` med länkutseende, inte en länk: den laddar om värdsidan, och en länk hade gått att cmd-klicka till ingenstans.
 
 Resultatkortet har raden "Hur har det ändrats" i tre grenar. Ett jämförbart distrikt får tal för de tre största partier som har tal i swingfilen. Ett omritat distrikt får meningen "Gränserna för Mariaplan ritades om till 2026" och hela Majornas förändring för distriktets största parti. Hela Majorna får talen med kohorttexten "räknat på N jämförbara distrikt av 23" tills alla är räknade. Partier som saknar tal i swingfilen visas inte alls, aldrig som "0,0".
 

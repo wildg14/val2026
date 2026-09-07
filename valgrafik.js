@@ -201,9 +201,9 @@ const distriktMap = () => Object.fromEntries(data().distrikt.map(d => [d.kod, d]
 const geo = () => state.geo[state.ar];            // det visade årets polygoner
 const antalDistrikt = () => (data().distrikt || []).length;
 const raknat = (d, val) => !!(d.raknat && d[val] && Object.keys(d[val]).length && d.giltiga[val]);
-const raknadeIVal = val => {   // distrikt räknade i just det här valet; meta.valnatt räknar "något val"
-  const alla = data().distrikt || [];
-  return { raknade: alla.filter(d => raknat(d, val)).length, totalt: alla.length };
+const raknadeIVal = (val, d = data()) => {   // distrikt räknade i just det här valet; meta.valnatt räknar "något val"
+  const alla = d.distrikt || [];   // dataargumentet låter historiken räkna på ett annat år än det kartan visar
+  return { raknade: alla.filter(x => raknat(x, val)).length, totalt: alla.length };
 };
 function andelar(roster, giltiga) {
   return Object.entries(roster).map(([p, n]) => ({ p, n, andel: giltiga ? n / giltiga : 0 }))
@@ -219,7 +219,7 @@ const jamforelse = (omrade, val) => (data().aggregat[omrade] || {})[val] || null
 // Riket, regionen och kommunen räknas färdigt under valnatten. Talen finns bara i 2026 års aggregat: saknas de är området färdigräknat.
 const harRaknade = post => !!post && post.antal_distrikt != null && post.totalt_distrikt != null;
 const omradeDelvis = post => harRaknade(post) && post.antal_distrikt < post.totalt_distrikt;
-const arPreliminar = () => data().meta.status !== "slutlig";
+const arPreliminar = (d = data()) => d.meta.status !== "slutlig";
 const raknadeText = post => `${tal(post.antal_distrikt)} av ${tal(post.totalt_distrikt)} distrikt räknade`;
 const majornaRaknat = val => majorna(val) && majorna(val).giltiga > 0;
 function partierIVal(val) {
@@ -582,14 +582,23 @@ function kartBredd() {   // kartans egen pixelbredd, reserv: containerns bredd
   const el = rot.querySelector("#karta");
   return (el && el.clientWidth) || rot.getBoundingClientRect().width || 390;
 }
+function histBildSlak() {   // historikbildens viewBox mot ytans bredd: glider de isär har CSS sträckt ut bilden
+  const el = rot.querySelector("#hist-bild-a"), svg = el && el.querySelector("svg");
+  if (!svg || el.clientWidth < 200) return false;   // under golvet i histLinjer skulle kontrollen aldrig bli nöjd
+  const vb = (svg.getAttribute("viewBox") || "").trim().split(/\s+/)[2];
+  return !vb || Math.abs(Number(vb) - el.clientWidth) > 4;
+}
 let senastDesktop = null, senastKartaBredd = null;
 if ("ResizeObserver" in window) new ResizeObserver(() => {
   const nu = arDesktop(), breddNu = kartBredd();
   const desktopBytte = senastDesktop !== null && nu !== senastDesktop;
   const breddBytte = senastKartaBredd !== null && Math.abs(breddNu - senastKartaBredd) / senastKartaBredd > 0.1;
   if ((desktopBytte || breddBytte) && geo() && !state.bild) renderKarta();
-  if ((desktopBytte || breddBytte) && state.historik && !state.bild) renderHistorik();
-  senastDesktop = nu; senastKartaBredd = breddNu;
+  if (state.historik && !state.bild && (desktopBytte || breddBytte || histBildSlak())) renderHistorik();
+  senastDesktop = nu;
+  // Referensbredden flyttas bara när något faktiskt ritades om. Annars nollställs jämförelsen vid varje utslag
+  // och en rad steg under tio procent hinner sträcka ut bilderna utan att någon omritning sker.
+  if (desktopBytte || breddBytte || senastKartaBredd === null) senastKartaBredd = breddNu;
 }).observe(rot);
 function storlek() {   // typstorlekar i viewBox-enheter efter kartans faktiska pixelbredd, inte en fast 600 px-tröskel
   const bredd = kartBredd(), mal = bredd < 600 ? PXMAL.mobil : PXMAL.desktop, faktor = 1000 / bredd;
@@ -634,6 +643,20 @@ function spannVid(ringSvg, y, x) {   // polygonens bredd på etikettens rad, och
 function relLuminans(hex) {
   const c = [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16) / 255).map(v => v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4));
   return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
+}
+function textFarg(hex) {
+  // Partifärg som text på papper: färgen blandas mot bläck i små steg tills kontrasten når WCAG:s 4,5:1.
+  // V och M klarar gränsen och behåller sin färg exakt; SD-gult (1,6:1) och MP-grönt (3,0:1) mörkas.
+  const lp = relLuminans(FARG.papper);
+  const kontrast = f => { const l = relLuminans(f); return (Math.max(lp, l) + 0.05) / (Math.min(lp, l) + 0.05); };
+  if (kontrast(hex) >= 4.5) return hex;
+  const black = [1, 3, 5].map(i => parseInt(FARG.black.slice(i, i + 2), 16));
+  const c = [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16));
+  for (let t = 0.05; t <= 1.0001; t += 0.05) {
+    const f = "#" + c.map((v, i) => Math.round(v + (black[i] - v) * t).toString(16).padStart(2, "0")).join("");
+    if (kontrast(f) >= 4.5) return f;
+  }
+  return FARG.black;
 }
 function styrkaSkala(val, p) {
   const varden = data().distrikt.filter(d => raknat(d, val)).map(d => Math.round((d[val][p] || 0) / d.giltiga[val] * 100));
@@ -1148,22 +1171,29 @@ function historikSerie(val, niva) {
   const h = state.historik;
   return h && h.serie && h.serie[val] && h.serie[val][niva] ? h.serie[val][niva] : [];
 }
+const histAr = () => ((state.historik || {}).meta || {}).ar || [];   // seriens år, tom lista när filen saknas
+const senasteAr = () => (KONFIG.ar || []).map(Number).filter(a => a).sort((a, b) => a - b).pop();
+const histLista = a => a.length === 1 ? String(a[0]) : a.slice(0, -1).join(", ") + " och " + a[a.length - 1];
+const histHarTal = (pt, q) => pt.andel[q] !== undefined && pt.andel[q] !== null;   // parti utan tal ritas inte som noll
 function aretsPunkt(val, niva) {
-  // det visade året som en punkt i seriens form, bara när alla distrikt är räknade; annars null (ringen "räknas på valnatten")
-  const meta = data().meta, ar = Number(meta.ar);
-  if (state.historik.meta.ar.includes(ar)) return null;
-  const { raknade, totalt } = raknadeIVal(val);
+  // Punkten för det senaste laddade året i seriens form, inte för det år kartans årsknapp visar: sektionen
+  // följer kartans val men inte dess år. Punkten finns bara när alla distrikt i valet är räknade; annars
+  // null, och året står som tom ring på axeln.
+  const ar = senasteAr(), d = state.data[String(ar)];
+  if (!d || histAr().includes(ar)) return null;
+  const { raknade, totalt } = raknadeIVal(val, d);
   if (!totalt || raknade < totalt) return null;
-  const preliminar = arPreliminar();
+  const preliminar = arPreliminar(d);
   if (niva === "majorna") {
-    const m = majorna(val);
+    const m = (d.aggregat.majorna || {})[val];
     if (!m || !m.giltiga) return null;
     const andel = {};
-    for (const [p, n] of Object.entries(m.roster)) andel[p] = n / m.giltiga;
+    for (const [q, n] of Object.entries(m.roster)) andel[q] = n / m.giltiga;
     return { ar, andel, giltiga: m.giltiga, rostande: m.rostande, rostberattigade: m.rostberattigade,
-             valdeltagande: m.rostberattigade ? m.rostande / m.rostberattigade : null, preliminar };
+             valdeltagande: m.rostberattigade ? m.rostande / m.rostberattigade : null,
+             antal_distrikt: (d.distrikt || []).length, preliminar };
   }
-  const post = jamforelse(niva, val);
+  const post = (d.aggregat[niva] || {})[val] || null;
   if (!post || !post.andel) return null;
   return { ar, andel: post.andel, valdeltagande: post.valdeltagande || null, preliminar };
 }
@@ -1172,14 +1202,14 @@ function histPunkter(val, niva) {   // serien plus årets punkt när den finns
   return historikSerie(val, niva).map(p => ({ ...p, preliminar: false })).concat(extra ? [extra] : []);
 }
 function histAxelAr() {
-  // Årtalen på x-axeln: seriens år, det visade året när det inte hunnit in i serien, och nästa valår ur
-  // konfigen. Sista året får därför stå som tom ring innan det är räknat - före valdagen slutar linjerna på 2022
-  // medan axeln redan visar 26.
-  const ar = state.historik.meta.ar.slice(), visat = Number(data().meta.ar);
-  if (!ar.includes(visat)) ar.push(visat);
-  const valdagAr = Number(String(KONFIG.valdag || "").slice(0, 4));
-  if (valdagAr > ar[ar.length - 1]) ar.push(valdagAr);
-  return ar;
+  // Årtalen på x-axeln: seriens år, det senaste laddade året och valåret ur konfigen, stigande och utan
+  // dubbletter. Ett år utan punkt får stå som tom ring - före valdagen slutar linjerna på 2022 medan axeln
+  // redan visar 26.
+  const ar = new Set(histAr());
+  const senaste = senasteAr(), valdagAr = Number(String(KONFIG.valdag || "").slice(0, 4));
+  if (senaste) ar.add(senaste);
+  if (valdagAr) ar.add(valdagAr);
+  return [...ar].sort((a, b) => a - b);
 }
 function sistaPunkt(val) { const p = histPunkter(val, "majorna"); return p[p.length - 1]; }
 function histMening(val) {
@@ -1193,24 +1223,28 @@ function histMening(val) {
 function antalDistriktText(val) {   // "17 år 2006, 2010 och 2014, 22 år 2018, 23 år 2022"
   const grupper = [];
   for (const p of histPunkter(val, "majorna")) {
-    const n = p.antal_distrikt || (p.ar === Number(data().meta.ar) ? antalDistrikt() : null);
-    if (n === null) continue;
+    if (p.antal_distrikt == null) continue;
     const g = grupper[grupper.length - 1];
-    if (g && g.n === n) g.ar.push(p.ar); else grupper.push({ n, ar: [p.ar] });
+    if (g && g.n === p.antal_distrikt) g.ar.push(p.ar); else grupper.push({ n: p.antal_distrikt, ar: [p.ar] });
   }
-  const lista = a => a.length === 1 ? String(a[0]) : a.slice(0, -1).join(", ") + " och " + a[a.length - 1];
-  return grupper.map(g => `${g.n} år ${lista(g.ar)}`).join(", ");
+  return grupper.map(g => `${g.n} år ${histLista(g.ar)}`).join(", ");
 }
+let histLasX = {};   // årtal -> x i bildens viewBox, så att läslinjen kan flyttas utan att bilden ritas om
 function histLinjer(val) {
-  const el = $("#hist-bild-a"), W = Math.max(300, el.clientWidth || 358), H = arDesktop() ? 320 : 280, M = { v: 34, h: 48, t: 14, b: 30 };
+  // Golvet 200 gäller bara degenererade containrar: på en 320 px-telefon är ytan 288 px och viewBox ska
+  // vara lika bred, annars sträcker CSS ut bilden och axeltexten växer.
+  const el = $("#hist-bild-a"), W = Math.max(200, el.clientWidth || 358), H = arDesktop() ? 320 : 280, M = { v: 40, h: 48, t: 14, b: 30 };
   const punkter = histPunkter(val, "majorna"), axelAr = histAxelAr(), partier = histPartier();
   const max = Math.max(0.4, Math.ceil(Math.max(...punkter.flatMap(p => partier.map(q => p.andel[q] || 0))) * 20) / 20);
   const x = i => M.v + i * (W - M.v - M.h) / Math.max(1, axelAr.length - 1), y = a => M.t + (1 - a / max) * (H - M.t - M.b);
-  const beskrivning = partier.map(p => `${parti(p).namn}: ` + punkter.map(pt => `${pt.ar} ${andelTal(pt.andel[p] || 0)}`).join(", ")).join("; ");
-  const utan = axelAr.slice(punkter.length);   // år på axeln som inte får ritas än
+  histLasX = Object.fromEntries(axelAr.map((a, i) => [a, x(i)]));
+  const utan = axelAr.filter(a => !punkter.some(p => p.ar === a));   // år på axeln som inte får ritas än
+  // Talraden under bilden är textalternativet: etiketten säger vad bilden är och hur man byter år, inte
+  // seriens alla tal - de lästes annars upp på nytt vid varje piltryck.
   const svg = s("svg", { viewBox: `0 0 ${W} ${H}`, class: "hist-svg", role: "img", tabindex: 0,
-    "aria-label": `${histMening(val)} Andel av giltiga röster per valår i procent. ${beskrivning}.`
-      + (utan.length ? ` ${utan.join(", ")} räknas på valnatten.` : "") + " Vänster och höger pil byter år i talraden." });
+    "aria-label": `${histMening(val)} Andel av giltiga röster per valår i procent.`
+      + " Talraden under bilden visar ett års tal; vänster och höger pil byter år."
+      + (utan.length ? ` ${utan.join(", ")} räknas på valnatten.` : "") });
   for (let a = 0.1; a <= max + 1e-9; a += 0.1) {
     svg.append(s("line", { x1: M.v, x2: W - M.h, y1: y(a).toFixed(1), y2: y(a).toFixed(1), stroke: FARG.linje }),
                s("text", { x: M.v - 6, y: (y(a) + 4).toFixed(1), "text-anchor": "end", "font-size": 12, fill: FARG.sten }, Math.round(a * 100) + (a + 0.1 > max ? " %" : "")));
@@ -1218,57 +1252,78 @@ function histLinjer(val) {
   axelAr.forEach((a, i) => svg.append(s("text", { x: x(i).toFixed(1), y: H - 8, "text-anchor": "middle", "font-size": 13, fill: FARG.sten }, String(a).slice(2))));
   const slut = [];
   for (const p of partier) {
-    const pts = punkter.map((pt, i) => ({ x: x(i), y: y(pt.andel[p] || 0), preliminar: pt.preliminar }));
-    const fasta = pts.filter(pt => !pt.preliminar);
-    svg.append(s("path", { d: fasta.map((pt, i) => (i ? "L" : "M") + pt.x.toFixed(1) + "," + pt.y.toFixed(1)).join(""), fill: "none", stroke: parti(p).farg, "stroke-width": 2.5, "stroke-linejoin": "round" }));
-    if (pts.length > fasta.length) {   // preliminärt år: streckad sträcka fram till den öppna ringen
-      const a = fasta[fasta.length - 1], b = pts[pts.length - 1];
-      svg.append(s("path", { d: `M${a.x.toFixed(1)},${a.y.toFixed(1)}L${b.x.toFixed(1)},${b.y.toFixed(1)}`, fill: "none", stroke: parti(p).farg, "stroke-width": 2.5, "stroke-dasharray": "6 5" }));
+    // Ett år utan tal för partiet ger ett hål i linjen och ingen punkt, aldrig ett värde på noll.
+    const pts = punkter.map((pt, i) => histHarTal(pt, p) ? { x: x(i), y: y(pt.andel[p]), preliminar: pt.preliminar } : null);
+    const delar = [[]];
+    for (const pt of pts) { if (pt) delar[delar.length - 1].push(pt); else delar.push([]); }
+    for (const del of delar.filter(d => d.length)) {
+      const fasta = del.filter(pt => !pt.preliminar);
+      if (fasta.length) svg.append(s("path", { d: fasta.map((pt, i) => (i ? "L" : "M") + pt.x.toFixed(1) + "," + pt.y.toFixed(1)).join(""), fill: "none", stroke: parti(p).farg, "stroke-width": 2.5, "stroke-linejoin": "round" }));
+      if (del.length > fasta.length && fasta.length) {   // preliminärt år: streckad sträcka fram till den öppna ringen
+        const a = fasta[fasta.length - 1], b = del[del.length - 1];
+        svg.append(s("path", { d: `M${a.x.toFixed(1)},${a.y.toFixed(1)}L${b.x.toFixed(1)},${b.y.toFixed(1)}`, fill: "none", stroke: parti(p).farg, "stroke-width": 2.5, "stroke-dasharray": "6 5" }));
+      }
+      for (const pt of del) svg.append(s("circle", { cx: pt.x.toFixed(1), cy: pt.y.toFixed(1), r: 3.5, fill: pt.preliminar ? FARG.papper : parti(p).farg, stroke: parti(p).farg, "stroke-width": 2 }));
     }
-    for (const pt of pts) svg.append(s("circle", { cx: pt.x.toFixed(1), cy: pt.y.toFixed(1), r: 3.5, fill: pt.preliminar ? FARG.papper : parti(p).farg, stroke: parti(p).farg, "stroke-width": 2 }));
-    slut.push({ p, py: pts[pts.length - 1].y, y: pts[pts.length - 1].y });
+    const sista = pts.filter(Boolean).pop();
+    if (sista) slut.push({ p, py: sista.y, y: sista.y });
   }
   // Etiketterna står vid linjens högra ände, inte vid bildens kant: så länge linjerna slutar 2022 får ingen
   // ledarlinje sträcka sig fram till den tomma ringen och se ut som ett resultat.
-  const etikettX = x(punkter.length - 1);
+  const etikettX = x(axelAr.indexOf(punkter[punkter.length - 1].ar));
   slut.sort((a, b) => a.y - b.y);   // etiketterna får inte täcka varandra: skjut isär till 15 px och rita en kort ledarlinje
   for (let i = 1; i < slut.length; i++) if (slut[i].y - slut[i - 1].y < 15) slut[i].y = slut[i - 1].y + 15;
   for (const e of slut) {
     if (Math.abs(e.y - e.py) > 1) svg.append(s("line", { x1: (etikettX + 4).toFixed(1), y1: e.py.toFixed(1), x2: (etikettX + 11).toFixed(1), y2: e.y.toFixed(1), stroke: parti(e.p).farg, "stroke-width": 1 }));
-    svg.append(s("text", { x: (etikettX + 13).toFixed(1), y: (e.y + 4.5).toFixed(1), "font-size": 13, "font-weight": 700, fill: parti(e.p).farg }, e.p));
+    svg.append(s("text", { x: (etikettX + 13).toFixed(1), y: (e.y + 4.5).toFixed(1), "font-size": 13, "font-weight": 700, fill: textFarg(parti(e.p).farg) }, e.p));
   }
-  for (const a of utan) {   // året får inte ritas än: tom ring mitt i bilden, talraden säger räknas på valnatten
-    svg.append(s("circle", { cx: x(axelAr.indexOf(a)).toFixed(1), cy: y(max / 2).toFixed(1), r: 5, fill: FARG.papper, stroke: FARG.sten, "stroke-width": 1.5 }));
-  }
+  // Läslinjen skapas en gång och ritas före ringen, så att ringen ligger överst. Saknar året plats på axeln
+  // hålls linjen dold i stället för att ritas om.
   const li = axelAr.indexOf(state.historikAr);
-  if (li >= 0) svg.append(s("line", { class: "hist-laslinje", x1: x(li).toFixed(1), x2: x(li).toFixed(1), y1: M.t, y2: H - M.b, stroke: FARG.sten, "stroke-dasharray": "3 3" }));
+  svg.append(s("line", { class: "hist-laslinje", x1: li >= 0 ? x(li).toFixed(1) : null, x2: li >= 0 ? x(li).toFixed(1) : null,
+                         y1: M.t, y2: H - M.b, stroke: FARG.sten, "stroke-dasharray": "3 3", visibility: li >= 0 ? null : "hidden" }));
+  for (const a of utan) {   // året får inte ritas än: tom ring på axelns nollnivå, med texten till vänster om den
+    const cx = x(axelAr.indexOf(a));
+    svg.append(s("text", { x: (cx - 10).toFixed(1), y: (y(0) + 4).toFixed(1), "text-anchor": "end", "font-size": 12, fill: FARG.sten }, "räknas på valnatten"),
+               s("circle", { cx: cx.toFixed(1), cy: y(0).toFixed(1), r: 5, fill: FARG.papper, stroke: FARG.sten, "stroke-width": 1.5 }));
+  }
   const narmast = px => { let best = 0; axelAr.forEach((a, i) => { if (Math.abs(x(i) - px) < Math.abs(x(best) - px)) best = i; }); return axelAr[best]; };
-  svg.addEventListener("click", e => { const r = svg.getBoundingClientRect(); sattHistorikAr(narmast((e.clientX - r.left) * W / r.width), true); });
+  svg.addEventListener("click", e => { const r = svg.getBoundingClientRect(); sattHistorikAr(narmast((e.clientX - r.left) * W / r.width)); });
   svg.addEventListener("keydown", e => {
     if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
     e.preventDefault();
     const i = Math.max(0, axelAr.indexOf(state.historikAr));
-    sattHistorikAr(axelAr[(i + (e.key === "ArrowRight" ? 1 : -1) + axelAr.length) % axelAr.length], true);
+    sattHistorikAr(axelAr[(i + (e.key === "ArrowRight" ? 1 : -1) + axelAr.length) % axelAr.length]);
   });
   el.replaceChildren(svg);
 }
-function sattHistorikAr(ar, fokus) {
+function sattHistorikAr(ar) {
+  // Bara läslinjen och talraden ändras. Bilden ritas inte om, så fokus ligger kvar av sig självt och
+  // skärmläsaren läser talraden (aria-live) i stället för hela bildbeskrivningen på nytt.
   state.historikAr = ar;
-  histLinjer(state.val); histTalrad(state.val);
-  const svg = $("#hist-bild-a svg");   // bilden ritas om vid varje byte, så fokus måste flyttas till den nya noden
-  if (fokus && svg && svg.focus) svg.focus({ preventScroll: true });
+  const linje = $("#hist-bild-a .hist-laslinje"), px = histLasX[ar];
+  if (linje && px !== undefined) {
+    linje.setAttribute("x1", px.toFixed(1)); linje.setAttribute("x2", px.toFixed(1));
+    linje.removeAttribute("visibility");
+  } else if (linje) linje.setAttribute("visibility", "hidden");
+  histTalrad(state.val);
 }
 function histTalrad(val) {
   const el = $("#hist-talrad"), p = histPunkter(val, "majorna").find(q => q.ar === state.historikAr);
   if (!p) { el.textContent = `${state.historikAr}: räknas på valnatten.`; return; }
-  el.textContent = `${p.ar}${p.preliminar ? " (preliminärt)" : ""}: ` + histPartier().map(q => `${q} ${andelTal(p.andel[q] || 0)}`).join("   ");
+  // Ett span per parti, som kortets rad Hur har det ändrats: raden bryts mellan talen i stället för att
+  // klippas på en smal skärm. Ett parti utan tal i årets punkt hoppas över, aldrig "0,0".
+  const tal = histPartier().filter(q => histHarTal(p, q)).map(q => h("span", { class: "hist-tal" }, `${q} ${andelTal(p.andel[q])}`));
+  el.replaceChildren(h("span", { class: "hist-tal" }, `${p.ar}${p.preliminar ? " (preliminärt)" : ""}:`), " ", ...tal.flatMap(n => [n, " "]));
 }
 function renderHistorik() {
   const sek = $("#historik");
-  if (!state.historik || state.bild || historikSerie(state.val, "majorna").length < 2) { sek.hidden = true; return; }
+  if (!state.historik || state.bild || !histAr().length || historikSerie(state.val, "majorna").length < 2) { sek.hidden = true; return; }
   sek.hidden = false;
   const val = state.val;
-  if (!histAxelAr().includes(state.historikAr)) state.historikAr = sistaPunkt(val).ar;
+  // Läslinjen faller tillbaka till sista punkten när det valda året saknar punkt i det här valet, inte bara
+  // när året saknas på axeln: kommunvalet kan sluta 2022 medan riksdagsvalet redan har en punkt för 2026.
+  if (!histPunkter(val, "majorna").some(p => p.ar === state.historikAr)) state.historikAr = sistaPunkt(val).ar;
   $("#hist-mening").textContent = histMening(val);
   histLinjer(val);
   histTalrad(val);
@@ -1276,10 +1331,11 @@ function renderHistorik() {
   // och regionvalet (K). I kommunvalet ryms alla tolv partierna och meningen skulle inte säga något.
   const meta = state.historik.meta, valetsPartier = (meta.partier_per_val || {})[val] || [];
   const utanfor = (meta.partier || []).filter(p => p !== "Övriga" && !valetsPartier.includes(p));
-  $("#hist-not-a").textContent = "Serien börjar 2006. Valdistrikten ritades om helt inför det valet, så 2002 går inte att räkna om till dagens Majorna."
+  $("#hist-not-a").textContent = "Tryck på ett år i bilden för att se det årets tal."
+    + " Serien börjar 2006. Valdistrikten ritades om helt inför det valet, så 2002 går inte att räkna om till dagens Majorna."
     + ` Området hålls konstant medan antalet distrikt varierar: ${antalDistriktText(val)}. Liberalerna hette Folkpartiet till och med 2014.`
-    + (utanfor.length ? " Partier utanför valets uppsättning ligger i Övriga"
-        + (val === "rd" ? `; i riksdagsvalet 2014 gäller det Feministiskt initiativ med ${HIST_NOT_FI_2014} procent.` : ".") : "");
+    + (utanfor.length ? ` Partier utanför valets uppsättning ligger i Övriga: ${histLista(utanfor.map(p => parti(p).namn))}`
+        + (val === "rd" ? `; i riksdagsvalet 2014 fick Feministiskt initiativ ${HIST_NOT_FI_2014} procent.` : ".") : "");
   histDeltagande(val);
   histKartor();
 }

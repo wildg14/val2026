@@ -199,3 +199,44 @@ def test_historiksektionen_finns_och_foljer_kartans_val():
     kropp = js[js.index("function histAxelAr("):]
     assert "KONFIG.valdag" in kropp[:kropp.index("\n}")], "histAxelAr lägger till nästa valår ur KONFIG.valdag"
     assert "räknas på valnatten." in js, "ett år utan punkt får talraden räknas på valnatten"
+
+
+def container_kroppar(text, villkor):
+    """Kropparna i alla @container-block med det givna villkoret, med klammermatchning."""
+    ut = []
+    for m in re.finditer(r"@container\s*\(" + re.escape(villkor) + r"\)\s*\{", text):
+        i, djup = m.end(), 1
+        while i < len(text) and djup:
+            if text[i] == "{":
+                djup += 1
+            elif text[i] == "}":
+                djup -= 1
+            i += 1
+        ut.append(text[m.end():i - 1])
+    return ut
+
+
+def test_historikbilden_reserverar_hojd_och_talraden_far_brytas():
+    """Höjden följer desktoptröskeln 600 px, och talraden bryts i stället för att klippas."""
+    css = CSS.read_text("utf-8")
+    assert re.search(r"\.hist-bild\s*\{[^}]*min-height:\s*280px", css), "höjden är reserverad innan datan finns"
+    kroppar = "\n".join(container_kroppar(css, "min-width: 600px"))
+    assert re.search(r"\.hist-bild\s*\{[^}]*min-height:\s*320px", kroppar), "desktophöjden gäller från 600 px, samma tröskel som arDesktop"
+    assert re.search(r"\.hist-bild-b\s*\{[^}]*min-height:\s*160px", kroppar), "bild B ärver annars bild A:s reservation"
+    talrad = re.search(r"\.mp-val \.hist-talrad\s*\{([^}]*)\}", css)
+    assert talrad, "talraden har en egen regel"
+    assert "nowrap" not in talrad.group(1) and "overflow" not in talrad.group(1), "talraden bryts i stället för att klippas"
+
+
+def test_historiksektionen_ritas_om_pa_de_tre_stallena():
+    """renderHistorik körs i renderAllt, när fliken byter val och när containern byter bredd."""
+    js = JS.read_text("utf-8")
+    allt = re.search(r"function renderAllt\(\) \{\n([^\n]*)\n", js)
+    assert allt and allt.group(1).rstrip().endswith("renderHistorik();"), "renderHistorik sist i renderAllt"
+    flik = re.search(r"onclick: \(\) => \{ state\.val = val;[^\n]*renderHistorik\(\);", js)
+    assert flik, "flikarna ritar om historiken när valet byts"
+    obs = re.search(r"new ResizeObserver\(\(\) => \{(.*?)\}\)\.observe\(rot\);", js, re.S)
+    assert obs and "renderHistorik()" in obs.group(1), "ResizeObservern ritar om historiken"
+    markup = js[js.index('<section id="historik"'):]
+    markup = markup[:markup.index("</section>")]
+    assert "<button" not in markup, "sektionen följer kartans val och har inga egna knappar"

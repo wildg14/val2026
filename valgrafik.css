@@ -173,7 +173,8 @@
 .mp-val .hist-bild-b { min-height: 160px; }
 .mp-val .hist-bild svg { width: 100%; height: auto; display: block; font-family: var(--sans); }
 .mp-val .hist-svg { cursor: pointer; }
-.mp-val .hist-talrad { font-variant-numeric: tabular-nums; margin: 0 0 4px; white-space: nowrap; overflow: hidden; }
+.mp-val .hist-talrad { font-variant-numeric: tabular-nums; margin: 0 0 4px; }
+.mp-val .hist-tal { margin-right: 5px; white-space: nowrap; }   /* raden bryts mellan talen, aldrig inuti ett */
 .mp-val .hist-rad2 { display: grid; gap: 16px; margin-top: 20px; }
 .mp-val .hist-kartor { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; min-height: 160px; }
 .mp-val .hist-figur { margin: 0; }
@@ -233,6 +234,9 @@
 .mp-val footer { border-top: 1px solid var(--linje); padding-top: 16px; font-size: 13px; color: var(--sten); }
 .mp-val .fel { background: #F3E3DF; color: var(--falu); padding: 12px 16px; border-radius: 4px; }
 @container (min-width: 600px) {
+  /* Historikbilden blir 320 px hög från samma tröskel som arDesktop, så att höjden är reserverad innan den ritas */
+  .mp-val .hist-bild { min-height: 320px; }
+  .mp-val .hist-bild-b { min-height: 160px; }   /* bild B har sin egen höjd, annars ärver den bild A:s reservation här */
   .mp-val .statusrad { min-height: 26px; }   /* här ryms hela raden på en rad, även den längsta valnattsvarianten */
   .mp-val.har-mening .toppsvar { min-height: 244px; }
   .mp-val h1 { font-size: 44px; }
@@ -273,8 +277,6 @@
   .mp-val .rd-parti small { display: none; }
   /* Majorna sedan 2006: bild A över båda kolumnerna, bild B och konturkartorna sida vid sida under */
   .mp-val .hist-rad2 { grid-template-columns: 1fr 1fr; column-gap: 40px; align-items: start; }
-  .mp-val .hist-bild { min-height: 320px; }
-  .mp-val .hist-bild-b { min-height: 160px; }   /* bild B har sin egen höjd, annars ärver den bild A:s reservation här */
 }
 
 @container (min-width: 1100px) {

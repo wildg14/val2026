@@ -23,10 +23,12 @@ import sqlite3
 import sys
 from pathlib import Path
 
+from shapely.geometry import shape
+
 ROT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROT))
 
-from scripts import schema  # noqa: E402
+from scripts import geo, schema  # noqa: E402
 from scripts.valmyndigheten import MAJORNA_KODER, NYCKELPARTIER, OVRIGA, VAL  # noqa: E402
 
 DB = ROT / "data" / "historik" / "majorna_historik.sqlite"
@@ -280,8 +282,33 @@ def bygg_swing_2022(con):
     return s
 
 
+# Bara för 2006 (konturkartan). Uppmätt stegvis (se tests/test_bygg_historik.py): 0,00012 grader gav en
+# 24,5 kB fil, för stor för en 170 px bred kontur; 0,0006 grader ger 17 distrikt under 15 kB med ytan
+# fortfarande inom 0,02 km² av facit (4,655 km²), medan lägre värden i intervallet gav en sämre yta.
+FORENKLA_GRADER = 0.0006
+
+
 def bygg_geo(ar, forenkla):
-    raise SystemExit("geo byggs i Task 3")
+    """distrikt_<år>_majornaomradet.geojson (WGS84, kod och namn) -> sidans geojson med etikett,
+    area_km2 och bbox, via scripts.geo.features_till_schema - samma schembygge som las_distrikt
+    använder för 2022 och 2026.
+
+    forenkla=True (2006, konturkartan) förenklar med FORENKLA_GRADER; de andra åren (2010, 2014,
+    2018) behåller gemensamma gränser exakt.
+    """
+    src = GEO_HISTORIK / f"distrikt_{ar}_majornaomradet.geojson"
+    if not src.exists():
+        raise SystemExit(f"FEL: {src} saknas")
+    gj = json.loads(src.read_text("utf-8"))
+    poster = []
+    for ft in gj["features"]:
+        g = shape(ft["geometry"])
+        if g.geom_type == "MultiPolygon":
+            g = max(g.geoms, key=lambda p: p.area)
+        kod = str(ft["properties"]["kod"]).strip()
+        namn = geo.kort_namn(ft["properties"].get("namn") or kod)
+        poster.append({"geometry": g, "kod": kod, "namn": namn})
+    return geo.features_till_schema(poster, forenkla_grader=FORENKLA_GRADER if forenkla else None)
 
 
 def bygg_valdata_ar(con, ar):

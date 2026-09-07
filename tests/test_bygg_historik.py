@@ -7,8 +7,9 @@ import sys
 from pathlib import Path
 
 import pytest
-
+from pyproj import Transformer
 from shapely.geometry import shape
+from shapely.ops import transform as geo_transform
 
 from scripts import bygg_historik
 from scripts.bygg_historik import _las_kedja_rader, bygg_geo, las_kedja, las_kedja_alla
@@ -361,3 +362,45 @@ def test_las_kedja_saknad_kolumn_ger_fel(tmp_path):
 def test_las_kedja_saknad_fil_ger_fel(tmp_path):
     with pytest.raises(SystemExit):
         las_kedja(tmp_path / "finns_inte.csv")
+
+
+@finns
+def test_geo2006_forenklad_med_17_giltiga_polygoner(tmp_path):
+    r = kor("geo2006", "--ut", str(tmp_path))
+    assert r.returncode == 0, r.stdout + r.stderr
+    fc = json.loads((tmp_path / "distrikt_2006.geojson").read_text("utf-8"))
+    assert len(fc["features"]) == 17 and fc["bbox"][0] < fc["bbox"][2]
+    for f in fc["features"]:
+        g = shape(f["geometry"])
+        assert g.is_valid and g.geom_type == "Polygon", f["properties"]["kod"]
+        lon, lat = f["properties"]["etikett"]
+        assert g.contains(shape({"type": "Point", "coordinates": [lon, lat]}))
+        assert set(f["properties"]) == {"kod", "namn", "etikett", "area_km2"}
+    assert abs(sum(f["properties"]["area_km2"] for f in fc["features"]) - 4.655) < 0.02, "samma yta som 2022 på 0,04 procent när, förenklingen får kosta högst 0,4 procent"
+    assert (tmp_path / "distrikt_2006.geojson").stat().st_size < 15000, "förenklad för en 170 px bred kontur"
+    namn = {f["properties"]["kod"]: f["properties"]["namn"] for f in fc["features"]}
+    assert namn["14805901"] == "Stigberget 1" and namn["14808504"] == "Majorna 4"
+
+
+@finns
+def test_bygg_geo_2018_ger_22_giltiga_polygoner_utan_overlapp():
+    """2018 förenklas inte (samma gränser som majorna_medlem-tabellens 22 distrikt); ingen
+    polygon får överlappa en annan med mer än en kvadratmeter i EPSG:3006."""
+    fc = bygg_geo(2018, forenkla=False)
+    assert len(fc["features"]) == 22
+    with db() as con:
+        vantade = {r[0] for r in con.execute("SELECT kod FROM majorna_medlem WHERE ar=2018").fetchall()}
+    koder = {f["properties"]["kod"] for f in fc["features"]}
+    assert koder == vantade
+    tr = Transformer.from_crs("EPSG:4326", "EPSG:3006", always_xy=True)
+    polygoner = []
+    for f in fc["features"]:
+        g = shape(f["geometry"])
+        assert g.is_valid and g.geom_type == "Polygon", f["properties"]["kod"]
+        polygoner.append((f["properties"]["kod"], geo_transform(tr.transform, g)))
+    for i in range(len(polygoner)):
+        for j in range(i + 1, len(polygoner)):
+            kod_i, poly_i = polygoner[i]
+            kod_j, poly_j = polygoner[j]
+            overlapp = poly_i.intersection(poly_j).area
+            assert overlapp < 1, f"{kod_i} och {kod_j} överlappar {overlapp:.1f} kvm"

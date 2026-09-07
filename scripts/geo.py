@@ -24,12 +24,60 @@ def _runda(koordinater, decimaler):
     return [[round(x, decimaler), round(y, decimaler)] for x, y in koordinater]
 
 
+_TILL_SWEREF = Transformer.from_crs("EPSG:4326", "EPSG:3006", always_xy=True).transform
+
+
+def features_till_schema(features, forenkla_grader=None):
+    """En lista {"geometry": shapely-polygon (WGS84), "kod": str, "namn": str, valfritt "area_km2"}
+    -> sidans featurecollection: etikett (polylabel), area_km2, bbox, sorterad på kod.
+
+    forenkla_grader förenklar varje polygon (simplify, preserve_topology=True) innan buffer(0);
+    utan den bevaras gemensamma gränser exakt. buffer(0) lagar geometri som blivit ogiltig (till
+    exempel av avrundning eller förenkling); blir resultatet en MultiPolygon behålls den största
+    delen. area_km2 räknas i EPSG:3006 om featuren inte redan har ett eget värde - las_distrikt
+    skickar med källans egen exakta area (SWEREF99 TM, före avrundningen till sex decimaler som
+    annars skulle ge ett annat värde i fjärde decimalen); bygg_historik.bygg_geo saknar en sådan
+    källa och får arean räknad här. Delas av las_distrikt (2022, 2026) och bygg_geo (2006 till
+    2018), så att alla år får exakt samma schembygge.
+    """
+    ut = []
+    for ft in features:
+        g = ft["geometry"]
+        if forenkla_grader is not None:
+            g = g.simplify(forenkla_grader, preserve_topology=True)
+        g = g.buffer(0)
+        if g.geom_type == "MultiPolygon":
+            g = max(g.geoms, key=lambda p: p.area)
+        etikett = polylabel(g, tolerance=1e-5)
+        area_km2 = ft["area_km2"] if "area_km2" in ft else transform(_TILL_SWEREF, g).area / 1e6
+        geom = mapping(g)
+        ut.append({
+            "type": "Feature",
+            "properties": {
+                "kod": ft["kod"],
+                "namn": ft["namn"],
+                "etikett": [round(etikett.x, 6), round(etikett.y, 6)],
+                "area_km2": round(area_km2, 4),
+            },
+            "geometry": {"type": "Polygon", "coordinates": [_runda(r, 6) for r in geom["coordinates"]]},
+        })
+    ut.sort(key=lambda f: f["properties"]["kod"])
+    xs = [c[0] for f in ut for c in f["geometry"]["coordinates"][0]]
+    ys = [c[1] for f in ut for c in f["geometry"]["coordinates"][0]]
+    return {"type": "FeatureCollection", "bbox": [min(xs), min(ys), max(xs), max(ys)], "features": ut}
+
+
 def las_distrikt(zip_path, koder, decimaler=6):
     """Läser zip-filen med länets valdistrikt och returnerar en FeatureCollection (WGS84)
     med exakt de distrikt som finns i `koder`, sorterade på kod.
 
     Polygonerna har 12 till 121 hörn i källan, så de förenklas inte: gemensamma gränser
-    bevaras därmed exakt. Egenskaper: kod, namn, etikett (punkt inuti polygonen), area_km2.
+    bevaras därmed exakt (features_till_schema anropas utan forenkla_grader). Egenskaper:
+    kod, namn, etikett (punkt inuti polygonen), area_km2.
+
+    area_km2 skickas med som källans egen area (kvadratmeter i SWEREF99 TM, käll-CRS:ens
+    ursprungliga precision) i stället för att räknas om från den avrundade WGS84-polygonen -
+    annars skulle en ombyggnad ge ett annat värde i fjärde decimalen för några distrikt.
 
     Egenskapsnamnen skiljer sig mellan år: 2022 har Lkfv och Vdnamn, 2026 har Valdistriktskod
     och Valdistriktsnamn (se egenskaper()). Zip-filen kan innehålla antingen .json eller .geojson.
@@ -45,7 +93,7 @@ def las_distrikt(zip_path, koder, decimaler=6):
             raise ValueError(f"{vald}: saknar features")
     tr = Transformer.from_crs("EPSG:3006", "EPSG:4326", always_xy=True)
     vill = set(str(k) for k in koder)
-    features = []
+    poster = []
     for ft in gj["features"]:
         kod, namn_kort = egenskaper(ft["properties"])
         if kod not in vill:
@@ -56,29 +104,13 @@ def las_distrikt(zip_path, koder, decimaler=6):
         ringar = []
         for ring in [g.exterior, *g.interiors]:
             ringar.append(_runda((tr.transform(x, y) for x, y in ring.coords), decimaler))
-        poly = shape({"type": "Polygon", "coordinates": ringar}).buffer(0)
-        if poly.geom_type == "MultiPolygon":
-            poly = max(poly.geoms, key=lambda p: p.area)
-        etikett = polylabel(poly, tolerance=1e-5)
-        geom = mapping(poly)
-        features.append({
-            "type": "Feature",
-            "properties": {
-                "kod": kod,
-                "namn": namn_kort or kod,
-                "etikett": [round(etikett.x, decimaler), round(etikett.y, decimaler)],
-                "area_km2": round(g.area / 1e6, 4),
-            },
-            "geometry": {"type": "Polygon",
-                         "coordinates": [_runda(r, decimaler) for r in geom["coordinates"]]},
-        })
-    saknas = vill - {f["properties"]["kod"] for f in features}
+        poster.append({"geometry": shape({"type": "Polygon", "coordinates": ringar}),
+                       "kod": kod, "namn": namn_kort or kod, "area_km2": g.area / 1e6})
+    fc = features_till_schema(poster)
+    saknas = vill - {f["properties"]["kod"] for f in fc["features"]}
     if saknas:
         raise ValueError(f"Distrikt saknas i geodatan: {sorted(saknas)}")
-    features.sort(key=lambda f: f["properties"]["kod"])
-    xs = [c[0] for f in features for c in f["geometry"]["coordinates"][0]]
-    ys = [c[1] for f in features for c in f["geometry"]["coordinates"][0]]
-    return {"type": "FeatureCollection", "bbox": [min(xs), min(ys), max(xs), max(ys)], "features": features}
+    return fc
 
 
 def _union_3006(fc, tr):

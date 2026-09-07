@@ -1,4 +1,4 @@
-"""verktyg/forbered_tvaar.py bygger tvåårssidan: obligatoriska filer, valfria som får saknas, --kf-raknade, --status."""
+"""verktyg/forbered_tvaar.py bygger tvåårssidan: obligatoriska filer, valfria som får saknas, --kf-raknade, --status, --utan-parti."""
 import json
 import subprocess
 import sys
@@ -128,6 +128,32 @@ def test_status_tillsammans_med_kf_raknade(tmp_path):
     valdata = schema.las_js(ut / "data" / "valdata_2026.js")
     assert valdata["meta"]["status"] == "preliminar"
     assert len([d for d in valdata["distrikt"] if d["kf"]]) == 2, "doktoreringen av kf ska överleva statusbytet"
+
+
+def test_utan_parti_tar_bort_partiet_ur_swingen(tmp_path):
+    """Testsidan ska kunna visa ett parti som inte redovisas båda åren: kortet hoppar då över det."""
+    ut = tmp_path / "ut"
+    r = _kor(_valnattsmapp(tmp_path / "valnatt"), ut, "--valnatt", "--kf-raknade", "5", "--utan-parti", "V")
+    assert r.returncode == 0, r.stdout + r.stderr
+    swing = schema.las_js(ut / "data" / "swing_2026.js")
+    for kod, post in swing["distrikt"].items():
+        assert all("V" not in tal for tal in post.values()), kod
+        assert any("S" in tal for tal in post.values()), f"{kod}: bara V skulle tas bort"
+    assert all("V" not in tal for tal in swing["majorna"].values())
+    assert any("S" in tal for tal in swing["majorna"].values()), "områdesnivån ska ha kvar övriga partier"
+    assert "V borttaget" in r.stdout
+
+
+def test_utan_parti_som_inte_finns_avbryter(tmp_path):
+    r = _kor(_valnattsmapp(tmp_path / "valnatt"), tmp_path / "ut", "--kf-raknade", "5", "--utan-parti", "XYZ")
+    assert r.returncode == 1, r.stdout + r.stderr
+    assert "finns inte i swing_2026.js" in r.stderr
+
+
+def test_utan_parti_utan_swingfil_avbryter(tmp_path):
+    r = _kor(_valnattsmapp(tmp_path / "valnatt", med_swing=False), tmp_path / "ut", "--utan-parti", "V")
+    assert r.returncode == 1, r.stdout + r.stderr
+    assert "kräver swing_2026.js" in r.stderr
 
 
 def test_okand_status_avbryter(tmp_path):

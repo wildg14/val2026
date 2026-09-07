@@ -166,3 +166,19 @@ def test_kortets_forandringsrad_styrs_av_swingfilen():
     js = JS.read_text("utf-8")
     assert "function hurAndrat(" in js and "ej_jamforbara" in js and "kohort" in js
     assert "Hur har det ändrats" in js
+    assert 'h("h4", { class: "andrat-rubrik" }' in js, "rubriken är en rubrik, inte ett stycke"
+    # Riktiga mellanslag mellan talen: raden ska få brytas mellan dem, inte rinna ut ur kortet på smala telefoner.
+    assert '{ class: "andrat-tal" }, `${a.p} ${pe(diff[a.p])}`), " "' in js, "talen ska skiljas av ett mellanslag"
+
+
+def test_rubriknivaerna_skyddas_mot_vardsidans_stilar():
+    """Varje rubriknivå grafiken använder får färg och form uttryckligen, annars läcker värdsidans stilar in."""
+    js = JS.read_text("utf-8")
+    css = CSS.read_text("utf-8")
+    nivaer = set(re.findall(r'h\("(h[1-6])"', js)) | set(re.findall(r"<(h[1-6])[ >]", js))
+    assert "h4" in nivaer, "kortets rubrik ska vara en h4"
+    skydd = next(r for r in css.splitlines() if "text-shadow: none" in r)
+    farg = next(r for r in css.splitlines() if r.startswith(".mp-val h1,") and "color: var(--black)" in r)
+    for niva in sorted(nivaer):
+        assert f".mp-val {niva}," in skydd or f".mp-val {niva} " in skydd, f"{niva} saknas i skyddsregeln"
+        assert f".mp-val {niva}," in farg or f".mp-val {niva} " in farg, f"{niva} saknar uttrycklig färg"

@@ -2,8 +2,10 @@ const puppeteer = require('puppeteer-core');
 // data/swing_<år>.js är valfri: saknas den visar sidan ingen förändringsrad för året. Webbläsarens 404 för
 // en sådan fil är alltså väntad och räknas inte som JS-fel, men skrivs ut så att en oväntad lucka syns.
 const valfriFil = m => /\/data\/swing_\d+\.js(\?|$)/.test((m.location() || {}).url || '') && m.text().includes('404');
-// Adresser: positionellt (sida, kf-sida) som förr, eller namngivet --sida= --kf= --slutlig= --prel=.
-// De två sista är sidor byggda utan --valnatt, med --status slutlig respektive preliminar, för statusradens stillsamma grenar.
+// Adresser: positionellt (sida, kf-sida) som förr, eller namngivet --sida= --kf= --kf6= --slutlig= --prel= --utanparti=.
+// De två näst sista är sidor byggda utan --valnatt, med --status slutlig respektive preliminar, för statusradens stillsamma grenar.
+// --utanparti= är en sida byggd med --utan-parti S: state är modullokal i valgrafik.js och går inte att nå
+// från page.evaluate, så regeln "parti utan tal hoppas över" prövas mot en doktorerad swingfil i stället.
 const argv = process.argv.slice(2);
 const namngivet = (namn, standard) => {
   const p = argv.find(a => a.startsWith(`--${namn}=`));
@@ -12,8 +14,11 @@ const namngivet = (namn, standard) => {
 const positionella = argv.filter(a => !a.startsWith('--'));
 const url = namngivet('sida', positionella[0] || 'http://localhost:8765/tmp/tvaar/index.html');
 const kfUrl = namngivet('kf', positionella[1] || null);   // valfri testsida byggd med --kf-raknade 3, för markörtexten per val
+const kf6Url = namngivet('kf6', null);                    // valfri testsida byggd med --kf-raknade 6: sex räknade, tre jämförbara
 const slutligUrl = namngivet('slutlig', null);            // valfri sida utan --valnatt, --status slutlig
 const prelUrl = namngivet('prel', null);                  // valfri sida utan --valnatt, --status preliminar
+const utanPartiUrl = namngivet('utanparti', null);        // valfri sida byggd med --utan-parti S
+const SVALEBO = '14800526';
 const snallt = text => { const e = new Error(text); e.snallt = true; return e; };
 // Statusraden gäller alltid riksdagsvalet, som är färdigräknat i testdatan - även på sidan där kf bara har 3 distrikt.
 const STATUS_2026 = 'Preliminärt, 23 av 23 distrikt räknade.';
@@ -85,24 +90,34 @@ const KOHORT_KF = 'räknat på 3 jämförbara distrikt av 23';
     await new Promise(r => setTimeout(r, 400));
     return panelText();
   };
-  const svalebo = await kort('14800526'), mariaplan = await kort('14800530');
+  const talSpann = sida => sida.evaluate(() => [...document.getElementById('valgrafik').querySelectorAll('#panel .andrat-tal')].map(s => s.textContent.trim()));
+  const partierna = spann => spann.map(t => t.split(' ')[0]);
+  const svalebo = await kort(SVALEBO), svaleboTal = await talSpann(page);
+  const mariaplan = await kort('14800530');
+  const mariaplanLive = await page.evaluate(() => document.getElementById('valgrafik').querySelector('#panel-live').textContent);
   await page.evaluate(() => document.getElementById('valgrafik').querySelector('#panel-tillbaka').click());
   await new Promise(r => setTimeout(r, 400));
   const helaMajorna = await panelText();
   const andratRad = text => (text.match(/Sedan \d{4}:[^]*?procentenheter[^]*?(?=Tillbaka|$)/) || ['(ingen talrad)'])[0].trim();
-  console.log('kortet:', JSON.stringify({ svalebo: andratRad(svalebo), mariaplan: (mariaplan.match(/Gränserna[^]*?sedan \d{4}[^.]*\./) || ['(ingen mening)'])[0],
-                                          helaMajorna: andratRad(helaMajorna) }, null, 1));
+  console.log('kortet:', JSON.stringify({ svalebo: andratRad(svalebo), svaleboTal, mariaplan: (mariaplan.match(/Gränserna[^]*?sedan \d{4}[^.]*\./) || ['(ingen mening)'])[0],
+                                          mariaplanLive, helaMajorna: andratRad(helaMajorna) }, null, 1));
   kontroller.push(
     ['Svalebo har talraden', svalebo.includes('Sedan 2022:')],
     ['Svalebo saknar omritningsmeningen', !svalebo.includes('ritades om')],
+    ['tre tal i Svalebos rad', svaleboTal.length === 3],
     ['Mariaplan har omritningsmeningen', mariaplan.includes('ritades om till 2026')],
     ['Mariaplan har områdesraden', mariaplan.includes('Hela Majorna:')],
     ['Mariaplan saknar talraden', !mariaplan.includes('Sedan 2022:')],
+    ['skärmläsaren hör omritningsmeningen sist', /ritades om till 2026\. Siffrorna går inte att jämföra med 2022\.$/.test(mariaplanLive.trim())],
     ['hela Majorna har talraden', helaMajorna.includes('Sedan 2022:')],
-    ['hela Majorna utan kohorttext när allt är räknat', !helaMajorna.includes('jämförbara distrikt')]);
+    ['hela Majorna utan kohorttext när allt är räknat', !helaMajorna.includes('jämförbara distrikt')],
+    ['noten utan förbehåll när hela området jämförs', helaMajorna.includes('i procentenheter.')]);
 
-  if (kfUrl) {   // markörtexten ska räkna räknade distrikt per val, inte per fil
-    const kfSida = await oppna(kfUrl);
+  // Sidor där bara några distrikt har kommunvalet räknat: markörtexten ska räkna räknade distrikt per val
+  // och inte per fil, och kortets tal (kohorten) ska bära förbehållet - både i raden och i noten under staplarna.
+  const kfSidan = async (namn, adress) => {
+    if (!adress) { console.log(`${namn}: hoppas över (ingen adress angiven)`); return null; }
+    const kfSida = await oppna(adress);
     const kf = await kfSida.evaluate(() => {
       const rot = document.getElementById('valgrafik');
       const markor = () => { const el = rot.querySelector('.markorer .majorna'); return el ? el.textContent : null; };
@@ -113,22 +128,53 @@ const KOHORT_KF = 'räknat på 3 jämförbara distrikt av 23';
         if (rot.querySelector('#panel-rubrik').textContent !== namn) p.dispatchEvent(new MouseEvent('click', { bubbles: true }));
         return namn;
       };
+      const smaTalen = () => { const el = [...rot.querySelectorAll('.markorer span')].find(s => s.textContent.startsWith('Små tal')); return el ? el.textContent : null; };
       const ut = {};
       rot.querySelector('#flik-rd').click(); ut.rdDistrikt = valjRaknat(); ut.rdMarkor = markor();
-      rot.querySelector('#flik-kf').click(); ut.kfDistrikt = valjRaknat(); ut.kfMarkor = markor();
+      rot.querySelector('#flik-kf').click(); ut.kfDistrikt = valjRaknat(); ut.kfMarkor = markor(); ut.kfDistriktNot = smaTalen();
       rot.querySelector('#panel-tillbaka').click();   // tillbaka till hela Majorna, kommunvalet kvar
       ut.kfMajornaKort = rot.querySelector('#panel').textContent;
+      ut.kfMajornaNot = smaTalen();
+      ut.kfMajornaSub = rot.querySelector('#panel-sub').textContent;
       ut.statusrad = rot.querySelector('#statusrad').textContent;
       return ut;
     });
-    console.log('kf-sidan:', JSON.stringify(kf, null, 1));
-    kontroller.push(['markörtext rd: hela Majorna', kf.rdMarkor === 'Snittet för hela Majorna'],
-                    ['markörtext kf: räknade distrikt', kf.kfMarkor === 'Snittet för räknade distrikt i Majorna'],
-                    ['statusraden gäller riksdagsvalet på kf-sidan', kf.statusrad.startsWith(STATUS_2026)],
-                    ['kortets kohorttext räknar jämförbara distrikt i kommunvalet', kf.kfMajornaKort.includes(KOHORT_KF)]);
+    console.log(`${namn}:`, JSON.stringify(kf, null, 1));
+    kontroller.push([`${namn}: markörtext rd hela Majorna`, kf.rdMarkor === 'Snittet för hela Majorna'],
+                    [`${namn}: markörtext kf räknade distrikt`, kf.kfMarkor === 'Snittet för räknade distrikt i Majorna'],
+                    [`${namn}: statusraden gäller riksdagsvalet`, kf.statusrad.startsWith(STATUS_2026)],
+                    [`${namn}: kortets kohorttext räknar jämförbara distrikt`, kf.kfMajornaKort.includes(KOHORT_KF)],
+                    [`${namn}: noten på hela Majorna bär kohortförbehållet`, kf.kfMajornaNot === `Små tal: förändring mot 2022 i procentenheter, ${KOHORT_KF}.`],
+                    [`${namn}: noten på ett distrikt är utan förbehåll`, kf.kfDistriktNot === 'Små tal: förändring mot 2022 i procentenheter.']);
     await kfSida.close();
+    return kf;
+  };
+  await kfSidan('kf-sidan', kfUrl);
+  // Sex räknade distrikt men bara tre jämförbara: staplarna vilar på sex, de små talen på tre. Det är
+  // fallet noten finns för, och kortets underrad ska säga sex medan noten säger tre.
+  const kf6 = await kfSidan('kf6-sidan', kf6Url);
+  if (kf6) kontroller.push(['kf6: underraden räknar alla räknade distrikt', kf6.kfMajornaSub.includes('6 av 23 distrikt räknade')]);
+
+  // Regeln "parti utan tal hoppas över": swingfilen på den här sidan saknar S helt.
+  if (utanPartiUrl) {
+    const sida = await oppna(utanPartiUrl);
+    const up = await sida.evaluate(kod => {
+      const rot = document.getElementById('valgrafik');
+      rot.querySelector('#karta path[data-kod="' + kod + '"]').dispatchEvent(new MouseEvent('click', { bubbles: true }));
+      return { tal: [...rot.querySelectorAll('#panel .andrat-tal')].map(s => s.textContent.trim()),
+               rad: (rot.querySelector('#panel .andrat-rad') || {}).textContent || null };
+    }, SVALEBO);
+    console.log('utan-parti-sidan:', JSON.stringify({ ...up, jamfor: svaleboTal }, null, 1));
+    const nya = partierna(up.tal), gamla = partierna(svaleboTal);
+    kontroller.push(['utan S: talraden finns kvar', !!up.rad && up.rad.includes('Sedan 2022:')],
+                    ['utan S: fortfarande tre tal', up.tal.length === 3],
+                    ['utan S: inget tal för S', !nya.includes('S')],
+                    ['utan S: inget 0,0 i raden', !up.rad.includes('0,0')],
+                    ['utan S: ett annat parti har tagit platsen', nya.some(p => !gamla.includes(p))],
+                    ['S fanns i raden före doktoreringen', gamla.includes('S')]);
+    await sida.close();
   } else {
-    console.log('kf-sidan: hoppas över (ingen andra URL angiven)');
+    console.log('utan-parti-sidan: hoppas över (ingen adress angiven)');
   }
 
   // Statusradens två grenar utan valnattsläge: sidorna byggs med --status slutlig respektive preliminar och utan --valnatt.

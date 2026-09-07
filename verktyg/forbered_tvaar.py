@@ -8,12 +8,18 @@ http://localhost:8765/tmp/tvaar/index.html när servern kör i projektroten.
 
 Med --kf-raknade N doktoreras den kopierade valdata_2026.js så att bara de N första distrikten har
 kommunvalet räknat. Då går det att kontrollera att panelens markörtext räknar per val och inte per fil.
-Swingfilen räknas om ur den doktorerade valdatan mot data/valdata_2022.json, annars skulle kohorten i
-swing_2026.js fortfarande säga att alla distrikt är räknade och kortets kohorttext utebli.
+Swingfilen räknas då om av det här verktyget: schema.swing körs på den doktorerade valdatan mot
+data/valdata_2022.json och skriver över den kopierade swing_2026.js. Annars skulle kohorten fortfarande
+säga att alla distrikt är räknade och kortets kohorttext utebli. Testsidans swingfil är alltså verktygets
+egen, inte den som uppdatera_2026.py skrev: en grön kf-kontroll säger något om sidan, inte om pipelinen.
 
 Med --status slutlig|preliminar skrivs meta.status om i den kopierade valdata_2026.js. Tillsammans med
 --valnatt av ger det statusradens två stillsamma grenar: "Slutligt resultat, riksdagsvalet 2026." och
 "Preliminärt resultat 2026.", båda utan "Ladda om".
+
+Med --utan-parti S tas partiet bort ur den kopierade swing_2026.js, i alla val och både per distrikt och
+på områdesnivån, som om partiet inte redovisats båda åren. Sidan ska då hoppa över partiet i raden "Hur
+har det ändrats" och låta nästa parti ta platsen, aldrig skriva ut ett "0,0".
 """
 import argparse
 import json
@@ -78,6 +84,21 @@ def rakna_om_swing(mapp):
     schema.skriv_js(mapp / "swing_2026", schema.swing(ny, bas, jamforbara=jamforbara))
 
 
+def ta_bort_parti(fil, parti):
+    """Tar bort ett parti ur swingfilen: alla val, alla distrikt och områdesnivån.
+
+    Speglar ett parti som inte redovisas båda åren. Kortets rad ska hoppa över det och låta nästa parti
+    ta platsen. Hittas partiet inte alls är flaggan felskriven och bygget avbryts."""
+    sw = schema.las_js(fil)
+    poster = list((sw.get("distrikt") or {}).values()) + [sw.get("majorna") or {}]
+    borttagna = sum(1 for post in poster for tal in post.values()
+                    if isinstance(tal, dict) and tal.pop(parti, None) is not None)
+    if not borttagna:
+        raise SystemExit(f"FEL: --utan-parti {parti} men partiet finns inte i {fil.name}")
+    schema.skriv_js(fil.with_suffix(""), sw)
+    return borttagna
+
+
 def satt_status(fil, status):
     """Skriver om meta.status i den kopierade valdata_2026.js."""
     valdata = schema.las_js(fil)
@@ -93,6 +114,7 @@ def main():
     ap.add_argument("--valnatt", action="store_true", help="slå på valnattsläget i testsidans konfig")
     ap.add_argument("--kf-raknade", type=icke_negativ, help="låt bara de N första distrikten ha kommunvalet räknat")
     ap.add_argument("--status", choices=("slutlig", "preliminar"), help="skriv om meta.status i testsidans valdata_2026.js")
+    ap.add_argument("--utan-parti", metavar="PARTI", help="ta bort partiet ur testsidans swing_2026.js (alla val, distrikt och områdesnivå)")
     a = ap.parse_args()
     ut = Path(a.ut).resolve()   # relativ --ut ska fungera, sökvägen skrivs ut mot projektroten
     if ut.exists():
@@ -113,6 +135,12 @@ def main():
     if a.status:
         satt_status(ut / "data" / "valdata_2026.js", a.status)
         print(f"valdata_2026.js doktorerad: meta.status = {a.status}")
+    if a.utan_parti:   # sist, så att en omräknad swing inte skriver tillbaka partiet
+        swing_fil = ut / "data" / "swing_2026.js"
+        if not swing_fil.exists():
+            raise SystemExit("FEL: --utan-parti kräver swing_2026.js, den saknas i valnattsdatan")
+        antal = ta_bort_parti(swing_fil, a.utan_parti)
+        print(f"swing_2026.js doktorerad: {a.utan_parti} borttaget ur {antal} valposter")
     konfig = schema.las_konfig(ROT / "data")
     konfig.update({"ar": ["2022", "2026"], "standardAr": "2026", "valnatt": bool(a.valnatt)})
     schema.skriv_konfig(ut / "data", konfig)

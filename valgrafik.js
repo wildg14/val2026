@@ -793,28 +793,39 @@ function toppTre(roster, giltiga) {
    mening och områdesraden, hela Majorna får talen med kohorttext. Ett parti utan tal i swingen (inte
    redovisat båda åren) hoppas över helt, det skrivs aldrig som 0,0. Kohorten räknar distrikt som är både
    räknade och jämförbara, därför står det "jämförbara distrikt" och inte bara "distrikt" som statusraden. */
-const toppMedTal = (roster, giltiga, tal) =>
-  andelar(roster, giltiga).filter(a => a.p !== "Övriga" && tal[a.p] !== undefined).slice(0, 3);
-const kohortSlut = k => k.helomrade ? "" : `, räknat på ${k.antal} jämförbara distrikt av ${k.totalt}`;
+const toppMedTal = (roster, giltiga, diff) =>
+  andelar(roster, giltiga).filter(a => a.p !== "Övriga" && diff[a.p] !== undefined).slice(0, 3);
+// Kohortförbehållet som slut på en mening: hela området mot hela basåret behöver bara punkten. Punkten
+// hör till satsen och skrivs här, så att inget anropsställe behöver pröva helomrade en andra gång.
+const kohortSlut = k => k.helomrade ? "." : `, räknat på ${k.antal} jämförbara distrikt av ${k.totalt}.`;
+const kohortFor = val => { const sw = state.swing[state.ar]; return sw && sw.kohort ? sw.kohort[val] : null; };
+const andratRubrik = () => h("h4", { class: "andrat-rubrik" }, "Hur har det ändrats");
+// Talen skiljs av riktiga mellanslag: raden får brytas mellan två tal, aldrig inuti ett ("S +3,8" hålls
+// ihop av .andrat-tal { white-space: nowrap }). h() plattar barnarrayen ett steg, så flatMap räcker.
+const talrad = (bas, topp, diff, slut) =>
+  h("p", { class: "andrat-rad" }, `Sedan ${bas}: `,
+    topp.flatMap(a => [h("span", { class: "andrat-tal" }, `${a.p} ${pe(diff[a.p])}`), " "]),
+    h("span", { class: "andrat-enhet" }, "procentenheter" + slut));
+// Områdesraden faller bort när distriktets största parti saknar tal på områdesnivån (partiet redovisas
+// inte båda åren i hela Majorna). Då står omritningsmeningen ensam; avsiktligt, hellre ingen rad än ett
+// annat partis tal under ett distrikt som handlar om det största.
 function omradesRad(sw, val, p) {
   const omrade = (sw.majorna || {})[val], k = (sw.kohort || {})[val];
   if (!omrade || omrade[p] === undefined || !k || !k.antal) return null;
-  return h("p", { class: "andrat-rad" }, `Hela Majorna: ${p} ${pe(omrade[p])} sedan ${sw.bas}${kohortSlut(k)}.`);
+  return h("p", { class: "andrat-rad" }, `Hela Majorna: ${p} ${pe(omrade[p])} sedan ${sw.bas}${kohortSlut(k)}`);
 }
 function hurAndrat(d, val) {
   const sw = state.swing[state.ar];
   if (!sw || !raknat(d, val)) return null;
-  const rubrik = h("p", { class: "andrat-rubrik" }, "Hur har det ändrats");
   const post = (sw.distrikt || {})[d.kod], ej = (sw.ej_jamforbara || {})[d.kod];
-  const storst = storsta(d[val]);
   if (post && post[val]) {
     const topp = toppMedTal(d[val], d.giltiga[val], post[val]);
     if (!topp.length) return null;   // inget av distriktets partier redovisas båda åren
-    return h("div", { class: "andrat" }, rubrik,
-      h("p", { class: "andrat-rad" }, `Sedan ${sw.bas}: `, topp.map(a => h("span", { class: "andrat-tal" }, `${a.p} ${pe(post[val][a.p])}`)), h("span", { class: "andrat-enhet" }, "procentenheter")));
+    return h("div", { class: "andrat" }, andratRubrik(), talrad(sw.bas, topp, post[val], "."));   // distriktets egna tal, inget kohortförbehåll
   }
   if (ej) {
-    const delar = [rubrik, h("p", { class: "andrat-text" }, ej.mening || `Gränserna för ${d.namn} ritades om till ${sw.ar}. Siffrorna går inte att jämföra med ${sw.bas}.`)];
+    const storst = storsta(d[val]);
+    const delar = [andratRubrik(), h("p", { class: "andrat-text" }, ej.mening || `Gränserna för ${d.namn} ritades om till ${sw.ar}. Siffrorna går inte att jämföra med ${sw.bas}.`)];
     if (ej.omradesrad !== false && storst) { const rad = omradesRad(sw, val, storst); if (rad) delar.push(rad); }
     return h("div", { class: "andrat" }, delar);
   }
@@ -827,9 +838,7 @@ function hurAndratMajorna(val) {
   if (!omrade || !Object.keys(omrade).length || !k || !k.antal) return null;
   const topp = toppMedTal(m.roster, m.giltiga, omrade);
   if (!topp.length) return null;
-  const slut = k.helomrade ? "" : `${kohortSlut(k)}.`;
-  return h("div", { class: "andrat" }, h("p", { class: "andrat-rubrik" }, "Hur har det ändrats"),
-    h("p", { class: "andrat-rad" }, `Sedan ${sw.bas}: `, topp.map(a => h("span", { class: "andrat-tal" }, `${a.p} ${pe(omrade[a.p])}`)), h("span", { class: "andrat-enhet" }, "procentenheter" + slut)));
+  return h("div", { class: "andrat" }, andratRubrik(), talrad(sw.bas, topp, omrade, kohortSlut(k)));
 }
 function renderPanel() {
   const val = state.val, dm = distriktMap(), d = state.vald ? dm[state.vald] : null, m = majorna(val);
@@ -838,8 +847,12 @@ function renderPanel() {
   not.innerHTML = ""; staplar.innerHTML = ""; knappar.innerHTML = "";
   tillbaka.hidden = !d; hint.hidden = !!d;
   tillbaka.onclick = () => valjDistrikt(state.vald);
-  let toppText = "", subText = "";
-  const markorNot = [], swingNot = sw => sw ? [h("span", { style: "padding-left:0" }, `Små tal: förändring mot ${state.swing[state.ar].bas} i procentenheter.`)] : [];
+  let toppText = "", subText = "", liveSlut = "";
+  // De små talen vid staplarna. Ett distrikts egna tal behöver inget förbehåll, men hela Majornas är
+  // räknade på kohorten (räknade och jämförbara distrikt) medan staplarna vilar på alla räknade: då ska
+  // noten säga vad talen vilar på. Anropet skickar kohorten bara i Hela Majorna-grenen.
+  const markorNot = [], swingNot = (sw, k) => sw ? [h("span", { style: "padding-left:0" },
+    `Små tal: förändring mot ${state.swing[state.ar].bas} i procentenheter${k ? kohortSlut(k) : "."}`)] : [];
   if (d && !raknat(d, val)) {
     rubrik.textContent = d.namn;
     toppText = `${VALNAMN[val]} ${state.ar}: inte räknat än.`;
@@ -859,11 +872,16 @@ function renderPanel() {
     // meta.valnatt räknar distrikt där något val är räknat: räkna per visat val, som statusraden nedan gör
     const vnD = raknadeIVal(val);
     if (markorer.length) markorNot.push(h("span", { class: "majorna" }, KONFIG.valnatt && vnD.raknade < vnD.totalt ? "Snittet för räknade distrikt i Majorna" : "Snittet för hela Majorna"));
-    markorNot.push(...swingNot(swing));
+    markorNot.push(...swingNot(swing));   // distriktets egna tal, inget förbehåll
     for (const a of andelar(d[val], d.giltiga[val])) if (a.andel >= 0.01)
       staplar.append(stapelRad(a.p, a.andel, markorer.map(x => ({ ...x, andel: m.giltiga ? (m.roster[a.p] || 0) / m.giltiga : undefined })), swing ? swing[a.p] : null));
     const andrat = hurAndrat(d, val);
-    if (andrat) staplar.append(andrat);
+    if (andrat) {
+      staplar.append(andrat);
+      // Är distriktet omritat ska skärmläsaren höra förbehållet sist, med kortets egen mening.
+      const mening = andrat.querySelector(".andrat-text");
+      if (mening) liveSlut = " " + mening.textContent;
+    }
     knappar.append(h("button", { type: "button", class: "till-kartan", onclick: () => $("#karta").scrollIntoView({ block: "start", behavior: lugn() ? "auto" : "smooth" }) }, "Tillbaka till kartan"));
   } else {
     rubrik.textContent = "Hela Majorna";
@@ -881,7 +899,7 @@ function renderPanel() {
       subText = (KONFIG.valnatt && vn && vn.raknade < vn.totalt ? `${vn.raknade} av ${vn.totalt} distrikt räknade. ` : "") + (vd ? vd + ". " : "") + `${tal(m.giltiga)} giltiga röster.`;
       const markorer = [];
       if (post && post.andel) { markorer.push({ klass: "", namn: omr.namn, andelar: post.andel }); markorNot.push(h("span", {}, `Snittet i ${omr.namn}`)); }
-      markorNot.push(...swingNot(swing));
+      markorNot.push(...swingNot(swing, kohortFor(val)));   // områdets tal vilar på kohorten
       for (const a of andelar(m.roster, m.giltiga)) if (a.andel >= 0.01)
         staplar.append(stapelRad(a.p, a.andel, markorer.map(x => ({ ...x, andel: x.andelar[a.p] })), swing ? swing[a.p] : null));
       const andratM = hurAndratMajorna(val);
@@ -890,7 +908,7 @@ function renderPanel() {
   }
   sub.textContent = subText; sub.hidden = !subText;
   if (markorNot.length) not.append(h("div", { class: "markorer", "aria-hidden": "true" }, markorNot));
-  $("#panel-live").textContent = `${rubrik.textContent}. ${toppText}`;
+  $("#panel-live").textContent = `${rubrik.textContent}. ${toppText}${liveSlut}`;
   skrivUrl();
 }
 

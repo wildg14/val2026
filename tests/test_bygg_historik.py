@@ -1,4 +1,5 @@
 import json
+import math
 import shutil
 import sqlite3
 import subprocess
@@ -183,3 +184,45 @@ def test_oppna_saknad_fil(tmp_path):
     r = kor("historik", "--db", str(tmp_path / "finns_inte.sqlite"), "--ut", str(tmp_path / "ut"))
     assert r.returncode == 1
     assert "FEL:" in r.stderr
+
+
+JAMFORBARA_2018 = {"14800526": "14801017", "14800536": "14801036", "14800537": "14801031", "14800538": "14801038", "14800539": "14801034",
+                   "14800541": "14801032", "14800546": "14801041", "14800547": "14801035", "14800548": "14801042"}
+
+
+@finns
+def test_swing_2022_nio_jamforbara_och_omradesserien(tmp_path):
+    r = kor("swing2022", "--ut", str(tmp_path))
+    assert r.returncode == 0, r.stdout + r.stderr
+    s = json.loads((tmp_path / "swing_2022.json").read_text("utf-8"))
+    assert s["ar"] == 2022 and s["bas"] == 2018
+    assert sorted(s["distrikt"]) == sorted(JAMFORBARA_2018)
+    assert len(s["ej_jamforbara"]) == 14
+    assert s["ej_jamforbara"]["14800530"]["mening"] == "Gränserna såg annorlunda ut 2018. Siffrorna hör till det årets distrikt."
+    assert s["ej_jamforbara"]["14800530"]["omradesrad"] is True
+    for val in ("rd", "rf", "kf"):
+        assert s["kohort"][val]["metod"] == "omradesserien"
+        assert s["kohort"][val]["helomrade"] is True and s["kohort"][val]["antal"] == 23 and s["kohort"][val]["totalt"] == 23
+        assert len(s["kohort"][val]["koder"]) == 23
+    with db() as con:
+        v22 = con.execute("SELECT roster, giltiga FROM tidsserie WHERE ar=2022 AND val='rd' AND niva='majorna' AND parti='V'").fetchone()
+        v18 = con.execute("SELECT roster, giltiga FROM tidsserie WHERE ar=2018 AND val='rd' AND niva='majorna' AND parti='V'").fetchone()
+        vantat = round((v22[0] / v22[1] - v18[0] / v18[1]) * 100, 1)
+        assert s["majorna"]["rd"]["V"] == pytest.approx(vantat, abs=0.05)
+        g22 = con.execute("SELECT r.roster, s.giltiga FROM roster r JOIN distrikt_summa s ON s.ar=r.ar AND s.val=r.val AND s.kod=r.kod "
+                          "WHERE r.ar=2022 AND r.val='rd' AND r.kod='14800541' AND r.parti_kanon='V'").fetchone()
+        g18 = con.execute("SELECT r.roster, s.giltiga FROM roster r JOIN distrikt_summa s ON s.ar=r.ar AND s.val=r.val AND s.kod=r.kod "
+                          "WHERE r.ar=2018 AND r.val='rd' AND r.kod='14801032' AND r.parti_kanon='V'").fetchone()
+        assert s["distrikt"]["14800541"]["rd"]["V"] == pytest.approx(round((g22[0] / g22[1] - g18[0] / g18[1]) * 100, 1), abs=0.05)
+    assert r.stdout.count("14800541") >= 1, "skriptet skriver ut listan över jämförbara distrikt för avstämning"
+    # Ingen efterhandsskrivning: majorna-nivån kommer ur schema.swing(samma_yta=True) på tidsseriens
+    # aggregat, så Övriga är med (partiuppsättningarna är lika) och ingen negativ nolla förekommer.
+    assert "Övriga" in s["majorna"]["rd"]
+    for parti, varde in s["majorna"]["rd"].items():
+        assert not (varde == 0.0 and math.copysign(1.0, varde) < 0), f"{parti}: negativ nolla"
+    hst = json.loads((tmp_path / "historik.json").read_text("utf-8")) if (tmp_path / "historik.json").exists() else None
+    if hst is None:
+        kor("historik", "--ut", str(tmp_path))
+        hst = json.loads((tmp_path / "historik.json").read_text("utf-8"))
+    for val in ("rd", "rf", "kf"):
+        assert set(s["majorna"][val]) == set(hst["meta"]["partier_per_val"][val])

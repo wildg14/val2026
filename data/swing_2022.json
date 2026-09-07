@@ -1,0 +1,574 @@
+{
+ "ar": 2022,
+ "bas": 2018,
+ "enhet": "procentenheter",
+ "distrikt": {
+  "14800526": {
+   "rd": {
+    "V": -6.5,
+    "S": 7.2,
+    "MP": 2.9,
+    "SD": 2.3,
+    "M": -2.6,
+    "C": 0.3,
+    "L": -0.7,
+    "KD": -1.4,
+    "Övriga": -1.6
+   },
+   "rf": {
+    "V": 1.2,
+    "S": 7.7,
+    "MP": -1.9,
+    "M": -2.1,
+    "SD": 1.0,
+    "L": -2.4,
+    "C": 0.0,
+    "KD": 0.8,
+    "D": -3.0,
+    "FI": -2.3,
+    "Övriga": 1.0
+   },
+   "kf": {
+    "V": 5.5,
+    "S": 9.1,
+    "MP": -1.7,
+    "M": -1.2,
+    "SD": 1.3,
+    "L": -2.2,
+    "D": -9.1,
+    "C": 0.5,
+    "KD": 0.6,
+    "FI": -3.6,
+    "K": 0.6,
+    "Övriga": 0.4
+   }
+  },
+  "14800536": {
+   "rd": {
+    "V": -1.2,
+    "S": 7.5,
+    "MP": -0.1,
+    "SD": 1.6,
+    "M": -2.3,
+    "C": -1.1,
+    "L": -0.7,
+    "KD": -1.6,
+    "Övriga": -2.0
+   },
+   "rf": {
+    "V": 2.0,
+    "S": 10.2,
+    "MP": -1.9,
+    "M": -1.7,
+    "SD": 0.1,
+    "L": -0.4,
+    "C": -1.2,
+    "KD": -0.2,
+    "D": -5.3,
+    "FI": -2.4,
+    "Övriga": 0.8
+   },
+   "kf": {
+    "V": 7.6,
+    "S": 9.1,
+    "MP": -1.5,
+    "M": -0.3,
+    "SD": 1.4,
+    "L": -1.3,
+    "D": -9.5,
+    "C": -1.4,
+    "KD": 0.2,
+    "FI": -3.3,
+    "K": -0.4,
+    "Övriga": -0.7
+   }
+  },
+  "14800537": {
+   "rd": {
+    "V": -0.5,
+    "S": 2.8,
+    "MP": 3.3,
+    "SD": 0.7,
+    "M": -2.8,
+    "C": -1.0,
+    "L": -1.0,
+    "KD": -0.5,
+    "Övriga": -0.9
+   },
+   "rf": {
+    "V": 1.1,
+    "S": 6.3,
+    "MP": -0.2,
+    "M": -1.5,
+    "SD": 1.1,
+    "L": -2.9,
+    "C": -0.1,
+    "KD": 0.3,
+    "D": -3.8,
+    "FI": -1.9,
+    "Övriga": 1.5
+   },
+   "kf": {
+    "V": 5.8,
+    "S": 4.9,
+    "MP": -0.1,
+    "M": 1.1,
+    "SD": 2.9,
+    "L": -1.3,
+    "D": -10.3,
+    "C": 0.6,
+    "KD": 0.1,
+    "FI": -2.5,
+    "K": 0.3,
+    "Övriga": -1.5
+   }
+  },
+  "14800538": {
+   "rd": {
+    "V": -1.7,
+    "S": 2.5,
+    "MP": 6.0,
+    "SD": -1.3,
+    "M": -0.5,
+    "C": -2.1,
+    "L": 0.1,
+    "KD": -1.6,
+    "Övriga": -1.5
+   },
+   "rf": {
+    "V": 1.0,
+    "S": 7.2,
+    "MP": 1.2,
+    "M": -0.4,
+    "SD": 0.3,
+    "L": -2.0,
+    "C": -0.9,
+    "KD": 0.1,
+    "D": -4.2,
+    "FI": -2.9,
+    "Övriga": 0.6
+   },
+   "kf": {
+    "V": 5.8,
+    "S": 4.8,
+    "MP": 0.3,
+    "M": 0.7,
+    "SD": 0.8,
+    "L": -0.7,
+    "D": -9.9,
+    "C": 0.7,
+    "KD": 0.2,
+    "FI": -2.8,
+    "K": 0.6,
+    "Övriga": -0.6
+   }
+  },
+  "14800539": {
+   "rd": {
+    "V": -0.8,
+    "S": 4.4,
+    "MP": 5.5,
+    "SD": -3.2,
+    "M": -2.2,
+    "C": -0.4,
+    "L": -0.8,
+    "KD": -0.8,
+    "Övriga": -1.7
+   },
+   "rf": {
+    "V": 3.0,
+    "S": 8.0,
+    "MP": -1.6,
+    "M": -1.6,
+    "SD": -1.3,
+    "L": -1.8,
+    "C": -1.1,
+    "KD": 0.5,
+    "D": -3.2,
+    "FI": -0.7,
+    "Övriga": -0.2
+   },
+   "kf": {
+    "V": 5.8,
+    "S": 7.9,
+    "MP": 0.0,
+    "M": -0.4,
+    "SD": -0.3,
+    "L": -0.8,
+    "D": -9.6,
+    "C": -0.4,
+    "KD": 1.8,
+    "FI": -0.7,
+    "K": -0.4,
+    "Övriga": -2.8
+   }
+  },
+  "14800541": {
+   "rd": {
+    "V": -8.2,
+    "S": 3.7,
+    "MP": 6.4,
+    "SD": 2.6,
+    "M": 0.7,
+    "C": -1.7,
+    "L": -1.5,
+    "KD": -0.7,
+    "Övriga": -1.5
+   },
+   "rf": {
+    "V": 0.5,
+    "S": 7.9,
+    "MP": -1.4,
+    "M": 0.2,
+    "SD": 2.4,
+    "L": -2.5,
+    "C": -1.0,
+    "KD": -0.9,
+    "D": -2.4,
+    "FI": -3.7,
+    "Övriga": 0.8
+   },
+   "kf": {
+    "V": 2.0,
+    "S": 8.5,
+    "MP": -0.4,
+    "M": 0.6,
+    "SD": 3.3,
+    "L": -1.5,
+    "D": -4.8,
+    "C": -0.1,
+    "KD": -0.1,
+    "FI": -4.8,
+    "K": 0.2,
+    "Övriga": -2.6
+   }
+  },
+  "14800546": {
+   "rd": {
+    "V": -9.3,
+    "S": 6.7,
+    "MP": 5.9,
+    "SD": 0.2,
+    "M": -0.5,
+    "C": -0.4,
+    "L": -1.5,
+    "KD": -0.3,
+    "Övriga": -0.9
+   },
+   "rf": {
+    "V": -1.8,
+    "S": 11.0,
+    "MP": -1.5,
+    "M": -0.9,
+    "SD": 0.9,
+    "L": -2.6,
+    "C": -0.1,
+    "KD": -0.6,
+    "D": -2.6,
+    "FI": -2.1,
+    "Övriga": 0.2
+   },
+   "kf": {
+    "V": 2.2,
+    "S": 10.0,
+    "MP": -1.4,
+    "M": 0.2,
+    "SD": 1.1,
+    "L": -1.5,
+    "D": -6.6,
+    "C": 0.8,
+    "KD": 0.0,
+    "FI": -4.2,
+    "K": -0.3,
+    "Övriga": -0.3
+   }
+  },
+  "14800547": {
+   "rd": {
+    "V": -2.2,
+    "S": 2.5,
+    "MP": 3.6,
+    "SD": 0.8,
+    "M": -3.8,
+    "C": -0.3,
+    "L": -0.3,
+    "KD": -0.6,
+    "Övriga": 0.2
+   },
+   "rf": {
+    "V": 0.9,
+    "S": 5.5,
+    "MP": -1.1,
+    "M": -3.5,
+    "SD": 1.2,
+    "L": -2.2,
+    "C": 0.0,
+    "KD": -0.8,
+    "D": -0.8,
+    "FI": -1.4,
+    "Övriga": 2.3
+   },
+   "kf": {
+    "V": 5.5,
+    "S": 6.1,
+    "MP": 0.0,
+    "M": -2.6,
+    "SD": 2.5,
+    "L": -1.7,
+    "D": -9.5,
+    "C": 0.5,
+    "KD": 2.1,
+    "FI": -2.0,
+    "K": -0.6,
+    "Övriga": -0.4
+   }
+  },
+  "14800548": {
+   "rd": {
+    "V": -0.6,
+    "S": 4.1,
+    "MP": 4.0,
+    "SD": -0.1,
+    "M": -3.2,
+    "C": -1.3,
+    "L": -1.2,
+    "KD": -0.5,
+    "Övriga": -1.2
+   },
+   "rf": {
+    "V": 4.0,
+    "S": 6.4,
+    "MP": -2.0,
+    "M": -1.8,
+    "SD": 0.0,
+    "L": -1.8,
+    "C": -0.7,
+    "KD": -1.0,
+    "D": -1.9,
+    "FI": -2.5,
+    "Övriga": 1.2
+   },
+   "kf": {
+    "V": 8.2,
+    "S": 6.6,
+    "MP": -0.6,
+    "M": -2.1,
+    "SD": 0.5,
+    "L": -1.5,
+    "D": -6.5,
+    "C": -0.1,
+    "KD": 0.7,
+    "FI": -4.1,
+    "K": -0.3,
+    "Övriga": -0.7
+   }
+  }
+ },
+ "ej_jamforbara": {
+  "14800527": {
+   "orsak": "saknas i basåret",
+   "mening": "Gränserna såg annorlunda ut 2018. Siffrorna hör till det årets distrikt.",
+   "omradesrad": true
+  },
+  "14800528": {
+   "orsak": "saknas i basåret",
+   "mening": "Gränserna såg annorlunda ut 2018. Siffrorna hör till det årets distrikt.",
+   "omradesrad": true
+  },
+  "14800529": {
+   "orsak": "saknas i basåret",
+   "mening": "Gränserna såg annorlunda ut 2018. Siffrorna hör till det årets distrikt.",
+   "omradesrad": true
+  },
+  "14800530": {
+   "orsak": "saknas i basåret",
+   "mening": "Gränserna såg annorlunda ut 2018. Siffrorna hör till det årets distrikt.",
+   "omradesrad": true
+  },
+  "14800531": {
+   "orsak": "saknas i basåret",
+   "mening": "Gränserna såg annorlunda ut 2018. Siffrorna hör till det årets distrikt.",
+   "omradesrad": true
+  },
+  "14800532": {
+   "orsak": "saknas i basåret",
+   "mening": "Gränserna såg annorlunda ut 2018. Siffrorna hör till det årets distrikt.",
+   "omradesrad": true
+  },
+  "14800533": {
+   "orsak": "saknas i basåret",
+   "mening": "Gränserna såg annorlunda ut 2018. Siffrorna hör till det årets distrikt.",
+   "omradesrad": true
+  },
+  "14800534": {
+   "orsak": "saknas i basåret",
+   "mening": "Gränserna såg annorlunda ut 2018. Siffrorna hör till det årets distrikt.",
+   "omradesrad": true
+  },
+  "14800535": {
+   "orsak": "saknas i basåret",
+   "mening": "Gränserna såg annorlunda ut 2018. Siffrorna hör till det årets distrikt.",
+   "omradesrad": true
+  },
+  "14800540": {
+   "orsak": "saknas i basåret",
+   "mening": "Gränserna såg annorlunda ut 2018. Siffrorna hör till det årets distrikt.",
+   "omradesrad": true
+  },
+  "14800542": {
+   "orsak": "saknas i basåret",
+   "mening": "Gränserna såg annorlunda ut 2018. Siffrorna hör till det årets distrikt.",
+   "omradesrad": true
+  },
+  "14800543": {
+   "orsak": "saknas i basåret",
+   "mening": "Gränserna såg annorlunda ut 2018. Siffrorna hör till det årets distrikt.",
+   "omradesrad": true
+  },
+  "14800544": {
+   "orsak": "saknas i basåret",
+   "mening": "Gränserna såg annorlunda ut 2018. Siffrorna hör till det årets distrikt.",
+   "omradesrad": true
+  },
+  "14800545": {
+   "orsak": "saknas i basåret",
+   "mening": "Gränserna såg annorlunda ut 2018. Siffrorna hör till det årets distrikt.",
+   "omradesrad": true
+  }
+ },
+ "majorna": {
+  "rd": {
+   "V": -4.9,
+   "S": 4.9,
+   "MP": 4.9,
+   "SD": 0.4,
+   "M": -1.0,
+   "C": -1.1,
+   "L": -0.8,
+   "KD": -0.9,
+   "Övriga": -1.7
+  },
+  "rf": {
+   "V": 1.6,
+   "S": 7.4,
+   "MP": -1.7,
+   "M": -0.4,
+   "SD": 0.4,
+   "L": -2.0,
+   "C": -0.8,
+   "KD": -0.2,
+   "D": -2.7,
+   "FI": -2.5,
+   "Övriga": 0.8
+  },
+  "kf": {
+   "V": 5.7,
+   "S": 7.1,
+   "MP": -1.0,
+   "M": 0.6,
+   "SD": 1.0,
+   "L": -1.6,
+   "D": -7.2,
+   "C": -0.1,
+   "KD": 0.5,
+   "FI": -3.9,
+   "K": -0.3,
+   "Övriga": -1.0
+  }
+ },
+ "kohort": {
+  "rd": {
+   "antal": 23,
+   "totalt": 23,
+   "helomrade": true,
+   "koder": [
+    "14800526",
+    "14800527",
+    "14800528",
+    "14800529",
+    "14800530",
+    "14800531",
+    "14800532",
+    "14800533",
+    "14800534",
+    "14800535",
+    "14800536",
+    "14800537",
+    "14800538",
+    "14800539",
+    "14800540",
+    "14800541",
+    "14800542",
+    "14800543",
+    "14800544",
+    "14800545",
+    "14800546",
+    "14800547",
+    "14800548"
+   ],
+   "metod": "omradesserien"
+  },
+  "rf": {
+   "antal": 23,
+   "totalt": 23,
+   "helomrade": true,
+   "koder": [
+    "14800526",
+    "14800527",
+    "14800528",
+    "14800529",
+    "14800530",
+    "14800531",
+    "14800532",
+    "14800533",
+    "14800534",
+    "14800535",
+    "14800536",
+    "14800537",
+    "14800538",
+    "14800539",
+    "14800540",
+    "14800541",
+    "14800542",
+    "14800543",
+    "14800544",
+    "14800545",
+    "14800546",
+    "14800547",
+    "14800548"
+   ],
+   "metod": "omradesserien"
+  },
+  "kf": {
+   "antal": 23,
+   "totalt": 23,
+   "helomrade": true,
+   "koder": [
+    "14800526",
+    "14800527",
+    "14800528",
+    "14800529",
+    "14800530",
+    "14800531",
+    "14800532",
+    "14800533",
+    "14800534",
+    "14800535",
+    "14800536",
+    "14800537",
+    "14800538",
+    "14800539",
+    "14800540",
+    "14800541",
+    "14800542",
+    "14800543",
+    "14800544",
+    "14800545",
+    "14800546",
+    "14800547",
+    "14800548"
+   ],
+   "metod": "omradesserien"
+  }
+ }
+}

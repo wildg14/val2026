@@ -33,6 +33,7 @@ DB = ROT / "data" / "historik" / "majorna_historik.sqlite"
 KEDJA = ROT / "data" / "historik" / "kedja_majorna_2006_2022.csv"
 GEO_HISTORIK = ROT / "data" / "historik"
 AR = [2006, 2010, 2014, 2018, 2022]
+BAS_AR = 2018  # basår för swing_2022 (Task 2)
 PARTIER = ["V", "S", "MP", "SD", "M", "C", "L", "KD", "D", "FI", "K", OVRIGA]
 ALLA_KODER = [p for p in PARTIER if p != OVRIGA]  # de elva namngivna partikoderna, oavsett vilket val de har egen kolumn i
 NIVAER = ["majorna", "goteborg", "riket"]
@@ -145,6 +146,130 @@ def bygg_historik(con):
             "serie": serie}
 
 
+MENING_BAKAT = "Gränserna såg annorlunda ut {bas}. Siffrorna hör till det årets distrikt."
+KEDJA_KOLUMNER = ("kod_2022", "kod_2018", "jamforbar_tillbaka_till")
+
+
+def _las_kedja_rader(path=KEDJA):
+    """Läser kedjefilens rader som dict-per-rad, med filnivåkontroller gemensamma för las_kedja och las_kedja_alla."""
+    path = Path(path)
+    if not path.exists():
+        print(f"FEL: {path} saknas", file=sys.stderr)
+        sys.exit(1)
+    with open(path, encoding="utf-8-sig", newline="") as f:
+        r = csv.DictReader(f, delimiter=";")
+        saknas = [k for k in KEDJA_KOLUMNER if k not in (r.fieldnames or [])]
+        if saknas:
+            raise SystemExit(f"FEL: {path}: saknar kolumnerna {saknas}")
+        return list(r)
+
+
+def las_kedja(path=KEDJA):
+    """kedja_majorna_2006_2022.csv -> {kod_2022: kod_2018} för raderna som är jämförbara till 2018 eller längre.
+
+    Ingen kod_2018 får förekomma på mer än en av dessa rader (annars är kedjan tvetydig för swing_2022,
+    som ger 2018-distriktet 2022 års kod) - det är skilt från las_kedja_alla, där samma 2018-distrikt
+    får ligga bakom flera 2022-koder, till exempel när ett distrikt delats upp."""
+    ut = {}
+    for r in _las_kedja_rader(path):
+        if r["jamforbar_tillbaka_till"] in ("2018", "2014", "2010", "2006") and r["kod_2018"]:
+            if r["kod_2018"] in ut.values():
+                raise SystemExit(f"FEL: {path}: kod_2018 {r['kod_2018']} förekommer på flera jämförbara rader")
+            ut[r["kod_2022"]] = r["kod_2018"]
+    return ut
+
+
+def las_kedja_alla(path=KEDJA):
+    """kedja_majorna_2006_2022.csv -> {kod_2022: kod_2018} för alla 23 raderna, oavsett jämförbarhet.
+
+    Flera 2022-koder kan peka på samma kod_2018, till exempel 14800530 och 14800535 som båda kommer
+    ur 2018 års 14801011: distriktet delades vid omritningen 2022."""
+    return {r["kod_2022"]: r["kod_2018"] for r in _las_kedja_rader(path) if r["kod_2018"]}
+
+
+def distrikt_ur_db(con, ar, kod, namn):
+    """Ett distrikt ett år i sidans schema: roster per val med sidans partikoder, summor ur distrikt_summa.
+
+    Okända partikoder (utanför NYCKELPARTIER[val]) läggs i Övriga, eftersom rösttabellen `roster` inte
+    har någon egen residualrad för dem - till skillnad från `_post`, som hoppar över okända koder i
+    tidsserien, där SUMMA_ÖVRIGA redan är en färdig residualrad.
+
+    Saknas summeringsraden i distrikt_summa för ett val utelämnas nyckeln `post[val]` helt (ingen tom
+    dict), och giltiga/rostande/rostberattigade för det valet sätts inte. NULL i rostande eller
+    rostberattigade blir None, aldrig 0. `raknat` är True bara om minst ett val fick en summeringsrad -
+    annars vore det motsägelsefullt att kalla distriktet räknat utan någon data alls.
+    """
+    post = {"kod": kod, "namn": namn, "giltiga": {}, "rostande": {}, "rostberattigade": {}}
+    nagot_val = False
+    for val in VAL:
+        roster = {p: 0 for p in NYCKELPARTIER[val]}
+        roster[OVRIGA] = 0
+        for r in con.execute("SELECT parti_kanon, roster FROM roster WHERE ar=? AND val=? AND kod=?", (ar, val, kod)):
+            p = r["parti_kanon"]
+            roster[p if p in roster else OVRIGA] += int(r["roster"] or 0)
+        s = con.execute("SELECT giltiga, rostande, rostberattigade FROM distrikt_summa WHERE ar=? AND val=? AND kod=?", (ar, val, kod)).fetchone()
+        if s is None:
+            continue
+        if sum(roster.values()) != int(s["giltiga"]):
+            raise SystemExit(f"FEL: {ar} {val} {kod}: röster {sum(roster.values())} != giltiga {s['giltiga']}")
+        post[val] = roster
+        post["giltiga"][val] = int(s["giltiga"])
+        post["rostande"][val] = int(s["rostande"]) if s["rostande"] is not None else None
+        post["rostberattigade"][val] = int(s["rostberattigade"]) if s["rostberattigade"] is not None else None
+        nagot_val = True
+    post["raknat"] = nagot_val
+    return post
+
+
+def bygg_swing_2022(con):
+    """2022 mot BAS_AR (2018) för de nio jämförbara kvarteren; områdesnivån ur områdesserien (samma_yta=True), ingen efterhandsskrivning.
+
+    Distriktsnivån räknas av schema.swing på ett basobjekt där alla 23 distrikt i BAS_AR fått 2022 års
+    koder (las_kedja_alla) - inte bara de nio jämförbara. Annars saknar schema.swing ett bas-distrikt för
+    de fjorton omritade och ger dem orsak "saknas i basåret", vilket är fel: de har en motsvarighet i
+    kedjefilen, källan säger bara att gränserna ändrats för mycket för att jämförelsen ska gälla. Med alla
+    23 i bas blir orsaken i stället "ej jämförbart enligt källan" för dem, medan `jamforbara` (de nio ur
+    las_kedja) styr att bara de nio faktiskt räknas på distriktsnivå. Namnen i bas_distrikt är 2022 års
+    (namn_2022), inte BAS_ARs egna - docs/historik/noter/kedja.md visar att namn och koder korsas i
+    Majorna 2018 (två Gråberget-distrikt bytte sida), så BAS_ARs eget namn vore missvisande här.
+
+    Områdesnivån (majorna, kohort) räknas av swing självt ur bas["aggregat"]["majorna"], byggt av
+    omradespost ur tidsserien för BAS_AR - samma tal som historik.json:s serie det året, med exakt samma
+    partiuppsättning som ny["aggregat"]["majorna"] (NYCKELPARTIER[val] plus Övriga), så Övriga kommer med
+    i diffen. Ingenting i s["majorna"] eller s["kohort"] skrivs över efteråt.
+    """
+    ny = json.loads((ROT / "data" / "valdata_2022.json").read_text("utf-8"))
+    namn_2022 = {d["kod"]: d["namn"] for d in ny["distrikt"]}
+    kedja = las_kedja()
+    kedja_alla = las_kedja_alla()
+    bas_distrikt = [distrikt_ur_db(con, BAS_AR, kod18, namn_2022[kod22]) | {"kod": kod22}
+                    for kod22, kod18 in kedja_alla.items()]
+    bas_aggregat = {}
+    for val in VAL:
+        post = omradespost(con, BAS_AR, val, "majorna")
+        if post is None:
+            raise SystemExit(f"FEL: tidsserie saknar {BAS_AR} {val} majorna")
+        bas_aggregat[val] = {k: post[k] for k in ("roster", "giltiga", "rostande", "rostberattigade")}
+    bas = {"meta": {"ar": BAS_AR}, "distrikt": bas_distrikt, "aggregat": {"majorna": bas_aggregat}}
+    meningar = {d["kod"]: MENING_BAKAT.format(bas=BAS_AR) for d in ny["distrikt"] if d["kod"] not in kedja}
+    s = schema.swing(ny, bas, jamforbara=list(kedja), meningar=meningar, samma_yta=True)
+    for val in VAL:
+        s["kohort"][val]["metod"] = "omradesserien"
+    totalt = len(ny["distrikt"])
+    print(f"Jämförbara {ny['meta']['ar']} mot {BAS_AR} ({len(kedja)} av {totalt}): "
+          + ", ".join(f"{k} ({kedja[k]})" for k in sorted(kedja)))
+    print(f"Omritade sedan {BAS_AR} ({len(meningar)} av {totalt}): " + ", ".join(sorted(meningar)))
+    return s
+
+
+def bygg_geo(ar, forenkla):
+    raise SystemExit("geo byggs i Task 3")
+
+
+def bygg_valdata_ar(con, ar):
+    raise SystemExit("valdata per år byggs i Task 4")
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("vad", choices=["historik", "swing2022", "geo2006", "ar", "allt"])
@@ -169,79 +294,6 @@ def main():
     for f in skrivna:
         print(f"    {f.stat().st_size / 1024:6.1f} kB  {f}")
     return 0
-
-
-MENING_BAKAT = "Gränserna såg annorlunda ut {bas}. Siffrorna hör till det årets distrikt."
-
-
-def las_kedja():
-    """kedja_majorna_2006_2022.csv -> {kod_2022: kod_2018} för raderna som är jämförbara till 2018 eller längre."""
-    with open(KEDJA, encoding="utf-8", newline="") as f:
-        rader = list(csv.DictReader(f, delimiter=";"))
-    ut = {}
-    for r in rader:
-        if r["jamforbar_tillbaka_till"] in ("2018", "2014", "2010", "2006") and r["kod_2018"]:
-            ut[r["kod_2022"]] = r["kod_2018"]
-    return ut
-
-
-def distrikt_ur_db(con, ar, kod, namn):
-    """Ett distrikt ett år i sidans schema: roster per val med sidans partikoder, summor ur distrikt_summa."""
-    post = {"kod": kod, "namn": namn, "raknat": True, "giltiga": {}, "rostande": {}, "rostberattigade": {}}
-    for val in VAL:
-        roster = {p: 0 for p in NYCKELPARTIER[val]}
-        roster[OVRIGA] = 0
-        for r in con.execute("SELECT parti_kanon, roster FROM roster WHERE ar=? AND val=? AND kod=?", (ar, val, kod)):
-            p = r["parti_kanon"]
-            roster[p if p in roster else OVRIGA] += int(r["roster"] or 0)
-        s = con.execute("SELECT giltiga, rostande, rostberattigade FROM distrikt_summa WHERE ar=? AND val=? AND kod=?", (ar, val, kod)).fetchone()
-        if s is None:
-            post[val] = {}
-            continue
-        if sum(roster.values()) != int(s["giltiga"]):
-            raise SystemExit(f"FEL: {ar} {val} {kod}: röster {sum(roster.values())} != giltiga {s['giltiga']}")
-        post[val] = roster
-        post["giltiga"][val] = int(s["giltiga"])
-        post["rostande"][val] = int(s["rostande"] or 0)
-        post["rostberattigade"][val] = int(s["rostberattigade"] or 0)
-    return post
-
-
-def bygg_swing_2022(con):
-    """2022 mot 2018 för de nio jämförbara kvarteren; områdesnivån ur områdesserien (samma_yta=True), ingen efterhandsskrivning.
-
-    Distriktsnivån räknas av schema.swing på ett basobjekt där 2018 års nio motsvarigheter fått 2022 års
-    koder. Områdesnivån (majorna, kohort) räknas av swing självt ur bas["aggregat"]["majorna"], byggt av
-    omradespost ur tidsserien för 2018 - samma tal som historik.json:s serie det året, med exakt samma
-    partiuppsättning som ny["aggregat"]["majorna"] (NYCKELPARTIER[val] plus Övriga), så Övriga kommer med
-    i diffen. Ingenting i s["majorna"] eller s["kohort"] skrivs över efteråt.
-    """
-    ny = json.loads((ROT / "data" / "valdata_2022.json").read_text("utf-8"))
-    kedja = las_kedja()
-    bas_distrikt = [distrikt_ur_db(con, 2018, kod18, next(d["namn"] for d in ny["distrikt"] if d["kod"] == kod22)) | {"kod": kod22}
-                    for kod22, kod18 in kedja.items()]
-    bas_aggregat = {}
-    for val in VAL:
-        post = omradespost(con, 2018, val, "majorna")
-        if post is None:
-            raise SystemExit(f"FEL: tidsserie saknar 2018 {val} majorna")
-        bas_aggregat[val] = {k: post[k] for k in ("roster", "giltiga", "rostande", "rostberattigade")}
-    bas = {"meta": {"ar": 2018}, "distrikt": bas_distrikt, "aggregat": {"majorna": bas_aggregat}}
-    meningar = {d["kod"]: MENING_BAKAT.format(bas=2018) for d in ny["distrikt"] if d["kod"] not in kedja}
-    s = schema.swing(ny, bas, jamforbara=list(kedja), meningar=meningar, samma_yta=True)
-    for val in VAL:
-        s["kohort"][val]["metod"] = "omradesserien"
-    print("Jämförbara 2022 mot 2018: " + ", ".join(f"{k} ({kedja[k]})" for k in sorted(kedja)))
-    print("Omritade sedan 2018: " + ", ".join(sorted(meningar)))
-    return s
-
-
-def bygg_geo(ar, forenkla):
-    raise SystemExit("geo byggs i Task 3")
-
-
-def bygg_valdata_ar(con, ar):
-    raise SystemExit("valdata per år byggs i Task 4")
 
 
 if __name__ == "__main__":

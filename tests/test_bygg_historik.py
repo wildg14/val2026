@@ -8,6 +8,7 @@ from pathlib import Path
 
 import pytest
 
+from scripts.bygg_historik import las_kedja, las_kedja_alla
 from scripts.valmyndigheten import NYCKELPARTIER
 
 ROT = Path(__file__).resolve().parents[1]
@@ -226,3 +227,96 @@ def test_swing_2022_nio_jamforbara_och_omradesserien(tmp_path):
         hst = json.loads((tmp_path / "historik.json").read_text("utf-8"))
     for val in ("rd", "rf", "kf"):
         assert set(s["majorna"][val]) == set(hst["meta"]["partier_per_val"][val])
+
+
+@finns
+def test_swing_2022_orsak_omritade_ar_ej_jamforbart_enligt_kallan(tmp_path):
+    """De fjorton omritade har en 2018-motsvarighet i kedjefilen, källan säger bara att gränserna
+    ändrats för mycket - orsaken ska alltså inte vara "saknas i basåret", som gäller distrikt som
+    inte fanns alls."""
+    r = kor("swing2022", "--ut", str(tmp_path))
+    assert r.returncode == 0, r.stdout + r.stderr
+    s = json.loads((tmp_path / "swing_2022.json").read_text("utf-8"))
+    assert len(s["ej_jamforbara"]) == 14
+    for kod, post in s["ej_jamforbara"].items():
+        assert post["orsak"] == "ej jämförbart enligt källan", f"{kod}: {post['orsak']}"
+
+
+@finns
+def test_swing_2022_ovriga_per_distrikt_godhem(tmp_path):
+    r = kor("swing2022", "--ut", str(tmp_path))
+    assert r.returncode == 0, r.stdout + r.stderr
+    s = json.loads((tmp_path / "swing_2022.json").read_text("utf-8"))
+    with db() as con:
+        def ovriga_andel(ar, kod):
+            giltiga = con.execute(
+                "SELECT giltiga FROM distrikt_summa WHERE ar=? AND val='rd' AND kod=?", (ar, kod)).fetchone()[0]
+            platshallare = ",".join("?" * len(NYCKELPARTIER["rd"]))
+            nyckelroster = con.execute(
+                f"SELECT COALESCE(SUM(roster), 0) FROM roster WHERE ar=? AND val='rd' AND kod=? "
+                f"AND parti_kanon IN ({platshallare})",
+                (ar, kod, *NYCKELPARTIER["rd"])).fetchone()[0]
+            return (giltiga - nyckelroster) / giltiga
+        vantat = round((ovriga_andel(2022, "14800541") - ovriga_andel(2018, "14801032")) * 100, 1) + 0.0
+    assert s["distrikt"]["14800541"]["rd"]["Övriga"] == pytest.approx(vantat, abs=0.05)
+
+
+@finns
+def test_distrikt_ur_db_giltiga_vakt_fyrar_pa_doktorerad_databas(tmp_path):
+    kopia = tmp_path / "doktorerad_swing.sqlite"
+    shutil.copy(DB, kopia)
+    con = sqlite3.connect(kopia)
+    con.execute("UPDATE distrikt_summa SET giltiga = giltiga + 1 WHERE ar=2018 AND val='rd' AND kod='14801032'")
+    con.commit()
+    con.close()
+    r = kor("swing2022", "--db", str(kopia), "--ut", str(tmp_path / "ut"))
+    assert r.returncode != 0
+    assert "FEL:" in r.stderr and "giltiga" in r.stderr
+
+
+@finns
+def test_las_kedja_ger_nio_jamforbara():
+    kedja = las_kedja()
+    assert len(kedja) == 9
+    assert set(kedja) == set(JAMFORBARA_2018)
+    assert kedja == JAMFORBARA_2018
+
+
+@finns
+def test_las_kedja_alla_ger_tjugotre_med_dubbletter_tillatna():
+    alla = las_kedja_alla()
+    assert len(alla) == 23
+    assert set(JAMFORBARA_2018.items()) <= set(alla.items())
+    # 14800530 och 14800535 kommer båda ur 2018 års 14801011: distriktet delades vid omritningen 2022.
+    assert alla["14800530"] == alla["14800535"] == "14801011"
+
+
+def test_las_kedja_dubbel_kod_2018_bland_jamforbara_ger_fel(tmp_path):
+    kedjefil = tmp_path / "kedja_doktorerad.csv"
+    kedjefil.write_text(
+        "kod_2022;kod_2018;jamforbar_tillbaka_till\n"
+        "14800001;14801000;2018\n"
+        "14800002;14801000;2018\n",
+        encoding="utf-8",
+    )
+    with pytest.raises(SystemExit):
+        las_kedja(kedjefil)
+
+
+def test_las_kedja_bom_tolereras(tmp_path):
+    kedjefil = tmp_path / "kedja_bom.csv"
+    kedjefil.write_bytes(
+        ("﻿" + "kod_2022;kod_2018;jamforbar_tillbaka_till\n14800001;14801000;2018\n").encode("utf-8"))
+    assert las_kedja(kedjefil) == {"14800001": "14801000"}
+
+
+def test_las_kedja_saknad_kolumn_ger_fel(tmp_path):
+    kedjefil = tmp_path / "kedja_utan_kolumn.csv"
+    kedjefil.write_text("kod_2022;kod_2018\n14800001;14801000\n", encoding="utf-8")
+    with pytest.raises(SystemExit):
+        las_kedja(kedjefil)
+
+
+def test_las_kedja_saknad_fil_ger_fel(tmp_path):
+    with pytest.raises(SystemExit):
+        las_kedja(tmp_path / "finns_inte.csv")

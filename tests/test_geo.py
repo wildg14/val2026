@@ -43,7 +43,9 @@ def test_distrikt_geojson():
 
 
 def test_saknat_distrikt_ger_fel():
-    with pytest.raises(ValueError):
+    """saknas-kontrollen görs på poster, innan features_till_schema anropas - annars ger en tom
+    lista "min() iterable argument is empty" i stället för koden som faktiskt saknas."""
+    with pytest.raises(ValueError, match="99999999"):
         geo.las_distrikt(ROT / "valdistrikt-vastra-gotalands-lan.zip", ["14800526", "99999999"])
 
 
@@ -125,6 +127,77 @@ def test_features_till_schema_forenklar_delad_grans_utan_overlapp_eller_lucka():
     assert fc["features"][0]["properties"]["kod"] == "A" and fc["features"][1]["properties"]["kod"] == "B"
     assert ga.intersection(gb).area == 0
     assert ga.union(gb).area == pytest.approx(a.union(b).area)
+
+
+def test_features_till_schema_tom_lista_ger_fel():
+    with pytest.raises(ValueError, match="inga distrikt att skriva"):
+        geo.features_till_schema([])
+
+
+def test_features_till_schema_en_ensam_feature_med_forenkling():
+    """En ensam feature har bara en boundary - unary_union av den ger redan en LineString direkt
+    (ingen union att göra behövs), och linemerge kastar ValueError på en enda LineString ("Cannot
+    linemerge"). Det steget ska hoppas över i stället för att krascha (Task 3-rättningen)."""
+    kvadrat = Polygon([(11.900, 57.690), (11.901, 57.690), (11.901, 57.691), (11.900, 57.691), (11.900, 57.690)])
+    fc = geo.features_till_schema([{"geometry": kvadrat, "kod": "A", "namn": "A"}], forenkla_grader=0.0001)
+    assert len(fc["features"]) == 1
+    g = shape(fc["features"][0]["geometry"])
+    assert g.is_valid and g.geom_type == "Polygon"
+
+
+def test_features_till_schema_lagar_ogiltig_kallpolygon_med_buffer0():
+    """En självkorsande ring (fjärilen, samma exempel som test_jamfor_union_lagar_ogiltig_geometri)
+    är ogiltig men går att laga med buffer(0) innan gränsnätet byggs - precis som _union_3006 gör."""
+    fjaril = Polygon([(11.900, 57.700), (11.901, 57.701), (11.901, 57.700), (11.900, 57.701), (11.900, 57.700)])
+    granne = Polygon([(11.910, 57.700), (11.911, 57.700), (11.911, 57.701), (11.910, 57.701), (11.910, 57.700)])
+    fc = geo.features_till_schema(
+        [{"geometry": fjaril, "kod": "A", "namn": "A"}, {"geometry": granne, "kod": "B", "namn": "B"}],
+        forenkla_grader=0.0001)
+    assert len(fc["features"]) == 2
+    for f in fc["features"]:
+        assert shape(f["geometry"]).is_valid
+
+
+def test_features_till_schema_olaglig_kallpolygon_ger_begripligt_fel():
+    """En polygon utan area (spiken, samma exempel som test_jamfor_union_olaglig_geometri_ger_begripligt_fel)
+    går inte att laga med buffer(0); felet ska nämna distriktets kod, inte krascha längre in i shapely."""
+    spik = Polygon([(11.900, 57.700), (11.901, 57.700), (11.900, 57.700), (11.900, 57.700)])
+    granne = Polygon([(11.910, 57.700), (11.911, 57.700), (11.911, 57.701), (11.910, 57.701), (11.910, 57.700)])
+    with pytest.raises(ValueError, match="14800526"):
+        geo.features_till_schema(
+            [{"geometry": spik, "kod": "14800526", "namn": "A"}, {"geometry": granne, "kod": "B", "namn": "B"}],
+            forenkla_grader=0.0001)
+
+
+def test_features_till_schema_dubbel_kod_ger_fel():
+    a = Polygon([(11.900, 57.700), (11.901, 57.700), (11.901, 57.701), (11.900, 57.701), (11.900, 57.700)])
+    b = Polygon([(11.910, 57.700), (11.911, 57.700), (11.911, 57.701), (11.910, 57.701), (11.910, 57.700)])
+    with pytest.raises(ValueError, match="A förekommer två gånger"):
+        geo.features_till_schema(
+            [{"geometry": a, "kod": "A", "namn": "A"}, {"geometry": b, "kod": "A", "namn": "B"}],
+            forenkla_grader=0.0001)
+
+
+def test_features_till_schema_overlappande_kallpolygoner_ger_fel():
+    """Två källpolygoner som överlappar (inte bara delar en gräns) är inte lämpliga att förenkla
+    topologiskt - felet ska säga det, inte krascha eller tyst ge fel geometri."""
+    a = Polygon([(11.900, 57.700), (11.9012, 57.700), (11.9012, 57.701), (11.900, 57.701), (11.900, 57.700)])
+    b = Polygon([(11.9006, 57.700), (11.9018, 57.700), (11.9018, 57.701), (11.9006, 57.701), (11.9006, 57.700)])
+    with pytest.raises(ValueError, match="A och B överlappar, förenkla inte"):
+        geo.features_till_schema(
+            [{"geometry": a, "kod": "A", "namn": "A"}, {"geometry": b, "kod": "B", "namn": "B"}],
+            forenkla_grader=0.0001)
+
+
+def test_features_till_schema_fel_antal_polygoner_ger_fel():
+    """En orimligt grov tolerans kan förenkla bort hela gränsnätet, så att polygonize ger färre
+    (eller inga) polygoner än features - felet ska säga hur många den fick och hur många den
+    väntade sig, och peka på att sänka toleransen."""
+    a, b = _tva_grannar_med_vinklad_delad_grans()
+    with pytest.raises(ValueError, match=r"gav 0 polygoner ur gränsnätet, väntade 2"):
+        geo.features_till_schema(
+            [{"geometry": a, "kod": "A", "namn": "A"}, {"geometry": b, "kod": "B", "namn": "B"}],
+            forenkla_grader=10)
 
 
 @pytest.mark.skipif(not ZIP_2026.exists(), reason="2026 års valgeografi saknas")

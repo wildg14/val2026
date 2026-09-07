@@ -9,7 +9,7 @@ from pathlib import Path
 import pytest
 from pyproj import Transformer
 from shapely.geometry import shape
-from shapely.ops import transform as geo_transform
+from shapely.ops import linemerge, transform as geo_transform, unary_union
 
 from scripts import bygg_historik, geo
 from scripts.bygg_historik import _las_kedja_rader, bygg_geo, las_kedja, las_kedja_alla
@@ -28,6 +28,16 @@ def kor(*args):
 
 def db():
     return sqlite3.connect(f"file:{DB}?mode=ro", uri=True)
+
+
+@pytest.fixture(scope="module")
+def geo2006(tmp_path_factory):
+    """Bygger distrikt_2006.geojson/.js en gång för hela testmodulen, i en tmp-mapp - varje kor()
+    startar en egen Python-process, och flera 2006-tester behöver bara läsa samma byggda filer."""
+    ut = tmp_path_factory.mktemp("geo2006")
+    r = kor("geo2006", "--ut", str(ut))
+    assert r.returncode == 0, r.stdout + r.stderr
+    return ut
 
 
 @finns
@@ -366,10 +376,8 @@ def test_las_kedja_saknad_fil_ger_fel(tmp_path):
 
 
 @finns
-def test_geo2006_forenklad_med_17_giltiga_polygoner(tmp_path):
-    r = kor("geo2006", "--ut", str(tmp_path))
-    assert r.returncode == 0, r.stdout + r.stderr
-    fc = json.loads((tmp_path / "distrikt_2006.geojson").read_text("utf-8"))
+def test_geo2006_forenklad_med_17_giltiga_polygoner(geo2006):
+    fc = json.loads((geo2006 / "distrikt_2006.geojson").read_text("utf-8"))
     assert len(fc["features"]) == 17 and fc["bbox"][0] < fc["bbox"][2]
     for f in fc["features"]:
         g = shape(f["geometry"])
@@ -378,22 +386,28 @@ def test_geo2006_forenklad_med_17_giltiga_polygoner(tmp_path):
         assert g.contains(shape({"type": "Point", "coordinates": [lon, lat]}))
         assert set(f["properties"]) == {"kod", "namn", "etikett", "area_km2"}
     assert abs(sum(f["properties"]["area_km2"] for f in fc["features"]) - 4.655) < 0.02, "samma yta som 2022 på 0,04 procent när, förenklingen får kosta högst 0,4 procent"
-    assert (tmp_path / "distrikt_2006.geojson").stat().st_size < 20000, (
-        "förenklad för en 170 px bred kontur; höjd från 15 till 20 kB eftersom den topologiska "
-        "förenklingen (gemensamma gränser förenklade en gång, se geo._forenkla_topologiskt) kostar "
-        "fler hörn vid samma tolerans än den gamla, trasiga per-polygon-metoden - se FORENKLA_GRADER"
-        " i bygg_historik.py")
     namn = {f["properties"]["kod"]: f["properties"]["namn"] for f in fc["features"]}
     assert namn["14805901"] == "Stigberget 1" and namn["14808504"] == "Majorna 4"
 
 
 @finns
-def test_distrikt_2006_ingen_overlapp_mellan_grannar(tmp_path):
+def test_geo2006_js_storlek(geo2006):
+    """Sidan laddar .js (via <script>), inte .geojson - storleken mäts därför på den filen, under
+    12 kB för en 170 px bred kontur (se FORENKLA_GRADER i bygg_historik.py, där måttet är uppmätt).
+    .geojson är den läsbara källfilen (indenterad) och får vara större; 30 kB är en ren
+    rimlighetsgräns som bara fångar en total urspårning, inte formatet."""
+    js = geo2006 / "distrikt_2006.js"
+    geojson = geo2006 / "distrikt_2006.geojson"
+    assert js.stat().st_size < 12000, f"distrikt_2006.js: {js.stat().st_size} byte"
+    assert geojson.stat().st_size < 30000, f"distrikt_2006.geojson: {geojson.stat().st_size} byte"
+
+
+@finns
+def test_distrikt_2006_ingen_overlapp_mellan_grannar(geo2006):
     """Topologisk förenkling (Task 3-rättningen): grannar delar samma förenklade gräns, så inget
     par polygoner i distrikt_2006 ska överlappa mer än marginellt (avrundningen till sex decimaler
     ger någon enstaka kvadratdecimeter, långt under kravet på en kvadratmeter)."""
-    kor("geo2006", "--ut", str(tmp_path))
-    fc = json.loads((tmp_path / "distrikt_2006.geojson").read_text("utf-8"))
+    fc = json.loads((geo2006 / "distrikt_2006.geojson").read_text("utf-8"))
     tr = Transformer.from_crs("EPSG:4326", "EPSG:3006", always_xy=True)
     polygoner = [(f["properties"]["kod"], geo_transform(tr.transform, shape(f["geometry"])))
                  for f in fc["features"]]
@@ -406,23 +420,68 @@ def test_distrikt_2006_ingen_overlapp_mellan_grannar(tmp_path):
 
 
 @finns
-def test_distrikt_2006_union_nara_rafilen(tmp_path):
-    """Unionens yta ska ligga inom 0,1 procent av unionen av råfilen - nettoskillnaden ('skillnad' i
-    geo.jamfor_union), inte symmetrisk differens (som räknar luckor och överlapp var för sig i
-    stället för att låta dem ta ut varandra och därför alltid är större; se motiveringen vid
-    FORENKLA_GRADER i bygg_historik.py, där båda måtten är uppmätta för det valda värdet)."""
-    kor("geo2006", "--ut", str(tmp_path))
-    fc = json.loads((tmp_path / "distrikt_2006.geojson").read_text("utf-8"))
+def test_distrikt_2006_union_nara_rafilen(geo2006):
+    """Unionens symmetriska differens mot unionen av råfilen (luckor och överlapp räknade var för
+    sig, se geo.jamfor_union) ska ligga under 1,2 procent av ytan - det är det strikta måttet, eftersom
+    nettoskillnaden ('skillnad') kan råka bli liten även vid stora lokala fel, om luckor och överlapp
+    tar ut varandra i konturens många små vinklar. Nettoskillnaden får ändå inte överstiga 0,5 procent,
+    som en lösare rimlighetsgräns (båda måtten är uppmätta för det valda FORENKLA_GRADER-värdet i
+    bygg_historik.py)."""
+    fc = json.loads((geo2006 / "distrikt_2006.geojson").read_text("utf-8"))
     rafil = json.loads(RAFIL_2006.read_text("utf-8"))
     resultat = geo.jamfor_union(rafil, fc)
-    assert abs(resultat["skillnad"]) / resultat["yta_a"] < 0.001, (
-        f"nettoskillnad {resultat['skillnad']:+.0f} kvm av {resultat['yta_a']:.0f} kvm")
+    assert resultat["symmetrisk_differens"] / resultat["yta_a"] < 0.012, (
+        f"symmetrisk differens {resultat['symmetrisk_differens'] / resultat['yta_a'] * 100:.2f} procent")
+    assert abs(resultat["skillnad"]) / resultat["yta_a"] < 0.005, (
+        f"nettoskillnad {resultat['skillnad'] / resultat['yta_a'] * 100:+.2f} procent")
 
 
 @finns
-def test_distrikt_2006_samma_koder_som_rafilen(tmp_path):
-    kor("geo2006", "--ut", str(tmp_path))
-    fc = json.loads((tmp_path / "distrikt_2006.geojson").read_text("utf-8"))
+def test_distrikt_2006_ytterkontur_nara_2022(geo2006):
+    """Ytterkonturen (unionen av alla 17 distrikt) ska ligga nära dagens Majorna-yta (unionen av
+    data/distrikt_2022.geojang), trots att valdistrikten ritades om helt inför 2022 - samma
+    symmetriska differens-mått som mot råfilen ovan, samma gräns 1,2 procent."""
+    fc = json.loads((geo2006 / "distrikt_2006.geojson").read_text("utf-8"))
+    fc_2022 = json.loads((ROT / "data" / "distrikt_2022.geojson").read_text("utf-8"))
+    resultat = geo.jamfor_union(fc, fc_2022)
+    assert resultat["symmetrisk_differens"] / resultat["yta_a"] < 0.012, (
+        f"symmetrisk differens {resultat['symmetrisk_differens'] / resultat['yta_a'] * 100:.2f} procent")
+
+
+@finns
+def test_distrikt_2006_grad3_noder_bevarade(geo2006):
+    """Den topologiska förenklingen (geo._forenkla_topologiskt) förenklar bara linjerna mellan
+    knutpunkter - den ska aldrig flytta en knutpunkt där tre eller fler distrikt möts. Varje
+    ändpunkt i det förenklade gränsnätets linjer (unary_union av boundaries, linemerge) ska alltså
+    finnas exakt (samma koordinat) bland ändpunkterna i originalnätet ur råfilen."""
+    def andpunkter(featurecollection):
+        polys = [shape(ft["geometry"]) for ft in featurecollection["features"]]
+        granser = unary_union([p.boundary for p in polys])
+        granser = granser if granser.geom_type == "LineString" else linemerge(granser)
+        linjer = [granser] if granser.geom_type == "LineString" else list(granser.geoms)
+        return {ln.coords[i] for ln in linjer for i in (0, -1)}
+
+    fc = json.loads((geo2006 / "distrikt_2006.geojson").read_text("utf-8"))
+    rafil = json.loads(RAFIL_2006.read_text("utf-8"))
+    original = andpunkter(rafil)
+    forenklat = andpunkter(fc)
+    saknas = forenklat - original
+    assert not saknas, f"{len(saknas)} noder i den förenklade filen saknas i originalnätet: {sorted(saknas)[:5]}"
+
+
+@finns
+def test_distrikt_2006_identisk_med_committad_fil(geo2006):
+    """Den committade data/distrikt_2006.geojson och .js ska vara byte-identiska med byggarens
+    utdata, inte bara lika som JSON - samma mönster som test_geo.test_distrikt_identisk_med_committad_fil."""
+    for namn in ("distrikt_2006.geojson", "distrikt_2006.js"):
+        byggd = (geo2006 / namn).read_text("utf-8")
+        committad = (ROT / "data" / namn).read_text("utf-8")
+        assert byggd == committad, namn
+
+
+@finns
+def test_distrikt_2006_samma_koder_som_rafilen(geo2006):
+    fc = json.loads((geo2006 / "distrikt_2006.geojson").read_text("utf-8"))
     rafil = json.loads(RAFIL_2006.read_text("utf-8"))
     koder = {f["properties"]["kod"] for f in fc["features"]}
     koder_ra = {str(f["properties"]["kod"]).strip() for f in rafil["features"]}

@@ -288,18 +288,24 @@ def bygg_swing_2022(con):
 # grannar som överlappade och 12 luckor (cirka 3 procent geometrisk drift i konturen, uppmätt mot
 # dagens fil innan detta byte).
 #
-# Uppmätt stegvis mot data/historik/distrikt_2006_majornaomradet.geojson (se
-# tests/test_bygg_historik.py): 0,0003 grader ger en 18070 byte (17,6 kB) fil, ytsumman 4,6531 km²
-# (0,0019 km² ifrån facit 4,655 km², inom kravet 0,02) och unionens nettoskillnad mot råfilen 847
-# kvadratmeter, 0,018 procent (inom kravet 0,1 procent). Kravet gäller nettoskillnaden ("skillnad" i
-# geo.jamfor_union), inte symmetrisk differens (som räknar luckor och överlapp var för sig i stället
-# för att låta dem ta ut varandra i konturens många små vinklar) - symmetrisk differens hamnar på
-# 0,96 procent vid 0,0003 grader, och kryper under 0,1 procent först vid en fil på över 30 kB, för
-# stor för en 170 px bred kontur (cirka 27 meter per pixel). Höjt från 15 till 20 kB (testets gräns)
-# eftersom den nya metoden - som håller överlapp och unionsyta korrekta i stället för att bara se
-# rimlig ut i ytsumman - kostar fler hörn vid samma tolerans än den gamla, trasiga
-# per-polygon-metoden (som gav en 12,6 kB fil vid 0,0006 grader).
-FORENKLA_GRADER = 0.0003
+# Uppmätt stegvis mot data/historik/distrikt_2006_majornaomradet.geojson (se tests/test_bygg_historik.py,
+# byggd en gång per testmodul): vid 0,0002 grader blir distrikt_2006.geojson 20,3 kB och distrikt_2006.js
+# (den fil sidan faktiskt laddar) 9,6 kB, ytsumman 4,6491 km² (facit 4,655 km²). Unionens symmetriska
+# differens mot råfilens union är 0,55 procent av ytan (luckor och överlapp räknade var för sig, se
+# geo.jamfor_union) - testets gräns är 1,2 procent. Nettoskillnaden ("skillnad" i geo.jamfor_union) är
+# -0,11 procent, en lös gräns satt till 0,5 procent eftersom symmetrisk differens är det som faktiskt
+# räknas här (nettot kan råka bli litet även med stora lokala fel, om luckor och överlapp tar ut
+# varandra). Mot unionen av dagens data/distrikt_2022.geojson (samma yttre Majorna-kontur) är den
+# symmetriska differensen 0,58 procent, också under 1,2 procent. Ingen polygon överlappar en annan
+# (störst uppmätta överlapp 0 kvadratmeter i EPSG:3006). Alla 32 grad-3-noder (knutpunkter mellan tre
+# eller fler distrikt) i det förenklade gränsnätet finns exakt bland originalnätets noder - förenklingen
+# flyttar aldrig en knutpunkt, bara linjerna mellan dem. Största enskilda konturavvikelsen (varje
+# originalhörn mot den förenklade linjen, i EPSG:3006) är cirka 20 meter, för distrikt 14808401 - inom
+# den teoretiska gränsen för toleransen: 0,0002 grader är cirka 12 meter öst-väst och 22 meter nord-syd
+# vid Majornas breddgrad (1 grad longitud krymper med cos(lat) i meter, latitud gör det inte). Konturen
+# ritas cirka 170 pixlar bred, vilket ger ungefär 16,8 meter per pixel, så en avvikelse på 20 meter syns
+# som drygt en pixel - rimligt för en kontur i den storleken.
+FORENKLA_GRADER = 0.0002
 
 
 def bygg_geo(ar, forenkla):

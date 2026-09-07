@@ -57,12 +57,43 @@ def _forenkla_topologiskt(features, forenkla_grader):
     nätet (polygonize). Två grannar som delade en gräns delar då fortfarande exakt samma (nu
     förenklade) gränslinje, så inget överlapp eller lucka kan uppstå mellan dem.
 
+    Varje polygon lagas med buffer(0) om den inte redan är giltig (samma mönster som _union_3006);
+    går den inte att laga blir felet ValueError med distriktets kod. En ensam feature ger bara en
+    boundary, så unary_union av den ger redan en LineString direkt (ingen union att göra) - linemerge
+    kastar då ValueError ("Cannot linemerge") eftersom den bara tar MultiLineString eller en sekvens
+    av linjer, så det steget hoppas över när resultatet redan är en enda LineString.
+
+    Kräver dessutom att ingen kod förekommer två gånger i features och att inga två källpolygoner
+    (projicerade till EPSG:3006) överlappar mer än en kvadratmeter - annars är indatan inte lämplig
+    att förenkla topologiskt, oavsett tolerans.
+
     Returnerar kod -> ny polygon. Kräver att polygonize ger exakt lika många polygoner som features
     (annars har två slagits ihop eller en delats av förenklingen) och att varje kod matchar exakt en
     ny polygon (_matcha_kod); annars ValueError med en begriplig förklaring - sänk då toleransen.
     """
-    original = [(ft["kod"], ft["geometry"]) for ft in features]
-    granser = linemerge(unary_union([g.boundary for _, g in original]))
+    sedda = set()
+    original = []
+    for ft in features:
+        kod, g = ft["kod"], ft["geometry"]
+        if kod in sedda:
+            raise ValueError(f"features_till_schema: koden {kod} förekommer två gånger")
+        sedda.add(kod)
+        if not g.is_valid:
+            g = g.buffer(0)
+            if g.is_empty or not g.is_valid:
+                raise ValueError(
+                    f"features_till_schema: distrikt {kod}: ogiltig geometri som inte går att laga "
+                    "med buffer(0)")
+        original.append((kod, g))
+    projicerade = [(kod, transform(_TILL_SWEREF, g)) for kod, g in original]
+    for i, (kod_i, g_i) in enumerate(projicerade):
+        for kod_j, g_j in projicerade[i + 1:]:
+            if g_i.intersection(g_j).area > 1:
+                raise ValueError(
+                    f"features_till_schema: källpolygonerna {kod_i} och {kod_j} överlappar, "
+                    "förenkla inte")
+    granser_ra = unary_union([g.boundary for _, g in original])
+    granser = granser_ra if granser_ra.geom_type == "LineString" else linemerge(granser_ra)
     linjer = [granser] if granser.geom_type == "LineString" else list(granser.geoms)
     forenklade = [ln.simplify(forenkla_grader, preserve_topology=True) for ln in linjer]
     nya = list(polygonize(forenklade))
@@ -82,11 +113,9 @@ def _forenkla_topologiskt(features, forenkla_grader):
                 f"features_till_schema: forenkla_grader={forenkla_grader} - {kod} matchar mer än en "
                 f"ny polygon, sänk toleransen")
         tilldelning[kod] = ny
-    saknas = {kod for kod, _ in original} - set(tilldelning)
-    if saknas:
-        raise ValueError(
-            f"features_till_schema: forenkla_grader={forenkla_grader} - {sorted(saknas)} fick ingen "
-            f"ny polygon, sänk toleransen")
+    # Ingen saknas-kontroll här: med kod-dubbletter uteslutna ovan och len(nya) == len(original)
+    # redan säkrat måste tilldelning innehålla exakt alla original-koder (en ren räkneövning), så
+    # en sådan gren vore aldrig nåbar.
     return tilldelning
 
 
@@ -102,7 +131,14 @@ def features_till_schema(features, forenkla_grader=None):
     decimaler som annars skulle ge ett annat värde i fjärde decimalen); bygg_historik.bygg_geo saknar
     en sådan källa och får arean räknad här. Delas av las_distrikt (2022, 2026) och bygg_geo (2006
     till 2018), så att alla år får exakt samma schembygge.
+
+    I en förenklad fil (forenkla_grader satt) beskriver area_km2 den förenklade polygonens egen yta,
+    inte det verkliga distriktets - konturen har flyttats något, vilket kan skilja uppåt några
+    procent för ett enskilt distrikt även om totalsumman håller (förenklingen bevarar gemensamma
+    gränser, så det en granne vinner förlorar den andra).
     """
+    if not features:
+        raise ValueError("inga distrikt att skriva")
     tilldelning = _forenkla_topologiskt(features, forenkla_grader) if forenkla_grader is not None else None
     ut = []
     for ft in features:
@@ -129,7 +165,7 @@ def features_till_schema(features, forenkla_grader=None):
     return {"type": "FeatureCollection", "bbox": [min(xs), min(ys), max(xs), max(ys)], "features": ut}
 
 
-def las_distrikt(zip_path, koder, decimaler=6):
+def las_distrikt(zip_path, koder):
     """Läser zip-filen med länets valdistrikt och returnerar en FeatureCollection (WGS84)
     med exakt de distrikt som finns i `koder`, sorterade på kod.
 
@@ -143,6 +179,10 @@ def las_distrikt(zip_path, koder, decimaler=6):
 
     Egenskapsnamnen skiljer sig mellan år: 2022 har Lkfv och Vdnamn, 2026 har Valdistriktskod
     och Valdistriktsnamn (se egenskaper()). Zip-filen kan innehålla antingen .json eller .geojson.
+
+    Kontrollerar att alla efterfrågade koder faktiskt hittades i geodatan innan features_till_schema
+    anropas - annars ger en tom poster-lista "min() iterable argument is empty" i stället för listan
+    på de saknade koderna, som är valnattens troligaste fel (en felskriven eller föråldrad kod).
     """
     with zipfile.ZipFile(zip_path) as z:
         namn = sorted((n for n in z.namelist() if n.lower().endswith((".json", ".geojson"))),
@@ -165,14 +205,13 @@ def las_distrikt(zip_path, koder, decimaler=6):
             g = max(g.geoms, key=lambda p: p.area)
         ringar = []
         for ring in [g.exterior, *g.interiors]:
-            ringar.append(_runda((tr.transform(x, y) for x, y in ring.coords), decimaler))
+            ringar.append(_runda((tr.transform(x, y) for x, y in ring.coords), 6))
         poster.append({"geometry": shape({"type": "Polygon", "coordinates": ringar}),
                        "kod": kod, "namn": namn_kort or kod, "area_km2": g.area / 1e6})
-    fc = features_till_schema(poster)
-    saknas = vill - {f["properties"]["kod"] for f in fc["features"]}
+    saknas = vill - {p["kod"] for p in poster}
     if saknas:
         raise ValueError(f"Distrikt saknas i geodatan: {sorted(saknas)}")
-    return fc
+    return features_till_schema(poster)
 
 
 def _union_3006(fc, tr):

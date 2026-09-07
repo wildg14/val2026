@@ -1171,13 +1171,18 @@ const histPartier = () => arDesktop() ? HIST_PARTIER.desktop : HIST_PARTIER.mobi
 // per val, där FI inte är nyckelparti i riksdagsvalet, så rösterna ligger i Övriga och går inte att räkna fram ur filen.
 const HIST_NOT_FI_2014 = "16,5";
 function historikSerie(val, niva) {
-  const h = state.historik;
-  return h && h.serie && h.serie[val] && h.serie[val][niva] ? h.serie[val][niva] : [];
+  const hist = state.historik;   // heter inte h: den globala h() bygger DOM-noder
+  return hist && hist.serie && hist.serie[val] && hist.serie[val][niva] ? hist.serie[val][niva] : [];
 }
 const histAr = () => ((state.historik || {}).meta || {}).ar || [];   // seriens år, tom lista när filen saknas
 const senasteAr = () => (KONFIG.ar || []).map(Number).filter(a => a).sort((a, b) => a - b).pop();
 const histLista = a => a.length === 1 ? String(a[0]) : a.slice(0, -1).join(", ") + " och " + a[a.length - 1];
 const histHarTal = (pt, q) => pt.andel[q] !== undefined && pt.andel[q] !== null;   // parti utan tal ritas inte som noll
+// Ett år utan punkt: på valnatten pågår räkningen medan läsaren tittar, före valdagen ligger den framåt i tiden.
+const histVantetext = () => KONFIG.valnatt ? "räknas just nu" : "räknas på valnatten";
+// Talraden listar hela valets uppsättning, inte bara de ritade linjerna: bilden får plats med fyra eller fem
+// partier, texten under den ska ändå svara på hur det gick för alla. Övriga har inget eget tal i serien.
+const histTalPartier = val => ((((state.historik || {}).meta || {}).partier_per_val || {})[val] || []).filter(p => p !== "Övriga");
 function aretsPunkt(val, niva) {
   // Punkten för det senaste laddade året i seriens form, inte för det år kartans årsknapp visar: sektionen
   // följer kartans val men inte dess år. Punkten finns bara när alla distrikt i valet är räknade; annars
@@ -1291,7 +1296,7 @@ function histEtiketter(svg, slut, { H, M }, extra = {}) {
   }
 }
 function histRing(svg, cx, cy) {   // året får inte ritas än: tom ring på skalans nedersta nivå, texten till vänster om den
-  svg.append(s("text", { x: (cx - 10).toFixed(1), y: (cy + 4).toFixed(1), "text-anchor": "end", "font-size": 12, fill: FARG.sten }, "räknas på valnatten"),
+  svg.append(s("text", { x: (cx - 10).toFixed(1), y: (cy + 4).toFixed(1), "text-anchor": "end", "font-size": 12, fill: FARG.sten }, histVantetext()),
              s("circle", { cx: cx.toFixed(1), cy: cy.toFixed(1), r: 5, fill: FARG.papper, stroke: FARG.sten, "stroke-width": 1.5 }));
 }
 let histLasX = {};   // årtal -> x i bildens viewBox, så att läslinjen kan flyttas utan att bilden ritas om
@@ -1305,9 +1310,10 @@ function histLinjer(val) {
   // Talraden under bilden är textalternativet: etiketten säger vad bilden är och hur man byter år, inte
   // seriens alla tal - de lästes annars upp på nytt vid varje piltryck.
   const svg = s("svg", { viewBox: `0 0 ${W} ${H}`, class: "hist-svg", role: "img", tabindex: 0,
+    "aria-describedby": "hist-not-a",
     "aria-label": `${histMening(val)} Andel av giltiga röster per valår i procent.`
       + " Talraden under bilden visar ett års tal; vänster och höger pil byter år."
-      + (utan.length ? ` ${utan.join(", ")} räknas på valnatten.` : "") });
+      + (utan.length ? ` ${utan.join(", ")} ${histVantetext()}.` : "") });
   histHjalplinjer(svg, { M, W, y, fran: 0.1, till: max, steg: 0.1 });
   histArAxel(svg, axelAr, x, H - 8);
   const slut = [];
@@ -1329,10 +1335,14 @@ function histLinjer(val) {
   const narmast = px => { let best = 0; axelAr.forEach((a, i) => { if (Math.abs(x(i) - px) < Math.abs(x(best) - px)) best = i; }); return axelAr[best]; };
   svg.addEventListener("click", e => { const r = svg.getBoundingClientRect(); sattHistorikAr(narmast((e.clientX - r.left) * W / r.width)); });
   svg.addEventListener("keydown", e => {
-    if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+    // Home och End fångas här också: annars rullar de sidan till toppen respektive botten medan
+    // fokus ligger i bilden, och läsaren tappar bort sig.
+    const steg = { ArrowLeft: -1, ArrowRight: 1 }[e.key];
+    if (steg === undefined && e.key !== "Home" && e.key !== "End") return;
     e.preventDefault();
     const i = Math.max(0, axelAr.indexOf(state.historikAr));
-    sattHistorikAr(axelAr[(i + (e.key === "ArrowRight" ? 1 : -1) + axelAr.length) % axelAr.length]);
+    sattHistorikAr(e.key === "Home" ? axelAr[0] : e.key === "End" ? axelAr[axelAr.length - 1]
+      : axelAr[(i + steg + axelAr.length) % axelAr.length]);
   });
   el.replaceChildren(svg);
 }
@@ -1349,11 +1359,11 @@ function sattHistorikAr(ar) {
 }
 function histTalrad(val) {
   const el = $("#hist-talrad"), p = histPunkter(val, "majorna").find(q => q.ar === state.historikAr);
-  if (!p) { el.textContent = `${state.historikAr}: räknas på valnatten.`; return; }
+  if (!p) { el.textContent = `${state.historikAr}: ${histVantetext()}.`; return; }
   // Ett span per parti, som kortets rad Hur har det ändrats: raden bryts mellan talen i stället för att
   // klippas på en smal skärm. Ett parti utan tal i årets punkt hoppas över, aldrig "0,0".
-  const tal = histPartier().filter(q => histHarTal(p, q)).map(q => h("span", { class: "hist-tal" }, `${q} ${andelTal(p.andel[q])}`));
-  el.replaceChildren(h("span", { class: "hist-tal" }, `${p.ar}${p.preliminar ? " (preliminärt)" : ""}:`), " ", ...tal.flatMap(n => [n, " "]));
+  const talen = histTalPartier(val).filter(q => histHarTal(p, q)).map(q => h("span", { class: "hist-tal" }, `${q} ${andelTal(p.andel[q])}`));
+  el.replaceChildren(h("span", { class: "hist-tal" }, `${p.ar}${p.preliminar ? " (preliminärt)" : ""}:`), " ", ...talen.flatMap(n => [n, " "]));
 }
 function renderHistorik() {
   const sek = $("#historik");
@@ -1370,7 +1380,11 @@ function renderHistorik() {
   // och regionvalet (K). I kommunvalet ryms alla tolv partierna och meningen skulle inte säga något.
   const meta = state.historik.meta, valetsPartier = (meta.partier_per_val || {})[val] || [];
   const utanfor = (meta.partier || []).filter(p => p !== "Övriga" && !valetsPartier.includes(p));
-  $("#hist-not-a").textContent = "Tryck på ett år i bilden för att se det årets tal."
+  // Noten är också bild A:s aria-describedby: den ska säga hur bilden styrs och att talraden är bredare
+  // än linjerna. Meningen om linjerna byggs ur HIST_PARTIER så att den följer med om urvalet ändras.
+  const extraDesktop = HIST_PARTIER.desktop.filter(p => !HIST_PARTIER.mobil.includes(p));
+  $("#hist-not-a").textContent = "Tryck på ett år i bilden, eller stega med piltangenterna, för att se det årets tal."
+    + ` Linjerna visar ${histLista(HIST_PARTIER.mobil)}, på bredare skärmar även ${histLista(extraDesktop)}; talraden har alla partier.`
     + " Serien börjar 2006. Valdistrikten ritades om helt inför det valet, så 2002 går inte att räkna om till dagens Majorna."
     + ` Området hålls konstant medan antalet distrikt varierar: ${antalDistriktText(val)}. Liberalerna hette Folkpartiet till och med 2014.`
     + (utanfor.length ? ` Partier utanför valets uppsättning ligger i Övriga: ${histLista(utanfor.map(p => parti(p).namn))}`
@@ -1409,11 +1423,13 @@ function histDeltagande(val) {
     + (sistaG ? `, Göteborg ${andelTal(sistaG.valdeltagande)}.` : ".");
   menEl.textContent = mening;
   // Bilden har ingen talrad: beskrivningen är dess textalternativ och räknar upp serierna år för år.
-  const beskrivning = linjer.filter(sr => sr.punkter.length).map(sr => `${sr.namn}: ` + sr.punkter.map(p => `${p.ar} ${andelTal(p.valdeltagande)}`).join(", ")).join("; ");
+  // Ett preliminärt år märks i beskrivningen: bilden visar det med en öppen ring, som inte hörs.
+  const beskrivning = linjer.filter(sr => sr.punkter.length).map(sr => `${sr.namn}: `
+    + sr.punkter.map(p => `${p.ar}${p.preliminar ? " (preliminärt)" : ""} ${andelTal(p.valdeltagande)}`).join(", ")).join("; ");
   const utan = axelAr.filter(a => !majPunkter.some(p => p.ar === a));   // år på axeln som inte får ritas än
   const svg = s("svg", { viewBox: `0 0 ${W} ${H}`, role: "img",
     "aria-label": `${mening} Valdeltagande i procent per valår. ${beskrivning}.`
-      + (utan.length ? ` ${utan.join(", ")} räknas på valnatten.` : "") });
+      + (utan.length ? ` ${utan.join(", ")} ${histVantetext()}.` : "") });
   histHjalplinjer(svg, { M, W, y, fran: lo, till: hi, steg: 0.05 });
   histArAxel(svg, axelAr, x, H - 8);
   const slut = [];
@@ -1430,10 +1446,15 @@ function histDeltagande(val) {
   // Majorna får en egen mening: annars ser den avkortade linjen ut som ett bortfall.
   const rader = [`Skalan börjar vid ${Math.round(lo * 100)} procent.`
     + " Valdeltagande i olika val ska inte jämföras med varandra, eftersom röstberättigade skiljer sig mellan valen."];
+  // Serier som slutar samma tidigare år får en mening tillsammans: två meningar efter varandra med samma
+  // årtal läses som två olika förbehåll.
+  const tidiga = {};
   for (const sr of linjer.slice(1)) {
     const sista = sr.punkter[sr.punkter.length - 1];
-    if (sista && sista.ar < sistaAr) rader.push(`${sr.genitiv} linje slutar ${sista.ar} tills aggregatet för ${sistaAr} finns.`);
+    if (sista && sista.ar < sistaAr) (tidiga[sista.ar] = tidiga[sista.ar] || []).push(sr.genitiv);
   }
+  for (const [ar, genitiv] of Object.entries(tidiga))
+    rader.push(`${histLista(genitiv.map((g, i) => i ? g.toLowerCase() : g))} ${genitiv.length > 1 ? "linjer" : "linje"} slutar ${ar} tills siffrorna för ${sistaAr} finns.`);
   notEl.textContent = rader.join(" ");
 }
 function histKartor() {
@@ -1443,7 +1464,7 @@ function histKartor() {
   // Gemensam ram ur båda filernas bbox, annars ser den ena kartan ut att täcka en annan yta än den andra
   // och poängen med bilden går förlorad. Saknar någon av geometrierna en bbox töms ytan i stället för att
   // rita med NaN i viewBox.
-  const bbox = g06 && gNu ? unionBbox([g06.bbox, gNu.bbox]) : null;
+  const bbox = g06 && gNu && g06.bbox && gNu.bbox ? unionBbox([g06.bbox, gNu.bbox]) : null;
   if (!g06 || !gNu || !bbox) { el.replaceChildren(); notEl.textContent = ""; return; }
   const proj = projektion(bbox, 0.02, 0.02);
   // Bara gränser i sten på papper: ingen partifärg, inga etiketter och inget att trycka på. Bilden svarar på

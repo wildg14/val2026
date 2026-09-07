@@ -198,7 +198,11 @@ def test_historiksektionen_finns_och_foljer_kartans_val():
     # X-axeln tar nästa valår ur konfigen, så att 2026 står som tom ring redan före valdagen.
     kropp = js[js.index("function histAxelAr("):]
     assert "KONFIG.valdag" in kropp[:kropp.index("\n}")], "histAxelAr lägger till nästa valår ur KONFIG.valdag"
-    assert "räknas på valnatten." in js, "ett år utan punkt får talraden räknas på valnatten"
+    # Ett år utan punkt: samma ord i ringen som i talraden, olika i de två lägena. Orden står i
+    # histVantetext, punkten efter dem i talradens mall.
+    assert "räknas på valnatten" in js, "ett år utan punkt får talraden räknas på valnatten"
+    assert "räknas just nu" in js, "på valnatten står det räknas just nu i stället"
+    assert "${histVantetext()}." in js, "talraden avslutar väntetexten med punkt"
 
 
 def container_kroppar(text, villkor):

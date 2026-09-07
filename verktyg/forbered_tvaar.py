@@ -13,8 +13,10 @@ data/valdata_2022.json och skriver över den kopierade swing_2026.js. Annars sku
 säga att alla distrikt är räknade och kortets kohorttext utebli. Testsidans swingfil är alltså verktygets
 egen, inte den som uppdatera_2026.py skrev: en grön kf-kontroll säger något om sidan, inte om pipelinen.
 
-Med --status slutlig|preliminar skrivs meta.status om i den kopierade valdata_2026.js. Tillsammans med
---valnatt av ger det statusradens två stillsamma grenar: "Slutligt resultat, riksdagsvalet 2026." och
+Med --status slutlig|preliminar skrivs meta.status om i den kopierade valdata_2026.js, och ordet i
+meta.kalla följer med när källan är pipelinens ("... preliminär|slutlig rösträkning per valdistrikt
+{år}"): annars skulle Om siffrorna säga slutligt resultat med den preliminära räkningen som källa.
+Tillsammans med --valnatt av ger det statusradens två stillsamma grenar: "Slutligt resultat, riksdagsvalet 2026." och
 "Preliminärt resultat 2026.", båda utan "Ladda om".
 
 Med --utan-parti S tas partiet bort ur den kopierade swing_2026.js, i alla val och både per distrikt och
@@ -94,7 +96,10 @@ def doktorera_partiell(fil, antal):
             d[nyckel] = {}
     for val in ("rd", "rf", "kf"):
         valdata["aggregat"]["majorna"][val] = schema._summa(distrikt, val)
-    valdata["meta"]["valnatt"]["raknade"] = antal
+    # En valdatafil utan valnatt-block (äldre vägar skriver inget) ska få ett, inte fälla bygget.
+    valnatt = valdata["meta"].setdefault("valnatt", {})
+    valnatt["raknade"] = antal
+    valnatt.setdefault("totalt", len(distrikt))
     schema.skriv_js(fil.with_suffix(""), valdata)
     return antal
 
@@ -113,6 +118,15 @@ def rakna_om_swing(mapp):
     schema.skriv_js(mapp / "swing_2026", schema.swing(ny, bas, jamforbara=jamforbara))
 
 
+def rakna_om_swing_om_finns(ut):
+    """Samma efterarbete för --kf-raknade och --partiell: räkna om swingfilen när den kopierats med."""
+    if not (ut / "swing_2026.js").exists():
+        return False
+    rakna_om_swing(ut)
+    print("swing_2026.js omräknad mot data/valdata_2022.json, kohorten följer den doktorerade valdatan")
+    return True
+
+
 def ta_bort_parti(fil, parti):
     """Tar bort ett parti ur swingfilen: alla val, alla distrikt och områdesnivån.
 
@@ -129,9 +143,19 @@ def ta_bort_parti(fil, parti):
 
 
 def satt_status(fil, status):
-    """Skriver om meta.status i den kopierade valdata_2026.js."""
+    """Skriver om meta.status i den kopierade valdata_2026.js, och ordet i meta.kalla när det står där.
+
+    Pipelinen sätter kalla till "... {preliminär|slutlig} rösträkning per valdistrikt {år}" efter status,
+    så en testsida med bytt status ska inte säga slutligt resultat med den preliminära räkningen som källa.
+    En källa av något annat slag lämnas orörd."""
     valdata = schema.las_js(fil)
     valdata["meta"]["status"] = status
+    ratt_ord = "slutlig" if status == "slutlig" else "preliminär"
+    kalla = valdata["meta"].get("kalla") or ""
+    for gammalt in ("preliminär rösträkning", "slutlig rösträkning"):
+        if gammalt in kalla:
+            valdata["meta"]["kalla"] = kalla.replace(gammalt, f"{ratt_ord} rösträkning")
+            break
     schema.skriv_js(fil.with_suffix(""), valdata)
     return status
 
@@ -163,15 +187,11 @@ def main():
     if a.kf_raknade is not None:
         doktorera_kf(ut / "data" / "valdata_2026.js", a.kf_raknade)
         print(f"valdata_2026.js doktorerad: {a.kf_raknade} distrikt har kommunvalet räknat")
-        if (ut / "data" / "swing_2026.js").exists():
-            rakna_om_swing(ut / "data")
-            print("swing_2026.js omräknad mot data/valdata_2022.json, kohorten följer den doktorerade valdatan")
+        rakna_om_swing_om_finns(ut / "data")
     if a.partiell is not None:
         doktorera_partiell(ut / "data" / "valdata_2026.js", a.partiell)
         print(f"valdata_2026.js doktorerad: {a.partiell} distrikt räknade i alla tre valen")
-        if (ut / "data" / "swing_2026.js").exists():
-            rakna_om_swing(ut / "data")
-            print("swing_2026.js omräknad mot data/valdata_2022.json, kohorten följer den doktorerade valdatan")
+        rakna_om_swing_om_finns(ut / "data")
     if a.status:
         satt_status(ut / "data" / "valdata_2026.js", a.status)
         print(f"valdata_2026.js doktorerad: meta.status = {a.status}")

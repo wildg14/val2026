@@ -74,7 +74,10 @@ const oppenPartiRing = c => c.fill === PAPPER && c.stroke !== STEN;   // en seri
       bildAClientWidth: bildAEl ? bildAEl.clientWidth : null,
       etiketterA, cirklarA,
       streckadeA: svgA ? svgA.querySelectorAll('path[stroke-dasharray="6 5"]').length : 0,
-      raknasPaValnattenA: svgA ? [...svgA.querySelectorAll('text')].filter(t => t.textContent === 'räknas på valnatten').length : 0,
+      // Året utan punkt: "räknas på valnatten" före valdagen, "räknas just nu" när KONFIG.valnatt är sant.
+      ringTextA: svgA ? [...svgA.querySelectorAll('text')].map(t => t.textContent).filter(t => /^räknas (på valnatten|just nu)$/.test(t)) : [],
+      ariaA: svgA ? svgA.getAttribute('aria-label') : null,
+      beskrivsAvNotA: svgA ? svgA.getAttribute('aria-describedby') : null,
       // text-anchor="middle" skiljer årtalen på x-axeln från hjälplinjernas tal i vänsterkanten (text-anchor="end"),
       // som annars kan råka bli tvåsiffriga också (till exempel "10", "20").
       xEtiketter: svgA ? [...svgA.querySelectorAll('text[text-anchor="middle"]')].map(t => t.textContent).filter(t => /^\d\d$/.test(t)) : [],
@@ -83,7 +86,8 @@ const oppenPartiRing = c => c.fill === PAPPER && c.stroke !== STEN;   // en seri
       svgBFinns: !!svgB,
       viewBoxB: svgB ? svgB.getAttribute('viewBox') : null,
       streckadeB54: svgB ? svgB.querySelectorAll('path[stroke-dasharray="5 4"]').length : 0,
-      raknasPaValnattenB: svgB ? [...svgB.querySelectorAll('text')].filter(t => t.textContent === 'räknas på valnatten').length : 0,
+      ringTextB: svgB ? [...svgB.querySelectorAll('text')].map(t => t.textContent).filter(t => /^räknas (på valnatten|just nu)$/.test(t)) : [],
+      ariaB: svgB ? svgB.getAttribute('aria-label') : null,
       meningB: (document.getElementById('hist-mening-b') || {}).textContent || '',
       notB: (document.getElementById('hist-not-b') || {}).textContent || '',
       kartFigurer,
@@ -139,7 +143,8 @@ const oppenPartiRing = c => c.fill === PAPPER && c.stroke !== STEN;   // en seri
       [`${namn}: fyra partietiketter V S MP SD`, partier.length === 4 && ['V', 'S', 'MP', 'SD'].every(p => partier.includes(p))],
       [`${namn}: etiketter på samma x minst 14 px isär (minst ett par jämfört)`, isFinite(minAv) && minAv >= 14],
       [`${namn}: etikettfärg kontrast minst 4,5:1`, kontraster.length > 0 && kontraster.every(k => k >= 4.5 - 1e-6)],
-      [`${namn}: talraden har minst fem span.hist-tal`, u.talradSpannAntal >= 5],
+      [`${namn}: talraden har minst nio span.hist-tal (prefix plus riksdagsvalets åtta partier)`, u.talradSpannAntal >= 9],
+      [`${namn}: bild A beskrivs av noten`, u.beskrivsAvNotA === 'hist-not-a'],
       [`${namn}: talraden utan 0,0 eller NaN`, !u.talradText.includes('0,0') && !u.talradText.includes('NaN')],
       [`${namn}: x-axelns årtal 06 10 14 18 22 26`, u.xEtiketter.join(' ') === '06 10 14 18 22 26'],
       [`${namn}: piltangent ändrar läslinjen`, ix.fore.x1 !== ix.efter.x1],
@@ -180,8 +185,8 @@ const oppenPartiRing = c => c.fill === PAPPER && c.stroke !== STEN;   // en seri
     kontroller.push(
       ['sida: exakt en tom ring i bild A', tomma.length === 1],
       ['sida: tomma ringen står på y(0) = 250', tomma.length === 1 && tomma[0].cy === 250],
-      ['sida: "räknas på valnatten" i bild A', u.raknasPaValnattenA === 1],
-      ['sida: "räknas på valnatten" i bild B', u.raknasPaValnattenB === 1],
+      ['sida: "räknas på valnatten" i bild A', u.ringTextA.join() === 'räknas på valnatten'],
+      ['sida: "räknas på valnatten" i bild B', u.ringTextB.join() === 'räknas på valnatten'],
       ['sida: inga streckade sträckor', u.streckadeA === 0],
       ['sida: inga öppna partiringar', oppnaRingar.length === 0],
       ['sida: talraden börjar "2022:"', u.talradText.startsWith('2022:')],
@@ -237,6 +242,7 @@ const oppenPartiRing = c => c.fill === PAPPER && c.stroke !== STEN;   // en seri
       ['prel: ingen tom sten-ring', tommaPrel.length === 0],
       ['prel: talraden börjar "2026 (preliminärt):"', u.talradText.startsWith('2026 (preliminärt):')],
       ['prel: hist-mening fryst på 2022', u.mening.includes('till 27,2 procent')],
+      ['prel: bild B:s aria-label märker 2026 som preliminärt', (u.ariaB || '').includes('2026 (preliminärt)')],
     );
     // R1: läslinjen står kvar på 2010 efter interaktionen ovan (universalKontroller), och där är talen lika
     // oavsett årsknapp. Ladda om sidan så att läslinjen står på raden för sista året innan klicket, annars
@@ -263,6 +269,9 @@ const oppenPartiRing = c => c.fill === PAPPER && c.stroke !== STEN;   // en seri
       ['partiell: inga streckade sträckor', u.streckadeA === 0],
       ['partiell: talraden börjar "2022:"', u.talradText.startsWith('2022:')],
       ['partiell: statusraden innehåller "9 av 23"', u.statusrad.includes('9 av 23')],
+      ['partiell: "räknas just nu" i bild A', u.ringTextA.join() === 'räknas just nu'],
+      ['partiell: "räknas just nu" i bild B', u.ringTextB.join() === 'räknas just nu'],
+      ['partiell: bild A:s aria-label slutar "2026 räknas just nu."', (u.ariaA || '').endsWith('2026 räknas just nu.')],
     );
     await page.evaluate(() => document.querySelector('#hist-bild-a svg').focus());
     let talrad = await page.evaluate(() => document.getElementById('hist-talrad').textContent), forsok = 0;   // nuläget, inte det universalKontroller redan flyttat med piltangent/klick
@@ -273,7 +282,7 @@ const oppenPartiRing = c => c.fill === PAPPER && c.stroke !== STEN;   // en seri
       forsok++;
     }
     console.log('partiell efter ArrowRight:', JSON.stringify({ talrad, forsok }));
-    kontroller.push(['partiell: talraden blir exakt "2026: räknas på valnatten."', talrad === '2026: räknas på valnatten.']);
+    kontroller.push(['partiell: talraden blir exakt "2026: räknas just nu."', talrad === '2026: räknas just nu.']);
   }
 
   // e) --slutlig: alla räknade och färdiga, inga öppna eller tomma ringar, ingen streckning. hist-mening
@@ -287,6 +296,7 @@ const oppenPartiRing = c => c.fill === PAPPER && c.stroke !== STEN;   // en seri
       ['slutlig: inga streckade sträckor', u.streckadeA === 0],
       ['slutlig: talraden börjar "2026:" utan "(preliminärt)"', u.talradText.startsWith('2026:') && !u.talradText.includes('(preliminärt)')],
       ['slutlig: hist-mening räknad på 2026, inte fryst på 2022', !u.mening.includes('till 27,2 procent')],
+      ['slutlig: bild B:s aria-label utan preliminärmarkering', !(u.ariaB || '').includes('(preliminärt)')],
     );
   }
 

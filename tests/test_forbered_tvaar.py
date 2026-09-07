@@ -18,14 +18,14 @@ def _distrikt(kod, namn):
             "rostberattigade": {"rd": 700, "rf": 700, "kf": 700}}
 
 
-def _valnattsmapp(mapp, med_swing=True):
+def _valnattsmapp(mapp, med_swing=True, kalla=None):
     """Minimal valnattsdata: fem distrikt, alla räknade i alla tre valen.
 
     Koderna är Majornas fem första, så att distrikten finns i data/valdata_2022.json och swingen går
     att räkna om när --kf-raknade doktorerar kommunvalet."""
     mapp.mkdir(parents=True, exist_ok=True)
     distrikt = [_distrikt(f"148005{25 + i}", f"Distrikt {i}") for i in range(1, 6)]
-    schema.skriv(mapp / "valdata_2026", schema.bygg_valdata("2026", distrikt, status="preliminar"))
+    schema.skriv(mapp / "valdata_2026", schema.bygg_valdata("2026", distrikt, status="preliminar", kalla=kalla))
     if med_swing:
         schema.skriv(mapp / "swing_2026", {"bas": "2022", "majorna": {}, "distrikt": {}})
     return mapp
@@ -207,3 +207,44 @@ def test_partiell_noll_ger_inga_raknade_distrikt(tmp_path):
     valdata = schema.las_js(ut / "data" / "valdata_2026.js")
     assert all(not d["raknat"] for d in valdata["distrikt"])
     assert valdata["meta"]["valnatt"]["raknade"] == 0
+
+
+def test_status_slutlig_byter_ordet_i_kallan(tmp_path):
+    """Källan i Om siffrorna säger vilken räkning talen kommer ur; statusbytet ska ta med den."""
+    ut = tmp_path / "ut"
+    kalla = "Valmyndigheten, preliminär rösträkning per valdistrikt 2026"
+    r = _kor(_valnattsmapp(tmp_path / "valnatt", kalla=kalla), ut, "--status", "slutlig")
+    assert r.returncode == 0, r.stdout + r.stderr
+    valdata = schema.las_js(ut / "data" / "valdata_2026.js")
+    assert valdata["meta"]["kalla"] == "Valmyndigheten, slutlig rösträkning per valdistrikt 2026"
+
+
+def test_status_preliminar_byter_tillbaka_ordet_i_kallan(tmp_path):
+    ut = tmp_path / "ut"
+    kalla = "Valmyndigheten, slutlig rösträkning per valdistrikt 2026"
+    r = _kor(_valnattsmapp(tmp_path / "valnatt", kalla=kalla), ut, "--status", "preliminar")
+    assert r.returncode == 0, r.stdout + r.stderr
+    valdata = schema.las_js(ut / "data" / "valdata_2026.js")
+    assert valdata["meta"]["kalla"] == "Valmyndigheten, preliminär rösträkning per valdistrikt 2026"
+
+
+def test_status_lamnar_en_kalla_utan_rakningsord_orord(tmp_path):
+    ut = tmp_path / "ut"
+    kalla = "Valmyndigheten, xlsx per valdistrikt 2022"
+    r = _kor(_valnattsmapp(tmp_path / "valnatt", kalla=kalla), ut, "--status", "slutlig")
+    assert r.returncode == 0, r.stdout + r.stderr
+    valdata = schema.las_js(ut / "data" / "valdata_2026.js")
+    assert valdata["meta"]["kalla"] == kalla
+
+
+def test_partiell_tal_en_valdatafil_utan_valnattsblock(tmp_path):
+    """Äldre vägar skriver ingen meta.valnatt; --partiell ska då lägga till blocket i stället för att krascha."""
+    mapp = _valnattsmapp(tmp_path / "valnatt")
+    valdata = schema.las_js(mapp / "valdata_2026.js")
+    valdata["meta"].pop("valnatt")
+    schema.skriv_js(mapp / "valdata_2026", valdata)
+    ut = tmp_path / "ut"
+    r = _kor(mapp, ut, "--valnatt", "--partiell", "2")
+    assert r.returncode == 0, r.stdout + r.stderr
+    ny = schema.las_js(ut / "data" / "valdata_2026.js")
+    assert ny["meta"]["valnatt"] == {"raknade": 2, "totalt": 5}

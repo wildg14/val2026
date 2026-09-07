@@ -33,8 +33,9 @@ data/valnatt/                 Valmyndighetens hämtade och uppackade filer, en m
 data/historik.json / .js      områdesserien 2006 till 2022 för sektionen "Majorna sedan 2006", byggd av bygg_historik.py
 data/swing_2022.json / .js    förändring 2022 mot 2018 (bas 2018 ur databasens tidsserie, samma_yta=True)
 data/distrikt_2006.*          förenklad geometri (17 distrikt), bara för sektionens konturkartor
-data/valdata_<år>.*           och distrikt_<år>.* för 2006, 2010, 2014 och 2018: byggda av bygg_historik.py,
-                              laddas bara om året läggs i konfigens ar (2022 skrivs aldrig över, se Historiken)
+data/valdata_<år>.*           och distrikt_<år>.* för 2006, 2010, 2014 och 2018: byggda av bygg_historik.py.
+                              2010, 2014 och 2018 står i konfigens ar och laddas när läsaren väljer året
+                              (2022 skrivs aldrig över, 2006 hör inte hemma i ar, se Historiken)
 scripts/bygg_data.py          xlsx + zip -> data/, med kontroller
 scripts/bygg_geo.py           Valmyndighetens valgeografi -> data/distrikt_<år>.geojson och .js
 scripts/bygg_historik.py      data/historik/majorna_historik.sqlite -> historik, swing_2022, distrikt_<år>
@@ -51,7 +52,7 @@ scripts/mandat.py             jämkade uddatalsmetoden
 scripts/geo.py, schema.py     geodata respektive datafilernas schema
 verktyg/                      forbered_tvaar.py (bygger testsidor) och Puppeteer-kontrollerna (tvaar-check.js,
                               historik-check.js med flera), se verktyg/README.md
-tests/                        pytest, 325 tester
+tests/                        pytest, 350 tester
 docs/superpowers/             designspec och plan
 ```
 
@@ -127,7 +128,14 @@ Två delar: statisk hosting av filerna, och ett HTML-block på Beehiiv-sidan.
 
 Beehiivs regler som bygget följer: koden börjar med en enda container-div, all CSS är scopad till `.mp-val`, inga regler på `*`, `body` eller `html`, inga `vh`-mått, ingen `position: fixed`. Testet `tests/test_inbaddning.py` vaktar det.
 
-Total sidvikt är cirka 404 kB för ett år: `du -ch valgrafik.js valgrafik.css data/konfig.js data/valdata_2022.js data/distrikt_2022.js data/bakgrund.js`. Bakgrundslagret är 228 kB av det (samma `du`-körning). Historikomgången lägger till tre filer: `data/historik.js` (25 kB) och `data/distrikt_2006.js` (9,9 kB), som sektionen läser, och `data/swing_2022.js` (6,8 kB), som går till resultatkortets bakåtvända rad, inte till sektionen. Alla tre laddas vid start; med dem inräknade (`du -ch ... data/historik.js data/swing_2022.js data/distrikt_2006.js`) blir sidvikten cirka 452 kB. På valnatten tillkommer `distrikt_2026.js`, `valdata_2026.js` och `swing_2026.js`, tillsammans 52 kB.
+Sidvikten vid start är 448 kB, med de filer sidan faktiskt hämtar:
+
+```bash
+du -ch valgrafik.js valgrafik.css data/konfig.js data/valdata_2022.js data/distrikt_2022.js \
+       data/swing_2022.js data/bakgrund.js data/historik.js data/distrikt_2006.js
+```
+
+Bakgrundslagret är 228 kB av det, historiksektionens `historik.js` 25 kB och `distrikt_2006.js` 9,9 kB, och `swing_2022.js` 6,8 kB (den går till de små talen vid staplarna i kortet, inte till sektionen). Konfigen listar fyra år, men bara standardåret laddas vid start: hade alla fyra laddats hade samma `du`-körning gett 572 kB, alltså 124 kB mer. Varje ytterligare år kostar cirka 40 kB (valdata plus polygoner) och hämtas först när läsaren väljer det i årväljaren, se avsnittet Årväljaren och den lata laddningen. På valnatten tillkommer `distrikt_2026.js`, `valdata_2026.js` och `swing_2026.js`, tillsammans 52 kB, och jämförelseåret laddas då också vid start.
 
 ## Beehiiv
 
@@ -168,8 +176,31 @@ Nycklarnas standardvärden ligger i `scripts/schema.KONFIG_STANDARD` och bevaras
 Tre nycklar till styr sidhuvudet och historiksektionen:
 
 - `valdag` (`"2026-09-13"`) används i statusraden före valdagen: "Slutligt resultat 2022. Valet 2026 är söndag 13 september."
-- `toppsvar.mening` är en redaktionell mening under toppsvaret, tom som standard. Håll den till en rad, cirka 60 tecken: sidan reserverar höjd för en rad extra, en längre mening kan ge några pixlars hopp på små telefoner.
-- `historik` (`visa` och en mening per val) hör till sektionen "Majorna sedan 2006", som byggs i en egen plan.
+- `toppsvar.mening` är en redaktionell mening under toppsvaret, tom i `schema.KONFIG_STANDARD` och satt till "Från klockan 20 på valnatten kommer siffrorna löpande här." i `data/konfig.json`. Håll den till en rad, cirka 60 tecken: sidan reserverar höjd för en rad extra (`har-mening`), en längre mening kan ge några pixlars hopp på små telefoner.
+- `historik` (`visa` och en mening per val) hör till sektionen "Majorna sedan 2006".
+
+## Årväljaren och den lata laddningen
+
+Sidan kan visa flera valår. Vilka står i `data/konfig.json`:
+
+```json
+"ar": ["2010", "2014", "2018", "2022"],
+"standardAr": "2022"
+```
+
+`ar` är åren i väljaren, `standardAr` det år sidan öppnar på. Väljaren är en `<select>` (`#arval-select`) i sidhuvudet, med åren nyast först och etiketterna "Valet 2022", "Valet 2018" och så vidare. Raden är dold när `ar` har färre än två år, och den tar plats så snart konfigen är läst (44 px) så att sidhuvudet inte hoppar.
+
+**Bara ett år laddas vid start.** `start()` hämtar `standardAr`, plus året i URL-parametern `ar` om det är ett annat, plus - när `"valnatt": true` - det största året under standardåret (jämförelseåret, som kortet behöver för ett oräknat distrikt). Övriga år i `ar` hämtas först när läsaren väljer dem, en gång per år. Det är därför fyra år i konfigen inte gör starten tyngre: 448 kB i stället för 572 kB, se Publicera.
+
+Under laddningen står den nuvarande vyn kvar, väljaren är `disabled` med `aria-busy`, och fokus läggs tillbaka på väljaren när året är inne. Går året inte att ladda står vyn kvar, väljaren faller tillbaka på det år som visas, och raden `#arval-fel` säger "Valet 2014 kunde inte laddas."; den försvinner vid nästa lyckade byte. Ett år som saknar filer tas alltså inte tyst ur väljaren - det går att försöka igen.
+
+Att lägga till ett år: bygg `data/valdata_<år>.*` och `data/distrikt_<år>.*` (se Historiken), lägg året i `ar` och skriv om `konfig.js`:
+
+```bash
+.venv/bin/python -c "from scripts import schema; schema.skriv_konfig('data', schema.las_konfig('data'))"
+```
+
+2006 hör inte hemma i `ar`: `data/distrikt_2006.*` är förenklad geometri för historiksektionens konturkartor.
 
 ## Stillbilder för nyhetsbrevet
 
@@ -191,16 +222,17 @@ I Beehiiv: lägg in bilden med alt-texten och länka den till sidan (`#jamforels
 
 ## Historiken
 
-Sektionen "Majorna sedan 2006" ligger näst sist på sidan, ovanför "Om siffrorna" och sidfoten, och visar Majornas valresultat över tid, oberoende av vilket år kartan ovanför står på - utom konturkartorna, som följer kartans år. Den har fyra delar:
+Sektionen "Majorna sedan 2006" ligger näst sist på sidan, ovanför "Om siffrorna" och sidfoten, och visar Majornas valresultat över tid, oberoende av vilket år kartan ovanför står på - utom konturkartorna, som följer kartans år. Den har tre delar:
 
 - En rubrikmening per val (`#hist-mening`), antingen ur `KONFIG.historik.mening` (redaktörens egen text) eller räknad ur serien (Vänsterpartiets andel första och sista år).
-- Bild A: partilinjerna V, S, MP och SD, och från 600 px containerbredd även M, 2006 till i dag, y-axel 0 till 40 procent (vidgas i femprocentssteg om ett parti ligger utanför). En läslinje flyttas med klick, piltangenterna eller Home och End utan att bilden ritas om; talraden under bilden visar det valda årets tal som en rad `span.hist-tal` som får radbrytas, och listar hela valets partiuppsättning (`meta.partier_per_val` utom Övriga), inte bara de partier som ritas som linjer. Noten under bilden nämner hur många distrikt Majorna bestått av per år och vilka partier som ligger i Övriga för valet (till exempel Feministiskt initiativ i riksdagsvalet 2014).
-- Bild B: valdeltagandet i Majorna mot Göteborg, och på desktop även riket streckat i riksdagsvalet. Y-axel 70 till 90 procent (vidgas i femprocentssteg om ett år ligger utanför), egen rubrikmening och not.
-- Konturkartorna: 2006 (ur `data/distrikt_2006.js`, förenklad geometri, 17 distrikt) mot det visade årets geometri (23 distrikt för 2022 och 2026, 22 för 2018), som två små `figure`-element, `aria-hidden` eftersom de inte går att interagera med. Noten säger att ytan är densamma trots fler distrikt i dag och att valhemligheten gäller per distrikt, inte per person.
+- Valdeltagandebilden: Majorna mot Göteborg, och på desktop även riket streckat i riksdagsvalet. Y-axel 70 till 90 procent (vidgas i femprocentssteg om ett år ligger utanför). Över bilden står en etikett som säger vad den visar - "Valdeltagande i riksdagsvalet", utan årtal och tal, eftersom skalan 70 till 90 annars läses som partiernas andelar. Talen står i bildens `aria-label` tillsammans med serierna år för år. Noten under bilden säger var skalan börjar, och lägger till en mening om en jämförelselinje slutar tidigare än Majornas.
+- Konturkartorna: 2006 (ur `data/distrikt_2006.js`, förenklad geometri, 17 distrikt) mot det visade årets geometri, som två små `figure`-element, `aria-hidden` eftersom de inte går att interagera med. Noten räknas fram ur kartorna: har det visade året fler distrikt än 2006 lyder första meningen "Samma yta, fler distrikt. Ett kvarter 2006 är ofta två i dag.", annars "Samma yta, lika många distrikt, men gränserna är omritade." Distrikt per år: 2006 17, 2010 17, 2014 17, 2018 22, 2022 23, 2026 23. Sedan följer att valhemligheten gäller per distrikt, inte per person.
 
-Sektionen följer kartans val (riksdag, region eller kommun) men inte kartans årsknapp: sista punkten i bild A och B kommer alltid från det senast laddade året (det största i `KONFIG.ar`) och ritas bara när alla Majornas distrikt är räknade i det valet - för jämförelseområdena krävs dessutom att området självt är färdigräknat. Kartorna följer däremot årsknappen, eftersom de svarar på en fråga om det år kartan visar. Före valdagen står 2026 som en tom ring på skalans nedersta nivå med texten "räknas på valnatten"; är alla distrikt räknade men resultatet preliminärt blir ringen öppen i partifärg med en streckad sista sträcka och "(preliminärt)" i talraden; är resultatet slutligt blir punkten fylld och rubrikmeningarna räknas på 2026. På valnatten (`KONFIG.valnatt` sant) lyder texten vid ringen "räknas just nu" i stället för "räknas på valnatten", i bilderna, talraden och deras aria-label.
+Partilinjediagrammet som låg först i sektionen (bild A, med läslinje och talrad) togs bort 2026-09-07 efter Daniels genomgång: det tog mer plats än det svarade på.
 
-Sektionen döljs när `data/historik.js` saknas eller `KONFIG.historik.visa` är `false`, vilket stänger av laddningen av `historik.js` och `distrikt_2006.js`. `swing_2022.js` laddas oberoende av det, så länge 2022 står i `KONFIG.ar` - den filen hör till resultatkortets rad "Hur har det ändrats", inte till sektionen. Alla tre laddas vid start i samma svep som årets egna filer, och en fil som inte går att ladda fångas av sidan: saknas `historik.js` döljs sektionen, saknas `distrikt_2006.js` utgår bara konturkartorna, och saknas `swing_2022.js` uteblir bara kortets förändringsrad. (Verktygens undantag för en 404 som en valfri fil gäller bara swingfilerna.)
+Sektionen följer kartans val (riksdag, region eller kommun) men inte årväljaren: sista punkten i valdeltagandebilden kommer alltid från det senast laddade året och ritas bara när alla Majornas distrikt är räknade i det valet - för jämförelseområdena krävs dessutom att området självt är färdigräknat. Konturkartorna följer däremot årväljaren, eftersom de svarar på en fråga om det år kartan visar. Före valdagen står 2026 som en tom ring på skalans nedersta nivå med texten "räknas på valnatten"; är alla distrikt räknade men resultatet preliminärt blir ringen öppen med en streckad sista sträcka och "(preliminärt)" i beskrivningen; är resultatet slutligt blir punkten fylld och rubrikmeningen räknas på 2026. På valnatten (`KONFIG.valnatt` sant) lyder texten vid ringen "räknas just nu" i stället för "räknas på valnatten", i bilden och i dess aria-label.
+
+Sektionen döljs när `data/historik.js` saknas eller `KONFIG.historik.visa` är `false`, vilket stänger av laddningen av `historik.js` och `distrikt_2006.js`. Båda laddas annars vid start. `swing_<år>.js` hör inte till sektionen utan till de små talen vid staplarna i resultatkortet, och laddas tillsammans med sitt år. En fil som inte går att ladda fångas av sidan: saknas `historik.js` döljs sektionen, saknas `distrikt_2006.js` utgår bara konturkartorna, och saknas `swing_<år>.js` uteblir bara de små talen för det året. (Verktygens undantag för en 404 som en valfri fil gäller bara swingfilerna.)
 
 **Bygga om filerna.** Databasen (`scripts/historik/bygg_databas.py`, se `docs/historik/README.md`) byggs om först vid behov, sedan:
 
@@ -214,7 +246,7 @@ Underkommandona `historik`, `swing2022`, `geo2006` och `ar [år ...]` går att k
 
 **2002 är utelämnat.** Valdistrikten ritades om helt inför valet 2006, så 2002 går inte att räkna om till dagens Majorna; serien börjar därför 2006.
 
-**Historikår i kartan.** 2018 går att lägga i `KONFIG.ar` som vilket annat år som helst (22 distrikt, kartan, kortet, tabellen och Röstdelningen fungerar). **2006 får däremot inte läggas där**: `data/distrikt_2006.*` är en förenklad geometri (17 distrikt) byggd bara för sektionens små konturkartor, inte den fullständiga kartans upplösning.
+**Historikår i kartan.** 2010, 2014 och 2018 ligger i `KONFIG.ar` sedan 2026-09-07 och fungerar som vilket annat år som helst i kartan, kortet, tabellen och Röstdelningen (17, 17 respektive 22 distrikt). De laddas när läsaren väljer dem, se Årväljaren och den lata laddningen. **2006 får däremot inte läggas där**: `data/distrikt_2006.*` är en förenklad geometri (17 distrikt) byggd bara för sektionens små konturkartor, inte den fullständiga kartans upplösning.
 
 **Testsidor.** `verktyg/forbered_tvaar.py --partiell N` markerar de N första distrikten som räknade i alla tre valen (resten oräknade) och räknar om testsidans swingfil; `verktyg/historik-check.js --sida= --prel= --partiell= --slutlig=` kontrollerar sektionen i fyra lägen (före valdagen, allt räknat preliminärt, delvis räknat, slutligt), se `verktyg/README.md`.
 
@@ -296,7 +328,7 @@ eftersom `--hamta` med samma filer bara ger kod 3. `--tvinga` ersätter hela fil
 
 Läs varningarna. `VARNING:` betyder att filerna skrevs men att något avviker: Göteborg har ett annat antal distrikt än 397, ett distrikt saknas i filen (markeras som oräknat), ett distrikt har bytt namn sedan 2022, ett okänt parti fick över 0,5 procent i något distrikt (röster läggs i Övriga), filhuvudets antal räknade stämmer inte med Majornas, ett jämförelseaggregat kunde inte läsas, eller två filer bedömer samma distrikt olika i jämförbarhet mot 2022 ("bedöms jämförbart men en tidigare fil sa tvärtom, sätts till ej jämförbart"). `FEL:` betyder att ingenting skrevs. Kontrollera ett distrikt mot val.se första gången, och öppna majposten.se/val2026 efter första pushen.
 
-**Jämförbarhet mot 2022** kommer ur fältet `statusJamforelse` i Valmyndighetens filer, kontrollerat mot `valdistrikt-jamforelser-mellan-2022-och-2026.xlsx`: 14 av 23 distrikt kan jämföras, 9 är omritade. Säger någon av källorna "ej jämförbart" gäller det. Kortets rad "Hur har det ändrats" visar tal bara för de 14; de 9 får en mening och hela Majornas förändring, som är giltig eftersom de 23 distrikten täcker samma yta båda åren.
+**Jämförbarhet mot 2022** kommer ur fältet `statusJamforelse` i Valmyndighetens filer, kontrollerat mot `valdistrikt-jamforelser-mellan-2022-och-2026.xlsx`: 14 av 23 distrikt kan jämföras, 9 är omritade. Säger någon av källorna "ej jämförbart" gäller det. Kortets små tal vid staplarna visas bara för de 14; de 9 får i stället meningen om att gränserna ritats om. Hela Majornas förändring gäller ändå, eftersom de 23 distrikten täcker samma yta båda åren.
 
 **Partier som inte förekommer i Valmyndighetens fil saknas i datan.** De skrivs varken som nollor eller markeras. I den preliminära filen betyder det att partiet inte är rapportparti och att rösterna ligger i Övriga; i den slutliga att partiet inte fick någon röst i distriktet. Ett sådant parti visas inte på sidan och får ingen förändringssiffra: hellre ingen siffra än en påhittad nolla. I genrepets filer gäller det K i kommunvalet och FI i regionvalet.
 
@@ -304,7 +336,9 @@ Läs varningarna. `VARNING:` betyder att filerna skrevs men att något avviker: 
 
 **Valdeltagandet i aggregaten** räknas mot röstberättigade i räknade distrikt, inte mot hela områdets väljarkår; annars visar riket 12 procent klockan 20.30. Toppsvarets mening tar med riket först när även riket är färdigräknat, eftersom de distrikt som kommer först i landet är små och lantliga. "Majorna mot Sverige" och halvcirkeln säger under bilden hur långt jämförelseområdet kommit så länge det är delvis räknat.
 
-**Sidan under kvällen:** statusraden överst säger "Preliminärt, X av 23 distrikt räknade. Uppdaterad HH:MM." med knappen "Ladda om" bredvid, och toppsvaret under den visar de fyra största partierna i riksdagsvalet utan någon valdeltagandemening förrän alla 23 distrikt är räknade. Byter läsaren till Valet 2022 lyder raden "Slutligt resultat 2022. Ladda om", och knappen tar tillbaka till den levande vyn. Oräknade distrikt gråtonas på kartan, Majorna-snittet räknas på räknade distrikt, och kortets rad "Hur har det ändrats" säger "räknat på N jämförbara distrikt av 23" tills alla är räknade.
+**Sidan under kvällen:** statusraden överst säger "Preliminärt, X av 23 distrikt räknade. Uppdaterad HH:MM." med knappen "Ladda om" bredvid, och toppsvaret under den visar de största partierna i riksdagsvalet (fyra på en telefon, alla utom Övriga från 600 px containerbredd) utan någon valdeltagandemening förrän alla 23 distrikt är räknade. Byter läsaren till Valet 2022 lyder raden "Slutligt resultat 2022. Ladda om", och knappen tar tillbaka till den levande vyn. Oräknade distrikt gråtonas på kartan, Majorna-snittet räknas på räknade distrikt, och legendraden under kortets små tal säger "räknat på N jämförbara distrikt av 23" tills alla är räknade.
+
+**Jämförelseåret laddas vid start på valnatten.** Åren i konfigen laddas annars först när läsaren väljer dem (se Årväljaren och den lata laddningen), men när `"valnatt": true` hämtar sidan också det största året under standardåret. Kortet för ett distrikt som ännu inte är räknat visar hur distriktet röstade förra valet ("Så röstade Mariaplan 2022"), och den raden slår upp basåret bland de laddade åren: utan förladdningen står kortet tomt den första timmen, när de flesta distrikt är oräknade. `verktyg/tvaar-check.js --partiell=` vaktar det.
 
 ### Reservväg
 
@@ -378,8 +412,9 @@ CSV-vägen:
 
 Sidan:
 
-- "Datafilerna kunde inte laddas" - `data/valdata_2026.js` eller `data/distrikt_2026.js` saknas på hosten trots att konfigen listar 2026, eller `data-bas` i Beehiiv-blocket pekar fel. Ett år vars filer inte går att ladda hoppas över med en varning i konsolen; sidan felar först när inget år går att ladda.
-- 404 på `data/swing_<år>.js` i konsolen är ofarligt: filen är valfri, och året visas då utan förändringstal.
+- "Datafilerna kunde inte laddas" - standardårets `valdata_<år>.js` eller `distrikt_<år>.js` saknas på hosten, eller `data-bas` i Beehiiv-blocket pekar fel. Sidan felar bara när inget år alls gick att ladda.
+- "Valet 2014 kunde inte laddas." under årväljaren - året står i `KONFIG.ar` men dess `valdata_<år>.js` eller `distrikt_<år>.js` saknas på hosten. Den vy läsaren hade står kvar, väljaren faller tillbaka på det år som visas, och raden försvinner vid nästa lyckade byte. Året tas inte ur väljaren, så ett nytt försök går att göra när filen är på plats.
+- 404 på `data/swing_<år>.js` i konsolen är ofarligt: filen är valfri, och året visas då utan små tal vid staplarna.
 
 ## Djuplänkar
 
@@ -389,10 +424,12 @@ Sidan läser och skriver URL-parametrar, så ett kvarter kan länkas direkt frå
 index.html?distrikt=14800530                 Mariaplan, riksdagsvalet
 index.html?distrikt=14800530&val=kf          samma distrikt, kommunvalet
 index.html?lage=styrka&parti=SD&val=rf       partistyrka för SD i regionvalet
-index.html?ar=2026&distrikt=14800527         valet 2026 (när det finns i KONFIG.ar)
+index.html?ar=2018&distrikt=14800527         valet 2018 (året måste stå i KONFIG.ar)
 ```
 
-Sidan rullar till kartan när `distrikt` finns i länken. Distriktskoder:
+Sidan rullar till kartan när `distrikt` finns i länken.
+
+`ar` är den enda parametern som kostar en filhämtning. Åren laddas annars först när läsaren väljer dem i väljaren, men ett år som står i URL:en laddas vid start tillsammans med standardåret, så att länken landar rätt direkt. Ett år som inte står i `KONFIG.ar` ignoreras. Distriktskoder:
 
 | Kod | Distrikt |
 |---|---|
@@ -437,7 +474,7 @@ mandat      riksdag_verklig, riksdag_majorna, metod
 
 `jamforbar_mot_bas` och `grans_andrad` är samma uppgift åt två håll: distriktet kan jämföras med basåret, respektive dess gränser har ritats om. `antal_distrikt` och `totalt_distrikt` i aggregaten säger hur långt jämförelseområdet kommit i räkningen; `rostberattigade` där gäller räknade distrikt. I historikårens filer (byggda av `bygg_historik.py`) utelämnas ett nyckelparti som saknar rader ett visst år och val (till exempel D före 2018) helt ur `distrikt[].rd/rf/kf` och ur `aggregat` i stället för att skrivas som noll.
 
-`data/swing_<år>.json`: förändring i procentenheter mot basåret. Sidan visar den som små tal vid staplarna och som raden "Hur har det ändrats" i kortet.
+`data/swing_<år>.json`: förändring i procentenheter mot basåret. Sidan visar den som små tal vid staplarna i resultatkortet, med en legendrad under.
 
 ```
 ar, bas, enhet   2026, 2022, "procentenheter"
@@ -447,7 +484,7 @@ majorna          {val: {parti: tal}} för hela Majorna, räknat på kohorten
 kohort           {val: {antal, totalt, helomrade, koder}} - vilka distrikt majorna-talen vilar på
 ```
 
-Ett parti som saknas i något av åren utelämnas ur diffen i stället för att visas som en förändring till eller från noll. Är `helomrade` sant jämförs hela området mot hela basåret; annars bara de distrikt som är både räknade och jämförbara, och kortet skriver ut "räknat på N jämförbara distrikt av 23".
+Ett parti som saknas i något av åren utelämnas ur diffen i stället för att visas som en förändring till eller från noll. Är `helomrade` sant jämförs hela området mot hela basåret; annars bara de distrikt som är både räknade och jämförbara, och legendraden under kortets små tal skriver ut "räknat på N jämförbara distrikt av 23".
 
 `data/konfig.json`: `ar`, `standardAr`, `valnatt`, `adress`, `inbaddad`, `skrivUrl`, `stickyTopp`, `valdag`, `toppsvar` (`mening`), `historik` (`visa`, `mening` per val), `samarbete` (med `valvaka`) och `hjalp`. Standardvärdena ligger i `scripts/schema.KONFIG_STANDARD`.
 
@@ -468,11 +505,11 @@ Andelar räknas alltid i sidan som parti delat med giltiga röster. Inga tal är
 
 ## Designval
 
-Sidhuvudet svarar på frågan innan läsaren scrollar: en statusrad ("Preliminärt, 12 av 23 distrikt räknade. Uppdaterad 21:35.", "Slutligt resultat 2022. Valet 2026 är söndag 13 september.") och under den ett toppsvar med de fyra största partierna i riksdagsvalet som korta staplar. Valdeltagandemeningen under staplarna kommer först när hela Majorna är färdigräknad i det visade valet; fram till dess visas bara de fyra staplarna. Banderollen och ingressen som fanns tidigare är borttagna: de sade samma sak två gånger och sköt ned kartan. Statusraden och toppsvaret har reserverad höjd (52 px respektive 208 px, statusraden 26 px från 600 px containerbredd) och årväljarens rad reserveras så fort konfigen listar två år, så att sidhuvudet inte hoppar när datan kommer. Har-mening (klassen som sätts när `toppsvar.mening` är satt) höjer toppsvarets reserverade höjd till 270 px, 244 px från 600 px containerbredd, eftersom meningen tar två rader på smala containrar. I nolläget (0 av 23 räknade) visar toppsvaret bara en rad ("Riksdagsvalet 2026: inget distrikt räknat än.") i den 208 px höga rutan i stället för att krympa den - avsiktligt, så att höjden är densamma före och efter att det första distriktet räknas. "Ladda om" är en `<button>` med länkutseende, inte en länk: den laddar om värdsidan, och en länk hade gått att cmd-klicka till ingenstans.
+Sidhuvudet svarar på frågan innan läsaren scrollar: en statusrad ("Preliminärt, 12 av 23 distrikt räknade. Uppdaterad 21:35.", "Slutligt resultat 2022. Valet 2026 är söndag 13 september.") och under den ett toppsvar med de största partierna i riksdagsvalet som korta staplar. Under 600 px containerbredd är det fyra partier; från 600 px visas alla utom Övriga, eftersom raderna då får plats utan att sidhuvudet blir en vägg. Valdeltagandemeningen under staplarna kommer först när hela Majorna är färdigräknad i det visade valet. Banderollen och ingressen som fanns tidigare är borttagna: de sade samma sak två gånger och sköt ned kartan. Höjderna är reserverade så att sidhuvudet inte hoppar när datan kommer: statusraden 52 px under 600 px containerbredd och 26 px däröver, toppsvaret 208 px respektive 352 px, och med `har-mening` (klassen som sätts när `toppsvar.mening` är satt) 270 respektive 388 px. Årväljarens rad är 44 px med `margin: 0 0 12px` så fort konfigen listar två år. I nolläget (0 av 23 räknade) visar toppsvaret bara en rad ("Riksdagsvalet 2026: inget distrikt räknat än.") i den reserverade rutan i stället för att krympa den - avsiktligt, så att höjden är densamma före och efter att det första distriktet räknas. "Ladda om" är en `<button>` med länkutseende, inte en länk: den laddar om värdsidan, och en länk hade gått att cmd-klicka till ingenstans.
 
-Resultatkortet har raden "Hur har det ändrats" i tre grenar. Ett jämförbart distrikt får tal för de tre största partier som har tal i swingfilen. Ett omritat distrikt får meningen "Gränserna för Mariaplan ritades om till 2026" och hela Majornas förändring för distriktets största parti. Hela Majorna får talen med kohorttexten "räknat på N jämförbara distrikt av 23" tills alla är räknade. Partier som saknar tal i swingfilen visas inte alls, aldrig som "0,0".
+Resultatkortet visar distriktets namn och staplarna, inget mer i löptext; topp tre-meningen finns bara i skärmläsarraden (`#panel-live`). Förändringen mot förra valet står som små tal vid staplarna, med legendraden "Små tal: förändring mot 2022 i procentenheter" under dem; för hela Majorna får den raden kohorttexten "räknat på N jämförbara distrikt av 23" tills alla är räknade. Ett parti som saknar tal i swingfilen får inget litet tal, aldrig "0,0". Ett omritat distrikt har inga små tal alls och får i stället en fristående mening som säger varför - `ej_jamforbara[kod].mening` ur swingfilen, som för 2026 lyder "Gränserna för Mariaplan ritades om till 2026. Siffrorna går inte att jämföra med 2022." Skärmläsarraden slutar med den meningen. Blocket "Hur har det ändrats", som upprepade de små talen i egna rader, togs bort 2026-09-07, liksom kortets rad med valdeltagande och giltiga röster (valdeltagandet står redan i toppsvaret). Kvar i den raden står bara valnattens "X av 23 distrikt räknade."; utanför valnatten är den tom och dold.
 
-Kartan är inline-SVG utan kartbibliotek: inga externa beroenden, fungerar offline, kapar inte sidscrollen på mobil. Orienteringen kommer från ett lokalt bakgrundslager (OpenStreetMap, hämtat vid byggtid). Saknas `data/bakgrund.js` ritas kartan mot enfärgad bakgrund. Färger kompletteras alltid med text: partibokstav och procent på kartan, tabellvy för alla distrikt, aria-etiketter på varje distrikt. Kartans typstorlekar (etiketter, hållplatsnamn, kontur) räknas om löpande efter kartans faktiska pixelbredd, inte efter en fast 600 px-tröskel, så texten håller samma storlek i pixlar oavsett hur brett Beehiivs sektion råkar vara.
+Kartan är inline-SVG utan kartbibliotek: inga externa beroenden, fungerar offline, kapar inte sidscrollen på mobil. Orienteringen kommer från ett lokalt bakgrundslager (OpenStreetMap, hämtat vid byggtid). Saknas `data/bakgrund.js` ritas kartan mot enfärgad bakgrund. I läget Största parti skriver kartan inga partibokstäver: kartlegenden ovanför säger vilken färg som är vilket parti, och formerna får bära resten. Det valda distriktets namn ritas fortfarande ut, och läget Partistyrka har kvar sitt tal i varje distrikt. Färger kompletteras alltid med text på annat håll: legenden ovanför kartan, tabellvyn för alla distrikt och aria-etiketter på varje distrikt. Distriktsgränsen är 3 px papper, 3,5 px och bläck vid hover - samma bredd som bildläget redan använde. Kartans typstorlekar (etiketter, hållplatsnamn, kontur) räknas om löpande efter kartans faktiska pixelbredd, inte efter en fast 600 px-tröskel, så texten håller samma storlek i pixlar oavsett hur brett Beehiivs sektion råkar vara.
 
 Utseendet följer Majpostens palett och typografi (Georgia och Arial, papper och slottsskogsgrön, inga skuggor eller gradienter). I Partistyrka är toppsteget i legenden alltid partiets egen färg, aldrig mörkad mot bläck; för ljusa partifärger (SD, Liberalerna) sprids de undre stegens toner mer så att de fortfarande syns som skilda nyanser.
 

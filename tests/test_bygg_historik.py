@@ -69,6 +69,16 @@ def test_historik_json_form_och_summor(tmp_path):
 
 
 @finns
+def test_historik_kalla_utan_repo_sokvag(tmp_path):
+    """meta.kalla är publicerad text på sidan, precis som valdata_<år>.json:s (se
+    test_valdata_meta_slutlig_och_kalla_namner_aret) - den ska aldrig nämna en sökväg i repot."""
+    r = kor("historik", "--ut", str(tmp_path))
+    assert r.returncode == 0, r.stdout + r.stderr
+    hst = json.loads((tmp_path / "historik.json").read_text("utf-8"))
+    assert "data/" not in hst["meta"]["kalla"] and ".sqlite" not in hst["meta"]["kalla"]
+
+
+@finns
 def test_historik_2022_ar_identisk_med_valdata_2022(tmp_path):
     r = kor("historik", "--ut", str(tmp_path))
     assert r.returncode == 0, r.stdout + r.stderr
@@ -186,6 +196,59 @@ def test_bygg_historik_upptacker_olika_metod_mellan_valen(tmp_path):
     r = kor("historik", "--db", str(kopia), "--ut", str(tmp_path / "ut"))
     assert r.returncode != 0
     assert "FEL:" in r.stderr and "2018" in r.stderr
+
+
+@finns
+def test_vgregion_dubbel_rad_for_parti_ger_fel(tmp_path):
+    """En andra rad för samma kanoniserade parti i vgregion-aggregatet (två källkoder som
+    kanoniseras till samma parti, ett datafel) ska stoppa med FEL i stället för att tyst summera
+    eller skriva över den första raden. parti (den okanoniserade koden) är primärnyckel tillsammans
+    med ar/val/niva, så dubbletten måste ha ett annat parti-värde för att alls gå att skriva in -
+    parti_kanon är däremot detsamma som originalraden."""
+    kopia = tmp_path / "vgregion_dubblett.sqlite"
+    shutil.copy(DB, kopia)
+    con = sqlite3.connect(kopia)
+    con.execute(
+        "INSERT INTO aggregat (ar, val, niva, parti, roster, andel, parti_kalla, giltiga, rostande, rostberattigade, parti_kanon, kalla) "
+        "SELECT ar, val, niva, 'V_DUBBLETT', roster, andel, parti_kalla, giltiga, rostande, rostberattigade, parti_kanon, kalla "
+        "FROM aggregat WHERE ar=2018 AND val='rf' AND niva='vgregion' AND parti_kanon='V'")
+    con.commit()
+    con.row_factory = sqlite3.Row
+    with pytest.raises(SystemExit, match="förekommer på flera rader"):
+        bygg_historik._vgregion(con, 2018, "rf")
+    con.close()
+
+
+@finns
+def test_vgregion_oeniga_summor_ger_fel(tmp_path):
+    """giltiga ska vara enigt över vgregion-aggregatets rader - en rad med ett annat giltiga-tal
+    är ett datafel, samma vakt som _post har för tidsserien."""
+    kopia = tmp_path / "vgregion_oenig.sqlite"
+    shutil.copy(DB, kopia)
+    con = sqlite3.connect(kopia)
+    con.execute("UPDATE aggregat SET giltiga = giltiga + 1 WHERE ar=2018 AND val='rf' AND niva='vgregion' AND parti_kanon='V'")
+    con.commit()
+    con.row_factory = sqlite3.Row
+    with pytest.raises(SystemExit, match="giltiga"):
+        bygg_historik._vgregion(con, 2018, "rf")
+    con.close()
+
+
+@finns
+def test_vgregion_null_rostande_ger_none(tmp_path):
+    """rostande och rostberattigade NULL i vgregion-aggregatet ska ge None, inte 0 - så
+    valdeltagande blir okänt (None) i stället för en falsk nolla."""
+    kopia = tmp_path / "vgregion_null.sqlite"
+    shutil.copy(DB, kopia)
+    con = sqlite3.connect(kopia)
+    con.execute("UPDATE aggregat SET rostande = NULL, rostberattigade = NULL WHERE ar=2018 AND val='rf' AND niva='vgregion'")
+    con.commit()
+    con.row_factory = sqlite3.Row
+    post = bygg_historik._vgregion(con, 2018, "rf")
+    con.close()
+    assert post is not None
+    assert post["rostande"] is None and post["rostberattigade"] is None and post["valdeltagande"] is None
+    assert post["giltiga"] > 0
 
 
 def test_oppna_saknad_tabell(tmp_path):
@@ -670,7 +733,7 @@ def test_valdata_2018_byte_identisk_oberoende_av_hashfro(tmp_path):
 
 def test_ar_2022_avvisas_av_tillatlistan(tmp_path):
     """"ar 2022" skrev tidigare över sidans kanoniska data/valdata_2022.json (ur databasen, med annan
-    kalla) innan körningen dog på saknad geometri - HISTORIK_AR spärrar det innan något skrivs."""
+    kalla) innan körningen dog på saknad geometri - BYGGBARA_AR spärrar det innan något skrivs."""
     r = kor("ar", "2022", "--ut", str(tmp_path))
     assert r.returncode == 1
     assert "FEL:" in r.stderr and "2022" in r.stderr

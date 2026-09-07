@@ -1,7 +1,7 @@
 {
  "meta": {
-  "byggd": "2026-09-07T05:44:21",
-  "kalla": "Valmyndigheten, slutlig rösträkning per valdistrikt 2006 till 2022, sammanställd i data/historik/majorna_historik.sqlite",
+  "byggd": "2026-09-07T10:06:21",
+  "kalla": "Valmyndigheten, slutlig rösträkning per valdistrikt 2006 till 2022.",
   "ar": [
    2006,
    2010,

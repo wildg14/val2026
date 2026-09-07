@@ -36,17 +36,17 @@ from scripts.valmyndigheten import MAJORNA_KODER, NYCKELPARTIER, OVRIGA, VAL  # 
 DB = ROT / "data" / "historik" / "majorna_historik.sqlite"
 KEDJA = ROT / "data" / "historik" / "kedja_majorna_2006_2022.csv"
 GEO_HISTORIK = ROT / "data" / "historik"
-AR = [2006, 2010, 2014, 2018, 2022]
+AR = [2006, 2010, 2014, 2018, 2022]  # seriens fem år (historik.json och swing_2022, oavsett underkommando)
 BAS_AR = 2018  # basår för swing_2022 (Task 2)
 # Tillåtlista för underkommandot "ar": bara dessa år byggs härifrån. 2022 och 2026 har sina egna,
 # kanoniska data/valdata_<år>-filer (byggda av bygg_data.py respektive uppdatera_2026.py) - utan den
 # här spärren skrev "ar 2022" tidigare över den kanoniska filen, med annan `kalla`, innan körningen
 # dog på saknad geometri (distrikt_2022_majornaomradet.geojson finns inte i historikkatalogen).
-HISTORIK_AR = [2006, 2010, 2014, 2018]
+BYGGBARA_AR = [2006, 2010, 2014, 2018]
 PARTIER = ["V", "S", "MP", "SD", "M", "C", "L", "KD", "D", "FI", "K", OVRIGA]
 ALLA_KODER = [p for p in PARTIER if p != OVRIGA]  # de elva namngivna partikoderna, oavsett vilket val de har egen kolumn i
 NIVAER = ["majorna", "goteborg", "riket"]
-KALLA = "Valmyndigheten, slutlig rösträkning per valdistrikt 2006 till 2022, sammanställd i data/historik/majorna_historik.sqlite"
+KALLA = "Valmyndigheten, slutlig rösträkning per valdistrikt 2006 till 2022."
 
 
 def oppna(path=DB):
@@ -423,6 +423,8 @@ def _vgregion(con, ar, val):
     _post: en dubblettrad för samma parti är ett datafel (SystemExit), giltiga/rostande/rostberattigade
     ska vara eniga över raderna, och NULL blir None - inte 0 - för rostande och rostberattigade."""
     rader = con.execute(
+        # ORDER BY parti löser till SELECT-listans alias (parti_kanon, den kanoniserade koden) -
+        # inte tabellens egen kolumn parti (den okanoniserade koden ur källfilen).
         "SELECT parti_kanon AS parti, roster, giltiga, rostande, rostberattigade FROM aggregat "
         "WHERE ar=? AND val=? AND niva='vgregion' ORDER BY parti", (ar, val)).fetchall()
     if not rader:
@@ -526,13 +528,13 @@ def main():
     if a.vad in ("historik", "swing2022", "geo2006") and a.aren:
         print(f"FEL: {a.vad} tar inga år, fick {' '.join(a.aren)}", file=sys.stderr)
         return 1
-    aren = a.aren or [str(x) for x in HISTORIK_AR]
     if a.vad in ("ar", "allt"):
+        aren = a.aren or [str(x) for x in BYGGBARA_AR]
         for s in aren:
             if not s.isdigit():
                 print(f"FEL: {s!r} är inte ett årtal", file=sys.stderr)
                 return 1
-            if int(s) not in HISTORIK_AR:
+            if int(s) not in BYGGBARA_AR:
                 print(f"FEL: {int(s)} byggs inte av det här skriptet "
                       "(2022 och 2026 byggs av bygg_data.py och uppdatera_2026.py)", file=sys.stderr)
                 return 1

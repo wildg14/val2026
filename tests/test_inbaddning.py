@@ -249,15 +249,16 @@ def test_valdeltagandebilden():
     assert "Skalan börjar vid" in js, "bildtexten säger var skalan börjar"
     assert re.search(r'gron:\s*"#3F5A3A"', js), "slottsskogsgrönt är Majornas linje"
     kropp = js[js.index("function histDeltagande"):js.index("function histKartor")]
-    assert "riket" in kropp, "riket ritas som tredje linje"
+    assert re.search(r'niva: "riket"', kropp), "riket ritas som tredje linje, inte bara nämns i en kommentar"
     assert re.search(r"\bH = 160\b", kropp), "höjden är 160 px, samma som CSS reserverar"
 
 
 def test_valdeltagandebildens_hogermarginal():
-    """Högermarginalen rymmer den längsta etiketten: Göteborg är 54,2 px i Arial 13 och står 13 px
-    till höger om sin punkt, som under valnatten ligger längst ut på axeln."""
+    """Högermarginalen är exakt 70 px: etiketten Göteborg står 13 px till höger om sin punkt och mäter
+    54,2 px i Arial 13, alltså 67,2 px, plus knappt tre pixlar marginal till bildkanten. Punkten kan ligga
+    längst ut på axeln under valnatten. Talet är låst, så att en ändrad marginal kräver ett nytt beslut."""
     js = JS.read_text("utf-8")
     kropp = js[js.index("function histDeltagande"):js.index("function histKartor")]
     h = re.search(r"M = \{[^}]*\bh: (\d+)", kropp)
     assert h, "bild B sätter en högermarginal"
-    assert int(h.group(1)) >= 68, "etiketten Göteborg kräver 67,2 px och får inte klippas"
+    assert int(h.group(1)) == 70, "etiketten Göteborg kräver 67,2 px och får inte klippas"

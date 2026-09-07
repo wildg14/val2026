@@ -136,12 +136,47 @@ def test_post_upptacker_inkonsekventa_gruppvarden(tmp_path):
     assert "FEL:" in r.stderr and "giltiga" in r.stderr
 
 
+@finns
+def test_post_upptacker_inkonsekvent_antal_distrikt(tmp_path):
+    kopia = tmp_path / "doktorerad_antal.sqlite"
+    shutil.copy(DB, kopia)
+    con = sqlite3.connect(kopia)
+    con.execute("UPDATE tidsserie SET antal_distrikt = antal_distrikt + 1 WHERE ar=2022 AND val='rd' AND niva='majorna' AND parti='V'")
+    con.commit()
+    con.close()
+    r = kor("historik", "--db", str(kopia), "--ut", str(tmp_path / "ut"))
+    assert r.returncode != 0
+    assert "FEL:" in r.stderr and "antal_distrikt" in r.stderr
+
+
+@finns
+def test_bygg_historik_upptacker_olika_metod_mellan_valen(tmp_path):
+    kopia = tmp_path / "doktorerad_metod.sqlite"
+    shutil.copy(DB, kopia)
+    con = sqlite3.connect(kopia)
+    con.execute("UPDATE tidsserie SET metod = REPLACE(metod, 'areametod', 'annanmetod') "
+                "WHERE ar=2018 AND val='rd' AND niva='majorna'")
+    con.commit()
+    con.close()
+    r = kor("historik", "--db", str(kopia), "--ut", str(tmp_path / "ut"))
+    assert r.returncode != 0
+    assert "FEL:" in r.stderr and "2018" in r.stderr
+
+
 def test_oppna_saknad_tabell(tmp_path):
     tom = tmp_path / "tom.sqlite"
     sqlite3.connect(tom).close()
     r = kor("historik", "--db", str(tom), "--ut", str(tmp_path / "ut"))
     assert r.returncode == 1
     assert "FEL:" in r.stderr and "tidsserie" in r.stderr
+
+
+def test_oppna_ej_sqlite_fil(tmp_path):
+    fil = tmp_path / "text.sqlite"
+    fil.write_text("detta är en vanlig textfil, inte en databas\n" * 50, encoding="utf-8")
+    r = kor("historik", "--db", str(fil), "--ut", str(tmp_path / "ut"))
+    assert r.returncode == 1
+    assert "FEL:" in r.stderr
 
 
 def test_oppna_saknad_fil(tmp_path):

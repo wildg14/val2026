@@ -47,8 +47,8 @@ def oppna(path=DB):
     con.row_factory = sqlite3.Row
     try:
         con.execute("SELECT 1 FROM tidsserie LIMIT 1")
-    except sqlite3.OperationalError:
-        print(f"FEL: {path} saknar tabellen tidsserie", file=sys.stderr)
+    except sqlite3.DatabaseError as e:
+        print(f"FEL: {path} går inte att läsa som databas: {e}", file=sys.stderr)
         sys.exit(1)
     return con
 
@@ -66,8 +66,7 @@ def _post(rader, val):
     nycklar = NYCKELPARTIER[val]
     roster = {p: 0 for p in nycklar}
     roster[OVRIGA] = 0
-    giltiga_ar, rostande_ar, rostberattigade_ar = set(), set(), set()
-    antal = None
+    giltiga_ar, rostande_ar, rostberattigade_ar, antal_ar = set(), set(), set(), set()
     for r in rader:
         p = r["parti"]
         v = int(r["roster"] or 0)
@@ -84,9 +83,10 @@ def _post(rader, val):
         if r["rostberattigade"] is not None:
             rostberattigade_ar.add(int(r["rostberattigade"]))
         if r["antal_distrikt"] is not None:
-            antal = int(r["antal_distrikt"])
+            antal_ar.add(int(r["antal_distrikt"]))
     plats = f"{rader[0]['ar']} {rader[0]['val']} {rader[0]['niva']}"
-    for namn, varden in (("giltiga", giltiga_ar), ("rostande", rostande_ar), ("rostberattigade", rostberattigade_ar)):
+    for namn, varden in (("giltiga", giltiga_ar), ("rostande", rostande_ar), ("rostberattigade", rostberattigade_ar),
+                         ("antal_distrikt", antal_ar)):
         if len(varden) > 1:
             raise SystemExit(f"FEL: {plats}: flera {namn}-värden på raderna {sorted(varden)}")
     if not giltiga_ar:
@@ -94,6 +94,7 @@ def _post(rader, val):
     giltiga = giltiga_ar.pop()
     rostande = rostande_ar.pop() if rostande_ar else None
     rostberattigade = rostberattigade_ar.pop() if rostberattigade_ar else None
+    antal = antal_ar.pop() if antal_ar else None
     metoder = {r["metod"] for r in rader if r["metod"] and "residual" not in r["metod"]}
     if len(metoder) > 1:
         raise SystemExit(f"FEL: {plats}: flera metodsträngar {sorted(metoder)}")
@@ -117,7 +118,7 @@ def omradespost(con, ar, val, niva):
 
 def bygg_historik(con):
     serie = {val: {niva: [] for niva in NIVAER} for val in VAL}
-    metod_per_ar = {}
+    metod_per_val_ar = {ar: {} for ar in AR}
     for val in VAL:
         for niva in NIVAER:
             for ar in AR:
@@ -125,8 +126,14 @@ def bygg_historik(con):
                 if post is None:
                     raise SystemExit(f"FEL: tidsserie saknar {ar} {val} {niva}")
                 if niva == "majorna":
-                    metod_per_ar[str(ar)] = post["metod"]
+                    metod_per_val_ar[ar][val] = post["metod"]
                 serie[val][niva].append({k: v for k, v in post.items() if k != "metod"})
+    metod_per_ar = {}
+    for ar in AR:
+        metoder = set(metod_per_val_ar[ar].values())
+        if len(metoder) > 1:
+            raise SystemExit(f"FEL: {ar}: metodsträngen skiljer sig mellan valen: {metod_per_val_ar[ar]}")
+        metod_per_ar[str(ar)] = metoder.pop()
     return {"meta": {"byggd": dt.datetime.now().replace(microsecond=0).isoformat(), "kalla": KALLA, "ar": AR, "partier": PARTIER,
                      "partier_per_val": {val: NYCKELPARTIER[val] + [OVRIGA] for val in VAL},
                      "noter": ["Serien börjar 2006. Valdistrikten ritades om helt inför det valet, så 2002 går inte att räkna om till dagens Majorna.",

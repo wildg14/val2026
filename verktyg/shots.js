@@ -7,7 +7,6 @@ const shots = [
   { name: '02b-mobil-panel-mariaplan', url: 'index.html?distrikt=14800530', mobile: true, el: '#panel' },
   { name: '03-mobil-partistyrka-sd-kommun', url: 'index.html?lage=styrka&parti=SD&val=kf', mobile: true, el: '#karta-sektion' },
   { name: '03b-mobil-tabell-kommun', url: 'index.html?val=kf', mobile: true, el: '#tabell', tabell: true },
-  { name: '04-valnatt-test', url: 'valnatt-test.html?distrikt=14800534', mobile: true, full: true },
   { name: '05-desktop', url: 'index.html', mobile: false, full: true },
 ];
 (async () => {

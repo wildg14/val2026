@@ -91,7 +91,7 @@ const MARKUP = `
 const KONFIG = {   // standardvärden som speglar schemat, men med de nästlade blocken förkortade (bara visa-flaggorna); data/konfig.js skriver över
   ar: ["2022"], standardAr: "2022", valnatt: false,
   adress: "https://majposten.se/val2026",
-  inbaddad: false, skrivUrl: true, stickyTopp: 16,   // px från fönstrets överkant för det klibbiga kortet på desktop, höj om Beehiivs sidhuvud är klibbigt
+  inbaddad: false, skrivUrl: true, stickyTopp: 105,   // px från fönstrets överkant för det klibbiga kortet på desktop; Beehiivs klibbiga meny är 89 px hög
   valdag: "2026-09-13",   // visas i statusraden före valdagen
   toppsvar: { mening: "" },   // redaktionell mening under toppsvaret, tom = ingen mening
   historik: { visa: true, mening: { rd: "", rf: "", kf: "" } },   // sektionen Majorna sedan 2006, egen plan
@@ -896,7 +896,7 @@ function renderPanel() {
       let vd = "";
       if (m.rostberattigade) {
         const namnLabel = val === "rd" ? "riket" : omr.namn;
-        vd = `Valdeltagande ${procent(m.rostande / m.rostberattigade)}` + (post && post.valdeltagande ? ` (${namnLabel} ${procent(post.valdeltagande)})` : "");
+        vd = `Valdeltagande ${procent(m.rostande / m.rostberattigade)}` + (post && post.valdeltagande && !omradeDelvis(post) ? ` (${namnLabel} ${procent(post.valdeltagande)})` : "");
       }
       subText = (KONFIG.valnatt && vn && vn.raknade < vn.totalt ? `${vn.raknade} av ${vn.totalt} distrikt räknade. ` : "") + (vd ? vd + ". " : "") + `${tal(m.giltiga)} giltiga röster.`;
       const markorer = [];

@@ -3,6 +3,7 @@ const puppeteer = require('puppeteer-core');
 // en sådan fil är alltså väntad och räknas inte som JS-fel, men skrivs ut så att en oväntad lucka syns.
 const valfriFil = m => /\/data\/swing_\d+\.js(\?|$)/.test((m.location() || {}).url || '') && m.text().includes('404');
 (async () => {
+  let brutet = false;   // sätts när något av kontrollskriptets fel skrivs ut, avgör returkoden
   const browser = await puppeteer.launch({ executablePath: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome', headless: true, args: ['--no-first-run', '--disable-gpu'] });
   const page = await browser.newPage();
   await page.setViewport({ width: 390, height: 844, deviceScaleFactor: 2, isMobile: true, hasTouch: true });
@@ -30,7 +31,9 @@ const valfriFil = m => /\/data\/swing_\d+\.js(\?|$)/.test((m.location() || {}).u
     return ut;
   });
   console.log(JSON.stringify(res, null, 1));
-  console.log(res.toppsvarRader === 4 && res.statusrad.startsWith('Slutligt resultat 2022') ? 'toppsvar ok' : 'TOPPSVAR FEL');
+  // Statusraden börjar med "Slutligt resultat <år>": årtalet ska inte hårdkodas, kontrollen gäller varje år.
+  if (res.toppsvarRader === 4 && res.statusrad.startsWith('Slutligt resultat')) console.log('toppsvar ok');
+  else { console.log('TOPPSVAR FEL'); brutet = true; }
   // riktigt musklick (inte dispatchEvent) mitt på Kusttorget: gator/hållplatser ligger ovanpå men ska ha pointer-events: none
   const kusttorget = await page.$('#valgrafik #karta path[data-kod="14800536"]');
   await kusttorget.scrollIntoView();
@@ -39,16 +42,19 @@ const valfriFil = m => /\/data\/swing_\d+\.js(\?|$)/.test((m.location() || {}).u
   await page.mouse.click(box.x + box.width / 2, box.y + box.height / 2);
   await new Promise(r => setTimeout(r, 300));
   const kusttorgetRubrik = await page.evaluate(() => document.getElementById('valgrafik').querySelector('#panel-rubrik').textContent);
-  console.log('kusttorgetRubrik:', kusttorgetRubrik, kusttorgetRubrik === 'Kusttorget' ? 'ok' : 'FEL: musklick nådde inte distriktet');
+  if (kusttorgetRubrik === 'Kusttorget') console.log('kusttorgetRubrik:', kusttorgetRubrik, 'ok');
+  else { console.log('kusttorgetRubrik:', kusttorgetRubrik, 'FEL: musklick nådde inte distriktet'); brutet = true; }
   if (saknade.length) console.log('valfria filer som saknas:', [...new Set(saknade)].join(' | '));
-  console.log(fel.length ? 'FEL: ' + fel.join(' | ') : 'inga JS-fel');
+  if (fel.length) { console.log('FEL: ' + fel.join(' | ')); brutet = true; } else console.log('inga JS-fel');
   for (const fraga of ['bild=karta&val=rd&format=liggande', 'bild=jamforelse&val=rd&format=kvadrat']) {
     const fore = fel.length;
     await page.goto('http://localhost:8765/index.html?' + fraga, { waitUntil: 'networkidle0' });
     await new Promise(r => setTimeout(r, 800));
     const ram = await page.evaluate(() => { const r = document.querySelector('.bildram'); return r ? { w: r.offsetWidth, h: r.offsetHeight, klass: document.getElementById('valgrafik').className } : null; });
     const nya = fel.slice(fore);
-    console.log('bildläge ' + fraga + ':', JSON.stringify(ram), nya.length ? 'FEL: ' + nya.join(' | ') : 'inga JS-fel');
+    if (nya.length) { console.log('bildläge ' + fraga + ':', JSON.stringify(ram), 'FEL: ' + nya.join(' | ')); brutet = true; }
+    else console.log('bildläge ' + fraga + ':', JSON.stringify(ram), 'inga JS-fel');
   }
   await browser.close();
+  if (brutet) process.exitCode = 1;
 })().catch(e => { console.error(e); process.exit(1); });

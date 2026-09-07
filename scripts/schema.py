@@ -11,7 +11,7 @@ KALLA_STANDARD = "Valmyndigheten, rösträkning per valdistrikt"
 KONFIG_STANDARD = {
     "ar": ["2022"], "standardAr": "2022", "valnatt": False,
     "adress": "https://majposten.se/val2026",
-    "inbaddad": False, "skrivUrl": True, "stickyTopp": 16,
+    "inbaddad": False, "skrivUrl": True, "stickyTopp": 105,   # Beehiivs klibbiga meny är 89 px hög
     "valdag": "2026-09-13",                       # visas i statusraden före valdagen
     "toppsvar": {"mening": ""},                    # redaktionell mening under toppsvaret, tom = ingen mening
     "historik": {"visa": True, "mening": {"rd": "", "rf": "", "kf": ""}},   # sektionen Majorna sedan 2006, egen plan

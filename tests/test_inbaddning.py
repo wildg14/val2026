@@ -137,7 +137,9 @@ def test_geometri_per_ar_dynamiskt_antal_och_swing_for_alla_ar():
     assert "23 valdistrikt" not in js and "de 23 valdistrikten" not in js, "antalet distrikt läses ur datan"
     assert "sort()[0]" not in js, "basåret väljs inte längre implicit, swing laddas för alla år som har en fil"
     assert "function gemensamBbox()" in js
-    assert (ROT / "data" / "distrikt_2022.js").exists() and not (ROT / "data" / "distrikt.js").exists()
+    # data/distrikt.js är en övergångskopia (samma data som distrikt_2022.js, nyckeln "distrikt") kvar åt
+    # läsare med cachad gammal valgrafik.js som fortfarande laddar den filen; koden själv ska aldrig göra det.
+    assert '"distrikt.js"' not in js and 'laddaSkript("distrikt")' not in js
 
 
 def test_toppsvar_och_statusrad_ersatter_banderollen():

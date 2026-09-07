@@ -127,7 +127,7 @@ Två delar: statisk hosting av filerna, och ett HTML-block på Beehiiv-sidan.
 
 Beehiivs regler som bygget följer: koden börjar med en enda container-div, all CSS är scopad till `.mp-val`, inga regler på `*`, `body` eller `html`, inga `vh`-mått, ingen `position: fixed`. Testet `tests/test_inbaddning.py` vaktar det.
 
-Total sidvikt är cirka 404 kB för ett år: `du -ch valgrafik.js valgrafik.css data/konfig.js data/valdata_2022.js data/distrikt_2022.js data/bakgrund.js`. Bakgrundslagret är 230 kB av det. Historiksektionen lägger till `data/historik.js` (25 kB), `data/swing_2022.js` (6,8 kB) och `data/distrikt_2006.js` (9,9 kB), som laddas vid start; med dem inräknade (`du -ch ... data/historik.js data/swing_2022.js data/distrikt_2006.js`) blir sidvikten cirka 452 kB. På valnatten tillkommer `distrikt_2026.js`, `valdata_2026.js` och `swing_2026.js`, tillsammans 52 kB.
+Total sidvikt är cirka 404 kB för ett år: `du -ch valgrafik.js valgrafik.css data/konfig.js data/valdata_2022.js data/distrikt_2022.js data/bakgrund.js`. Bakgrundslagret är 228 kB av det (samma `du`-körning). Historiksektionen lägger till `data/historik.js` (25 kB), `data/swing_2022.js` (6,8 kB) och `data/distrikt_2006.js` (9,9 kB), som laddas vid start; med dem inräknade (`du -ch ... data/historik.js data/swing_2022.js data/distrikt_2006.js`) blir sidvikten cirka 452 kB. På valnatten tillkommer `distrikt_2026.js`, `valdata_2026.js` och `swing_2026.js`, tillsammans 52 kB.
 
 ## Beehiiv
 
@@ -198,7 +198,7 @@ Sektionen "Majorna sedan 2006" ligger sist på sidan och visar Majornas valresul
 - Bild B: valdeltagandet i Majorna mot Göteborg, och på desktop även riket streckat i riksdagsvalet. Y-axel 70 till 90 procent (vidgas i femprocentssteg om ett år ligger utanför), egen rubrikmening och not.
 - Konturkartorna: 2006 (ur `data/distrikt_2006.js`, förenklad geometri, 17 distrikt) mot det visade årets geometri (23 distrikt för 2022 och 2026, 22 för 2018), som två små `figure`-element, `aria-hidden` eftersom de inte går att interagera med. Noten säger att ytan är densamma trots fler distrikt i dag och att valhemligheten gäller per distrikt, inte per person.
 
-Sektionen följer kartans val (riksdag, region eller kommun) men inte kartans årsknapp: sista punkten i bild A och B kommer alltid från det senast laddade året (det största i `KONFIG.ar`) och ritas bara när alla Majornas distrikt är räknade i det valet - för jämförelseområdena krävs dessutom att området självt är färdigräknat. Kartorna följer däremot årsknappen, eftersom de svarar på en fråga om det år kartan visar. Före valdagen står 2026 som en tom ring på nollnivån med texten "räknas på valnatten"; är alla distrikt räknade men resultatet preliminärt blir ringen öppen i partifärg med en streckad sista sträcka och "(preliminärt)" i talraden; är resultatet slutligt blir punkten fylld och rubrikmeningarna räknas på 2026.
+Sektionen följer kartans val (riksdag, region eller kommun) men inte kartans årsknapp: sista punkten i bild A och B kommer alltid från det senast laddade året (det största i `KONFIG.ar`) och ritas bara när alla Majornas distrikt är räknade i det valet - för jämförelseområdena krävs dessutom att området självt är färdigräknat. Kartorna följer däremot årsknappen, eftersom de svarar på en fråga om det år kartan visar. Före valdagen står 2026 som en tom ring på skalans nedersta nivå med texten "räknas på valnatten"; är alla distrikt räknade men resultatet preliminärt blir ringen öppen i partifärg med en streckad sista sträcka och "(preliminärt)" i talraden; är resultatet slutligt blir punkten fylld och rubrikmeningarna räknas på 2026.
 
 Sektionen döljs när `data/historik.js` saknas eller `KONFIG.historik.visa` är `false`. `historik.js`, `swing_2022.js` och `distrikt_2006.js` laddas vid start i samma svep som årets egna filer och tål att någon av dem saknas (404 räknas som en valfri fil, inte som fel).
 
@@ -435,7 +435,7 @@ aggregat    majorna {val: {roster, giltiga, rostande, rostberattigade}}   (räkn
 mandat      riksdag_verklig, riksdag_majorna, metod
 ```
 
-`jamforbar_mot_bas` och `grans_andrad` är samma uppgift åt två håll: distriktet kan jämföras med basåret, respektive dess gränser har ritats om. `antal_distrikt` och `totalt_distrikt` i aggregaten säger hur långt jämförelseområdet kommit i räkningen; `rostberattigade` där gäller räknade distrikt.
+`jamforbar_mot_bas` och `grans_andrad` är samma uppgift åt två håll: distriktet kan jämföras med basåret, respektive dess gränser har ritats om. `antal_distrikt` och `totalt_distrikt` i aggregaten säger hur långt jämförelseområdet kommit i räkningen; `rostberattigade` där gäller räknade distrikt. I historikårens filer (byggda av `bygg_historik.py`) utelämnas ett nyckelparti som saknar rader ett visst år och val (till exempel D före 2018) helt ur `distrikt[].rd/rf/kf` och ur `aggregat` i stället för att skrivas som noll.
 
 `data/swing_<år>.json`: förändring i procentenheter mot basåret. Sidan visar den som små tal vid staplarna och som raden "Hur har det ändrats" i kortet.
 
@@ -460,7 +460,7 @@ serie  {val: {niva: [{ar, roster {parti: röster}, andel {parti: andel av giltig
        rostberattigade, valdeltagande, antal_distrikt}]}}, niva är majorna, goteborg eller riket
 ```
 
-Ett nyckelparti som saknar rader ett visst år och val (till exempel D före 2018) utelämnas ur den årets `roster` och `andel` i stället för att skrivas som noll; partier utanför valets uppsättning (`meta.partier_per_val`), till exempel FI i riksdagsvalet, läggs i Övriga.
+Varje post i `serie` har exakt `meta.partier_per_val[val]` (fast per val, samma alla år) - aldrig färre nycklar; ett nyckelparti som saknade rader det året (till exempel D 2006) står med värdet 0 i stället för att utelämnas. Partier utanför valets uppsättning, till exempel FI i riksdagsvalet, läggs i Övriga.
 
 `data/swing_2022.json`: samma form som `data/swing_<år>.json` ovan, men mot bas 2018 i stället för 2022: nio av de 23 distrikten är jämförbara, fjorton får den bakåtvända meningen ("Gränserna såg annorlunda ut 2018..."). `kohort` är `helomrade: true` för alla tre valen (`samma_yta=True`: 23 distrikt 2022 mot 22 distrikt 2018 täcker samma yta) och har en extra nyckel `metod: "omradesserien"` som bara är en anteckning - kortet läser den inte. Områdesnivån (`majorna`) kommer alltså inte ur kohorten av jämförbara distrikt, utan ur hela områdets aggregat båda åren, hämtat ur databasens tidsserie för 2018.
 

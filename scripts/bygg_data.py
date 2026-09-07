@@ -181,8 +181,11 @@ def main():
         print(f"    {f.relative_to(ROT) if f.is_relative_to(ROT) else f}")
 
     steg(6, "Kontrollskript")
-    r = subprocess.run([sys.executable, str(ROT / "scripts" / "kontrollera.py"), str(ut / f"valdata_{a.ar}.json"),
-                        str(a.xlsx)], capture_output=True, text=True)
+    kommando = [sys.executable, str(ROT / "scripts" / "kontrollera.py"), str(ut / f"valdata_{a.ar}.json"), str(a.xlsx)]
+    historik = ROT / "data" / "historik.json"
+    if historik.exists():
+        kommando += ["--historik", str(historik)]
+    r = subprocess.run(kommando, capture_output=True, text=True)
     print("    " + (r.stdout.strip() + "\n" + r.stderr.strip()).strip().replace("\n", "\n    "))
     if r.returncode != 0:
         fel("kontrollera.py rapporterar diffar")

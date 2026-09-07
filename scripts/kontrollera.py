@@ -2,10 +2,13 @@
 """Stämmer av data/valdata_<år>.json mot den kurerade xlsx:en.
 
     python scripts/kontrollera.py data/valdata_2022.json majorna-valresultat-2022.xlsx
+    python scripts/kontrollera.py data/valdata_2022.json majorna-valresultat-2022.xlsx --historik data/historik.json
 
 Skriver en rad per diff och avslutar med kod 1 vid minsta avvikelse. Kontrollerar även att
-.js-filen bredvid JSON-filen innehåller identisk data.
+.js-filen bredvid JSON-filen innehåller identisk data. Med --historik kontrolleras även att
+historik.json:s majorna-rad för valdatas år stämmer med valdatas aggregat, för alla tre valen.
 """
+import argparse
 import json
 import sys
 from pathlib import Path
@@ -65,16 +68,55 @@ def kontrollera(valdata_path, xlsx_path):
     return diffar, antal
 
 
+def kontrollera_historik(valdata_path, historik_path):
+    """historik.json, nivå majorna, år 2022 -> samma röster och summor som valdata_2022.json. Returnerar lista med diffar."""
+    v = json.loads(Path(valdata_path).read_text("utf-8"))
+    hst = json.loads(Path(historik_path).read_text("utf-8"))
+    ar = v["meta"]["ar"]
+    diffar, antal = [], 0
+    for val in VAL:
+        rad = next((p for p in hst["serie"][val]["majorna"] if p["ar"] == ar), None)
+        if rad is None:
+            diffar.append(f"DIFF historik {val}: år {ar} saknas i serien")
+            continue
+        agg = v["aggregat"]["majorna"][val]
+        for p, n in agg["roster"].items():
+            antal += 1
+            if rad["roster"].get(p) != n:
+                diffar.append(f"DIFF historik {val} {p} serie={rad['roster'].get(p)} valdata={n}")
+        for f in ("giltiga", "rostande", "rostberattigade"):
+            antal += 1
+            if rad[f] != agg[f]:
+                diffar.append(f"DIFF historik {val} {f} serie={rad[f]} valdata={agg[f]}")
+    return diffar, antal
+
+
 def main(argv):
-    valdata = argv[1] if len(argv) > 1 else ROT / "data" / "valdata_2022.json"
-    xlsx = argv[2] if len(argv) > 2 else ROT / "majorna-valresultat-2022.xlsx"
-    diffar, antal = kontrollera(valdata, xlsx)
+    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("valdata", nargs="?", default=ROT / "data" / "valdata_2022.json")
+    ap.add_argument("xlsx", nargs="?", default=ROT / "majorna-valresultat-2022.xlsx")
+    ap.add_argument("--historik", help="historik.json: kontrollera att områdesserien stämmer med valdata")
+    a = ap.parse_args(argv[1:])
+
+    diffar, antal = kontrollera(a.valdata, a.xlsx)
     for rad in diffar:
         print(rad)
-    if diffar:
-        print(f"FEL: {len(diffar)} diffar av {antal} kontroller. Bygget stoppas.")
+
+    historik_diffar, historik_antal = [], 0
+    if a.historik:
+        historik_diffar, historik_antal = kontrollera_historik(a.valdata, a.historik)
+        for rad in historik_diffar:
+            print(rad)
+
+    alla_diffar = diffar + historik_diffar
+    if alla_diffar:
+        print(f"FEL: {len(alla_diffar)} diffar av {antal + historik_antal} kontroller. Bygget stoppas.")
         return 1
-    print(f"OK: {antal} kontroller, 0 diffar ({Path(valdata).name} mot {Path(xlsx).name})")
+    if a.historik:
+        print(f"OK: {antal} kontroller, 0 diffar ({Path(a.valdata).name} mot {Path(a.xlsx).name}) "
+              f"plus {historik_antal} historikkontroller")
+    else:
+        print(f"OK: {antal} kontroller, 0 diffar ({Path(a.valdata).name} mot {Path(a.xlsx).name})")
     return 0
 
 

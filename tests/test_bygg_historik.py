@@ -586,6 +586,24 @@ def test_valdata_riksdag_verklig_summerar_349(tmp_path, ar):
 
 @finns
 @pytest.mark.parametrize("ar", [2006, 2010, 2014, 2018])
+def test_valdata_riksdag_majorna_raknas_om_oberoende(tmp_path, ar):
+    """riksdag_majorna räknas om oberoende av skriptet: summera rd-rösterna över distrikten i den
+    byggda filen och kör dem genom samma jamkade_uddatal som bygg_valdata_ar - facit ska vara likadant,
+    inte bara summera till 349 (test_valdata_riksdag_verklig_summerar_349 fångar inte till exempel fel
+    fördelning mellan två partier som råkar ge samma summa)."""
+    r = kor("ar", str(ar), "--ut", str(tmp_path))
+    assert r.returncode == 0, r.stdout + r.stderr
+    v = json.loads((tmp_path / f"valdata_{ar}.json").read_text("utf-8"))
+    rd_summa = {}
+    for d in v["distrikt"]:
+        for p, n in d["rd"].items():
+            rd_summa[p] = rd_summa.get(p, 0) + n
+    vantat = jamkade_uddatal(rd_summa, 349)
+    assert v["mandat"]["riksdag_majorna"] == vantat
+
+
+@finns
+@pytest.mark.parametrize("ar", [2006, 2010, 2014, 2018])
 def test_valdata_distrikt_roster_summerar_till_giltiga(tmp_path, ar):
     r = kor("ar", str(ar), "--ut", str(tmp_path))
     assert r.returncode == 0, r.stdout + r.stderr
@@ -599,11 +617,16 @@ def test_valdata_distrikt_roster_summerar_till_giltiga(tmp_path, ar):
 @finns
 @pytest.mark.parametrize("ar", [2006, 2010, 2014, 2018])
 def test_valdata_meta_slutlig_och_kalla_namner_aret(tmp_path, ar):
+    """kalla och avgransning är publicerad text på sidan - de ska nämna valet och året, aldrig en
+    sökväg i repot (databasen eller docs/historik/valdistrikt-historik.md, som bara står i
+    bygg_valdata_ars docstring)."""
     r = kor("ar", str(ar), "--ut", str(tmp_path))
     assert r.returncode == 0, r.stdout + r.stderr
     v = json.loads((tmp_path / f"valdata_{ar}.json").read_text("utf-8"))
     assert v["meta"]["status"] == "slutlig"
     assert str(ar) in v["meta"]["kalla"]
+    assert "data/" not in v["meta"]["kalla"] and ".sqlite" not in v["meta"]["kalla"]
+    assert "data/" not in v["meta"]["avgransning"] and ".md" not in v["meta"]["avgransning"]
 
 
 @finns
@@ -643,6 +666,65 @@ def test_valdata_2018_byte_identisk_oberoende_av_hashfro(tmp_path):
     andel = v["aggregat"]["riket"]["rf"]["andel"]
     forvantad_ordning = [p for p in NYCKELPARTIER["rf"] if p in andel]
     assert list(andel.keys()) == forvantad_ordning
+
+
+def test_ar_2022_avvisas_av_tillatlistan(tmp_path):
+    """"ar 2022" skrev tidigare över sidans kanoniska data/valdata_2022.json (ur databasen, med annan
+    kalla) innan körningen dog på saknad geometri - HISTORIK_AR spärrar det innan något skrivs."""
+    r = kor("ar", "2022", "--ut", str(tmp_path))
+    assert r.returncode == 1
+    assert "FEL:" in r.stderr and "2022" in r.stderr
+    assert not any(tmp_path.iterdir()), "inget ska skrivas för ett avvisat år"
+
+
+def test_ar_ickenumeriskt_ar_ger_fel_inte_traceback(tmp_path):
+    r = kor("ar", "abc", "--ut", str(tmp_path))
+    assert r.returncode == 1
+    assert "FEL:" in r.stderr
+    assert "Traceback" not in r.stderr
+    assert not any(tmp_path.iterdir())
+
+
+@pytest.mark.parametrize("vad", ["historik", "swing2022", "geo2006"])
+def test_aren_avvisas_for_subkommandon_utan_ar(tmp_path, vad):
+    """historik, swing2022 och geo2006 tar inga år - ett år som argument (till exempel av misstag,
+    kopierat från en 'ar'-körning) ska avvisas med FEL, inte tyst ignoreras."""
+    r = kor(vad, "2018", "--ut", str(tmp_path))
+    assert r.returncode == 1
+    assert "FEL:" in r.stderr and vad in r.stderr
+    assert not any(tmp_path.iterdir())
+
+
+@finns
+def test_bygg_valdata_ar_vaktar_medlem_utan_alla_tre_valen(tmp_path):
+    """raknat=False får aldrig tyst sänka meta.valnatt.raknade i en slutlig historikfil - saknar en
+    Majorna-medlem summeringsrad för ett av de tre valen ska hela bygget stoppa, inte bara det distriktet."""
+    kopia = tmp_path / "utan_kf_2018.sqlite"
+    shutil.copy(DB, kopia)
+    con = sqlite3.connect(kopia)
+    con.execute("DELETE FROM distrikt_summa WHERE ar=2018 AND val='kf' AND kod='14801032'")
+    con.commit()
+    con.close()
+    r = kor("ar", "2018", "--db", str(kopia), "--ut", str(tmp_path / "ut"))
+    assert r.returncode != 0
+    assert "FEL:" in r.stderr and "14801032" in r.stderr and "kf" in r.stderr
+    assert not (tmp_path / "ut").exists() or not any((tmp_path / "ut").iterdir())
+
+
+@finns
+def test_mandat_riket_rd_vaktar_dubbelt_mandattal(tmp_path):
+    """En extra mandat-rad för samma parti med ett annat mandattal (datafel i tabellen) ska stoppa
+    bygget med FEL, inte tyst summera fel eller råka bli 349 av misstag."""
+    kopia = tmp_path / "dubbelt_mandat_2018.sqlite"
+    shutil.copy(DB, kopia)
+    con = sqlite3.connect(kopia)
+    con.execute("INSERT INTO mandat (ar, val, niva, valkrets, parti, mandat) VALUES (2018, 'rd', 'riket', 'riket', 'V', 999)")
+    con.commit()
+    con.close()
+    r = kor("ar", "2018", "--db", str(kopia), "--ut", str(tmp_path / "ut"))
+    assert r.returncode != 0
+    assert "FEL:" in r.stderr and "olika mandattal för V" in r.stderr
+    assert not (tmp_path / "ut").exists() or not any((tmp_path / "ut").iterdir())
 
 
 def test_partier_med_rader_ingen_kod_ger_tom_mangd():

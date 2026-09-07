@@ -38,6 +38,11 @@ KEDJA = ROT / "data" / "historik" / "kedja_majorna_2006_2022.csv"
 GEO_HISTORIK = ROT / "data" / "historik"
 AR = [2006, 2010, 2014, 2018, 2022]
 BAS_AR = 2018  # basår för swing_2022 (Task 2)
+# Tillåtlista för underkommandot "ar": bara dessa år byggs härifrån. 2022 och 2026 har sina egna,
+# kanoniska data/valdata_<år>-filer (byggda av bygg_data.py respektive uppdatera_2026.py) - utan den
+# här spärren skrev "ar 2022" tidigare över den kanoniska filen, med annan `kalla`, innan körningen
+# dog på saknad geometri (distrikt_2022_majornaomradet.geojson finns inte i historikkatalogen).
+HISTORIK_AR = [2006, 2010, 2014, 2018]
 PARTIER = ["V", "S", "MP", "SD", "M", "C", "L", "KD", "D", "FI", "K", OVRIGA]
 ALLA_KODER = [p for p in PARTIER if p != OVRIGA]  # de elva namngivna partikoderna, oavsett vilket val de har egen kolumn i
 NIVAER = ["majorna", "goteborg", "riket"]
@@ -334,6 +339,12 @@ def bygg_swing_2022(con):
 # meter syns då som knappt en pixel - rimligt för en kontur i den storleken.
 FORENKLA_GRADER = 0.0002
 
+# 2006 får bara den förenklade konturgeometrin (byggd av underkommandot "geo2006", se ovan) - en
+# oförenklad distrikt_2006 är inte verifierad eller testad (den förenklade filens 309 hörn mot till
+# exempel 2010:s 1 146, se HANDOVER), så underkommandot "ar" hoppar över distrikt_<år>.geojson för de
+# år som listas här.
+GEO_FORENKLA_AR = {2006}
+
 
 def bygg_geo(ar, forenkla):
     """distrikt_<år>_majornaomradet.geojson (WGS84, kod och namn) -> sidans geojson med etikett,
@@ -408,24 +419,44 @@ def _vgregion(con, ar, val):
     """Västra Götaland i regionvalet ur tabellen aggregat (nivå vgregion), som sidans 'riket' för rf.
 
     Samma "bara partier med rad"-regel som _jamforelse, men mot aggregat i stället för tidsserie: D och
-    FI saknar rad i vgregion före de fanns i Västra Götalands regionval (se partier_med_rader)."""
+    FI saknar rad i vgregion före de fanns i Västra Götalands regionval (se partier_med_rader). Som
+    _post: en dubblettrad för samma parti är ett datafel (SystemExit), giltiga/rostande/rostberattigade
+    ska vara eniga över raderna, och NULL blir None - inte 0 - för rostande och rostberattigade."""
     rader = con.execute(
-        "SELECT parti_kanon AS parti, roster, giltiga, rostande, rostberattigade FROM aggregat WHERE ar=? AND val=? AND niva='vgregion'",
-        (ar, val)).fetchall()
+        "SELECT parti_kanon AS parti, roster, giltiga, rostande, rostberattigade FROM aggregat "
+        "WHERE ar=? AND val=? AND niva='vgregion' ORDER BY parti", (ar, val)).fetchall()
     if not rader:
         return None
-    finns = {r["parti"] for r in rader if r["parti"] in NYCKELPARTIER[val]}
-    roster = {p: 0 for p in NYCKELPARTIER[val] if p in finns}
-    giltiga = rostande = rostberattigade = None
+    plats = f"{ar} {val} vgregion"
+    sedda = set()
+    giltiga_ar, rostande_ar, rostberattigade_ar = set(), set(), set()
+    roster = {p: 0 for p in NYCKELPARTIER[val] if p in {r["parti"] for r in rader}}
     for r in rader:
-        if r["parti"] in roster:
-            roster[r["parti"]] += int(r["roster"] or 0)
-        giltiga, rostande, rostberattigade = r["giltiga"], r["rostande"], r["rostberattigade"]
+        p = r["parti"]
+        if p in sedda:
+            raise SystemExit(f"FEL: {plats}: {p} förekommer på flera rader")
+        sedda.add(p)
+        if p in roster:
+            roster[p] += int(r["roster"] or 0)
+        if r["giltiga"] is not None:
+            giltiga_ar.add(int(r["giltiga"]))
+        if r["rostande"] is not None:
+            rostande_ar.add(int(r["rostande"]))
+        if r["rostberattigade"] is not None:
+            rostberattigade_ar.add(int(r["rostberattigade"]))
+    for namn, varden in (("giltiga", giltiga_ar), ("rostande", rostande_ar), ("rostberattigade", rostberattigade_ar)):
+        if len(varden) > 1:
+            raise SystemExit(f"FEL: {plats}: flera {namn}-värden på raderna {sorted(varden)}")
+    if not giltiga_ar:
+        return None
+    giltiga = giltiga_ar.pop()
     if not giltiga:
         return None
+    rostande = rostande_ar.pop() if rostande_ar else None
+    rostberattigade = rostberattigade_ar.pop() if rostberattigade_ar else None
     return {"andel": {p: n / giltiga for p, n in roster.items()},
-            "valdeltagande": (rostande / rostberattigade) if rostande and rostberattigade else None,
-            "giltiga": int(giltiga), "rostande": int(rostande or 0), "rostberattigade": int(rostberattigade or 0),
+            "valdeltagande": (rostande / rostberattigade) if rostande is not None and rostberattigade else None,
+            "giltiga": giltiga, "rostande": rostande, "rostberattigade": rostberattigade,
             "namn": "Västra Götaland"}
 
 
@@ -433,6 +464,12 @@ def bygg_valdata_ar(con, ar):
     """Ett historikårs valdata i sidans schema: distrikt via majorna_medlem (aldrig uppsamlingsdistrikt),
     jämförelseaggregat för Göteborg och riket (Västra Götaland i regionvalet), riksdagens verkliga
     mandat och Majornas eget räkneexempel.
+
+    `meta.kalla` och `meta.avgransning` är publicerad text på sidan och nämner därför bara valet och
+    året, ingen sökväg i repot. Härledningen: valdistrikten och rösterna kommer ur
+    data/historik/majorna_historik.sqlite (byggd av scripts/historik/bygg_databas.py ur Valmyndighetens
+    filer), och avgränsningen - vilka av dagens 23 distrikt som räknas till Majorna ett historikår - är
+    områdesmetoden (areametod) som dokumenteras i docs/historik/valdistrikt-historik.md.
     """
     medlemmar = con.execute(
         "SELECT kod, namn FROM majorna_medlem WHERE ar=? AND ingar_i_jamforbart_majorna=1 ORDER BY kod", (ar,)).fetchall()
@@ -468,27 +505,37 @@ def bygg_valdata_ar(con, ar):
             else:
                 print(f"VARNING: {ar} rf: ingen vgregion-rad, riket utelämnas för regionvalet", file=sys.stderr)
     verklig = _mandat_riket_rd(con, ar)
-    rd_summa = {}
-    for d in distrikt:
-        for p, n in d["rd"].items():
-            rd_summa[p] = rd_summa.get(p, 0) + n
+    rd_summa = schema._summa(distrikt, "rd")["roster"]
     mandat = {"riksdag_verklig": verklig, "riksdag_majorna": jamkade_uddatal(rd_summa, 349) if rd_summa else {},
               "metod": f"Räkneexempel: 4 %-spärr och jämkade uddatalsmetoden tillämpade på Majornas riksdagsröster {ar}."}
     valdag = con.execute("SELECT valdag FROM val WHERE ar=? AND val='rd'", (ar,)).fetchone()
     v = schema.bygg_valdata(ar, distrikt, "slutlig", jamforelser, mandat,
-                             uppdaterad=(valdag["valdag"] + "T00:00:00") if valdag else None,
-                             kalla=f"Valmyndigheten, slutlig rösträkning per valdistrikt {ar}, ur data/historik/majorna_historik.sqlite")
-    v["meta"]["avgransning"] = f"{len(distrikt)} valdistrikt som täcker samma yta som 2022 års 23 (areametod, se docs/historik/valdistrikt-historik.md)"
+                            uppdaterad=(valdag["valdag"] + "T00:00:00") if valdag else None,
+                            kalla=f"Valmyndigheten, slutlig rösträkning per valdistrikt {ar}.")
+    v["meta"]["avgransning"] = f"{len(distrikt)} valdistrikt som täcker samma yta som dagens 23 (areametod)"
     return v
 
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("vad", choices=["historik", "swing2022", "geo2006", "ar", "allt"])
-    ap.add_argument("aren", nargs="*", help="för 'ar': vilka år")
+    ap.add_argument("aren", nargs="*", help="för 'ar' eller 'allt': vilka historikår (default 2006 2010 2014 2018)")
     ap.add_argument("--ut", default=ROT / "data")
     ap.add_argument("--db", default=DB)
     a = ap.parse_args()
+    if a.vad in ("historik", "swing2022", "geo2006") and a.aren:
+        print(f"FEL: {a.vad} tar inga år, fick {' '.join(a.aren)}", file=sys.stderr)
+        return 1
+    aren = a.aren or [str(x) for x in HISTORIK_AR]
+    if a.vad in ("ar", "allt"):
+        for s in aren:
+            if not s.isdigit():
+                print(f"FEL: {s!r} är inte ett årtal", file=sys.stderr)
+                return 1
+            if int(s) not in HISTORIK_AR:
+                print(f"FEL: {int(s)} byggs inte av det här skriptet "
+                      "(2022 och 2026 byggs av bygg_data.py och uppdatera_2026.py)", file=sys.stderr)
+                return 1
     ut = Path(a.ut)
     con = oppna(a.db)
     skrivna = []
@@ -498,11 +545,12 @@ def main():
         skrivna += schema.skriv(ut / "swing_2022", bygg_swing_2022(con))
     if a.vad in ("geo2006", "allt"):
         skrivna += schema.skriv(ut / "distrikt_2006", bygg_geo(2006, forenkla=True), json_suffix=".geojson")
-    if a.vad == "ar" or a.vad == "allt":
-        for ar in (a.aren or ["2006", "2010", "2014", "2018"]):
-            skrivna += schema.skriv(ut / f"valdata_{ar}", bygg_valdata_ar(con, int(ar)))
-            if int(ar) != 2006:
-                skrivna += schema.skriv(ut / f"distrikt_{ar}", bygg_geo(int(ar), forenkla=False), json_suffix=".geojson")
+    if a.vad in ("ar", "allt"):
+        for s in aren:
+            arnum = int(s)
+            skrivna += schema.skriv(ut / f"valdata_{arnum}", bygg_valdata_ar(con, arnum))
+            if arnum not in GEO_FORENKLA_AR:
+                skrivna += schema.skriv(ut / f"distrikt_{arnum}", bygg_geo(arnum, forenkla=False), json_suffix=".geojson")
     for f in skrivna:
         print(f"    {f.stat().st_size / 1024:6.1f} kB  {f}")
     return 0

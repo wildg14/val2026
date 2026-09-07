@@ -3,8 +3,8 @@
   "ar": 2010,
   "status": "slutlig",
   "uppdaterad": "2010-09-19T00:00:00",
-  "kalla": "Valmyndigheten, slutlig rösträkning per valdistrikt 2010, ur data/historik/majorna_historik.sqlite",
-  "avgransning": "17 valdistrikt som täcker samma yta som 2022 års 23 (areametod, se docs/historik/valdistrikt-historik.md)",
+  "kalla": "Valmyndigheten, slutlig rösträkning per valdistrikt 2010.",
+  "avgransning": "17 valdistrikt som täcker samma yta som dagens 23 (areametod)",
   "val": {
    "rd": "Riksdag",
    "rf": "Region",

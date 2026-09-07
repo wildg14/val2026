@@ -3,8 +3,8 @@
   "ar": 2018,
   "status": "slutlig",
   "uppdaterad": "2018-09-09T00:00:00",
-  "kalla": "Valmyndigheten, slutlig rösträkning per valdistrikt 2018, ur data/historik/majorna_historik.sqlite",
-  "avgransning": "22 valdistrikt som täcker samma yta som 2022 års 23 (areametod, se docs/historik/valdistrikt-historik.md)",
+  "kalla": "Valmyndigheten, slutlig rösträkning per valdistrikt 2018.",
+  "avgransning": "22 valdistrikt som täcker samma yta som dagens 23 (areametod)",
   "val": {
    "rd": "Riksdag",
    "rf": "Region",

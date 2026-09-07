@@ -3,8 +3,8 @@
   "ar": 2006,
   "status": "slutlig",
   "uppdaterad": "2006-09-17T00:00:00",
-  "kalla": "Valmyndigheten, slutlig rösträkning per valdistrikt 2006, ur data/historik/majorna_historik.sqlite",
-  "avgransning": "17 valdistrikt som täcker samma yta som 2022 års 23 (areametod, se docs/historik/valdistrikt-historik.md)",
+  "kalla": "Valmyndigheten, slutlig rösträkning per valdistrikt 2006.",
+  "avgransning": "17 valdistrikt som täcker samma yta som dagens 23 (areametod)",
   "val": {
    "rd": "Riksdag",
    "rf": "Region",

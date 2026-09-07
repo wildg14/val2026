@@ -6,7 +6,7 @@ Puppeteer-skript som kör den installerade Chrome (macOS-sökvägen står i skri
 cd verktyg && npm init -y >/dev/null && npm install puppeteer-core --no-audit --no-fund
 ```
 
-Alla skript förutsätter att den lokala servern kör: `python3 -m http.server 8765` i projektroten (eller Claude Codes förhandsvisning `valgrafik` i `.claude/launch.json`).
+Alla skript förutsätter att den lokala servern kör: `python3 -m http.server 8765 --bind 127.0.0.1` i projektroten (eller Claude Codes förhandsvisning `valgrafik` i `.claude/launch.json`).
 
 | Skript | Gör | Exempel |
 |---|---|---|

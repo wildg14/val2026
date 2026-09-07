@@ -21,7 +21,11 @@ data/valdata_2022.json        röster per distrikt och val, aggregat, mandat (ka
 data/valdata_2022.js          samma data som JS, laddas av sidan (fungerar även via file://)
 data/distrikt_2022.geojson    de 23 distriktspolygonerna i WGS84, en fil per år i konfigens ar
 data/distrikt_2022.js         samma geometri som JS
-data/distrikt_2026.*          2026 års gränser: samma yta, elva distrikt ritade på nytt
+data/distrikt.js              övergångskopia av distrikt_2022.js (nyckeln "distrikt") åt läsare med
+                              cachad gammal valgrafik.js, tas bort efter valet
+data/distrikt_2026.*          2026 års gränser: samma yta, elva distrikt skiljer sig geometriskt men
+                              bara nio är flaggade av Valmyndigheten som omritade (jämförbarhet); två
+                              av de elva bytte bara ett litet kvarter och räknas ändå som jämförbara
 data/bakgrund.json / .js      gator, spårväg, hållplatser, vatten, parker från OpenStreetMap (valfri)
 data/valdata_2026.*           skrivs av uppdatera_2026.py på valnatten
 data/swing_2026.*             förändring mot 2022 per distrikt och för hela Majorna, skrivs samtidigt
@@ -91,7 +95,7 @@ Tester:
 Dubbelklicka på `index.html`. Skalet laddar `valgrafik.css`, `valgrafik.js` och `.js`-filerna i `data/`, och fungerar via `file://` i Chrome, Safari och Firefox. `docs/inbaddningstest.html` visar grafiken inuti en simulerad värdsida med fientlig CSS, som Beehiiv-blocket. Vill du ha en riktig webbserver:
 
 ```bash
-python3 -m http.server 8765
+python3 -m http.server 8765 --bind 127.0.0.1
 ```
 
 och öppna http://localhost:8765/.
@@ -233,11 +237,13 @@ Första körningen, när `index.md5` finns:
 .venv/bin/python scripts/uppdatera_2026.py --hamta --status preliminar --valnatt
 ```
 
-`--hamta` laddar ned riksdagen (hela landet), regionvalet (Västra Götaland) och kommunvalet (Göteborg), kontrollerar md5 mot index och JSON-filernas signaturer mot certifikatet, packar upp till `data/valnatt/<tidsstämpel>/` och läser JSON därifrån. `--valnatt` sätter `data/konfig` till `"ar": ["2022", "2026"]`, `"standardAr": "2026"`, `"valnatt": true` och behövs bara första gången. Sedan var femte till tionde minut:
+`--hamta` laddar ned riksdagen (hela landet), regionvalet (Västra Götaland) och kommunvalet (Göteborg), kontrollerar md5 mot index och JSON-filernas signaturer mot certifikatet, packar upp till `data/valnatt/<tidsstämpel>/` och läser JSON därifrån. `--valnatt` sätter `data/konfig` till `"ar": ["2022", "2026"]`, `"standardAr": "2026"`, `"valnatt": true` och behövs bara första gången. Sedan var tionde minut:
 
 ```bash
 .venv/bin/python scripts/uppdatera_2026.py --hamta --status preliminar && git add data && git commit -qm "Valnatten: uppdaterat $(date +%H:%M)" && git push origin main
 ```
+
+GitHub Pages bygger från grenen med en mjuk gräns på tio bygg per timme; pushar man tätare än så hinner sidan inte hänga med. Blir ett bygge strypt landar pushen ändå i git, men sidan uppdateras inte förrän nästa bygge går igenom - kontrollera då sidan innan nästa push.
 
 Har de tre filerna samma md5 som förra körningen skriver skriptet `Inget nytt att läsa in.` och avslutar med kod 3 utan att röra något; kedjan stannar där och ingenting committas. Alla filer skrivs atomiskt, så sidan kan aldrig läsa en halvskriven fil.
 
@@ -261,7 +267,7 @@ Läs varningarna. `VARNING:` betyder att filerna skrevs men att något avviker: 
 
 **Valdeltagandet i aggregaten** räknas mot röstberättigade i räknade distrikt, inte mot hela områdets väljarkår; annars visar riket 12 procent klockan 20.30. Toppsvarets mening tar med riket först när även riket är färdigräknat, eftersom de distrikt som kommer först i landet är små och lantliga. "Majorna mot Sverige" och halvcirkeln säger under bilden hur långt jämförelseområdet kommit så länge det är delvis räknat.
 
-**Sidan under kvällen:** statusraden överst säger "Preliminärt, X av 23 distrikt räknade. Uppdaterad HH:MM." med knappen "Ladda om" bredvid, och toppsvaret under den visar de fyra största partierna i riksdagsvalet. Byter läsaren till Valet 2022 lyder raden "Slutligt resultat 2022. Ladda om", och knappen tar tillbaka till den levande vyn. Oräknade distrikt gråtonas på kartan, Majorna-snittet räknas på räknade distrikt, och kortets rad "Hur har det ändrats" säger "räknat på N jämförbara distrikt av 23" tills alla är räknade.
+**Sidan under kvällen:** statusraden överst säger "Preliminärt, X av 23 distrikt räknade. Uppdaterad HH:MM." med knappen "Ladda om" bredvid, och toppsvaret under den visar de fyra största partierna i riksdagsvalet utan någon valdeltagandemening förrän alla 23 distrikt är räknade. Byter läsaren till Valet 2022 lyder raden "Slutligt resultat 2022. Ladda om", och knappen tar tillbaka till den levande vyn. Oräknade distrikt gråtonas på kartan, Majorna-snittet räknas på räknade distrikt, och kortets rad "Hur har det ändrats" säger "räknat på N jämförbara distrikt av 23" tills alla är räknade.
 
 ### Reservväg
 
@@ -311,7 +317,8 @@ Hämtningen:
 - `FEL: md5 stämmer inte: <a> i filen, <b> i index` - filen ändrades under hämtningen. Skriptet har redan gjort ett återförsök med paus, så kör igen om några minuter.
 - `FEL: rd: signatur saknas för <fil>` och `FEL: rd: signaturen för <fil> stämmer inte` - fel certifikat eller manipulerad fil. Hämta om certifikatet först. `--utan-signatur` är reservläge och används bara om val.se bekräftar problemet: `.venv/bin/python scripts/uppdatera_2026.py --hamta --utan-signatur --status preliminar` ger utskriften "signatur ej kontrollerad".
 - `FEL: data/valnatt/senaste är en katalog, inte en länk; flytta undan den` - `senaste` ska vara en symlänk.
-- `FEL: hämtningen misslyckades: <typ>: <text>` - nätfel eller oväntad form. Inget är skrivet; vänta och kör igen.
+- Nätfel under `uppdatera_2026.py --hamta` ger två rader: `FEL: <url>: <orsak>` (samma meddelande hamta_2026.py själv hade skrivit, till exempel `FEL: https://resultat.val.se/...: [Errno 8] nodename nor servname provided, or not known`) följt av `FEL: hämtningen misslyckades, inget skrivet`. Inget är skrivet; vänta och kör igen.
+- `FEL: hämtningen avbröts med kod N` - hämtningen avslutades på ett sätt som inte fångades av dess egna felhantering (sällsynt). Kör igen.
 
 `--tvinga` låser upp tre spärrar på en gång: färre räknade distrikt, testdata över skarp data, och testdata till repots `data/` - inte bara den som utlöste stoppet. En `--genrep`-körning med standard-`--ut` följd av återstartskommandot med `--tvinga` skriver alltså testmärkt data till `data/` utan att stoppas. Se avsnittet Under kvällen.
 
@@ -411,7 +418,7 @@ Andelar räknas alltid i sidan som parti delat med giltiga röster. Inga tal är
 
 ## Designval
 
-Sidhuvudet svarar på frågan innan läsaren scrollar: en statusrad ("Preliminärt, 12 av 23 distrikt räknade. Uppdaterad 21:35.", "Slutligt resultat 2022. Valet 2026 är söndag 13 september.") och under den ett toppsvar med de fyra största partierna i riksdagsvalet som korta staplar, plus valdeltagandet i en mening. Banderollen och ingressen som fanns tidigare är borttagna: de sade samma sak två gånger och sköt ned kartan. Statusraden och toppsvaret har reserverad höjd (52 px respektive 208 px, statusraden 26 px från 600 px containerbredd) och årväljarens rad reserveras så fort konfigen listar två år, så att sidhuvudet inte hoppar när datan kommer. Har-mening (klassen som sätts när `toppsvar.mening` är satt) höjer toppsvarets reserverade höjd till 270 px, 244 px från 600 px containerbredd, eftersom meningen tar två rader på smala containrar. I nolläget (0 av 23 räknade) visar toppsvaret bara en rad ("Riksdagsvalet 2026: inget distrikt räknat än.") i den 208 px höga rutan i stället för att krympa den - avsiktligt, så att höjden är densamma före och efter att det första distriktet räknas. "Ladda om" är en `<button>` med länkutseende, inte en länk: den laddar om värdsidan, och en länk hade gått att cmd-klicka till ingenstans.
+Sidhuvudet svarar på frågan innan läsaren scrollar: en statusrad ("Preliminärt, 12 av 23 distrikt räknade. Uppdaterad 21:35.", "Slutligt resultat 2022. Valet 2026 är söndag 13 september.") och under den ett toppsvar med de fyra största partierna i riksdagsvalet som korta staplar. Valdeltagandemeningen under staplarna kommer först när hela Majorna är färdigräknad i det visade valet; fram till dess visas bara de fyra staplarna. Banderollen och ingressen som fanns tidigare är borttagna: de sade samma sak två gånger och sköt ned kartan. Statusraden och toppsvaret har reserverad höjd (52 px respektive 208 px, statusraden 26 px från 600 px containerbredd) och årväljarens rad reserveras så fort konfigen listar två år, så att sidhuvudet inte hoppar när datan kommer. Har-mening (klassen som sätts när `toppsvar.mening` är satt) höjer toppsvarets reserverade höjd till 270 px, 244 px från 600 px containerbredd, eftersom meningen tar två rader på smala containrar. I nolläget (0 av 23 räknade) visar toppsvaret bara en rad ("Riksdagsvalet 2026: inget distrikt räknat än.") i den 208 px höga rutan i stället för att krympa den - avsiktligt, så att höjden är densamma före och efter att det första distriktet räknas. "Ladda om" är en `<button>` med länkutseende, inte en länk: den laddar om värdsidan, och en länk hade gått att cmd-klicka till ingenstans.
 
 Resultatkortet har raden "Hur har det ändrats" i tre grenar. Ett jämförbart distrikt får tal för de tre största partier som har tal i swingfilen. Ett omritat distrikt får meningen "Gränserna för Mariaplan ritades om till 2026" och hela Majornas förändring för distriktets största parti. Hela Majorna får talen med kohorttexten "räknat på N jämförbara distrikt av 23" tills alla är räknade. Partier som saknar tal i swingfilen visas inte alls, aldrig som "0,0".
 

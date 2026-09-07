@@ -6,10 +6,10 @@ Valdagen är söndag 13 september 2026. Vallokalerna stänger 20.00.
 
 ## Lördag 12 september
 
-- [ ] `git pull origin main`. Sedan grenkontroll: `git branch --show-current` svarar `main`, och `git log origin/main --oneline -1` visar samma commit som `git log --oneline -1`. Valnattsomgången ligger på grenen `claude/valnattsplanen-superpowers-b46290`; körschemat förutsätter att den är mergad till `main` innan kvällens `git push origin main` kan nå hosten.
-- [ ] `.venv/bin/python -m pytest -q` grönt.
-- [ ] `.venv/bin/python scripts/uppdatera_2026.py --repetera` slutar med `REPETITION OK`.
+- [ ] `git pull origin main`. Sedan grenkontroll: `git branch --show-current` svarar `main`, och `git log origin/main --oneline -1` visar samma commit som `git log --oneline -1`. Valnattsomgången ligger på grenen `claude/valnattsplanen-superpowers-b46290`; körschemat förutsätter att den är mergad till `main` innan kvällens `git push origin main` kan nå hosten. Görs mergepushen i dag: välj en lugn timme (GitHub Pages har en mjuk gräns på tio bygg per timme, se Under kvällen) och kontrollera sidan (majposten.se/val2026) igen tio minuter senare - Pages cache kan dröja så länge, och det är det som gör `data/distrikt.js`-övergångskopian meningsfull för läsare som hann in mellan pushen och ombygget.
 - [ ] Certifikatet finns: `ls val-sign-pub.pem`. Saknas det: `curl -sSo val-sign-crt.pem https://resultat.val.se/keys/val-sign-crt.pem && openssl x509 -in val-sign-crt.pem -pubkey -noout > val-sign-pub.pem`. (Skriptet hämtar det annars själv vid första körningen.)
+- [ ] `.venv/bin/python -m pytest -q` grönt. Saknas pem-filerna hoppar sviten tyst över två signaturtester (`test_signatur_verifieras_med_valmyndighetens_nyckel` och `test_signatur_ger_false_vid_andrad_byte`) i stället för att fela - kör steget ovan först så att de räknas med.
+- [ ] `.venv/bin/python scripts/uppdatera_2026.py --repetera` slutar med `REPETITION OK: 2022 års råfiler ger exakt samma valdata som valdata_2022.json (23 distrikt, 3 val, aggregat, mandat). Varningar: 35`.
 - [ ] Torrkörning mot simuleringarna, till en tillfällig mapp:
 
 ```bash
@@ -63,7 +63,7 @@ FEL: https://resultat.val.se/resultatfiler/val2026/index.md5 svarar 404: resulta
 ```
 
 - [ ] `git status` rent, `git pull origin main` uppdaterat, hosten svarar (öppna majposten.se/val2026).
-- [ ] Ta bort torrkörningens mappar när du är klar (`rm -rf /tmp/torr /tmp/torr2 tmp/tvaar`). Repots `data/` ska inte ha ändrats av något steg ovan.
+- [ ] Ta bort torrkörningens mappar när du är klar (`rm -rf /tmp/torr /tmp/torr2 tmp`). Repots `data/` ska inte ha ändrats av något steg ovan.
 
 ## Söndag 13 september
 
@@ -87,11 +87,13 @@ git add data && git commit -qm "Valnatten: första resultaten" && git push origi
 
 Vänta en minut, öppna majposten.se/val2026 med `?v=1` i adressen (för att komma runt cachen) och kontrollera statusraden, toppsvaret och kartan.
 
-- [ ] Var femte till tionde minut till omkring 23.30:
+- [ ] Var tionde minut till omkring 23.30:
 
 ```bash
 .venv/bin/python scripts/uppdatera_2026.py --hamta --status preliminar && git add data && git commit -qm "Valnatten: uppdaterat $(date +%H:%M)" && git push origin main
 ```
+
+GitHub Pages bygger från grenen med en mjuk gräns på tio bygg per timme. Blir ett bygge strypt landar pushen ändå i git, men sidan uppdateras inte förrän nästa bygge går igenom - kontrollera då sidan innan nästa push.
 
 Returkod 3 med `Inget nytt att läsa in.` betyder att Valmyndighetens tre filer är oförändrade: kedjan stannar, ingenting committas, allt är som det ska.
 

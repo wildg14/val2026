@@ -169,8 +169,9 @@ const pe = x => {   // avrundas först: ett värde som blir noll skrivs "0,0" ut
   return (v > 0 ? "+" : "") + v.toLocaleString("sv-SE", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
 };
 const parti = p => PARTIER[p] || { namn: (data().meta.partier || {})[p] || p, farg: "#A79C8E", text: FARG.black };
+const hexTal = hex => [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16));   // "#RRGGBB" till [r, g, b]
 function mix(hex, t) {   // partifärg mot papper, t = 1 ger partifärgen
-  const c = [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16)), p = [250, 246, 238];
+  const c = hexTal(hex), p = [250, 246, 238];
   return "#" + c.map((v, i) => Math.round(p[i] + (v - p[i]) * t).toString(16).padStart(2, "0")).join("");
 }
 function klockslag(iso) { const d = new Date(iso); return isNaN(d) ? iso : d.toLocaleTimeString("sv-SE", { hour: "2-digit", minute: "2-digit" }); }
@@ -641,7 +642,7 @@ function spannVid(ringSvg, y, x) {   // polygonens bredd på etikettens rad, och
   return { bredd: xs.length >= 2 ? xs[xs.length - 1] - xs[0] : 0, mitt: x };
 }
 function relLuminans(hex) {
-  const c = [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16) / 255).map(v => v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4));
+  const c = hexTal(hex).map(v => v / 255).map(v => v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4));
   return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
 }
 function textFarg(hex) {
@@ -649,11 +650,10 @@ function textFarg(hex) {
   // V och M klarar gränsen och behåller sin färg exakt; SD-gult (1,6:1) och MP-grönt (3,0:1) mörkas.
   const lp = relLuminans(FARG.papper);
   const kontrast = f => { const l = relLuminans(f); return (Math.max(lp, l) + 0.05) / (Math.min(lp, l) + 0.05); };
-  if (kontrast(hex) >= 4.5) return hex;
-  const black = [1, 3, 5].map(i => parseInt(FARG.black.slice(i, i + 2), 16));
-  const c = [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16));
+  if (kontrast(hex) >= 4.5) return hex.toUpperCase();
+  const black = hexTal(FARG.black), c = hexTal(hex);
   for (let t = 0.05; t <= 1.0001; t += 0.05) {
-    const f = "#" + c.map((v, i) => Math.round(v + (black[i] - v) * t).toString(16).padStart(2, "0")).join("");
+    const f = "#" + c.map((v, i) => Math.round(v + (black[i] - v) * t).toString(16).padStart(2, "0")).join("").toUpperCase();
     if (kontrast(f) >= 4.5) return f;
   }
   return FARG.black;
@@ -1258,7 +1258,7 @@ function histLinjer(val) {
     for (const pt of pts) { if (pt) delar[delar.length - 1].push(pt); else delar.push([]); }
     for (const del of delar.filter(d => d.length)) {
       const fasta = del.filter(pt => !pt.preliminar);
-      if (fasta.length) svg.append(s("path", { d: fasta.map((pt, i) => (i ? "L" : "M") + pt.x.toFixed(1) + "," + pt.y.toFixed(1)).join(""), fill: "none", stroke: parti(p).farg, "stroke-width": 2.5, "stroke-linejoin": "round" }));
+      if (fasta.length > 1) svg.append(s("path", { d: fasta.map((pt, i) => (i ? "L" : "M") + pt.x.toFixed(1) + "," + pt.y.toFixed(1)).join(""), fill: "none", stroke: parti(p).farg, "stroke-width": 2.5, "stroke-linejoin": "round" }));
       if (del.length > fasta.length && fasta.length) {   // preliminärt år: streckad sträcka fram till den öppna ringen
         const a = fasta[fasta.length - 1], b = del[del.length - 1];
         svg.append(s("path", { d: `M${a.x.toFixed(1)},${a.y.toFixed(1)}L${b.x.toFixed(1)},${b.y.toFixed(1)}`, fill: "none", stroke: parti(p).farg, "stroke-width": 2.5, "stroke-dasharray": "6 5" }));
@@ -1266,22 +1266,22 @@ function histLinjer(val) {
       for (const pt of del) svg.append(s("circle", { cx: pt.x.toFixed(1), cy: pt.y.toFixed(1), r: 3.5, fill: pt.preliminar ? FARG.papper : parti(p).farg, stroke: parti(p).farg, "stroke-width": 2 }));
     }
     const sista = pts.filter(Boolean).pop();
-    if (sista) slut.push({ p, py: sista.y, y: sista.y });
+    if (sista) slut.push({ p, px: sista.x, py: sista.y, y: sista.y });
   }
-  // Etiketterna står vid linjens högra ände, inte vid bildens kant: så länge linjerna slutar 2022 får ingen
-  // ledarlinje sträcka sig fram till den tomma ringen och se ut som ett resultat.
-  const etikettX = x(axelAr.indexOf(punkter[punkter.length - 1].ar));
+  // Etiketterna står vid varje partis egen sista punkt, inte vid bildens kant och inte i en gemensam kolumn:
+  // ett parti vars linje slutar tidigare får bokstaven där linjen slutar, och ingen ledarlinje sträcker sig
+  // fram till den tomma ringen och ser ut som ett resultat.
   slut.sort((a, b) => a.y - b.y);   // etiketterna får inte täcka varandra: skjut isär till 15 px och rita en kort ledarlinje
   for (let i = 1; i < slut.length; i++) if (slut[i].y - slut[i - 1].y < 15) slut[i].y = slut[i - 1].y + 15;
   for (const e of slut) {
-    if (Math.abs(e.y - e.py) > 1) svg.append(s("line", { x1: (etikettX + 4).toFixed(1), y1: e.py.toFixed(1), x2: (etikettX + 11).toFixed(1), y2: e.y.toFixed(1), stroke: parti(e.p).farg, "stroke-width": 1 }));
-    svg.append(s("text", { x: (etikettX + 13).toFixed(1), y: (e.y + 4.5).toFixed(1), "font-size": 13, "font-weight": 700, fill: textFarg(parti(e.p).farg) }, e.p));
+    if (Math.abs(e.y - e.py) > 1) svg.append(s("line", { x1: (e.px + 4).toFixed(1), y1: e.py.toFixed(1), x2: (e.px + 11).toFixed(1), y2: e.y.toFixed(1), stroke: parti(e.p).farg, "stroke-width": 1 }));
+    svg.append(s("text", { x: (e.px + 13).toFixed(1), y: (e.y + 4.5).toFixed(1), "font-size": 13, "font-weight": 700, fill: textFarg(parti(e.p).farg) }, e.p));
   }
   // Läslinjen skapas en gång och ritas före ringen, så att ringen ligger överst. Saknar året plats på axeln
   // hålls linjen dold i stället för att ritas om.
   const li = axelAr.indexOf(state.historikAr);
   svg.append(s("line", { class: "hist-laslinje", x1: li >= 0 ? x(li).toFixed(1) : null, x2: li >= 0 ? x(li).toFixed(1) : null,
-                         y1: M.t, y2: H - M.b, stroke: FARG.sten, "stroke-dasharray": "3 3", visibility: li >= 0 ? null : "hidden" }));
+                         y1: M.t, y2: y(0) - 8, stroke: FARG.sten, "stroke-dasharray": "3 3", visibility: li >= 0 ? null : "hidden" }));
   for (const a of utan) {   // året får inte ritas än: tom ring på axelns nollnivå, med texten till vänster om den
     const cx = x(axelAr.indexOf(a));
     svg.append(s("text", { x: (cx - 10).toFixed(1), y: (y(0) + 4).toFixed(1), "text-anchor": "end", "font-size": 12, fill: FARG.sten }, "räknas på valnatten"),

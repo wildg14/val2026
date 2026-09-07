@@ -68,7 +68,8 @@ def test_historik_json_form_och_summor(tmp_path):
 
 @finns
 def test_historik_2022_ar_identisk_med_valdata_2022(tmp_path):
-    kor("historik", "--ut", str(tmp_path))
+    r = kor("historik", "--ut", str(tmp_path))
+    assert r.returncode == 0, r.stdout + r.stderr
     hst = json.loads((tmp_path / "historik.json").read_text("utf-8"))
     v = json.loads((ROT / "data" / "valdata_2022.json").read_text("utf-8"))
     for val in ("rd", "rf", "kf"):
@@ -81,7 +82,8 @@ def test_historik_2022_ar_identisk_med_valdata_2022(tmp_path):
 
 @finns
 def test_historik_ovriga_foljer_sidans_partiuppsattning(tmp_path):
-    kor("historik", "--ut", str(tmp_path))
+    r = kor("historik", "--ut", str(tmp_path))
+    assert r.returncode == 0, r.stdout + r.stderr
     hst = json.loads((tmp_path / "historik.json").read_text("utf-8"))
     con = db()
     rader = con.execute(
@@ -98,14 +100,16 @@ def test_historik_ovriga_foljer_sidans_partiuppsattning(tmp_path):
 
 @finns
 def test_historik_utelamnar_2002_och_smapartier(tmp_path):
-    kor("historik", "--ut", str(tmp_path))
+    r = kor("historik", "--ut", str(tmp_path))
+    assert r.returncode == 0, r.stdout + r.stderr
     text = (tmp_path / "historik.json").read_text("utf-8")
     assert '"ar": 2002' not in text and "SUMMA_ÖVRIGA" not in text and "PP" not in text
 
 
 @finns
 def test_historik_partier_per_val(tmp_path):
-    kor("historik", "--ut", str(tmp_path))
+    r = kor("historik", "--ut", str(tmp_path))
+    assert r.returncode == 0, r.stdout + r.stderr
     hst = json.loads((tmp_path / "historik.json").read_text("utf-8"))
     ppv = hst["meta"]["partier_per_val"]
     assert list(ppv) == ["rd", "rf", "kf"]
@@ -120,7 +124,8 @@ def test_historik_partier_per_val(tmp_path):
 
 @finns
 def test_historik_metod_deterministisk(tmp_path):
-    kor("historik", "--ut", str(tmp_path))
+    r = kor("historik", "--ut", str(tmp_path))
+    assert r.returncode == 0, r.stdout + r.stderr
     hst = json.loads((tmp_path / "historik.json").read_text("utf-8"))
     metod = hst["meta"]["metod"]
     assert set(metod) == {"2006", "2010", "2014", "2018", "2022"}
@@ -130,7 +135,8 @@ def test_historik_metod_deterministisk(tmp_path):
 
 @finns
 def test_historik_valdeltagande_finns_antal_distrikt_bara_majorna(tmp_path):
-    kor("historik", "--ut", str(tmp_path))
+    r = kor("historik", "--ut", str(tmp_path))
+    assert r.returncode == 0, r.stdout + r.stderr
     hst = json.loads((tmp_path / "historik.json").read_text("utf-8"))
     for val, nivaer in hst["serie"].items():
         for niva, rader in nivaer.items():
@@ -238,7 +244,8 @@ def test_swing_2022_nio_jamforbara_och_omradesserien(tmp_path):
         assert not (varde == 0.0 and math.copysign(1.0, varde) < 0), f"{parti}: negativ nolla"
     hst = json.loads((tmp_path / "historik.json").read_text("utf-8")) if (tmp_path / "historik.json").exists() else None
     if hst is None:
-        kor("historik", "--ut", str(tmp_path))
+        r2 = kor("historik", "--ut", str(tmp_path))
+        assert r2.returncode == 0, r2.stdout + r2.stderr
         hst = json.loads((tmp_path / "historik.json").read_text("utf-8"))
     for val in ("rd", "rf", "kf"):
         assert set(s["majorna"][val]) == set(hst["meta"]["partier_per_val"][val])
@@ -439,7 +446,7 @@ def test_distrikt_2006_union_nara_rafilen(geo2006):
 @finns
 def test_distrikt_2006_ytterkontur_nara_2022(geo2006):
     """Ytterkonturen (unionen av alla 17 distrikt) ska ligga nära dagens Majorna-yta (unionen av
-    data/distrikt_2022.geojang), trots att valdistrikten ritades om helt inför 2022 - samma
+    data/distrikt_2022.geojson), trots att valdistrikten ritades om helt inför 2022 - samma
     symmetriska differens-mått som mot råfilen ovan, samma gräns 1,2 procent."""
     fc = json.loads((geo2006 / "distrikt_2006.geojson").read_text("utf-8"))
     fc_2022 = json.loads((ROT / "data" / "distrikt_2022.geojson").read_text("utf-8"))

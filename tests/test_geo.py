@@ -178,6 +178,16 @@ def test_features_till_schema_dubbel_kod_ger_fel():
             forenkla_grader=0.0001)
 
 
+def test_features_till_schema_dubbel_kod_ger_fel_aven_utan_forenkling():
+    """Dubblettvakten ska gälla lika på den oförenklade vägen (forenkla_grader=None, las_distrikts
+    väg för 2022 och 2026), inte bara när forenkla_grader är satt."""
+    a = Polygon([(11.900, 57.700), (11.901, 57.700), (11.901, 57.701), (11.900, 57.701), (11.900, 57.700)])
+    b = Polygon([(11.910, 57.700), (11.911, 57.700), (11.911, 57.701), (11.910, 57.701), (11.910, 57.700)])
+    with pytest.raises(ValueError, match="A förekommer två gånger"):
+        geo.features_till_schema(
+            [{"geometry": a, "kod": "A", "namn": "A"}, {"geometry": b, "kod": "A", "namn": "B"}])
+
+
 def test_features_till_schema_overlappande_kallpolygoner_ger_fel():
     """Två källpolygoner som överlappar (inte bara delar en gräns) är inte lämpliga att förenkla
     topologiskt - felet ska säga det, inte krascha eller tyst ge fel geometri."""

@@ -63,21 +63,18 @@ def _forenkla_topologiskt(features, forenkla_grader):
     kastar då ValueError ("Cannot linemerge") eftersom den bara tar MultiLineString eller en sekvens
     av linjer, så det steget hoppas över när resultatet redan är en enda LineString.
 
-    Kräver dessutom att ingen kod förekommer två gånger i features och att inga två källpolygoner
-    (projicerade till EPSG:3006) överlappar mer än en kvadratmeter - annars är indatan inte lämplig
-    att förenkla topologiskt, oavsett tolerans.
+    Antar att ingen kod förekommer två gånger i features - features_till_schema kontrollerar det
+    innan den här funktionen anropas. Kräver dessutom att inga två källpolygoner (projicerade till
+    EPSG:3006) överlappar mer än en kvadratmeter - annars är indatan inte lämplig att förenkla
+    topologiskt, oavsett tolerans.
 
     Returnerar kod -> ny polygon. Kräver att polygonize ger exakt lika många polygoner som features
     (annars har två slagits ihop eller en delats av förenklingen) och att varje kod matchar exakt en
     ny polygon (_matcha_kod); annars ValueError med en begriplig förklaring - sänk då toleransen.
     """
-    sedda = set()
     original = []
     for ft in features:
         kod, g = ft["kod"], ft["geometry"]
-        if kod in sedda:
-            raise ValueError(f"features_till_schema: koden {kod} förekommer två gånger")
-        sedda.add(kod)
         if not g.is_valid:
             g = g.buffer(0)
             if g.is_empty or not g.is_valid:
@@ -132,13 +129,21 @@ def features_till_schema(features, forenkla_grader=None):
     en sådan källa och får arean räknad här. Delas av las_distrikt (2022, 2026) och bygg_geo (2006
     till 2018), så att alla år får exakt samma schembygge.
 
+    Ingen kod får förekomma två gånger i features, med eller utan forenkla_grader - kontrollerat
+    här, före förenklingen, så att felet gäller båda vägarna.
+
     I en förenklad fil (forenkla_grader satt) beskriver area_km2 den förenklade polygonens egen yta,
-    inte det verkliga distriktets - konturen har flyttats något, vilket kan skilja uppåt några
-    procent för ett enskilt distrikt även om totalsumman håller (förenklingen bevarar gemensamma
-    gränser, så det en granne vinner förlorar den andra).
+    inte det verkliga distriktets - konturen har flyttats något, vilket kan skilja uppåt drygt fem
+    procent för ett enskilt distrikt även om totalsumman håller (uppmätt 5,2 procent för 14808503 i
+    2006 års fil; förenklingen bevarar gemensamma gränser, så det en granne vinner förlorar den andra).
     """
     if not features:
-        raise ValueError("inga distrikt att skriva")
+        raise ValueError("features_till_schema: inga distrikt att skriva")
+    sedda = set()
+    for ft in features:
+        if ft["kod"] in sedda:
+            raise ValueError(f"features_till_schema: koden {ft['kod']} förekommer två gånger")
+        sedda.add(ft["kod"])
     tilldelning = _forenkla_topologiskt(features, forenkla_grader) if forenkla_grader is not None else None
     ut = []
     for ft in features:

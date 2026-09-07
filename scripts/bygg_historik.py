@@ -302,9 +302,11 @@ def bygg_swing_2022(con):
 # flyttar aldrig en knutpunkt, bara linjerna mellan dem. Största enskilda konturavvikelsen (varje
 # originalhörn mot den förenklade linjen, i EPSG:3006) är cirka 20 meter, för distrikt 14808401 - inom
 # den teoretiska gränsen för toleransen: 0,0002 grader är cirka 12 meter öst-väst och 22 meter nord-syd
-# vid Majornas breddgrad (1 grad longitud krymper med cos(lat) i meter, latitud gör det inte). Konturen
-# ritas cirka 170 pixlar bred, vilket ger ungefär 16,8 meter per pixel, så en avvikelse på 20 meter syns
-# som drygt en pixel - rimligt för en kontur i den storleken.
+# vid Majornas breddgrad (1 grad longitud krymper med cos(lat) i meter, latitud gör det inte). Kartan är
+# 170 x 135 pixlar; distrikt_2006:s bbox är 2 838 x 2 844 meter, nästan kvadratisk, så det är höjden
+# (135 px) som binder skalan, inte bredden - bredden ensam (2 838 meter på 170 px) skulle ge 16,7 meter
+# per pixel, men med höjden bindande blir det i stället cirka 21 meter per pixel. En avvikelse på 20
+# meter syns då som knappt en pixel - rimligt för en kontur i den storleken.
 FORENKLA_GRADER = 0.0002
 
 

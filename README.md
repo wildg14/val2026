@@ -127,7 +127,7 @@ Två delar: statisk hosting av filerna, och ett HTML-block på Beehiiv-sidan.
 
 Beehiivs regler som bygget följer: koden börjar med en enda container-div, all CSS är scopad till `.mp-val`, inga regler på `*`, `body` eller `html`, inga `vh`-mått, ingen `position: fixed`. Testet `tests/test_inbaddning.py` vaktar det.
 
-Total sidvikt är cirka 404 kB för ett år: `du -ch valgrafik.js valgrafik.css data/konfig.js data/valdata_2022.js data/distrikt_2022.js data/bakgrund.js`. Bakgrundslagret är 228 kB av det (samma `du`-körning). Historiksektionen lägger till `data/historik.js` (25 kB), `data/swing_2022.js` (6,8 kB) och `data/distrikt_2006.js` (9,9 kB), som laddas vid start; med dem inräknade (`du -ch ... data/historik.js data/swing_2022.js data/distrikt_2006.js`) blir sidvikten cirka 452 kB. På valnatten tillkommer `distrikt_2026.js`, `valdata_2026.js` och `swing_2026.js`, tillsammans 52 kB.
+Total sidvikt är cirka 404 kB för ett år: `du -ch valgrafik.js valgrafik.css data/konfig.js data/valdata_2022.js data/distrikt_2022.js data/bakgrund.js`. Bakgrundslagret är 228 kB av det (samma `du`-körning). Historikomgången lägger till tre filer: `data/historik.js` (25 kB) och `data/distrikt_2006.js` (9,9 kB), som sektionen läser, och `data/swing_2022.js` (6,8 kB), som går till resultatkortets bakåtvända rad, inte till sektionen. Alla tre laddas vid start; med dem inräknade (`du -ch ... data/historik.js data/swing_2022.js data/distrikt_2006.js`) blir sidvikten cirka 452 kB. På valnatten tillkommer `distrikt_2026.js`, `valdata_2026.js` och `swing_2026.js`, tillsammans 52 kB.
 
 ## Beehiiv
 
@@ -191,16 +191,16 @@ I Beehiiv: lägg in bilden med alt-texten och länka den till sidan (`#jamforels
 
 ## Historiken
 
-Sektionen "Majorna sedan 2006" ligger sist på sidan och visar Majornas valresultat över tid, oberoende av vilket år kartan ovanför står på. Den har fyra delar:
+Sektionen "Majorna sedan 2006" ligger näst sist på sidan, ovanför "Om siffrorna" och sidfoten, och visar Majornas valresultat över tid, oberoende av vilket år kartan ovanför står på. Den har fyra delar:
 
 - En rubrikmening per val (`#hist-mening`), antingen ur `KONFIG.historik.mening` (redaktörens egen text) eller räknad ur serien (Vänsterpartiets andel första och sista år).
-- Bild A: partilinjerna V, S, MP och SD, och från 600 px containerbredd även M, 2006 till i dag, y-axel 0 till 40 procent. En läslinje flyttas med klick eller piltangenterna utan att bilden ritas om; talraden under bilden visar det valda årets tal som en rad `span.hist-tal` som får radbrytas. Noten under bilden nämner hur många distrikt Majorna bestått av per år och vilka partier som ligger i Övriga för valet (till exempel Feministiskt initiativ i riksdagsvalet 2014).
+- Bild A: partilinjerna V, S, MP och SD, och från 600 px containerbredd även M, 2006 till i dag, y-axel 0 till 40 procent (vidgas i femprocentssteg om ett parti ligger utanför). En läslinje flyttas med klick eller piltangenterna utan att bilden ritas om; talraden under bilden visar det valda årets tal som en rad `span.hist-tal` som får radbrytas. Noten under bilden nämner hur många distrikt Majorna bestått av per år och vilka partier som ligger i Övriga för valet (till exempel Feministiskt initiativ i riksdagsvalet 2014).
 - Bild B: valdeltagandet i Majorna mot Göteborg, och på desktop även riket streckat i riksdagsvalet. Y-axel 70 till 90 procent (vidgas i femprocentssteg om ett år ligger utanför), egen rubrikmening och not.
 - Konturkartorna: 2006 (ur `data/distrikt_2006.js`, förenklad geometri, 17 distrikt) mot det visade årets geometri (23 distrikt för 2022 och 2026, 22 för 2018), som två små `figure`-element, `aria-hidden` eftersom de inte går att interagera med. Noten säger att ytan är densamma trots fler distrikt i dag och att valhemligheten gäller per distrikt, inte per person.
 
 Sektionen följer kartans val (riksdag, region eller kommun) men inte kartans årsknapp: sista punkten i bild A och B kommer alltid från det senast laddade året (det största i `KONFIG.ar`) och ritas bara när alla Majornas distrikt är räknade i det valet - för jämförelseområdena krävs dessutom att området självt är färdigräknat. Kartorna följer däremot årsknappen, eftersom de svarar på en fråga om det år kartan visar. Före valdagen står 2026 som en tom ring på skalans nedersta nivå med texten "räknas på valnatten"; är alla distrikt räknade men resultatet preliminärt blir ringen öppen i partifärg med en streckad sista sträcka och "(preliminärt)" i talraden; är resultatet slutligt blir punkten fylld och rubrikmeningarna räknas på 2026.
 
-Sektionen döljs när `data/historik.js` saknas eller `KONFIG.historik.visa` är `false`. `historik.js`, `swing_2022.js` och `distrikt_2006.js` laddas vid start i samma svep som årets egna filer och tål att någon av dem saknas (404 räknas som en valfri fil, inte som fel).
+Sektionen döljs när `data/historik.js` saknas eller `KONFIG.historik.visa` är `false`, vilket stänger av laddningen av `historik.js` och `distrikt_2006.js`. `swing_2022.js` laddas oberoende av det, så länge 2022 står i `KONFIG.ar` - den filen hör till resultatkortets rad "Hur har det ändrats", inte till sektionen. Alla tre laddas vid start i samma svep som årets egna filer och tål att någon av dem saknas (404 räknas som en valfri fil, inte som fel).
 
 **Bygga om filerna.** Databasen (`scripts/historik/bygg_databas.py`, se `docs/historik/README.md`) byggs om först vid behov, sedan:
 

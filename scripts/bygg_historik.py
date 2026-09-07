@@ -12,6 +12,8 @@ Databasen byggs om med scripts/historik/bygg_databas.py. Serien börjar 2006 (Da
 med 2014. Alla tal räknas ur tabellerna, inget skrivs för hand. Varje post i serien har roster med exakt
 NYCKELPARTIER[val] plus Övriga (sidans partiuppsättning för valet); partier i tidsserien utanför den
 uppsättningen, till exempel FI i riksdagsvalet eller K i regionvalet, läggs i Övriga.
+
+Underkommandot "allt" är inte körbart förrän alla delar finns (Task 4).
 """
 import argparse
 import csv
@@ -32,7 +34,7 @@ KEDJA = ROT / "data" / "historik" / "kedja_majorna_2006_2022.csv"
 GEO_HISTORIK = ROT / "data" / "historik"
 AR = [2006, 2010, 2014, 2018, 2022]
 PARTIER = ["V", "S", "MP", "SD", "M", "C", "L", "KD", "D", "FI", "K", OVRIGA]
-ALLA_KODER = PARTIER[:-1]  # de elva namngivna partikoderna, oavsett vilket val de har egen kolumn i
+ALLA_KODER = [p for p in PARTIER if p != OVRIGA]  # de elva namngivna partikoderna, oavsett vilket val de har egen kolumn i
 NIVAER = ["majorna", "goteborg", "riket"]
 KALLA = "Valmyndigheten, slutlig rösträkning per valdistrikt 2006 till 2022, sammanställd i data/historik/majorna_historik.sqlite"
 
@@ -43,6 +45,11 @@ def oppna(path=DB):
         sys.exit(1)
     con = sqlite3.connect(f"file:{path}?mode=ro", uri=True)
     con.row_factory = sqlite3.Row
+    try:
+        con.execute("SELECT 1 FROM tidsserie LIMIT 1")
+    except sqlite3.OperationalError:
+        print(f"FEL: {path} saknar tabellen tidsserie", file=sys.stderr)
+        sys.exit(1)
     return con
 
 
@@ -54,11 +61,13 @@ def _post(rader, val):
     eller K i regionvalet, läggs i Övriga tillsammans med SUMMA_ÖVRIGA. Så blir raden identisk
     med den kurerade valdata_<år>.json som redan följer sidans schema.
     """
+    if not rader:
+        return None
     nycklar = NYCKELPARTIER[val]
     roster = {p: 0 for p in nycklar}
     roster[OVRIGA] = 0
-    giltiga = rostande = rostberattigade = None
-    antal = metod = None
+    giltiga_ar, rostande_ar, rostberattigade_ar = set(), set(), set()
+    antal = None
     for r in rader:
         p = r["parti"]
         v = int(r["roster"] or 0)
@@ -68,19 +77,42 @@ def _post(rader, val):
             roster[p] = v
         else:
             continue
-        giltiga = int(r["giltiga"]) if r["giltiga"] is not None else giltiga
-        rostande = int(r["rostande"]) if r["rostande"] is not None else rostande
-        rostberattigade = int(r["rostberattigade"]) if r["rostberattigade"] is not None else rostberattigade
-        antal = int(r["antal_distrikt"]) if r["antal_distrikt"] is not None else antal
-        metod = r["metod"] if metod is None or "residual" not in (r["metod"] or "") else metod
-    if giltiga is None:
+        if r["giltiga"] is not None:
+            giltiga_ar.add(int(r["giltiga"]))
+        if r["rostande"] is not None:
+            rostande_ar.add(int(r["rostande"]))
+        if r["rostberattigade"] is not None:
+            rostberattigade_ar.add(int(r["rostberattigade"]))
+        if r["antal_distrikt"] is not None:
+            antal = int(r["antal_distrikt"])
+    plats = f"{rader[0]['ar']} {rader[0]['val']} {rader[0]['niva']}"
+    for namn, varden in (("giltiga", giltiga_ar), ("rostande", rostande_ar), ("rostberattigade", rostberattigade_ar)):
+        if len(varden) > 1:
+            raise SystemExit(f"FEL: {plats}: flera {namn}-värden på raderna {sorted(varden)}")
+    if not giltiga_ar:
         return None
+    giltiga = giltiga_ar.pop()
+    rostande = rostande_ar.pop() if rostande_ar else None
+    rostberattigade = rostberattigade_ar.pop() if rostberattigade_ar else None
+    metoder = {r["metod"] for r in rader if r["metod"] and "residual" not in r["metod"]}
+    if len(metoder) > 1:
+        raise SystemExit(f"FEL: {plats}: flera metodsträngar {sorted(metoder)}")
+    metod = metoder.pop() if metoder else None
     if sum(roster.values()) != giltiga:
-        raise SystemExit(f"FEL: {rader[0]['ar']} {rader[0]['val']} {rader[0]['niva']}: partiernas röster {sum(roster.values())} != giltiga {giltiga}")
+        raise SystemExit(f"FEL: {plats}: partiernas röster {sum(roster.values())} != giltiga {giltiga}")
     return {"ar": int(rader[0]["ar"]), "roster": roster, "andel": {p: n / giltiga for p, n in roster.items()},
             "giltiga": giltiga, "rostande": rostande, "rostberattigade": rostberattigade,
-            "valdeltagande": (rostande / rostberattigade) if rostande and rostberattigade else None,
+            "valdeltagande": (rostande / rostberattigade) if rostande is not None and rostberattigade else None,
             "antal_distrikt": antal, "metod": metod}
+
+
+def omradespost(con, ar, val, niva):
+    """Slår upp och sammanställer en (ar, val, niva)-grupp ur tidsserie, eller None om den saknas.
+
+    Task 2 använder den för basaggregatet 2018 (bas för swing_2022).
+    """
+    rader = con.execute("SELECT * FROM tidsserie WHERE ar=? AND val=? AND niva=? ORDER BY parti", (ar, val, niva)).fetchall()
+    return _post(rader, val)
 
 
 def bygg_historik(con):
@@ -89,19 +121,19 @@ def bygg_historik(con):
     for val in VAL:
         for niva in NIVAER:
             for ar in AR:
-                rader = con.execute("SELECT * FROM tidsserie WHERE ar=? AND val=? AND niva=? ORDER BY parti", (ar, val, niva)).fetchall()
-                post = _post(rader, val)
+                post = omradespost(con, ar, val, niva)
                 if post is None:
                     raise SystemExit(f"FEL: tidsserie saknar {ar} {val} {niva}")
                 if niva == "majorna":
                     metod_per_ar[str(ar)] = post["metod"]
                 serie[val][niva].append({k: v for k, v in post.items() if k != "metod"})
     return {"meta": {"byggd": dt.datetime.now().replace(microsecond=0).isoformat(), "kalla": KALLA, "ar": AR, "partier": PARTIER,
+                     "partier_per_val": {val: NYCKELPARTIER[val] + [OVRIGA] for val in VAL},
                      "noter": ["Serien börjar 2006. Valdistrikten ritades om helt inför det valet, så 2002 går inte att räkna om till dagens Majorna.",
                                "Liberalerna hette Folkpartiet till och med 2014; serien använder koden L hela vägen.",
-                               "Övriga är giltiga röster minus de elva partierna ovan.",
-                               "Partiuppsättningen per val följer sidans schema: riksdagsvalet V, S, MP, SD, M, C, L, KD; "
-                               "partier utanför valets uppsättning, till exempel FI i riksdagsvalet, ingår i Övriga."],
+                               "Övriga är giltiga röster minus valets partier. Partiuppsättningen per val följer sidans schema: "
+                               "riksdagsvalet V, S, MP, SD, M, C, L, KD; regionvalet dessutom D och FI; kommunvalet dessutom D, FI och K. "
+                               "Partier utanför valets uppsättning, till exempel FI i riksdagsvalet, ingår i Övriga."],
                      "metod": metod_per_ar},
             "serie": serie}
 

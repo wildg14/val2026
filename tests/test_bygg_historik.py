@@ -1,4 +1,5 @@
 import json
+import shutil
 import sqlite3
 import subprocess
 import sys
@@ -83,3 +84,67 @@ def test_historik_utelamnar_2002_och_smapartier(tmp_path):
     kor("historik", "--ut", str(tmp_path))
     text = (tmp_path / "historik.json").read_text("utf-8")
     assert '"ar": 2002' not in text and "SUMMA_ÖVRIGA" not in text and "PP" not in text
+
+
+@finns
+def test_historik_partier_per_val(tmp_path):
+    kor("historik", "--ut", str(tmp_path))
+    hst = json.loads((tmp_path / "historik.json").read_text("utf-8"))
+    ppv = hst["meta"]["partier_per_val"]
+    assert list(ppv) == ["rd", "rf", "kf"]
+    for val in ("rd", "rf", "kf"):
+        assert ppv[val] == NYCKELPARTIER[val] + ["Övriga"]
+    assert len(ppv["rd"]) == 9 and ppv["rd"][-1] == "Övriga"
+    for val, nivaer in hst["serie"].items():
+        for niva, rader in nivaer.items():
+            for p in rader:
+                assert set(p["roster"]) == set(ppv[val]), f"{val} {niva} {p['ar']}"
+
+
+@finns
+def test_historik_metod_deterministisk(tmp_path):
+    kor("historik", "--ut", str(tmp_path))
+    hst = json.loads((tmp_path / "historik.json").read_text("utf-8"))
+    metod = hst["meta"]["metod"]
+    assert set(metod) == {"2006", "2010", "2014", "2018", "2022"}
+    for ar, m in metod.items():
+        assert isinstance(m, str) and m, f"{ar}: metod saknas eller tom"
+
+
+@finns
+def test_historik_valdeltagande_finns_antal_distrikt_bara_majorna(tmp_path):
+    kor("historik", "--ut", str(tmp_path))
+    hst = json.loads((tmp_path / "historik.json").read_text("utf-8"))
+    for val, nivaer in hst["serie"].items():
+        for niva, rader in nivaer.items():
+            for p in rader:
+                assert p["valdeltagande"] is not None, f"{val} {niva} {p['ar']}: valdeltagande saknas"
+                if niva in ("goteborg", "riket"):
+                    assert p["antal_distrikt"] is None, f"{val} {niva} {p['ar']}: antal_distrikt ska vara null"
+
+
+@finns
+def test_post_upptacker_inkonsekventa_gruppvarden(tmp_path):
+    kopia = tmp_path / "doktorerad.sqlite"
+    shutil.copy(DB, kopia)
+    con = sqlite3.connect(kopia)
+    con.execute("UPDATE tidsserie SET giltiga = giltiga + 1 WHERE ar=2022 AND val='rd' AND niva='majorna' AND parti='V'")
+    con.commit()
+    con.close()
+    r = kor("historik", "--db", str(kopia), "--ut", str(tmp_path / "ut"))
+    assert r.returncode != 0
+    assert "FEL:" in r.stderr and "giltiga" in r.stderr
+
+
+def test_oppna_saknad_tabell(tmp_path):
+    tom = tmp_path / "tom.sqlite"
+    sqlite3.connect(tom).close()
+    r = kor("historik", "--db", str(tom), "--ut", str(tmp_path / "ut"))
+    assert r.returncode == 1
+    assert "FEL:" in r.stderr and "tidsserie" in r.stderr
+
+
+def test_oppna_saknad_fil(tmp_path):
+    r = kor("historik", "--db", str(tmp_path / "finns_inte.sqlite"), "--ut", str(tmp_path / "ut"))
+    assert r.returncode == 1
+    assert "FEL:" in r.stderr

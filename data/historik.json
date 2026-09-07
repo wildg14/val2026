@@ -1,6 +1,6 @@
 {
  "meta": {
-  "byggd": "2026-09-07T05:21:40",
+  "byggd": "2026-09-07T05:44:21",
   "kalla": "Valmyndigheten, slutlig rösträkning per valdistrikt 2006 till 2022, sammanställd i data/historik/majorna_historik.sqlite",
   "ar": [
    2006,
@@ -23,11 +23,50 @@
    "K",
    "Övriga"
   ],
+  "partier_per_val": {
+   "rd": [
+    "V",
+    "S",
+    "MP",
+    "SD",
+    "M",
+    "C",
+    "L",
+    "KD",
+    "Övriga"
+   ],
+   "rf": [
+    "V",
+    "S",
+    "MP",
+    "M",
+    "SD",
+    "L",
+    "C",
+    "KD",
+    "D",
+    "FI",
+    "Övriga"
+   ],
+   "kf": [
+    "V",
+    "S",
+    "MP",
+    "M",
+    "SD",
+    "L",
+    "D",
+    "C",
+    "KD",
+    "FI",
+    "K",
+    "Övriga"
+   ]
+  },
   "noter": [
    "Serien börjar 2006. Valdistrikten ritades om helt inför det valet, så 2002 går inte att räkna om till dagens Majorna.",
    "Liberalerna hette Folkpartiet till och med 2014; serien använder koden L hela vägen.",
-   "Övriga är giltiga röster minus de elva partierna ovan.",
-   "Partiuppsättningen per val följer sidans schema: riksdagsvalet V, S, MP, SD, M, C, L, KD; partier utanför valets uppsättning, till exempel FI i riksdagsvalet, ingår i Övriga."
+   "Övriga är giltiga röster minus valets partier. Partiuppsättningen per val följer sidans schema: riksdagsvalet V, S, MP, SD, M, C, L, KD; regionvalet dessutom D och FI; kommunvalet dessutom D, FI och K. Partier utanför valets uppsättning, till exempel FI i riksdagsvalet, ingår i Övriga."
   ],
   "metod": {
    "2006": "areametod: distrikt med andel_i_majorna >= 0.50 i geo_majorna_2006.csv",

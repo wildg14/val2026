@@ -13,23 +13,33 @@ valgrafik.js                  hela grafiken, renderar inuti <div class="mp-val" 
 valgrafik.css                 all CSS, scopad till .mp-val (Beehiivs krav för HTML-block)
 index.html                    tunt skal som laddar de två filerna: lokal visning, bildläge, skärmdumpar
 docs/inbaddningstest.html     simulerad värdsida med avsiktligt fientlig CSS, för att testa blocket lokalt
-docs/beehiivtest.html         simulerad Beehiiv-sida (klibbig meny 89 px, iframe srcdoc), för att testa djuplänkar och rullning
-data/konfig.json / .js        KONFIG: ar, standardAr, valnatt, adress, inbaddad, skrivUrl, stickyTopp
+docs/beehiivtest.html         simulerad Beehiiv-sida (klibbig meny 89 px, iframe srcdoc), för djuplänkar och rullning
+docs/valnatt-korschema.md     körschemat för valkvällen, punkt för punkt
+data/konfig.json / .js        KONFIG: ar, standardAr, valnatt, adress, inbaddad, skrivUrl, stickyTopp,
+                              valdag, toppsvar, historik, samarbete, hjalp
 data/valdata_2022.json        röster per distrikt och val, aggregat, mandat (kanonisk fil)
 data/valdata_2022.js          samma data som JS, laddas av sidan (fungerar även via file://)
-data/distrikt_2022.geojson / .js   de 23 distriktspolygonerna i WGS84, en fil per år i konfigens ar
+data/distrikt_2022.geojson    de 23 distriktspolygonerna i WGS84, en fil per år i konfigens ar
+data/distrikt_2022.js         samma geometri som JS
+data/distrikt_2026.*          2026 års gränser: samma yta, elva distrikt ritade på nytt
 data/bakgrund.json / .js      gator, spårväg, hållplatser, vatten, parker från OpenStreetMap (valfri)
-data/valdata_2026.* + swing_2026.*   skrivs av uppdatera_2026.py på valnatten
+data/valdata_2026.*           skrivs av uppdatera_2026.py på valnatten
+data/swing_2026.*             förändring mot 2022 per distrikt och för hela Majorna, skrivs samtidigt
+data/valnatt/                 Valmyndighetens hämtade och uppackade filer, en mapp per körning (gitignorerad)
 scripts/bygg_data.py          xlsx + zip -> data/, med kontroller
+scripts/bygg_geo.py           Valmyndighetens valgeografi -> data/distrikt_<år>.geojson och .js
 scripts/kontrollera.py        stämmer av JSON mot xlsx, avbryter vid minsta diff
-scripts/uppdatera_2026.py     rådata 2026 -> valdata_2026 + swing_2026 (och --repetera, --csv)
+scripts/hamta_2026.py         hämtar, md5-kontrollerar och signaturverifierar 2026 års resultatfiler
+scripts/valnatt.py            läser Valmyndighetens JSON 2026: distrikt, aggregat, riksdagens mandat
+scripts/uppdatera_2026.py     rådata 2026 -> valdata_2026 + swing_2026 (--hamta, --repetera, --csv)
 scripts/hamta_bakgrund.py     hämtar bakgrundslagret från Overpass
 scripts/skapa_bilder.py       stillbilder (PNG) för nyhetsbrev och sociala medier ur sidans bildläge
 bilder/                       genererade stillbilder
-scripts/valmyndigheten.py     parser för Valmyndighetens filer, partimappning
+scripts/valmyndigheten.py     parser för Valmyndighetens xlsx-filer, partimappning
 scripts/mandat.py             jämkade uddatalsmetoden
 scripts/geo.py, schema.py     geodata respektive datafilernas schema
-tests/                        pytest, 41 tester (37 gröna, 4 överhoppade råfilstester utan lokala xlsx-filer)
+verktyg/                      forbered_tvaar.py och Puppeteer-kontrollerna, se verktyg/README.md
+tests/                        pytest, 224 tester
 docs/superpowers/             designspec och plan
 ```
 
@@ -39,6 +49,8 @@ Källfiler som bygget läser (ligger i projektmappen, ändras inte):
 - `valdistrikt-vastra-gotalands-lan.zip` - Valmyndighetens valgeografi 2022 (VD_14_20220910_Val_20220911.json)
 - `Mandatfordelning-jamforelser-mellan-2018-och-2022.xlsx` - riksdagens verkliga mandat 2022
 - `Roster-per-distrikt-...-riksdagsvalet/regionval/kommunval-2022.xlsx` - Valmyndighetens råfiler, används för kontroll och generalrepetition (kan tas bort, då hoppas det steget över)
+- `Historiska dokument/dl_webb/2026/valdistrikt-vastra-gotaland-lan-2026.zip` - Valmyndighetens valgeografi 2026 (gitignorerad, hämtas om från val.se) och `valdistrikt-jamforelser-mellan-2022-och-2026.xlsx` med jämförbarheten per distrikt
+- `val-sign-crt.pem` och `val-sign-pub.pem` - Valmyndighetens certifikat och publika nyckel för signaturkontrollen. Gitignorerade: `hamta_2026.py` hämtar dem själv vid första körningen, och signaturtestet hoppas över tyst i en klon som saknar dem
 
 ## Komma igång
 
@@ -99,11 +111,11 @@ Två delar: statisk hosting av filerna, och ett HTML-block på Beehiiv-sidan.
 </div>
 ```
 
-`data-bas` säger var `data/` ligger (samma mapp som skriptet). Kontrollera i Preview och sedan Live: kartan ska synas, alla tabbar fungera, och Beehiivs egen meny och sidfot ligga kvar runt omkring. Vill du dölja grafikens egen rubrik, ingress och sidfot (Beehiiv har redan sina) sätter du `"inbaddad": true` i `data/konfig.json` och skriver om `konfig.js` med `.venv/bin/python -c "from scripts import schema; schema.skriv_konfig('data', schema.las_konfig('data'))"`.
+`data-bas` säger var `data/` ligger (samma mapp som skriptet). Kontrollera i Preview och sedan Live: kartan ska synas, alla tabbar fungera, och Beehiivs egen meny och sidfot ligga kvar runt omkring. Vill du dölja grafikens egen etikett, rubrik och sidfot (Beehiiv har redan sina) sätter du `"inbaddad": true` i `data/konfig.json` och skriver om `konfig.js` med `.venv/bin/python -c "from scripts import schema; schema.skriv_konfig('data', schema.las_konfig('data'))"`.
 
 Beehiivs regler som bygget följer: koden börjar med en enda container-div, all CSS är scopad till `.mp-val`, inga regler på `*`, `body` eller `html`, inga `vh`-mått, ingen `position: fixed`. Testet `tests/test_inbaddning.py` vaktar det.
 
-Total sidvikt är cirka 355 kB.
+Total sidvikt är cirka 376 kB för ett år: `du -ch valgrafik.js valgrafik.css data/konfig.js data/valdata_2022.js data/distrikt_2022.js data/bakgrund.js`. Bakgrundslagret är 228 kB av det. På valnatten tillkommer `distrikt_2026.js`, `valdata_2026.js` och `swing_2026.js`, tillsammans 52 kB.
 
 ## Beehiiv
 
@@ -128,7 +140,7 @@ Två redaktionella block som styrs helt från `data/konfig.json`: en samarbetsra
                "lank": "https://hjalpmigrosta.se", "lanktext": "Till hjalpmigrosta.se" }
 ```
 
-- `samarbete.visa` slår på raden "I samarbete med Majornas Bryggeri" under ingressen. Raden visas inte i bildläget och inte när `inbaddad` är på, eftersom rubriken och ingressen då är dolda.
+- `samarbete.visa` slår på raden "I samarbete med Majornas Bryggeri" i sidhuvudet, under toppsvaret. Raden visas inte i bildläget och inte när `inbaddad` är på, eftersom rubriken då är dold.
 - `samarbete.logga` är en adress till en bild, antingen absolut eller relativ till `data-bas` (lägg filen i `bilder/`, till exempel `bilder/majornas-bryggeri.png`). Loggan visas i högst 44 px höjd med namnet som alt-text. Tom logga ger bara text.
 - `samarbete.valvaka.visa` slår på valvakerutan, och kräver att `samarbete.visa` också är på. `hjalp.visa` slår på rösthjälpsrutan för sig. Rutorna ligger sida vid sida från 900 px containerbredd, under varandra på mobil, och visas även när `inbaddad` är på.
 - Alla `lank` är tomma platshållare tills adresserna är klara. Med tom länk renderas texten som ren text, aldrig som en tom länk.
@@ -140,6 +152,12 @@ Slå på ett block genom att sätta `visa` till `true` i `data/konfig.json` och 
 ```
 
 Nycklarnas standardvärden ligger i `scripts/schema.KONFIG_STANDARD` och bevaras av `uppdatera_2026.py --valnatt`.
+
+Tre nycklar till styr sidhuvudet och historiksektionen:
+
+- `valdag` (`"2026-09-13"`) används i statusraden före valdagen: "Slutligt resultat 2022. Valet 2026 är söndag 13 september."
+- `toppsvar.mening` är en redaktionell mening under toppsvaret, tom som standard. Håll den till en rad, cirka 60 tecken: sidan reserverar höjd för en rad extra, en längre mening kan ge några pixlars hopp på små telefoner.
+- `historik` (`visa` och en mening per val) hör till sektionen "Majorna sedan 2006", som byggs i en egen plan.
 
 ## Stillbilder för nyhetsbrevet
 
@@ -161,73 +179,160 @@ I Beehiiv: lägg in bilden med alt-texten och länka den till sidan (`#jamforels
 
 ## Valnatten 13 september 2026
 
-Allt nedan är testat mot 2022 års filer: `--repetera` reproducerar `valdata_2022.json` exakt ur råfilerna.
+Valmyndigheten publicerar resultatet som zip-filer med JSON på `https://resultat.val.se/resultatfiler/val2026/` (förteckningen ligger i `index.md5`, katalogen `p/` är preliminär räkning och `s/` slutlig). Formatet är kontrollerat mot simuleringarna i `genrep2026/` och beskrivet i `docs/superpowers/plans/2026-09-05-valnatt-2026.md`. Hela flödet, punkt för punkt, står i `docs/valnatt-korschema.md`. Xlsx-vägen från 2022 och CSV-vägen finns kvar som reservvägar.
 
 ### Dagen innan
 
-1. Kör testerna och generalrepetitionen:
+1. Tester och generalrepetition:
 
 ```bash
 .venv/bin/python -m pytest -q && .venv/bin/python scripts/uppdatera_2026.py --repetera
 ```
 
-2. Gör en torrkörning med påhittade siffror för några distrikt, så att flödet sitter:
+`--repetera` reproducerar `data/valdata_2022.json` exakt ur 2022 års råfiler och är facit på att parsern inte glidit.
+
+2. Valmyndighetens certifikat, om det inte redan ligger i projektroten:
 
 ```bash
-.venv/bin/python scripts/uppdatera_2026.py --skriv-mall torrkorning.csv
+curl -sSo val-sign-crt.pem https://resultat.val.se/keys/val-sign-crt.pem
+openssl x509 -in val-sign-crt.pem -pubkey -noout > val-sign-pub.pem
 ```
 
-Fyll i några distrikt i CSV-filen (rader som börjar med `#` ignoreras, tomma rader hoppas över), kör `uppdatera_2026.py --csv torrkorning.csv --valnatt`, öppna `index.html` och titta. Ta sedan bort `data/valdata_2026.*` och `data/swing_2026.*` och sätt tillbaka `data/konfig.json` till `"ar": ["2022"], "standardAr": "2022", "valnatt": false` (skriv om `konfig.js` med `.venv/bin/python -c "from scripts import schema; schema.skriv_konfig('data', schema.las_konfig('data'))"`).
+`hamta_2026.py` hämtar det annars själv vid första körningen. Båda pem-filerna är gitignorerade, och signaturtestet i sviten hoppas över tyst i en klon som saknar dem.
 
-3. Konfigen ligger i `data/konfig.json` och `data/konfig.js` (inte i koden). På valnatten sätter `uppdatera_2026.py --valnatt` den automatiskt till
-
-```json
-{ "ar": ["2022", "2026"], "standardAr": "2026", "valnatt": true, ... }
-```
-
-Med `valnatt: true` visas banderollen "X av 23 distrikt räknade", oräknade distrikt gråtonas, Majorna-snittet räknas på räknade distrikt, och 2022 års staplar visas dämpade för distrikt som inte kommit in än. Årväljaren visas automatiskt när `ar` har fler än ett år.
-
-### Under kvällen, varje gång nya distriktssiffror finns
-
-1. Hämta Valmyndighetens fil per val från val.se (sidan för valresultat och rådata). Skriptet förväntar sig samma format som 2022 års "Röster per distrikt": ett blad `roster_RD`, `roster_RF` eller `roster_KF` med kolumnerna Valdistriktskod, Valdistriktnamn, Parti, Röster, Röstberättigade och en rad per parti, plus raderna "Summa giltiga röster" och "Valdeltagande". Ett annat format ger `FEL:` och skriptet avbryter, se reservvägen nedan.
-
-2. Kör skriptet med de filer som finns (en, två eller tre):
+3. Torrkörning mot simuleringarna, till en tillfällig mapp och aldrig till `data/`:
 
 ```bash
-.venv/bin/python scripts/uppdatera_2026.py --rd RD-FIL.xlsx --status preliminar --valnatt
+.venv/bin/python scripts/uppdatera_2026.py --hamta --genrep --ut /tmp/torr --status preliminar
 ```
 
-Lägg till `--rf` och `--kf` när de filerna finns. `--valnatt` uppdaterar `data/konfig` (lägger till 2026, gör det till standardår, slår på valnattsläget) och behövs bara första gången men skadar inte. `--tid 2026-09-13T21:30:00` sätter tidsstämpeln i banderollen (annars klockslaget när skriptet kördes). Distrikt som saknas i filen markeras som oräknade. Utskriften slutar med antal räknade distrikt per val och antal varningar.
+Väntat (kört 2026-09-07): `md5 ok, signatur ok` för de tre zip-filerna, `Räknade distrikt: Riksdag 23/23, Region 23/23, Kommun 23/23`, `Jämförbara mot 2022: 14 av 23`, en namnvarning för Sandarna och en `VARNING: TESTDATA`, inga FEL. Filerna i `/tmp/torr` får `meta.test: true`. Körs kommandot en gång till svarar skriptet `Inget nytt att läsa in.` och avslutar med kod 3. Testdata till repots `data/` stoppas av en spärr.
 
-3. Läs varningarna. `VARNING:` betyder att något avviker från 2022 men att filerna skrevs: ett distrikt saknas, har bytt namn, Göteborg har ett annat antal valdistrikt än 411 (indelningen kan ha ändrats, kontrollera då att koderna 14800526 till 14800548 fortfarande är Majorna) eller ett okänt parti fick över 0,5 % i något distrikt (röster läggs i Övriga). `FEL:` betyder att inget skrevs.
+4. Den skarpa adressen svarar 404 fram till valkvällen:
 
-4. Öppna `index.html` lokalt och kontrollera ett distrikt mot val.se.
+```bash
+.venv/bin/python scripts/hamta_2026.py --ut /tmp/torr2
+```
 
-5. Ladda upp `data/konfig.js`, `data/valdata_2026.js` och `data/swing_2026.js` till hosten (hela `data/` är enklast). Beehiiv-sidan behöver inte röras: blocket läser filerna från hosten.
+ska ge `FEL: https://resultat.val.se/resultatfiler/val2026/index.md5 svarar 404: resultatfilerna publiceras först på valkvällen` och kod 1.
 
-### Reservväg: om filformatet är nytt
+5. Testsidan med båda åren, byggd av torrkörningens data:
 
-Skriv en mall, fyll i siffrorna för hand från val.se och kör med `--csv`:
+```bash
+.venv/bin/python verktyg/forbered_tvaar.py --valnatt-data /tmp/torr --valnatt --ut tmp/tvaar
+node verktyg/tvaar-check.js
+```
+
+ska sluta med `TVÅÅRSKONTROLL OK`. Testsidorna under `tmp/` innehåller kopior av `valgrafik.js` och `valgrafik.css` och måste byggas om efter varje ändring i källfilerna.
+
+### Under kvällen
+
+Första körningen, när `index.md5` finns:
+
+```bash
+.venv/bin/python scripts/uppdatera_2026.py --hamta --status preliminar --valnatt
+```
+
+`--hamta` laddar ned riksdagen (hela landet), regionvalet (Västra Götaland) och kommunvalet (Göteborg), kontrollerar md5 mot index och JSON-filernas signaturer mot certifikatet, packar upp till `data/valnatt/<tidsstämpel>/` och läser JSON därifrån. `--valnatt` sätter `data/konfig` till `"ar": ["2022", "2026"]`, `"standardAr": "2026"`, `"valnatt": true` och behövs bara första gången. Sedan var femte till tionde minut:
+
+```bash
+.venv/bin/python scripts/uppdatera_2026.py --hamta --status preliminar && git add data && git commit -qm "Valnatten: uppdaterat $(date +%H:%M)" && git push origin main
+```
+
+Har de tre filerna samma md5 som förra körningen skriver skriptet `Inget nytt att läsa in.` och avslutar med kod 3 utan att röra något; kedjan stannar där och ingenting committas. Alla filer skrivs atomiskt, så sidan kan aldrig läsa en halvskriven fil.
+
+Vallokalerna stänger 20.00 och det dröjer innan Majorna syns. En körning utan räknade Majornadistrikt är inte ett fel: filerna skrivs med 0 av 23 räknade, konfigen slås över i valnattsläge och sidan säger "inget distrikt räknat än" under en statusrad som räknar upp. Det är det normala läget den första timmen.
+
+Skriptet vägrar däremot skriva när den nya filen har färre räknade distrikt i något val än den som redan ligger, eller när den är testdata över skarp data. Efter ett sådant stopp är kommandot för att gå vidare
+
+```bash
+.venv/bin/python scripts/uppdatera_2026.py --valnatt-mapp data/valnatt/senaste --status preliminar --tvinga
+```
+
+eftersom `--hamta` med samma filer bara ger kod 3. `--tvinga` ersätter hela filen: val som saknas i den nya blir tomma, ingenting slås ihop med den gamla. Flaggan låser dessutom upp tre spärrar samtidigt (färre räknade distrikt, testdata över skarp data, testdata till repots `data/`), så ett `--tvinga` direkt efter en `--genrep`-körning kan skriva testmärkt data till `data/` utan att stoppas.
+
+Läs varningarna. `VARNING:` betyder att filerna skrevs men att något avviker: Göteborg har ett annat antal distrikt än 397, ett distrikt saknas i filen (markeras som oräknat), ett distrikt har bytt namn sedan 2022, ett okänt parti fick röster (de läggs i Övriga), filhuvudets antal räknade stämmer inte med Majornas, eller ett jämförelseaggregat kunde inte läsas. `FEL:` betyder att ingenting skrevs. Kontrollera ett distrikt mot val.se första gången, och öppna majposten.se/val2026 efter första pushen.
+
+**Jämförbarhet mot 2022** kommer ur fältet `statusJamforelse` i Valmyndighetens filer, kontrollerat mot `valdistrikt-jamforelser-mellan-2022-och-2026.xlsx`: 14 av 23 distrikt kan jämföras, 9 är omritade. Säger någon av källorna "ej jämförbart" gäller det. Kortets rad "Hur har det ändrats" visar tal bara för de 14; de 9 får en mening och hela Majornas förändring, som är giltig eftersom de 23 distrikten täcker samma yta båda åren.
+
+**Partier som inte förekommer i Valmyndighetens fil saknas i datan.** De skrivs varken som nollor eller markeras. I den preliminära filen betyder det att partiet inte är rapportparti och att rösterna ligger i Övriga; i den slutliga att partiet inte fick någon röst i distriktet. Ett sådant parti visas inte på sidan och får ingen förändringssiffra: hellre ingen siffra än en påhittad nolla. I genrepets filer gäller det K i kommunvalet och FI i regionvalet.
+
+**Riksdagens verkliga mandat** läses ur mandatfördelningsfilen redan på valnatten, så halvcirkeln "Om Majorna bestämde" kan jämföra Majornas fördelning med riksdagens direkt. Fördelningen är preliminär, ändras under kvällen och efter uppsamlingsräkningen på onsdagen, och halvcirkeln skriver ut förbehållet ("Preliminär fördelning, riket: X av Y distrikt räknade.").
+
+**Valdeltagandet i aggregaten** räknas mot röstberättigade i räknade distrikt, inte mot hela områdets väljarkår; annars visar riket 12 procent klockan 20.30. Toppsvarets mening tar med riket först när även riket är färdigräknat, eftersom de distrikt som kommer först i landet är små och lantliga. "Majorna mot Sverige" och halvcirkeln säger under bilden hur långt jämförelseområdet kommit så länge det är delvis räknat.
+
+**Sidan under kvällen:** statusraden överst säger "Preliminärt, X av 23 distrikt räknade. Uppdaterad HH:MM." med knappen "Ladda om" bredvid, och toppsvaret under den visar de fyra största partierna i riksdagsvalet. Byter läsaren till Valet 2022 lyder raden "Slutligt resultat 2022. Ladda om", och knappen tar tillbaka till den levande vyn. Oräknade distrikt gråtonas på kartan, Majorna-snittet räknas på räknade distrikt, och kortets rad "Hur har det ändrats" säger "räknat på N jämförbara distrikt av 23" tills alla är räknade.
+
+### Reservväg
+
+**Xlsx-vägen** om Valmyndigheten publicerar filer i 2022 års format: `--rd`, `--rf` och `--kf` med en, två eller tre filer, samma flöde i övrigt. Skriptet väntar sig ett blad `roster_RD`, `roster_RF` eller `roster_KF` i långformat.
+
+**CSV-vägen** när inget filformat går att läsa. Skriv mallen, fyll i siffrorna för hand från val.se och kör:
 
 ```bash
 .venv/bin/python scripts/uppdatera_2026.py --skriv-mall valnatt.csv
 .venv/bin/python scripts/uppdatera_2026.py --csv valnatt.csv --status preliminar
 ```
 
-Format: `val;kod;parti;roster` där val är rd, rf eller kf, kod är distriktskoden, parti är partikoden (V, S, MP, SD, M, C, L, KD, D, FI, K eller Övriga) och raderna `giltiga`, `rostande` och `rostberattigade` anger summorna per distrikt. Partiröster måste summera till giltiga, annars avbryter skriptet. `--csv` kan kombineras med `--rd` om riksdagsfilen fungerar men de andra inte.
+Format: `val;kod;parti;roster` där val är `rd`, `rf` eller `kf`, kod är distriktskoden och parti är partikoden (V, S, MP, SD, M, C, L, KD, D, FI, K eller Övriga). Rader som börjar med `#` hoppas över, så mallens instruktionsrader och distriktsrubriker kan stå kvar. Mallen täcker riksdagsvalet och har 12 rader per distrikt (nio partirader inklusive Övriga plus `giltiga`, `rostande` och `rostberattigade`), alltså 276 tal för 23 distrikt. Partiordningen är sidans (V, S, MP, SD, M, C, L, KD), inte val.se:s. Region och kommun skrivs för hand i samma format.
 
-23 distrikt gånger 9 rader för riksdagsvalet är cirka 200 tal att skriva in. Räkna med 20 minuter.
+Regler som skriptet vaktar: partirösterna måste summera till `giltiga`; negativa tal, okända partikoder och `rostande` över `rostberattigade` avvisas; `rostberattigade` ska vara ifyllt för alla räknade distrikt i ett val eller för inget (annars blir Majornas valdeltagande fel), och kontrollen gäller slutläget över alla källor, inte bara CSV-filens egna rader. Saknas `rostande` sätts det lika med `giltiga`, med en varning: valdeltagandet visas då cirka en procentenhet för lågt. Hårda mellanslag (U+00A0) i tal tolkas som tusentalsavgränsare. Alla fel anger radnumret i filen.
+
+**Komplettering för hand medan JSON-vägen fungerar** för resten: fyll i de distrikt som fattas och kör
+
+```bash
+.venv/bin/python scripts/uppdatera_2026.py --valnatt-mapp data/valnatt/senaste --csv valnatt.csv --status preliminar
+```
+
+CSV:n vinner per distrikt och val, resten kommer från JSON-filerna och jämförelseaggregaten finns kvar. `--csv` ensam ovanpå en färdig fil stoppas av spärren mot färre räknade distrikt, och `--tvinga` ersätter hela filen i stället för att komplettera.
 
 ### Efter valet
 
-När den slutliga rösträkningen är klar: kör om med alla tre filerna och `--status slutlig`. Vill du ha jämförelsesiffror för Göteborg och riket i panelen "Hela Majorna" räknas de ut automatiskt ur råfilerna (de saknas när bara CSV-vägen använts).
+Preliminär räkning fortsätter till och med uppsamlingsräkningen på onsdagen: samma kommando som under kvällen, en gång i timmen räcker. När den slutliga räkningen börjar publiceras (från måndagen):
+
+```bash
+.venv/bin/python scripts/uppdatera_2026.py --hamta --tillfalle s --status slutlig
+```
+
+Sätt sedan `"valnatt": false` i `data/konfig.json` och skriv om `konfig.js`:
+
+```bash
+.venv/bin/python -c "from scripts import schema; schema.skriv_konfig('data', schema.las_konfig('data'))"
+```
+
+Stillbilder till brevet: `.venv/bin/python scripts/skapa_bilder.py --ar 2026 --etikett "Majposten · Valet 2026"`.
 
 ### Vanliga fel
 
-- `FEL: ... hittar inget blad vars namn börjar med 'roster_'` - fel fil eller nytt format. Använd reservvägen.
-- `FEL: ... partiröster N != giltiga M` - filen är inkonsekvent eller en partirad saknas. Skriptet skriver inget. Kontrollera distriktet på val.se.
-- Sidan visar "Datafilerna kunde inte laddas" - `data/valdata_2026.js` saknas på hosten trots att konfigen listar 2026, eller `data-bas` i Beehiiv-blocket pekar fel.
-- Halvcirkeln visar bara "Majornas riksdag" 2026 - väntat. Riksdagens verkliga fördelning är inte känd på valnatten. Vill du lägga in den efteråt: sätt `mandat.riksdag_verklig` i `data/valdata_2026.json` och skriv om `.js`-filen med `scripts/schema.py` (`skriv`).
+Hämtningen:
+
+- `FEL: https://resultat.val.se/resultatfiler/val2026/index.md5 svarar 404: resultatfilerna publiceras först på valkvällen` - adressen är inte öppnad än. Väntat före valkvällen.
+- `FEL: index.md5 är tom eller har fel form (svarar adressen 404 än?)` - indexet svarade men gick inte att tolka. Kör igen.
+- `FEL: md5 stämmer inte: <a> i filen, <b> i index` - filen ändrades under hämtningen. Skriptet har redan gjort ett återförsök med paus, så kör igen om några minuter.
+- `FEL: rd: signatur saknas för <fil>` och `FEL: rd: signaturen för <fil> stämmer inte` - fel certifikat eller manipulerad fil. Hämta om certifikatet först. `--utan-signatur` är reservläge och används bara om val.se bekräftar problemet; utskriften säger då "signatur ej kontrollerad".
+- `FEL: data/valnatt/senaste är en katalog, inte en länk; flytta undan den` - `senaste` ska vara en symlänk.
+- `FEL: hämtningen misslyckades: <typ>: <text>` - nätfel eller oväntad form. Inget är skrivet; vänta och kör igen.
+
+Inläsningen:
+
+- `FEL: färre räknade distrikt än i valdata_2026.json (rd: 12 mot 18)` - Valmyndigheten har dragit tillbaka distrikt, eller en fil är trasig. En trasig fil i ett val stoppar hela skrivningen, avsiktligt. Gå vidare med `--valnatt-mapp data/valnatt/senaste --tvinga`, som ersätter hela filen.
+- `FEL: <fil>: har inte formen av en JSON-fil` - halvskriven fil hos Valmyndigheten. Kör igen.
+- `FEL: valdata_2026.json är skarp data men den nya filen är testdata` - en `--genrep`-körning mot skarp data.
+- `FEL: filerna är testdata (test: true) och --ut är repots data/` - torrkörningen saknar `--ut` till en annan mapp.
+- `FEL: <mapp>: inga av mapparna rd, rf, kf finns` - fel mapp angiven i `--valnatt-mapp`.
+- `FEL: <fil>: hittar inget blad vars namn börjar med 'roster_'` - fel xlsx-fil eller nytt format. Använd reservvägen.
+
+CSV-vägen:
+
+- `FEL: <fil> rad N: fler kolumner än rubriken (ett semikolon för mycket?)`
+- `FEL: rd: 'rostberattigade' saknas för <koder> men finns för andra distrikt` - fyll i för alla räknade distrikt i valet eller för inget.
+- `FEL: <fil>: kunde inte läsas: <orsak>. Spara som CSV UTF-8 i Excel.` - fel teckenkodning.
+- `FEL: <fil>: <val> <kod>: partiröster N != giltiga M` - filen är inkonsekvent eller en partirad saknas. Kontrollera distriktet på val.se.
+
+Sidan:
+
+- "Datafilerna kunde inte laddas" - `data/valdata_2026.js` eller `data/distrikt_2026.js` saknas på hosten trots att konfigen listar 2026, eller `data-bas` i Beehiiv-blocket pekar fel. Ett år vars filer inte går att ladda hoppas över med en varning i konsolen; sidan felar först när inget år går att ladda.
+- 404 på `data/swing_<år>.js` i konsolen är ofarligt: filen är valfri, och året visas då utan förändringstal.
 
 ## Djuplänkar
 
@@ -273,18 +378,39 @@ Sidan rullar till kartan när `distrikt` finns i länken. Distriktskoder:
 `data/valdata_<år>.json`:
 
 ```
-meta        ar, status (slutlig | preliminar), uppdaterad, kalla, avgransning, val, partier, valnatt {raknade, totalt}
-distrikt[]  kod, namn, raknat, rd {parti: röster}, rf, kf, giltiga {rd, rf, kf}, rostande {...}, rostberattigade {...}
+meta        ar, status (slutlig | preliminar), uppdaterad, kalla, avgransning, val, partier,
+            valnatt {raknade, totalt}, test (bara i filer byggda av testdata, till exempel genrep)
+distrikt[]  kod, namn, raknat, rd {parti: röster}, rf, kf, giltiga {rd, rf, kf}, rostande {...},
+            rostberattigade {...}, jamforbar_mot_bas, grans_andrad
 aggregat    majorna {val: {roster, giltiga, rostande, rostberattigade}}   (räknade distrikt)
-            goteborg {val: {andel, valdeltagande}}, riket {val: {andel, valdeltagande, namn}}  (rf: Västra Götaland)
+            goteborg {val: {namn, andel, valdeltagande, giltiga, rostande, rostberattigade,
+            antal_distrikt, totalt_distrikt}}, riket {val: {samma nycklar}}  (rf: Västra Götaland)
 mandat      riksdag_verklig, riksdag_majorna, metod
 ```
 
-`data/swing_<år>.json`: förändring i procentenheter mot basåret, per distrikt och val samt för hela Majorna. Sidan visar den som små tal i panelen när filen finns.
+`jamforbar_mot_bas` och `grans_andrad` är samma uppgift åt två håll: distriktet kan jämföras med basåret, respektive dess gränser har ritats om. `antal_distrikt` och `totalt_distrikt` i aggregaten säger hur långt jämförelseområdet kommit i räkningen; `rostberattigade` där gäller räknade distrikt.
+
+`data/swing_<år>.json`: förändring i procentenheter mot basåret. Sidan visar den som små tal vid staplarna och som raden "Hur har det ändrats" i kortet.
+
+```
+ar, bas, enhet   2026, 2022, "procentenheter"
+distrikt         {kod: {val: {parti: tal}}} för räknade och jämförbara distrikt
+ej_jamforbara    {kod: {orsak, mening, omradesrad}} - meningen kortet visar i stället för tal
+majorna          {val: {parti: tal}} för hela Majorna, räknat på kohorten
+kohort           {val: {antal, totalt, helomrade, koder}} - vilka distrikt majorna-talen vilar på
+```
+
+Ett parti som saknas i något av åren utelämnas ur diffen i stället för att visas som en förändring till eller från noll. Är `helomrade` sant jämförs hela området mot hela basåret; annars bara de distrikt som är både räknade och jämförbara, och kortet skriver ut "räknat på N jämförbara distrikt av 23".
+
+`data/konfig.json`: `ar`, `standardAr`, `valnatt`, `adress`, `inbaddad`, `skrivUrl`, `stickyTopp`, `valdag`, `toppsvar` (`mening`), `historik` (`visa`, `mening` per val), `samarbete` (med `valvaka`) och `hjalp`. Standardvärdena ligger i `scripts/schema.KONFIG_STANDARD`.
 
 Andelar räknas alltid i sidan som parti delat med giltiga röster. Inga tal är hårdkodade i `index.html`.
 
 ## Designval
+
+Sidhuvudet svarar på frågan innan läsaren scrollar: en statusrad ("Preliminärt, 12 av 23 distrikt räknade. Uppdaterad 21:35.", "Slutligt resultat 2022. Valet 2026 är söndag 13 september.") och under den ett toppsvar med de fyra största partierna i riksdagsvalet som korta staplar, plus valdeltagandet i en mening. Banderollen och ingressen som fanns tidigare är borttagna: de sade samma sak två gånger och sköt ned kartan. Statusraden och toppsvaret har reserverad höjd (52 px respektive 208 px, statusraden 26 px från 600 px containerbredd) och årväljarens rad reserveras så fort konfigen listar två år, så att sidhuvudet inte hoppar när datan kommer. "Ladda om" är en `<button>` med länkutseende, inte en länk: den laddar om värdsidan, och en länk hade gått att cmd-klicka till ingenstans.
+
+Resultatkortet har raden "Hur har det ändrats" i tre grenar. Ett jämförbart distrikt får tal för de tre största partier som har tal i swingfilen. Ett omritat distrikt får meningen "Gränserna för Mariaplan ritades om till 2026" och hela Majornas förändring för distriktets största parti. Hela Majorna får talen med kohorttexten "räknat på N jämförbara distrikt av 23" tills alla är räknade. Partier som saknar tal i swingfilen visas inte alls, aldrig som "0,0".
 
 Kartan är inline-SVG utan kartbibliotek: inga externa beroenden, fungerar offline, kapar inte sidscrollen på mobil. Orienteringen kommer från ett lokalt bakgrundslager (OpenStreetMap, hämtat vid byggtid). Saknas `data/bakgrund.js` ritas kartan mot enfärgad bakgrund. Färger kompletteras alltid med text: partibokstav och procent på kartan, tabellvy för alla distrikt, aria-etiketter på varje distrikt. Kartans typstorlekar (etiketter, hållplatsnamn, kontur) räknas om löpande efter kartans faktiska pixelbredd, inte efter en fast 600 px-tröskel, så texten håller samma storlek i pixlar oavsett hur brett Beehiivs sektion råkar vara.
 

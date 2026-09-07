@@ -1,11 +1,12 @@
 # Handover: Så röstade Majorna
 
-Skriven 2026-09-04 av den session som byggde grafiken, för nästa session. Läs den här filen i sin helhet innan du gör något. Valdagen är 2026-09-13.
+Skriven 2026-09-04 av den session som byggde grafiken, uppdaterad 2026-09-07 efter valnattsomgången. Läs den här filen i sin helhet innan du gör något. Valdagen är 2026-09-13.
 
 ## Läs i den här ordningen
 
 1. Den här filen.
 2. `README.md` i projektroten: körordning, Beehiiv, valnatten, stillbilder, dataschema.
+2b. `docs/valnatt-korschema.md` om det är valveckan: allt som ska köras lördag, söndag och dagarna efter.
 3. `docs/superpowers/specs/2026-09-03-majorna-valgrafik-design.md` (ursprunglig spec) och `docs/superpowers/plans/2026-09-03-majorna-valgrafik.md` (plan). Delvis inaktuella: kartan är inte längre i `index.html` utan i `valgrafik.js`, se nedan.
 4. Minnesfilerna i `/Users/daniel/.claude/projects/-Users-daniel-code-Temp/memory/` (index i `MEMORY.md`): vem Daniel är, Majpostens skrivregler, Beehiiv-planen, modellval för subagenter.
 5. `docs/historik/datamodell.md` och `docs/historik/noter/*.md` om du ska röra historikspåret (se avsnittet Historikspåret).
@@ -21,7 +22,7 @@ Projektmappen är `/Users/daniel/code/Temp` (git, branch `main`, remote `origin`
 
 ## Arbetsregler som gäller i det här projektet
 
-- **Inga påhittade siffror.** Allt räknas ur datafilerna, och `scripts/kontrollera.py` stämmer av `data/valdata_2022.json` mot `majorna-valresultat-2022.xlsx` (1 149 kontroller). Ändra aldrig ett tal för hand. Kör `.venv/bin/python -m pytest -q` (41 tester, 37 gröna och 4 överhoppade råfilstester utan lokala xlsx-filer) före och efter ändringar.
+- **Inga påhittade siffror.** Allt räknas ur datafilerna, och `scripts/kontrollera.py` stämmer av `data/valdata_2022.json` mot `majorna-valresultat-2022.xlsx` (1 149 kontroller). Ändra aldrig ett tal för hand. Kör `.venv/bin/python -m pytest -q` (224 tester, alla gröna i den här mappen; i en klon utan Valmyndighetens råfiler, genrep-filerna och pem-nycklarna hoppas några över) före och efter ändringar.
 - **Majpostens skrivregler** i all text, även UI-etiketter och README: bindestreck med mellanslag ( - ), aldrig tankstreck; inga utropstecken, inga emoji, inga superlativ; kollade fakta skrivs platt, okollat märks [KOLLA]. Palett: papper #FAF6EE, bläck #2A241E, sten #6E6152, linje #E6DECF, slottsskogsgrön #3F5A3A, mörkgrön #2E4A2C, ockra #C58A34, falurött #8C3B2B. Georgia för rubriker, Arial för brödtext, minst 16 px löptext. Aldrig skuggor, gradienter, ikoner eller dekorelement.
 - **Beehiivs regler för HTML-block**: en enda container-div, all CSS scopad till `.mp-val`, inga regler på `*`, `body`, `html` eller `:root`, inga `vh`-mått, ingen `position: fixed`. `tests/test_inbaddning.py` vaktar detta; kör det efter varje CSS-ändring.
 - **Subagenter och workflows**: Daniel vill inte att de kör Fable (kontextförbrukningen). Sätt `model: 'sonnet'` (eller haiku för mekaniskt arbete) och `effort: 'medium'`, håll antalet agenter till två till fyra, och nämn modellvalet när en workflow startas.
@@ -38,18 +39,18 @@ Projektmappen är `/Users/daniel/code/Temp` (git, branch `main`, remote `origin`
 | Grafiken | `valgrafik.js` (cirka 63 kB) | Renderar allt inuti `<div class="mp-val" id="valgrafik">`: rubrik, samarbetsrad och rutor (valvaka, rösthjälp), "Om Majorna bestämde", kartan med flikar och lägen, resultatkortet, tabellknappen och tabellen (i samma sektion som kartan), "Majorna mot Sverige", "Röstdelningen" (nu HTML-rader med alla tre valen per parti, inte lutningsdiagram), "Om siffrorna", sidfot. Läser `data/konfig.js` och datafilerna från adressen i `data-bas` eller skriptets egen mapp. |
 | Stil | `valgrafik.css` (cirka 20 kB) | All CSS scopad till `.mp-val`. Två layouter via container queries: under 900 px containerbredd en spalt (mobil), från 900 px två kolumner. 600 px styr kartans detaljnivå (kartans typstorlekar räknas löpande om efter kartans faktiska pixelbredd, inte bara vid tröskeln). |
 | Skal | `index.html` | Tunt skal för lokal visning, bildläge och skärmdumpar. Open Graph-taggar med adressen. |
-| Data | `data/valdata_2022.json` + `.js`, `data/distrikt_2022.geojson` + `.js` (en geometrifil per år i konfigens `ar`), `data/bakgrund.json` + `.js`, `data/konfig.json` + `.js` | `.js`-filerna är identiska kopior av `.json` som sidan laddar via `<script>` (fungerar via file:// och kräver ingen CORS). Skrivs av `scripts/schema.py`. |
-| Pipeline | `scripts/bygg_data.py`, `scripts/kontrollera.py`, `scripts/valmyndigheten.py`, `scripts/mandat.py`, `scripts/geo.py`, `scripts/schema.py` | xlsx + zip till data/, med fem kontrollsteg. |
-| Valnatten | `scripts/uppdatera_2026.py` | Valmyndighetens råfiler (blad `roster_RD`, `roster_RF`, `roster_KF`) till `valdata_2026` + `swing_2026`. `--repetera` reproducerar 2022 exakt ur 2022 års råfiler. `--csv` är reservväg med handifylld fil. `--valnatt` uppdaterar `data/konfig`. |
+| Data | `data/valdata_2022.json` + `.js`, `data/distrikt_2022.*` och `data/distrikt_2026.*` (en geometrifil per år i konfigens `ar`), `data/bakgrund.json` + `.js`, `data/konfig.json` + `.js` | `.js`-filerna är identiska kopior av `.json` som sidan laddar via `<script>` (fungerar via file:// och kräver ingen CORS). Skrivs av `scripts/schema.py`, atomiskt. På valnatten tillkommer `valdata_2026.*` och `swing_2026.*`, och `data/valnatt/` (gitignorerad) med Valmyndighetens hämtade filer. |
+| Pipeline | `scripts/bygg_data.py`, `scripts/kontrollera.py`, `scripts/valmyndigheten.py`, `scripts/mandat.py`, `scripts/geo.py`, `scripts/schema.py`, `scripts/bygg_geo.py` | xlsx + zip till data/, med fem kontrollsteg. `bygg_geo.py` skriver `data/distrikt_<år>` ur Valmyndighetens valgeografi och jämför unionsytan mellan åren. |
+| Valnatten | `scripts/hamta_2026.py`, `scripts/valnatt.py`, `scripts/uppdatera_2026.py` | `hamta_2026.py` hämtar de tre zip-filerna, kontrollerar md5 mot `index.md5` och signaturerna mot Valmyndighetens certifikat, packar upp till `data/valnatt/<tidsstämpel>/` och pekar om `senaste`. `valnatt.py` mappar JSON till sidans schema (distrikt, aggregat, riksdagens mandat). `uppdatera_2026.py --hamta` kör hela kedjan till `valdata_2026` + `swing_2026`; `--repetera` reproducerar 2022 exakt ur 2022 års råfiler; xlsx- och CSV-vägarna finns kvar som reservvägar; `--valnatt` uppdaterar `data/konfig`. |
 | Bakgrund | `scripts/hamta_bakgrund.py` | Gator, spårväg, hållplatser, vatten, parker och platsnamn från OpenStreetMap via Overpass. Valfritt lager. |
 | Stillbilder | `scripts/skapa_bilder.py`, `bilder/` | Chrome headless renderar `index.html?bild=jamforelse` och `?bild=karta` i 1200 x 630 och 1080 x 1080, 2x, med alt-text i `.txt`. |
-| Tester | `tests/` | 41 tester (37 gröna, 4 överhoppade råfilstester): mandatberäkning, parser mot råfiler, geometri, schema, kontrollskript, bygge, bakgrund, uppdatera, stillbilder, Beehiiv-regler (inklusive scroll-margin-top, `sidLocation`, `stickyTopp` och samarbete/hjälp-nycklarna). |
-| Verktyg | `verktyg/` | Puppeteer-skript för skärmdumpar och mätningar (se `verktyg/README.md`), bland dem `beehiiv-check.js` mot `docs/beehiivtest.html`. Kräver `npm install puppeteer-core` i mappen. |
+| Tester | `tests/` | 224 tester: mandatberäkning, parser mot råfiler, geometri (2022 och 2026, byte-identitet mot de committade filerna), schema och swing, kontrollskript, bygge, bakgrund, uppdatera (JSON-, xlsx- och CSV-vägarna, spärrarna), hämtning och signaturer, valnattsmappningen mot genrep-filerna, stillbilder, Beehiiv-regler (inklusive scroll-margin-top, `sidLocation`, `stickyTopp` och samarbete/hjälp-nycklarna). |
+| Verktyg | `verktyg/` | Puppeteer-skript för skärmdumpar och mätningar (se `verktyg/README.md`), bland dem `beehiiv-check.js` mot `docs/beehiivtest.html`, `skal-check.js` och `tvaar-check.js` mot testsidorna som `forbered_tvaar.py` bygger under `tmp/`. Kräver `npm install puppeteer-core` i mappen. |
 | Värdsimulering | `docs/inbaddningstest.html` | Sida med avsiktligt fientlig CSS (rosa Comic Sans-rubriker, svarta runda knappar, Tailwind-liknande reset) som laddar blocket. Verifierat: inget läcker in eller ut. |
 | Värdsimulering | `docs/beehiivtest.html` | Efterliknar Beehiivs sajtbyggare: klibbig meny 89 px hög, blocket i en `iframe srcdoc`, höjd satt av `ResizeObserver`. Används för att testa djuplänkar och rullning under menyn (se Beehiiv-avsnittet i README och `verktyg/beehiiv-check.js`). |
 | Skärmdumpar | `docs/skarmdumpar/` | Referensbilder från bygget. |
 
-Sidvikt (js, css och datafilerna som laddas): cirka 355 kB. Miljö: `.venv` med Python 3.12 (uv), paket i `requirements.txt`. Chrome finns på `/Applications/Google Chrome.app/Contents/MacOS/Google Chrome`. Lokal server: `python3 -m http.server 8765` i projektroten, eller förhandsvisningen `valgrafik` i `.claude/launch.json`.
+Sidvikt (js, css och datafilerna som laddas för ett år): cirka 376 kB, varav bakgrundslagret 228 kB. På valnatten tillkommer `distrikt_2026.js`, `valdata_2026.js` och `swing_2026.js`, tillsammans 52 kB. Miljö: `.venv` med Python 3.12 (uv), paket i `requirements.txt`. Chrome finns på `/Applications/Google Chrome.app/Contents/MacOS/Google Chrome`. Lokal server: `python3 -m http.server 8765` i projektroten, eller förhandsvisningen `valgrafik` i `.claude/launch.json`.
 
 Källfiler i projektroten som inte ändras: `majorna-valresultat-2022.xlsx` (kurerad, flikarna RD, RF, KF, Sammanfattning, Metod & källor), `valdistrikt-vastra-gotalands-lan.zip` (Valmyndighetens valgeografi 2022, SWEREF99 TM), `Mandatfordelning-jamforelser-mellan-2018-och-2022.xlsx`, tre råfiler `Roster-per-distrikt-...-2022.xlsx` (gitignorerade, 15 till 20 MB var), `fortidsroster.csv` (mottagna förtidsröster per lokal och dag 2022), tre `statistik-alder-och-kon-...-2022.xlsx` (röstberättigade per distrikt, kön, medborgarskap och åldersgrupp), `slutligt-valresultat-riksdagen-jamforande-statistik-2018-2022.xlsx`. Två redaktionella dokument ligger i mappen men är gitignorerade: `interaktiv-valgrafik-brief.md` (ursprungsbriefen med brainstorm) och `majorna-valanalys-2022.md` (analysen, med tvillingdistrikt och känslighetstest av avgränsningen).
 
@@ -95,6 +96,21 @@ Göteborg hade 411 valdistrikt 2022 inklusive uppsamlingsdistriktet. `uppdatera_
 18. **Samarbetsblock och rösthjälp förberedda, avstängda.** En rad "I samarbete med Majornas Bryggeri" i sidhuvudet och upp till två rutor (valvaka, hjalpmigrosta.se) direkt under, allt styrt av `samarbete`/`hjalp` i `data/konfig.json` med `visa: false` som standard. Texter är Daniels platshållare tills han fyller i riktiga adresser och tider.
 19. **Beehiivs `iframe srcdoc` kartlagd och kompenserad.** Djuplänkar och URL-skrivning går via `window.parent.location` när föräldern går att nå (`sidLocation()`/`sidHistory()`), eftersom iframens egen adress är `about:srcdoc`. `stickyTopp` höjdes från 16 till 105 px (Beehiivs klibbiga meny är 89 px) och används även som `scroll-margin-top`, eftersom `position: sticky` är verkningslöst inuti iframen (inget rullar där). Se README-avsnittet Beehiiv och `docs/beehiivtest.html`.
 
+20. **Valnatten läser Valmyndighetens JSON, inte xlsx.** 2026 publiceras resultatet som zip-filer med JSON på `resultat.val.se/resultatfiler/val2026/`. `scripts/hamta_2026.py` hämtar de tre filer Majorna behöver (riksdagen för hela landet, regionvalet för Västra Götaland, kommunvalet för Göteborg), kontrollerar md5 mot `index.md5` och signaturerna mot Valmyndighetens certifikat, och packar upp till `data/valnatt/<tidsstämpel>/` med `senaste` som symlänk. `scripts/valnatt.py` mappar formatet till sidans schema. Xlsx- och CSV-vägarna finns kvar som reservvägar. Filval sker på katalog plus suffix, aldrig på hela filnamnet: prefixet skiljer sig mellan genrep och skarpt.
+21. **Ett parti som inte förekommer i filen saknas i datan.** Det skrivs varken som 0 eller markeras. I den preliminära filen betyder det att partiet inte är rapportparti (rösterna ligger i Övriga), i den slutliga att det inte fick någon röst i distriktet. Anledningen: planens första kod fyllde alla nyckelpartier med nollor, vilket gav påhittade förändringstal (K -1,0 procentenheter i kommunvalet). Sidan hoppar över partiet i staplar, kort och swingrad i stället.
+22. **Tom import är en varning, inte ett fel.** Mellan 20.00 och cirka 21.00 är inget Majornadistrikt räknat. Filerna skrivs då med `meta.valnatt.raknade: 0` och konfigen slår över i valnattsläge, så att sidan är levande från början. Spärren mot *färre* räknade distrikt än den befintliga filen finns kvar och gäller per val.
+23. **Valdeltagandet i aggregaten räknas mot röstberättigade i räknade distrikt** (`antalRostberattigadeIRaknadeValdistrikt`, med `antalRostberattigade` som reserv). Med hela områdets väljarkår som nämnare visade riket 12,5 procent klockan 20.30. Av samma skäl tar toppsvarets mening med riket först när riket är färdigräknat, och "Majorna mot Sverige" och halvcirkeln skriver ut hur långt jämförelseområdet kommit.
+24. **Jämförelseaggregat och mandat får aldrig stoppa distriktsimporten.** Går aggregat- eller mandatfilen inte att läsa blir det en varning och ett tomt aggregat för valet; distrikten ligger i en annan fil och ska in ändå.
+25. **Riksdagens verkliga mandat läses redan på valnatten**, ur mandatfördelningsfilen, även innan något Majornadistrikt är räknat. Halvcirkeln jämför alltså mot riksdagen direkt, med förbehållet "Preliminär fördelning, riket: X av Y distrikt räknade." och ordet "riksdagen" i stället för "den verkliga riksdagen" så länge räkningen är preliminär.
+26. **Geometri per år.** `data/distrikt.geojson` heter nu `data/distrikt_2022.geojson`, och `data/distrikt_2026.*` byggs av `scripts/bygg_geo.py` ur Valmyndighetens valgeografi. Sidan laddar `distrikt_<år>` för varje år i konfigen och ritar alla år i en gemensam kartram. Ytkontrollen tar unionen av de faktiska polygonerna i EPSG:3006 och jämför symmetrisk differens (tröskel 10 kvadratmeter), inte summan av avrundade `area_km2` som är blind för luckor och överlapp.
+27. **Swing på kohort, med `samma_yta` som argument.** `schema.swing` ger `distrikt` (räknade och jämförbara), `ej_jamforbara` (med meningen kortet visar), `majorna` och `kohort`. Hela områdets tal jämförs mot hela basåret bara när alla distrikt är räknade och antalet stämmer; `samma_yta=True` intygar i stället att området täcker samma yta båda åren (historikplanen, 23 mot 22 distrikt 2018).
+28. **Kohorttexten säger "räknat på N jämförbara distrikt av 23"**, inte "N av 23 distrikt" som specen skrev. Kohorten räknar distrikt som är både räknade och jämförbara, medan statusraden räknar alla räknade: samma tal på båda ställena hade fått läsaren att tro att bara N var räknade.
+29. **Toppsvaret och statusraden ersätter banderollen och ingressen.** Sidhuvudet svarar på frågan direkt: en statusrad och under den de fyra största partierna i riksdagsvalet som korta staplar plus valdeltagandet. Höjderna är reserverade (statusraden 52 px under 600 px containerbredd, 26 px däröver; toppsvaret 208 px; årväljarens rad 44 px så fort konfigen listar två år) så att sidhuvudet inte hoppar när datan kommer. "Ladda om" är en `<button>` med länkutseende, inte en länk.
+30. **Kortets rad "Hur har det ändrats" har tre grenar.** Jämförbart distrikt får tal för de tre största partier som har tal i swingfilen; omritat distrikt får meningen om omritningen plus hela Majornas tal för sitt största parti; Hela Majorna får talen med kohorttexten. Ett parti utan tal i swingfilen visas inte, aldrig som "0,0". Skärmläsarraden slutar med omritningsmeningen.
+31. **`--tvinga` ersätter hela filen och låser upp tre spärrar samtidigt** (färre räknade distrikt, testdata över skarp data, testdata till repots `data/`). Den slår aldrig ihop den nya filen med den gamla: val som saknas i den nya blir tomma. Efter ett stopp är kommandot `--valnatt-mapp data/valnatt/senaste --tvinga`, eftersom `--hamta` med samma filer bara ger kod 3.
+32. **`--bara-om-nytt` jämför md5 för de tre valda filerna**, inte hela indexet: hela landets index ändras varje minut oavsett Majorna, så flaggan var verkningslös förut. Ändras en fil under hämtningen gör skriptet ett återförsök med paus innan det ger upp.
+33. **Testdata märks och stoppas.** Genrep-filerna har `test: true`, som följer med till `meta.test` i utdatan. Att skriva sådana filer till repots `data/` kräver `--tvinga`.
+
 ## Status 2026-09-05: fixomgången efter Daniels genomgång
 
 Daniel gick igenom den tidigare versionens kandidatlista (se git-historiken för hur "Startpunkt för nästa session" såg ut innan den här omgången) och den publicerade sidan majposten.se/val2026, och gav en spec med sina beslut: `docs/superpowers/specs/2026-09-05-fixomgang-design.md`. Fem agenter körde specens grupper A till E i tur och ordning, var och en med gröna tester och en egen commit (`git log --oneline a0ac959..HEAD` visar alla fem).
@@ -107,13 +123,43 @@ En efterföljande granskningsomgång (samma dag) rättade: det klibbiga kortet s
 
 **Vad som inte rördes i den här omgången:** datafelen som Codex-granskningen hittade i data- och byggpipelinen (2026 års resultatfiler är ZIP med JSON inte xlsx, distriktsgeografin har ändrats hos Valmyndigheten och nio Majornadistrikt är "Ej jämförbart", CSV-mallen går inte att läsa tillbaka, swing för hela Majorna jämför olika distriktsmängder, negativa röster och okända partikoder accepteras, tom import skriver över befintlig data, `kontrollera.py` täcker inte aggregat och mandat, `skapa_bilder.py` kan märka fel år) - de hör till en egen valnattsomgång, se Startpunkt nedan. Historikspårets egna Codex-fynd (18 till 20) hör till den andra sessionen och rörs inte här heller.
 
+## Status 2026-09-07: valnattsomgången är byggd
+
+Planen `docs/superpowers/plans/2026-09-05-valnatt-2026.md` är genomförd, task 1 till 12, i 30 commits (`git log --oneline 5a1f40e..HEAD`). Varje task kördes av en egen agent med testerna först, granskades av en oberoende agent och rättades innan nästa startade. Vad som byggdes:
+
+- **`scripts/valnatt.py`** (task 1 till 3): läser Valmyndighetens JSON 2026. `las_rostfordelning` ger de 23 distrikten med röster, giltiga, röstande, röstberättigade och jämförbarhet; `aggregat_2026` ger riket, Västra Götaland och Göteborg ur mandat- och summeringsfilerna; `riksdag_verklig` ger riksdagens mandat till halvcirkeln.
+- **`scripts/hamta_2026.py`** (task 4): hämtar `index.md5` och de tre zip-filerna, kontrollerar md5 och signaturer, packar upp per körning, `senaste` som atomärt bytt symlänk, `--bara-om-nytt`, `--genrep`, `--lokal`, `--utan-signatur`.
+- **`scripts/schema.py`** (task 5): `swing()` med jämförbarhet, `ej_jamforbara`, kohort och `samma_yta`; atomisk skrivning; konfignycklarna `valdag`, `toppsvar`, `historik`.
+- **`scripts/uppdatera_2026.py`** (task 6 och 7): JSON-vägen `--valnatt-mapp` och `--hamta`, spärrar mot tom och mindre import och mot testdata över skarp data, jämförbarhet per distrikt ur båda källorna, och en CSV-reservväg som går att läsa tillbaka (radnummer i felen, kontroll av röstberättigade på slutläget, kompletteringsläget tillsammans med JSON-vägen).
+- **`scripts/bygg_geo.py`, `scripts/geo.py`** (task 8): `data/distrikt_<år>` ur Valmyndighetens valgeografi, med geometrisk ytkontroll mellan åren.
+- **`valgrafik.js` och `valgrafik.css`** (task 9 till 11): geometri per år i en gemensam kartram, swing för alla år, toppsvar med statusrad och "Ladda om", och kortets rad "Hur har det ändrats".
+- **Dokumentation** (task 12): README-avsnittet Valnatten omskrivet, `docs/valnatt-korschema.md` som körschema, den här filen.
+
+**Torrkörningen är gjord** (2026-09-07, mot nätet): `uppdatera_2026.py --hamta --genrep --ut /tmp/torr --status preliminar` gav md5 och signatur ok för de tre filerna, 23/23 räknade distrikt i alla tre valen, 14 jämförbara mot 2022, en namnvarning (Sandarna mot Sandarne) och en TESTDATA-varning, inga FEL. En andra körning gav `Inget nytt att läsa in.` och kod 3. `hamta_2026.py --ut /tmp/torr2` mot den skarpa adressen gav `FEL: https://resultat.val.se/resultatfiler/val2026/index.md5 svarar 404: resultatfilerna publiceras först på valkvällen` och kod 1, som väntat. Testsidan byggd av torrkörningens data gav `TVÅÅRSKONTROLL OK`. Utskrifterna står som facit i `docs/valnatt-korschema.md`.
+
+**Av Codex-fynden om data** (listade i den tidigare startpunkten) är JSON-formatet, distriktsgeografin, CSV-mallen, swingens distriktsmängder, negativa röster och okända partikoder samt den tomma importen åtgärdade. Kvar är två (planens "Codex 16 och 17"): `scripts/kontrollera.py` täcker fortfarande bara distriktsraderna, inte aggregat och mandat, och `scripts/skapa_bilder.py` kan märka en bild med fel år. Ingen av de två filerna rördes i den här omgången.
+
+## Avvikelser från planen
+
+Under bygget fattade kontrollern beslut som ändrade planen. De skrevs som sju tilläggsdokument i sessionens scratchpad (`tillagg-ej-redovisade`, `-aggregat`, `-hamta`, `-swing`, `-uppdatera`, `-geo`, `-js`) och gällde före plantexten där de skiljer sig. **Dokumenten ligger inte i repot och försvinner med sessionen; den här filen är enda källan till besluten.** Planfilerna under `docs/superpowers/plans/` ändrades inte, de är historik. Sammanfattning av det som avviker:
+
+- **Partier som inte redovisas** fylls inte med nollor (beslut 21). Planens kod gjorde det.
+- **Tom import** stoppar inte kvällens första körning (beslut 22). Planen hade det som ett fel, vilket hade gjort att konfigen aldrig slog över i valnattsläge.
+- **Valdeltagandet i aggregaten** räknas mot röstberättigade i räknade distrikt (beslut 23). Planen nämnde inte fältet.
+- **Aggregat och mandat** stoppar inte distriktsimporten (beslut 24), och riksdagens mandat läses redan på valnatten (beslut 25). Planen hade halvcirkeln utan verklig riksdag på valnatten.
+- **`--hamta`** bygger sitt argv fullständigt (`--ut`, `--bara-om-nytt`); planens kod gjorde grenen för kod 3 död.
+- **Swingens `samma_yta`** och kohorttexten (beslut 27 och 28) skiljer sig från specens formulering.
+- **Geometrin:** planens steg 6 väntade "4.6554 km²" och "+146 kvadratmeter"; verkligheten är samma yta båda åren och 0 kvadratmeters skillnad. `bygg_geo.py --ar 2026 --jamfor data/distrikt_2022.geojson` skriver "unionsyta 4655452 kvadratmeter" och "skillnad +0 kvadratmeter, symmetrisk differens 0 kvadratmeter", och utdatan är byte-identisk med de committade filerna (ett test vaktar det för båda åren). Elva distrikt skiljer sig geometriskt, inte nio: Marieberg (14800542) och Karl Johan (14800544) har bytt ett kvarter på 533 kvadratmeter, men Valmyndigheten markerar båda som "Kan jämföras", så kortet visar förändring för dem. Koden följer Valmyndighetens bedömning.
+- **Sidan:** banderollen och ingressen är borta (beslut 29), `geoMap()` är borttagen (planen beskriver den fortfarande), och statusraden har en fjärde gren för det andra året på valnatten ("Slutligt resultat 2022. Ladda om").
+- **CSV-mallen** har 12 rader per distrikt och 276 tal för riksdagsvalet, inte "cirka 200".
+
 ## Så hänger det ihop tekniskt
 
 `valgrafik.js` börjar med `MARKUP` (hela sidans HTML som sträng), `KONFIG` (standardvärden), `PARTIER` (färger och namn), `SPEKTRUM` (halvcirkelns ordning V, S, MP, C, L, KD, M, SD) och `state`. `start()` monterar markupen i `.mp-main`, laddar `konfig`, `distrikt`, `valdata_<år>` för varje år i `KONFIG.ar`, sedan `bakgrund` och `swing_<år>` (utom för basåret), läser URL-parametrar (`distrikt`, `val`, `lage`, `parti`, `ar`, `inbaddad`, `bild`) och renderar allt. `renderKarta()` projicerar WGS84 till en viewBox 1000 enheter bred (ekvirektangulär med cos(lat), ram 0,045 i longitud och 0,16 i latitud), ritar bakgrund, distrikt, etiketter med kollisionskontroll, hållplatser, platsnamn och markering. `renderPanel()` fyller kortets skelett. `divergens()` bygger "Majorna mot Sverige". `renderBild()` bygger stillbildsramarna.
 
 Brytpunkter: `arDesktop()` (containerbredd 600 px) styr kartans typstorlekar och urval; `arBred()` (900 px) styr om kortet ligger bredvid kartan (då ingen scroll vid val). CSS-layouten styrs av `@container` på samma gränser.
 
-Valnattsläget: `KONFIG.valnatt` visar banderoll med räknade distrikt, gråtonar oräknade, räknar Majorna-snittet på räknade distrikt och visar 2022 års staplar dämpade för oräknade distrikt. `swing_<år>` visas som små tal i kortet. Halvcirkeln visar bara Majornas fördelning 2026 (verklig riksdag okänd på valnatten).
+Valnattsläget: `KONFIG.valnatt` sätter statusraden till "Preliminärt, X av 23 distrikt räknade. Uppdaterad HH:MM." med knappen "Ladda om", gråtonar oräknade distrikt, räknar Majorna-snittet på räknade distrikt och visar 2022 års staplar dämpade för oräknade distrikt. `swing_<år>` visas som små tal vid staplarna och som raden "Hur har det ändrats" i kortet. Halvcirkeln visar både Majornas fördelning och riksdagens verkliga, som läses ur mandatfördelningsfilen redan på valnatten och är preliminär (förbehållet skrivs under bilden). Banderollen och ingressen finns inte längre; toppsvaret överst har tagit deras plats.
 
 Datafilernas schema står i README under Dataschema.
 
@@ -134,33 +180,36 @@ Att veta:
 
 - Etiketten i stillbilderna: "Majposten · Inför valet" fram till valdagen, sedan till exempel "Majposten · Valet 2026" via `--etikett`.
 - Vilket bildformat som ska ligga i själva brevet (kvadraten rekommenderad, liggande som og:image).
-- Om Beehiiv-sidans egen rubrik gör grafikens rubrik och ingress dubbla: då `"inbaddad": true` i `data/konfig.json` och skriv om `konfig.js` (kommandot står i README under Publicera).
+- Om Beehiiv-sidans egen rubrik gör grafikens etikett och rubrik dubbla: då `"inbaddad": true` i `data/konfig.json` och skriv om `konfig.js` (kommandot står i README under Publicera). Statusraden och toppsvaret visas alltid, även inbäddat.
 - Om Beehiivs sidhuvud är klibbigt: sätt `stickyTopp` i konfig till sidhuvudets höjd plus marginal.
 - Att sektionen som blocket ligger i på Beehiiv är minst cirka 1 000 px bred, annars stannar desktopläget i en spalt.
-- Ingressen på sidan är en placeholder som redaktören ska skriva om.
+- `toppsvar.mening` i `data/konfig.json` är redaktionens egen mening under toppsvaret, tom som standard. Håll den till en rad, cirka 60 tecken.
 
 ## Startpunkt för nästa session
 
-**Läs först (2026-09-05 kväll):** två implementationsplaner är skrivna och väntar på att byggas, i den här ordningen: `docs/superpowers/plans/2026-09-05-valnatt-2026.md` (Valmyndighetens JSON-pipeline, skydd mot tom import, geometri per år, toppsvar, kortets förändringsrad; tolv tasks) och sedan `docs/superpowers/plans/2026-09-05-historik-sektion.md` (områdesserien, swing 2022 mot 2018, konturkartor, sektionen Majorna sedan 2006; tio tasks). Specen `docs/superpowers/specs/2026-09-05-historik-2026-design.md` har Daniels beslut i avsnitt 11. Planerna är skrivna för `superpowers:subagent-driven-development` eller `superpowers:executing-plans`, med kompletta tester och kod per steg. Formatet på Valmyndighetens 2026-filer är kontrollerat mot genrep-filerna, formatbeskrivningarna och val.se och står i valnattsplanens inledning; ingen behöver öppna råfilerna igen för att förstå det. Modellval för subagenter: se minnesfilen `subagenter-modellval.md` (Sonnet på mekaniska tasks, Opus på JS-tasks med visuell granskning, ingen Fable).
+**Först av allt, om det är valveckan:** `docs/valnatt-korschema.md` och README-avsnittet Valnatten. Torrkörningen är gjord 2026-09-07 och dess utskrifter står som facit i körschemat.
 
-Steg 1 (städa nuvarande design) är klart, se "Status 2026-09-05" ovan. Kvar är två spår, i den ordning specen `docs/superpowers/specs/2026-09-05-fixomgang-design.md` lämnar dem:
+**Nästa plan att bygga:** `docs/superpowers/plans/2026-09-05-historik-sektion.md` (områdesserien, swing 2022 mot 2018, konturkartor, sektionen "Majorna sedan 2006"; tio tasks). Valnattsplanen är genomförd, se "Status 2026-09-07" ovan. Specen `docs/superpowers/specs/2026-09-05-historik-2026-design.md` har Daniels beslut i avsnitt 11. Planerna är skrivna för `superpowers:subagent-driven-development` eller `superpowers:executing-plans`, med tester och kod per steg. Modellval för subagenter: se minnesfilen `subagenter-modellval.md` (Sonnet på mekaniska tasks, Opus på JS-tasks med visuell granskning, ingen Fable).
 
-### Spår A: valnattsomgången (Codex-fynden om data, brådskande - valdagen är 2026-09-13)
+Tre saker att ta med in i historikplanen:
 
-En egen omgång, direkt efter den här, för fel som avgör om valnatten går rätt till. Från Codex-granskningen mot commit 70eaa8a (se specens sista avsnitt "Utanför den här omgången" för Daniels fulla beställning):
+- **`swing_2022` ska byggas med `schema.swing(..., samma_yta=True)`**, inte genom att skriva över `majorna` och `kohort` i efterhand. 2022 hade 23 distrikt och 2018 hade 22, men samma yta, och `samma_yta=True` är just det intyget. Kontrollera resultatet mot tidsserien med ett test i stället för att patcha filen.
+- **`data/swing_2022.js` finns inte än.** Sidan tål det (404 i konsolen, ingen förändringsrad för året) och `skal-check.js` och `beehiiv-check.js` räknar en saknad `swing_<år>.js` som valfri fil.
+- **Kortets bakåtvända mening 2022 mot 2018** kräver ingen kodändring i kortet; den kommer med swingfilen.
 
-- 2026 års resultatfiler från Valmyndigheten är ZIP med JSON, inte xlsx som 2022 - `scripts/valmyndigheten.py` och `uppdatera_2026.py` behöver troligen ett nytt spår.
-- Distriktsgeografin är ändrad hos Valmyndigheten och nio Majornadistrikt är "Ej jämförbart" enligt övningsfilen - påverkar swing och jämförelser mot 2022.
-- CSV-mallen (`--skriv-mall` / `--csv`, reservvägen) går inte att läsa tillbaka.
-- Swing för hela Majorna jämför olika distriktsmängder mellan åren.
-- Negativa röster och okända partikoder accepteras utan varning.
-- Tom import kan skriva över befintlig data i stället för att avbryta.
-- `kontrollera.py` täcker inte aggregat och mandat, bara distriktsraderna.
-- `skapa_bilder.py` kan märka en bild med fel år.
+**Kvar av Codex-fynden om data:** `scripts/kontrollera.py` täcker bara distriktsraderna, inte aggregat och mandat, och `scripts/skapa_bilder.py` kan märka en bild med fel år. Båda är kvar sedan valnattsomgången ("Codex 16 och 17").
 
-Läs igenom `scripts/uppdatera_2026.py`, `scripts/valmyndigheten.py`, `scripts/kontrollera.py` och `scripts/skapa_bilder.py` innan du börjar, och kör `--repetera` som facit innan och efter varje ändring.
+**Refaktoreringar som medvetet väntar till efter valdagen** (rör inte koden i valveckan):
 
-### Spår B: tankesmedjan (helhetsgrepp och vidareutveckling)
+- `main` i `scripts/uppdatera_2026.py` är lång och gör för mycket.
+- `bygg()` läser modulglobalen `JAMFORBAR` i stället för att ta den som argument.
+- Xlsx-vägen och JSON-vägen dubblerar distriktsslingan i `uppdatera_2026.py`.
+- `_kontrollera_valtyp` i `scripts/valnatt.py` godtar saknat eller null `valtyp`, så vakten är bara så stark som fältets närvaro (alla genrep-filer har fältet).
+- Halvcirkelns ingressmening står numera på ett ställe (konstant), men `MARKUP` och `renderRiksdag` delar fortfarande ansvar för sidhuvudets uppbyggnad.
+
+Frågorna nedan är Daniels och väntar på hans beslut, inte på kod.
+
+### Tankesmedjan: helhetsgrepp och vidareutveckling
 
 Planen för historik och 2026 är skriven och granskad 2026-09-05: `docs/superpowers/specs/2026-09-05-historik-2026-design.md`. Den väntar på Daniels beslut (avsnitt 11 i specen) innan något byggs. Underlaget (faktablad, Majornabons önskelista, två koncept, valnattsredaktörens genomgång) skapades av en workflow och ligger inte i repot.
 
@@ -192,9 +241,24 @@ Prioritera efter tid till valdagen: det som är aktuellt nu (förtidsröstning, 
 - Kartan, kartlegenden och resultatkortet ligger i `#karta-yta` inuti `#karta-sektion`. Det är den wrappern som begränsar det klibbiga kortets yta; tar man bort den lägger sig kortet över tabellknappen och tabellen vid rullning på desktop.
 - CSS-lintet i `tests/test_inbaddning.py` faller på varje selektor som inte börjar med `.mp-val`, på `vh` och på `position: fixed`.
 - Regler inne i `@container` kan aldrig träffa `.mp-val` själv, bara dess barn.
-- `swing_2022.js` finns inte och ska inte finnas; basåret hoppas över vid laddning.
+- `data/swing_<år>.js` är en valfri fil. `swing_2022.js` finns inte förrän historikplanen skrivit den; sidan laddar den för varje år och tål 404 (ingen förändringsrad för året), och `skal-check.js` och `beehiiv-check.js` räknar den som "valfri fil som saknas". En saknad `valdata_<år>.js` eller `distrikt_<år>.js` är däremot ett fel: året hoppas över med en varning i konsolen, och sidan felar först när inget år går att ladda.
 - Stillbilderna "Majorna mot Sverige" för 2026 kräver aggregat för riket, Västra Götaland och Göteborg i `valdata_2026.json`, som bara finns när `uppdatera_2026.py` körts med Valmyndighetens filer (inte CSV-vägen).
 - Facebook och Beehiiv cachar länkkortet: og-taggarna i `index.html` gäller GitHub-adressen (skalet), medan Beehiiv-sidan har sina egna SEO-inställningar i sajtbyggaren.
 - Skärmdumpsverktygen i `verktyg/` behöver `puppeteer-core` installerat i mappen och servern igång.
 - Den lokala förhandsvisningsservern kan dö mellan sessioner; starta om den innan verktygen körs.
 - Chrome headless via kommandoraden klampar smala fönsterbredder; för mobilbilder används puppeteer med mobilemulering, för stillbilder räcker Chrome direkt (1200 och 1080 px).
+
+Från valnattsomgången:
+
+- `data/distrikt.geojson` heter `data/distrikt_2022.geojson` sedan 2026-09-06, och sidan laddar `distrikt_<år>` för varje år i konfigen. `scripts/hamta_bakgrund.py` och `scripts/bygg_data.py` pekar på det nya namnet.
+- Gitignorerat och ska aldrig committas: `data/valnatt/` (Valmyndighetens hämtade filer), `tmp/` (testsidorna), `verktyg/node_modules/`, `val-sign-crt.pem` och `val-sign-pub.pem`. Halvfärdiga tidsstämpelmappar under `data/valnatt/` efter avbrutna körningar är ofarliga: `senaste` pekar bara på lyckade körningar.
+- Testsidorna under `tmp/` innehåller **kopior** av `valgrafik.js` och `valgrafik.css`. Bygg om dem med `verktyg/forbered_tvaar.py` efter varje ändring i källfilerna, annars kontrollerar `tvaar-check.js` gammal kod.
+- Signaturtestet i sviten hoppas över tyst i en klon utan pem-filerna. `hamta_2026.py` hämtar certifikatet själv vid första körningen.
+- `--tvinga` låser upp tre spärrar samtidigt (färre räknade distrikt, testdata över skarp data, testdata till repots `data/`) och ersätter hela filen i stället för att slå ihop. En `--tvinga` direkt efter en `--genrep`-körning kan alltså skriva testmärkt data till `data/`.
+- `meta.valnatt.raknade` räknar distrikt där **något** val är räknat, inte per val. Sidan räknar per visat val med `raknadeIVal(val)`; använd den, inte metatalet, i ny kod.
+- Kohorten i swingfilen räknar distrikt som är både räknade och jämförbara, statusraden räknar alla räknade. Samma tal på båda ställena är fel.
+- Sidhuvudets reserverade höjd sätts när `konfig.js` lästs (årväljarens rad och toppsvarets höjd), inte vid första målningen. I det degraderade läget där ett år inte kan laddas krymper sidhuvudet 56 px när årväljaren döljs.
+- `KONFIG.toppsvar.mening` bör hållas till cirka 60 tecken: sidan reserverar höjd för en rad extra.
+- "Majornas 23 valdistrikt" är hårdkodat i `meta description` och `og:description` i `index.html`, `docs/beehiivtest.html` och `docs/inbaddningstest.html`. Antalet är 23 båda åren, så det får stå, men det uppdateras inte av datan.
+- `.forbehall` är 16 px (brödtextens minimum) medan `.not` är 14 px; det är avsiktligt.
+- `docs/skarmdumpar/` är tagna före toppsvaret och kortets rad "Hur har det ändrats" och visar alltså en äldre sida.

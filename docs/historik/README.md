@@ -2,8 +2,17 @@
 
 Underlagsarbetet bakom "Så röstade Majorna": all valdata för Göteborgs kommun (1480) i
 riksdagsval, regionval och kommunfullmäktigval 2002, 2006, 2010, 2014, 2018 och 2022, plus
-distriktsindelningarnas historia. Ingenting här syns på sidan; det är råmaterial och
+distriktsindelningarnas historia. Ingenting här ligger direkt på sidan; det är råmaterial och
 dokumentation.
+
+Sedan 2026-09-07 läser sidan detta underlag: `scripts/bygg_historik.py` (i projektroten, inte
+här i `scripts/historik/`) läser `majorna_historik.sqlite` skrivskyddat och skriver
+`data/historik.json`, `data/swing_2022.json` och de byggda historikårens `valdata_<år>` och
+`distrikt_<år>`, som sektionen "Majorna sedan 2006" i `valgrafik.js` visar. `scripts/kontrollera.py
+--historik` binder ihop de två: den stämmer av `historik.json`:s rad för valdatas år mot
+`data/valdata_2022.json`:s aggregat, för alla tre valen, så att områdesserien och den kanoniska
+2022-filen aldrig kan glida isär. Se README-avsnittet "Historiken" i projektroten för vad
+sektionen visar.
 
 ## Börja här
 

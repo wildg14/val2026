@@ -740,6 +740,11 @@ def test_hamta_bygger_argv_fullstandigt_och_nollstaller_globalt_tillstand(tmp_pa
         assert argv[argv.index("--tillfalle") + 1] == "p"
         assert "--bara-om-nytt" in argv
         assert argv[argv.index("--ut") + 1] == str(ut2 / "valnatt")
+        assert "--utan-signatur" not in argv
+
+        sys.argv = ["uppdatera_2026.py", "--hamta", "--utan-signatur", "--ut", str(ut2), "--ar", "2026"]
+        assert uppdatera_2026.main() == 3
+        assert "--utan-signatur" in sett["argv"]
 
         def attrapp_fel():
             raise RuntimeError("x")

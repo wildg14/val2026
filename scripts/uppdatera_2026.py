@@ -4,7 +4,8 @@
 Valnatten, JSON-vägen (rekommenderad):
     .venv/bin/python scripts/uppdatera_2026.py --hamta --status preliminar --valnatt
 hämtar Valmyndighetens resultatfiler (scripts/hamta_2026.py, --tillfalle p eller s, --genrep för
-simuleringarna), packar upp dem och läser rd/, rf/ och kf/ direkt. Har mappen redan hämtats:
+simuleringarna, --utan-signatur skickas vidare till hamta_2026.py som reservläge om val.se bekräftar
+problem med certifikatet), packar upp dem och läser rd/, rf/ och kf/ direkt. Har mappen redan hämtats:
     .venv/bin/python scripts/uppdatera_2026.py --valnatt-mapp data/valnatt/senaste --status preliminar
 
 Slutlig-vägen 2022 (en, två eller tre filer):
@@ -511,6 +512,8 @@ def main():
     ap.add_argument("--hamta", action="store_true", help="kör hamta_2026.py först och använd dess mapp")
     ap.add_argument("--tillfalle", choices=["p", "s"], default="p", help="för --hamta: p preliminär, s slutlig")
     ap.add_argument("--genrep", action="store_true", help="för --hamta: simuleringarna i stället för val2026")
+    ap.add_argument("--utan-signatur", action="store_true",
+                    help="för --hamta: hoppa över signaturkontrollen, reservläge om val.se bekräftar problem med certifikatet")
     ap.add_argument("--csv", help="reservväg: manuellt ifylld CSV (val;kod;parti;roster)")
     ap.add_argument("--skriv-mall", metavar="FIL", help="skriv en tom CSV-mall och avsluta")
     ap.add_argument("--jamforelsefil", default=JAMFORELSEFIL_STANDARD, help="Valmyndighetens xlsx med jämförbarhet 2022 mot 2026")
@@ -535,7 +538,8 @@ def main():
         return repetera(a.bas)
     filer = {val: getattr(a, val) for val in VAL if getattr(a, val)}
     if a.hamta:
-        argv = ["hamta_2026.py", "--tillfalle", a.tillfalle, "--ut", str(Path(a.ut) / "valnatt"), "--bara-om-nytt"] + (["--genrep"] if a.genrep else [])
+        argv = (["hamta_2026.py", "--tillfalle", a.tillfalle, "--ut", str(Path(a.ut) / "valnatt"), "--bara-om-nytt"]
+                + (["--genrep"] if a.genrep else []) + (["--utan-signatur"] if a.utan_signatur else []))
         sparad = sys.argv
         sys.argv = argv
         try:

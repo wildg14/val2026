@@ -6,6 +6,7 @@ Valdagen är söndag 13 september 2026. Vallokalerna stänger 20.00.
 
 ## Lördag 12 september
 
+- [ ] `git pull origin main`. Sedan grenkontroll: `git branch --show-current` svarar `main`, och `git log origin/main --oneline -1` visar samma commit som `git log --oneline -1`. Valnattsomgången ligger på grenen `claude/valnattsplanen-superpowers-b46290`; körschemat förutsätter att den är mergad till `main` innan kvällens `git push origin main` kan nå hosten.
 - [ ] `.venv/bin/python -m pytest -q` grönt.
 - [ ] `.venv/bin/python scripts/uppdatera_2026.py --repetera` slutar med `REPETITION OK`.
 - [ ] Certifikatet finns: `ls val-sign-pub.pem`. Saknas det: `curl -sSo val-sign-crt.pem https://resultat.val.se/keys/val-sign-crt.pem && openssl x509 -in val-sign-crt.pem -pubkey -noout > val-sign-pub.pem`. (Skriptet hämtar det annars själv vid första körningen.)
@@ -37,9 +38,10 @@ Jämförbara mot 2022: 14 av 23. Omritade: Kungsladugård Västra, Mariaplan, Si
 Nästa steg: kör med --valnatt för att slå på valnattsläget i data/konfig.js, eller redigera filen för hand. Ladda sedan upp data/.
 ```
 
-- [ ] Skriptet vägrar skriva testdata (`meta.test`) till repots `data/` utan `--tvinga`: glöms `--ut` bort stoppar den spärren en torrkörning i stället för att skriva testmärkt data i skarp mapp.
+Skriptet vägrar skriva testdata (`meta.test`) till repots `data/` utan `--tvinga`: glöms `--ut` bort stoppar den spärren en torrkörning i stället för att skriva testmärkt data i skarp mapp.
+
 - [ ] Kör samma kommando en gång till: väntat `Inget nytt: de tre filerna har samma md5 som senaste körning`, `Inget nytt att läsa in.` och returkod 3.
-- [ ] Testsidan med båda åren:
+- [ ] Testsidan med båda åren, med servern igång (`python3 -m http.server 8765 --bind 127.0.0.1` i projektroten):
 
 ```bash
 .venv/bin/python verktyg/forbered_tvaar.py --valnatt-data /tmp/torr --valnatt --ut tmp/tvaar
@@ -95,10 +97,10 @@ Returkod 3 med `Inget nytt att läsa in.` betyder att Valmyndighetens tre filer 
 
 - [ ] Vid `FEL:`: läs meddelandet, åtgärda, kör igen. Ingenting är skrivet när ett FEL kommer. Vanliga fall:
   - Nätfel eller `md5 stämmer inte`: vänta någon minut och kör igen.
-  - `färre räknade distrikt än i valdata_2026.json`: kör `.venv/bin/python scripts/uppdatera_2026.py --valnatt-mapp data/valnatt/senaste --status preliminar --tvinga`. Kom ihåg att `--tvinga` ersätter hela filen (val som saknas i den nya blir tomma) och samtidigt låser upp spärrarna mot testdata.
+  - `färre räknade distrikt än i valdata_2026.json`: kör `.venv/bin/python scripts/uppdatera_2026.py --valnatt-mapp data/valnatt/senaste --tvinga --status preliminar`. Kom ihåg att `--tvinga` ersätter hela filen (val som saknas i den nya blir tomma) och samtidigt låser upp spärrarna mot testdata.
   - `har inte formen av en JSON-fil`: Valmyndigheten skrev filen medan vi läste. Kör igen.
-  - Signaturfel: hämta om certifikatet. `--utan-signatur` är reservläge och bara efter att val.se bekräftat problemet; utskriften säger då "signatur ej kontrollerad".
-  - Ett val som fattas helt eller är trasigt: komplettera för hand med `--valnatt-mapp data/valnatt/senaste --csv valnatt.csv` (CSV:n vinner per distrikt och val, JSON-vägen fyller resten). Mallen: `--skriv-mall valnatt.csv`, 12 rader per distrikt, 276 tal för riksdagsvalet.
+  - Signaturfel: hämta om certifikatet. `--utan-signatur` är reservläge och bara efter att val.se bekräftat problemet: `.venv/bin/python scripts/uppdatera_2026.py --hamta --utan-signatur --status preliminar` ger utskriften "signatur ej kontrollerad".
+  - Ett val som fattas helt eller är trasigt: komplettera för hand med `.venv/bin/python scripts/uppdatera_2026.py --valnatt-mapp data/valnatt/senaste --csv valnatt.csv --status preliminar` (CSV:n vinner per distrikt och val, JSON-vägen fyller resten). Mallen: `.venv/bin/python scripts/uppdatera_2026.py --skriv-mall valnatt.csv`, 12 rader per distrikt, 276 tal för riksdagsvalet.
 - [ ] Halvfärdiga tidsstämpelmappar under `data/valnatt/` efter avbrutna körningar är ofarliga; `senaste` pekar bara på lyckade körningar. Mappen är gitignorerad.
 
 ## Måndag till onsdag

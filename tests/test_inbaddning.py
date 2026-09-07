@@ -448,7 +448,7 @@ def test_toppsvaret_visar_alla_partier_pa_desktop():
     css = CSS.read_text("utf-8")
     kropp = js[js.index("function renderToppsvar()"):js.index("/* ---- samarbete")]
     assert "arDesktop()" in kropp, "antalet rader följer containerbredden"
-    assert ".slice(0, 4)" not in kropp, "fyra rader är inte längre fast"
+    assert "arDesktop() ? utomOvriga : utomOvriga.slice(0, 4)" in kropp, "fyra rader gäller bara under brytpunkten"
     assert "rader.length" in kropp, "aria-etiketten följer antalet partier"
     # css har flera block med samma villkor: reservationen kan stå i vilket som helst av dem
     rad = None
@@ -482,3 +482,46 @@ def test_arvaljaren_behaller_tangentbordsfokus_over_en_laddning():
     kropp = kropp[:kropp.index("\n}\n")]
     assert "valj.focus({ preventScroll: true })" in kropp, "fokus läggs tillbaka på selecten efter laddningen"
     assert kropp.index("disabled = false") < kropp.index("valj.focus"), "först på igen, sedan fokus"
+
+
+def test_valnatten_laddar_jamforelsearet_vid_start():
+    """Med lat laddning står bara standardåret i state vid start. På valnatten är de flesta distrikt
+    oräknade, och kortets bakåtvända rad slår upp basåret bland de laddade åren - alltså måste
+    jämförelseåret laddas från början när KONFIG.valnatt är sant."""
+    js = JS.read_text("utf-8")
+    kropp = js[js.index("async function start()"):]
+    kropp = kropp[:kropp.index("\n}\n")]
+    assert "KONFIG.valnatt" in kropp, "valnattsgrenen finns i start"
+    assert "Number(a) < Number(KONFIG.standardAr)" in kropp, "jämförelseåret är största året under standardåret"
+
+
+def test_konturkartornas_not_raknas_fram_ur_kartorna():
+    """2010 och 2014 har lika många distrikt som 2006. Noten får då inte påstå fler distrikt."""
+    js = JS.read_text("utf-8")
+    kropp = js[js.index("function histKartor()"):]
+    kropp = kropp[:kropp.index("\n}\n")]
+    assert "gNu.features.length > g06.features.length" in kropp, "första meningen räknas fram ur kartorna"
+    assert "lika många distrikt" in kropp, "meningen för lika många distrikt finns"
+
+
+def test_arvaljarens_felrad_ar_en_levande_region():
+    """En role=status som skapas först när felet inträffar hinner inte bli en levande region."""
+    js = JS.read_text("utf-8")
+    assert 'id="arval-fel" role="status" hidden' in js, "felraden ligger i markupen från början"
+    kropp = js[js.index("async function byteAr("):]
+    kropp = kropp[:kropp.index("\n}\n")]
+    assert 'setAttribute("aria-busy", "true")' in kropp and 'removeAttribute("aria-busy")' in kropp
+
+
+def test_arvaljaren_har_knappradens_marginal():
+    """Selecten ärvde inte .knappar-regeln när knappraden byttes ut."""
+    css = CSS.read_text("utf-8")
+    rad = next(r for r in css.splitlines() if r.startswith(".mp-val #arval {"))
+    assert "margin: 0 0 12px" in rad, "samma luft under årväljaren som knappraden hade"
+
+
+def test_toppsvaret_utan_magiskt_tak():
+    """Antalet partier på desktop är alla utom Övriga, inte ett tal som råkar vara stort nog."""
+    js = JS.read_text("utf-8")
+    assert "arDesktop() ? 99 : 4" not in js
+    assert "const rader = arDesktop() ? utomOvriga : utomOvriga.slice(0, 4);" in js

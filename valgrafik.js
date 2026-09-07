@@ -22,6 +22,7 @@ const MARKUP = `
     <div id="toppsvar" class="toppsvar"></div>
     <p class="samarbete" id="samarbete" hidden></p>
     <div id="arval" hidden></div>
+    <p class="arval-fel" id="arval-fel" role="status" hidden></p>
   </header>
 
   <div id="rutor" class="rutor" hidden></div>
@@ -328,6 +329,13 @@ async function start() {
     // fler historiska år står i konfigen. Varje fil fångas för sig, så att en lucka inte släcker sidan.
     const urlAr = new URLSearchParams(sidLocation().search).get("ar"), vidStart = [KONFIG.standardAr];
     if (urlAr && urlAr !== KONFIG.standardAr && (KONFIG.ar || []).includes(urlAr)) vidStart.push(urlAr);
+    // På valnatten är de flesta distrikt oräknade den första timmen, och kortet visar då hur distriktet
+    // röstade förra valet. Den raden slår upp basåret bland de laddade åren, så jämförelseåret måste vara
+    // inne från början - annars står kortet tomt tills läsaren råkar byta år fram och tillbaka.
+    if (KONFIG.valnatt) {
+      const bas = (KONFIG.ar || []).filter(a => Number(a) < Number(KONFIG.standardAr)).sort().pop();
+      if (bas && !vidStart.includes(bas)) vidStart.push(bas);
+    }
     const vill = !((KONFIG.historik || {}).visa === false);   // historiksektionen kan stängas av i konfigen
     const [, bakgrund, historik, historikGeo] = await Promise.all([
       Promise.all(vidStart.map(a => laddaAr(a))),
@@ -379,9 +387,11 @@ function renderHuvud() {
     arval.append(valj);
   }
   valj.value = state.ar;
-  const gammalFel = $(".arval-fel");
-  if (gammalFel) gammalFel.remove();
-  if (arvalFel) arval.append(h("p", { class: "arval-fel" }, arvalFel));
+  // Felraden ligger i markupen från början, tom och dold: en role="status" som skapas först när felet
+  // inträffar hinner inte bli en levande region, och skärmläsaren skulle då inte säga något alls.
+  const fel = $("#arval-fel");
+  fel.textContent = arvalFel;
+  fel.hidden = !arvalFel;
   renderToppsvar();
 }
 // Byte av år: året laddas vid behov, en gång, och först därefter byter vyn. En select är nativt
@@ -390,11 +400,13 @@ async function byteAr(a) {
   if (a === state.ar) return;
   const valj = $("#arval-select");
   if (!state.data[a]) {
-    if (valj) valj.disabled = true;   // den nuvarande vyn står kvar medan året hämtas, sidan blinkar inte till tom
+    // Den nuvarande vyn står kvar medan året hämtas, sidan blinkar inte till tom. aria-busy säger åt
+    // skärmläsaren att vänta i stället för att läsa upp den halvfärdiga sidan.
+    if (valj) { valj.disabled = true; valj.setAttribute("aria-busy", "true"); }
     const ok = await laddaAr(a);
     // disabled flyttar fokus till sidans början. Bytet kom från selecten, så fokus läggs tillbaka där
     // när året är inne - annars börjar nästa tabbtryck om från toppen.
-    if (valj) { valj.disabled = false; valj.focus({ preventScroll: true }); }
+    if (valj) { valj.disabled = false; valj.removeAttribute("aria-busy"); valj.focus({ preventScroll: true }); }
     if (!ok) { arvalFel = "Valet " + a + " kunde inte laddas."; if (valj) valj.value = state.ar; renderHuvud(); return; }
   }
   arvalFel = "";   // felraden försvinner vid nästa lyckade byte
@@ -434,9 +446,9 @@ function renderToppsvar() {
   if (st.laddaOm) status.append(" ", h("button", { type: "button", class: "ladda-om", onclick: laddaOm }, "Ladda om"));
   el.innerHTML = "";
   if (!majornaRaknat(val)) { el.append(h("p", { class: "toppsvar-tom" }, `Riksdagsvalet ${meta.ar}: inget distrikt räknat än.`)); return; }
-  // Fyra partier på en telefon, alla utom Övriga från 600 px containerbredd. arDesktop deklareras längre
-  // ned i filen men är hissad före det här anropet, som sker först när datan är inne.
-  const rader = andelar(m.roster, m.giltiga).filter(a => a.p !== "Övriga").slice(0, arDesktop() ? 99 : 4);
+  // Fyra partier på en telefon, alla utom Övriga från 600 px containerbredd.
+  const utomOvriga = andelar(m.roster, m.giltiga).filter(a => a.p !== "Övriga");
+  const rader = arDesktop() ? utomOvriga : utomOvriga.slice(0, 4);
   const lista = h("div", { class: "toppsvar-rader", role: "list", "aria-label": `${VALNAMN[val]} ${meta.ar}, de ${rader.length} största partierna i Majorna` });
   // Raden har hela svaret i aria-label; innehållet döljs för skärmläsare så att talet inte läses två gånger.
   for (const a of rader) lista.append(h("div", { class: "toppsvar-rad", role: "listitem", "aria-label": `${parti(a.p).namn} ${procent(a.andel)}` },
@@ -1364,7 +1376,12 @@ function histKartor() {
     return h("figure", { class: "hist-figur" }, svg, h("figcaption", {}, `${ar}, ${fc.features.length} distrikt`));
   };
   el.replaceChildren(karta(g06, 2006), karta(gNu, data().meta.ar));
-  notEl.textContent = "Samma yta, fler distrikt. Ett kvarter 2006 är ofta två i dag."
+  // Med historiska år i årväljaren kan det visade året ha lika många distrikt som 2006 (17 stycken både
+  // 2010 och 2014, med andra koder och delvis andra gränser). Första meningen räknas därför fram ur
+  // kartorna i stället för att stå fast, annars påstår noten fler distrikt när antalet är detsamma.
+  notEl.textContent = (gNu.features.length > g06.features.length
+    ? "Samma yta, fler distrikt. Ett kvarter 2006 är ofta två i dag."
+    : "Samma yta, lika många distrikt, men gränserna är omritade.")
     + " Hur olika åldrar röstade går inte att veta. Valhemligheten gäller per distrikt, inte per person.";
 }
 

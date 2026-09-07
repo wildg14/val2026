@@ -25,7 +25,7 @@
 .mp-val .ladda-om { font: inherit; color: var(--gron); background: none; border: 0; border-radius: 0; min-height: 0; padding: 0; text-decoration: underline; cursor: pointer; }
 .mp-val .toppsvar { min-height: 208px; margin: 0 0 16px; }
 .mp-val.har-mening .toppsvar { min-height: 270px; }   /* meningen tar två rader på smala containrar */
-.mp-val #arval { min-height: 44px; }   /* årväljarens rad står tom tills datan kommit, men tar plats från början */
+.mp-val #arval { min-height: 44px; margin: 0 0 12px; }   /* årväljarens rad står tom tills datan kommit, men tar plats från början; marginalen är den knappraden hade */
 /* Formulärkontroller ärver inte typsnitt: årväljaren får font, färg, bakgrund och ram uttryckligen, annars slår värdsidans eller webbläsarens standard igenom. */
 .mp-val #arval select { font: inherit; color: var(--black); background: #fff; border: 1px solid var(--sten); border-radius: 4px; min-height: 44px; padding: 6px 10px; }
 .mp-val .arval-fel { font-size: 14px; color: var(--falu); margin: 8px 0 0; }

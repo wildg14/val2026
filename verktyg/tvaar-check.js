@@ -18,6 +18,7 @@ const kf6Url = namngivet('kf6', null);                    // valfri testsida byg
 const slutligUrl = namngivet('slutlig', null);            // valfri sida utan --valnatt, --status slutlig
 const prelUrl = namngivet('prel', null);                  // valfri sida utan --valnatt, --status preliminar
 const utanPartiUrl = namngivet('utanparti', null);        // valfri sida byggd med --utan-parti S
+const partiellUrl = namngivet('partiell', null);          // valfri sida byggd med --valnatt --partiell N, för det bakåtvända kortet
 const SVALEBO = '14800526';
 const snallt = text => { const e = new Error(text); e.snallt = true; return e; };
 // Statusraden gäller alltid riksdagsvalet, som är färdigräknat i testdatan - även på sidan där kf bara har 3 distrikt.
@@ -206,6 +207,31 @@ const KOHORT_KF = 'räknat på 3 jämförbara distrikt av 23';
   };
   await utanValnatt('slutlig', slutligUrl, 'Slutligt resultat, riksdagsvalet 2026.');
   await utanValnatt('preliminär', prelUrl, 'Preliminärt resultat 2026.');
+
+  // Valnattens bakåtvända kort: ett distrikt som inte är räknat ska visa hur det röstade förra valet.
+  // Raden slår upp basåret bland de laddade åren, så kontrollen får aldrig byta år först - då laddas
+  // basåret på vägen och luckan som den lata laddningen kan lämna syns inte.
+  if (partiellUrl) {
+    const sida = await oppna(partiellUrl);
+    const bak = await sida.evaluate(async () => {
+      const rot = document.getElementById('valgrafik');
+      const oraknad = [...rot.querySelectorAll('#karta path.distrikt')]
+        .find(p => /inte räknat än/.test(p.getAttribute('aria-label') || ''));
+      if (!oraknad) return { hittade: false };
+      oraknad.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+      await new Promise(r => setTimeout(r, 500));
+      return { hittade: true, kod: oraknad.getAttribute('data-kod'),
+               not: rot.querySelector('#panel-not').textContent.trim(),
+               staplar: rot.querySelector('#panel-staplar').querySelectorAll('.stapel-rad').length };
+    });
+    console.log('partiell, oräknat distrikt:', JSON.stringify(bak));
+    kontroller.push(['partiell: ett oräknat distrikt finns på kartan', bak.hittade === true],
+                    ['partiell: kortet visar förra valets siffror utan årsbyte', /^Så röstade .+ 2022 \(riksdagsvalet, /.test(bak.not || '')],
+                    ['partiell: bakåtvända staplar ritas', (bak.staplar || 0) >= 5]);
+    await sida.close();
+  } else {
+    console.log('partiell-sidan: hoppas över (ingen adress angiven)');
+  }
 
   kontroller.push(['inga JS-fel', fel.length === 0]);
   if (saknade.length) console.log('valfria filer som saknas:', [...new Set(saknade)].join(' | '));

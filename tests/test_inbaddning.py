@@ -70,7 +70,7 @@ def test_index_ar_ett_tunt_skal():
 
 def test_konfig_finns_som_datafil():
     k = json.loads((ROT / "data" / "konfig.json").read_text("utf-8"))
-    assert k["ar"] == ["2022"] and k["standardAr"] == "2022" and k["valnatt"] is False
+    assert k["ar"] == ["2010", "2014", "2018", "2022"] and k["standardAr"] == "2022" and k["valnatt"] is False
     js = (ROT / "data" / "konfig.js").read_text("utf-8")
     assert js.startswith('window.MAJPOSTEN=window.MAJPOSTEN||{data:{}};window.MAJPOSTEN.data["konfig"]=')
 
@@ -376,3 +376,109 @@ def test_konturkartorna_och_den_kortade_faktalistan():
     assert "Andel = partiets röster delat med giltiga röster." in fakta, "andelsdefinitionen står kvar"
     assert "Valdeltagande i Majorna" not in fakta, "valdeltagandet står i bild B, inte i Om siffrorna"
     assert "Byggd av Majposten" not in fakta, "avsändaren står i sidfoten, inte i listan"
+
+
+def test_arvaljaren_ar_en_dropdown():
+    """Årväljaren är en <select> med etiketten på selecten, inte en knapprad med role=group."""
+    js = JS.read_text("utf-8")
+    css = CSS.read_text("utf-8")
+    assert 'id: "arval-select"' in js, "selecten har ett eget id"
+    assert '"aria-label": "Välj valår"' in js, "etiketten sitter på selecten"
+    markup = next(r for r in js.splitlines() if 'id="arval"' in r)
+    assert 'role="group"' not in markup and 'aria-label' not in markup, "behållaren har varken role eller etikett kvar"
+    rad = next((r for r in css.splitlines() if r.strip().startswith(".mp-val #arval select {")), None)
+    assert rad and "font: inherit" in rad and "color:" in rad and "background:" in rad and "border:" in rad, \
+        "selecten ärver typsnitt och får egen färg, bakgrund och ram"
+
+
+def test_arvaljaren_har_ingen_pilnavigering():
+    """En <select> är nativt tillgänglig: pilnavigeringen för knapprader kopplas inte på den."""
+    js = JS.read_text("utf-8")
+    kropp = js[js.index("function renderHuvud()"):js.index("/* ---- toppsvaret")]
+    assert "pilNavigering" not in kropp, "pilNavigering hör till knapprader, inte till en select"
+
+
+def test_lat_laddning_av_ar():
+    """Bara de år som behövs laddas vid start, resten när läsaren väljer dem."""
+    js = JS.read_text("utf-8")
+    assert "function laddaAr(" in js, "en gemensam funktion laddar ett år en gång"
+    start = js[js.index("async function start()"):js.index("/* ===================================================================== render */")]
+    assert "KONFIG.ar = onskade.filter" not in start, "årslistan filtreras inte längre till laddade år vid start"
+    assert 'onskade.map(a => laddaSkript("valdata_' not in start, "alla år laddas inte i ett svep"
+    assert "laddaAr" in start, "start laddar standardåret och eventuellt URL-året genom laddaAr"
+
+
+def test_senaste_ar_ar_det_senaste_laddade():
+    """Historiksektionen slår upp state.data[senasteAr()]: bara laddade år får räknas."""
+    js = JS.read_text("utf-8")
+    rad = next(r for r in js.splitlines() if r.startswith("const senasteAr ="))
+    assert "state.data" in rad, "senasteAr räknar bara år som faktiskt är laddade"
+
+
+def test_skalmax_raknas_om_efter_varje_laddat_ar():
+    """Stapelbredden i kortet vilar på alla laddade år och kan växa när ett år till kommer in."""
+    js = JS.read_text("utf-8")
+    kropp = js[js.index("function laddaAr("):]
+    kropp = kropp[:kropp.index("\n}\n")]
+    assert "raknaSkalmax()" in kropp, "skalmax räknas om efter varje laddat år"
+
+
+def test_arsbytet_tal_ett_ar_som_inte_gar_att_ladda():
+    """Selecten stängs av under laddningen, vyn står kvar, och ett år utan filer ger en rad i #arval."""
+    js = JS.read_text("utf-8")
+    css = CSS.read_text("utf-8")
+    assert "kunde inte laddas." in js, "felraden säger vilket år som föll"
+    assert "disabled = true" in js, "selecten stängs av medan året laddas"
+    assert "arval-fel" in js, "felraden har en egen klass"
+    assert ".mp-val .arval-fel {" in css, "felraden får en stil"
+
+
+def test_arsbytet_revaliderar_distriktet():
+    """Ett distrikt som inte finns det nya året får inte bli kvar valt."""
+    js = JS.read_text("utf-8")
+    kropp = js[js.index("function visaAr("):]
+    kropp = kropp[:kropp.index("\n}\n")]
+    assert "distriktMap()[state.vald]" in kropp, "distriktet valideras om vid årsbyte"
+    assert "partierIVal" in kropp, "partiet valideras om vid årsbyte"
+
+
+def test_toppsvaret_visar_alla_partier_pa_desktop():
+    """Fyra partier under 600 px containerbredd, alla utom Övriga från 600 px."""
+    js = JS.read_text("utf-8")
+    css = CSS.read_text("utf-8")
+    kropp = js[js.index("function renderToppsvar()"):js.index("/* ---- samarbete")]
+    assert "arDesktop()" in kropp, "antalet rader följer containerbredden"
+    assert ".slice(0, 4)" not in kropp, "fyra rader är inte längre fast"
+    assert "rader.length" in kropp, "aria-etiketten följer antalet partier"
+    # css har flera block med samma villkor: reservationen kan stå i vilket som helst av dem
+    rad = None
+    for m in re.finditer(r"@container \(min-width: 600px\) \{(.*?)\n\}\n", css, re.S):
+        rad = rad or next((r for r in m.group(1).splitlines() if r.strip().startswith(".mp-val .toppsvar {")), None)
+    assert rad and "min-height:" in rad, "åtta rader får en egen reserverad höjd på desktop"
+
+
+def test_toppsvaret_ritas_om_vid_brytpunkten():
+    """ResizeObservern ritar om toppsvaret när containern passerar 600 px."""
+    js = JS.read_text("utf-8")
+    obs = re.search(r"new ResizeObserver\(\(\) => \{(.*?)\}\)\.observe\(rot\);", js, re.S)
+    assert obs and "renderToppsvar()" in obs.group(1), "toppsvaret ritas om vid desktopbytet"
+
+
+def test_konfig_har_fyra_ar_och_valnattsmening():
+    """Fyra historiska år i väljaren och den redaktionella meningen om valnatten."""
+    k = json.loads((ROT / "data" / "konfig.json").read_text("utf-8"))
+    assert k["ar"] == ["2010", "2014", "2018", "2022"], "fyra år i väljaren"
+    assert k["standardAr"] == "2022"
+    assert k["toppsvar"]["mening"].strip(), "meningen om valnatten står i konfigen"
+    js = (ROT / "data" / "konfig.js").read_text("utf-8")
+    assert '"2010","2014","2018","2022"' in js.replace(", ", ","), "konfig.js är omskriven ur konfig.json"
+    assert k["toppsvar"]["mening"] in js, "meningen följer med till konfig.js"
+
+
+def test_arvaljaren_behaller_tangentbordsfokus_over_en_laddning():
+    """disabled flyttar fokus till sidans början: selecten tar tillbaka det när året är inne."""
+    js = JS.read_text("utf-8")
+    kropp = js[js.index("async function byteAr("):]
+    kropp = kropp[:kropp.index("\n}\n")]
+    assert "valj.focus({ preventScroll: true })" in kropp, "fokus läggs tillbaka på selecten efter laddningen"
+    assert kropp.index("disabled = false") < kropp.index("valj.focus"), "först på igen, sedan fokus"

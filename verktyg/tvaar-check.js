@@ -46,7 +46,8 @@ const KOHORT_KF = 'räknat på 3 jämförbara distrikt av 23';
       const svg = rot.querySelector('#karta svg');
       if (!svg) return { saknas: 'ingen <svg> i #karta', felruta: (rot.querySelector('.fel') || {}).textContent || null };
       const namn = [...rot.querySelectorAll('#karta path.distrikt')].map(p => p.getAttribute('aria-label').split('.')[0]);
-      return { arknappar: [...rot.querySelectorAll('#arval button')].map(b => b.textContent), aktivtAr: (rot.querySelector('#arval button.aktiv') || {}).textContent,
+      const valj = rot.querySelector('#arval select');
+      return { arval: valj ? [...valj.options].map(o => o.textContent) : [], aktivtAr: valj ? (valj.selectedOptions[0] || {}).textContent : null,
                antalPaths: namn.length, harSandarna: namn.includes('Sandarna'), harSandarne: namn.includes('Sandarne'),
                statusrad: rot.querySelector('#statusrad').textContent, toppsvarRader: rot.querySelectorAll('.toppsvar-rad').length,
                laddaOm: !!rot.querySelector('#statusrad button.ladda-om'),
@@ -56,19 +57,26 @@ const KOHORT_KF = 'räknat på 3 jämförbara distrikt av 23';
       + ' Kontrollera att servern kör i projektroten och att testsidan byggts om med verktyg/forbered_tvaar.py.');
     return res;
   };
+  // Årväljaren är en select: bytet sker med value och ett change-utslag. Väntetiden är tilltagen, eftersom
+  // ett byte numera kan innebära att året hämtas först.
+  const byt = ar => page.evaluate(a => {
+    const valj = document.getElementById('valgrafik').querySelector('#arval select');
+    valj.value = a; valj.dispatchEvent(new Event('change', { bubbles: true }));
+  }, ar);
   const y2026 = await las();
-  await page.evaluate(() => [...document.getElementById('valgrafik').querySelectorAll('#arval button')].find(b => b.textContent.endsWith('2022')).click());
-  await new Promise(r => setTimeout(r, 600));
+  await byt('2022');
+  await new Promise(r => setTimeout(r, 1200));
   const y2022 = await las();
   console.log(JSON.stringify({ y2026, y2022 }, null, 1));
 
   const kontroller = [
-    ['två årsknappar', y2026.arknappar.length === 2],
-    ['2026 aktivt från början', y2026.aktivtAr === 'Valet 2026'],
+    ['två år i årväljaren', y2026.arval.length === 2],
+    ['nyaste året först i årväljaren', y2026.arval[0] === 'Valet 2026'],
+    ['2026 valt från början', y2026.aktivtAr === 'Valet 2026'],
     ['23 polygoner 2026', y2026.antalPaths === 23],
     ['Sandarna finns 2026', y2026.harSandarna],
     ['Sandarne saknas 2026', !y2026.harSandarne],
-    ['2022 aktivt efter klick', y2022.aktivtAr === 'Valet 2022'],
+    ['2022 valt efter bytet', y2022.aktivtAr === 'Valet 2022'],
     ['23 polygoner 2022', y2022.antalPaths === 23],
     ['Sandarne finns 2022', y2022.harSandarne],
     ['samma kartram båda åren', y2026.viewBox === y2022.viewBox],
@@ -83,8 +91,8 @@ const KOHORT_KF = 'räknat på 3 jämförbara distrikt av 23';
   // Förändringen mot 2022 står som små tal vid staplarna: ett jämförbart distrikt får dem, ett omritat
   // får meningen i stället, och hela Majorna får dem med kohortförbehållet i noten. Kortet har ingen
   // ändringsrad och ingen underrad om valdeltagande eller giltiga röster.
-  await page.evaluate(() => [...document.getElementById('valgrafik').querySelectorAll('#arval button')].find(b => b.textContent.endsWith('2026')).click());
-  await new Promise(r => setTimeout(r, 600));
+  await byt('2026');
+  await new Promise(r => setTimeout(r, 1200));
   const panelText = () => page.evaluate(() => document.getElementById('valgrafik').querySelector('#panel').textContent);
   const kort = async kod => {
     await page.evaluate(k => document.getElementById('valgrafik').querySelector('#karta path[data-kod="' + k + '"]').dispatchEvent(new MouseEvent('click', { bubbles: true })), kod);

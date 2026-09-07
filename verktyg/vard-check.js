@@ -10,7 +10,7 @@ const puppeteer = require('puppeteer-core');
     const cs = el => { if (!el) return null; const c = getComputedStyle(el); return { color: c.color, font: c.fontFamily.split(',')[0], transform: c.textTransform, deco: c.textDecorationLine + ' ' + c.textDecorationStyle, radius: c.borderRadius, bg: c.backgroundColor }; };
     const rot = document.getElementById('valgrafik');
     return {
-      vara: { h2: cs(rot.querySelector('#riksdag-rubrik')), knapp: cs(rot.querySelector('#flikar button')), lank: cs(rot.querySelector('#fot a') || rot.querySelector('a')), fotText: cs(rot.querySelector('#fot p') || rot.querySelector('#fot')), li: cs(rot.querySelector('.legend li')), td: cs(rot.querySelector('table.mandat td')) },
+      vara: { h2: cs(rot.querySelector('#riksdag-rubrik')), knapp: cs(rot.querySelector('#flikar button')), arval: cs(rot.querySelector('#arval select')), lank: cs(rot.querySelector('#fot a') || rot.querySelector('a')), fotText: cs(rot.querySelector('#fot p') || rot.querySelector('#fot')), li: cs(rot.querySelector('.legend li')), td: cs(rot.querySelector('table.mandat td')) },
       vard: { h2: cs(document.querySelector('.vard-sektion h2')), knapp: cs(document.querySelector('.vard-sektion > button')), a: cs(document.querySelector('.vard-huvud a')) }
     };
   });

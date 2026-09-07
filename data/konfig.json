@@ -1,5 +1,8 @@
 {
  "ar": [
+  "2010",
+  "2014",
+  "2018",
   "2022"
  ],
  "standardAr": "2022",
@@ -10,7 +13,7 @@
  "stickyTopp": 105,
  "valdag": "2026-09-13",
  "toppsvar": {
-  "mening": ""
+  "mening": "Från klockan 20 på valnatten kommer siffrorna löpande här."
  },
  "historik": {
   "visa": true,

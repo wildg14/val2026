@@ -21,7 +21,7 @@ const MARKUP = `
     <p class="statusrad" id="statusrad"></p>
     <div id="toppsvar" class="toppsvar"></div>
     <p class="samarbete" id="samarbete" hidden></p>
-    <div id="arval" class="knappar" role="group" aria-label="Välj valår" hidden></div>
+    <div id="arval" hidden></div>
   </header>
 
   <div id="rutor" class="rutor" hidden></div>
@@ -136,6 +136,10 @@ const state = { ar: KONFIG.standardAr, val: "rd", lage: "storsta", parti: "V", v
                 mandatLage: "verklig", mandatRort: false, data: {}, swing: {}, geo: {}, bakgrund: null,
                 sortering: { kol: "namn", fallande: false }, tabellOppen: false, skalmax: 0.5, jamforelseVal: "rd", bild: false,
                 historik: null, historikGeo: null };
+// Lat laddning: ett år laddas en gång, och promisen sparas så att två snabba byten inte hämtar samma år
+// två gånger. Felraden under årväljaren står kvar tills nästa byte lyckas.
+const arLaddning = {};
+let arvalFel = "";
 
 /* ===================================================================== hjälp */
 const $ = (s, el = rot) => el.querySelector(s);
@@ -259,7 +263,7 @@ function sidLocation() {
 function sidHistory() { return sidLocation() === location ? history : window.parent.history; }
 function lasUrl() {
   const q = new URLSearchParams(sidLocation().search);
-  if (KONFIG.ar.includes(q.get("ar"))) state.ar = q.get("ar");
+  if (state.data[q.get("ar")]) state.ar = q.get("ar");   // bara ett år som faktiskt laddats, listan filtreras inte längre
   if (VALNAMN[q.get("val")]) state.val = q.get("val");
   if (["storsta", "styrka"].includes(q.get("lage"))) state.lage = q.get("lage");
   if (q.get("parti")) state.parti = q.get("parti");
@@ -292,6 +296,20 @@ function laddaSkript(namn) {
     document.head.appendChild(el);
   });
 }
+function laddaAr(a) {   // ett år en gång: geometri, valdata och swing. Sant när året står i state.
+  if (state.data[a] && state.geo[a]) return Promise.resolve(true);
+  if (!arLaddning[a]) arLaddning[a] = Promise.all([
+    laddaSkript("distrikt_" + a).catch(() => null),
+    laddaSkript("valdata_" + a).catch(() => null),
+    laddaSkript("swing_" + a).catch(() => null)   // saknad swingfil är väntad för alla år utom 2022
+  ]).then(([g, v, sw]) => {
+    if (!g || !v) { delete arLaddning[a]; return false; }   // året tas ur kartan, så att ett nytt försök går att göra
+    state.geo[a] = g; state.data[a] = v; state.swing[a] = sw;
+    raknaSkalmax();   // stapelbredden i kortet kan växa när ett år till är inne
+    return true;
+  });
+  return arLaddning[a];
+}
 function monteraMarkup() {
   let m = rot.querySelector(".mp-main");
   if (!m) { m = document.createElement("div"); m.className = "mp-main"; rot.appendChild(m); }
@@ -301,39 +319,31 @@ async function start() {
   monteraMarkup();
   try { Object.assign(KONFIG, await laddaSkript("konfig")); } catch (e) { /* standardkonfig gäller */ }
   // Reserverad plats redan innan datan kommer, så att sidhuvudet inte hoppar: en rad extra i toppsvaret när
-  // konfigen har en redaktionell mening, och årsknapparnas rad när konfigen räknar upp mer än ett år.
+  // konfigen har en redaktionell mening, och årväljarens rad när konfigen räknar upp mer än ett år.
   rot.classList.toggle("har-mening", !!(KONFIG.toppsvar || {}).mening);
-  $("#arval").hidden = (KONFIG.ar || []).length < 2;   // renderHuvud sätter om den efter vilka år som gick att ladda
+  $("#arval").hidden = (KONFIG.ar || []).length < 2;   // raden tar plats så snart konfigen är läst
   try {
-    // Ett svep efter konfigen: geometri, valdata, bakgrund och swing startar samtidigt. Varje fil fångas
-    // för sig, så att ett år utan filer hoppas över i stället för att släcka hela sidan.
-    const onskade = KONFIG.ar.slice();
+    // Ett svep efter konfigen, men bara för de år som behövs: standardåret och det år som står i URL:en.
+    // Övriga år i KONFIG.ar laddas först när läsaren väljer dem, så att starten inte blir tyngre av att
+    // fler historiska år står i konfigen. Varje fil fångas för sig, så att en lucka inte släcker sidan.
+    const urlAr = new URLSearchParams(sidLocation().search).get("ar"), vidStart = [KONFIG.standardAr];
+    if (urlAr && urlAr !== KONFIG.standardAr && (KONFIG.ar || []).includes(urlAr)) vidStart.push(urlAr);
     const vill = !((KONFIG.historik || {}).visa === false);   // historiksektionen kan stängas av i konfigen
-    const [geon, valdata, bakgrund, swingar, historik, historikGeo] = await Promise.all([
-      Promise.all(onskade.map(a => laddaSkript("distrikt_" + a).catch(() => null))),
-      Promise.all(onskade.map(a => laddaSkript("valdata_" + a).catch(() => null))),
+    const [, bakgrund, historik, historikGeo] = await Promise.all([
+      Promise.all(vidStart.map(a => laddaAr(a))),
       laddaSkript("bakgrund").catch(() => null),
-      Promise.all(onskade.map(a => laddaSkript("swing_" + a).catch(() => null))),   // basåret står i filen, saknad fil ger ingen swing
       vill ? laddaSkript("historik").catch(() => null) : null,                      // Majorna sedan 2006: saknad fil döljer sektionen
       vill ? laddaSkript("distrikt_2006").catch(() => null) : null                  // konturkartan 2006 i historiken
     ]);
     state.historik = historik;
     state.historikGeo = historik ? historikGeo : null;
-    const utan = [];
-    onskade.forEach((a, i) => {
-      if (geon[i] && valdata[i]) { state.geo[a] = geon[i]; state.data[a] = valdata[i]; state.swing[a] = swingar[i]; }
-      else utan.push(a);
-    });
-    if (utan.length) console.warn("valgrafik: hoppar över år utan data: " + utan.join(", "));
-    KONFIG.ar = onskade.filter(a => state.data[a]);   // årväljaren visar bara år som gick att ladda
-    if (!KONFIG.ar.length) throw new Error("inget år kunde laddas");
+    if (!Object.keys(state.data).length) throw new Error("inget år kunde laddas");
     state.bakgrund = bakgrund;
-    state.ar = KONFIG.ar.includes(KONFIG.standardAr) ? KONFIG.standardAr : KONFIG.ar[0];   // state skapades innan konfigen laddades
+    state.ar = state.data[KONFIG.standardAr] ? KONFIG.standardAr : Object.keys(state.data)[0];   // state skapades innan konfigen laddades
   } catch (e) {
     $("header.topp").append(h("p", { class: "fel" }, "Datafilerna kunde inte laddas: " + e.message + ". Kör scripts/bygg_data.py och kontrollera att data/ ligger bredvid valgrafik.js."));
     return;
   }
-  raknaSkalmax();
   lasUrl();
   const q0 = new URLSearchParams(sidLocation().search);   // i Beehiivs iframe är den egna adressen about:srcdoc, parametrarna står på värdsidan
   if (q0.get("bild")) { renderBild(q0.get("bild")); return; }
@@ -357,13 +367,44 @@ function renderAllt() {
 function renderHuvud() {
   $("#topp-etikett").textContent = "Majposten · Valspecial";
   const arval = $("#arval");
-  arval.innerHTML = "";
-  arval.hidden = KONFIG.ar.length < 2;
-  for (const a of KONFIG.ar) {
-    arval.append(h("button", { type: "button", "aria-pressed": String(a === state.ar), class: a === state.ar ? "aktiv" : "",
-      onclick: () => { state.ar = a; if (!partierIVal(state.val).includes(state.parti)) state.parti = partierIVal(state.val)[0]; renderAllt(); } }, "Valet " + a));
+  arval.hidden = (KONFIG.ar || []).length < 2;
+  const aren = (KONFIG.ar || []).slice().sort((a, b) => Number(b) - Number(a));   // nyast först i listan
+  let valj = $("#arval-select");
+  // Selecten byggs om bara när årslistan ändras. Annars tappar den tangentbordsfokus vid varje renderAllt,
+  // och den disabled som byteAr satt under en pågående laddning skulle försvinna.
+  if (!valj || [...valj.options].map(o => o.value).join(",") !== aren.join(",")) {
+    arval.innerHTML = "";
+    valj = h("select", { id: "arval-select", "aria-label": "Välj valår", onchange: e => byteAr(e.target.value) },
+      aren.map(a => h("option", { value: a }, "Valet " + a)));
+    arval.append(valj);
   }
+  valj.value = state.ar;
+  const gammalFel = $(".arval-fel");
+  if (gammalFel) gammalFel.remove();
+  if (arvalFel) arval.append(h("p", { class: "arval-fel" }, arvalFel));
   renderToppsvar();
+}
+// Byte av år: året laddas vid behov, en gång, och först därefter byter vyn. En select är nativt
+// tillgänglig, så ingen pilnavigering kopplas på den.
+async function byteAr(a) {
+  if (a === state.ar) return;
+  const valj = $("#arval-select");
+  if (!state.data[a]) {
+    if (valj) valj.disabled = true;   // den nuvarande vyn står kvar medan året hämtas, sidan blinkar inte till tom
+    const ok = await laddaAr(a);
+    // disabled flyttar fokus till sidans början. Bytet kom från selecten, så fokus läggs tillbaka där
+    // när året är inne - annars börjar nästa tabbtryck om från toppen.
+    if (valj) { valj.disabled = false; valj.focus({ preventScroll: true }); }
+    if (!ok) { arvalFel = "Valet " + a + " kunde inte laddas."; if (valj) valj.value = state.ar; renderHuvud(); return; }
+  }
+  arvalFel = "";   // felraden försvinner vid nästa lyckade byte
+  visaAr(a);
+}
+function visaAr(a) {
+  state.ar = a;
+  if (!partierIVal(state.val).includes(state.parti)) state.parti = partierIVal(state.val)[0];
+  if (state.vald && !distriktMap()[state.vald]) state.vald = null;   // ett distrikt finns inte alla år
+  renderAllt();
 }
 
 /* ---- toppsvaret: svaret högst upp, alltid riksdagsvalet, inget att trycka på utom "Ladda om" på valnatten */
@@ -393,8 +434,10 @@ function renderToppsvar() {
   if (st.laddaOm) status.append(" ", h("button", { type: "button", class: "ladda-om", onclick: laddaOm }, "Ladda om"));
   el.innerHTML = "";
   if (!majornaRaknat(val)) { el.append(h("p", { class: "toppsvar-tom" }, `Riksdagsvalet ${meta.ar}: inget distrikt räknat än.`)); return; }
-  const rader = andelar(m.roster, m.giltiga).filter(a => a.p !== "Övriga").slice(0, 4);
-  const lista = h("div", { class: "toppsvar-rader", role: "list", "aria-label": `${VALNAMN[val]} ${meta.ar}, de fyra största partierna i Majorna` });
+  // Fyra partier på en telefon, alla utom Övriga från 600 px containerbredd. arDesktop deklareras längre
+  // ned i filen men är hissad före det här anropet, som sker först när datan är inne.
+  const rader = andelar(m.roster, m.giltiga).filter(a => a.p !== "Övriga").slice(0, arDesktop() ? 99 : 4);
+  const lista = h("div", { class: "toppsvar-rader", role: "list", "aria-label": `${VALNAMN[val]} ${meta.ar}, de ${rader.length} största partierna i Majorna` });
   // Raden har hela svaret i aria-label; innehållet döljs för skärmläsare så att talet inte läses två gånger.
   for (const a of rader) lista.append(h("div", { class: "toppsvar-rad", role: "listitem", "aria-label": `${parti(a.p).namn} ${procent(a.andel)}` },
     h("b", { class: "toppsvar-parti", "aria-hidden": "true" }, a.p),
@@ -592,6 +635,7 @@ if ("ResizeObserver" in window) new ResizeObserver(() => {
   const desktopBytte = senastDesktop !== null && nu !== senastDesktop;
   const breddBytte = senastKartaBredd !== null && Math.abs(breddNu - senastKartaBredd) / senastKartaBredd > 0.1;
   if ((desktopBytte || breddBytte) && geo() && !state.bild) renderKarta();
+  if (desktopBytte && data() && !state.bild) renderToppsvar();   // antalet partier i toppsvaret följer brytpunkten
   if (state.historik && !state.bild && (desktopBytte || breddBytte || histBildSlak())) renderHistorik();
   senastDesktop = nu;
   // Referensbredden flyttas bara när något faktiskt ritades om. Annars nollställs jämförelsen vid varje utslag
@@ -1115,7 +1159,7 @@ function historikSerie(val, niva) {
   return hist && hist.serie && hist.serie[val] && hist.serie[val][niva] ? hist.serie[val][niva] : [];
 }
 const histAr = () => ((state.historik || {}).meta || {}).ar || [];   // seriens år, tom lista när filen saknas
-const senasteAr = () => (KONFIG.ar || []).map(Number).filter(a => a).sort((a, b) => a - b).pop();
+const senasteAr = () => (KONFIG.ar || []).map(Number).filter(a => a && state.data[String(a)]).sort((a, b) => a - b).pop();
 const histLista = a => a.length === 1 ? String(a[0]) : a.slice(0, -1).join(", ") + " och " + a[a.length - 1];
 // Ett år utan punkt: på valnatten pågår räkningen medan läsaren tittar, före valdagen ligger den framåt i tiden.
 const histVantetext = () => KONFIG.valnatt ? "räknas just nu" : "räknas på valnatten";

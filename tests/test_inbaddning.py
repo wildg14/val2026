@@ -251,3 +251,13 @@ def test_valdeltagandebilden():
     kropp = js[js.index("function histDeltagande"):js.index("function histKartor")]
     assert "riket" in kropp, "riket ritas som tredje linje"
     assert re.search(r"\bH = 160\b", kropp), "höjden är 160 px, samma som CSS reserverar"
+
+
+def test_valdeltagandebildens_hogermarginal():
+    """Högermarginalen rymmer den längsta etiketten: Göteborg är 54,2 px i Arial 13 och står 13 px
+    till höger om sin punkt, som under valnatten ligger längst ut på axeln."""
+    js = JS.read_text("utf-8")
+    kropp = js[js.index("function histDeltagande"):js.index("function histKartor")]
+    h = re.search(r"M = \{[^}]*\bh: (\d+)", kropp)
+    assert h, "bild B sätter en högermarginal"
+    assert int(h.group(1)) >= 68, "etiketten Göteborg kräver 67,2 px och får inte klippas"

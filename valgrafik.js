@@ -133,7 +133,7 @@ const PARTIER = {
 };
 const SPEKTRUM = ["V", "S", "MP", "C", "L", "KD", "M", "SD"];
 const VALNAMN = { rd: "Riksdagsvalet", rf: "Regionvalet", kf: "Kommunvalet" };
-const FARG = { papper: "#FAF6EE", black: "#2A241E", sten: "#6E6152", linje: "#E6DECF", ockra: "#C58A34", oraknat: "#DDD5C6" };
+const FARG = { papper: "#FAF6EE", black: "#2A241E", sten: "#6E6152", linje: "#E6DECF", gron: "#3F5A3A", ockra: "#C58A34", oraknat: "#DDD5C6" };
 
 const state = { ar: KONFIG.standardAr, val: "rd", lage: "storsta", parti: "V", vald: null,
                 mandatLage: "verklig", mandatRort: false, data: {}, swing: {}, geo: {}, bakgrund: null,
@@ -1194,7 +1194,9 @@ function aretsPunkt(val, niva) {
              antal_distrikt: (d.distrikt || []).length, preliminar };
   }
   const post = (d.aggregat[niva] || {})[val] || null;
-  if (!post || !post.andel) return null;
+  // Ett delvis räknat jämförelseområde får ingen punkt: en halvräknad kommun ligger långt under sitt
+  // slutresultat och skulle se ut som ett ras i valdeltagandebilden.
+  if (!post || !post.andel || omradeDelvis(post)) return null;
   return { ar, andel: post.andel, valdeltagande: post.valdeltagande || null, preliminar };
 }
 function histPunkter(val, niva) {   // serien plus årets punkt när den finns
@@ -1229,6 +1231,45 @@ function antalDistriktText(val) {   // "17 år 2006, 2010 och 2014, 22 år 2018,
   }
   return grupper.map(g => `${g.n} år ${histLista(g.ar)}`).join(", ");
 }
+// Bild A och bild B delar ritsätt: hjälplinjer med tal i vänsterkanten, årtal under axeln, en serie med hål
+// i linjen, etiketter som skjuts isär och den tomma ringen för ett år som inte får ritas än.
+function histHjalplinjer(svg, { M, W, y, fran, till, steg }) {
+  for (let v = fran; v <= till + 1e-9; v += steg) {
+    svg.append(s("line", { x1: M.v, x2: W - M.h, y1: y(v).toFixed(1), y2: y(v).toFixed(1), stroke: FARG.linje }),
+               s("text", { x: M.v - 6, y: (y(v) + 4).toFixed(1), "text-anchor": "end", "font-size": 12, fill: FARG.sten }, Math.round(v * 100) + (v + steg > till + 1e-9 ? " %" : "")));
+  }
+}
+function histArAxel(svg, axelAr, x, yBas) {   // årtalen med två siffror, 06 till 26
+  axelAr.forEach((a, i) => svg.append(s("text", { x: x(i).toFixed(1), y: yBas, "text-anchor": "middle", "font-size": 13, fill: FARG.sten }, String(a).slice(2))));
+}
+function histRitaSerie(svg, pts, { farg, bredd, streck = null, r }) {
+  // pts har ett null där året saknar tal: linjen får ett hål och ingen punkt, aldrig ett värde på noll.
+  const delar = [[]];
+  for (const pt of pts) { if (pt) delar[delar.length - 1].push(pt); else delar.push([]); }
+  for (const del of delar.filter(d => d.length)) {
+    const fasta = del.filter(pt => !pt.preliminar);
+    if (fasta.length > 1) svg.append(s("path", { d: fasta.map((pt, i) => (i ? "L" : "M") + pt.x.toFixed(1) + "," + pt.y.toFixed(1)).join(""), fill: "none", stroke: farg, "stroke-width": bredd, "stroke-dasharray": streck, "stroke-linejoin": "round" }));
+    if (del.length > fasta.length && fasta.length) {   // preliminärt år: streckad sträcka fram till den öppna ringen
+      const a = fasta[fasta.length - 1], b = del[del.length - 1];
+      svg.append(s("path", { d: `M${a.x.toFixed(1)},${a.y.toFixed(1)}L${b.x.toFixed(1)},${b.y.toFixed(1)}`, fill: "none", stroke: farg, "stroke-width": bredd, "stroke-dasharray": "6 5" }));
+    }
+    for (const pt of del) svg.append(s("circle", { cx: pt.x.toFixed(1), cy: pt.y.toFixed(1), r, fill: pt.preliminar ? FARG.papper : farg, stroke: farg, "stroke-width": 2 }));
+  }
+}
+function histEtiketter(svg, slut, extra = {}) {
+  // Etiketterna får inte täcka varandra: skjut isär till 15 px och rita en kort ledarlinje från den punkt
+  // etiketten hör till. Varje etikett står vid sin egen linjes slut, inte i en gemensam kolumn.
+  slut.sort((a, b) => a.y - b.y);
+  for (let i = 1; i < slut.length; i++) if (slut[i].y - slut[i - 1].y < 15) slut[i].y = slut[i - 1].y + 15;
+  for (const e of slut) {
+    if (Math.abs(e.y - e.py) > 1) svg.append(s("line", { x1: (e.px + 4).toFixed(1), y1: e.py.toFixed(1), x2: (e.px + 11).toFixed(1), y2: e.y.toFixed(1), stroke: e.farg, "stroke-width": 1 }));
+    svg.append(s("text", { x: (e.px + 13).toFixed(1), y: (e.y + 4.5).toFixed(1), "font-size": 13, ...extra, fill: textFarg(e.farg) }, e.text));
+  }
+}
+function histRing(svg, cx, cy) {   // året får inte ritas än: tom ring på skalans nollnivå, texten till vänster om den
+  svg.append(s("text", { x: (cx - 10).toFixed(1), y: (cy + 4).toFixed(1), "text-anchor": "end", "font-size": 12, fill: FARG.sten }, "räknas på valnatten"),
+             s("circle", { cx: cx.toFixed(1), cy: cy.toFixed(1), r: 5, fill: FARG.papper, stroke: FARG.sten, "stroke-width": 1.5 }));
+}
 let histLasX = {};   // årtal -> x i bildens viewBox, så att läslinjen kan flyttas utan att bilden ritas om
 function histLinjer(val) {
   // Golvet 200 gäller bara degenererade containrar: på en 320 px-telefon är ytan 288 px och viewBox ska
@@ -1245,48 +1286,24 @@ function histLinjer(val) {
     "aria-label": `${histMening(val)} Andel av giltiga röster per valår i procent.`
       + " Talraden under bilden visar ett års tal; vänster och höger pil byter år."
       + (utan.length ? ` ${utan.join(", ")} räknas på valnatten.` : "") });
-  for (let a = 0.1; a <= max + 1e-9; a += 0.1) {
-    svg.append(s("line", { x1: M.v, x2: W - M.h, y1: y(a).toFixed(1), y2: y(a).toFixed(1), stroke: FARG.linje }),
-               s("text", { x: M.v - 6, y: (y(a) + 4).toFixed(1), "text-anchor": "end", "font-size": 12, fill: FARG.sten }, Math.round(a * 100) + (a + 0.1 > max ? " %" : "")));
-  }
-  axelAr.forEach((a, i) => svg.append(s("text", { x: x(i).toFixed(1), y: H - 8, "text-anchor": "middle", "font-size": 13, fill: FARG.sten }, String(a).slice(2))));
+  histHjalplinjer(svg, { M, W, y, fran: 0.1, till: max, steg: 0.1 });
+  histArAxel(svg, axelAr, x, H - 8);
   const slut = [];
   for (const p of partier) {
-    // Ett år utan tal för partiet ger ett hål i linjen och ingen punkt, aldrig ett värde på noll.
     const pts = punkter.map((pt, i) => histHarTal(pt, p) ? { x: x(i), y: y(pt.andel[p]), preliminar: pt.preliminar } : null);
-    const delar = [[]];
-    for (const pt of pts) { if (pt) delar[delar.length - 1].push(pt); else delar.push([]); }
-    for (const del of delar.filter(d => d.length)) {
-      const fasta = del.filter(pt => !pt.preliminar);
-      if (fasta.length > 1) svg.append(s("path", { d: fasta.map((pt, i) => (i ? "L" : "M") + pt.x.toFixed(1) + "," + pt.y.toFixed(1)).join(""), fill: "none", stroke: parti(p).farg, "stroke-width": 2.5, "stroke-linejoin": "round" }));
-      if (del.length > fasta.length && fasta.length) {   // preliminärt år: streckad sträcka fram till den öppna ringen
-        const a = fasta[fasta.length - 1], b = del[del.length - 1];
-        svg.append(s("path", { d: `M${a.x.toFixed(1)},${a.y.toFixed(1)}L${b.x.toFixed(1)},${b.y.toFixed(1)}`, fill: "none", stroke: parti(p).farg, "stroke-width": 2.5, "stroke-dasharray": "6 5" }));
-      }
-      for (const pt of del) svg.append(s("circle", { cx: pt.x.toFixed(1), cy: pt.y.toFixed(1), r: 3.5, fill: pt.preliminar ? FARG.papper : parti(p).farg, stroke: parti(p).farg, "stroke-width": 2 }));
-    }
+    histRitaSerie(svg, pts, { farg: parti(p).farg, bredd: 2.5, r: 3.5 });
     const sista = pts.filter(Boolean).pop();
-    if (sista) slut.push({ p, px: sista.x, py: sista.y, y: sista.y });
+    // Etiketten står vid partiets egen sista punkt, inte vid bildens kant: så länge linjen slutar 2022 får
+    // ingen ledarlinje sträcka sig fram till den tomma ringen och se ut som ett resultat.
+    if (sista) slut.push({ text: p, farg: parti(p).farg, px: sista.x, py: sista.y, y: sista.y });
   }
-  // Etiketterna står vid varje partis egen sista punkt, inte vid bildens kant och inte i en gemensam kolumn:
-  // ett parti vars linje slutar tidigare får bokstaven där linjen slutar, och ingen ledarlinje sträcker sig
-  // fram till den tomma ringen och ser ut som ett resultat.
-  slut.sort((a, b) => a.y - b.y);   // etiketterna får inte täcka varandra: skjut isär till 15 px och rita en kort ledarlinje
-  for (let i = 1; i < slut.length; i++) if (slut[i].y - slut[i - 1].y < 15) slut[i].y = slut[i - 1].y + 15;
-  for (const e of slut) {
-    if (Math.abs(e.y - e.py) > 1) svg.append(s("line", { x1: (e.px + 4).toFixed(1), y1: e.py.toFixed(1), x2: (e.px + 11).toFixed(1), y2: e.y.toFixed(1), stroke: parti(e.p).farg, "stroke-width": 1 }));
-    svg.append(s("text", { x: (e.px + 13).toFixed(1), y: (e.y + 4.5).toFixed(1), "font-size": 13, "font-weight": 700, fill: textFarg(parti(e.p).farg) }, e.p));
-  }
+  histEtiketter(svg, slut, { "font-weight": 700 });
   // Läslinjen skapas en gång och ritas före ringen, så att ringen ligger överst. Saknar året plats på axeln
   // hålls linjen dold i stället för att ritas om.
   const li = axelAr.indexOf(state.historikAr);
   svg.append(s("line", { class: "hist-laslinje", x1: li >= 0 ? x(li).toFixed(1) : null, x2: li >= 0 ? x(li).toFixed(1) : null,
                          y1: M.t, y2: y(0) - 8, stroke: FARG.sten, "stroke-dasharray": "3 3", visibility: li >= 0 ? null : "hidden" }));
-  for (const a of utan) {   // året får inte ritas än: tom ring på axelns nollnivå, med texten till vänster om den
-    const cx = x(axelAr.indexOf(a));
-    svg.append(s("text", { x: (cx - 10).toFixed(1), y: (y(0) + 4).toFixed(1), "text-anchor": "end", "font-size": 12, fill: FARG.sten }, "räknas på valnatten"),
-               s("circle", { cx: cx.toFixed(1), cy: y(0).toFixed(1), r: 5, fill: FARG.papper, stroke: FARG.sten, "stroke-width": 1.5 }));
-  }
+  for (const a of utan) histRing(svg, x(axelAr.indexOf(a)), y(0));
   const narmast = px => { let best = 0; axelAr.forEach((a, i) => { if (Math.abs(x(i) - px) < Math.abs(x(best) - px)) best = i; }); return axelAr[best]; };
   svg.addEventListener("click", e => { const r = svg.getBoundingClientRect(); sattHistorikAr(narmast((e.clientX - r.left) * W / r.width)); });
   svg.addEventListener("keydown", e => {
@@ -1339,7 +1356,63 @@ function renderHistorik() {
   histDeltagande(val);
   histKartor();
 }
-function histDeltagande(val) { $("#hist-bild-b").innerHTML = ""; }   // Task 7
+function histDeltagande(val) {
+  // Bild B: valdeltagandet i Majorna mot jämförelseområdena. Höjden är fast 160 px, samma som CSS reserverar,
+  // så att bilden inte hoppar när den ritas om, och viewBox är lika bred som ytan.
+  // Högermarginalen rymmer den längsta etiketten: Göteborg mäter 54,2 px i Arial 13 och står 13 px till
+  // höger om sin punkt, alltså 67,2 px, och punkten kan ligga längst ut på axeln under valnatten.
+  const el = $("#hist-bild-b"), W = Math.max(200, el.clientWidth || 358), H = 160, M = { v: 40, h: 70, t: 12, b: 26 };
+  const menEl = $("#hist-mening-b"), notEl = $("#hist-not-b");
+  // Riket ritas bara på desktop och bara i riksdagsvalet: historikfilens riket i region- och kommunvalet är
+  // hela landets region- respektive kommunval, inte Västra Götaland, och är alltså inte Majornas jämförelse.
+  const serier = [{ namn: "Majorna", genitiv: "Majornas", niva: "majorna", farg: FARG.gron, bredd: 2.5, streck: null },
+                  { namn: "Göteborg", genitiv: "Göteborgs", niva: "goteborg", farg: FARG.sten, bredd: 2, streck: null }];
+  if (arDesktop() && val === "rd") serier.push({ namn: "Riket", genitiv: "Rikets", niva: "riket", farg: FARG.sten, bredd: 1.5, streck: "5 4" });
+  const deltagande = niva => histPunkter(val, niva).filter(p => p.valdeltagande);
+  const majPunkter = deltagande("majorna");
+  if (!majPunkter.length) { el.replaceChildren(); menEl.textContent = ""; notEl.textContent = ""; return; }
+  // Jämförelseområdena får aldrig sträcka sig längre än Majorna: kommunens aggregat kan vara färdigräknat
+  // medan Majornas egna distrikt inte är det, och punkten skulle då jämföras med ingenting.
+  const sistaAr = majPunkter[majPunkter.length - 1].ar;
+  const linjer = serier.map(sr => ({ ...sr, punkter: (sr.niva === "majorna" ? majPunkter : deltagande(sr.niva)).filter(p => p.ar <= sistaAr) }));
+  const alla = linjer.flatMap(sr => sr.punkter.map(p => p.valdeltagande));
+  // Skalan är aldrig smalare än 70 till 90 procent, men vidgas i hela femprocentssteg om något år hamnar utanför.
+  const lo = Math.min(0.7, Math.floor(Math.min(...alla) * 20) / 20), hi = Math.max(0.9, Math.ceil(Math.max(...alla) * 20) / 20);
+  const axelAr = histAxelAr();
+  const x = i => M.v + i * (W - M.v - M.h) / Math.max(1, axelAr.length - 1), y = v => M.t + (1 - (v - lo) / (hi - lo)) * (H - M.t - M.b);
+  const sistaM = [...majPunkter].reverse().find(p => !p.preliminar);   // meningen fryses på senaste slutliga år
+  const sistaG = sistaM ? linjer[1].punkter.find(p => p.ar === sistaM.ar) : null;
+  const mening = !sistaM ? "" : `Valdeltagande i ${VALNAMN[val].toLowerCase()} ${sistaM.ar}: Majorna ${andelTal(sistaM.valdeltagande)} procent`
+    + (sistaG ? `, Göteborg ${andelTal(sistaG.valdeltagande)}.` : ".");
+  menEl.textContent = mening;
+  // Bilden har ingen talrad: beskrivningen är dess textalternativ och räknar upp serierna år för år.
+  const beskrivning = linjer.filter(sr => sr.punkter.length).map(sr => `${sr.namn}: ` + sr.punkter.map(p => `${p.ar} ${andelTal(p.valdeltagande)}`).join(", ")).join("; ");
+  const utan = axelAr.filter(a => !majPunkter.some(p => p.ar === a));   // år på axeln som inte får ritas än
+  const svg = s("svg", { viewBox: `0 0 ${W} ${H}`, role: "img",
+    "aria-label": `${mening} Valdeltagande i procent per valår. ${beskrivning}.`
+      + (utan.length ? ` ${utan.join(", ")} räknas på valnatten.` : "") });
+  histHjalplinjer(svg, { M, W, y, fran: lo, till: hi, steg: 0.05 });
+  histArAxel(svg, axelAr, x, H - 8);
+  const slut = [];
+  for (const sr of linjer) {
+    const pts = axelAr.map((a, i) => { const p = sr.punkter.find(q => q.ar === a); return p ? { x: x(i), y: y(p.valdeltagande), preliminar: p.preliminar } : null; });
+    histRitaSerie(svg, pts, { farg: sr.farg, bredd: sr.bredd, streck: sr.streck, r: 3 });
+    const sista = pts.filter(Boolean).pop();
+    if (sista) slut.push({ text: sr.namn, farg: sr.farg, px: sista.x, py: sista.y, y: sista.y });
+  }
+  histEtiketter(svg, slut);
+  for (const a of utan) histRing(svg, x(axelAr.indexOf(a)), y(lo));
+  el.replaceChildren(svg);
+  // Skalan står i bildtexten eftersom y-axeln inte börjar på noll, och en serie som slutar tidigare än
+  // Majorna får en egen mening: annars ser den avkortade linjen ut som ett bortfall.
+  const rader = [`Skalan börjar vid ${Math.round(lo * 100)} procent.`
+    + " Valdeltagande i olika val ska inte jämföras med varandra, eftersom röstberättigade skiljer sig mellan valen."];
+  for (const sr of linjer.slice(1)) {
+    const sista = sr.punkter[sr.punkter.length - 1];
+    if (sista && sista.ar < sistaAr) rader.push(`${sr.genitiv} linje slutar ${sista.ar} tills aggregatet för ${sistaAr} finns.`);
+  }
+  notEl.textContent = rader.join(" ");
+}
 function histKartor() { $("#hist-kartor").innerHTML = ""; }          // Task 8
 
 /* ---- fakta */

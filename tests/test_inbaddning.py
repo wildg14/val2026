@@ -240,3 +240,14 @@ def test_historiksektionen_ritas_om_pa_de_tre_stallena():
     markup = js[js.index('<section id="historik"'):]
     markup = markup[:markup.index("</section>")]
     assert "<button" not in markup, "sektionen följer kartans val och har inga egna knappar"
+
+
+def test_valdeltagandebilden():
+    """Bild B: Majorna mot Göteborg, riket som tredje linje, skalan står i bildtexten."""
+    js = JS.read_text("utf-8")
+    assert "function histDeltagande(val) {" in js, "bild B ritas av histDeltagande"
+    assert "Skalan börjar vid" in js, "bildtexten säger var skalan börjar"
+    assert re.search(r'gron:\s*"#3F5A3A"', js), "slottsskogsgrönt är Majornas linje"
+    kropp = js[js.index("function histDeltagande"):js.index("function histKartor")]
+    assert "riket" in kropp, "riket ritas som tredje linje"
+    assert re.search(r"\bH = 160\b", kropp), "höjden är 160 px, samma som CSS reserverar"

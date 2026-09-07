@@ -1362,7 +1362,8 @@ function histTalrad(val) {
   if (!p) { el.textContent = `${state.historikAr}: ${histVantetext()}.`; return; }
   // Ett span per parti, som kortets rad Hur har det ändrats: raden bryts mellan talen i stället för att
   // klippas på en smal skärm. Ett parti utan tal i årets punkt hoppas över, aldrig "0,0".
-  const talen = histTalPartier(val).filter(q => histHarTal(p, q)).map(q => h("span", { class: "hist-tal" }, `${q} ${andelTal(p.andel[q])}`));
+  const lista = histTalPartier(val), partier = lista.length ? lista : histPartier();   // utan partier_per_val i filen: åtminstone linjernas partier
+  const talen = partier.filter(q => histHarTal(p, q)).map(q => h("span", { class: "hist-tal" }, `${q} ${andelTal(p.andel[q])}`));
   el.replaceChildren(h("span", { class: "hist-tal" }, `${p.ar}${p.preliminar ? " (preliminärt)" : ""}:`), " ", ...talen.flatMap(n => [n, " "]));
 }
 function renderHistorik() {
@@ -1384,7 +1385,7 @@ function renderHistorik() {
   // än linjerna. Meningen om linjerna byggs ur HIST_PARTIER så att den följer med om urvalet ändras.
   const extraDesktop = HIST_PARTIER.desktop.filter(p => !HIST_PARTIER.mobil.includes(p));
   $("#hist-not-a").textContent = "Tryck på ett år i bilden, eller stega med piltangenterna, för att se det årets tal."
-    + ` Linjerna visar ${histLista(HIST_PARTIER.mobil)}, på bredare skärmar även ${histLista(extraDesktop)}; talraden har alla partier.`
+    + ` Linjerna visar ${histLista(HIST_PARTIER.mobil)}${extraDesktop.length ? `, på bredare skärmar även ${histLista(extraDesktop)}` : ""}; talraden har alla partier.`
     + " Serien börjar 2006. Valdistrikten ritades om helt inför det valet, så 2002 går inte att räkna om till dagens Majorna."
     + ` Området hålls konstant medan antalet distrikt varierar: ${antalDistriktText(val)}. Liberalerna hette Folkpartiet till och med 2014.`
     + (utanfor.length ? ` Partier utanför valets uppsättning ligger i Övriga: ${histLista(utanfor.map(p => parti(p).namn))}`

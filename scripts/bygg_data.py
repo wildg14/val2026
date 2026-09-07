@@ -182,6 +182,11 @@ def main():
 
     steg(6, "Kontrollskript")
     kommando = [sys.executable, str(ROT / "scripts" / "kontrollera.py"), str(ut / f"valdata_{a.ar}.json"), str(a.xlsx)]
+    # historik.json är kanonisk i repot och skrivs aldrig av det här skriptet (bara av bygg_historik.py),
+    # så ett --ut-bygge jämförs mot repots egen serie, inte mot något som just byggts. Flaggan skickas
+    # oavsett om a.ar finns i seriens meta.ar - saknas året skriver kontrollera.py --historik redan en
+    # tydlig DIFF-rad ("år <år> saknas i serien") i stället för att krascha, så en egen årskontroll här
+    # vore bara en dubblering.
     historik = ROT / "data" / "historik.json"
     if historik.exists():
         kommando += ["--historik", str(historik)]

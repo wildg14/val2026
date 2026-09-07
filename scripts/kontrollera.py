@@ -69,25 +69,34 @@ def kontrollera(valdata_path, xlsx_path):
 
 
 def kontrollera_historik(valdata_path, historik_path):
-    """historik.json, nivå majorna, år 2022 -> samma röster och summor som valdata_2022.json. Returnerar lista med diffar."""
+    """historik.json, nivå majorna, valdatas år -> samma röster och summor som valdata_<år>.json. Returnerar (diffar, antal).
+
+    En historikfil som saknas, har trasig JSON eller saknar serie- eller meta-nyckeln ger en enda
+    diff-rad i stället för en traceback - kontrollskriptet ska rapportera fel, inte krascha."""
     v = json.loads(Path(valdata_path).read_text("utf-8"))
-    hst = json.loads(Path(historik_path).read_text("utf-8"))
     ar = v["meta"]["ar"]
+    try:
+        hst = json.loads(Path(historik_path).read_text("utf-8"))
+        serie = hst["serie"]
+        hst["meta"]
+    except (OSError, ValueError, KeyError) as e:
+        return [f"DIFF historik: {historik_path} saknas eller går inte att läsa: {e}"], 1
     diffar, antal = [], 0
     for val in VAL:
-        rad = next((p for p in hst["serie"][val]["majorna"] if p["ar"] == ar), None)
+        agg = v["aggregat"]["majorna"][val]
+        rad = next((p for p in serie[val]["majorna"] if p["ar"] == ar), None)
         if rad is None:
+            antal += len(agg["roster"]) + 3
             diffar.append(f"DIFF historik {val}: år {ar} saknas i serien")
             continue
-        agg = v["aggregat"]["majorna"][val]
-        for p, n in agg["roster"].items():
+        for p in sorted(set(agg["roster"]) | set(rad["roster"])):
             antal += 1
-            if rad["roster"].get(p) != n:
-                diffar.append(f"DIFF historik {val} {p} serie={rad['roster'].get(p)} valdata={n}")
+            if rad["roster"].get(p) != agg["roster"].get(p):
+                diffar.append(f"DIFF historik {val} {p} serie={rad['roster'].get(p)} valdata={agg['roster'].get(p)}")
         for f in ("giltiga", "rostande", "rostberattigade"):
             antal += 1
-            if rad[f] != agg[f]:
-                diffar.append(f"DIFF historik {val} {f} serie={rad[f]} valdata={agg[f]}")
+            if rad.get(f) != agg[f]:
+                diffar.append(f"DIFF historik {val} {f} serie={rad.get(f)} valdata={agg[f]}")
     return diffar, antal
 
 
@@ -112,11 +121,8 @@ def main(argv):
     if alla_diffar:
         print(f"FEL: {len(alla_diffar)} diffar av {antal + historik_antal} kontroller. Bygget stoppas.")
         return 1
-    if a.historik:
-        print(f"OK: {antal} kontroller, 0 diffar ({Path(a.valdata).name} mot {Path(a.xlsx).name}) "
-              f"plus {historik_antal} historikkontroller")
-    else:
-        print(f"OK: {antal} kontroller, 0 diffar ({Path(a.valdata).name} mot {Path(a.xlsx).name})")
+    svans = f" plus {historik_antal} historikkontroller" if a.historik else ""
+    print(f"OK: {antal} kontroller, 0 diffar ({Path(a.valdata).name} mot {Path(a.xlsx).name}){svans}")
     return 0
 
 

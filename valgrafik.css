@@ -81,8 +81,9 @@
 @container (min-width: 600px) {
   .mp-val #karta svg { max-height: 760px; }
 }
-.mp-val #karta path.distrikt { stroke: var(--papper); stroke-width: 2; cursor: pointer; transition: fill .35s ease; outline: none; }
-.mp-val #karta path.distrikt:hover { stroke: var(--black); stroke-width: 2.5; }
+/* Kartan skriver inga partibokstäver i läget största parti: formerna får bära, och gränsen är 3 px papper - samma bredd som bildläget. */
+.mp-val #karta path.distrikt { stroke: var(--papper); stroke-width: 3; cursor: pointer; transition: fill .35s ease; outline: none; }
+.mp-val #karta path.distrikt:hover { stroke: var(--black); stroke-width: 3.5; }
 .mp-val #karta .markering { fill: none; stroke: var(--black); stroke-width: 3px; vector-effect: non-scaling-stroke; stroke-linejoin: round; pointer-events: none; }
 .mp-val #karta path.distrikt:focus-visible { stroke: var(--ockra); stroke-width: 6; }
 .mp-val #karta text { pointer-events: none; font-family: var(--sans); }
@@ -118,15 +119,8 @@
 .mp-val .markorer { font-size: 13px; color: var(--sten); display: flex; flex-wrap: wrap; gap: 4px 14px; margin: 4px 0 12px; }
 .mp-val .markorer span::before { content: ""; display: inline-block; width: 3px; height: 14px; background: var(--black); margin-right: 6px; vertical-align: -2px; }
 .mp-val .panel-knappar { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
-/* Hur har det ändrats: talrad för jämförbara distrikt, mening i brödtext för omritade */
-.mp-val .andrat { margin: 12px 0 0; padding-top: 10px; border-top: 1px solid var(--linje); }
-.mp-val .andrat-rubrik { font: 700 16px/1.4 var(--sans); margin: 0 0 4px; }
-.mp-val .andrat-rad { margin: 0 0 4px; font-variant-numeric: tabular-nums; }
-/* Talen skiljs av ett riktigt mellanslag i märkspråket, så att raden får brytas mellan dem; marginalen
-   är bara luft ovanpå det. Ett tal ("S +3,8") hålls ihop av nowrap. */
-.mp-val .andrat-tal { margin-right: 5px; white-space: nowrap; }
-.mp-val .andrat-enhet { color: var(--sten); }
-.mp-val .andrat-text { margin: 0 0 6px; }
+/* Ett omritat distrikt: meningen står under staplarna, avskild med samma linje som skilde ändringsraden förr */
+.mp-val .omritad { margin: 12px 0 0; padding-top: 10px; border-top: 1px solid var(--linje); }
 .mp-val .dampad .stapel-fyll { opacity: .45; }
 .mp-val .tabell-wrap { overflow-x: auto; margin-top: 12px; }
 .mp-val table.distrikt { border-collapse: collapse; font-size: 14px; white-space: nowrap; }
@@ -167,14 +161,11 @@
 .mp-val .rd-axelrad { height: 22px; }
 .mp-val .rd-axel-tal { position: relative; height: 100%; font-size: 13px; color: var(--sten); }
 .mp-val .rd-axel-tal span { position: absolute; top: 2px; transform: translateX(-50%); white-space: nowrap; }
-/* Majorna sedan 2006: linjediagram i pixelmått (viewBox = ytans bredd), talrad under, konturkartor. Höjder reserverade. */
+/* Majorna sedan 2006: valdeltagandebilden i pixelmått (viewBox = ytans bredd) och konturkartorna. Höjder reserverade. */
 .mp-val .hist-mening { font-size: 18px; line-height: 1.4; margin: 0 0 10px; }
-.mp-val .hist-bild { min-height: 280px; margin: 0 0 6px; }
-.mp-val .hist-bild-b { min-height: 160px; }
+.mp-val .hist-bild { margin: 0 0 6px; }
+.mp-val .hist-bild-b { min-height: 160px; }   /* samma höjd som histDeltagande ritar i, i alla containerbredder */
 .mp-val .hist-bild svg { width: 100%; height: auto; display: block; font-family: var(--sans); }
-.mp-val .hist-svg { cursor: pointer; }
-.mp-val .hist-talrad { font-variant-numeric: tabular-nums; margin: 0 0 4px; }
-.mp-val .hist-tal { margin-right: 5px; white-space: nowrap; }   /* raden bryts mellan talen, aldrig inuti ett */
 .mp-val .hist-rad2 { display: grid; gap: 16px; margin-top: 20px; }
 /* Kolumnerna har ett tak på 200 px och står till vänster, annars sträcks kartorna ut till en bred kolumns fulla
    bredd på desktop och blir en huvudbild i stället för den lilla sidobild de ska vara. */
@@ -236,9 +227,6 @@
 .mp-val footer { border-top: 1px solid var(--linje); padding-top: 16px; font-size: 13px; color: var(--sten); }
 .mp-val .fel { background: #F3E3DF; color: var(--falu); padding: 12px 16px; border-radius: 4px; }
 @container (min-width: 600px) {
-  /* Historikbilden blir 320 px hög från samma tröskel som arDesktop, så att höjden är reserverad innan den ritas */
-  .mp-val .hist-bild { min-height: 320px; }
-  .mp-val .hist-bild-b { min-height: 160px; }   /* bild B har sin egen höjd, annars ärver den bild A:s reservation här */
   .mp-val .statusrad { min-height: 26px; }   /* här ryms hela raden på en rad, även den längsta valnattsvarianten */
   .mp-val.har-mening .toppsvar { min-height: 244px; }
   .mp-val h1 { font-size: 44px; }
@@ -277,7 +265,7 @@
   /* Röstdelningen delar rad med jämförelsen här och blir smal: partibokstaven ensam tills spalten rymmer namnen igen */
   .mp-val .rd-huvud, .mp-val .rd-rad { grid-template-columns: 36px 1fr 174px; }
   .mp-val .rd-parti small { display: none; }
-  /* Majorna sedan 2006: bild A över båda kolumnerna, bild B och konturkartorna sida vid sida under */
+  /* Majorna sedan 2006: valdeltagandebilden och konturkartorna sida vid sida */
   .mp-val .hist-rad2 { grid-template-columns: 1fr 1fr; column-gap: 40px; align-items: start; }
 }
 

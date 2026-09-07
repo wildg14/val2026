@@ -1,7 +1,6 @@
 import json
 import math
 import os
-import re
 import shutil
 import sqlite3
 import subprocess
@@ -805,17 +804,3 @@ def test_partier_med_rader_d_saknas_2006_finns_2018():
         assert "D" in partier_med_rader(con, 2018, "kf", koder_2018)
     finally:
         con.close()
-
-
-@finns
-def test_hist_not_fi_2014_stammer_med_tidsserien():
-    """Redaktionella talet för FI 2014 i valgrafik.js räknas ur tidsserien, inte ur minnet.
-    FI ligger i Övriga i riksdagsvalets partiuppsättning och går inte att räkna fram ur historik.js."""
-    con = db()
-    roster, giltiga = con.execute(
-        "SELECT roster, giltiga FROM tidsserie WHERE ar=2014 AND val='rd' AND niva='majorna' AND parti='FI'"
-    ).fetchone()
-    vantat = f"{roster / giltiga * 100:.1f}".replace(".", ",")
-    m = re.search(r'HIST_NOT_FI_2014 = "([^"]+)"', (ROT / "valgrafik.js").read_text("utf-8"))
-    assert m, "valgrafik.js har konstanten HIST_NOT_FI_2014"
-    assert m.group(1) == vantat, f"HIST_NOT_FI_2014 ska vara {vantat}, står {m.group(1)}"

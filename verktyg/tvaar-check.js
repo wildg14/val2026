@@ -80,8 +80,9 @@ const KOHORT_KF = 'räknat på 3 jämförbara distrikt av 23';
     ['Ladda om leder tillbaka från 2022', y2022.laddaOm]
   ];
 
-  // Kortets rad "Hur har det ändrats" på 2026: jämförbart distrikt får talen, omritat meningen och
-  // områdesraden, hela Majorna talen utan kohorttext så länge alla distrikt är räknade.
+  // Förändringen mot 2022 står som små tal vid staplarna: ett jämförbart distrikt får dem, ett omritat
+  // får meningen i stället, och hela Majorna får dem med kohortförbehållet i noten. Kortet har ingen
+  // ändringsrad och ingen underrad om valdeltagande eller giltiga röster.
   await page.evaluate(() => [...document.getElementById('valgrafik').querySelectorAll('#arval button')].find(b => b.textContent.endsWith('2026')).click());
   await new Promise(r => setTimeout(r, 600));
   const panelText = () => page.evaluate(() => document.getElementById('valgrafik').querySelector('#panel').textContent);
@@ -90,28 +91,34 @@ const KOHORT_KF = 'räknat på 3 jämförbara distrikt av 23';
     await new Promise(r => setTimeout(r, 400));
     return panelText();
   };
-  const talSpann = sida => sida.evaluate(() => [...document.getElementById('valgrafik').querySelectorAll('#panel .andrat-tal')].map(s => s.textContent.trim()));
+  // Ett litet tal per stapel som har ett: partibokstaven plus talet, i staplarnas ordning.
+  const smaTal = sida => sida.evaluate(() => [...document.getElementById('valgrafik').querySelectorAll('#panel .stapel-rad')]
+    .filter(r => r.querySelector('.swing'))
+    .map(r => `${r.querySelector('b').textContent} ${r.querySelector('.swing').textContent.trim()}`));
   const partierna = spann => spann.map(t => t.split(' ')[0]);
-  const svalebo = await kort(SVALEBO), svaleboTal = await talSpann(page);
-  const mariaplan = await kort('14800530');
+  const svalebo = await kort(SVALEBO), svaleboTal = await smaTal(page);
+  const mariaplan = await kort('14800530'), mariaplanTal = await smaTal(page);
   const mariaplanLive = await page.evaluate(() => document.getElementById('valgrafik').querySelector('#panel-live').textContent);
   await page.evaluate(() => document.getElementById('valgrafik').querySelector('#panel-tillbaka').click());
   await new Promise(r => setTimeout(r, 400));
-  const helaMajorna = await panelText();
-  const andratRad = text => (text.match(/Sedan \d{4}:[^]*?procentenheter[^]*?(?=Tillbaka|$)/) || ['(ingen talrad)'])[0].trim();
-  console.log('kortet:', JSON.stringify({ svalebo: andratRad(svalebo), svaleboTal, mariaplan: (mariaplan.match(/Gränserna[^]*?sedan \d{4}[^.]*\./) || ['(ingen mening)'])[0],
-                                          mariaplanLive, helaMajorna: andratRad(helaMajorna) }, null, 1));
+  const helaMajorna = await panelText(), helaMajornaTal = await smaTal(page);
+  const helaMajornaSub = await page.evaluate(() => document.getElementById('valgrafik').querySelector('#panel-sub').textContent);
+  console.log('kortet:', JSON.stringify({ svaleboTal, mariaplanTal, mariaplan: (mariaplan.match(/Gränserna[^]*?jämföra med \d{4}\./) || ['(ingen mening)'])[0],
+                                          mariaplanLive, helaMajornaTal, helaMajornaSub }, null, 1));
   kontroller.push(
-    ['Svalebo har talraden', svalebo.includes('Sedan 2022:')],
+    ['Svalebo har små tal vid staplarna', svaleboTal.length >= 3],
+    ['Svalebo saknar ändringsraden', !svalebo.includes('Sedan 2022:') && !svalebo.includes('Hur har det ändrats')],
     ['Svalebo saknar omritningsmeningen', !svalebo.includes('ritades om')],
-    ['tre tal i Svalebos rad', svaleboTal.length === 3],
     ['Mariaplan har omritningsmeningen', mariaplan.includes('ritades om till 2026')],
-    ['Mariaplan har områdesraden', mariaplan.includes('Hela Majorna:')],
-    ['Mariaplan saknar talraden', !mariaplan.includes('Sedan 2022:')],
+    ['Mariaplan saknar små tal', mariaplanTal.length === 0],
+    ['Mariaplan saknar områdesraden', !mariaplan.includes('Hela Majorna:')],
     ['skärmläsaren hör omritningsmeningen sist', /ritades om till 2026\. Siffrorna går inte att jämföra med 2022\.$/.test(mariaplanLive.trim())],
-    ['hela Majorna har talraden', helaMajorna.includes('Sedan 2022:')],
+    ['hela Majorna har små tal', helaMajornaTal.length >= 3],
+    ['hela Majorna saknar ändringsraden', !helaMajorna.includes('Sedan 2022:')],
     ['hela Majorna utan kohorttext när allt är räknat', !helaMajorna.includes('jämförbara distrikt')],
-    ['noten utan förbehåll när hela området jämförs', helaMajorna.includes('i procentenheter.')]);
+    ['noten utan förbehåll när hela området jämförs', helaMajorna.includes('i procentenheter.')],
+    ['kortets underrad är tom när alla distrikt är räknade', helaMajornaSub.trim() === ''],
+    ['kortet nämner varken valdeltagande eller giltiga röster', !helaMajorna.includes('Valdeltagande') && !helaMajorna.includes('giltiga röster')]);
 
   // Sidor där bara några distrikt har kommunvalet räknat: markörtexten ska räkna räknade distrikt per val
   // och inte per fil, och kortets tal (kohorten) ska bära förbehållet - både i raden och i noten under staplarna.
@@ -161,17 +168,16 @@ const KOHORT_KF = 'räknat på 3 jämförbara distrikt av 23';
     const up = await sida.evaluate(kod => {
       const rot = document.getElementById('valgrafik');
       rot.querySelector('#karta path[data-kod="' + kod + '"]').dispatchEvent(new MouseEvent('click', { bubbles: true }));
-      return { tal: [...rot.querySelectorAll('#panel .andrat-tal')].map(s => s.textContent.trim()),
-               rad: (rot.querySelector('#panel .andrat-rad') || {}).textContent || null };
+      return { tal: [...rot.querySelectorAll('#panel .stapel-rad')].filter(r => r.querySelector('.swing'))
+        .map(r => `${r.querySelector('b').textContent} ${r.querySelector('.swing').textContent.trim()}`) };
     }, SVALEBO);
     console.log('utan-parti-sidan:', JSON.stringify({ ...up, jamfor: svaleboTal }, null, 1));
     const nya = partierna(up.tal), gamla = partierna(svaleboTal);
-    kontroller.push(['utan S: talraden finns kvar', !!up.rad && up.rad.includes('Sedan 2022:')],
-                    ['utan S: fortfarande tre tal', up.tal.length === 3],
-                    ['utan S: inget tal för S', !nya.includes('S')],
-                    ['utan S: inget 0,0 i raden', !up.rad.includes('0,0')],
-                    ['utan S: ett annat parti har tagit platsen', nya.some(p => !gamla.includes(p))],
-                    ['S fanns i raden före doktoreringen', gamla.includes('S')]);
+    kontroller.push(['utan S: de små talen finns kvar', up.tal.length >= 3],
+                    ['utan S: inget litet tal för S', !nya.includes('S')],
+                    ['utan S: bara S föll bort', up.tal.length === svaleboTal.length - 1],
+                    ['utan S: inget 0,0 bland talen', !up.tal.some(t => t.includes('0,0'))],
+                    ['S hade ett tal före doktoreringen', gamla.includes('S')]);
     await sida.close();
   } else {
     console.log('utan-parti-sidan: hoppas över (ingen adress angiven)');

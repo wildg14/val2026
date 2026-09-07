@@ -164,13 +164,44 @@ def test_reserverade_hojder_i_sidhuvudet():
     assert '$("#arval").hidden' in js, "årsknapparnas rad tar plats så snart konfigen är läst"
 
 
-def test_kortets_forandringsrad_styrs_av_swingfilen():
+def test_kortet_har_ingen_andringsrad_kvar():
+    """Blocket Hur har det ändrats är borta ur kortet: rubriken, talraden och områdesraden. Informationen
+    står kvar där den hör hemma, som små tal vid stapeln den gäller."""
     js = JS.read_text("utf-8")
-    assert "function hurAndrat(" in js and "ej_jamforbara" in js and "kohort" in js
-    assert "Hur har det ändrats" in js
-    assert 'h("h4", { class: "andrat-rubrik" }' in js, "rubriken är en rubrik, inte ett stycke"
-    # Riktiga mellanslag mellan talen: raden ska få brytas mellan dem, inte rinna ut ur kortet på smala telefoner.
-    assert '{ class: "andrat-tal" }, `${a.p} ${pe(diff[a.p])}`), " "' in js, "talen ska skiljas av ett mellanslag"
+    assert "Hur har det ändrats" not in js, "rubriken är borttagen"
+    for namn in ("andratRubrik", "andrat-rubrik", "andrat-rad", "andrat-tal", "andrat-enhet",
+                 "omradesRad", "toppMedTal", "hurAndratMajorna"):
+        assert namn not in js, f"{namn} skulle tas bort med ändringsraden"
+    assert "`Sedan ${bas}: `" not in js and "Hela Majorna: ${p}" not in js, "talraden och områdesraden är borta"
+    css = CSS.read_text("utf-8")
+    for regel in (".andrat-rubrik", ".andrat-rad", ".andrat-tal", ".andrat-enhet"):
+        assert regel not in css, f"{regel} har ingen märkspråksnod kvar"
+
+
+def test_kortet_behaller_de_sma_talen_och_omritningsmeningen():
+    """De två delarna som stannar: talen vid staplarna med sin legendrad, och meningen om ett omritat
+    distrikt - den förklarar varför just det distriktet saknar små tal när grannarna har dem."""
+    js = JS.read_text("utf-8")
+    assert 'h("span", { class: "swing"' in js, "de små talen står kvar vid staplarna"
+    assert "Små tal: förändring mot ${state.swing[state.ar].bas} i procentenheter" in js, "legendraden står kvar"
+    assert "const kohortSlut =" in js and "kohortSlut(k)" in js, "kohortförbehållet hör till legendraden"
+    assert "function omritadNot(" in js and "ej_jamforbara" in js
+    assert "ritades om till ${sw.ar}" in js, "meningen om ett omritat distrikt står kvar"
+    assert 'class: "not omritad"' in js, "meningen är ett fristående stycke utan rubrik"
+    kropp = js[js.index("function renderPanel()"):js.index("/* ---- tabellen */")]
+    assert "liveSlut" in kropp, "skärmläsarraden slutar med omritningsmeningen"
+
+
+def test_kortets_underrad_utan_valdeltagande_och_giltiga_roster():
+    """Underraden i kortet säger inte längre valdeltagande eller antal giltiga röster. Kvar blir bara
+    räkneläget på valnatten, och raden döljs helt när det saknas."""
+    js = JS.read_text("utf-8")
+    kropp = js[js.index("function renderPanel()"):js.index("/* ---- tabellen */")]
+    assert "${tal(m.giltiga)} giltiga röster" not in kropp and "${tal(d.giltiga[val])} giltiga röster" not in kropp
+    assert "Valdeltagande ${procent" not in kropp, "valdeltagandet är borta ur kortet"
+    assert "let vd" not in kropp and "vd + \". \"" not in kropp, "vd räknas inte längre"
+    assert "`${vn.raknade} av ${vn.totalt} distrikt räknade.`" in kropp, "valnattsprefixet står kvar"
+    assert "sub.hidden = !subText" in kropp, "tom rad döljs"
 
 
 def test_rubriknivaerna_skyddas_mot_vardsidans_stilar():
@@ -178,7 +209,7 @@ def test_rubriknivaerna_skyddas_mot_vardsidans_stilar():
     js = JS.read_text("utf-8")
     css = CSS.read_text("utf-8")
     nivaer = set(re.findall(r'h\("(h[1-6])"', js)) | set(re.findall(r"<(h[1-6])[ >]", js))
-    assert "h4" in nivaer, "kortets rubrik ska vara en h4"
+    assert "h3" in nivaer, "kortets rubrik ska vara en h3"
     skydd = next(r for r in css.splitlines() if "text-shadow: none" in r)
     farg = next(r for r in css.splitlines() if r.startswith(".mp-val h1,") and "color: var(--black)" in r)
     for niva in sorted(nivaer):
@@ -186,23 +217,77 @@ def test_rubriknivaerna_skyddas_mot_vardsidans_stilar():
         assert f".mp-val {niva}," in farg or f".mp-val {niva} " in farg, f"{niva} saknar uttrycklig färg"
 
 
+def test_kartan_skriver_inga_partibokstaver_i_storsta_laget():
+    """Kartlegenden säger vilken färg som är vilket parti: etiketten i läget största parti är borta.
+    Styrkeläget behåller sitt tal, och det valda distriktets namn ritas fortfarande ut."""
+    js = JS.read_text("utf-8")
+    kropp = js[js.index("function etikettText("):js.index("function namnRader(")]
+    assert re.search(r'if \(state\.lage === "storsta"\) return null', kropp), "inget parti får en etikett"
+    assert "andelHeltal(d, val, state.parti)" in kropp, "styrkeläget behåller talet"
+    assert "enfargad" not in js, "grenen för enfärgad karta blir oanvänd och tas bort"
+    assert "namnRader(d.namn)" in js, "det valda distriktets namn ritas fortfarande ut"
+
+
+def test_distriktsgranserna_bar_kartan():
+    """Utan bokstäver måste formerna bära mer: gränsen är 3 px papper, och hover och tangentbordsfokus
+    är fortfarande tydligare än grundläget."""
+    css = CSS.read_text("utf-8")
+    rad = next(r for r in css.splitlines() if r.startswith(".mp-val #karta path.distrikt {"))
+    assert "stroke: var(--papper)" in rad and "stroke-width: 3;" in rad
+    bredd = lambda r: float(re.search(r"stroke-width: ([\d.]+)", r).group(1))
+    hover = next(r for r in css.splitlines() if r.startswith(".mp-val #karta path.distrikt:hover"))
+    fokus = next(r for r in css.splitlines() if r.startswith(".mp-val #karta path.distrikt:focus-visible"))
+    assert bredd(hover) > bredd(rad) and bredd(fokus) > bredd(rad)
+
+
 def test_historiksektionen_finns_och_foljer_kartans_val():
     """Majorna sedan 2006: egen sektion utan knapprad, reserverad höjd, laddad ur data/historik.js."""
     js = JS.read_text("utf-8")
     css = CSS.read_text("utf-8")
-    assert 'id="historik"' in js and "function renderHistorik()" in js and "function histLinjer(" in js and "function histTalrad(" in js
+    assert 'id="historik"' in js and "function renderHistorik()" in js
+    assert "function histDeltagande(" in js and "function histKartor()" in js
     assert 'laddaSkript("historik")' in js and 'laddaSkript("distrikt_2006")' in js
     assert 'id="hist-val"' not in js and "hist-knappar" not in js, "sektionen har inga egna valknappar"
-    assert ".hist-bild { min-height" in css, "höjden är reserverad innan datan finns"
+    assert ".hist-bild-b { min-height" in css, "höjden är reserverad innan datan finns"
     assert (ROT / "data" / "historik.js").exists()
     # X-axeln tar nästa valår ur konfigen, så att 2026 står som tom ring redan före valdagen.
     kropp = js[js.index("function histAxelAr("):]
     assert "KONFIG.valdag" in kropp[:kropp.index("\n}")], "histAxelAr lägger till nästa valår ur KONFIG.valdag"
-    # Ett år utan punkt: samma ord i ringen som i talraden, olika i de två lägena. Orden står i
-    # histVantetext, punkten efter dem i talradens mall.
-    assert "räknas på valnatten" in js, "ett år utan punkt får talraden räknas på valnatten"
+    # Ett år utan punkt: samma ord i ringen som i bildens beskrivning, olika i de två lägena. Orden står i
+    # histVantetext, punkten efter dem i beskrivningens mall.
+    assert "räknas på valnatten" in js, "ett år utan punkt räknas på valnatten"
     assert "räknas just nu" in js, "på valnatten står det räknas just nu i stället"
-    assert "${histVantetext()}." in js, "talraden avslutar väntetexten med punkt"
+    assert "${histVantetext()}." in js, "beskrivningen avslutar väntetexten med punkt"
+
+
+def test_bild_a_ar_borta_ur_historiksektionen():
+    """Partilinjediagrammet med talraden och den långa noten är borttaget. Kvar står sektionens mening,
+    bild B och konturkartorna."""
+    js = JS.read_text("utf-8")
+    css = CSS.read_text("utf-8")
+    for namn in ("hist-bild-a", "hist-talrad", "hist-not-a", "histLinjer", "histTalrad", "sattHistorikAr",
+                 "histLasX", "HIST_PARTIER", "HIST_NOT_FI_2014", "histPartier", "historikAr",
+                 "histTalPartier", "antalDistriktText", "hist-laslinje", "hist-svg"):
+        assert namn not in js, f"{namn} hörde till bild A och ska vara borta"
+    for regel in (".hist-talrad", ".hist-tal ", ".hist-svg", ".hist-laslinje"):
+        assert regel not in css, f"{regel} hörde till bild A"
+    assert 'id="hist-mening"' in js and "function histMening(" in js, "sektionens mening står kvar"
+    assert "histLista" in js and "histHarTal" in js, "delade hjälpare står kvar"
+    # Slakkontrollen mäter den bild som finns kvar, annars blir den verkningslös.
+    kropp = js[js.index("function histBildSlak()"):js.index("let senastDesktop")]
+    assert "#hist-bild-b" in kropp and "#hist-bild-a" not in kropp
+
+
+def test_valdeltagandebilden_har_inga_textrader_utanfor_noten():
+    """Bild B:s egen mening skrivs inte ut - den är bildens aria-label. Noten säger var skalan börjar,
+    utan meningen om att valdeltagande i olika val inte ska jämföras."""
+    js = JS.read_text("utf-8")
+    assert "hist-mening-b" not in js, "meningen står bara i bildens aria-label"
+    assert "menEl" not in js
+    assert "ska inte jämföras med varandra" not in js, "förbehållet om röstberättigade är borttaget"
+    kropp = js[js.index("function histDeltagande"):js.index("function histKartor")]
+    assert "const mening =" in kropp and '"aria-label": `${mening}' in kropp, "meningen är bildens textalternativ"
+    assert "Skalan börjar vid ${Math.round(lo * 100)} procent." in kropp
 
 
 def container_kroppar(text, villkor):
@@ -220,16 +305,17 @@ def container_kroppar(text, villkor):
     return ut
 
 
-def test_historikbilden_reserverar_hojd_och_talraden_far_brytas():
-    """Höjden följer desktoptröskeln 600 px, och talraden bryts i stället för att klippas."""
+def test_historikbilden_reserverar_hojd():
+    """Bild B är 160 px hög i alla bredder och reserverar den höjden, så att sektionen inte hoppar när
+    den ritas. Ingen bredare container ger den en annan höjd."""
     css = CSS.read_text("utf-8")
-    assert re.search(r"\.hist-bild\s*\{[^}]*min-height:\s*280px", css), "höjden är reserverad innan datan finns"
-    kroppar = "\n".join(container_kroppar(css, "min-width: 600px"))
-    assert re.search(r"\.hist-bild\s*\{[^}]*min-height:\s*320px", kroppar), "desktophöjden gäller från 600 px, samma tröskel som arDesktop"
-    assert re.search(r"\.hist-bild-b\s*\{[^}]*min-height:\s*160px", kroppar), "bild B ärver annars bild A:s reservation"
-    talrad = re.search(r"\.mp-val \.hist-talrad\s*\{([^}]*)\}", css)
-    assert talrad, "talraden har en egen regel"
-    assert "nowrap" not in talrad.group(1) and "overflow" not in talrad.group(1), "talraden bryts i stället för att klippas"
+    assert re.search(r"\.hist-bild-b\s*\{[^}]*min-height:\s*160px", css), "höjden är reserverad innan datan finns"
+    kroppar = "\n".join(container_kroppar(css, "min-width: 600px") + container_kroppar(css, "min-width: 900px"))
+    assert "min-height" not in kroppar or not re.search(r"\.hist-bild[^-\w][^}]*min-height", kroppar), \
+        "bildens höjd ändras inte med containerns bredd"
+    js = JS.read_text("utf-8")
+    kropp = js[js.index("function histDeltagande"):js.index("function histKartor")]
+    assert re.search(r"\bH = 160\b", kropp), "CSS reserverar samma höjd som bilden ritas i"
 
 
 def test_historiksektionen_ritas_om_pa_de_tre_stallena():

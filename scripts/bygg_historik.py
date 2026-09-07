@@ -13,7 +13,8 @@ med 2014. Alla tal räknas ur tabellerna, inget skrivs för hand. Varje post i s
 NYCKELPARTIER[val] plus Övriga (sidans partiuppsättning för valet); partier i tidsserien utanför den
 uppsättningen, till exempel FI i riksdagsvalet eller K i regionvalet, läggs i Övriga.
 
-Underkommandot "allt" är inte körbart förrän alla delar finns (Task 4).
+Ett nyckelparti som inte fanns ett visst år och val (till exempel D före 2018, FI i regionvalet 2006 och
+2010) får ingen egen nyckel i det årets distrikts- eller jämförelseposter - se partier_med_rader.
 """
 import argparse
 import csv
@@ -29,6 +30,7 @@ ROT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROT))
 
 from scripts import geo, schema  # noqa: E402
+from scripts.mandat import jamkade_uddatal  # noqa: E402
 from scripts.valmyndigheten import MAJORNA_KODER, NYCKELPARTIER, OVRIGA, VAL  # noqa: E402
 
 DB = ROT / "data" / "historik" / "majorna_historik.sqlite"
@@ -198,10 +200,31 @@ def las_kedja_alla(path=KEDJA):
     return {r["kod_2022"]: r["kod_2018"] for r in _las_kedja_rader(path) if r["kod_2018"]}
 
 
-def distrikt_ur_db(con, ar, kod, namn):
+def partier_med_rader(con, ar, val, koder):
+    """Vilka partikoder som har minst en rad i `roster` för de givna distriktskoderna (ett historikårs
+    Majorna-medlemmar, ur majorna_medlem) det året och valet - oavsett röstetal. Ett parti utan någon
+    rad där fanns inte (till exempel D före 2018, FI i regionvalet 2006 och 2010); ett parti med en rad
+    men noll röster räknas som att det fanns.
+
+    Används för att bestämma partier_per_val (distrikt_ur_db) och, via samma mönster, vilka nyckelpartier
+    som har en rad i tidsserie (_jamforelse) respektive aggregat (_vgregion) - så att ett nyckelparti som
+    inte fanns aldrig visas som 0,0 procent."""
+    if not koder:
+        return set()
+    platshallare = ",".join("?" * len(koder))
+    rader = con.execute(f"SELECT DISTINCT parti_kanon FROM roster WHERE ar=? AND val=? AND kod IN ({platshallare})",
+                        (ar, val, *koder)).fetchall()
+    return {r["parti_kanon"] for r in rader}
+
+
+def distrikt_ur_db(con, ar, kod, namn, partier_per_val):
     """Ett distrikt ett år i sidans schema: roster per val med sidans partikoder, summor ur distrikt_summa.
 
-    Okända partikoder (utanför NYCKELPARTIER[val]) läggs i Övriga, eftersom rösttabellen `roster` inte
+    `partier_per_val` ({val: [partikoder]}) är de nyckelpartier som fanns det året och valet (se
+    partier_med_rader), beräknat en gång per år av anroparen - inte NYCKELPARTIER[val] rakt av, som skulle
+    ge till exempel "Demokraterna 0,0 %" för år partiet inte existerade.
+
+    Okända partikoder (utanför partier_per_val[val]) läggs i Övriga, eftersom rösttabellen `roster` inte
     har någon egen residualrad för dem - till skillnad från `_post`, som hoppar över okända koder i
     tidsserien, där SUMMA_ÖVRIGA redan är en färdig residualrad.
 
@@ -214,7 +237,7 @@ def distrikt_ur_db(con, ar, kod, namn):
     post = {"kod": kod, "namn": namn, "giltiga": {}, "rostande": {}, "rostberattigade": {}}
     nagot_val = False
     for val in VAL:
-        roster = {p: 0 for p in NYCKELPARTIER[val]}
+        roster = {p: 0 for p in partier_per_val[val]}
         roster[OVRIGA] = 0
         for r in con.execute("SELECT parti_kanon, roster FROM roster WHERE ar=? AND val=? AND kod=?", (ar, val, kod)):
             p = r["parti_kanon"]
@@ -262,7 +285,9 @@ def bygg_swing_2022(con):
         saknas = sorted(kod_2022_alla - set(kedja_alla))
         extra = sorted(set(kedja_alla) - kod_2022_alla)
         raise SystemExit(f"FEL: kedjefilen täcker inte {ny['meta']['ar']} års distrikt: saknas {saknas}, extra {extra}")
-    bas_distrikt = [distrikt_ur_db(con, BAS_AR, kod18, namn_2022[kod22]) | {"kod": kod22}
+    bas_koder = sorted(set(kedja_alla.values()))
+    bas_partier_per_val = {val: [p for p in NYCKELPARTIER[val] if p in partier_med_rader(con, BAS_AR, val, bas_koder)] for val in VAL}
+    bas_distrikt = [distrikt_ur_db(con, BAS_AR, kod18, namn_2022[kod22], bas_partier_per_val) | {"kod": kod22}
                     for kod22, kod18 in kedja_alla.items()]
     bas_aggregat = {}
     for val in VAL:
@@ -333,8 +358,128 @@ def bygg_geo(ar, forenkla):
     return geo.features_till_schema(poster, forenkla_grader=FORENKLA_GRADER if forenkla else None)
 
 
+def _mandat_riket_rd(con, ar):
+    """Riksdagens verkliga mandat ett år, ur tabellen mandat (nivå riket, val rd), filtrerad till
+    NYCKELPARTIER["rd"].
+
+    Tabellen har dubbla rader per parti (mandat_<år>_riksdag.csv och mandat_riksdag_riket.csv, samma
+    tal), en falsk residualrad (ÖVR 349 år 2006, FI 349 år 2014) och NULL-mandat för partier som inte
+    fick något - DISTINCT, filtreringen till nyckelpartierna och mandat IS NOT NULL städar bort alla
+    tre. 2006 saknar en egen SD-rad (partiet fick noll mandat den valperioden). Kontrollerar att varje
+    parti får exakt ett mandattal (en dubblettrad med olika tal vore ett datafel) och att summan blir
+    349 - vakten gäller summan, inte antalet partier, eftersom 2006 har sju medan de andra fyra åren
+    har åtta."""
+    rader = con.execute(
+        "SELECT DISTINCT parti, mandat FROM mandat WHERE ar=? AND val='rd' AND niva='riket' AND mandat IS NOT NULL ORDER BY parti",
+        (ar,)).fetchall()
+    verklig = {}
+    for r in rader:
+        p = r["parti"]
+        if p not in NYCKELPARTIER["rd"]:
+            continue
+        m = int(r["mandat"])
+        if p in verklig and verklig[p] != m:
+            raise SystemExit(f"FEL: {ar}: mandat-tabellen har olika mandattal för {p}: {verklig[p]} och {m}")
+        verklig[p] = m
+    summa = sum(verklig.values())
+    if summa != 349:
+        raise SystemExit(f"FEL: {ar}: riksdagens verkliga mandat summerar till {summa}, inte 349 ({verklig})")
+    return verklig
+
+
+def _jamforelse(con, ar, val, niva, namn):
+    """En rad ur områdesserien (goteborg, riket) i sidans jämförelseschema för valdata_<år>.json, eller
+    None om raden saknas.
+
+    andel byggs bara för nyckelpartier som har en egen rad i tidsserie för (ar, val, niva) - omradespost
+    (via _post) fyller annars på med en nolla för varje nyckelparti som saknas helt, vilket här skulle
+    visa till exempel "Demokraterna 0,0 %" i Göteborg eller riket för år partiet inte fanns. Ett parti
+    med en rad men noll röster behåller sin 0,0 %, det är en riktig nolla."""
+    post = omradespost(con, ar, val, niva)
+    if post is None:
+        return None
+    finns = {r["parti"] for r in con.execute(
+        "SELECT DISTINCT parti FROM tidsserie WHERE ar=? AND val=? AND niva=?", (ar, val, niva)).fetchall()}
+    return {"andel": {p: a for p, a in post["andel"].items() if p != OVRIGA and p in finns}, "valdeltagande": post["valdeltagande"],
+            "giltiga": post["giltiga"], "rostande": post["rostande"], "rostberattigade": post["rostberattigade"], "namn": namn}
+
+
+def _vgregion(con, ar, val):
+    """Västra Götaland i regionvalet ur tabellen aggregat (nivå vgregion), som sidans 'riket' för rf.
+
+    Samma "bara partier med rad"-regel som _jamforelse, men mot aggregat i stället för tidsserie: D och
+    FI saknar rad i vgregion före de fanns i Västra Götalands regionval (se partier_med_rader)."""
+    rader = con.execute(
+        "SELECT parti_kanon AS parti, roster, giltiga, rostande, rostberattigade FROM aggregat WHERE ar=? AND val=? AND niva='vgregion'",
+        (ar, val)).fetchall()
+    if not rader:
+        return None
+    finns = {r["parti"] for r in rader if r["parti"] in NYCKELPARTIER[val]}
+    roster = {p: 0 for p in finns}
+    giltiga = rostande = rostberattigade = None
+    for r in rader:
+        if r["parti"] in roster:
+            roster[r["parti"]] += int(r["roster"] or 0)
+        giltiga, rostande, rostberattigade = r["giltiga"], r["rostande"], r["rostberattigade"]
+    if not giltiga:
+        return None
+    return {"andel": {p: n / giltiga for p, n in roster.items()},
+            "valdeltagande": (rostande / rostberattigade) if rostande and rostberattigade else None,
+            "giltiga": int(giltiga), "rostande": int(rostande or 0), "rostberattigade": int(rostberattigade or 0),
+            "namn": "Västra Götaland"}
+
+
 def bygg_valdata_ar(con, ar):
-    raise SystemExit("valdata per år byggs i Task 4")
+    """Ett historikårs valdata i sidans schema: distrikt via majorna_medlem (aldrig uppsamlingsdistrikt),
+    jämförelseaggregat för Göteborg och riket (Västra Götaland i regionvalet), riksdagens verkliga
+    mandat och Majornas eget räkneexempel.
+    """
+    medlemmar = con.execute(
+        "SELECT kod, namn FROM majorna_medlem WHERE ar=? AND ingar_i_jamforbart_majorna=1 ORDER BY kod", (ar,)).fetchall()
+    if not medlemmar:
+        raise SystemExit(f"FEL: majorna_medlem saknar {ar}")
+    majorna_koder = [r["kod"] for r in medlemmar]
+    partier_per_val = {}
+    for val in VAL:
+        finns = partier_med_rader(con, ar, val, majorna_koder)
+        for p in NYCKELPARTIER[val]:
+            if p not in finns:
+                print(f"VARNING: {ar} {val}: {p} har inga rader, utelämnas", file=sys.stderr)
+        partier_per_val[val] = [p for p in NYCKELPARTIER[val] if p in finns]
+    distrikt = [distrikt_ur_db(con, ar, r["kod"], geo.kort_namn(r["namn"]), partier_per_val) for r in medlemmar]
+    for d in distrikt:
+        saknas_val = [val for val in VAL if val not in d]
+        if saknas_val:
+            raise SystemExit(f"FEL: {ar} {d['kod']}: saknar {saknas_val} - majorna_medlem ska ha data i alla tre "
+                              "valen i en slutlig historikfil, annars sänker raknat=False antalet räknade tyst")
+    jamforelser = {"goteborg": {}, "riket": {}}
+    for val in VAL:
+        g = _jamforelse(con, ar, val, "goteborg", "Göteborg")
+        if g:
+            jamforelser["goteborg"][val] = g
+        if val == "rd":
+            r = _jamforelse(con, ar, val, "riket", "Riket")
+            if r:
+                jamforelser["riket"][val] = r
+        elif val == "rf":
+            vg = _vgregion(con, ar, val)
+            if vg:
+                jamforelser["riket"][val] = vg
+            else:
+                print(f"VARNING: {ar} rf: ingen vgregion-rad, riket utelämnas för regionvalet", file=sys.stderr)
+    verklig = _mandat_riket_rd(con, ar)
+    rd_summa = {}
+    for d in distrikt:
+        for p, n in d["rd"].items():
+            rd_summa[p] = rd_summa.get(p, 0) + n
+    mandat = {"riksdag_verklig": verklig, "riksdag_majorna": jamkade_uddatal(rd_summa, 349) if rd_summa else {},
+              "metod": f"Räkneexempel: 4 %-spärr och jämkade uddatalsmetoden tillämpade på Majornas riksdagsröster {ar}."}
+    valdag = con.execute("SELECT valdag FROM val WHERE ar=? AND val='rd'", (ar,)).fetchone()
+    v = schema.bygg_valdata(ar, distrikt, "slutlig", jamforelser, mandat,
+                             uppdaterad=(valdag["valdag"] + "T00:00:00") if valdag else None,
+                             kalla=f"Valmyndigheten, slutlig rösträkning per valdistrikt {ar}, ur data/historik/majorna_historik.sqlite")
+    v["meta"]["avgransning"] = f"{len(distrikt)} valdistrikt som täcker samma yta som 2022 års 23 (areametod, se docs/historik/valdistrikt-historik.md)"
+    return v
 
 
 def main():

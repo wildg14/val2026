@@ -12,7 +12,8 @@ from shapely.geometry import shape
 from shapely.ops import linemerge, transform as geo_transform, unary_union
 
 from scripts import bygg_historik, geo
-from scripts.bygg_historik import _las_kedja_rader, bygg_geo, las_kedja, las_kedja_alla
+from scripts.bygg_historik import _las_kedja_rader, bygg_geo, las_kedja, las_kedja_alla, partier_med_rader
+from scripts.mandat import jamkade_uddatal
 from scripts.valmyndigheten import NYCKELPARTIER
 
 ROT = Path(__file__).resolve().parents[1]
@@ -345,7 +346,8 @@ def test_distrikt_ur_db_giltiga_null_utelamnar_valet(tmp_path):
     con.execute("UPDATE distrikt_summa SET giltiga = NULL WHERE ar=2018 AND val='rd' AND kod='14801032'")
     con.commit()
     con.row_factory = sqlite3.Row
-    post = bygg_historik.distrikt_ur_db(con, 2018, "14801032", "Godhem")
+    partier_per_val = {val: list(NYCKELPARTIER[val]) for val in NYCKELPARTIER}
+    post = bygg_historik.distrikt_ur_db(con, 2018, "14801032", "Godhem", partier_per_val)
     con.close()
     assert "rd" not in post
     assert "rd" not in post["giltiga"] and "rd" not in post["rostande"] and "rd" not in post["rostberattigade"]
@@ -517,3 +519,115 @@ def test_bygg_geo_2018_ger_22_giltiga_polygoner_utan_overlapp():
             kod_j, poly_j = polygoner[j]
             overlapp = poly_i.intersection(poly_j).area
             assert overlapp < 1, f"{kod_i} och {kod_j} överlappar {overlapp:.1f} kvm"
+
+
+# ---------------------------------------------------------------- Task 4: valdata_<år> och distrikt_<år>
+
+@finns
+def test_valdata_2006_i_sidans_schema(tmp_path):
+    r = kor("ar", "2006", "--ut", str(tmp_path))
+    assert r.returncode == 0, r.stdout + r.stderr
+    v = json.loads((tmp_path / "valdata_2006.json").read_text("utf-8"))
+    assert v["meta"]["ar"] == 2006 and v["meta"]["status"] == "slutlig" and len(v["distrikt"]) == 17
+    assert v["meta"]["valnatt"] == {"raknade": 17, "totalt": 17}
+    assert all(set(d) >= {"kod", "namn", "raknat", "rd", "rf", "kf", "giltiga", "rostande", "rostberattigade"} for d in v["distrikt"])
+    with db() as con:
+        t = con.execute("SELECT roster, giltiga FROM tidsserie WHERE ar=2006 AND val='rd' AND niva='majorna' AND parti='V'").fetchone()
+    assert v["aggregat"]["majorna"]["rd"]["roster"]["V"] == t[0] and v["aggregat"]["majorna"]["rd"]["giltiga"] == t[1]
+    assert v["aggregat"]["goteborg"]["rd"]["valdeltagande"] == pytest.approx(0.7954, abs=0.0001)
+    assert v["aggregat"]["riket"]["rd"]["namn"] == "Riket" and 0.05 < v["aggregat"]["riket"]["rd"]["andel"]["V"] < 0.07
+    assert sum(v["mandat"]["riksdag_verklig"].values()) == 349 and sum(v["mandat"]["riksdag_majorna"].values()) == 349
+    assert not (tmp_path / "distrikt_2006.geojson").exists(), "2006 års polygoner byggs av geo2006, förenklade"
+
+
+@finns
+def test_valdata_2018_och_distrikt_2018(tmp_path):
+    r = kor("ar", "2018", "--ut", str(tmp_path))
+    assert r.returncode == 0, r.stdout + r.stderr
+    v = json.loads((tmp_path / "valdata_2018.json").read_text("utf-8"))
+    assert len(v["distrikt"]) == 22
+    d = {x["kod"]: x for x in v["distrikt"]}["14801032"]
+    assert d["namn"] == "Godhem" and d["rd"]["V"] > 0 and sum(d["rd"].values()) == d["giltiga"]["rd"]
+    fc = json.loads((tmp_path / "distrikt_2018.geojson").read_text("utf-8"))
+    assert len(fc["features"]) == 22
+    assert sorted(f["properties"]["kod"] for f in fc["features"]) == sorted(x["kod"] for x in v["distrikt"])
+
+
+@finns
+def test_valdata_partier_som_inte_fanns_utelamnas(tmp_path):
+    """D fanns inte som parti före 2018, FI saknas i regionvalet 2006 och 2010 (ingen rad i roster för
+    något Majornadistrikt) - de ska inte visas som 0,0 procent bland nyckelpartierna de åren."""
+    r6 = kor("ar", "2006", "--ut", str(tmp_path / "2006"))
+    r18 = kor("ar", "2018", "--ut", str(tmp_path / "2018"))
+    assert r6.returncode == 0, r6.stdout + r6.stderr
+    assert r18.returncode == 0, r18.stdout + r18.stderr
+    v6 = json.loads((tmp_path / "2006" / "valdata_2006.json").read_text("utf-8"))
+    v18 = json.loads((tmp_path / "2018" / "valdata_2018.json").read_text("utf-8"))
+    for d in v6["distrikt"]:
+        assert "D" not in d["kf"], f"{d['kod']}: D fanns inte 2006"
+        assert "D" not in d["rf"], f"{d['kod']}: D fanns inte 2006"
+        assert "FI" not in d["rf"], f"{d['kod']}: FI saknades i regionvalet 2006"
+    for d in v18["distrikt"]:
+        assert "D" in d["kf"], f"{d['kod']}: D fanns 2018"
+        assert "D" in d["rf"], f"{d['kod']}: D fanns 2018"
+        assert "FI" in d["rf"], f"{d['kod']}: FI fanns i regionvalet 2018"
+
+
+@finns
+@pytest.mark.parametrize("ar", [2006, 2010, 2014, 2018])
+def test_valdata_riksdag_verklig_summerar_349(tmp_path, ar):
+    r = kor("ar", str(ar), "--ut", str(tmp_path))
+    assert r.returncode == 0, r.stdout + r.stderr
+    v = json.loads((tmp_path / f"valdata_{ar}.json").read_text("utf-8"))
+    assert sum(v["mandat"]["riksdag_verklig"].values()) == 349
+    assert sum(v["mandat"]["riksdag_majorna"].values()) == 349
+
+
+@finns
+@pytest.mark.parametrize("ar", [2006, 2010, 2014, 2018])
+def test_valdata_distrikt_roster_summerar_till_giltiga(tmp_path, ar):
+    r = kor("ar", str(ar), "--ut", str(tmp_path))
+    assert r.returncode == 0, r.stdout + r.stderr
+    v = json.loads((tmp_path / f"valdata_{ar}.json").read_text("utf-8"))
+    for d in v["distrikt"]:
+        for val in ("rd", "rf", "kf"):
+            if val in d:
+                assert sum(d[val].values()) == d["giltiga"][val], f"{ar} {val} {d['kod']}"
+
+
+@finns
+@pytest.mark.parametrize("ar", [2006, 2010, 2014, 2018])
+def test_valdata_meta_slutlig_och_kalla_namner_aret(tmp_path, ar):
+    r = kor("ar", str(ar), "--ut", str(tmp_path))
+    assert r.returncode == 0, r.stdout + r.stderr
+    v = json.loads((tmp_path / f"valdata_{ar}.json").read_text("utf-8"))
+    assert v["meta"]["status"] == "slutlig"
+    assert str(ar) in v["meta"]["kalla"]
+
+
+@finns
+@pytest.mark.parametrize("ar", [2006, 2010, 2014, 2018])
+def test_valdata_vgregion_finns_for_regionvalet(tmp_path, ar):
+    """Tabellen aggregat har en vgregion-rad för regionvalet alla fyra åren (kontrollerat mot databasen
+    2026-09-07) - riket ska då alltid finnas för rf, inte utelämnas."""
+    r = kor("ar", str(ar), "--ut", str(tmp_path))
+    assert r.returncode == 0, r.stdout + r.stderr
+    v = json.loads((tmp_path / f"valdata_{ar}.json").read_text("utf-8"))
+    assert "rf" in v["aggregat"]["riket"], f"{ar}: ingen vgregion-rad, riket utelämnat för regionvalet - se README"
+    assert v["aggregat"]["riket"]["rf"]["namn"] == "Västra Götaland"
+
+
+def test_partier_med_rader_ingen_kod_ger_tom_mangd():
+    assert partier_med_rader(None, 2018, "rd", []) == set()
+
+
+@finns
+def test_partier_med_rader_d_saknas_2006_finns_2018():
+    con = bygg_historik.oppna()
+    try:
+        koder_2006 = [r["kod"] for r in con.execute("SELECT kod FROM majorna_medlem WHERE ar=2006 AND ingar_i_jamforbart_majorna=1")]
+        koder_2018 = [r["kod"] for r in con.execute("SELECT kod FROM majorna_medlem WHERE ar=2018 AND ingar_i_jamforbart_majorna=1")]
+        assert "D" not in partier_med_rader(con, 2006, "kf", koder_2006)
+        assert "D" in partier_med_rader(con, 2018, "kf", koder_2018)
+    finally:
+        con.close()

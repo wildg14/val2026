@@ -168,14 +168,14 @@ const oppenPartiRing = c => c.fill === PAPPER && c.stroke !== STEN;   // en seri
   // öppen partiring och inga streckade sträckor. Talraden visar det senaste slutliga året, 2022.
   if (sidor.sida) {
     const { u } = sidor.sida;
-    const tomma = u.cirklarA.filter(tomRing), oppna_ = u.cirklarA.filter(oppenPartiRing);
+    const tomma = u.cirklarA.filter(tomRing), oppnaRingar = u.cirklarA.filter(oppenPartiRing);
     kontroller.push(
       ['sida: exakt en tom ring i bild A', tomma.length === 1],
       ['sida: tomma ringen står på y(0) = 250', tomma.length === 1 && tomma[0].cy === 250],
       ['sida: "räknas på valnatten" i bild A', u.raknasPaValnattenA === 1],
       ['sida: "räknas på valnatten" i bild B', u.raknasPaValnattenB === 1],
       ['sida: inga streckade sträckor', u.streckadeA === 0],
-      ['sida: inga öppna partiringar', oppna_.length === 0],
+      ['sida: inga öppna partiringar', oppnaRingar.length === 0],
       ['sida: talraden börjar "2022:"', u.talradText.startsWith('2022:')],
     );
 

@@ -14,6 +14,7 @@ from scripts.valmyndigheten import MAJORNA_KODER
 
 ROT = Path(__file__).resolve().parents[1]
 ZIP_2026 = ROT / "Historiska dokument" / "dl_webb" / "2026" / "valdistrikt-vastra-gotaland-lan-2026.zip"
+ZIP_2022 = ROT / "valdistrikt-vastra-gotalands-lan.zip"
 
 _TR_3006 = Transformer.from_crs("EPSG:4326", "EPSG:3006", always_xy=True)
 
@@ -100,12 +101,15 @@ def test_distrikt_2026():
         assert 11.88 < lon < 11.95 and 57.67 < lat < 57.71 and g.contains(shape({"type": "Point", "coordinates": [lon, lat]}))
 
 
-@pytest.mark.skipif(not ZIP_2026.exists(), reason="2026 års valgeografi saknas")
-def test_distrikt_2026_identisk_med_committad_fil():
-    fc = geo.las_distrikt(ZIP_2026, MAJORNA_KODER)
-    committad = json.loads((ROT / "data" / "distrikt_2026.geojson").read_text("utf-8"))
-    normaliserad = json.loads(json.dumps(fc, ensure_ascii=False, indent=1))
-    assert normaliserad == committad
+@pytest.mark.parametrize("ar,zip_path", [("2022", ZIP_2022), ("2026", ZIP_2026)])
+def test_distrikt_identisk_med_committad_fil(ar, zip_path):
+    """Den committade filen ska vara byte-identisk med byggarens utdata, inte bara lika som JSON:
+    en ombyggnad får aldrig ge en diff i data/ av formatskäl. Samma parametrar som schema.skriv."""
+    if not zip_path.exists():
+        pytest.skip(f"{ar} års valgeografi saknas")
+    fc = geo.las_distrikt(zip_path, MAJORNA_KODER)
+    text = json.dumps(fc, ensure_ascii=False, indent=1) + "\n"
+    assert text == (ROT / "data" / f"distrikt_{ar}.geojson").read_text("utf-8")
 
 
 def test_2026_namn_inte_vastra_centrum_i_committad_fil():
@@ -187,3 +191,79 @@ def test_bygg_geo_saknad_jamforelsefil_ger_fel(tmp_path):
                         "--jamfor", str(tmp_path / "finns-inte.geojson")],
                        cwd=ROT, capture_output=True, text=True)
     assert r.returncode == 1
+    assert "hittar inte jämförelsefilen" in r.stderr
+    assert "Traceback" not in r.stderr
+
+
+@pytest.mark.parametrize("varde", ["katalog", "tom"])
+def test_bygg_geo_jamfor_som_katalog_eller_tom_strang_ger_felrad(tmp_path, varde):
+    """En katalog och en tom sträng finns båda som sökväg men går inte att läsa som fil."""
+    jamfor = str(tmp_path) if varde == "katalog" else ""
+    r = subprocess.run([sys.executable, "scripts/bygg_geo.py", "--ar", "2022", "--ut", str(tmp_path),
+                        "--jamfor", jamfor], cwd=ROT, capture_output=True, text=True)
+    assert r.returncode == 1
+    assert "hittar inte jämförelsefilen" in r.stderr
+    assert "Traceback" not in r.stderr
+
+
+@pytest.mark.parametrize("varde", ["katalog", "tom"])
+def test_bygg_geo_zip_som_katalog_eller_tom_strang_ger_felrad(tmp_path, varde):
+    zipvarde = str(tmp_path) if varde == "katalog" else ""
+    r = subprocess.run([sys.executable, "scripts/bygg_geo.py", "--ar", "2026", "--zip", zipvarde,
+                        "--ut", str(tmp_path)], cwd=ROT, capture_output=True, text=True)
+    assert r.returncode == 1
+    assert "ange --zip" in r.stderr
+    assert "Traceback" not in r.stderr
+
+
+def test_bygg_geo_validerar_jamfor_fore_inlasningen(tmp_path):
+    """Felet i --jamfor ska komma innan zip-filen läses, så att man inte väntar ut inläsningen
+    för att få veta att jämförelsefilen inte går att läsa."""
+    if not ZIP_2022.exists():
+        pytest.skip("2022 års valgeografi saknas")
+    r = subprocess.run([sys.executable, "scripts/bygg_geo.py", "--ar", "2022", "--zip", str(ZIP_2022),
+                        "--ut", str(tmp_path), "--jamfor", str(tmp_path)],
+                       cwd=ROT, capture_output=True, text=True)
+    assert r.returncode == 1
+    assert "hittar inte jämförelsefilen" in r.stderr
+    assert "unionsyta" not in r.stdout
+    assert not list(tmp_path.iterdir())
+
+
+def test_bygg_geo_utan_standardjamforelse_skriver_rad(tmp_path):
+    """Utan distrikt_2022.geojson i --ut skrivs raden Ingen ytjämförelse, och bygget fortsätter."""
+    if not ZIP_2026.exists():
+        pytest.skip("2026 års valgeografi saknas")
+    r = subprocess.run([sys.executable, "scripts/bygg_geo.py", "--ar", "2026", "--zip", str(ZIP_2026),
+                        "--ut", str(tmp_path)], cwd=ROT, capture_output=True, text=True)
+    assert r.returncode == 0, r.stdout + r.stderr
+    assert "Ingen ytjämförelse" in r.stdout
+    assert "symmetrisk differens" not in r.stdout
+    assert (tmp_path / "distrikt_2026.geojson").is_file()
+
+
+def _rutfeature(kod, koordinater):
+    return {"type": "Feature", "properties": {"kod": kod},
+            "geometry": {"type": "Polygon", "coordinates": [koordinater]}}
+
+
+def test_jamfor_union_lagar_ogiltig_geometri():
+    """En självkorsande ring (fjärilen) är ogiltig; unary_union kastar då. buffer(0) lagar den,
+    så att en ytjämförelse går att göra i stället för att avbrytas."""
+    ruta = [[11.900, 57.700], [11.901, 57.700], [11.901, 57.701], [11.900, 57.701], [11.900, 57.700]]
+    fjaril = [[11.900, 57.700], [11.901, 57.701], [11.901, 57.700], [11.900, 57.701], [11.900, 57.700]]
+    a = {"type": "FeatureCollection", "features": [_rutfeature("1", ruta)]}
+    b = {"type": "FeatureCollection", "features": [_rutfeature("1", fjaril)]}
+    resultat = geo.jamfor_union(a, b)
+    assert resultat["yta_b"] > 0
+    assert resultat["symmetrisk_differens"] > 0
+
+
+def test_jamfor_union_olaglig_geometri_ger_begripligt_fel():
+    """En polygon utan area går inte att laga; felet ska nämna distriktets kod."""
+    ruta = [[11.900, 57.700], [11.901, 57.700], [11.901, 57.701], [11.900, 57.701], [11.900, 57.700]]
+    spik = [[11.900, 57.700], [11.901, 57.700], [11.900, 57.700], [11.900, 57.700]]
+    a = {"type": "FeatureCollection", "features": [_rutfeature("1", ruta)]}
+    b = {"type": "FeatureCollection", "features": [_rutfeature("14800526", spik)]}
+    with pytest.raises(ValueError, match="14800526"):
+        geo.jamfor_union(a, b)

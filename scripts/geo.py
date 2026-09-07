@@ -82,8 +82,20 @@ def las_distrikt(zip_path, koder, decimaler=6):
 
 
 def _union_3006(fc, tr):
-    """Featurecollectionens polygoner (WGS84), projicerade till EPSG:3006 och slagna ihop till en union."""
-    polygoner = [transform(tr.transform, shape(f["geometry"])) for f in fc["features"]]
+    """Featurecollectionens polygoner (WGS84), projicerade till EPSG:3006 och slagna ihop till en union.
+
+    En ogiltig polygon (självkorsande ring) får unary_union och symmetric_difference att kasta
+    GEOSException; den lagas därför med buffer(0). Den som inte går att laga (ingen area) ger
+    ValueError med distriktets kod, i stället för ett fel längre in i shapely."""
+    polygoner = []
+    for f in fc["features"]:
+        g = transform(tr.transform, shape(f["geometry"]))
+        if not g.is_valid:
+            kod = (f.get("properties") or {}).get("kod", "?")
+            g = g.buffer(0)
+            if g.is_empty or not g.is_valid:
+                raise ValueError(f"distrikt {kod}: ogiltig geometri som inte går att laga med buffer(0)")
+        polygoner.append(g)
     return unary_union(polygoner)
 
 

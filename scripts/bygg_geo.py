@@ -40,27 +40,29 @@ def main():
     if not re.fullmatch(r"\d{4}", a.ar):
         print(f"FEL: --ar ska vara fyra siffror, fick {a.ar!r}", file=sys.stderr)
         return 1
-    zip_path = Path(a.zip) if a.zip else ZIP.get(a.ar)
-    if zip_path is None or not zip_path.exists():
+    # Sökvägarna kontrolleras med is_file() (en katalog och en tom sträng finns men går inte att läsa)
+    # och båda före inläsningen, som tar en stund: felet ska komma direkt.
+    zip_path = Path(a.zip) if a.zip is not None else ZIP.get(a.ar)
+    if zip_path is None or not zip_path.is_file():
         print(f"FEL: hittar ingen zip för {a.ar} (ange --zip)", file=sys.stderr)
         return 1
 
-    fc = geo.las_distrikt(zip_path, MAJORNA_KODER)
-    yta = geo.union_yta(fc)
-    print(f"{a.ar}: {len(fc['features'])} distrikt, unionsyta {yta:.0f} kvadratmeter, bbox {fc['bbox']}")
-
     if a.jamfor is not None:
         jamfor = Path(a.jamfor)
-        if not jamfor.exists():
-            print(f"FEL: hittar inte jämförelsefilen {jamfor}", file=sys.stderr)
+        if not jamfor.is_file():
+            print(f"FEL: hittar inte jämförelsefilen {a.jamfor}", file=sys.stderr)
             return 1
     elif a.ar == "2022":
         jamfor = None
     else:
         jamfor = Path(a.ut) / "distrikt_2022.geojson"
-        if not jamfor.exists():
+        if not jamfor.is_file():
             print(f"Ingen ytjämförelse: {jamfor} saknas")
             jamfor = None
+
+    fc = geo.las_distrikt(zip_path, MAJORNA_KODER)
+    yta = geo.union_yta(fc)
+    print(f"{a.ar}: {len(fc['features'])} distrikt, unionsyta {yta:.0f} kvadratmeter, bbox {fc['bbox']}")
 
     if jamfor is not None:
         andra = json.loads(jamfor.read_text("utf-8"))

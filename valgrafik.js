@@ -851,8 +851,10 @@ function renderPanel() {
   // De små talen vid staplarna. Ett distrikts egna tal behöver inget förbehåll, men hela Majornas är
   // räknade på kohorten (räknade och jämförbara distrikt) medan staplarna vilar på alla räknade: då ska
   // noten säga vad talen vilar på. Anropet skickar kohorten bara i Hela Majorna-grenen.
+  // En kohort utan distrikt (inget räknat och jämförbart än) får inget förbehåll: "räknat på 0
+  // jämförbara distrikt av 23" säger inget om talen, som då kommer från kartans egna markörer.
   const markorNot = [], swingNot = (sw, k) => sw ? [h("span", { style: "padding-left:0" },
-    `Små tal: förändring mot ${state.swing[state.ar].bas} i procentenheter${k ? kohortSlut(k) : "."}`)] : [];
+    `Små tal: förändring mot ${state.swing[state.ar].bas} i procentenheter${k && k.antal ? kohortSlut(k) : "."}`)] : [];
   if (d && !raknat(d, val)) {
     rubrik.textContent = d.namn;
     toppText = `${VALNAMN[val]} ${state.ar}: inte räknat än.`;

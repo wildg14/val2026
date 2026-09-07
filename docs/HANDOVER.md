@@ -170,8 +170,8 @@ Planen `docs/superpowers/plans/2026-09-05-historik-sektion.md` är genomförd, t
 Beslut som ändrade planen, med hänvisning till tilläggsdokumentets rubriker (sök på "Task 6", "Task 7" osv i `docs/superpowers/plans/2026-09-07-tillagg-under-bygget.md`):
 
 - Sista punkten i bild A och B kommer ur det senast laddade året, inte kartans årsknapp; kartorna följer däremot årsknappen.
-- Året som inte fått data än ritas som en tom ring på skalans nedersta nivå med texten "räknas på valnatten", inte mitt i bilden.
-- Talraden är `span`-noder som får radbrytas, inte en textnod som klipps på smala skärmar.
+- Året som inte fått data än ritas som en tom ring på skalans nedersta nivå, inte mitt i bilden. Texten vid ringen lyder "räknas på valnatten" före valdagen och "räknas just nu" när `KONFIG.valnatt` är sant; samma ord står i talraden och i bildernas aria-label (`histVantetext`).
+- Talraden är `span`-noder som får radbrytas, inte en textnod som klipps på smala skärmar, och listar hela valets partiuppsättning ur `meta.partier_per_val` (utom Övriga), inte bara de fyra eller fem partier som ritas som linjer.
 - Etiketterna i högerkanten mörkas mot bläck till minst 4,5:1 kontrast och får en papperskontur, så de går att läsa över en hjälplinje.
 - Läslinjen (klick och piltangenter) flyttar bara sig själv och skriver om talraden; hela bilden ritas inte om.
 - ResizeObserverns referensbredd ackumuleras i stället för att nollställas vid varje litet utslag (`histBildSlak` kontrollerar historikbilden särskilt, eftersom dess viewBox är i pixlar).
@@ -215,7 +215,7 @@ Parallellt med den här sessionen har en annan session byggt ett historikunderla
 
 Att veta:
 
-- Delar av spåret följde med i den första commiten (de fanns i mappen då), resten är ocommittat. Committa inget av det utan att Daniel bett om det, och ta inte bort något. Läs `docs/historik/datamodell.md` och `docs/historik/noter/kedja.md` innan du använder datan.
+- Underlagsfilerna i `data/historik/` är committade (186 filer, varav 176 CSV); bara `majorna_historik.sqlite` är gitignorerad och byggs om med `scripts/historik/bygg_databas.py`. Lägg inte till och ta inte bort något där utan att Daniel bett om det. Läs `docs/historik/datamodell.md` och `docs/historik/noter/kedja.md` innan du använder datan.
 - Skriptens dokumentation pekar på en venv i en annan sessions scratchpad (`/private/tmp/claude-501/.../f347baf2-.../scratchpad/venv`), som kan vara borta. Prova projektets `.venv` och installera det som saknas.
 - 2026-09-07: sidan läser databasen via `scripts/bygg_historik.py` (se statusavsnittet om historikplanen). Databasen själv är fortfarande gitignorerad och ligger i huvudkatalogen; i arbetsträdet är den en symlänk dit.
 - Historiken är det naturliga underlaget för idén "Majorna 2002 till 2026" i brainstormen nedan. Hur Majorna avgränsas per år står i `majorna_medlem`-tabellen och i noterna (2006 använder en areametod, 17 distrikt).
@@ -236,6 +236,11 @@ Att veta:
 
 **Först av allt, om det är valveckan:** `docs/valnatt-korschema.md` och README-avsnittet Valnatten. Torrkörningen är gjord 2026-09-07 och dess utskrifter står som facit i körschemat. Grenen `claude/valnattsplanen-superpowers-b46290` är inte mergad till `main` - körschemats grenkontroll (första punkten under Lördag 12 september) förutsätter den mergen, så gör den innan valnatten om den inte redan är gjord.
 
+**Daniels beslut före valnatten, utanför historikplanen.** Två fynd ur slutgranskningen av historiksektionen gäller andra delar av sidan och rördes därför inte:
+
+- Mandattabellen i "Om Majorna bestämde" är 339 px bred vid 320 px skärmbredd. Kolumnen "Majornas riksdag" klipps och hela sidan får sidledsrullning. Fix när Daniel vill: `overflow-x: auto` på en behållare runt tabellen, eller smalare celler under 360 px.
+- Röstdelningens axeletiketter 0 %, 10, 20, 30, 40 krockar under cirka 385 px skärmbredd. Fix: färre steg under 390 px.
+
 **Efter valet**, både historikplanen och valnattsplanen är byggda och all dokumentation i den här filen och README är uppdaterad. Kandidater för nästa omgång, ingen brådskande:
 
 - Stillbilder av områdesserien i `scripts/skapa_bilder.py` (historikplanens Task 10-lucka; sektionen finns bara interaktivt i dag).
@@ -243,6 +248,7 @@ Att veta:
 - "Tre saker som skiljer Majorna" (specen `docs/superpowers/specs/2026-09-05-historik-2026-design.md`, avsnitt 11 punkt 6) - väntar på Daniels beslut, se Tankesmedjan nedan.
 - FI som nyckelparti i riksdagsvalet, om Daniel vill se Feministiskt initiativs 16,5 procent 2014 som egen linje i stället för i Övriga - kräver en ändring i `NYCKELPARTIER["rd"]` i hela schemat, även för 2022 och 2026 (Daniels beslut, se fyndet om FI 2014 ovan).
 - Codex 16 och 17: `scripts/kontrollera.py` täcker bara distriktsraderna, inte aggregat och mandat; `scripts/skapa_bilder.py` kan märka en bild med fel år.
+- Refaktoreringarna i historiksektionen: bild A placerar punkterna med index i axeln medan bild B slår upp punkten per år - samma uppslagning i båda vore mindre att hålla i huvudet; markörerna för MP, M och SD 2022 i regionvalet ritas ovanpå varandra (en verklig knut i datan, kandidat för en papperskontur runt markörerna).
 - Refaktoreringarna: `main` i `scripts/uppdatera_2026.py` är lång och gör för mycket; `bygg()` läser modulglobalen `JAMFORBAR` i stället för att ta den som argument; xlsx-vägen och JSON-vägen dubblerar distriktsslingan i `uppdatera_2026.py`; `_kontrollera_valtyp` i `scripts/valnatt.py` godtar saknat eller null `valtyp`; halvcirkelns ingressmening står på ett ställe (konstant) men `MARKUP` och `renderRiksdag` delar fortfarande ansvar för sidhuvudets uppbyggnad; kartans skaldrift under tio procent vid stegvisa breddändringar (tröskeln i ResizeObservern).
 
 Modellval för subagenter: se minnesfilen `subagenter-modellval.md` (Sonnet på mekaniska tasks, Opus på JS-tasks med visuell granskning, ingen Fable).
@@ -309,7 +315,7 @@ Från historikplanen:
 
 - `bygg_historik.py ar 2022` är spärrat: `data/valdata_2022.json` är den kanoniska filen ur xlsx:en och får inte skrivas över av databasen ("FEL: 2022 byggs inte av det här skriptet"). `BYGGBARA_AR` är 2006, 2010, 2014 och 2018.
 - `data/distrikt_2006.*` är förenklad geometri för konturkartorna och får inte läggas i `KONFIG.ar`.
-- `data/historik/` (databasen och CSV-filerna) ska fortfarande inte committas; de byggda filerna under `data/` (`historik`, `swing_2022`, `valdata_<år>`, `distrikt_<år>`) är däremot committade och byte-identiska med byggets utdata (tester vaktar det).
+- I `data/historik/` är bara databasen `majorna_historik.sqlite` gitignorerad; den byggs om med `scripts/historik/bygg_databas.py`. Underlagsfilerna där (186 filer, varav 176 CSV) **är committade** och ska varken läggas till eller tas bort utan att Daniel bett om det. De byggda filerna under `data/` (`historik`, `swing_2022`, `valdata_<år>`, `distrikt_<år>`) är också committade och byte-identiska med byggets utdata (tester vaktar det).
 - `historik.js`, `swing_2022.js` och `distrikt_2006.js` laddas vid start i samma svep som årets filer; saknas `historik.js` döljs sektionen (laddningen fångar felet), och den döljs också i bildläget och när serien har färre än två punkter. `"historik": {"visa": false}` i `data/konfig.json` stänger av laddningen av `historik.js` och `distrikt_2006.js`, men inte av `swing_2022.js` - den filen hör till resultatkortets rad "Hur har det ändrats" och laddas så länge 2022 står i `KONFIG.ar`.
 - `aretsPunkt` avgör ensam om 2026 ritas i bild A och B: alla Majornas distrikt måste vara räknade i det valet, och för ett jämförelseområde måste området självt vara färdigräknat (`omradeDelvis`). Ett halvräknat jämförelseområde får alltså ingen punkt alls, hellre än en missvisande.
 - Sektionen följer kartans val (`state.val`) men **inte** kartans årsknapp (`state.ar`) - utom konturkartorna, som är den enda delen som gör det. Byter läsaren till Valet 2022 på valnatten står bild A och B kvar på 2026.

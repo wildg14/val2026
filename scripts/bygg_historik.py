@@ -415,7 +415,7 @@ def _vgregion(con, ar, val):
     if not rader:
         return None
     finns = {r["parti"] for r in rader if r["parti"] in NYCKELPARTIER[val]}
-    roster = {p: 0 for p in finns}
+    roster = {p: 0 for p in NYCKELPARTIER[val] if p in finns}
     giltiga = rostande = rostberattigade = None
     for r in rader:
         if r["parti"] in roster:

@@ -1,5 +1,6 @@
 import json
 import math
+import os
 import shutil
 import sqlite3
 import subprocess
@@ -615,6 +616,33 @@ def test_valdata_vgregion_finns_for_regionvalet(tmp_path, ar):
     v = json.loads((tmp_path / f"valdata_{ar}.json").read_text("utf-8"))
     assert "rf" in v["aggregat"]["riket"], f"{ar}: ingen vgregion-rad, riket utelämnat för regionvalet - se README"
     assert v["aggregat"]["riket"]["rf"]["namn"] == "Västra Götaland"
+
+
+@finns
+def test_valdata_2018_byte_identisk_oberoende_av_hashfro(tmp_path):
+    """_vgregion byggde tidigare roster ur en mängd (finns), så nyckelordningen i aggregat.riket.rf.andel
+    berodde på processens hashfrö och valdata_2018.json blev inte byte-identisk mellan körningar. Två
+    körningar med olika PYTHONHASHSEED ska nu ge identiska filer, med nycklarna i sidans partiordning
+    (NYCKELPARTIER["rf"], filtrerad till de partier som fanns)."""
+    ut_a, ut_b = tmp_path / "a", tmp_path / "b"
+    miljo_a = {**os.environ, "PYTHONHASHSEED": "1"}
+    miljo_b = {**os.environ, "PYTHONHASHSEED": "2"}
+    ra = subprocess.run([sys.executable, "scripts/bygg_historik.py", "ar", "2018", "--ut", str(ut_a)],
+                         cwd=ROT, capture_output=True, text=True, env=miljo_a)
+    rb = subprocess.run([sys.executable, "scripts/bygg_historik.py", "ar", "2018", "--ut", str(ut_b)],
+                         cwd=ROT, capture_output=True, text=True, env=miljo_b)
+    assert ra.returncode == 0, ra.stdout + ra.stderr
+    assert rb.returncode == 0, rb.stdout + rb.stderr
+    fa = (ut_a / "valdata_2018.json").read_bytes()
+    fb = (ut_b / "valdata_2018.json").read_bytes()
+    assert fa == fb, "valdata_2018.json ska vara byte-identisk oberoende av hashfrö"
+    ja = (ut_a / "valdata_2018.js").read_bytes()
+    jb = (ut_b / "valdata_2018.js").read_bytes()
+    assert ja == jb, "valdata_2018.js ska vara byte-identisk oberoende av hashfrö"
+    v = json.loads(fa.decode("utf-8"))
+    andel = v["aggregat"]["riket"]["rf"]["andel"]
+    forvantad_ordning = [p for p in NYCKELPARTIER["rf"] if p in andel]
+    assert list(andel.keys()) == forvantad_ordning
 
 
 def test_partier_med_rader_ingen_kod_ger_tom_mangd():

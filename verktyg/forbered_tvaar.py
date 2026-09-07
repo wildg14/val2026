@@ -34,8 +34,9 @@ from scripts import schema  # noqa: E402
 # Utan de här filerna finns ingen testsida att kontrollera.
 OBLIGATORISKA = (("", "index.html"), ("", "valgrafik.js"), ("", "valgrafik.css"),
                  ("data", "distrikt_2022.js"), ("data", "valdata_2022.js"), ("data", "distrikt_2026.js"))
-# Valfria: bakgrunden ritas bara om den finns, och swing_2022.js skrivs först av historikplanen.
-VALFRIA = (("data", "bakgrund.js"), ("data", "swing_2022.js"))
+# Valfria: bakgrunden ritas bara om den finns, och historikfilerna skrivs av bygg_historik.py.
+# Utan historik.js och distrikt_2006.js döljer sidan sektionen "Majorna sedan 2006"; testsidan fungerar ändå.
+VALFRIA = (("data", "bakgrund.js"), ("data", "swing_2022.js"), ("data", "historik.js"), ("data", "distrikt_2006.js"))
 
 
 def kopiera(kalla, mal, obligatorisk):

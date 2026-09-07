@@ -167,6 +167,18 @@
 .mp-val .rd-axelrad { height: 22px; }
 .mp-val .rd-axel-tal { position: relative; height: 100%; font-size: 13px; color: var(--sten); }
 .mp-val .rd-axel-tal span { position: absolute; top: 2px; transform: translateX(-50%); white-space: nowrap; }
+/* Majorna sedan 2006: linjediagram i pixelmått (viewBox = ytans bredd), talrad under, konturkartor. Höjder reserverade. */
+.mp-val .hist-mening { font-size: 18px; line-height: 1.4; margin: 0 0 10px; }
+.mp-val .hist-bild { min-height: 280px; margin: 0 0 6px; }
+.mp-val .hist-bild-b { min-height: 160px; }
+.mp-val .hist-bild svg { width: 100%; height: auto; display: block; font-family: var(--sans); }
+.mp-val .hist-svg { cursor: pointer; }
+.mp-val .hist-talrad { font-variant-numeric: tabular-nums; margin: 0 0 4px; white-space: nowrap; overflow: hidden; }
+.mp-val .hist-rad2 { display: grid; gap: 16px; margin-top: 20px; }
+.mp-val .hist-kartor { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; min-height: 160px; }
+.mp-val .hist-figur { margin: 0; }
+.mp-val .hist-figur svg { width: 100%; height: auto; display: block; }
+.mp-val .hist-figur figcaption { font-size: 13px; color: var(--sten); text-align: center; margin-top: 4px; }
 .mp-val .div-huvud { display: grid; grid-template-columns: 44px 1fr; font-size: 13px; color: var(--sten); margin-bottom: 6px; }
 .mp-val .div-huvud div { display: flex; justify-content: space-between; }
 .mp-val .div-rad { display: grid; grid-template-columns: 44px 1fr; align-items: center; height: 34px; }
@@ -259,6 +271,10 @@
   /* Röstdelningen delar rad med jämförelsen här och blir smal: partibokstaven ensam tills spalten rymmer namnen igen */
   .mp-val .rd-huvud, .mp-val .rd-rad { grid-template-columns: 36px 1fr 174px; }
   .mp-val .rd-parti small { display: none; }
+  /* Majorna sedan 2006: bild A över båda kolumnerna, bild B och konturkartorna sida vid sida under */
+  .mp-val .hist-rad2 { grid-template-columns: 1fr 1fr; column-gap: 40px; align-items: start; }
+  .mp-val .hist-bild { min-height: 320px; }
+  .mp-val .hist-bild-b { min-height: 160px; }   /* bild B har sin egen höjd, annars ärver den bild A:s reservation här */
 }
 
 @container (min-width: 1100px) {

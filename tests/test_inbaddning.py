@@ -184,3 +184,18 @@ def test_rubriknivaerna_skyddas_mot_vardsidans_stilar():
     for niva in sorted(nivaer):
         assert f".mp-val {niva}," in skydd or f".mp-val {niva} " in skydd, f"{niva} saknas i skyddsregeln"
         assert f".mp-val {niva}," in farg or f".mp-val {niva} " in farg, f"{niva} saknar uttrycklig färg"
+
+
+def test_historiksektionen_finns_och_foljer_kartans_val():
+    """Majorna sedan 2006: egen sektion utan knapprad, reserverad höjd, laddad ur data/historik.js."""
+    js = JS.read_text("utf-8")
+    css = CSS.read_text("utf-8")
+    assert 'id="historik"' in js and "function renderHistorik()" in js and "function histLinjer(" in js and "function histTalrad(" in js
+    assert 'laddaSkript("historik")' in js and 'laddaSkript("distrikt_2006")' in js
+    assert 'id="hist-val"' not in js and "hist-knappar" not in js, "sektionen har inga egna valknappar"
+    assert ".hist-bild { min-height" in css, "höjden är reserverad innan datan finns"
+    assert (ROT / "data" / "historik.js").exists()
+    # X-axeln tar nästa valår ur konfigen, så att 2026 står som tom ring redan före valdagen.
+    kropp = js[js.index("function histAxelAr("):]
+    assert "KONFIG.valdag" in kropp[:kropp.index("\n}")], "histAxelAr lägger till nästa valår ur KONFIG.valdag"
+    assert "räknas på valnatten." in js, "ett år utan punkt får talraden räknas på valnatten"

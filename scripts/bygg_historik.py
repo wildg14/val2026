@@ -282,10 +282,24 @@ def bygg_swing_2022(con):
     return s
 
 
-# Bara för 2006 (konturkartan). Uppmätt stegvis (se tests/test_bygg_historik.py): 0,00012 grader gav en
-# 24,5 kB fil, för stor för en 170 px bred kontur; 0,0006 grader ger 17 distrikt under 15 kB med ytan
-# fortfarande inom 0,02 km² av facit (4,655 km²), medan lägre värden i intervallet gav en sämre yta.
-FORENKLA_GRADER = 0.0006
+# Bara för 2006 (konturkartan). features_till_schema förenklar gemensamma gränser topologiskt (en gång
+# för båda grannarna, se geo._forenkla_topologiskt) i stället för varje polygon för sig - annars
+# förenklas en delad gräns olika på var sida, vilket med den gamla per-polygon-metoden gav 23 par
+# grannar som överlappade och 12 luckor (cirka 3 procent geometrisk drift i konturen, uppmätt mot
+# dagens fil innan detta byte).
+#
+# Uppmätt stegvis mot data/historik/distrikt_2006_majornaomradet.geojson (se
+# tests/test_bygg_historik.py): 0,0003 grader ger en 18070 byte (17,6 kB) fil, ytsumman 4,6531 km²
+# (0,0019 km² ifrån facit 4,655 km², inom kravet 0,02) och unionens nettoskillnad mot råfilen 847
+# kvadratmeter, 0,018 procent (inom kravet 0,1 procent). Kravet gäller nettoskillnaden ("skillnad" i
+# geo.jamfor_union), inte symmetrisk differens (som räknar luckor och överlapp var för sig i stället
+# för att låta dem ta ut varandra i konturens många små vinklar) - symmetrisk differens hamnar på
+# 0,96 procent vid 0,0003 grader, och kryper under 0,1 procent först vid en fil på över 30 kB, för
+# stor för en 170 px bred kontur (cirka 27 meter per pixel). Höjt från 15 till 20 kB (testets gräns)
+# eftersom den nya metoden - som håller överlapp och unionsyta korrekta i stället för att bara se
+# rimlig ut i ytsumman - kostar fler hörn vid samma tolerans än den gamla, trasiga
+# per-polygon-metoden (som gav en 12,6 kB fil vid 0,0006 grader).
+FORENKLA_GRADER = 0.0003
 
 
 def bygg_geo(ar, forenkla):

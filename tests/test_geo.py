@@ -6,7 +6,7 @@ from pathlib import Path
 
 import pytest
 from pyproj import Transformer
-from shapely.geometry import shape
+from shapely.geometry import Polygon, shape
 from shapely.ops import transform, unary_union
 
 from scripts import geo
@@ -84,6 +84,47 @@ def test_las_distrikt_utan_features_ger_fel(tmp_path):
         z.writestr("x.geojson", json.dumps({"type": "FeatureCollection"}))
     with pytest.raises(ValueError, match="saknar features"):
         geo.las_distrikt(zip_path, ["14800526"])
+
+
+def _tva_grannar_med_vinklad_delad_grans():
+    """Två polygoner som delar en vinklad gräns (sicksack upp till 0,0005 grader ur linjen) från
+    (0, 0) till (0, 6). Ringarna börjar på olika punkter längs den delade gränsen, som hos riktiga
+    grannars oberoende ritade polygoner (till exempel distrikt_2006, se Task 3-rättningen): det gör
+    att simplify() anropad på varje polygon för sig (den gamla, trasiga metoden) kan välja olika
+    punkter att behålla på var sida av gränsen."""
+    delad = [(0, 0), (0.0004, 1), (-0.0002, 2), (0.0005, 3), (-0.0003, 4), (0.0002, 5), (0, 6)]
+    a = Polygon([(-2, 0), (-2, 6)] + list(reversed(delad)))
+    ring_b = delad + [(2, 6), (2, 0)]
+    b = Polygon(ring_b[3:] + ring_b[:3])  # b:s ring börjar på en annan punkt än a:s
+    assert a.is_valid and b.is_valid
+    return a, b
+
+
+def test_per_polygon_simplify_ger_overlapp_och_lucka():
+    """Kontroll att testexemplet faktiskt reproducerar det gamla felet (Task 3-spec-granskningen):
+    simplify() anropad på a och b var för sig, med samma tolerans som features_till_schema skulle
+    fått, ger ett litet överlapp och en lika stor lucka i unionen."""
+    a, b = _tva_grannar_med_vinklad_delad_grans()
+    a_gammal = a.simplify(0.0005, preserve_topology=True)
+    b_gammal = b.simplify(0.0005, preserve_topology=True)
+    assert a_gammal.intersection(b_gammal).area > 1e-5
+    assert a.union(b).area - a_gammal.union(b_gammal).area > 1e-5
+
+
+def test_features_till_schema_forenklar_delad_grans_utan_overlapp_eller_lucka():
+    """features_till_schema (forenkla_grader satt) förenklar den delade gränsen en gång i stället
+    för varje polygon för sig - se _tva_grannar_med_vinklad_delad_grans och motsvarande gamla-felet
+    i test_per_polygon_simplify_ger_overlapp_och_lucka. Med samma tolerans (0,0005) ska resultatet
+    varken överlappa eller lämna en lucka, och unionsytan vara oförändrad."""
+    a, b = _tva_grannar_med_vinklad_delad_grans()
+    fc = geo.features_till_schema(
+        [{"geometry": a, "kod": "A", "namn": "A"}, {"geometry": b, "kod": "B", "namn": "B"}],
+        forenkla_grader=0.0005)
+    ga = shape(fc["features"][0]["geometry"])
+    gb = shape(fc["features"][1]["geometry"])
+    assert fc["features"][0]["properties"]["kod"] == "A" and fc["features"][1]["properties"]["kod"] == "B"
+    assert ga.intersection(gb).area == 0
+    assert ga.union(gb).area == pytest.approx(a.union(b).area)
 
 
 @pytest.mark.skipif(not ZIP_2026.exists(), reason="2026 års valgeografi saknas")

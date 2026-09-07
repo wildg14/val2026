@@ -11,13 +11,14 @@ from pyproj import Transformer
 from shapely.geometry import shape
 from shapely.ops import transform as geo_transform
 
-from scripts import bygg_historik
+from scripts import bygg_historik, geo
 from scripts.bygg_historik import _las_kedja_rader, bygg_geo, las_kedja, las_kedja_alla
 from scripts.valmyndigheten import NYCKELPARTIER
 
 ROT = Path(__file__).resolve().parents[1]
 DB = ROT / "data" / "historik" / "majorna_historik.sqlite"
 finns = pytest.mark.skipif(not DB.exists(), reason="historikdatabasen saknas, bygg med scripts/historik/bygg_databas.py")
+RAFIL_2006 = ROT / "data" / "historik" / "distrikt_2006_majornaomradet.geojson"
 PARTIER = ["V", "S", "MP", "SD", "M", "C", "L", "KD", "D", "FI", "K", "Övriga"]
 
 
@@ -377,9 +378,55 @@ def test_geo2006_forenklad_med_17_giltiga_polygoner(tmp_path):
         assert g.contains(shape({"type": "Point", "coordinates": [lon, lat]}))
         assert set(f["properties"]) == {"kod", "namn", "etikett", "area_km2"}
     assert abs(sum(f["properties"]["area_km2"] for f in fc["features"]) - 4.655) < 0.02, "samma yta som 2022 på 0,04 procent när, förenklingen får kosta högst 0,4 procent"
-    assert (tmp_path / "distrikt_2006.geojson").stat().st_size < 15000, "förenklad för en 170 px bred kontur"
+    assert (tmp_path / "distrikt_2006.geojson").stat().st_size < 20000, (
+        "förenklad för en 170 px bred kontur; höjd från 15 till 20 kB eftersom den topologiska "
+        "förenklingen (gemensamma gränser förenklade en gång, se geo._forenkla_topologiskt) kostar "
+        "fler hörn vid samma tolerans än den gamla, trasiga per-polygon-metoden - se FORENKLA_GRADER"
+        " i bygg_historik.py")
     namn = {f["properties"]["kod"]: f["properties"]["namn"] for f in fc["features"]}
     assert namn["14805901"] == "Stigberget 1" and namn["14808504"] == "Majorna 4"
+
+
+@finns
+def test_distrikt_2006_ingen_overlapp_mellan_grannar(tmp_path):
+    """Topologisk förenkling (Task 3-rättningen): grannar delar samma förenklade gräns, så inget
+    par polygoner i distrikt_2006 ska överlappa mer än marginellt (avrundningen till sex decimaler
+    ger någon enstaka kvadratdecimeter, långt under kravet på en kvadratmeter)."""
+    kor("geo2006", "--ut", str(tmp_path))
+    fc = json.loads((tmp_path / "distrikt_2006.geojson").read_text("utf-8"))
+    tr = Transformer.from_crs("EPSG:4326", "EPSG:3006", always_xy=True)
+    polygoner = [(f["properties"]["kod"], geo_transform(tr.transform, shape(f["geometry"])))
+                 for f in fc["features"]]
+    for i in range(len(polygoner)):
+        for j in range(i + 1, len(polygoner)):
+            kod_i, poly_i = polygoner[i]
+            kod_j, poly_j = polygoner[j]
+            overlapp = poly_i.intersection(poly_j).area
+            assert overlapp < 1, f"{kod_i} och {kod_j} överlappar {overlapp:.2f} kvm"
+
+
+@finns
+def test_distrikt_2006_union_nara_rafilen(tmp_path):
+    """Unionens yta ska ligga inom 0,1 procent av unionen av råfilen - nettoskillnaden ('skillnad' i
+    geo.jamfor_union), inte symmetrisk differens (som räknar luckor och överlapp var för sig i
+    stället för att låta dem ta ut varandra och därför alltid är större; se motiveringen vid
+    FORENKLA_GRADER i bygg_historik.py, där båda måtten är uppmätta för det valda värdet)."""
+    kor("geo2006", "--ut", str(tmp_path))
+    fc = json.loads((tmp_path / "distrikt_2006.geojson").read_text("utf-8"))
+    rafil = json.loads(RAFIL_2006.read_text("utf-8"))
+    resultat = geo.jamfor_union(rafil, fc)
+    assert abs(resultat["skillnad"]) / resultat["yta_a"] < 0.001, (
+        f"nettoskillnad {resultat['skillnad']:+.0f} kvm av {resultat['yta_a']:.0f} kvm")
+
+
+@finns
+def test_distrikt_2006_samma_koder_som_rafilen(tmp_path):
+    kor("geo2006", "--ut", str(tmp_path))
+    fc = json.loads((tmp_path / "distrikt_2006.geojson").read_text("utf-8"))
+    rafil = json.loads(RAFIL_2006.read_text("utf-8"))
+    koder = {f["properties"]["kod"] for f in fc["features"]}
+    koder_ra = {str(f["properties"]["kod"]).strip() for f in rafil["features"]}
+    assert len(koder) == 17 and koder == koder_ra
 
 
 @finns

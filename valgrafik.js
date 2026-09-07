@@ -1433,23 +1433,36 @@ function histDeltagande(val) {
   }
   notEl.textContent = rader.join(" ");
 }
-function histKartor() { $("#hist-kartor").innerHTML = ""; }          // Task 8
+function histKartor() {
+  // Kartorna följer kartans årsknapp, till skillnad från bild A och B som står på det senaste laddade året:
+  // det är det år läsaren ser i kartan ovanför som ska ställas mot 2006.
+  const el = $("#hist-kartor"), notEl = $("#hist-not-kartor"), g06 = state.historikGeo, gNu = geo();
+  if (!g06 || !gNu) { el.replaceChildren(); notEl.textContent = ""; return; }
+  // Gemensam ram ur båda filernas bbox, annars ser den ena kartan ut att täcka en annan yta än den andra
+  // och poängen med bilden går förlorad.
+  const bbox = [Math.min(g06.bbox[0], gNu.bbox[0]), Math.min(g06.bbox[1], gNu.bbox[1]),
+                Math.max(g06.bbox[2], gNu.bbox[2]), Math.max(g06.bbox[3], gNu.bbox[3])];
+  const proj = projektion(bbox, 0.02, 0.02);
+  // Bara gränser i sten på papper: ingen partifärg, inga etiketter och inget att trycka på. Bilden svarar på
+  // en fråga om distrikten, inte om resultatet, och ytan är aria-hidden så bildtexten är hela innehållet.
+  const karta = (fc, ar) => {
+    const svg = s("svg", { viewBox: `0 0 ${proj.bredd} ${proj.hojd.toFixed(1)}`, class: "hist-karta" });
+    for (const f of fc.features)
+      svg.append(s("path", { d: dAttr(f.geometry.coordinates[0], proj, true), fill: "none", stroke: FARG.sten, "stroke-width": 5, "stroke-linejoin": "round" }));
+    return h("figure", { class: "hist-figur" }, svg, h("figcaption", {}, `${ar}, ${fc.features.length} distrikt`));
+  };
+  el.replaceChildren(karta(g06, 2006), karta(gNu, data().meta.ar));
+  notEl.textContent = "Samma yta, fler distrikt. Ett kvarter 2006 är ofta två i dag."
+    + " Hur olika åldrar röstade går inte att veta. Valhemligheten gäller per distrikt, inte per person.";
+}
 
 /* ---- fakta */
 function renderFakta() {
-  const meta = data().meta, rd = majorna("rd"), riket = jamforelse("riket", "rd"), gbg = jamforelse("goteborg", "rd");
-  const li = [];
-  if (rd && rd.rostberattigade) {
-    let t = `Valdeltagande i Majorna: ${procent(rd.rostande / rd.rostberattigade)} i riksdagsvalet`;
-    const jmf = [];
-    if (gbg && gbg.valdeltagande) jmf.push(`Göteborg ${procent(gbg.valdeltagande)}`);
-    if (riket && riket.valdeltagande) jmf.push(`riket ${procent(riket.valdeltagande)}`);
-    li.push(t + (jmf.length ? ` (${jmf.join(", ")})` : "") + ".");
-    li.push(`${tal(rd.giltiga)} giltiga riksdagsröster från ${tal(rd.rostberattigade)} röstberättigade.`);
-  }
-  li.push(`Avgränsning: ${meta.avgransning}.`);
-  li.push(`Källa: ${meta.kalla}. ${meta.status === "slutlig" ? "Slutligt resultat." : "Preliminärt resultat."} Andel = partiets röster delat med giltiga röster.`);
-  li.push("Byggd av Majposten.");
+  // Listan bär bara det som gäller hela sidan. Ett förbehåll som hör till ett enda diagram står under det
+  // diagrammet: valdeltagandet i bild B, antalet distrikt per år i noten under bild A, avsändaren i sidfoten.
+  const meta = data().meta;
+  const li = [`Avgränsning: ${meta.avgransning}.`,
+              `Källa: ${meta.kalla}. ${meta.status === "slutlig" ? "Slutligt resultat." : "Preliminärt resultat."} Andel = partiets röster delat med giltiga röster.`];
   $("#faktalista").replaceChildren(...li.map(t => h("li", {}, t)));
   $("#fot").replaceChildren(h("p", {}, "Så röstade Majorna - en valgrafik från Majposten. Valdata: Valmyndigheten." + (state.bakgrund ? " Kartunderlag © OpenStreetMaps bidragsgivare (ODbL)." : "")));
 }

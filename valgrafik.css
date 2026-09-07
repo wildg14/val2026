@@ -176,7 +176,7 @@
 .mp-val .hist-talrad { font-variant-numeric: tabular-nums; margin: 0 0 4px; }
 .mp-val .hist-tal { margin-right: 5px; white-space: nowrap; }   /* raden bryts mellan talen, aldrig inuti ett */
 .mp-val .hist-rad2 { display: grid; gap: 16px; margin-top: 20px; }
-.mp-val .hist-kartor { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; min-height: 160px; }
+.mp-val .hist-kartor { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; min-height: 214px; }   /* figurernas uppmätta höjd på 390 px: noten under flyttar sig inte när kartorna ritas om */
 .mp-val .hist-figur { margin: 0; }
 .mp-val .hist-figur svg { width: 100%; height: auto; display: block; }
 .mp-val .hist-figur figcaption { font-size: 13px; color: var(--sten); text-align: center; margin-top: 4px; }

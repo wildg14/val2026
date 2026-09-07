@@ -262,3 +262,20 @@ def test_valdeltagandebildens_hogermarginal():
     h = re.search(r"M = \{[^}]*\bh: (\d+)", kropp)
     assert h, "bild B sätter en högermarginal"
     assert int(h.group(1)) == 70, "etiketten Göteborg kräver 67,2 px och får inte klippas"
+
+
+def test_konturkartorna_och_den_kortade_faktalistan():
+    """Två konturkartor visar varför kvarteret inte går att följa bakåt, och Om siffrorna kortas till
+    avgränsning, källa och andelsdefinition. Förbehåll som gäller ett diagram står under det diagrammet:
+    valdeltagandet i bild B, Byggd av Majposten i sidfoten."""
+    js = JS.read_text("utf-8")
+    assert "hist-figur" in js, "varje karta ligger i en figure med bildtext"
+    assert "function histKartor() {" in js
+    kropp = js[js.index("function histKartor() {"):js.index("/* ---- fakta */")]
+    assert "historikGeo" in kropp, "2006 års konturer kommer ur state.historikGeo"
+    assert "figcaption" in kropp, "bildtexten säger år och antal distrikt"
+    assert "Samma yta, fler distrikt" in js, "noten säger vad kartorna visar"
+    assert "Valhemligheten gäller per distrikt" in js, "meningen stänger frågan om ålder"
+    fakta = js[js.index("function renderFakta()"):]
+    assert "Valdeltagande i Majorna" not in fakta, "valdeltagandet står i bild B, inte i Om siffrorna"
+    assert "Byggd av Majposten" not in fakta, "avsändaren står i sidfoten, inte i listan"

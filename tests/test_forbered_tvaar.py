@@ -160,3 +160,50 @@ def test_okand_status_avbryter(tmp_path):
     r = _kor(_valnattsmapp(tmp_path / "valnatt"), tmp_path / "ut", "--status", "nastan")
     assert r.returncode != 0, r.stdout + r.stderr
     assert "--status" in r.stderr
+
+
+def test_partiell_lamnar_kvar_exakt_tre_raknade_distrikt(tmp_path):
+    ut = tmp_path / "ut"
+    r = _kor(_valnattsmapp(tmp_path / "valnatt"), ut, "--valnatt", "--partiell", "3")
+    assert r.returncode == 0, r.stdout + r.stderr
+    valdata = schema.las_js(ut / "data" / "valdata_2026.js")
+    raknade = [d for d in valdata["distrikt"] if d["raknat"]]
+    orakn = [d for d in valdata["distrikt"] if not d["raknat"]]
+    assert len(raknade) == 3, [d["kod"] for d in valdata["distrikt"]]
+    assert all(d["rd"] and d["rf"] and d["kf"] and d["giltiga"]["rd"] and d["giltiga"]["rf"] and d["giltiga"]["kf"] for d in raknade)
+    assert len(orakn) == 2
+    assert all(not d["rd"] and not d["rf"] and not d["kf"] for d in orakn)
+    assert valdata["meta"]["valnatt"]["raknade"] == 3
+    assert valdata["aggregat"]["majorna"]["rd"]["giltiga"] == 3 * 500
+    assert valdata["meta"]["status"] == "preliminar", "status ska stå kvar oförändrad"
+
+
+def test_partiell_raknar_om_swingens_kohort(tmp_path):
+    ut = tmp_path / "ut"
+    r = _kor(_valnattsmapp(tmp_path / "valnatt"), ut, "--valnatt", "--partiell", "3")
+    assert r.returncode == 0, r.stdout + r.stderr
+    swing = schema.las_js(ut / "data" / "swing_2026.js")
+    for val in ("rd", "rf", "kf"):
+        assert swing["kohort"][val]["antal"] == 3 and swing["kohort"][val]["totalt"] == 5, val
+        assert swing["kohort"][val]["helomrade"] is False, val
+
+
+def test_partiell_over_antalet_distrikt_avbryter(tmp_path):
+    r = _kor(_valnattsmapp(tmp_path / "valnatt"), tmp_path / "ut", "--partiell", "99")
+    assert r.returncode == 1, r.stdout + r.stderr
+    assert "men filen har" in r.stderr
+
+
+def test_partiell_och_kf_raknade_kan_inte_kombineras(tmp_path):
+    r = _kor(_valnattsmapp(tmp_path / "valnatt"), tmp_path / "ut", "--partiell", "3", "--kf-raknade", "2")
+    assert r.returncode == 1, r.stdout + r.stderr
+    assert "kan inte kombineras" in r.stderr
+
+
+def test_partiell_noll_ger_inga_raknade_distrikt(tmp_path):
+    ut = tmp_path / "ut"
+    r = _kor(_valnattsmapp(tmp_path / "valnatt"), ut, "--valnatt", "--partiell", "0")
+    assert r.returncode == 0, r.stdout + r.stderr
+    valdata = schema.las_js(ut / "data" / "valdata_2026.js")
+    assert all(not d["raknat"] for d in valdata["distrikt"])
+    assert valdata["meta"]["valnatt"]["raknade"] == 0

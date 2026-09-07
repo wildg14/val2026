@@ -20,6 +20,11 @@ Med --status slutlig|preliminar skrivs meta.status om i den kopierade valdata_20
 Med --utan-parti S tas partiet bort ur den kopierade swing_2026.js, i alla val och både per distrikt och
 på områdesnivån, som om partiet inte redovisats båda åren. Sidan ska då hoppa över partiet i raden "Hur
 har det ändrats" och låta nästa parti ta platsen, aldrig skriva ut ett "0,0".
+
+Med --partiell N doktoreras den kopierade valdata_2026.js så att bara de N första distrikten är räknade,
+i alla tre valen på en gång - till skillnad från --kf-raknade som bara doktorerar kommunvalet. De
+återstående distrikten får raknat=False och tomma tal, aggregaten räknas om och meta.valnatt.raknade
+sätts till N. Swingfilen räknas om som vid --kf-raknade. Går inte att kombinera med --kf-raknade.
 """
 import argparse
 import json
@@ -71,6 +76,29 @@ def doktorera_kf(fil, antal):
     return antal
 
 
+def doktorera_partiell(fil, antal):
+    """Sätter raknat=False och tömmer alla tre valens tal i alla distrikt utom de `antal` första.
+
+    Till skillnad från --kf-raknade, som bara doktorerar kommunvalet, speglar det här valnatten innan
+    något distrikt alls är klart: ett oräknat distrikt saknar tal i riksdags-, region- och kommunvalet
+    på en gång."""
+    valdata = schema.las_js(fil)
+    distrikt = valdata["distrikt"]
+    if antal > len(distrikt):
+        raise SystemExit(f"FEL: --partiell {antal} men filen har {len(distrikt)} distrikt")
+    for d in distrikt[antal:]:
+        d["raknat"] = False
+        for val in ("rd", "rf", "kf"):
+            d[val] = {}
+        for nyckel in ("giltiga", "rostande", "rostberattigade"):
+            d[nyckel] = {}
+    for val in ("rd", "rf", "kf"):
+        valdata["aggregat"]["majorna"][val] = schema._summa(distrikt, val)
+    valdata["meta"]["valnatt"]["raknade"] = antal
+    schema.skriv_js(fil.with_suffix(""), valdata)
+    return antal
+
+
 def rakna_om_swing(mapp):
     """Räknar om swing_2026.js ur den doktorerade valdatan, mot samma basår som uppdatera_2026.py använder.
 
@@ -116,7 +144,12 @@ def main():
     ap.add_argument("--kf-raknade", type=icke_negativ, help="låt bara de N första distrikten ha kommunvalet räknat")
     ap.add_argument("--status", choices=("slutlig", "preliminar"), help="skriv om meta.status i testsidans valdata_2026.js")
     ap.add_argument("--utan-parti", metavar="PARTI", help="ta bort partiet ur testsidans swing_2026.js (alla val, distrikt och områdesnivå)")
+    ap.add_argument("--partiell", type=icke_negativ, metavar="N",
+                     help="markera bara de N första distrikten som räknade i alla tre valen och räkna om swingfilen; kan inte kombineras med --kf-raknade")
     a = ap.parse_args()
+    if a.partiell is not None and a.kf_raknade is not None:
+        print("FEL: --partiell och --kf-raknade kan inte kombineras", file=sys.stderr)
+        sys.exit(1)
     ut = Path(a.ut).resolve()   # relativ --ut ska fungera, sökvägen skrivs ut mot projektroten
     if ut.exists():
         shutil.rmtree(ut)
@@ -130,6 +163,12 @@ def main():
     if a.kf_raknade is not None:
         doktorera_kf(ut / "data" / "valdata_2026.js", a.kf_raknade)
         print(f"valdata_2026.js doktorerad: {a.kf_raknade} distrikt har kommunvalet räknat")
+        if (ut / "data" / "swing_2026.js").exists():
+            rakna_om_swing(ut / "data")
+            print("swing_2026.js omräknad mot data/valdata_2022.json, kohorten följer den doktorerade valdatan")
+    if a.partiell is not None:
+        doktorera_partiell(ut / "data" / "valdata_2026.js", a.partiell)
+        print(f"valdata_2026.js doktorerad: {a.partiell} distrikt räknade i alla tre valen")
         if (ut / "data" / "swing_2026.js").exists():
             rakna_om_swing(ut / "data")
             print("swing_2026.js omräknad mot data/valdata_2022.json, kohorten följer den doktorerade valdatan")

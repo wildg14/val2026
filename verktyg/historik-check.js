@@ -15,14 +15,20 @@ const partiellUrl = namngivet('partiell', null);
 const slutligUrl = namngivet('slutlig', null);
 
 const PAPPER = '#FAF6EE', STEN = '#6E6152';
-// WCAG-kontrasten räknas här i Node på de fill-värden sidan själv skrivit, samma formel som textFarg i valgrafik.js.
+const snallt = text => { const e = new Error(text); e.snallt = true; return e; };
+// WCAG-kontrasten räknas här i Node på de faktiskt renderade färgerna (getComputedStyle(t).fill, "rgb(r, g, b)"),
+// inte på fill-attributet, samma formel som textFarg i valgrafik.js.
 function hexTal(hex) { hex = (hex || '').replace('#', ''); return [0, 2, 4].map(i => parseInt(hex.substr(i, 2), 16)); }
-function relLum(hex) {
-  const c = hexTal(hex).map(v => v / 255).map(v => v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4));
+function rgbTal(farg) {
+  const m = /^rgba?\(\s*([\d.]+)[,\s]+([\d.]+)[,\s]+([\d.]+)/.exec((farg || '').trim());
+  return m ? [Number(m[1]), Number(m[2]), Number(m[3])] : hexTal(farg);
+}
+function relLum(farg) {
+  const c = rgbTal(farg).map(v => v / 255).map(v => v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4));
   return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2];
 }
-function kontrast(hex1, hex2) {
-  const l1 = relLum(hex1), l2 = relLum(hex2), hi = Math.max(l1, l2), lo = Math.min(l1, l2);
+function kontrast(farg1, farg2) {
+  const l1 = relLum(farg1), l2 = relLum(farg2), hi = Math.max(l1, l2), lo = Math.min(l1, l2);
   return (hi + 0.05) / (lo + 0.05);
 }
 function minAvstandSammaX(etiketter) {
@@ -46,6 +52,8 @@ const oppenPartiRing = c => c.fill === PAPPER && c.stroke !== STEN;   // en seri
     page.on('console', m => { if (m.type() !== 'error') return; if (valfriFil(m)) saknade.push(m.location().url); else fel.push('console: ' + m.text()); });
     await page.goto(adress, { waitUntil: 'networkidle0' });
     await new Promise(r => setTimeout(r, 1500));
+    const harValgrafik = await page.evaluate(() => !!document.getElementById('valgrafik'));
+    if (!harValgrafik) throw snallt(`sidan saknar #valgrafik på ${adress}. Kontrollera adressen och att den lokala servern kör.`);
     return page;
   };
 
@@ -56,7 +64,7 @@ const oppenPartiRing = c => c.fill === PAPPER && c.stroke !== STEN;   // en seri
     const bildAEl = document.getElementById('hist-bild-a'), svgA = bildAEl ? bildAEl.querySelector('svg') : null;
     const svgB = document.querySelector('#hist-bild-b svg');
     const talradEl = document.getElementById('hist-talrad');
-    const etiketterA = svgA ? [...svgA.querySelectorAll('text[font-weight="700"]')].map(t => ({ text: t.textContent, x: t.getAttribute('x'), y: Number(t.getAttribute('y')), fill: t.getAttribute('fill') })) : [];
+    const etiketterA = svgA ? [...svgA.querySelectorAll('text[font-weight="700"]')].map(t => ({ text: t.textContent, x: t.getAttribute('x'), y: Number(t.getAttribute('y')), fill: getComputedStyle(t).fill })) : [];
     const cirklarA = svgA ? [...svgA.querySelectorAll('circle')].map(c => ({ fill: c.getAttribute('fill'), stroke: c.getAttribute('stroke'), cy: Number(c.getAttribute('cy')) })) : [];
     const kartFigurer = [...document.querySelectorAll('#hist-kartor figure')].map(f => ({ paths: f.querySelectorAll('svg path').length, caption: (f.querySelector('figcaption') || {}).textContent || '' }));
     return {
@@ -129,7 +137,7 @@ const oppenPartiRing = c => c.fill === PAPPER && c.stroke !== STEN;   // en seri
       [`${namn}: bild A finns, viewBox-bredd = clientWidth`, u.svgAFinns && vb[2] === u.bildAClientWidth],
       [`${namn}: bild A höjd 280`, vb[3] === 280],
       [`${namn}: fyra partietiketter V S MP SD`, partier.length === 4 && ['V', 'S', 'MP', 'SD'].every(p => partier.includes(p))],
-      [`${namn}: etiketter på samma x minst 14 px isär`, !isFinite(minAv) || minAv >= 14],
+      [`${namn}: etiketter på samma x minst 14 px isär (minst ett par jämfört)`, isFinite(minAv) && minAv >= 14],
       [`${namn}: etikettfärg kontrast minst 4,5:1`, kontraster.length > 0 && kontraster.every(k => k >= 4.5 - 1e-6)],
       [`${namn}: talraden har minst fem span.hist-tal`, u.talradSpannAntal >= 5],
       [`${namn}: talraden utan 0,0 eller NaN`, !u.talradText.includes('0,0') && !u.talradText.includes('NaN')],
@@ -141,8 +149,8 @@ const oppenPartiRing = c => c.fill === PAPPER && c.stroke !== STEN;   // en seri
       [`${namn}: bild B finns, höjd 160`, u.svgBFinns && vbB[3] === 160],
       [`${namn}: hist-mening-b börjar Valdeltagande i`, u.meningB.startsWith('Valdeltagande i')],
       [`${namn}: hist-not-b börjar Skalan börjar vid`, u.notB.startsWith('Skalan börjar vid')],
-      [`${namn}: hist-kartor har 17 och 23 distrikt`, u.kartFigurer.length === 2 && u.kartFigurer.some(f => f.paths === 17) && u.kartFigurer.some(f => f.paths === 23)],
-      [`${namn}: figurtexterna slutar på "distrikt"`, u.kartFigurer.length === 2 && u.kartFigurer.every(f => f.caption.endsWith('distrikt'))],
+      [`${namn}: första kartfiguren är 2006 med 17 distrikt`, u.kartFigurer.length === 2 && u.kartFigurer[0].paths === 17 && u.kartFigurer[0].caption.startsWith('2006, ')],
+      [`${namn}: andra kartfiguren har 23 distrikt och ett fyrsiffrigt år`, u.kartFigurer.length === 2 && u.kartFigurer[1].paths === 23 && /^\d{4}, 23 distrikt/.test(u.kartFigurer[1].caption)],
       [`${namn}: Om siffrorna har två punkter`, u.faktaLi === 2],
     ];
   };
@@ -183,14 +191,15 @@ const oppenPartiRing = c => c.fill === PAPPER && c.stroke !== STEN;   // en seri
     const p320 = await oppna(sidaUrl, { width: 320, height: 900, deviceScaleFactor: 2, isMobile: true, hasTouch: true });
     const r320 = await p320.evaluate(() => {
       const bildAEl = document.getElementById('hist-bild-a'), svgA = bildAEl ? bildAEl.querySelector('svg') : null, talradEl = document.getElementById('hist-talrad');
-      if (!svgA) return { viewBoxBredd: null, clientWidth: bildAEl ? bildAEl.clientWidth : null, talradScrollWidth: -1, talradClientWidth: 0 };
+      // Reservvärden när bilden saknas ska få kontrollerna nedan att falla, inte passera vakuöst.
+      if (!svgA) return { viewBoxBredd: null, clientWidth: bildAEl ? bildAEl.clientWidth : null, talradScrollWidth: Infinity, talradClientWidth: 0 };
       return { viewBoxBredd: Number(svgA.getAttribute('viewBox').split(' ')[2]), clientWidth: bildAEl.clientWidth,
                talradScrollWidth: talradEl.scrollWidth, talradClientWidth: talradEl.clientWidth };
     });
     console.log('sida 320px:', JSON.stringify(r320));
     kontroller.push(
       ['sida 320px: talraden klipps inte', r320.talradScrollWidth <= r320.talradClientWidth],
-      ['sida 320px: viewBox-bredd = clientWidth', r320.viewBoxBredd === r320.clientWidth],
+      ['sida 320px: viewBox-bredd finns och = clientWidth', r320.viewBoxBredd != null && r320.viewBoxBredd === r320.clientWidth],
     );
     await p320.close();
 
@@ -229,7 +238,12 @@ const oppenPartiRing = c => c.fill === PAPPER && c.stroke !== STEN;   // en seri
       ['prel: talraden börjar "2026 (preliminärt):"', u.talradText.startsWith('2026 (preliminärt):')],
       ['prel: hist-mening fryst på 2022', u.mening.includes('till 27,2 procent')],
     );
-    const foreKlick = (await universalLas(page)).talradText;   // nuläget, inte det som lästes före piltangent/klick i universalKontroller
+    // R1: läslinjen står kvar på 2010 efter interaktionen ovan (universalKontroller), och där är talen lika
+    // oavsett årsknapp. Ladda om sidan så att läslinjen står på raden för sista året innan klicket, annars
+    // faller kontrollen aldrig om bild A börjar följa årsknappen.
+    await page.reload({ waitUntil: 'networkidle0' });
+    await new Promise(r => setTimeout(r, 1500));
+    const foreKlick = (await universalLas(page)).talradText;
     await page.evaluate(() => { const b = [...document.querySelectorAll('#arval button')].find(x => x.textContent.endsWith('2022')); if (b) b.click(); });
     await new Promise(r => setTimeout(r, 600));
     const efterKlick = await universalLas(page);

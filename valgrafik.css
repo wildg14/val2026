@@ -178,7 +178,7 @@
 .mp-val .hist-rad2 { display: grid; gap: 16px; margin-top: 20px; }
 /* Kolumnerna har ett tak på 200 px och står till vänster, annars sträcks kartorna ut till en bred kolumns fulla
    bredd på desktop och blir en huvudbild i stället för den lilla sidobild de ska vara. */
-.mp-val .hist-kartor { display: grid; grid-template-columns: repeat(2, minmax(0, 200px)); justify-content: start; gap: 12px; min-height: 176px; }   /* figurernas uppmätta höjd på 320 px containerbredd, 175,5 px: noten under flyttar sig inte när kartorna ritas om */
+.mp-val .hist-kartor { display: grid; grid-template-columns: repeat(2, minmax(0, 200px)); justify-content: start; gap: 12px; min-height: 176px; }   /* ytan ritas i samma svep som resten av sektionen; golvet täcker den smala änden (200 till 320 px containerbredd) och gäller även det degraderade läget utan 2006-geometri; 176 är figurernas uppmätta höjd vid 320 px och behålls */
 .mp-val .hist-figur { margin: 0; }
 .mp-val .hist-figur svg { width: 100%; height: auto; display: block; }
 .mp-val .hist-figur figcaption { font-size: 13px; color: var(--sten); text-align: center; margin-top: 4px; }

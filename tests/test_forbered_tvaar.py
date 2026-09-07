@@ -1,4 +1,4 @@
-"""verktyg/forbered_tvaar.py bygger tvåårssidan: obligatoriska filer, valfria som får saknas, --kf-raknade, --status, --utan-parti."""
+"""verktyg/forbered_tvaar.py bygger tvåårssidan: obligatoriska filer, valfria som får saknas, --kf-raknade, --partiell, --status, --utan-parti."""
 import json
 import subprocess
 import sys

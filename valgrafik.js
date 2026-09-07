@@ -81,6 +81,7 @@ const MARKUP = `
     <p class="hist-mening" id="hist-mening"></p>
     <div class="hist-rad2">
       <div class="hist-kol">
+        <p class="hist-etikett" id="hist-mening-b"></p>
         <div class="hist-bild hist-bild-b" id="hist-bild-b"></div>
         <p class="not" id="hist-not-b"></p>
       </div>
@@ -1116,7 +1117,6 @@ function historikSerie(val, niva) {
 const histAr = () => ((state.historik || {}).meta || {}).ar || [];   // seriens år, tom lista när filen saknas
 const senasteAr = () => (KONFIG.ar || []).map(Number).filter(a => a).sort((a, b) => a - b).pop();
 const histLista = a => a.length === 1 ? String(a[0]) : a.slice(0, -1).join(", ") + " och " + a[a.length - 1];
-const histHarTal = (pt, q) => pt.andel[q] !== undefined && pt.andel[q] !== null;   // parti utan tal ritas inte som noll
 // Ett år utan punkt: på valnatten pågår räkningen medan läsaren tittar, före valdagen ligger den framåt i tiden.
 const histVantetext = () => KONFIG.valnatt ? "räknas just nu" : "räknas på valnatten";
 function aretsPunkt(val, niva) {
@@ -1157,7 +1157,6 @@ function histAxelAr() {
   if (valdagAr) ar.add(valdagAr);
   return [...ar].sort((a, b) => a - b);
 }
-function sistaPunkt(val) { const p = histPunkter(val, "majorna"); return p[p.length - 1]; }
 function histMening(val) {
   const egen = ((KONFIG.historik || {}).mening || {})[val];
   if (egen) return egen;
@@ -1241,7 +1240,7 @@ function histDeltagande(val) {
   // Högermarginalen rymmer den längsta etiketten: Göteborg mäter 54,2 px i Arial 13 och står 13 px till
   // höger om sin punkt, alltså 67,2 px, och punkten kan ligga längst ut på axeln under valnatten.
   const el = $("#hist-bild-b"), W = histYta(el), H = 160, M = { v: 40, h: 70, t: 12, b: 26 };
-  const notEl = $("#hist-not-b");
+  const notEl = $("#hist-not-b"), etikettEl = $("#hist-mening-b");
   // Riket ritas bara på desktop och bara i riksdagsvalet: historikfilens riket i region- och kommunvalet är
   // hela landets region- respektive kommunval, inte Västra Götaland, och är alltså inte Majornas jämförelse.
   const serier = [{ namn: "Majorna", genitiv: "Majornas", niva: "majorna", farg: FARG.gron, bredd: 2.5, streck: null },
@@ -1249,7 +1248,10 @@ function histDeltagande(val) {
   if (arDesktop() && val === "rd") serier.push({ namn: "Riket", genitiv: "Rikets", niva: "riket", farg: FARG.sten, bredd: 1.5, streck: "5 4" });
   const deltagande = niva => histPunkter(val, niva).filter(p => p.valdeltagande);
   const majPunkter = deltagande("majorna");
-  if (!majPunkter.length) { el.replaceChildren(); notEl.textContent = ""; return; }
+  if (!majPunkter.length) { el.replaceChildren(); notEl.textContent = ""; etikettEl.textContent = ""; return; }
+  // Etiketten säger vad bilden visar, utan årtal och tal: utan den läses kurvan som partiernas andelar,
+  // och skalan 70 till 90 gör den läsningen dyr. Talen står i bildens aria-label och i beskrivningen.
+  etikettEl.textContent = `Valdeltagande i ${VALNAMN[val].toLowerCase()}`;
   // Jämförelseområdena får aldrig sträcka sig längre än Majorna: kommunens aggregat kan vara färdigräknat
   // medan Majornas egna distrikt inte är det, och punkten skulle då jämföras med ingenting.
   const sistaAr = majPunkter[majPunkter.length - 1].ar;

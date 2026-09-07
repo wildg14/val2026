@@ -272,18 +272,23 @@ def test_bild_a_ar_borta_ur_historiksektionen():
     for regel in (".hist-talrad", ".hist-tal ", ".hist-svg", ".hist-laslinje"):
         assert regel not in css, f"{regel} hörde till bild A"
     assert 'id="hist-mening"' in js and "function histMening(" in js, "sektionens mening står kvar"
-    assert "histLista" in js and "histHarTal" in js, "delade hjälpare står kvar"
+    assert "histLista" in js, "delad hjälpare står kvar"
+    for dod in ("histHarTal", "sistaPunkt"):
+        assert dod not in js, f"{dod} hade bara bild A som kund och ska vara borta"
     # Slakkontrollen mäter den bild som finns kvar, annars blir den verkningslös.
     kropp = js[js.index("function histBildSlak()"):js.index("let senastDesktop")]
     assert "#hist-bild-b" in kropp and "#hist-bild-a" not in kropp
 
 
-def test_valdeltagandebilden_har_inga_textrader_utanfor_noten():
-    """Bild B:s egen mening skrivs inte ut - den är bildens aria-label. Noten säger var skalan börjar,
-    utan meningen om att valdeltagande i olika val inte ska jämföras."""
+def test_valdeltagandebilden_har_bara_etikett_och_not():
+    """Bild B har en etikett som säger vad den visar, utan årtal och tal - meningen med talen står i
+    bildens aria-label. Noten säger var skalan börjar, utan meningen om att valdeltagande i olika val
+    inte ska jämföras."""
     js = JS.read_text("utf-8")
-    assert "hist-mening-b" not in js, "meningen står bara i bildens aria-label"
-    assert "menEl" not in js
+    css = CSS.read_text("utf-8")
+    assert 'id="hist-mening-b"' in js and "etikettEl" in js, "etiketten över bild B finns"
+    assert "`Valdeltagande i ${VALNAMN[val].toLowerCase()}`" in js, "etiketten saknar årtal och tal"
+    assert ".hist-etikett" in css and "min-height: 22px" in css, "etikettens höjd är reserverad"
     assert "ska inte jämföras med varandra" not in js, "förbehållet om röstberättigade är borttaget"
     kropp = js[js.index("function histDeltagande"):js.index("function histKartor")]
     assert "const mening =" in kropp and '"aria-label": `${mening}' in kropp, "meningen är bildens textalternativ"

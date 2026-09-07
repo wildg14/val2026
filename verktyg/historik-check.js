@@ -63,7 +63,7 @@ const oppenPunkt = c => c.fill === PAPPER && c.r === 3;
       bildAFinns: !!document.getElementById('hist-bild-a'),
       talradFinns: !!document.getElementById('hist-talrad'),
       notAFinns: !!document.getElementById('hist-not-a'),
-      meningBFinns: !!document.getElementById('hist-mening-b'),
+      etikettB: (document.getElementById('hist-mening-b') || {}).textContent || '',
       svgBFinns: !!svgB,
       viewBoxB: svgB ? svgB.getAttribute('viewBox') : null,
       bildBClientWidth: bildBEl ? bildBEl.clientWidth : null,
@@ -92,7 +92,8 @@ const oppenPunkt = c => c.fill === PAPPER && c.r === 3;
       [`${namn}: ingen bild A`, u.bildAFinns === false],
       [`${namn}: ingen talrad`, u.talradFinns === false],
       [`${namn}: ingen not under bild A`, u.notAFinns === false],
-      [`${namn}: ingen egen mening över bild B`, u.meningBFinns === false],
+      // Etiketten säger vad bilden visar. Den får inte innehålla årtal eller tal - de togs bort ur raden.
+      [`${namn}: etikett över bild B utan tal`, /^Valdeltagande i \w+valet$/.test(u.etikettB)],
       [`${namn}: bild B finns, höjd 160`, u.svgBFinns && vbB[3] === 160],
       [`${namn}: bild B viewBox-bredd = clientWidth`, u.svgBFinns && vbB[2] === u.bildBClientWidth],
       [`${namn}: bild B har etiketterna Majorna och Göteborg`, namnen.includes('Majorna') && namnen.includes('Göteborg')],

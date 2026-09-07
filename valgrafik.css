@@ -163,6 +163,9 @@
 .mp-val .rd-axel-tal span { position: absolute; top: 2px; transform: translateX(-50%); white-space: nowrap; }
 /* Majorna sedan 2006: valdeltagandebilden i pixelmått (viewBox = ytans bredd) och konturkartorna. Höjder reserverade. */
 .mp-val .hist-mening { font-size: 18px; line-height: 1.4; margin: 0 0 10px; }
+/* Bildetiketten över valdeltagandekurvan. Höjden reserveras så att bilden inte flyttar sig när texten
+   skrivs in i samma svep som resten av sektionen ritas. */
+.mp-val .hist-etikett { font-size: 16px; line-height: 1.4; margin: 0 0 6px; min-height: 22px; }
 .mp-val .hist-bild { margin: 0 0 6px; }
 .mp-val .hist-bild-b { min-height: 160px; }   /* samma höjd som histDeltagande ritar i, i alla containerbredder */
 .mp-val .hist-bild svg { width: 100%; height: auto; display: block; font-family: var(--sans); }

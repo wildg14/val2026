@@ -8,7 +8,10 @@ from pathlib import Path
 
 import pytest
 
-from scripts.bygg_historik import las_kedja, las_kedja_alla
+from shapely.geometry import shape
+
+from scripts import bygg_historik
+from scripts.bygg_historik import _las_kedja_rader, bygg_geo, las_kedja, las_kedja_alla
 from scripts.valmyndigheten import NYCKELPARTIER
 
 ROT = Path(__file__).resolve().parents[1]
@@ -274,7 +277,6 @@ def test_distrikt_ur_db_giltiga_vakt_fyrar_pa_doktorerad_databas(tmp_path):
     assert "FEL:" in r.stderr and "giltiga" in r.stderr
 
 
-@finns
 def test_las_kedja_ger_nio_jamforbara():
     kedja = las_kedja()
     assert len(kedja) == 9
@@ -282,13 +284,52 @@ def test_las_kedja_ger_nio_jamforbara():
     assert kedja == JAMFORBARA_2018
 
 
-@finns
 def test_las_kedja_alla_ger_tjugotre_med_dubbletter_tillatna():
     alla = las_kedja_alla()
     assert len(alla) == 23
     assert set(JAMFORBARA_2018.items()) <= set(alla.items())
     # 14800530 och 14800535 kommer båda ur 2018 års 14801011: distriktet delades vid omritningen 2022.
     assert alla["14800530"] == alla["14800535"] == "14801011"
+
+
+def test_las_kedja_rader_dubbel_kod_2022_ger_fel(tmp_path):
+    kedjefil = tmp_path / "kedja_dubbel_2022.csv"
+    kedjefil.write_text(
+        "kod_2022;kod_2018;jamforbar_tillbaka_till\n"
+        "14800001;14801000;2018\n"
+        "14800001;14801001;2014\n",
+        encoding="utf-8",
+    )
+    with pytest.raises(SystemExit):
+        _las_kedja_rader(kedjefil)
+
+
+@finns
+def test_swing_2022_kedjatackning_kontrolleras(monkeypatch):
+    """Om kedjefilens kod_2022-mängd inte täcker exakt 2022 års distrikt (en rad saknas, eller en
+    främmande kod har smugit sig in) ska bygg_swing_2022 stoppa med FEL i stället för att bygga en
+    swing-fil som saknar eller har extra distrikt."""
+    monkeypatch.setattr(bygg_historik, "las_kedja_alla", lambda: {"00000000": "00000000"})
+    con = bygg_historik.oppna()
+    try:
+        with pytest.raises(SystemExit):
+            bygg_historik.bygg_swing_2022(con)
+    finally:
+        con.close()
+
+
+@finns
+def test_distrikt_ur_db_giltiga_null_utelamnar_valet(tmp_path):
+    kopia = tmp_path / "giltiga_null.sqlite"
+    shutil.copy(DB, kopia)
+    con = sqlite3.connect(kopia)
+    con.execute("UPDATE distrikt_summa SET giltiga = NULL WHERE ar=2018 AND val='rd' AND kod='14801032'")
+    con.commit()
+    con.row_factory = sqlite3.Row
+    post = bygg_historik.distrikt_ur_db(con, 2018, "14801032", "Godhem")
+    con.close()
+    assert "rd" not in post
+    assert "rd" not in post["giltiga"] and "rd" not in post["rostande"] and "rd" not in post["rostberattigade"]
 
 
 def test_las_kedja_dubbel_kod_2018_bland_jamforbara_ger_fel(tmp_path):

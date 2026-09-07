@@ -151,7 +151,11 @@ KEDJA_KOLUMNER = ("kod_2022", "kod_2018", "jamforbar_tillbaka_till")
 
 
 def _las_kedja_rader(path=KEDJA):
-    """Läser kedjefilens rader som dict-per-rad, med filnivåkontroller gemensamma för las_kedja och las_kedja_alla."""
+    """Läser kedjefilens rader som dict-per-rad, med filnivåkontroller gemensamma för las_kedja och las_kedja_alla.
+
+    kod_2022 är kedjans nyckel för varje 2022-distrikt och får inte förekomma på mer än en rad -
+    en dubblett vore ett fel i själva kedjefilen, inte ett tillåtet fall som las_kedja_alla:s
+    dubbla kod_2018 (se dess docstring)."""
     path = Path(path)
     if not path.exists():
         print(f"FEL: {path} saknas", file=sys.stderr)
@@ -161,7 +165,12 @@ def _las_kedja_rader(path=KEDJA):
         saknas = [k for k in KEDJA_KOLUMNER if k not in (r.fieldnames or [])]
         if saknas:
             raise SystemExit(f"FEL: {path}: saknar kolumnerna {saknas}")
-        return list(r)
+        rader = list(r)
+    koder = [rad["kod_2022"] for rad in rader]
+    dubbletter = sorted({k for k in koder if koder.count(k) > 1})
+    if dubbletter:
+        raise SystemExit(f"FEL: {path}: kod_2022 förekommer på flera rader: {dubbletter}")
+    return rader
 
 
 def las_kedja(path=KEDJA):
@@ -194,10 +203,11 @@ def distrikt_ur_db(con, ar, kod, namn):
     har någon egen residualrad för dem - till skillnad från `_post`, som hoppar över okända koder i
     tidsserien, där SUMMA_ÖVRIGA redan är en färdig residualrad.
 
-    Saknas summeringsraden i distrikt_summa för ett val utelämnas nyckeln `post[val]` helt (ingen tom
-    dict), och giltiga/rostande/rostberattigade för det valet sätts inte. NULL i rostande eller
-    rostberattigade blir None, aldrig 0. `raknat` är True bara om minst ett val fick en summeringsrad -
-    annars vore det motsägelsefullt att kalla distriktet räknat utan någon data alls.
+    Saknas summeringsraden i distrikt_summa för ett val, eller är giltiga NULL där, utelämnas nyckeln
+    `post[val]` helt (ingen tom dict), och giltiga/rostande/rostberattigade för det valet sätts inte -
+    giltiga hanteras alltså på samma sätt som rostande och rostberattigade (None om NULL), inte som ett
+    särfall. `raknat` är True bara om minst ett val fick giltiga - annars vore det motsägelsefullt att
+    kalla distriktet räknat utan någon data alls.
     """
     post = {"kod": kod, "namn": namn, "giltiga": {}, "rostande": {}, "rostberattigade": {}}
     nagot_val = False
@@ -210,10 +220,13 @@ def distrikt_ur_db(con, ar, kod, namn):
         s = con.execute("SELECT giltiga, rostande, rostberattigade FROM distrikt_summa WHERE ar=? AND val=? AND kod=?", (ar, val, kod)).fetchone()
         if s is None:
             continue
-        if sum(roster.values()) != int(s["giltiga"]):
-            raise SystemExit(f"FEL: {ar} {val} {kod}: röster {sum(roster.values())} != giltiga {s['giltiga']}")
+        giltiga = int(s["giltiga"]) if s["giltiga"] is not None else None
+        if giltiga is None:
+            continue
+        if sum(roster.values()) != giltiga:
+            raise SystemExit(f"FEL: {ar} {val} {kod}: röster {sum(roster.values())} != giltiga {giltiga}")
         post[val] = roster
-        post["giltiga"][val] = int(s["giltiga"])
+        post["giltiga"][val] = giltiga
         post["rostande"][val] = int(s["rostande"]) if s["rostande"] is not None else None
         post["rostberattigade"][val] = int(s["rostberattigade"]) if s["rostberattigade"] is not None else None
         nagot_val = True
@@ -242,6 +255,11 @@ def bygg_swing_2022(con):
     namn_2022 = {d["kod"]: d["namn"] for d in ny["distrikt"]}
     kedja = las_kedja()
     kedja_alla = las_kedja_alla()
+    kod_2022_alla = {d["kod"] for d in ny["distrikt"]}
+    if set(kedja_alla) != kod_2022_alla:
+        saknas = sorted(kod_2022_alla - set(kedja_alla))
+        extra = sorted(set(kedja_alla) - kod_2022_alla)
+        raise SystemExit(f"FEL: kedjefilen täcker inte {ny['meta']['ar']} års distrikt: saknas {saknas}, extra {extra}")
     bas_distrikt = [distrikt_ur_db(con, BAS_AR, kod18, namn_2022[kod22]) | {"kod": kod22}
                     for kod22, kod18 in kedja_alla.items()]
     bas_aggregat = {}

@@ -277,5 +277,7 @@ def test_konturkartorna_och_den_kortade_faktalistan():
     assert "Samma yta, fler distrikt" in js, "noten säger vad kartorna visar"
     assert "Valhemligheten gäller per distrikt" in js, "meningen stänger frågan om ålder"
     fakta = js[js.index("function renderFakta()"):]
+    assert "Avgränsning:" in fakta, "listan börjar med avgränsningen"
+    assert "Andel = partiets röster delat med giltiga röster." in fakta, "andelsdefinitionen står kvar"
     assert "Valdeltagande i Majorna" not in fakta, "valdeltagandet står i bild B, inte i Om siffrorna"
     assert "Byggd av Majposten" not in fakta, "avsändaren står i sidfoten, inte i listan"

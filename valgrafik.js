@@ -318,7 +318,7 @@ async function start() {
       laddaSkript("bakgrund").catch(() => null),
       Promise.all(onskade.map(a => laddaSkript("swing_" + a).catch(() => null))),   // basåret står i filen, saknad fil ger ingen swing
       vill ? laddaSkript("historik").catch(() => null) : null,                      // Majorna sedan 2006: saknad fil döljer sektionen
-      vill ? laddaSkript("distrikt_2006").catch(() => null) : null                  // konturkartan 2006, ritas i Task 8
+      vill ? laddaSkript("distrikt_2006").catch(() => null) : null                  // konturkartan 2006 i historiken
     ]);
     state.historik = historik;
     state.historikGeo = historik ? historikGeo : null;
@@ -614,10 +614,13 @@ function projektion(bbox, padX = 0.045, padY = 0.16) {   // högre ram: mer älv
   const kx = Math.cos((S + N) / 2 * Math.PI / 180), bredd = 1000, skala = bredd / ((E - W) * kx);
   return { bredd, hojd: (N - S) * skala, till: ([lon, lat]) => [(lon - W) * kx * skala, (N - lat) * skala], W, E, S, N };
 }
-function gemensamBbox() {   // en ram för alla laddade år, så att kartan inte hoppar vid årsbyte
-  const bb = Object.values(state.geo).map(g => g && g.bbox).filter(Boolean);
-  if (!bb.length) return geo().bbox;   // inget år har en bbox: det visade årets egen ram får duga
+function unionBbox(lista) {   // ram runt flera bbox, eller null när ingen post har någon
+  const bb = lista.filter(Boolean);
+  if (!bb.length) return null;
   return [Math.min(...bb.map(b => b[0])), Math.min(...bb.map(b => b[1])), Math.max(...bb.map(b => b[2])), Math.max(...bb.map(b => b[3]))];
+}
+function gemensamBbox() {   // en ram för alla laddade år, så att kartan inte hoppar vid årsbyte
+  return unionBbox(Object.values(state.geo).map(g => g && g.bbox)) || geo().bbox;   // inget år har en bbox: det visade årets egen ram får duga
 }
 const dAttr = (ring, proj, stang) => ring.map((c, i) => (i ? "L" : "M") + proj.till(c).map(v => v.toFixed(1)).join(",")).join("") + (stang ? "Z" : "");
 const dRing = (ringSvg, stang) => ringSvg.map((c, i) => (i ? "L" : "M") + c.map(v => v.toFixed(1)).join(",")).join("") + (stang ? "Z" : "");
@@ -1437,11 +1440,11 @@ function histKartor() {
   // Kartorna följer kartans årsknapp, till skillnad från bild A och B som står på det senaste laddade året:
   // det är det år läsaren ser i kartan ovanför som ska ställas mot 2006.
   const el = $("#hist-kartor"), notEl = $("#hist-not-kartor"), g06 = state.historikGeo, gNu = geo();
-  if (!g06 || !gNu) { el.replaceChildren(); notEl.textContent = ""; return; }
   // Gemensam ram ur båda filernas bbox, annars ser den ena kartan ut att täcka en annan yta än den andra
-  // och poängen med bilden går förlorad.
-  const bbox = [Math.min(g06.bbox[0], gNu.bbox[0]), Math.min(g06.bbox[1], gNu.bbox[1]),
-                Math.max(g06.bbox[2], gNu.bbox[2]), Math.max(g06.bbox[3], gNu.bbox[3])];
+  // och poängen med bilden går förlorad. Saknar någon av geometrierna en bbox töms ytan i stället för att
+  // rita med NaN i viewBox.
+  const bbox = g06 && gNu ? unionBbox([g06.bbox, gNu.bbox]) : null;
+  if (!g06 || !gNu || !bbox) { el.replaceChildren(); notEl.textContent = ""; return; }
   const proj = projektion(bbox, 0.02, 0.02);
   // Bara gränser i sten på papper: ingen partifärg, inga etiketter och inget att trycka på. Bilden svarar på
   // en fråga om distrikten, inte om resultatet, och ytan är aria-hidden så bildtexten är hela innehållet.

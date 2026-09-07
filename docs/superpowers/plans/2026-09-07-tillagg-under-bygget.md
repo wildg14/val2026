@@ -311,3 +311,11 @@ Granskningen gjordes med två Opus-granskare (en visuell med 29 skärmdumpar i 3
 
 Gäller Task 7 (bild B): samma mönster som bild A efter uppföljningen (omritning styrd av viewBox mot `clientWidth`, sista punkten ur senaste laddade året, etiketter med kontrast minst 4,5:1, inga "0,0" för saknade tal, `aria-label` = rubrikmeningen plus en kort beskrivning).
 Gäller Task 9: `historik-check.js` kontrollerar ringens läge (cy lika med y(0)) och texten "räknas på valnatten" i bilden, att svg-noden är samma efter ett piltryck, talradens spans och att raden inte klipps vid 320 px, och kontrastkravet på etiketterna.
+
+### Efter granskningen av Task 6-uppföljningen (3c67057, godkänd av spec- och kvalitetsgranskare)
+
+Restlista, görs som egen liten commit av Task 7-agenten före Task 7 (bara `valgrafik.js`): läslinjen kortas så att den slutar 8 px ovanför nollnivån (den tog i bokstäverna i "räknas på valnatten" på 320 till 700 px); en delsträcka med en enda fast punkt skriver ingen `path` (villkor `fasta.length > 1`); etiketterna i högerkanten ankras vid varje partis egen sista punkt (`px` per parti, ledarlinje från `px + 4` till `px + 11`, texten vid `px + 13`), inte i en gemensam kolumn, så att ett parti vars linje slutar tidigare får bokstaven där linjen slutar; hex-parsningen bryts ut till en hjälpare (`hexTal`) som `mix`, `relLuminans` och `textFarg` delar, och `textFarg` ger versaler.
+
+Accepterat utan ändring: kartans skaldrift stannar under tio procent vid stegvisa breddändringar (tröskeln i ResizeObservern behålls, kartkoden rörs inte i valveckan; kandidat för refaktoreringslistan efter valet); läsarens val av ringåret nollställs när bilden ritas om vid breddändring (följer beslut 4); talradens avslutande blanksteg (samma mönster som kortets rad).
+
+Gäller Task 7 (bild B): Göteborgs- och riketlinjerna kan sluta tidigare än Majornas (aggregat saknas för det visade året via CSV-vägen), så etiketten ska sitta vid varje series egen sista punkt, med samma förskjutningsregel som bild A. Bild B använder samma hjälpare som bild A efter uppföljningen: `histPunkter` (sista punkten ur senaste laddade året), `histAxelAr`, `histHarTal`-mönstret för saknade tal, `textFarg` för etiketter i färg, ingen egen omritningslogik (ResizeObserverns `histBildSlak` prövar bara bild A; bild B ritas om i samma `renderHistorik`).

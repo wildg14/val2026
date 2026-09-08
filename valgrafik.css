@@ -77,6 +77,11 @@
 .mp-val table.mandat td.tal { white-space: nowrap; }
 .mp-val table.mandat td.aktiv { font-weight: 700; }
 .mp-val table.mandat td.dampad { color: var(--sten); }
+/* Behållaren är den yttre spärren: skulle tabellen ändå bli bredare än sektionen rullar den i sin egen ruta i stället för att dra med sig hela sidan i sidled. */
+.mp-val .mandat-wrap { overflow-x: auto; max-width: 100%; }
+.mp-val table.mandat .parti-namn { color: var(--sten); }
+/* Under 380 px rotbredd bär bokstaven och färgrutan raden ensamma: annars tvingar partinamnet tillsammans med orden "under spärren" tabellen till 339 px, bredare än sektionen. */
+@container (max-width: 380px) { .mp-val table.mandat .parti-namn { display: none; } }
 .mp-val #karta svg { width: 100%; height: auto; display: block; background: var(--papper); }
 @container (max-width: 599px) {
   .mp-val #karta { margin: 0 -16px; }
@@ -255,8 +260,12 @@
   .mp-val .rutor { grid-template-columns: 1fr 1fr; align-items: start; }
   .mp-val #riksdag { display: grid; grid-template-columns: 1fr 1fr; column-gap: 40px; align-items: center; }
   .mp-val #riksdag > * { grid-column: 1 / -1; }
-  .mp-val #halvcirkel { grid-column: 1; }
-  .mp-val #mandat-legend { grid-column: 2; }
+  /* Halvcirkeln bär två rader i högerspalten: enhetsväxeln och tabellen den styr. Utan spannet centreras
+     växeln i sin egen rad och hamnar en halv halvcirkel ovanför tabellen i stället för strax över den. */
+  .mp-val #halvcirkel { grid-column: 1; grid-row: span 2; }
+  .mp-val #mandat-enhet, .mp-val #mandat-legend { grid-column: 2; }
+  .mp-val #mandat-enhet { align-self: end; }
+  .mp-val #mandat-legend { align-self: start; }
   .mp-val #mandat-metod, .mp-val #mandat-forbehall { grid-column: 1; }
   .mp-val #halvcirkel svg { max-height: none; }
   /* Kartan, legenden och kortet i ett eget rutnät. Kortets sticky-yta blir då #karta-yta och inte hela sektionen,

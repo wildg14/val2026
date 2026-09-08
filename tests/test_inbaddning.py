@@ -525,3 +525,59 @@ def test_toppsvaret_utan_magiskt_tak():
     js = JS.read_text("utf-8")
     assert "arDesktop() ? 99 : 4" not in js
     assert "const rader = arDesktop() ? utomOvriga : utomOvriga.slice(0, 4);" in js
+
+
+def test_mandattabellen_ligger_i_en_rullbar_behallare():
+    """Tabellen får inte dra med sig hela sidan i sidled: den ryms i en egen ruta som kan rulla."""
+    js = JS.read_text("utf-8")
+    css = CSS.read_text("utf-8")
+    assert 'class: "mandat-wrap"' in js, "renderMandatLegend lägger tabellen i en behållare"
+    rad = next(r for r in css.splitlines() if r.startswith(".mp-val .mandat-wrap {"))
+    assert "overflow-x: auto" in rad and "max-width: 100%" in rad
+
+
+def test_partinamnet_doljs_i_css_under_brytpunkten():
+    """Det långa partinamnet är det som gör tabellen för bred på en smal skärm. Dölj det i CSS, inte i JS."""
+    js = JS.read_text("utf-8")
+    css = CSS.read_text("utf-8")
+    assert 'class: "parti-namn"' in js, "partinamnet får en klass i stället för en inline-färg"
+    assert 'h("span", { style: "color:var(--sten)" }, parti(p).namn)' not in js
+    block = css[css.index("@container (max-width: 380px)"):]
+    block = block[:block.index("}", block.index("{", block.index("{") + 1)) + 1]
+    assert ".parti-namn" in block and "display: none" in block
+    kropp = js[js.index("function renderMandatLegend("):]
+    kropp = kropp[:kropp.index("\n}\n")]
+    assert "innerWidth" not in kropp and "matchMedia" not in kropp, "brytpunkten hör hemma i CSS"
+
+
+def test_enhetsvaxeln_finns_och_ror_inte_mandatRort():
+    """Växeln mandat eller procent styr bara tabellen: inte halvcirkeln och inte den automatiska övergången."""
+    js = JS.read_text("utf-8")
+    assert 'id="mandat-enhet"' in js, "knappraden ligger i markupen"
+    assert 'mandatEnhet: "mandat"' in js, "standardläget är mandat"
+    kropp = js[js.index("function sattMandatEnhet("):]
+    kropp = kropp[:kropp.index("\n}\n")]
+    assert "mandatRort" not in kropp, "enheten är inte ett byte av fördelning"
+    assert "halvcirkel" not in kropp, "halvcirkeln är mandat till sin natur"
+    assert "b.dataset.enhet" in kropp, "knapparna känns igen på sitt data-attribut, inte på texten"
+
+
+def test_procentlaget_har_egna_kolumnrubriker():
+    """Rubrikerna får inte påstå mandat när talen är röstandelar."""
+    js = JS.read_text("utf-8")
+    kropp = js[js.index("function skrivMandatTal("):]
+    kropp = kropp[:kropp.index("\n}\n")]
+    assert "Riket ${" in kropp and '"Majorna"' in kropp, "procentläget har egna rubriker"
+    assert '"Majornas riksdag"' in kropp and "Riksdagen ${" in kropp, "mandatläget behåller sina"
+    assert 'aktiv" : "dampad' in kropp, "fetstilen följer fördelningen i båda enheterna"
+
+
+def test_axeletiketterna_glesas_efter_matning():
+    """Antalet tick följer årets högsta andel, så en ren brytpunkt räcker inte - etiketterna mäts."""
+    js = JS.read_text("utf-8")
+    kropp = js[js.index("function glesaAxelEtiketter("):]
+    kropp = kropp[:kropp.index("\n}\n")]
+    assert "getBoundingClientRect" in kropp, "gallringen mäter etiketternas rutor"
+    rd = js[js.index("function renderRostdelning("):]
+    rd = rd[:rd.index("\n}\n")]
+    assert rd.index("rader.replaceChildren(grafik)") < rd.index("glesaAxelEtiketter("), "mät först när grafiken sitter i DOM"

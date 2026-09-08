@@ -32,6 +32,7 @@ const MARKUP = `
     <p class="not" id="mandat-ingress"></p>
     <div class="knappar" role="radiogroup" aria-label="Välj fördelning" id="mandat-lage"></div>
     <div id="halvcirkel"></div>
+    <div class="knappar" role="radiogroup" aria-label="Välj enhet" id="mandat-enhet"></div>
     <div id="mandat-legend"></div>
     <p class="not" id="mandat-metod"></p>
     <p class="forbehall" id="mandat-forbehall" hidden></p>
@@ -134,7 +135,7 @@ const VALNAMN = { rd: "Riksdagsvalet", rf: "Regionvalet", kf: "Kommunvalet" };
 const FARG = { papper: "#FAF6EE", black: "#2A241E", sten: "#6E6152", linje: "#E6DECF", gron: "#3F5A3A", ockra: "#C58A34", oraknat: "#DDD5C6" };
 
 const state = { ar: KONFIG.standardAr, val: "rd", lage: "storsta", parti: "V", vald: null,
-                mandatLage: "verklig", mandatRort: false, data: {}, swing: {}, geo: {}, bakgrund: null,
+                mandatLage: "verklig", mandatEnhet: "mandat", mandatRort: false, data: {}, swing: {}, geo: {}, bakgrund: null,
                 sortering: { kol: "namn", fallande: false }, tabellOppen: false, skalmax: 0.5, jamforelseVal: "rd", bild: false,
                 historik: null, historikGeo: null };
 // Lat laddning: ett år laddas en gång, och promisen sparas så att två snabba byten inte hämtar samma år
@@ -225,6 +226,18 @@ const omradeDelvis = post => harRaknade(post) && post.antal_distrikt < post.tota
 const arPreliminar = (d = data()) => d.meta.status !== "slutlig";
 const raknadeText = post => `${tal(post.antal_distrikt)} av ${tal(post.totalt_distrikt)} distrikt räknade`;
 const majornaRaknat = val => majorna(val) && majorna(val).giltiga > 0;
+// Rikets röstandelar i riksdagsvalet, parti till andel av giltiga röster. Saknas de finns bara mandatläget.
+const riketAndelar = () => { const r = jamforelse("riket", "rd"); return r && r.andel && Object.keys(r.andel).length ? r.andel : null; };
+// Majornas egen andel av giltiga riksdagsröster, räknad ur aggregatet
+const majornaAndelar = () => {
+  const m = majorna("rd");
+  if (!m || !m.giltiga) return null;
+  const ut = {};
+  for (const [p, n] of Object.entries(m.roster || {})) ut[p] = n / m.giltiga;
+  return ut;
+};
+// Saknas partiet i en fördelning skrivs ett tankstreck, aldrig 0,0 procent: samma regel som i resten av sidan.
+const andelCell = (karta, p) => (karta && karta[p] != null) ? procent(karta[p]) : "-";
 function partierIVal(val) {
   const nycklar = Object.keys(majorna(val).roster || {}).filter(p => p !== "Övriga");
   return nycklar.length ? nycklar : SPEKTRUM;
@@ -535,6 +548,17 @@ function renderRiksdag() {
   for (const [lage, text] of lagen) knappar.append(h("button", { type: "button", role: "radio", "aria-checked": String(lage === state.mandatLage), tabindex: lage === state.mandatLage ? "0" : "-1",
     onclick: () => { state.mandatRort = true; sattMandatLage(lage); } }, text));
   pilNavigering(knappar);
+  // Enheten styr bara tabellen. Halvcirkeln är mandat till sin natur och byter inte utseende med enheten.
+  // Utan rikets röstandelar finns bara mandatläget, precis som fördelningsväxeln döljs när det bara finns en fördelning.
+  const harAndelar = !!riketAndelar();
+  if (!harAndelar) state.mandatEnhet = "mandat";
+  const enhetKnappar = $("#mandat-enhet");
+  enhetKnappar.innerHTML = "";
+  enhetKnappar.hidden = !harAndelar;
+  for (const [enhet, text] of [["mandat", "Mandat"], ["procent", "Procent"]])
+    enhetKnappar.append(h("button", { type: "button", role: "radio", "data-enhet": enhet, "aria-checked": String(enhet === state.mandatEnhet),
+      tabindex: enhet === state.mandatEnhet ? "0" : "-1", onclick: () => sattMandatEnhet(enhet) }, text));
+  pilNavigering(enhetKnappar);
   const fordelning = state.mandatLage === "majorna" ? egen : verklig;
   const antal = Object.values(fordelning).reduce((a, b) => a + b, 0);
   const platser = halvcirkelPlatser(antal), ordning = mandatOrdning(fordelning);
@@ -551,8 +575,22 @@ function renderRiksdag() {
   const forbehall = $("#mandat-forbehall");
   forbehall.hidden = !preliminar;
   // Talet skrivs bara ut medan riket är delvis räknat: ett färdigräknat riket sent på kvällen ska inte säga "6 626 av 6 626".
+  // Orden gäller både mandat och röstandelar, så förbehållet står kvar oförändrat när enheten byts.
   forbehall.textContent = !preliminar ? ""
-    : omradeDelvis(rike) ? `Preliminär fördelning, riket: ${raknadeText(rike)}.` : "Preliminär mandatfördelning.";
+    : omradeDelvis(rike) ? `Preliminärt resultat, riket: ${raknadeText(rike)}.` : "Preliminärt resultat.";
+}
+function sattMandatEnhet(enhet) {
+  if (state.mandatEnhet === enhet) return;
+  state.mandatEnhet = enhet;
+  skrivMandatTal();
+  $("#mandat-enhet").querySelectorAll("button").forEach(b => {
+    const aktiv = b.dataset.enhet === enhet;
+    b.setAttribute("aria-checked", String(aktiv)); b.tabIndex = aktiv ? 0 : -1;
+  });
+  const ar = data().meta.ar;
+  $("#mandat-live").textContent = enhet === "procent"
+    ? `Tabellen visar andel av giltiga röster i procent. Riket ${ar} och Majorna.`
+    : `Tabellen visar mandat. Riksdagen ${ar} och Majornas riksdag.`;
 }
 function sattMandatLage(lage) {
   if (state.mandatLage === lage) return;
@@ -568,18 +606,46 @@ function sattMandatLage(lage) {
     const aktiv = b.textContent.startsWith("Om") === (lage === "majorna");
     b.setAttribute("aria-checked", String(aktiv)); b.tabIndex = aktiv ? 0 : -1;
   });
-  renderMandatLegend(m.riksdag_verklig, m.riksdag_majorna);
+  skrivMandatTal();
 }
+// Skelettet byggs en gång per år, med samma partirader i båda enheterna: de som har minst ett mandat i någon
+// av fördelningarna. Talen och kolumnrubrikerna skrivs sedan om på plats av skrivMandatTal, så att varken ett
+// byte av fördelning eller ett byte av enhet bygger om tabellen.
 function renderMandatLegend(verklig, egen) {
   const partier = [...SPEKTRUM, ...Object.keys({ ...(verklig || {}), ...(egen || {}) }).filter(p => !SPEKTRUM.includes(p)).sort()]
     .filter(p => (verklig && verklig[p]) || (egen && egen[p]));
   const tabell = h("table", { class: "mandat" },
-    h("thead", {}, h("tr", {}, h("th", {}, "Parti"), verklig && h("th", { class: "tal" }, `Riksdagen ${data().meta.ar}`), egen && h("th", { class: "tal" }, "Majornas riksdag"))),
-    h("tbody", {}, partier.map(p => h("tr", {},
-      h("td", {}, h("span", { class: "swatch", style: `background:${parti(p).farg};display:inline-block;vertical-align:-2px;margin-right:6px` }), h("b", {}, p), " ", h("span", { style: "color:var(--sten)" }, parti(p).namn)),
-      verklig && h("td", { class: "tal " + (state.mandatLage === "verklig" ? "aktiv" : "dampad") }, verklig[p] || 0),
-      egen && h("td", { class: "tal " + (state.mandatLage === "majorna" ? "aktiv" : "dampad") }, egen[p] ? String(egen[p]) : "under spärren")))));
-  $("#mandat-legend").replaceChildren(tabell);
+    h("thead", {}, h("tr", {}, h("th", {}, "Parti"), verklig && h("th", { class: "tal", "data-kol": "verklig" }), egen && h("th", { class: "tal", "data-kol": "egen" }))),
+    h("tbody", {}, partier.map(p => h("tr", { "data-parti": p },
+      h("td", {}, h("span", { class: "swatch", style: `background:${parti(p).farg};display:inline-block;vertical-align:-2px;margin-right:6px` }), h("b", {}, p), " ", h("span", { class: "parti-namn" }, parti(p).namn)),
+      verklig && h("td", { class: "tal", "data-kol": "verklig" }),
+      egen && h("td", { class: "tal", "data-kol": "egen" })))));
+  // Behållaren låter tabellen rulla i sin egen ruta i stället för att dra med sig hela sidan i sidled.
+  $("#mandat-legend").replaceChildren(h("div", { class: "mandat-wrap" }, tabell));
+  skrivMandatTal();
+}
+// I procentläget visas röstandelar, inte mandatandelar: mandatandelen säger samma sak som mandattalet en gång
+// till, medan röstandelen förklarar fyraprocentsspärren. Rubrikerna följer enheten och påstår aldrig mandat om
+// talen är andelar. Fetstil och dämpning följer fördelningen, alltså state.mandatLage, i båda enheterna.
+function skrivMandatTal() {
+  const tabell = $("#mandat-legend table.mandat");
+  if (!tabell) return;
+  const m = data().mandat || {}, ar = data().meta.ar;
+  const verklig = m.riksdag_verklig, egen = m.riksdag_majorna;
+  const iProcent = state.mandatEnhet === "procent";
+  const riket = iProcent ? riketAndelar() : null, majornas = iProcent ? majornaAndelar() : null;
+  const rubrik = { verklig: iProcent ? `Riket ${ar}` : `Riksdagen ${ar}`, egen: iProcent ? "Majorna" : "Majornas riksdag" };
+  for (const th of tabell.querySelectorAll("th.tal")) th.textContent = rubrik[th.dataset.kol];
+  for (const rad of tabell.querySelectorAll("tbody tr")) {
+    const p = rad.dataset.parti;
+    for (const td of rad.querySelectorAll("td.tal")) {
+      const egenKol = td.dataset.kol === "egen";
+      td.textContent = iProcent ? andelCell(egenKol ? majornas : riket, p)
+        : egenKol ? (egen && egen[p] ? String(egen[p]) : "under spärren")
+        : String((verklig && verklig[p]) || 0);
+      td.className = "tal " + ((egenKol ? state.mandatLage === "majorna" : state.mandatLage === "verklig") ? "aktiv" : "dampad");
+    }
+  }
 }
 function autoOvergang() {
   const sek = $("#riksdag");
@@ -1005,6 +1071,41 @@ const RD_FORM = { rd: "cirkel", rf: "romb", kf: "kvadrat" };
 const RD_KORT = { rd: "Riksdag", rf: "Region", kf: "Kommun" };
 const RD_LED = { rd: "riksdags", rf: "region", kf: "kommun" };   // "riksdags-, region- och kommunvalet"
 const andelTal = a => (a * 100).toLocaleString("sv-SE", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+// Axeletiketterna glesas efter uppmätt bredd, inte efter en brytpunkt: axelspalten är olika bred i sidans fyra
+// layoutlägen och antalet tick följer årets högsta andel. Talen står kvar i talspalten till höger, så en grov
+// axel på en smal skärm kostar ingen information. Enheten sitter på den första etiketten och döljs aldrig.
+function glesaAxelEtiketter(grafik) {
+  const spans = [...grafik.querySelectorAll(".rd-axel-tal span")];
+  if (spans.length < 3) return;
+  for (const el of spans) el.hidden = false;
+  const krockar = () => {
+    const rutor = spans.filter(el => !el.hidden).map(el => el.getBoundingClientRect());
+    return rutor.some((r, i) => i > 0 && r.left < rutor[i - 1].right);
+  };
+  const sista = spans.length - 1;
+  const behall = f => spans.forEach((el, i) => { el.hidden = !f(i); });
+  for (const k of [2, 4, 8]) {
+    if (!krockar()) return;
+    behall(i => i === 0 || i === sista || i % k === 0);
+  }
+  if (krockar()) behall(i => i === 0 || i === sista);   // bara axelns båda ändar
+  if (krockar()) behall(i => i === 0);                  // enheten ensam, på en mycket smal spalt
+}
+// Spalten byter bredd vid layoutbytena och när fönstret ändras. Att dölja etiketter ändrar inte spaltens
+// bredd, så observatören kan inte trigga sig själv, men bredden jämförs ändå mot den senast sedda.
+let axelObservator = null, axelSpaltbredd = -1;
+function bevakaAxelbredd() {
+  const rader = $("#rostdelning-rader");
+  if (axelObservator || !rader || !("ResizeObserver" in window)) return;
+  axelSpaltbredd = rader.clientWidth;
+  axelObservator = new ResizeObserver(() => {
+    if (rader.clientWidth === axelSpaltbredd) return;
+    axelSpaltbredd = rader.clientWidth;
+    const grafik = rader.querySelector(".rd-grafik");
+    if (grafik) glesaAxelEtiketter(grafik);
+  });
+  axelObservator.observe(rader);
+}
 function renderRostdelning() {
   const sek = $("#rostdelning"), rader = $("#rostdelning-rader"), legend = $("#rostdelning-legend");
   const namnPaVal = data().meta.val || VALNAMN, distrikt = data().distrikt || [];
@@ -1058,6 +1159,8 @@ function renderRostdelning() {
     h("div", { class: "rd-axel-tal" }, ticks.map((v, i) => h("span", {   // ytterkanternas tal hålls innanför axeln, annars rullar sidan i sidled
       style: `left:${pos(v).toFixed(2)}%;transform:translateX(${i === 0 ? "0" : i === ticks.length - 1 ? "-100%" : "-50%"})` }, Math.round(v * 100) + (i === 0 ? " %" : "")))), h("div")));
   rader.replaceChildren(grafik);
+  glesaAxelEtiketter(grafik);
+  bevakaAxelbredd();
   const led = val.map(v => RD_LED[v]), valText = led.slice(0, -1).join("-, ") + "- och " + led[led.length - 1] + "valet";
   const kohortText = kohort.length < distrikt.length ? ` Räknat på ${kohort.length} av ${distrikt.length} distrikt.` : "";
   $("#rostdelning-not").textContent = `Så röstar Majorna olika i ${valText} ${state.ar}. Ju längre streck, desto mer röstdelning.` + kohortText;

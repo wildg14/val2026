@@ -21,10 +21,12 @@ KONFIG_STANDARD = {
         "valvaka": {"visa": False, "rubrik": "Valvaka på Majornas Bryggeri",
                     "text": "[KOLLA] Tid, plats och vad som händer.", "lank": ""},
     },
+    # "extra" är en avslutande mening som sidan bara visar från 600 px containerbredd: på en telefon
+    # blir rutan annars en textvägg. Tom som standard, redaktionen fyller den i data/konfig.json.
     "hjalp": {
         "visa": False, "rubrik": "Behöver du hjälp att rösta?",
         "text": "hjalpmigrosta.se förklarar hur valet går till, på flera språk.",
-        "lank": "https://hjalpmigrosta.se", "lanktext": "Till hjalpmigrosta.se",
+        "extra": "", "lank": "https://hjalpmigrosta.se", "lanktext": "Till hjalpmigrosta.se",
     },
 }
 

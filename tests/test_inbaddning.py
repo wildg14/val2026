@@ -753,3 +753,20 @@ def test_omritade_distrikt_tonas_i_konturkartorna():
     assert "rakneord(omritade.size)" in karta, "små tal skrivs ut i löptext, inte som siffra"
     assert 'är tonat" : "är tonade"' in karta, "noten böjer sig efter antalet"
     assert "omritade.size" in karta, "noten nämner tonen bara när något faktiskt är tonat"
+
+
+def test_rutans_sista_mening_kapas_pa_mobil():
+    """Rösthjälpsrutans avslutande mening visas först från 600 px containerbredd. Uppmätt på index:
+    utan den är rutan 6 rader i 320 px och 5 i 390 px, med den 8 respektive 7."""
+    js = JS.read_text("utf-8")
+    css = CSS.read_text("utf-8")
+    kropp = js[js.index("function ruta("):]
+    kropp = kropp[:kropp.index("\n}\n")]
+    assert "post.extra" in kropp and 'class: "ruta-extra"' in kropp, "meningen ligger i en egen span"
+    assert 'h("p", {}, post.text)' in kropp, "spanen ligger i samma stycke som texten"
+    dold = next((r for r in css.splitlines() if r.startswith(".mp-val .ruta-extra {")), None)
+    assert dold and "display: none" in dold, "dold som standard, alltså på mobil"
+    syns = None
+    for m in re.finditer(r"@container \(min-width: 600px\) \{(.*?)\n\}\n", css, re.S):
+        syns = syns or next((r for r in m.group(1).splitlines() if r.strip().startswith(".mp-val .ruta-extra {")), None)
+    assert syns and "display: inline" in syns, "visas från 600 px containerbredd"

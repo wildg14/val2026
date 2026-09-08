@@ -527,7 +527,14 @@ function lankad(text, url, klass) {   // tom länk ger ren text, aldrig ett tomt
 }
 function ruta(post, standardLanktext) {
   const el = h("div", { class: "ruta" }, h("h2", {}, post.rubrik || ""));
-  if (post.text) el.append(h("p", {}, post.text));
+  // post.extra är en avslutande mening som bara visas från 600 px containerbredd: på en telefon blir
+  // rutan annars en textvägg som skjuter ned kartan. Den ligger i samma stycke, inte i ett eget, så att
+  // texten läses som en sammanhängande mening när den syns.
+  if (post.text) {
+    const stycke = h("p", {}, post.text);
+    if (post.extra) stycke.append(" ", h("span", { class: "ruta-extra" }, post.extra));
+    el.append(stycke);
+  }
   // target _top: blocket ligger i en iframe hos Beehiiv, och utan det byts grafiken mot den länkade
   // sidan inuti iframen i stället för att läsaren lämnar till den. Utanför en iframe beter sig _top
   // precis som ett vanligt klick.

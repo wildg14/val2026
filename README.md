@@ -155,14 +155,14 @@ Två redaktionella block som styrs helt från `data/konfig.json`: en samarbetsra
 "samarbete": { "visa": false, "namn": "Majornas Bryggeri", "text": "I samarbete med", "lank": "", "logga": "",
                "valvaka": { "visa": false, "rubrik": "Valvaka på Majornas Bryggeri",
                             "text": "[KOLLA] Tid, plats och vad som händer.", "lank": "" } },
-"hjalp":     { "visa": false, "rubrik": "Behöver du hjälp att rösta?",
-               "text": "hjalpmigrosta.se förklarar hur valet går till, på flera språk.",
-               "lank": "https://hjalpmigrosta.se", "lanktext": "Till hjalpmigrosta.se" }
+"hjalp":     { "visa": true, "rubrik": "Behöver du hjälp att rösta?",
+               "text": "Marcus Wernberger Jonsson har gjort hjalpmigrosta.se, en fristående och partipolitiskt obunden guide till valet på fjorton språk. Den går igenom röstkortet, valsedlarna, förtidsröstningen och hur det går till i vallokalen.",
+               "lank": "https://hjalpmigrosta.se/sv/start/", "lanktext": "Till hjalpmigrosta.se" }
 ```
 
 - `samarbete.visa` slår på raden "I samarbete med Majornas Bryggeri" i sidhuvudet, under toppsvaret. Raden visas inte i bildläget och inte när `inbaddad` är på, eftersom rubriken då är dold.
 - `samarbete.logga` är en adress till en bild, antingen absolut eller relativ till `data-bas` (lägg filen i `bilder/`, till exempel `bilder/majornas-bryggeri.png`). Loggan visas i högst 44 px höjd med namnet som alt-text. Tom logga ger bara text.
-- `samarbete.valvaka.visa` slår på valvakerutan, och kräver att `samarbete.visa` också är på. `hjalp.visa` slår på rösthjälpsrutan för sig. Rutorna ligger sida vid sida från 900 px containerbredd, under varandra på mobil, och visas även när `inbaddad` är på.
+- `samarbete.valvaka.visa` slår på valvakerutan, och kräver att `samarbete.visa` också är på. `hjalp.visa` slår på rösthjälpsrutan för sig; den är påslagen sedan 2026-09-08 och pekar på hjalpmigrosta.se. Rutornas länkar har `target="_top"`: utan det byter en länk ut grafiken mot den länkade sidan **inuti** Beehiivs iframe i stället för att läsaren lämnar dit, och i praktiken hände ingenting alls vid klick (uppmätt i `docs/beehiivtest.html`). Utanför en iframe beter sig `_top` som ett vanligt klick. Antalet språk i texten (fjorton) är räknat ur sidans egen språkväljare 2026-09-08 - lägger de till fler måste talet ändras för hand. Rutorna ligger sida vid sida från 900 px containerbredd, under varandra på mobil, och visas även när `inbaddad` är på.
 - Alla `lank` är tomma platshållare tills adresserna är klara. Med tom länk renderas texten som ren text, aldrig som en tom länk.
 
 Slå på ett block genom att sätta `visa` till `true` i `data/konfig.json` och skriva om `konfig.js`, så att de två filerna aldrig glider isär:

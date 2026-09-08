@@ -37,10 +37,10 @@
   }
  },
  "hjalp": {
-  "visa": false,
+  "visa": true,
   "rubrik": "Behöver du hjälp att rösta?",
-  "text": "hjalpmigrosta.se förklarar hur valet går till, på flera språk.",
-  "lank": "https://hjalpmigrosta.se",
+  "text": "Marcus Wernberger Jonsson har gjort hjalpmigrosta.se, en fristående och partipolitiskt obunden guide till valet på fjorton språk. Den går igenom röstkortet, valsedlarna, förtidsröstningen och hur det går till i vallokalen.",
+  "lank": "https://hjalpmigrosta.se/sv/start/",
   "lanktext": "Till hjalpmigrosta.se"
  }
 }

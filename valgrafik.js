@@ -528,7 +528,10 @@ function lankad(text, url, klass) {   // tom länk ger ren text, aldrig ett tomt
 function ruta(post, standardLanktext) {
   const el = h("div", { class: "ruta" }, h("h2", {}, post.rubrik || ""));
   if (post.text) el.append(h("p", {}, post.text));
-  if (post.lank) el.append(h("p", { class: "ruta-lank" }, h("a", { href: post.lank }, post.lanktext || standardLanktext)));
+  // target _top: blocket ligger i en iframe hos Beehiiv, och utan det byts grafiken mot den länkade
+  // sidan inuti iframen i stället för att läsaren lämnar till den. Utanför en iframe beter sig _top
+  // precis som ett vanligt klick.
+  if (post.lank) el.append(h("p", { class: "ruta-lank" }, h("a", { href: post.lank, target: "_top" }, post.lanktext || standardLanktext)));
   return el;
 }
 function renderSamarbete() {
@@ -1597,8 +1600,12 @@ function renderFakta() {
   // Listan bär bara det som gäller hela sidan. Ett förbehåll som hör till ett enda diagram står under det
   // diagrammet: valdeltagandet i bild B, antalet distrikt per år i noten under bild A, avsändaren i sidfoten.
   const meta = data().meta;
+  // meta.kalla bär redan ordet slutlig eller preliminär ("Valmyndigheten, preliminär rösträkning per
+  // valdistrikt 2026"), så en egen statusmening upprepade bara det. Andelsdefinitionen togs bort samma
+  // dag på Daniels begäran. Punkten i slutet skrivs här, och en punkt som redan står i kallan tas bort
+  // först - historikårens filer har en, 2022 års har ingen.
   const li = [`Avgränsning: ${meta.avgransning}.`,
-              `Källa: ${meta.kalla}. ${meta.status === "slutlig" ? "Slutligt resultat." : "Preliminärt resultat."} Andel = partiets röster delat med giltiga röster.`];
+              `Källa: ${String(meta.kalla || "").replace(/\.\s*$/, "")}.`];
   $("#faktalista").replaceChildren(...li.map(t => h("li", {}, t)));
   $("#fot").replaceChildren(h("p", {}, "Så röstade Majorna - en valgrafik från Majposten. Valdata: Valmyndigheten." + (state.bakgrund ? " Kartunderlag © OpenStreetMaps bidragsgivare (ODbL)." : "")));
 }

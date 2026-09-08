@@ -80,8 +80,10 @@
 /* Behållaren är den yttre spärren: skulle tabellen ändå bli bredare än sektionen rullar den i sin egen ruta i stället för att dra med sig hela sidan i sidled. */
 .mp-val .mandat-wrap { overflow-x: auto; max-width: 100%; }
 .mp-val table.mandat .parti-namn { color: var(--sten); }
-/* Under 380 px rotbredd bär bokstaven och färgrutan raden ensamma: annars tvingar partinamnet tillsammans med orden "under spärren" tabellen till 339 px, bredare än sektionen. */
-@container (max-width: 380px) { .mp-val table.mandat .parti-namn { display: none; } }
+/* Under 372 px rotbredd bär bokstaven och färgrutan raden ensamma: partinamnet tillsammans med orden
+   "under spärren" tvingar tabellen till 339 px, och sektionen är rotbredden minus 32 px, så namnet ryms
+   först från 372 px. Gränsen är uppmätt, inte gissad: vid 372 px är sektionen 340 px och tabellen 339. */
+@container (max-width: 371px) { .mp-val table.mandat .parti-namn { display: none; } }
 .mp-val #karta svg { width: 100%; height: auto; display: block; background: var(--papper); }
 @container (max-width: 599px) {
   .mp-val #karta { margin: 0 -16px; }

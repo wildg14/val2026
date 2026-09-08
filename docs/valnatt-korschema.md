@@ -129,4 +129,4 @@ och publicera. Statusraden blir då "Slutligt resultat, riksdagsvalet 2026." uta
 .venv/bin/python scripts/skapa_bilder.py --ar 2026 --etikett "Majposten · Valet 2026"
 ```
 
-- [ ] Kontrollera sidan en sista gång i webbläsaren: `node verktyg/skal-check.js` och `node verktyg/beehiiv-check.js` med servern igång.
+- [ ] Kontrollera sidan en sista gång i webbläsaren, med servern igång: `node verktyg/skal-check.js`, `node verktyg/beehiiv-check.js` och `node verktyg/bredd-check.js`. Den sista är den enda som mäter sidledsrullning och krockande axeletiketter, i sex bredder från 320 px och i varje år i årväljaren.

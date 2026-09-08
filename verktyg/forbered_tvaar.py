@@ -142,6 +142,26 @@ def ta_bort_parti(fil, parti):
     return borttagna
 
 
+def doktorera_riket(fil, antal):
+    """Skruvar ned aggregat.riket.rd.antal_distrikt i den kopierade valdata_2026.js.
+
+    Rikets aggregat är färdigräknat i genrepsfilerna, så ett delvis räknat riket går inte att pröva ur
+    datan som den är. Det läget är däremot normalt under valkvällens första timmar, och det är då sidan
+    ska skriva förbehållet under halvcirkeln - i både mandatläget och procentläget."""
+    valdata = schema.las_js(fil)
+    post = ((valdata.get("aggregat") or {}).get("riket") or {}).get("rd")
+    if not post:
+        raise SystemExit(f"FEL: --riket-delvis men {fil.name} saknar aggregat.riket.rd")
+    totalt = post.get("totalt_distrikt")
+    if totalt is None:
+        raise SystemExit(f"FEL: --riket-delvis men aggregat.riket.rd saknar totalt_distrikt")
+    if antal > totalt:
+        raise SystemExit(f"FEL: --riket-delvis {antal} men riket har {totalt} distrikt")
+    post["antal_distrikt"] = antal
+    schema.skriv_js(fil.with_suffix(""), valdata)
+    return antal, totalt
+
+
 def satt_status(fil, status):
     """Skriver om meta.status i den kopierade valdata_2026.js, och ordet i meta.kalla när det står där.
 
@@ -170,6 +190,8 @@ def main():
     ap.add_argument("--utan-parti", metavar="PARTI", help="ta bort partiet ur testsidans swing_2026.js (alla val, distrikt och områdesnivå)")
     ap.add_argument("--partiell", type=icke_negativ, metavar="N",
                      help="markera bara de N första distrikten som räknade i alla tre valen och räkna om swingfilen; kan inte kombineras med --kf-raknade")
+    ap.add_argument("--riket-delvis", type=icke_negativ, metavar="N",
+                     help="skruva ned aggregat.riket.rd.antal_distrikt till N, för förbehållet under halvcirkeln")
     a = ap.parse_args()
     if a.partiell is not None and a.kf_raknade is not None:
         print("FEL: --partiell och --kf-raknade kan inte kombineras", file=sys.stderr)
@@ -192,6 +214,9 @@ def main():
         doktorera_partiell(ut / "data" / "valdata_2026.js", a.partiell)
         print(f"valdata_2026.js doktorerad: {a.partiell} distrikt räknade i alla tre valen")
         rakna_om_swing_om_finns(ut / "data")
+    if a.riket_delvis is not None:
+        antal, totalt = doktorera_riket(ut / "data" / "valdata_2026.js", a.riket_delvis)
+        print(f"valdata_2026.js doktorerad: riket {antal} av {totalt} distrikt räknade")
     if a.status:
         satt_status(ut / "data" / "valdata_2026.js", a.status)
         print(f"valdata_2026.js doktorerad: meta.status = {a.status}")

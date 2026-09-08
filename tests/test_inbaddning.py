@@ -542,7 +542,9 @@ def test_partinamnet_doljs_i_css_under_brytpunkten():
     css = CSS.read_text("utf-8")
     assert 'class: "parti-namn"' in js, "partinamnet får en klass i stället för en inline-färg"
     assert 'h("span", { style: "color:var(--sten)" }, parti(p).namn)' not in js
-    block = css[css.index("@container (max-width: 380px)"):]
+    # 371 px, inte 380: tabellens naturliga bredd med namnet är 339 px och sektionen är rotbredden minus
+    # 32 px, så namnet ryms redan från 372 px. En snävare gräns dolde det i ett band där det fick plats.
+    block = css[css.index("@container (max-width: 371px)"):]
     block = block[:block.index("}", block.index("{", block.index("{") + 1)) + 1]
     assert ".parti-namn" in block and "display: none" in block
     kropp = js[js.index("function renderMandatLegend("):]

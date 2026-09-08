@@ -248,3 +248,38 @@ def test_partiell_tal_en_valdatafil_utan_valnattsblock(tmp_path):
     assert r.returncode == 0, r.stdout + r.stderr
     ny = schema.las_js(ut / "data" / "valdata_2026.js")
     assert ny["meta"]["valnatt"] == {"raknade": 2, "totalt": 5}
+
+
+def _med_riket(mapp, antal=6626, totalt=6626):
+    """Lägger ett riksaggregat i fixturens valdata_2026, som genrepsfilerna har men fixturen saknar."""
+    valdata = schema.las_js(mapp / "valdata_2026.js")
+    valdata.setdefault("aggregat", {}).setdefault("riket", {})["rd"] = {
+        "namn": "Riket", "giltiga": 100, "rostande": 110, "rostberattigade": 120,
+        "andel": {"V": 0.1, "S": 0.3}, "antal_distrikt": antal, "totalt_distrikt": totalt}
+    schema.skriv(mapp / "valdata_2026", valdata)
+    return mapp
+
+
+def test_riket_delvis_skruvar_ned_antalet_raknade(tmp_path):
+    """Ett delvis räknat riket går inte att pröva ur genrepsdatan, som alltid är färdigräknad."""
+    ut = tmp_path / "ut"
+    kalla = _med_riket(_valnattsmapp(tmp_path / "valnatt"))
+    r = _kor(kalla, ut, "--valnatt", "--riket-delvis", "4012")
+    assert r.returncode == 0, r.stdout + r.stderr
+    post = schema.las_js(ut / "data" / "valdata_2026.js")["aggregat"]["riket"]["rd"]
+    assert post["antal_distrikt"] == 4012 and post["totalt_distrikt"] == 6626
+    assert post["andel"] == {"V": 0.1, "S": 0.3}, "andelarna rörs inte"
+    assert "4012 av 6626" in r.stdout
+
+
+def test_riket_delvis_utan_riksaggregat_avbryter(tmp_path):
+    r = _kor(_valnattsmapp(tmp_path / "valnatt"), tmp_path / "ut", "--riket-delvis", "10")
+    assert r.returncode == 1, r.stdout + r.stderr
+    assert "saknar aggregat.riket.rd" in r.stderr
+
+
+def test_riket_delvis_over_antalet_distrikt_avbryter(tmp_path):
+    kalla = _med_riket(_valnattsmapp(tmp_path / "valnatt"), totalt=6626)
+    r = _kor(kalla, tmp_path / "ut", "--riket-delvis", "9999")
+    assert r.returncode == 1, r.stdout + r.stderr
+    assert "men riket har 6626 distrikt" in r.stderr

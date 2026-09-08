@@ -19,6 +19,7 @@ const slutligUrl = namngivet('slutlig', null);            // valfri sida utan --
 const prelUrl = namngivet('prel', null);                  // valfri sida utan --valnatt, --status preliminar
 const utanPartiUrl = namngivet('utanparti', null);        // valfri sida byggd med --utan-parti S
 const partiellUrl = namngivet('partiell', null);          // valfri sida byggd med --valnatt --partiell N, för det bakåtvända kortet
+const riketDelvisUrl = namngivet('riketdelvis', null);    // valfri sida byggd med --valnatt --riket-delvis N, för förbehållet i båda enheterna
 const SVALEBO = '14800526';
 const snallt = text => { const e = new Error(text); e.snallt = true; return e; };
 // Statusraden gäller alltid riksdagsvalet, som är färdigräknat i testdatan - även på sidan där kf bara har 3 distrikt.
@@ -231,6 +232,40 @@ const KOHORT_KF = 'räknat på 3 jämförbara distrikt av 23';
     await sida.close();
   } else {
     console.log('partiell-sidan: hoppas över (ingen adress angiven)');
+  }
+
+  // Ett delvis räknat riket är normalläget under valkvällens första timmar. Förbehållet under halvcirkeln
+  // ska då stå i båda enheterna: procentläget får inte tappa det bara för att talen är andelar.
+  if (riketDelvisUrl) {
+    const sida = await oppna(riketDelvisUrl);
+    const las = () => sida.evaluate(() => {
+      const rot = document.getElementById('valgrafik'), f = rot.querySelector('#mandat-forbehall');
+      return { text: f.textContent.trim(), dold: f.hidden,
+               rubriker: [...rot.querySelectorAll('#mandat-legend th.tal')].map(t => t.textContent) };
+    });
+    const iMandat = await las();
+    await sida.evaluate(() => document.getElementById('valgrafik').querySelector('#mandat-enhet button[data-enhet="procent"]').click());
+    await new Promise(r => setTimeout(r, 400));
+    const iProcent = await las();
+    // Byt fördelning medan Procent är valt: skärmläsarraden ska beskriva tabellen som den står, alltså
+    // andelar, inte halvcirkelns mandat.
+    await sida.evaluate(() => {
+      const rot = document.getElementById('valgrafik');
+      const knappar = [...rot.querySelectorAll('#mandat-lage button')];
+      (knappar.find(b => b.getAttribute('aria-checked') === 'false') || knappar[0]).click();
+    });
+    await new Promise(r => setTimeout(r, 400));
+    const live = await sida.evaluate(() => document.getElementById('valgrafik').querySelector('#mandat-live').textContent.trim());
+    console.log('riket delvis räknat:', JSON.stringify({ iMandat, iProcent, live }));
+    kontroller.push(['riketdelvis: skärmläsarraden talar procent i procentläget', /%/.test(live) && !/\b\d{2,3}(,|$| [A-ZÅÄÖ])/.test(live.replace(/\d+,\d/g, ''))]);
+    const harTal = t => /\d[\d\s ]* av [\d\s ]+ distrikt räknade/.test(t);
+    kontroller.push(['riketdelvis: förbehållet syns i mandatläget', !iMandat.dold && harTal(iMandat.text)],
+                    ['riketdelvis: förbehållet syns i procentläget', !iProcent.dold && harTal(iProcent.text)],
+                    ['riketdelvis: samma förbehåll i båda enheterna', iMandat.text === iProcent.text],
+                    ['riketdelvis: rubrikerna följer enheten', iProcent.rubriker.join('|') !== iMandat.rubriker.join('|')]);
+    await sida.close();
+  } else {
+    console.log('riketdelvis-sidan: hoppas över (ingen adress angiven)');
   }
 
   kontroller.push(['inga JS-fel', fel.length === 0]);

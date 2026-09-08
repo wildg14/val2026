@@ -579,6 +579,21 @@ function renderRiksdag() {
   forbehall.textContent = !preliminar ? ""
     : omradeDelvis(rike) ? `Preliminärt resultat, riket: ${raknadeText(rike)}.` : "Preliminärt resultat.";
 }
+// Skärmläsarraden byggs ur tabellens egna celler, så att den aldrig kan säga något annat än det som står
+// på skärmen: talen är mandat eller andelar beroende på enheten, och kolumnen följer vald fördelning.
+// Halvcirkelns egen aria-label räknar mandat i båda enheterna, eftersom bilden alltid visar mandat.
+function mandatLiveText() {
+  const tabell = $("#mandat-legend table.mandat"), ar = data().meta.ar;
+  const iProcent = state.mandatEnhet === "procent", egenKol = state.mandatLage === "majorna";
+  const etikett = iProcent ? (egenKol ? "Majorna" : `Riket ${ar}`)
+                           : (egenKol ? "Om Majorna bestämde" : `Riksdagen ${ar}`);
+  if (!tabell) return etikett + ".";
+  const tal = [...tabell.querySelectorAll("tbody tr")].map(rad => {
+    const td = rad.querySelector(`td.tal[data-kol="${egenKol ? "egen" : "verklig"}"]`);
+    return td && td.textContent ? `${rad.dataset.parti} ${td.textContent}` : null;
+  }).filter(Boolean);
+  return tal.length ? `${etikett}: ${tal.join(", ")}.` : etikett + ".";
+}
 function sattMandatEnhet(enhet) {
   if (state.mandatEnhet === enhet) return;
   state.mandatEnhet = enhet;
@@ -587,10 +602,8 @@ function sattMandatEnhet(enhet) {
     const aktiv = b.dataset.enhet === enhet;
     b.setAttribute("aria-checked", String(aktiv)); b.tabIndex = aktiv ? 0 : -1;
   });
-  const ar = data().meta.ar;
-  $("#mandat-live").textContent = enhet === "procent"
-    ? `Tabellen visar andel av giltiga röster i procent. Riket ${ar} och Majorna.`
-    : `Tabellen visar mandat. Riksdagen ${ar} och Majornas riksdag.`;
+  $("#mandat-live").textContent = (enhet === "procent" ? "Tabellen visar andel av giltiga röster i procent. "
+    : "Tabellen visar mandat. ") + mandatLiveText();
 }
 function sattMandatLage(lage) {
   if (state.mandatLage === lage) return;
@@ -601,12 +614,12 @@ function sattMandatLage(lage) {
   const etikettLage = lage === "majorna" ? "Om Majorna bestämde" : `Riksdagen ${data().meta.ar}`;
   const fordelningText = Object.entries(fordelning).map(([p, n]) => `${p} ${n}`).join(", ") + ".";
   $("#halvcirkel svg").setAttribute("aria-label", `${antal} mandat, ${etikettLage.toLowerCase()}. ${fordelningText}`);
-  $("#mandat-live").textContent = `${etikettLage}: ${fordelningText}`;
   $("#mandat-lage").querySelectorAll("button").forEach(b => {
     const aktiv = b.textContent.startsWith("Om") === (lage === "majorna");
     b.setAttribute("aria-checked", String(aktiv)); b.tabIndex = aktiv ? 0 : -1;
   });
   skrivMandatTal();
+  $("#mandat-live").textContent = mandatLiveText();   // talen först, sedan raden som beskriver dem
 }
 // Skelettet byggs en gång per år, med samma partirader i båda enheterna: de som har minst ett mandat i någon
 // av fördelningarna. Talen och kolumnrubrikerna skrivs sedan om på plats av skrivMandatTal, så att varken ett

@@ -506,9 +506,10 @@ function renderToppsvar() {
   status.hidden = !st.text && !st.laddaOm;
   el.innerHTML = "";
   if (!majornaRaknat(val)) { el.append(h("p", { class: "toppsvar-tom" }, `Riksdagsvalet ${meta.ar}: inget distrikt räknat än.`)); return; }
-  // Fyra partier på en telefon, alla utom Övriga från 600 px containerbredd.
+  // Alla partier utom Övriga, i alla bredder. Listan kapades till fyra på telefon fram till 2026-09-08;
+  // halva resultatet överst på sidan väckte fler frågor än det svarade på.
   const utomOvriga = andelar(m.roster, m.giltiga).filter(a => a.p !== "Övriga");
-  const rader = arDesktop() ? utomOvriga : utomOvriga.slice(0, 4);
+  const rader = utomOvriga;
   const lista = h("div", { class: "toppsvar-rader", role: "list", "aria-label": `${VALNAMN[val]} ${meta.ar}, de ${rader.length} största partierna i Majorna` });
   // Raden har hela svaret i aria-label; innehållet döljs för skärmläsare så att talet inte läses två gånger.
   for (const a of rader) lista.append(h("div", { class: "toppsvar-rad", role: "listitem", "aria-label": `${parti(a.p).namn} ${procent(a.andel)}` },
@@ -522,8 +523,14 @@ function renderToppsvar() {
 function adressFor(url) {   // absolut adress eller adress relativt data-bas
   return /^(https?:)?\/\//.test(url) || url.startsWith("/") ? url : BAS + url;
 }
+// Alla utgående länkar grafiken bygger går genom den här: target _top behövs för att blocket ligger i en
+// iframe hos Beehiiv, där en vanlig länk byter ut grafiken mot den länkade sidan inuti iframen i stället
+// för att läsaren lämnar dit. Utanför en iframe beter sig _top som ett vanligt klick. Mätt på den
+// publicerade sidan: Beehiivs iframe har ingen sandbox, och toppfönstret går till målet.
+const LANK_MAL = "_top";
 function lankad(text, url, klass) {   // tom länk ger ren text, aldrig ett tomt href
-  return url ? h("a", { href: url, class: klass || null }, text) : h("span", { class: klass || null }, text);
+  return url ? h("a", { href: url, target: LANK_MAL, class: klass || null }, text)
+             : h("span", { class: klass || null }, text);
 }
 function ruta(post, standardLanktext) {
   const el = h("div", { class: "ruta" }, h("h2", {}, post.rubrik || ""));
@@ -535,10 +542,7 @@ function ruta(post, standardLanktext) {
     if (post.extra) stycke.append(" ", h("span", { class: "ruta-extra" }, post.extra));
     el.append(stycke);
   }
-  // target _top: blocket ligger i en iframe hos Beehiiv, och utan det byts grafiken mot den länkade
-  // sidan inuti iframen i stället för att läsaren lämnar till den. Utanför en iframe beter sig _top
-  // precis som ett vanligt klick.
-  if (post.lank) el.append(h("p", { class: "ruta-lank" }, h("a", { href: post.lank, target: "_top" }, post.lanktext || standardLanktext)));
+  if (post.lank) el.append(h("p", { class: "ruta-lank" }, h("a", { href: post.lank, target: LANK_MAL }, post.lanktext || standardLanktext)));
   return el;
 }
 function renderSamarbete() {
@@ -550,7 +554,7 @@ function renderSamarbete() {
   if (visaRad) {
     if (sam.logga) {
       const logga = h("img", { class: "samarbete-logga", src: adressFor(sam.logga), alt: sam.namn });
-      rad.append(sam.lank ? h("a", { href: sam.lank }, logga) : logga);
+      rad.append(sam.lank ? h("a", { href: sam.lank, target: LANK_MAL }, logga) : logga);
     }
     rad.append(h("span", { class: "samarbete-text" }, (sam.text || "I samarbete med") + " ", lankad(sam.namn, sam.lank)));
   }
@@ -777,7 +781,6 @@ if ("ResizeObserver" in window) new ResizeObserver(() => {
   const desktopBytte = senastDesktop !== null && nu !== senastDesktop;
   const breddBytte = senastKartaBredd !== null && Math.abs(breddNu - senastKartaBredd) / senastKartaBredd > 0.1;
   if ((desktopBytte || breddBytte) && geo() && !state.bild) renderKarta();
-  if (desktopBytte && data() && !state.bild) renderToppsvar();   // antalet partier i toppsvaret följer brytpunkten
   if (state.historik && !state.bild && (desktopBytte || breddBytte || histBildSlak())) renderHistorik();
   senastDesktop = nu;
   // Referensbredden flyttas bara när något faktiskt ritades om. Annars nollställs jämförelsen vid varje utslag
@@ -1611,8 +1614,11 @@ function renderFakta() {
   // valdistrikt 2026"), så en egen statusmening upprepade bara det. Andelsdefinitionen togs bort samma
   // dag på Daniels begäran. Punkten i slutet skrivs här, och en punkt som redan står i kallan tas bort
   // först - historikårens filer har en, 2022 års har ingen.
-  const li = [`Avgränsning: ${meta.avgransning}.`,
-              `Källa: ${String(meta.kalla || "").replace(/\.\s*$/, "")}.`];
+  const li = [`Avgränsning: ${meta.avgransning}.`];
+  // Punkten skrivs här, och avslutande punkter och blanksteg i kallan skalas av först - historikårens
+  // filer slutar med punkt, 2022 års inte. En tom kalla ger ingen rad alls i stället för "Källa: .".
+  const kalla = String(meta.kalla || "").replace(/[\s.]+$/, "");
+  if (kalla) li.push(`Källa: ${kalla}.`);
   $("#faktalista").replaceChildren(...li.map(t => h("li", {}, t)));
   $("#fot").replaceChildren(h("p", {}, "Så röstade Majorna - en valgrafik från Majposten. Valdata: Valmyndigheten." + (state.bakgrund ? " Kartunderlag © OpenStreetMaps bidragsgivare (ODbL)." : "")));
 }

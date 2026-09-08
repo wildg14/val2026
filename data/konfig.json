@@ -39,9 +39,9 @@
  "hjalp": {
   "visa": true,
   "rubrik": "Behöver du hjälp att rösta?",
-  "text": "Majornabon och Majpostenläsaren Marcus Wernberger Jonsson har gjort hjalpmigrosta.se, en fristående och partipolitiskt obunden guide till valet på fjorton språk.",
+  "text": "Majornabon och Majpostenläsaren Marcus Wernberger Jonsson har gjort hjalpmigrosta.se, en fristående, ideell och partipolitiskt obunden guide till valet på fjorton språk.",
+  "extra": "Den går igenom röstkortet, valsedlarna, förtidsröstningen och hur det går till i vallokalen.",
   "lank": "https://hjalpmigrosta.se/sv/start/",
-  "lanktext": "Till hjalpmigrosta.se",
-  "extra": "Den går igenom röstkortet, valsedlarna, förtidsröstningen och hur det går till i vallokalen."
+  "lanktext": "Till hjalpmigrosta.se"
  }
 }

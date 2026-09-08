@@ -37,7 +37,9 @@ const valfriFil = m => /\/data\/swing_\d+\.js(\?|$)/.test((m.location() || {}).u
   // Statusraden tiger för ett färdigräknat val före valdagen och är då dold, så att den inte lämnar ett tomt
   // band. Kvar i sidhuvudet står den redaktionella meningen och den dämpade rubriken över staplarna; årtalet
   // hårdkodas inte, kontrollen gäller varje år.
-  if (res.toppsvarRader === 4 && res.statusrad === '' && res.statusradDold
+  // Åtta rader: alla partier utom Övriga i riksdagsvalet 2022 (V, S, MP, SD, M, C, L, KD). Listan kapades
+  // till fyra på telefon fram till 2026-09-08; kontrollen körs i 390 px och skulle fånga en återgång.
+  if (res.toppsvarRader === 8 && res.statusrad === '' && res.statusradDold
       && /^Riksdagsvalet \d{4} i Majorna$/.test(res.toppsvarRubrik) && res.toppMening.trim()) console.log('toppsvar ok');
   else { console.log('TOPPSVAR FEL'); brutet = true; }
   // riktigt musklick (inte dispatchEvent) mitt på Kusttorget: gator/hållplatser ligger ovanpå men ska ha pointer-events: none

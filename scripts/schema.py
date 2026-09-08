@@ -1,5 +1,6 @@
 """Datafilernas schema: bygger valdata-objektet, swing mot ett basår, skriver .json + .js."""
 import datetime as dt
+import copy
 import json
 import os
 from pathlib import Path
@@ -208,9 +209,19 @@ def swing(ny, bas, jamforbara=None, meningar=None, samma_yta=None):
 def las_konfig(mapp):
     """data/konfig.json om den finns, annars standardkonfigen."""
     p = Path(mapp) / "konfig.json"
-    if p.exists():
-        return {**KONFIG_STANDARD, **json.loads(p.read_text("utf-8"))}
-    return dict(KONFIG_STANDARD)
+    if not p.exists():
+        return copy.deepcopy(KONFIG_STANDARD)
+    # Ett nästlat block i filen ersatte tidigare hela standardblocket, så en nyckel som lagts till i
+    # standarden (till exempel hjalp.extra) aldrig nådde en befintlig konfig. Sammanslagningen går därför
+    # ett steg ned: filens värden vinner, standardens fyller i det som saknas.
+    fil = json.loads(p.read_text("utf-8"))
+    ut = copy.deepcopy(KONFIG_STANDARD)
+    for nyckel, varde in fil.items():
+        if isinstance(varde, dict) and isinstance(ut.get(nyckel), dict):
+            ut[nyckel] = {**ut[nyckel], **varde}
+        else:
+            ut[nyckel] = varde
+    return ut
 
 
 def skriv_konfig(mapp, konfig):

@@ -384,7 +384,8 @@ def test_konturkartorna_och_den_kortade_faktalistan():
         "andelsdefinitionen togs bort 2026-09-08"
     assert 'Slutligt resultat." : "Preliminärt resultat."' not in fakta, \
         "statusmeningen upprepade ordet som redan står i meta.kalla"
-    assert 'replace(/\\.\\s*$/, "")' in fakta, "en punkt som redan står i kallan ger inte dubbel punkt"
+    assert "Källa: ${kalla}." in fakta, "raden är källan och inget mer"
+    assert "if (kalla)" in fakta, "en tom källa ger ingen rad alls, inte Källa: med bara en punkt"
     assert "Valdeltagande i Majorna" not in fakta, "valdeltagandet står i bild B, inte i Om siffrorna"
     assert "Byggd av Majposten" not in fakta, "avsändaren står i sidfoten, inte i listan"
 
@@ -454,26 +455,30 @@ def test_arsbytet_revaliderar_distriktet():
     assert "partierIVal" in kropp, "partiet valideras om vid årsbyte"
 
 
-def test_toppsvaret_visar_alla_partier_pa_desktop():
-    """Fyra partier under 600 px containerbredd, alla utom Övriga från 600 px."""
+def test_toppsvaret_visar_alla_partier_i_alla_bredder():
+    """Hela resultatet, även på mobil. Fram till 2026-09-08 kapades listan till fyra partier under
+    600 px containerbredd; Daniel ville se alla utom Övriga överallt."""
     js = JS.read_text("utf-8")
     css = CSS.read_text("utf-8")
     kropp = js[js.index("function renderToppsvar()"):js.index("/* ---- samarbete")]
-    assert "arDesktop()" in kropp, "antalet rader följer containerbredden"
-    assert "arDesktop() ? utomOvriga : utomOvriga.slice(0, 4)" in kropp, "fyra rader gäller bara under brytpunkten"
+    assert "arDesktop()" not in kropp, "antalet rader följer inte längre containerbredden"
+    assert "slice(0, 4)" not in kropp, "ingen kapning till fyra partier"
     assert "rader.length" in kropp, "aria-etiketten följer antalet partier"
-    # css har flera block med samma villkor: reservationen kan stå i vilket som helst av dem
-    rad = None
+    # En enda reservation gäller nu i alla bredder, ingen egen på desktop.
+    rad = next((r for r in css.splitlines() if r.startswith(".mp-val .toppsvar {")), None)
+    assert rad and "min-height:" in rad, "toppsvaret har en reserverad höjd"
     for m in re.finditer(r"@container \(min-width: 600px\) \{(.*?)\n\}\n", css, re.S):
-        rad = rad or next((r for r in m.group(1).splitlines() if r.strip().startswith(".mp-val .toppsvar {")), None)
-    assert rad and "min-height:" in rad, "åtta rader får en egen reserverad höjd på desktop"
+        assert not any(r.strip().startswith(".mp-val .toppsvar {") for r in m.group(1).splitlines()), \
+            "ingen egen reservation på desktop längre"
 
 
-def test_toppsvaret_ritas_om_vid_brytpunkten():
-    """ResizeObservern ritar om toppsvaret när containern passerar 600 px."""
+def test_toppsvaret_ritas_inte_om_vid_brytpunkten():
+    """Toppsvaret ser likadant ut i alla bredder sedan kapningen togs bort, så ResizeObservern har
+    ingen anledning att rita om det. En kvarglömd omritning hade kostat en full omrendering vid varje
+    breddbyte utan att ändra något."""
     js = JS.read_text("utf-8")
     obs = re.search(r"new ResizeObserver\(\(\) => \{(.*?)\}\)\.observe\(rot\);", js, re.S)
-    assert obs and "renderToppsvar()" in obs.group(1), "toppsvaret ritas om vid desktopbytet"
+    assert obs and "renderToppsvar()" not in obs.group(1), "toppsvaret beror inte på bredden"
 
 
 def test_konfig_har_fyra_ar_och_valnattsmening():
@@ -539,10 +544,10 @@ def test_arvaljaren_har_knappradens_marginal():
 
 
 def test_toppsvaret_utan_magiskt_tak():
-    """Antalet partier på desktop är alla utom Övriga, inte ett tal som råkar vara stort nog."""
+    """Antalet partier är alla utom Övriga, inte ett tal som råkar vara stort nog."""
     js = JS.read_text("utf-8")
     assert "arDesktop() ? 99 : 4" not in js
-    assert "const rader = arDesktop() ? utomOvriga : utomOvriga.slice(0, 4);" in js
+    assert "const rader = utomOvriga;" in js
 
 
 def test_mandattabellen_ligger_i_en_rullbar_behallare():
@@ -766,7 +771,38 @@ def test_rutans_sista_mening_kapas_pa_mobil():
     assert 'h("p", {}, post.text)' in kropp, "spanen ligger i samma stycke som texten"
     dold = next((r for r in css.splitlines() if r.startswith(".mp-val .ruta-extra {")), None)
     assert dold and "display: none" in dold, "dold som standard, alltså på mobil"
+    ruta = next((r for r in css.splitlines() if r.startswith(".mp-val .ruta {")), None)
+    assert ruta and "container-type: inline-size" in ruta, \
+        "gränsen mäter rutans egen bredd, inte sidans - rutan är 414 px i högerspalten på en 900 px-sida"
     syns = None
-    for m in re.finditer(r"@container \(min-width: 600px\) \{(.*?)\n\}\n", css, re.S):
+    for m in re.finditer(r"@container \(min-width: 340px\) \{(.*?)\n\}\n", css, re.S):
         syns = syns or next((r for r in m.group(1).splitlines() if r.strip().startswith(".mp-val .ruta-extra {")), None)
-    assert syns and "display: inline" in syns, "visas från 600 px containerbredd"
+    assert syns and "display: inline" in syns, "visas från 340 px innehållsbredd i rutan, uppmätt"
+
+
+def test_rosthjalpsrutan_ligger_bredvid_resultatet_pa_desktop():
+    """Från 900 px containerbredd står sidhuvudet i vänsterspalten och rutan i högerspalten, i stället
+    för under hela sidhuvudet. Under 900 px ligger den kvar under, som förut."""
+    css = CSS.read_text("utf-8")
+    block = None
+    for m in re.finditer(r"@container \(min-width: 900px\) \{(.*?)\n\}\n", css, re.S):
+        block = m.group(1)
+    assert block, "desktopblocket finns"
+    huvud = next((r for r in block.splitlines() if r.strip().startswith(".mp-val header.topp {")), None)
+    rutor = next((r for r in block.splitlines() if r.strip().startswith(".mp-val #rutor {")), None)
+    assert huvud and "grid-column: 1" in huvud, "sidhuvudet i vänsterspalten"
+    assert rutor and "grid-column: 2" in rutor, "rutorna i högerspalten"
+    assert rutor and "grid-row: 1" in rutor and "grid-row: 1" in huvud, "samma rad, annars hamnar rutan under"
+
+
+def test_alla_lankar_grafiken_bygger_har_target_top():
+    """Blocket ligger i en iframe hos Beehiiv. En länk utan target _top byter ut grafiken mot den länkade
+    sidan inuti iframen; i praktiken hände ingenting alls vid klick. Mätt på den publicerade sidan går
+    toppfönstret till målet, och Beehiivs iframe har ingen sandbox som blockerar det."""
+    js = JS.read_text("utf-8")
+    assert 'const LANK_MAL = "_top";' in js, "målet står på ett ställe"
+    ankare = re.findall(r'h\("a",\s*\{([^}]*)\}', js)
+    assert ankare, "grafiken bygger länkar"
+    for attr in ankare:
+        assert "target" in attr, f"länk utan target: {attr.strip()[:80]}"
+        assert "LANK_MAL" in attr, f"länk med eget målvärde i stället för konstanten: {attr.strip()[:80]}"

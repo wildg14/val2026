@@ -82,7 +82,9 @@ const KOHORT_KF = 'räknat på 3 jämförbara distrikt av 23';
     ['23 polygoner 2022', y2022.antalPaths === 23],
     ['Sandarne finns 2022', y2022.harSandarne],
     ['samma kartram båda åren', y2026.viewBox === y2022.viewBox],
-    ['fyra partier i toppsvaret 2026', y2026.toppsvarRader === 4],
+    // Alla partier utom Övriga, i alla bredder. Kapningen till fyra på telefon togs bort 2026-09-08;
+    // genrepets 2026 har åtta nyckelpartier, samma uppsättning som 2022.
+    ['alla partier utom Övriga i toppsvaret 2026', y2026.toppsvarRader === 8],
     ['statusraden räknar distrikten', y2026.statusrad.startsWith(STATUS_2026)],
     ['Ladda om finns på valnatten', y2026.laddaOm],
     ['statusraden för 2022 på valnatten', y2022.statusrad.startsWith('Slutligt resultat 2022.')],

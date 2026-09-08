@@ -19,7 +19,7 @@ En interaktiv valgrafik för nyhetsbrevet Majposten (Daniel Emgård, hyperlokalt
 
 Grafiken ligger native på en sida i Beehiivs sajtbyggare, **majposten.se/val2026**, som ett HTML-block. Koden och datan hostas på GitHub Pages: repo **github.com/wildg14/val2026**, adress **https://wildg14.github.io/val2026/**. Läsaren ser aldrig GitHub-adressen. Ingen iframe: Daniel avvisade iframe uttryckligen.
 
-Projektmappen är `/Users/daniel/code/Temp` (git, branch `main`, remote `origin` = GitHub). Arbete sker i grenar under `.claude/worktrees/` som mergas till `main`. Valnattsomgången, historikplanen och grupp 1 och 2 av Daniels feedbackrunda ligger alla på `main` och är pushade. Grupp 3 är byggd men inte pushad: när det här skrevs stod `origin/main` på `c51bc71` och arbetsgrenen `claude/historiksektion-handover-b6b0b1` tre commits före den. Kontrollera alltid med `git log origin/main --oneline -1` innan du påstår något om publiceringsläget. Publicering av kodändringar är `git push origin main`; Pages bygger själv inom en minut. Beehiiv-sidan behöver aldrig röras för uppdateringar.
+Projektmappen är `/Users/daniel/code/Temp` (git, branch `main`, remote `origin` = GitHub). Arbete sker i grenar under `.claude/worktrees/` som mergas till `main`. Valnattsomgången, historikplanen och alla tre grupperna ur Daniels feedbackrunda ligger på `main` och är pushade: `origin/main` stod 2026-09-08 på `9f1b6f8`. Kontrollera alltid med `git log origin/main --oneline -1` innan du påstår något om publiceringsläget. Publicering av kodändringar är `git push origin main`; Pages bygger själv inom en minut. Beehiiv-sidan behöver aldrig röras för uppdateringar.
 
 ## Arbetsregler som gäller i det här projektet
 
@@ -201,7 +201,7 @@ Fynd att ta med:
 
 Daniel gick igenom den publicerade sidan på majposten.se/val2026 och gav feedback: sidan sade samma sak flera gånger och kartan var plottrig. Kortet upprepade valdeltagandet som redan står i toppsvaret, blocket "Hur har det ändrats" upprepade de små talen vid staplarna, kartan skrev partibokstäver ovanpå färger som legenden redan förklarar, och historiksektionens partilinjediagram (bild A) med sin talrad och långa not tog mer plats än det svarade på. Han ville också ha fler år i sidan utan att starten blev tyngre.
 
-Arbetet delades i två omgångar: **grupp 1** (`f412aa2` och `0a5898f`) och **grupp 2** (`5cecea7` och `a536162`). Båda ligger på `main` och är pushade: `origin/main` stod 2026-09-08 på `c51bc71`, och alla fyra commitarna är föräldrar till den (kontrollerat med `git merge-base --is-ancestor`). Grupp 3 nedan är det enda som inte är pushat.
+Arbetet delades i två omgångar: **grupp 1** (`f412aa2` och `0a5898f`) och **grupp 2** (`5cecea7` och `a536162`). Båda ligger på `main` och är pushade, liksom grupp 3 nedan: `origin/main` stod 2026-09-08 på `9f1b6f8`, och alla commitarna är föräldrar till den (kontrollerat med `git merge-base --is-ancestor`).
 
 **Grupp 1: sidan bantad.**
 
@@ -302,7 +302,7 @@ Att veta:
 
 **Först av allt, om det är valveckan:** `docs/valnatt-korschema.md` och README-avsnittet Valnatten. Torrkörningen är gjord 2026-09-07 och dess utskrifter står som facit i körschemat. Grenen `claude/valnattsplanen-superpowers-b46290` är mergad till `main` och pushad, så körschemats grenkontroll (första punkten under Lördag 12 september) är avklarad.
 
-**Daniels feedbackrunda är genomförd.** Grupp 1, 2 och 3 är byggda (se statusavsnitten ovan). Grupp 1 och 2 ligger på `main` och är pushade; grupp 3 (`41adb23` och `18fab59`) ligger på grenen `claude/historiksektion-handover-b6b0b1` och är **inte pushad** - `origin/main` stod på `c51bc71` när det här skrevs, och grenen låg före den med de två commitarna plus dokumentationscommiten, noll efter. Kontrollera med `git log origin/main --oneline -1` innan du skriver eller säger något om publiceringsläget.
+**Daniels feedbackrunda är genomförd och publicerad.** Grupp 1, 2 och 3 är byggda, mergade och pushade (se statusavsnitten ovan): `origin/main` stod 2026-09-08 på `9f1b6f8`, och sidan är kontrollerad live på både wildg14.github.io/val2026 och majposten.se/val2026 utan JS-fel. Kontrollera med `git log origin/main --oneline -1` innan du skriver eller säger något om publiceringsläget.
 
 **Nästa fråga är Daniels, ställd 2026-09-08:** ska sidan uppdatera sig själv på valnatten, i stället för att läsaren trycker "Ladda om"? Väntar på hans beslut. Underlaget så här långt:
 
@@ -354,6 +354,27 @@ Idéer som diskuterats sedan tidigare, med datastatus:
 Prioritera efter tid till valdagen: det som är aktuellt nu (förtidsröstning, valdeltagande, tvillingar) före det som blir bättre efter valet (historik med 2026 som femte punkt, Göteborgskartan).
 
 ## Fallgropar
+
+**Ett nytt worktree måste riggas innan sviten går att lita på.** Ett `git worktree add` ger bara de
+committade filerna, och en stor del av testerna och alla webbläsarverktyg hänger på gitignorerat
+material som ligger kvar i huvudkatalogen. Utan riggning hoppas tester tyst över i stället för att fela,
+och antalet ser fortfarande grönt ut - vid basen 329 tester gav huvudkatalogen 327 passerade och 2
+överhoppade (pem-filerna saknades), och ett orört worktree 324 passerade och 5 överhoppade (2026 års
+valgeografi saknades). Så här riggas det, allt är gitignorerat eller lokalt uteslutet och ska aldrig
+committas:
+
+- Symlänka från huvudkatalogen: `.venv`, de tre `Roster-per-distrikt-*.xlsx` och `roster-per-distrikt-*.xlsx`,
+  `statistik-alder-och-kon-*.xlsx`, `slutligt-valresultat-*.xlsx`, `fortidsroster.csv`,
+  `data/historik/majorna_historik.sqlite` och `Historiska dokument/dl_webb` (den sista bär både
+  genrepsfilerna och 2026 års valgeografi). Symlänka `verktyg/node_modules` och pem-filerna från ett
+  worktree som redan har dem, eller installera respektive hämta om dem.
+- **Lägg symlänkarna i `.git/info/exclude`.** Git ser en symlänk som en fil, inte som en katalog, så
+  `.gitignore`-raderna som slutar med snedstreck (`.venv/`, `verktyg/node_modules/`) matchar dem inte och
+  de dyker upp som otrackade. `info/exclude` är lokal och följer aldrig med en commit.
+- Kopiera `tmp/tvaar-torr` från ett worktree som har den, annars går testsidorna inte att bygga.
+- Starta servern från worktreets rot: `python3 -m http.server 8765 --bind 127.0.0.1`. Porten är hårdkodad
+  i `skal-check.js`, `beehiiv-check.js` och `vard-check.js`, så en server som kör från en annan mapp
+  kontrollerar fel kod utan att säga ifrån.
 
 - `index.html` innehåller inte sidan längre. Ändra i `valgrafik.js` (MARKUP-strängen) och `valgrafik.css`.
 - Kartan, kartlegenden och resultatkortet ligger i `#karta-yta` inuti `#karta-sektion`. Det är den wrappern som begränsar det klibbiga kortets yta; tar man bort den lägger sig kortet över tabellknappen och tabellen vid rullning på desktop.

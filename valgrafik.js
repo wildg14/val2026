@@ -1589,8 +1589,7 @@ function histKartor() {
   notEl.textContent = `Till vänster distrikten i valet ${arA}, till höger de som gällde ${arB}. `
     + (omritade.size ? rakneord(omritade.size) + ` distrikt har fått nya gränser `
        + `och ${omritade.size === 1 ? "är tonat" : "är tonade"} i båda kartorna. ` : "")
-    + "Gränserna dras om inför varje val, så ett kvarter kan byta distrikt utan att någon har flyttat. "
-    + "Hur olika åldrar röstade går inte att veta - valhemligheten gäller per distrikt, inte per person.";
+    + "Gränserna dras om inför varje val, så ett kvarter kan byta distrikt utan att någon har flyttat.";
 }
 
 /* ---- fakta */

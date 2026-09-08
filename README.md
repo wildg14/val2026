@@ -232,7 +232,7 @@ Sektionen "Majorna sedan 2006" ligger näst sist på sidan, ovanför "Om siffror
 
   **De omritade distrikten tonas** i båda kartorna. Elva av 23 distrikt fick nya gränser mellan 2022 och 2026, men bitarna är så små att konturerna ser lika ut - utan toningen såg paret ut som två identiska teckningar. `jamforDistrikt()` avgör det på distriktskod, `area_km2` och omskrivande rektangel: polygonerna räknas om mellan åren och får både andra hörnantal och annan startpunkt, så formen kan inte jämföras hörn för hörn. En kod som bara finns i det ena året är inte ett omritat distrikt utan en annan indelning, och 2006, 2010, 2014 och 2018 har egna kodserier och tonas därför inte alls. Ett byte av två exakt lika stora bitar som lämnar ytterkanten orörd skulle missas; det har inte hänt i något av åren i konfigen. `tests/test_geo.py` vaktar att det är elva distrikt och att de äldre åren inte delar koder med 2026.
 
-  Noten namnger båda åren, säger hur många distrikt som är tonade när något är det, och avslutar med att valhemligheten gäller per distrikt, inte per person.
+  Noten namnger båda åren, säger hur många distrikt som är tonade när något är det, och avslutar med att gränserna dras om inför varje val. Meningen om att valhemligheten gäller per distrikt och inte per person togs bort 2026-09-08.
 
 Partilinjediagrammet som låg först i sektionen (bild A, med läslinje och talrad) togs bort 2026-09-07 efter Daniels genomgång: det tog mer plats än det svarade på.
 

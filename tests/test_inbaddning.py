@@ -154,14 +154,17 @@ def test_toppsvar_och_statusrad_ersatter_banderollen():
 
 
 def test_reserverade_hojder_i_sidhuvudet():
-    """Statusraden, toppsvaret och årsknapparna tar plats redan innan datan kommer, så att sidhuvudet inte hoppar."""
+    """Statusraden, toppsvaret och årsknapparna tar plats redan innan datan kommer, så att sidhuvudet inte hoppar.
+    Sedan grupp 4 ligger den redaktionella meningen i ett eget element som fylls i samma stund som konfigen
+    lästs; den behöver därför ingen reserverad rad i toppsvaret, och klassen har-mening är borta."""
     css = CSS.read_text("utf-8")
     js = JS.read_text("utf-8")
-    for regel in (".mp-val .statusrad", ".mp-val .toppsvar", ".mp-val.har-mening .toppsvar", ".mp-val #arval"):
+    for regel in (".mp-val .statusrad", ".mp-val .toppsvar", ".mp-val #arval"):
         rad = next((r for r in css.splitlines() if r.startswith(regel + " {")), None)
         assert rad and "min-height:" in rad, f"{regel} saknar reserverad höjd"
-    assert '"har-mening"' in js, "klassen har-mening sätts när konfigen har en mening"
+    assert "har-mening" not in js and "har-mening" not in css, "meningen har eget element, ingen klass på roten"
     assert '$("#arval").hidden' in js, "årsknapparnas rad tar plats så snart konfigen är läst"
+    assert '$("#statusrad").hidden' in js, "en statusrad som ska tiga döljs redan när konfigen lästs"
 
 
 def test_kortet_har_ingen_andringsrad_kvar():
@@ -583,3 +586,67 @@ def test_axeletiketterna_glesas_efter_matning():
     rd = js[js.index("function renderRostdelning("):]
     rd = rd[:rd.index("\n}\n")]
     assert rd.index("rader.replaceChildren(grafik)") < rd.index("glesaAxelEtiketter("), "mät först när grafiken sitter i DOM"
+
+
+# ---- grupp 4 ur Daniels feedbackrunda: sidhuvudet bantat och årväljaren flyttad högst upp
+
+
+def test_statusraden_tiger_fore_valdagen():
+    """Meningen "Slutligt resultat 2022. Valet 2026 är söndag 13 september." är borta: årväljaren och den
+    redaktionella meningen ovanför bär redan den informationen. Valnattens räknestatus och Ladda om står kvar."""
+    js = JS.read_text("utf-8")
+    assert "datumText" not in js, "datumtexten hade bara valdagsmeningen som kund"
+    kropp = js[js.index("function statusText()"):js.index("function renderToppsvar()")]
+    assert "Valet ${valdagAr}" not in kropp, "valdagsmeningen är borta"
+    assert "Preliminärt, ${raknade} av ${totalt} distrikt räknade" in kropp, "valnattens räknestatus står kvar"
+    assert "Slutligt resultat, riksdagsvalet ${meta.ar}" in kropp, "raden efter sluträkningen står kvar"
+    assert "laddaOm: true" in kropp, "Ladda om står kvar på valnatten"
+
+
+def test_toppsvaret_har_ingen_valdeltagandemening():
+    """"82,8 % röstade, mot 84,2 % i riket." är borttagen ur toppsvaret."""
+    js = JS.read_text("utf-8")
+    kropp = js[js.index("function renderToppsvar()"):js.index("/* ---- samarbete")]
+    assert "röstade" not in kropp, "valdeltagandemeningen är borta"
+    assert "rostande" not in kropp and "rostberattigade" not in kropp, "talen räknas inte längre i toppsvaret"
+    assert "toppsvar-mening" not in kropp, "den redaktionella meningen ligger i ett eget element"
+
+
+def test_sidhuvudets_ordning():
+    """Årväljaren högst upp i sektionen, sedan den redaktionella meningen, sedan statusraden och staplarna."""
+    js = JS.read_text("utf-8")
+    markup = js[js.index("const MARKUP = `"):js.index('<div id="rutor"')]
+    ordning = ['id="topp-etikett"', "<h1>", 'id="arval"', 'id="arval-fel"',
+               'id="topp-mening"', 'id="statusrad"', 'id="toppsvar"']
+    platser = [markup.index(x) for x in ordning]
+    assert platser == sorted(platser), "sidhuvudet ligger i fel ordning"
+
+
+def test_den_redaktionella_meningen_har_eget_element():
+    """Meningen ligger utanför toppsvaret och fylls när konfigen lästs, inte vid varje omritning."""
+    js = JS.read_text("utf-8")
+    css = CSS.read_text("utf-8")
+    assert 'id="topp-mening"' in js, "meningen ligger i markupen från början"
+    kropp = js[js.index("async function start()"):]
+    kropp = kropp[:kropp.index("\n}\n")]
+    assert "#topp-mening" in kropp, "meningen sätts när konfigen är läst"
+    assert next((r for r in css.splitlines() if r.startswith(".mp-val .topp-mening {")), None), \
+        "meningen har en egen regel"
+
+
+def test_rubriken_over_staplarna_ar_dampad():
+    """"Riksdagsvalet ÅÅÅÅ i Majorna" är en dämpad etikett över staplarna, inte en rubrik i bläck."""
+    css = CSS.read_text("utf-8")
+    rad = next(r for r in css.splitlines() if r.startswith(".mp-val .toppsvar-rubrik {"))
+    assert "color: var(--sten)" in rad, "rubriken är dämpad, som statusraden var"
+
+
+def test_arvaljaren_bar_sidans_knappstil():
+    """Den vita rutan stack ut mot papperet: selecten bär sidans bakgrund och knapparnas mått."""
+    css = CSS.read_text("utf-8")
+    knapp = next(r for r in css.splitlines() if r.startswith(".mp-val button {"))
+    for regel in (".mp-val select {", ".mp-val #arval select {"):
+        rad = next(r for r in css.splitlines() if r.startswith(regel))
+        assert "var(--papper)" in rad and "#fff" not in rad, f"{regel} bär sidans papper, inte vitt"
+        for matt in ("min-height: 44px", "padding: 8px 14px", "border-radius: 4px"):
+            assert matt in rad and matt in knapp, f"{regel} matchar inte knappens {matt}"

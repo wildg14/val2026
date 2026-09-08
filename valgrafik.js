@@ -18,11 +18,12 @@ const MARKUP = `
 <header class="topp">
     <p class="etikett" id="topp-etikett">Majposten</p>
     <h1>Så röstade Majorna</h1>
+    <div id="arval" hidden></div>
+    <p class="arval-fel" id="arval-fel" role="status" hidden></p>
+    <p class="topp-mening" id="topp-mening" hidden></p>
     <p class="statusrad" id="statusrad"></p>
     <div id="toppsvar" class="toppsvar"></div>
     <p class="samarbete" id="samarbete" hidden></p>
-    <div id="arval" hidden></div>
-    <p class="arval-fel" id="arval-fel" role="status" hidden></p>
   </header>
 
   <div id="rutor" class="rutor" hidden></div>
@@ -332,10 +333,14 @@ function monteraMarkup() {
 async function start() {
   monteraMarkup();
   try { Object.assign(KONFIG, await laddaSkript("konfig")); } catch (e) { /* standardkonfig gäller */ }
-  // Reserverad plats redan innan datan kommer, så att sidhuvudet inte hoppar: en rad extra i toppsvaret när
-  // konfigen har en redaktionell mening, och årväljarens rad när konfigen räknar upp mer än ett år.
-  rot.classList.toggle("har-mening", !!(KONFIG.toppsvar || {}).mening);
+  // Plats reserveras redan innan datan kommer, så att sidhuvudet inte hoppar: årväljarens rad när konfigen
+  // räknar upp mer än ett år, och statusradens höjd bara när raden faktiskt kommer att bära text. Den
+  // redaktionella meningen står i konfigen och kan skrivas ut direkt, alltså behöver den ingen reservation.
+  const mening = (KONFIG.toppsvar || {}).mening || "";
+  $("#topp-mening").textContent = mening;
+  $("#topp-mening").hidden = !mening;
   $("#arval").hidden = (KONFIG.ar || []).length < 2;   // raden tar plats så snart konfigen är läst
+  $("#statusrad").hidden = !statusradKommer();
   try {
     // Ett svep efter konfigen, men bara för de år som behövs: standardåret och det år som står i URL:en.
     // Övriga år i KONFIG.ar laddas först när läsaren väljer dem, så att starten inte blir tyngre av att
@@ -432,22 +437,25 @@ function visaAr(a) {
   renderAllt();
 }
 
-/* ---- toppsvaret: svaret högst upp, alltid riksdagsvalet, inget att trycka på utom "Ladda om" på valnatten */
-function datumText(iso) {   // "2026-09-13" -> "söndag 13 september"
-  const d = new Date(iso + "T12:00:00");
-  return isNaN(d) ? iso : d.toLocaleDateString("sv-SE", { weekday: "long", day: "numeric", month: "long" });
-}
+/* ---- toppsvaret: svaret högst upp, alltid riksdagsvalet, inget att trycka på utom "Ladda om" på valnatten.
+   Statusraden ovanför bär räknestatusen, den redaktionella meningen ligger i #topp-mening och sätts i start(). */
+function valdagAret() { return Number(String(KONFIG.valdag || "").slice(0, 4)); }
+// Statusraden tiger för ett färdigräknat val som ligger före valdagen. Höjden reserveras därför bara när
+// raden kommer att bära text, annars stod ett tomt band mellan meningen och staplarna. Avgörs ur konfigen,
+// alltså innan datan kommit, och ändras inte när läsaren byter år.
+function statusradKommer() { return !!KONFIG.valnatt || valdagAret() <= Number(KONFIG.standardAr); }
 function laddaOm() { try { window.parent.location.reload(); } catch (e) { location.reload(); } }
 function statusText() {
   const meta = data().meta, { raknade, totalt } = raknadeIVal("rd"), delvis = raknade < totalt;
-  const valdagAr = Number(String(KONFIG.valdag || "").slice(0, 4));
+  const valdagAr = valdagAret();
   const rad = () => {
     // På valnatten men i ett annat år än det levande: bara resultatraden, och "Ladda om" som väg tillbaka.
     if (KONFIG.valnatt && state.ar !== KONFIG.standardAr) return { text: `${arPreliminar() ? "Preliminärt" : "Slutligt"} resultat ${meta.ar}.`, laddaOm: true };
     // Rubriken under raden säger redan att det är riksdagsvalet, så valnattsraden nämner inte valet.
     if (KONFIG.valnatt && arPreliminar()) return { text: `Preliminärt, ${raknade} av ${totalt} distrikt räknade. Uppdaterad ${klockslag(meta.uppdaterad)}.`, laddaOm: true };
-    if (!arPreliminar() && valdagAr > Number(meta.ar)) return { text: `Slutligt resultat ${meta.ar}. Valet ${valdagAr} är ${datumText(KONFIG.valdag)}.`, laddaOm: false };
-    if (!arPreliminar()) return { text: `Slutligt resultat, riksdagsvalet ${meta.ar}.`, laddaOm: false };
+    // Ett färdigräknat val före valdagen säger inget här: årväljaren och den redaktionella meningen
+    // ovanför bär redan året och väntan, och raden blev en upprepning av båda.
+    if (!arPreliminar()) return { text: valdagAr > Number(meta.ar) ? "" : `Slutligt resultat, riksdagsvalet ${meta.ar}.`, laddaOm: false };
     return { text: `Preliminärt resultat ${meta.ar}` + (delvis ? `, ${raknade} av ${totalt} distrikt räknade.` : "."), laddaOm: false };
   };
   return Object.assign(rad(), { delvis });
@@ -457,6 +465,7 @@ function renderToppsvar() {
   const st = statusText();
   status.replaceChildren(st.text);
   if (st.laddaOm) status.append(" ", h("button", { type: "button", class: "ladda-om", onclick: laddaOm }, "Ladda om"));
+  status.hidden = !st.text && !st.laddaOm;
   el.innerHTML = "";
   if (!majornaRaknat(val)) { el.append(h("p", { class: "toppsvar-tom" }, `Riksdagsvalet ${meta.ar}: inget distrikt räknat än.`)); return; }
   // Fyra partier på en telefon, alla utom Övriga från 600 px containerbredd.
@@ -469,12 +478,6 @@ function renderToppsvar() {
     h("span", { class: "toppsvar-spar", "aria-hidden": "true" }, h("span", { class: "toppsvar-stapel", style: `width:${Math.min(100, a.andel / 0.4 * 100).toFixed(1)}%;background:${parti(a.p).farg}` })),
     h("span", { class: "toppsvar-tal", "aria-hidden": "true" }, procent(a.andel))));
   el.append(h("p", { class: "toppsvar-rubrik" }, st.delvis ? `Räknat hittills, riksdagsvalet ${meta.ar}` : `Riksdagsvalet ${meta.ar} i Majorna`), lista);
-  const post = jamforelseOmrade(val).post;
-  if (m.rostberattigade && !st.delvis) {   // riket tas med först när även riket är färdigräknat: de första distrikten är små och lantliga
-    el.append(h("p", { class: "toppsvar-mening" }, `${procent(m.rostande / m.rostberattigade)} röstade`
-      + (post && post.valdeltagande && !omradeDelvis(post) ? `, mot ${procent(post.valdeltagande)} i riket` : "") + "."));
-  }
-  if (KONFIG.toppsvar && KONFIG.toppsvar.mening) el.append(h("p", { class: "toppsvar-mening" }, KONFIG.toppsvar.mening));
 }
 
 /* ---- samarbete och rösthjälp: konfigstyrda block, avstängda tills redaktionen fyllt i texter och adresser */

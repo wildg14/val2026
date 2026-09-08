@@ -23,6 +23,9 @@ const valfriFil = m => /\/data\/swing_\d+\.js(\?|$)/.test((m.location() || {}).u
     rot.querySelector('#flik-kf').click(); valj('14800527'); ut.stick.skytteskogen_kf_MP = varde('Miljöpartiet');
     rot.querySelector('#flik-rf').click(); valj('14800526'); ut.stick.svalebo_rf_V = varde('Vänsterpartiet');
     ut.statusrad = rot.querySelector('#statusrad').textContent;
+    ut.statusradDold = rot.querySelector('#statusrad').hidden;
+    ut.toppsvarRubrik = (rot.querySelector('.toppsvar-rubrik') || {}).textContent || '';
+    ut.toppMening = (rot.querySelector('#topp-mening') || {}).textContent || '';
     ut.toppsvarRader = rot.querySelectorAll('.toppsvar-rad').length;
     ut.konfig = window.MAJPOSTEN.data.konfig ? 'laddad' : 'saknas';
     ut.mpMain = !!rot.querySelector('.mp-main');
@@ -31,8 +34,11 @@ const valfriFil = m => /\/data\/swing_\d+\.js(\?|$)/.test((m.location() || {}).u
     return ut;
   });
   console.log(JSON.stringify(res, null, 1));
-  // Statusraden börjar med "Slutligt resultat <år>": årtalet ska inte hårdkodas, kontrollen gäller varje år.
-  if (res.toppsvarRader === 4 && res.statusrad.startsWith('Slutligt resultat')) console.log('toppsvar ok');
+  // Statusraden tiger för ett färdigräknat val före valdagen och är då dold, så att den inte lämnar ett tomt
+  // band. Kvar i sidhuvudet står den redaktionella meningen och den dämpade rubriken över staplarna; årtalet
+  // hårdkodas inte, kontrollen gäller varje år.
+  if (res.toppsvarRader === 4 && res.statusrad === '' && res.statusradDold
+      && /^Riksdagsvalet \d{4} i Majorna$/.test(res.toppsvarRubrik) && res.toppMening.trim()) console.log('toppsvar ok');
   else { console.log('TOPPSVAR FEL'); brutet = true; }
   // riktigt musklick (inte dispatchEvent) mitt på Kusttorget: gator/hållplatser ligger ovanpå men ska ha pointer-events: none
   const kusttorget = await page.$('#valgrafik #karta path[data-kod="14800536"]');

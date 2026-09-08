@@ -18,7 +18,7 @@ const MARKUP = `
 <header class="topp">
     <p class="etikett" id="topp-etikett">Majposten</p>
     <h1>Så röstade Majorna</h1>
-    <div id="arval" hidden></div>
+    <div id="arval" class="arval" hidden></div>
     <p class="arval-fel" id="arval-fel" role="status" hidden></p>
     <p class="topp-mening" id="topp-mening" hidden></p>
     <p class="statusrad" id="statusrad"></p>
@@ -30,6 +30,8 @@ const MARKUP = `
 
   <section id="riksdag" aria-labelledby="riksdag-rubrik">
     <h2 id="riksdag-rubrik">Om Majorna bestämde</h2>
+    <div class="arval" hidden></div>
+    <p class="arval-fel" role="status" hidden></p>
     <p class="not" id="mandat-ingress"></p>
     <div class="knappar" role="radiogroup" aria-label="Välj fördelning" id="mandat-lage"></div>
     <div id="halvcirkel"></div>
@@ -42,6 +44,8 @@ const MARKUP = `
 
   <section id="karta-sektion" aria-labelledby="karta-rubrik">
     <h2 id="karta-rubrik">Så röstade ditt kvarter</h2>
+    <div class="arval" hidden></div>
+    <p class="arval-fel" role="status" hidden></p>
     <div class="flikar" role="tablist" aria-label="Välj val" id="flikar"></div>
     <div class="rad">
       <div class="knappar" role="radiogroup" aria-label="Färgläggning" id="lage"></div>
@@ -66,6 +70,8 @@ const MARKUP = `
 
   <section id="jamforelse" aria-labelledby="jamforelse-rubrik">
     <h2 id="jamforelse-rubrik">Majorna mot Sverige</h2>
+    <div class="arval" hidden></div>
+    <p class="arval-fel" role="status" hidden></p>
     <p class="not" id="jamforelse-not"></p>
     <div class="knappar" role="radiogroup" aria-label="Välj val för jämförelsen" id="jamforelse-val"></div>
     <div id="divergens"></div>
@@ -74,6 +80,8 @@ const MARKUP = `
 
   <section id="rostdelning" aria-labelledby="rostdelning-rubrik">
     <h2 id="rostdelning-rubrik">Röstdelningen</h2>
+    <div class="arval" hidden></div>
+    <p class="arval-fel" role="status" hidden></p>
     <p class="not" id="rostdelning-not">Så röstar Majorna olika i riksdags-, region- och kommunvalet.</p>
     <div id="rostdelning-legend" class="rd-legend" aria-hidden="true"></div>
     <div id="rostdelning-rader"></div>
@@ -89,6 +97,7 @@ const MARKUP = `
         <p class="not" id="hist-not-b"></p>
       </div>
       <div class="hist-kol">
+        <p class="hist-etikett" id="hist-etikett-kartor"></p>
         <div class="hist-kartor" id="hist-kartor" aria-hidden="true"></div>
         <p class="not" id="hist-not-kartor"></p>
       </div>
@@ -138,11 +147,11 @@ const FARG = { papper: "#FAF6EE", black: "#2A241E", sten: "#6E6152", linje: "#E6
 const state = { ar: KONFIG.standardAr, val: "rd", lage: "storsta", parti: "V", vald: null,
                 mandatLage: "verklig", mandatEnhet: "mandat", mandatRort: false, data: {}, swing: {}, geo: {}, bakgrund: null,
                 sortering: { kol: "namn", fallande: false }, tabellOppen: false, skalmax: 0.5, jamforelseVal: "rd", bild: false,
-                historik: null, historikGeo: null };
+                historik: null, historikGeo: null, konturGeo: null };
 // Lat laddning: ett år laddas en gång, och promisen sparas så att två snabba byten inte hämtar samma år
 // två gånger. Felraden under årväljaren står kvar tills nästa byte lyckas.
 const arLaddning = {};
-let arvalFel = "";
+let arvalFel = "", arvalFelRuta = null;
 
 /* ===================================================================== hjälp */
 const $ = (s, el = rot) => el.querySelector(s);
@@ -355,14 +364,20 @@ async function start() {
       if (bas && !vidStart.includes(bas)) vidStart.push(bas);
     }
     const vill = !((KONFIG.historik || {}).visa === false);   // historiksektionen kan stängas av i konfigen
-    const [, bakgrund, historik, historikGeo] = await Promise.all([
+    // Konturkartornas vänstra bild är valårets indelning. Står valåret redan i årväljaren laddar laddaAr
+    // dess geometri ändå, och filen hämtas inte en andra gång; annars kostar den cirka 28 kB vid start.
+    const konturAr = String(valdagAret() || "");
+    const villKontur = vill && konturAr && !(KONFIG.ar || []).includes(konturAr);
+    const [, bakgrund, historik, historikGeo, konturGeo] = await Promise.all([
       Promise.all(vidStart.map(a => laddaAr(a))),
       laddaSkript("bakgrund").catch(() => null),
       vill ? laddaSkript("historik").catch(() => null) : null,                      // Majorna sedan 2006: saknad fil döljer sektionen
-      vill ? laddaSkript("distrikt_2006").catch(() => null) : null                  // konturkartan 2006 i historiken
+      vill ? laddaSkript("distrikt_2006").catch(() => null) : null,                 // konturkartornas reserv och äldsta år
+      villKontur ? laddaSkript("distrikt_" + konturAr).catch(() => null) : null     // valårets indelning i konturkartorna
     ]);
     state.historik = historik;
     state.historikGeo = historik ? historikGeo : null;
+    state.konturGeo = konturGeo;
     if (!Object.keys(state.data).length) throw new Error("inget år kunde laddas");
     state.bakgrund = bakgrund;
     state.ar = state.data[KONFIG.standardAr] ? KONFIG.standardAr : Object.keys(state.data)[0];   // state skapades innan konfigen laddades
@@ -392,42 +407,62 @@ function renderAllt() {
 }
 function renderHuvud() {
   $("#topp-etikett").textContent = "Majposten · Valspecial";
-  const arval = $("#arval");
-  arval.hidden = (KONFIG.ar || []).length < 2;
-  const aren = (KONFIG.ar || []).slice().sort((a, b) => Number(b) - Number(a));   // nyast först i listan
-  let valj = $("#arval-select");
-  // Selecten byggs om bara när årslistan ändras. Annars tappar den tangentbordsfokus vid varje renderAllt,
-  // och den disabled som byteAr satt under en pågående laddning skulle försvinna.
-  if (!valj || [...valj.options].map(o => o.value).join(",") !== aren.join(",")) {
-    arval.innerHTML = "";
-    valj = h("select", { id: "arval-select", "aria-label": "Välj valår", onchange: e => byteAr(e.target.value) },
-      aren.map(a => h("option", { value: a }, "Valet " + a)));
-    arval.append(valj);
-  }
-  valj.value = state.ar;
-  // Felraden ligger i markupen från början, tom och dold: en role="status" som skapas först när felet
-  // inträffar hinner inte bli en levande region, och skärmläsaren skulle då inte säga något alls.
-  const fel = $("#arval-fel");
-  fel.textContent = arvalFel;
-  fel.hidden = !arvalFel;
+  renderArval();
   renderToppsvar();
+}
+// Årväljaren står i sidhuvudet och överst i varje sektion som följer året, alla synkade mot state.ar: ett
+// byte var som helst gäller hela sidan, och året syns var läsaren än befinner sig. Skälet till att den
+// upprepas i stället för att följa med vid rullning är att blocket ligger i en iframe hos Beehiiv, där
+// position: sticky är verkningslöst - inget rullar inuti iframen, det är värdsidan som rullar.
+const arvalRutor = () => [...rot.querySelectorAll(".arval")];
+const arvalValjare = () => arvalRutor().map(r => r.querySelector("select")).filter(Boolean);
+function renderArval() {
+  const aren = (KONFIG.ar || []).slice().sort((a, b) => Number(b) - Number(a));   // nyast först i listan
+  const ettAr = aren.length < 2;
+  arvalRutor().forEach((ruta, i) => {
+    ruta.hidden = ettAr;
+    let valj = ruta.querySelector("select");
+    // Selecten byggs om bara när årslistan ändras. Annars tappar den tangentbordsfokus vid varje
+    // renderAllt, och den disabled som byteAr satt under en pågående laddning skulle försvinna.
+    if (!valj || [...valj.options].map(o => o.value).join(",") !== aren.join(",")) {
+      valj = h("select", { id: i ? "arval-select-" + i : "arval-select", "aria-label": "Välj valår",
+        onchange: e => byteAr(e.target.value, e.target) }, aren.map(a => h("option", { value: a }, "Valet " + a)));
+      ruta.replaceChildren(valj);
+    }
+    valj.value = state.ar;
+    // Felraden ligger i markupen från början, tom och dold: en role="status" som skapas först när felet
+    // inträffar hinner inte bli en levande region, och skärmläsaren skulle då inte säga något alls. Bara
+    // raden vid den väljare läsaren använde talar, annars hade felet lästs upp en gång per sektion.
+    const fel = ruta.nextElementSibling;
+    if (fel && fel.classList && fel.classList.contains("arval-fel")) {
+      fel.textContent = ruta === arvalFelRuta ? arvalFel : "";
+      fel.hidden = !fel.textContent;
+    }
+  });
 }
 // Byte av år: året laddas vid behov, en gång, och först därefter byter vyn. En select är nativt
 // tillgänglig, så ingen pilnavigering kopplas på den.
-async function byteAr(a) {
+async function byteAr(a, valj) {
   if (a === state.ar) return;
-  const valj = $("#arval-select");
+  const alla = arvalValjare();
   if (!state.data[a]) {
     // Den nuvarande vyn står kvar medan året hämtas, sidan blinkar inte till tom. aria-busy säger åt
-    // skärmläsaren att vänta i stället för att läsa upp den halvfärdiga sidan.
-    if (valj) { valj.disabled = true; valj.setAttribute("aria-busy", "true"); }
+    // skärmläsaren att vänta i stället för att läsa upp den halvfärdiga sidan. Alla väljare låses, inte
+    // bara den som användes: de visar samma år och får inte gå att sätta i otakt under laddningen.
+    for (const v of alla) { v.disabled = true; v.setAttribute("aria-busy", "true"); }
     const ok = await laddaAr(a);
-    // disabled flyttar fokus till sidans början. Bytet kom från selecten, så fokus läggs tillbaka där
+    for (const v of alla) { v.disabled = false; v.removeAttribute("aria-busy"); }
+    // disabled flyttar fokus till sidans början. Bytet kom från en select, så fokus läggs tillbaka där
     // när året är inne - annars börjar nästa tabbtryck om från toppen.
-    if (valj) { valj.disabled = false; valj.removeAttribute("aria-busy"); valj.focus({ preventScroll: true }); }
-    if (!ok) { arvalFel = "Valet " + a + " kunde inte laddas."; if (valj) valj.value = state.ar; renderHuvud(); return; }
+    if (valj) valj.focus({ preventScroll: true });
+    if (!ok) {
+      arvalFel = "Valet " + a + " kunde inte laddas.";
+      arvalFelRuta = valj ? valj.parentNode : null;   // felet står vid den väljare läsaren använde
+      renderArval();
+      return;
+    }
   }
-  arvalFel = "";   // felraden försvinner vid nästa lyckade byte
+  arvalFel = ""; arvalFelRuta = null;   // felraden försvinner vid nästa lyckade byte
   visaAr(a);
 }
 function visaAr(a) {
@@ -1323,22 +1358,20 @@ function histPunkter(val, niva) {   // serien plus årets punkt när den finns
   return historikSerie(val, niva).map(p => ({ ...p, preliminar: false })).concat(extra ? [extra] : []);
 }
 function histAxelAr() {
-  // Årtalen på x-axeln: seriens år, det senaste laddade året och valåret ur konfigen, stigande och utan
-  // dubbletter. Ett år utan punkt får stå som tom ring - före valdagen slutar linjerna på 2022 medan axeln
-  // redan visar 26.
+  // Årtalen på x-axeln: seriens år, det senaste laddade året och - först på valnatten - valåret ur
+  // konfigen, stigande och utan dubbletter. Före valdagen stod valåret längst ut med en tom ring under
+  // sig, vilket tog plats utan att säga något. På valnatten hör ringen dit, och efter valet kommer året
+  // in via senasteAr() eftersom det då är laddat.
   const ar = new Set(histAr());
   const senaste = senasteAr(), valdagAr = Number(String(KONFIG.valdag || "").slice(0, 4));
   if (senaste) ar.add(senaste);
-  if (valdagAr) ar.add(valdagAr);
+  if (valdagAr && KONFIG.valnatt) ar.add(valdagAr);
   return [...ar].sort((a, b) => a - b);
 }
 function histMening(val) {
-  const egen = ((KONFIG.historik || {}).mening || {})[val];
-  if (egen) return egen;
-  // Meningen fryses på senaste slutliga år, så att den inte ändrar sig under valnattens uppdateringar.
-  const serie = historikSerie(val, "majorna"), forsta = serie[0], sista = [...histPunkter(val, "majorna")].reverse().find(p => !p.preliminar) || serie[serie.length - 1];
-  const p = "V";
-  return `${p} har gått från ${andelTal(forsta.andel[p] || 0)} till ${andelTal(sista.andel[p] || 0)} procent i ${VALNAMN[val].toLowerCase()} sedan ${forsta.ar}.`;
+  // Bara redaktionens egen mening ur konfigen. Den räknade meningen om V sade samma sak som bilden under
+  // den och togs bort i grupp 4; tom mening döljer raden.
+  return ((KONFIG.historik || {}).mening || {})[val] || "";
 }
 // Valdeltagandebilden och konturkartorna delar ritsätt: ytans bredd, x-skalan, hjälplinjer med tal i
 // vänsterkanten, årtal under axeln, en serie med hål i linjen, etiketter som skjuts isär och den tomma
@@ -1353,8 +1386,14 @@ function histHjalplinjer(svg, { M, W, y, fran, till, steg }) {
                s("text", { x: M.v - 6, y: (y(v) + 4).toFixed(1), "text-anchor": "end", "font-size": 12, fill: FARG.sten }, Math.round(v * 100) + (v + steg > till + 1e-9 ? " %" : "")));
   }
 }
-function histArAxel(svg, axelAr, x, yBas) {   // årtalen med två siffror, 06 till 26
-  axelAr.forEach((a, i) => svg.append(s("text", { x: x(i).toFixed(1), y: yBas, "text-anchor": "middle", "font-size": 13, fill: FARG.sten }, String(a).slice(2))));
+function histArAxel(svg, axelAr, x, yBas) {
+  // Hela årtal när de får plats, annars två siffror. Antalet år följer konfigen och axelns bredd följer
+  // containern, så avståndet mellan två tick mäts i stället för att en brytpunkt sätts: "2006" mäter
+  // cirka 26 px i 13 px Arial och behöver luft på var sida för att inte gå ihop med grannen.
+  const avstand = axelAr.length > 1 ? x(1) - x(0) : Infinity;
+  const helt = textBredd("2006", 13) + 8 <= avstand;
+  axelAr.forEach((a, i) => svg.append(s("text", { x: x(i).toFixed(1), y: yBas, "text-anchor": "middle", "font-size": 13, fill: FARG.sten },
+    helt ? String(a) : String(a).slice(2))));
 }
 function histRitaSerie(svg, pts, { farg, bredd, streck = null, r }) {
   // pts har ett null där året saknar tal: linjen får ett hål och ingen punkt, aldrig ett värde på noll.
@@ -1373,11 +1412,12 @@ function histRitaSerie(svg, pts, { farg, bredd, streck = null, r }) {
   }
 }
 function histEtiketter(svg, slut, { H, M }, extra = {}) {
-  // Etiketterna får inte täcka varandra: skjut isär till 15 px och rita en kort ledarlinje från den punkt
-  // etiketten hör till. Varje etikett står vid sin egen linjes slut, inte i en gemensam kolumn. Bara
+  // Etiketterna får inte täcka varandra: de skjuts isär till 15 px. Ingen ledarlinje ritas till den punkt
+  // etiketten hör till - färgen knyter etiketten till sin egen linje, och flärpen ned från 2022-punkten
+  // gjorde bilden orolig. Varje etikett står vid sin egen linjes slut, inte i en gemensam kolumn. Bara
   // etiketter vars texter ligger över varandra i sidled skjuts isär: en serie som slutar ett tidigare år
   // står långt till vänster och ska inte tryckas ned av en granne den ändå inte krockar med.
-  const bredd = e => 13 + textBredd(e.text, 13, !!extra["font-weight"]);   // ledarlinjens 13 px plus texten
+  const bredd = e => 13 + textBredd(e.text, 13, !!extra["font-weight"]);   // avståndet 13 px plus texten
   const krock = (a, b) => a.px < b.px + bredd(b) && b.px < a.px + bredd(a);
   slut.sort((a, b) => a.y - b.y);
   for (let i = 1; i < slut.length; i++)
@@ -1390,7 +1430,6 @@ function histEtiketter(svg, slut, { H, M }, extra = {}) {
     for (let j = i + 1; j < slut.length; j++) if (krock(slut[i], slut[j]) && slut[j].y - slut[i].y < 15) slut[i].y = slut[j].y - 15;
   }
   for (const e of slut) {
-    if (Math.abs(e.y - e.py) > 1) svg.append(s("line", { x1: (e.px + 4).toFixed(1), y1: e.py.toFixed(1), x2: (e.px + 11).toFixed(1), y2: e.y.toFixed(1), stroke: e.farg, "stroke-width": 1 }));
     // Tunn papperskontur under texten: en etikett som hamnar inne i ritytan ska gå att läsa över en hjälplinje.
     svg.append(s("text", { x: (e.px + 13).toFixed(1), y: (e.y + 4.5).toFixed(1), "font-size": 13, ...extra, fill: textFarg(e.farg),
                            stroke: FARG.papper, "stroke-width": 3, "paint-order": "stroke" }, e.text));
@@ -1405,7 +1444,9 @@ function renderHistorik() {
   if (!state.historik || state.bild || !histAr().length || historikSerie(state.val, "majorna").length < 2) { sek.hidden = true; return; }
   sek.hidden = false;
   const val = state.val;
-  $("#hist-mening").textContent = histMening(val);
+  const meningEl = $("#hist-mening");
+  meningEl.textContent = histMening(val);
+  meningEl.hidden = !meningEl.textContent;
   histDeltagande(val);
   histKartor();
 }
@@ -1457,7 +1498,7 @@ function histDeltagande(val) {
     const pts = axelAr.map((a, i) => { const p = sr.punkter.find(q => q.ar === a); return p ? { x: x(i), y: y(p.valdeltagande), preliminar: p.preliminar } : null; });
     histRitaSerie(svg, pts, { farg: sr.farg, bredd: sr.bredd, streck: sr.streck, r: 3 });
     const sista = pts.filter(Boolean).pop();
-    if (sista) slut.push({ text: sr.namn, farg: sr.farg, px: sista.x, py: sista.y, y: sista.y });
+    if (sista) slut.push({ text: sr.namn, farg: sr.farg, px: sista.x, y: sista.y });
   }
   histEtiketter(svg, slut, { H, M });
   for (const a of utan) histRing(svg, x(axelAr.indexOf(a)), y(lo));
@@ -1476,32 +1517,70 @@ function histDeltagande(val) {
     rader.push(`${histLista(genitiv.map((g, i) => i ? g.toLowerCase() : g))} ${genitiv.length > 1 ? "linjer" : "linje"} slutar ${ar} tills siffrorna för ${sistaAr} finns.`);
   notEl.textContent = rader.join(" ");
 }
+function distriktRam(f) {   // omskrivande rektangel ur ytterringen, i grader
+  let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+  for (const [x, y] of f.geometry.coordinates[0]) {
+    if (x < x0) x0 = x; if (y < y0) y0 = y; if (x > x1) x1 = x; if (y > y1) y1 = y;
+  }
+  return [x0, y0, x1, y1];
+}
+// Vilka distrikt som fått nya gränser mellan två år. Elva av 23 ändrades mellan 2022 och 2026, men
+// bitarna är så små att konturerna ser lika ut - därför tonas de i stället för att lämnas åt ögat.
+// Jämförelsen görs på distriktskod: en kod som bara finns i det ena året är inte ett omritat distrikt
+// utan en annan indelning, och 2006, 2010, 2014 och 2018 har egna kodserier och får därför ingen toning
+// alls. Polygonerna räknas om mellan åren och får både andra hörnantal och annan startpunkt, så formen
+// jämförs på area och omskrivande rektangel i stället för hörn för hörn. Ett byte av två exakt lika stora
+// bitar som lämnar ytterkanten orörd skulle missas; det har inte hänt i något av åren i konfigen.
+function jamforDistrikt(gA, gB) {
+  const andra = new Map((gB.features || []).map(f => [f.properties.kod, f]));
+  const ut = new Set();
+  for (const f of gA.features || []) {
+    const m = andra.get(f.properties.kod);
+    if (!m) continue;
+    const ra = distriktRam(f), rb = distriktRam(m);
+    if (Math.abs((f.properties.area_km2 || 0) - (m.properties.area_km2 || 0)) > 1e-6
+        || ra.some((v, i) => Math.abs(v - rb[i]) > 1e-6)) ut.add(f.properties.kod);
+  }
+  return ut;
+}
 function histKartor() {
-  // Kartorna följer kartans årsknapp, till skillnad från bild A och B som står på det senaste laddade året:
-  // det är det år läsaren ser i kartan ovanför som ska ställas mot 2006.
-  const el = $("#hist-kartor"), notEl = $("#hist-not-kartor"), g06 = state.historikGeo, gNu = geo();
+  // Vänstra kartan är valårets indelning, den som gäller i valet sidan handlar om. Högra är det år läsaren
+  // valt i årväljaren - utom när det året självt är valåret, då paret hade blivit två likadana kartor och
+  // det äldsta året i serien tar högra platsen i stället. Saknas valårets geometri faller paret tillbaka på
+  // det äldsta året till vänster och det visade till höger. Kartorna följer alltså årväljaren, till
+  // skillnad från valdeltagandebilden som står på det senaste laddade året.
+  const el = $("#hist-kartor"), notEl = $("#hist-not-kartor"), etikettEl = $("#hist-etikett-kartor");
+  const valAr = valdagAret(), valt = Number(data().meta.ar);
+  const gVal = state.geo[String(valAr)] || state.konturGeo;
+  const par = !gVal ? [[state.historikGeo, 2006], [geo(), valt]]
+    : valt === valAr ? [[gVal, valAr], [state.historikGeo, 2006]]
+    : [[gVal, valAr], [geo(), valt]];
+  const [[gA, arA], [gB, arB]] = par;
   // Gemensam ram ur båda filernas bbox, annars ser den ena kartan ut att täcka en annan yta än den andra
   // och poängen med bilden går förlorad. Saknar någon av geometrierna en bbox töms ytan i stället för att
   // rita med NaN i viewBox.
-  const bbox = g06 && gNu && g06.bbox && gNu.bbox ? unionBbox([g06.bbox, gNu.bbox]) : null;
-  if (!g06 || !gNu || !bbox) { el.replaceChildren(); notEl.textContent = ""; return; }
+  const bbox = gA && gB && gA.bbox && gB.bbox ? unionBbox([gA.bbox, gB.bbox]) : null;
+  if (!bbox) { el.replaceChildren(); notEl.textContent = ""; etikettEl.textContent = ""; return; }
   const proj = projektion(bbox, 0.02, 0.02);
   // Bara gränser i sten på papper: ingen partifärg, inga etiketter och inget att trycka på. Bilden svarar på
   // en fråga om distrikten, inte om resultatet, och ytan är aria-hidden så bildtexten är hela innehållet.
+  const omritade = jamforDistrikt(gA, gB);
   const karta = (fc, ar) => {
     const svg = s("svg", { viewBox: `0 0 ${proj.bredd} ${proj.hojd.toFixed(1)}`, class: "hist-karta" });
     for (const f of fc.features)
-      svg.append(s("path", { d: dAttr(f.geometry.coordinates[0], proj, true), fill: "none", stroke: FARG.sten, "stroke-width": 5, "stroke-linejoin": "round" }));
+      svg.append(s("path", { d: dAttr(f.geometry.coordinates[0], proj, true), fill: omritade.has(f.properties.kod) ? FARG.linje : "none",
+                             stroke: FARG.sten, "stroke-width": 5, "stroke-linejoin": "round" }));
     return h("figure", { class: "hist-figur" }, svg, h("figcaption", {}, `${ar}, ${fc.features.length} distrikt`));
   };
-  el.replaceChildren(karta(g06, 2006), karta(gNu, data().meta.ar));
-  // Med historiska år i årväljaren kan det visade året ha lika många distrikt som 2006 (17 stycken både
-  // 2010 och 2014, med andra koder och delvis andra gränser). Första meningen räknas därför fram ur
-  // kartorna i stället för att stå fast, annars påstår noten fler distrikt när antalet är detsamma.
-  notEl.textContent = (gNu.features.length > g06.features.length
-    ? "Samma yta, fler distrikt. Ett kvarter 2006 är ofta två i dag."
-    : "Samma yta, lika många distrikt, men gränserna är omritade.")
-    + " Hur olika åldrar röstade går inte att veta. Valhemligheten gäller per distrikt, inte per person.";
+  el.replaceChildren(karta(gA, arA), karta(gB, arB));
+  // Etiketten säger vad paret visar, som etiketten över valdeltagandebilden. Noten namnger båda åren i
+  // stället för att räkna distrikt: antalet kan vara lika (2010 och 2014 har 17 stycken, som 2006) medan
+  // gränserna ändå är omritade, och det är omritningen bilden handlar om.
+  etikettEl.textContent = "Samma yta, olika gränser";
+  notEl.textContent = `Till vänster distrikten i valet ${arA}, till höger de som gällde ${arB}. `
+    + (omritade.size ? `De ${omritade.size} tonade distrikten har fått nya gränser. ` : "")
+    + "Gränserna dras om inför varje val, så ett kvarter kan byta distrikt utan att någon har flyttat. "
+    + "Hur olika åldrar röstade går inte att veta - valhemligheten gäller per distrikt, inte per person.";
 }
 
 /* ---- fakta */

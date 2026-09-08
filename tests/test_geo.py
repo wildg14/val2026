@@ -391,3 +391,38 @@ def test_jamfor_union_olaglig_geometri_ger_begripligt_fel():
     b = {"type": "FeatureCollection", "features": [_rutfeature("14800526", spik)]}
     with pytest.raises(ValueError, match="14800526"):
         geo.jamfor_union(a, b)
+
+
+def test_elva_distrikt_har_nya_granser_mellan_2022_och_2026():
+    """Konturkartorna i historiksektionen tonar de omritade distrikten. Sidan avgör det på distriktskod,
+    area och omskrivande rektangel - samma regel som här. Faller testet har indelningen ritats om igen,
+    och då är det talet i noten som ändrats, inte koden."""
+    def las(namn):
+        return {f["properties"]["kod"]: f for f in json.loads((ROT / "data" / namn).read_text("utf-8"))["features"]}
+
+    def ram(f):
+        xs = [p[0] for p in f["geometry"]["coordinates"][0]]
+        ys = [p[1] for p in f["geometry"]["coordinates"][0]]
+        return (min(xs), min(ys), max(xs), max(ys))
+
+    a, b = las("distrikt_2022.geojson"), las("distrikt_2026.geojson")
+    gemensamma = sorted(set(a) & set(b))
+    assert len(gemensamma) == 23, "båda åren har samma 23 distriktskoder"
+    omritade = [k for k in gemensamma
+                if abs(a[k]["properties"]["area_km2"] - b[k]["properties"]["area_km2"]) > 1e-6
+                or any(abs(x - y) > 1e-6 for x, y in zip(ram(a[k]), ram(b[k])))]
+    assert len(omritade) == 11, f"elva distrikt har nya gränser, inte {len(omritade)}: {omritade}"
+    namn = sorted(b[k]["properties"]["namn"] for k in omritade)
+    assert "Marieberg" in namn and "Karl Johan" in namn, "kvarteret som bytte mellan dem räknas som omritat"
+
+
+def test_aldre_ar_delar_inga_distriktskoder_med_2026():
+    """Konturkartorna tonar bara när åren har koder gemensamt. 2006, 2010, 2014 och 2018 har egna serier,
+    så paret 2026 mot ett historiskt år får ingen toning - hela indelningen är en annan."""
+    koder = lambda namn: {f["properties"]["kod"] for f in json.loads((ROT / "data" / namn).read_text("utf-8"))["features"]}
+    k26 = koder("distrikt_2026.geojson")
+    for ar in ("2006", "2010", "2014", "2018"):
+        fil = ROT / "data" / f"distrikt_{ar}.geojson"
+        if not fil.exists():
+            pytest.skip(f"distrikt_{ar}.geojson saknas")
+        assert not (koder(fil.name) & k26), f"{ar} delar koder med 2026"

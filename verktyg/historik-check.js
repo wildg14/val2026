@@ -56,7 +56,11 @@ const oppenPunkt = c => c.fill === PAPPER && c.r === 3;
   const universalLas = page => page.evaluate(() => {
     const hist = document.getElementById('historik');
     const bildBEl = document.getElementById('hist-bild-b'), svgB = bildBEl ? bildBEl.querySelector('svg') : null;
-    const kartFigurer = [...document.querySelectorAll('#hist-kartor figure')].map(f => ({ paths: f.querySelectorAll('svg path').length, caption: (f.querySelector('figcaption') || {}).textContent || '' }));
+    // tonade = distrikt vars gränser ändrats mellan de två åren; de ritas med fyllning i stället för fill: none.
+    const kartFigurer = [...document.querySelectorAll('#hist-kartor figure')].map(f => ({
+      paths: f.querySelectorAll('svg path').length,
+      tonade: [...f.querySelectorAll('svg path')].filter(p => p.getAttribute('fill') !== 'none').length,
+      caption: (f.querySelector('figcaption') || {}).textContent || '' }));
     return {
       synlig: hist ? !hist.hidden : false,
       // Bild A och dess talrad är borttagna: de får inte komma tillbaka av misstag.
@@ -77,8 +81,14 @@ const oppenPunkt = c => c.fill === PAPPER && c.r === 3;
       ariaB: svgB ? svgB.getAttribute('aria-label') : null,
       notB: (document.getElementById('hist-not-b') || {}).textContent || '',
       kartFigurer,
+      notKartor: (document.getElementById('hist-not-kartor') || {}).textContent || '',
+      etikettKartor: (document.getElementById('hist-etikett-kartor') || {}).textContent || '',
       faktaLi: document.querySelectorAll('#faktalista li').length,
       mening: (document.getElementById('hist-mening') || {}).textContent || '',
+      meningDold: !!(document.getElementById('hist-mening') || {}).hidden,
+      // Årtalen under axeln är de enda texterna med text-anchor middle: hjälplinjernas tal och ringens
+      // väntetext är högerställda, etiketterna vid linjeslutet har ingen ankring alls.
+      arAxelB: svgB ? [...svgB.querySelectorAll('text[text-anchor="middle"]')].map(t => t.textContent) : [],
       statusrad: (document.getElementById('statusrad') || {}).textContent || '',
     };
   });
@@ -100,9 +110,18 @@ const oppenPunkt = c => c.fill === PAPPER && c.r === 3;
       [`${namn}: etikettfärg kontrast minst 4,5:1`, kontraster.length > 0 && kontraster.every(k => k >= 4.5 - 1e-6)],
       [`${namn}: hist-not-b börjar Skalan börjar vid`, u.notB.startsWith('Skalan börjar vid')],
       [`${namn}: hist-not-b utan jämförelseförbehållet`, !u.notB.includes('ska inte jämföras med varandra')],
-      [`${namn}: sektionens mening finns`, /procent i \w+valet sedan \d{4}\.$/.test(u.mening.trim())],
-      [`${namn}: första kartfiguren är 2006 med 17 distrikt`, u.kartFigurer.length === 2 && u.kartFigurer[0].paths === 17 && u.kartFigurer[0].caption.startsWith('2006, ')],
-      [`${namn}: andra kartfiguren har 23 distrikt och ett fyrsiffrigt år`, u.kartFigurer.length === 2 && u.kartFigurer[1].paths === 23 && /^\d{4}, 23 distrikt/.test(u.kartFigurer[1].caption)],
+      // Den räknade meningen om V togs bort i grupp 4: raden är tom och dold när redaktionen inte satt en egen.
+      [`${namn}: sektionens mening är tom och dold`, u.mening.trim() === '' && u.meningDold === true],
+      // Hela årtal när avståndet räcker. På 390 px ryms fyra siffror i alla fyra lägena.
+      [`${namn}: axeln skriver hela årtal`, u.arAxelB.length >= 5 && u.arAxelB.every(t => /^\d{4}$/.test(t))],
+      // Vänstra kartan är alltid valårets indelning, högra det år läsaren valt - utom när det året självt
+      // är valåret, då 2006 tar högra platsen så att paret inte blir två likadana kartor.
+      [`${namn}: första kartfiguren är valårets indelning`, u.kartFigurer.length === 2 && u.kartFigurer[0].paths === 23 && u.kartFigurer[0].caption.startsWith('2026, ')],
+      [`${namn}: andra kartfiguren är ett annat år`, u.kartFigurer.length === 2 && /^\d{4}, \d+ distrikt/.test(u.kartFigurer[1].caption) && !u.kartFigurer[1].caption.startsWith('2026,')],
+      // Toningen är lika i båda kartorna: samma distrikt bytte gränser, oavsett vilket år som ritas.
+      [`${namn}: lika många tonade distrikt i båda kartorna`, u.kartFigurer.length === 2 && u.kartFigurer[0].tonade === u.kartFigurer[1].tonade],
+      // Noten nämner toningen bara när något är tonat.
+      [`${namn}: noten följer toningen`, u.notKartor.includes('tonade distrikten') === (u.kartFigurer[0] || {}).tonade > 0],
       [`${namn}: Om siffrorna har två punkter`, u.faktaLi === 2],
     ];
   };
@@ -123,14 +142,17 @@ const oppenPunkt = c => c.fill === PAPPER && c.r === 3;
   await provaSida('partiell', partiellUrl);
   await provaSida('slutlig', slutligUrl);
 
-  // b) --sida: läget före valdagen. 2026 är inte laddat än: en generisk tom ring, ingen öppen punkt och
-  // inga preliminära sträckor.
+  // b) --sida: läget före valdagen. 2026 är varken laddat eller med på axeln sedan grupp 4: ingen ring,
+  // ingen öppen punkt och inga preliminära sträckor.
   if (sidor.sida) {
     const { u } = sidor.sida;
     const tomma = u.cirklarB.filter(tomRing), oppnaRingar = u.cirklarB.filter(oppenPunkt);
     kontroller.push(
-      ['sida: exakt en tom ring i bild B', tomma.length === 1],
-      ['sida: "räknas på valnatten" i bild B', u.ringTextB.join() === 'räknas på valnatten'],
+      ['sida: ingen tom ring i bild B', tomma.length === 0],
+      ['sida: ingen väntetext i bild B', u.ringTextB.length === 0],
+      ['sida: valåret står inte på axeln före valnatten', !u.arAxelB.some(t => /^(2026|26)$/.test(t))],
+      ['sida: elva omritade distrikt tonade, 2026 mot 2022', u.kartFigurer[0].tonade === 11],
+      ['sida: etiketten över kartorna', u.etikettKartor === 'Samma yta, olika gränser'],
       ['sida: inga preliminära sträckor', u.streckadeB65 === 0],
       ['sida: inga öppna punkter', oppnaRingar.length === 0],
     );
@@ -173,10 +195,11 @@ const oppenPunkt = c => c.fill === PAPPER && c.r === 3;
   if (sidor.prel) {
     const { u } = sidor.prel;
     kontroller.push(
+      ['prel: 2006 tar högra kartan när valt år är valåret', u.kartFigurer[1].caption.startsWith('2006, ')],
+      ['prel: inget tonat mot ett år utan gemensamma koder', u.kartFigurer[0].tonade === 0],
       ['prel: minst en öppen punkt i bild B', u.cirklarB.filter(oppenPunkt).length >= 1],
       ['prel: minst en preliminär sträcka "6 5"', u.streckadeB65 >= 1],
       ['prel: ingen tom sten-ring', u.cirklarB.filter(tomRing).length === 0],
-      ['prel: hist-mening fryst på 2022', u.mening.includes('till 27,2 procent')],
       ['prel: bild B:s aria-label märker 2026 som preliminärt', (u.ariaB || '').includes('2026 (preliminärt)')],
     );
   }
@@ -194,14 +217,12 @@ const oppenPunkt = c => c.fill === PAPPER && c.r === 3;
   }
 
   // e) --slutlig: alla räknade och färdiga, inga öppna eller tomma ringar, ingen preliminär streckning.
-  // hist-mening räknas på det slutliga 2026, inte fryst på 2022.
   if (sidor.slutlig) {
     const { u } = sidor.slutlig;
     kontroller.push(
       ['slutlig: inga tomma ringar', u.cirklarB.filter(tomRing).length === 0],
       ['slutlig: inga öppna punkter', u.cirklarB.filter(oppenPunkt).length === 0],
       ['slutlig: inga preliminära sträckor', u.streckadeB65 === 0],
-      ['slutlig: hist-mening räknad på 2026, inte fryst på 2022', !u.mening.includes('till 27,2 procent')],
       ['slutlig: bild B:s aria-label utan preliminärmarkering', !(u.ariaB || '').includes('(preliminärt)')],
     );
   }

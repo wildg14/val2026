@@ -26,9 +26,10 @@
 .mp-val .ladda-om { font: inherit; color: var(--gron); background: none; border: 0; border-radius: 0; min-height: 0; padding: 0; text-decoration: underline; cursor: pointer; }
 .mp-val .topp-mening { margin: 0 0 12px; }
 .mp-val .toppsvar { min-height: 170px; margin: 0 0 16px; }   /* uppmätt: rubrik 25,6 + 6 marginal + fyra rader 138 = 169,6 */
-.mp-val #arval { min-height: 44px; margin: 0 0 12px; }   /* årväljarens rad står tom tills datan kommit, men tar plats från början; marginalen är den knappraden hade */
+/* Årväljaren: i sidhuvudet och överst i varje sektion som följer året. Raden står tom tills konfigen lästs men tar plats från början; marginalen är den knappraden hade. */
+.mp-val .arval { min-height: 44px; margin: 0 0 12px; }
 /* Formulärkontroller ärver inte typsnitt: årväljaren får font, färg, bakgrund och ram uttryckligen, annars slår värdsidans eller webbläsarens standard igenom. */
-.mp-val #arval select { font: inherit; color: var(--black); background: var(--papper); border: 1px solid var(--sten); border-radius: 4px; min-height: 44px; padding: 8px 14px; }
+.mp-val .arval select { font: inherit; color: var(--black); background: var(--papper); border: 1px solid var(--sten); border-radius: 4px; min-height: 44px; padding: 8px 14px; }
 .mp-val .arval-fel { font-size: 14px; color: var(--falu); margin: 8px 0 0; }
 .mp-val .toppsvar-rubrik { font-size: 16px; color: var(--sten); margin: 0 0 6px; }
 .mp-val .toppsvar-rader { display: grid; gap: 6px; }
@@ -80,6 +81,8 @@
 .mp-val table.mandat td.dampad { color: var(--sten); }
 /* Behållaren är den yttre spärren: skulle tabellen ändå bli bredare än sektionen rullar den i sin egen ruta i stället för att dra med sig hela sidan i sidled. */
 .mp-val .mandat-wrap { overflow-x: auto; max-width: 100%; }
+/* Räkneexemplet är en förklaring ingen behöver läsa: minsta grad på sidan, som tabellens kolumnrubriker. */
+.mp-val #mandat-metod { font-size: 13px; }
 .mp-val table.mandat .parti-namn { color: var(--sten); }
 /* Under 372 px rotbredd bär bokstaven och färgrutan raden ensamma: partinamnet tillsammans med orden
    "under spärren" tvingar tabellen till 339 px, och sektionen är rotbredden minus 32 px, så namnet ryms

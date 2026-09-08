@@ -159,7 +159,7 @@ def test_reserverade_hojder_i_sidhuvudet():
     lästs; den behöver därför ingen reserverad rad i toppsvaret, och klassen har-mening är borta."""
     css = CSS.read_text("utf-8")
     js = JS.read_text("utf-8")
-    for regel in (".mp-val .statusrad", ".mp-val .toppsvar", ".mp-val #arval"):
+    for regel in (".mp-val .statusrad", ".mp-val .toppsvar", ".mp-val .arval"):
         rad = next((r for r in css.splitlines() if r.startswith(regel + " {")), None)
         assert rad and "min-height:" in rad, f"{regel} saknar reserverad höjd"
     assert "har-mening" not in js and "har-mening" not in css, "meningen har eget element, ingen klass på roten"
@@ -253,7 +253,8 @@ def test_historiksektionen_finns_och_foljer_kartans_val():
     assert 'id="hist-val"' not in js and "hist-knappar" not in js, "sektionen har inga egna valknappar"
     assert ".hist-bild-b { min-height" in css, "höjden är reserverad innan datan finns"
     assert (ROT / "data" / "historik.js").exists()
-    # X-axeln tar nästa valår ur konfigen, så att 2026 står som tom ring redan före valdagen.
+    # X-axeln tar nästa valår ur konfigen, men först på valnatten: se
+    # test_axeln_visar_valaret_forst_pa_valnatten.
     kropp = js[js.index("function histAxelAr("):]
     assert "KONFIG.valdag" in kropp[:kropp.index("\n}")], "histAxelAr lägger till nästa valår ur KONFIG.valdag"
     # Ett år utan punkt: samma ord i ringen som i bildens beskrivning, olika i de två lägena. Orden står i
@@ -372,8 +373,9 @@ def test_konturkartorna_och_den_kortade_faktalistan():
     kropp = js[js.index("function histKartor() {"):js.index("/* ---- fakta */")]
     assert "historikGeo" in kropp, "2006 års konturer kommer ur state.historikGeo"
     assert "figcaption" in kropp, "bildtexten säger år och antal distrikt"
-    assert "Samma yta, fler distrikt" in js, "noten säger vad kartorna visar"
-    assert "Valhemligheten gäller per distrikt" in js, "meningen stänger frågan om ålder"
+    assert "Samma yta, olika gränser" in js, "etiketten säger vad kartorna visar"
+    assert "Till vänster distrikten i valet" in js, "noten namnger båda åren"
+    assert "valhemligheten gäller per distrikt" in js, "meningen stänger frågan om ålder"
     fakta = js[js.index("function renderFakta()"):]
     assert "Avgränsning:" in fakta, "listan börjar med avgränsningen"
     assert "Andel = partiets röster delat med giltiga röster." in fakta, "andelsdefinitionen står kvar"
@@ -385,11 +387,12 @@ def test_arvaljaren_ar_en_dropdown():
     """Årväljaren är en <select> med etiketten på selecten, inte en knapprad med role=group."""
     js = JS.read_text("utf-8")
     css = CSS.read_text("utf-8")
-    assert 'id: "arval-select"' in js, "selecten har ett eget id"
+    assert '"arval-select"' in js, "sidhuvudets select har ett eget id"
+    assert '"arval-select-" + i' in js, "sektionernas väljare får egna id, ett id får inte dubbleras"
     assert '"aria-label": "Välj valår"' in js, "etiketten sitter på selecten"
     markup = next(r for r in js.splitlines() if 'id="arval"' in r)
     assert 'role="group"' not in markup and 'aria-label' not in markup, "behållaren har varken role eller etikett kvar"
-    rad = next((r for r in css.splitlines() if r.strip().startswith(".mp-val #arval select {")), None)
+    rad = next((r for r in css.splitlines() if r.strip().startswith(".mp-val .arval select {")), None)
     assert rad and "font: inherit" in rad and "color:" in rad and "background:" in rad and "border:" in rad, \
         "selecten ärver typsnitt och får egen färg, bakgrund och ram"
 
@@ -498,13 +501,19 @@ def test_valnatten_laddar_jamforelsearet_vid_start():
     assert "Number(a) < Number(KONFIG.standardAr)" in kropp, "jämförelseåret är största året under standardåret"
 
 
-def test_konturkartornas_not_raknas_fram_ur_kartorna():
-    """2010 och 2014 har lika många distrikt som 2006. Noten får då inte påstå fler distrikt."""
+def test_konturkartorna_stallar_valaret_mot_valt_ar():
+    """Vänstra kartan är alltid valårets indelning, högra det år läsaren valt. Är de samma år tar det
+    äldsta året i serien högra platsen, annars hade paret blivit två likadana kartor. Noten namnger de
+    två åren i stället för att räkna distrikt."""
     js = JS.read_text("utf-8")
     kropp = js[js.index("function histKartor()"):]
     kropp = kropp[:kropp.index("\n}\n")]
-    assert "gNu.features.length > g06.features.length" in kropp, "första meningen räknas fram ur kartorna"
-    assert "lika många distrikt" in kropp, "meningen för lika många distrikt finns"
+    assert "valdagAret()" in kropp, "vänstra kartan följer valåret ur konfigen"
+    assert "state.konturGeo" in kropp, "valårets geometri laddas vid sidan av årväljarens år"
+    assert "state.historikGeo" in kropp, "2006 är reserven när valt år är valåret självt"
+    assert "Till vänster distrikten i valet ${arA}" in kropp, "noten namnger båda åren"
+    assert "gNu.features.length" not in kropp, "noten räknar inte längre distrikt"
+    assert 'id="hist-etikett-kartor"' in js, "kartorna har en egen etikett, som bild B"
 
 
 def test_arvaljarens_felrad_ar_en_levande_region():
@@ -519,7 +528,7 @@ def test_arvaljarens_felrad_ar_en_levande_region():
 def test_arvaljaren_har_knappradens_marginal():
     """Selecten ärvde inte .knappar-regeln när knappraden byttes ut."""
     css = CSS.read_text("utf-8")
-    rad = next(r for r in css.splitlines() if r.startswith(".mp-val #arval {"))
+    rad = next(r for r in css.splitlines() if r.startswith(".mp-val .arval {"))
     assert "margin: 0 0 12px" in rad, "samma luft under årväljaren som knappraden hade"
 
 
@@ -645,8 +654,94 @@ def test_arvaljaren_bar_sidans_knappstil():
     """Den vita rutan stack ut mot papperet: selecten bär sidans bakgrund och knapparnas mått."""
     css = CSS.read_text("utf-8")
     knapp = next(r for r in css.splitlines() if r.startswith(".mp-val button {"))
-    for regel in (".mp-val select {", ".mp-val #arval select {"):
+    for regel in (".mp-val select {", ".mp-val .arval select {"):
         rad = next(r for r in css.splitlines() if r.startswith(regel))
         assert "var(--papper)" in rad and "#fff" not in rad, f"{regel} bär sidans papper, inte vitt"
         for matt in ("min-height: 44px", "padding: 8px 14px", "border-radius: 4px"):
             assert matt in rad and matt in knapp, f"{regel} matchar inte knappens {matt}"
+
+
+def test_axeln_visar_valaret_forst_pa_valnatten():
+    """Före valdagen stod 26 längst ut på axeln med en tom ring under, utan att säga något. Året kommer
+    med när räkningen börjat, och efter valet står det i serien via senasteAr()."""
+    js = JS.read_text("utf-8")
+    kropp = js[js.index("function histAxelAr("):]
+    kropp = kropp[:kropp.index("\n}\n")]
+    assert "KONFIG.valnatt" in kropp, "valåret läggs till först på valnatten"
+    assert "räknas just nu" in js and "räknas på valnatten" in js, "ringens texter står kvar för valnatten"
+
+
+def test_axeln_skriver_hela_artal_nar_de_far_plats():
+    """Fyra siffror när avståndet mellan två tick räcker, annars två. Antalet år följer konfigen, så
+    gränsen mäts i stället för att sättas."""
+    js = JS.read_text("utf-8")
+    kropp = js[js.index("function histArAxel("):]
+    kropp = kropp[:kropp.index("\n}\n")]
+    assert "textBredd" in kropp, "årtalens form mäts"
+    assert "slice(2)" in kropp, "två siffror är kvar som reserv"
+
+
+def test_historiksektionen_har_ingen_raknad_mening():
+    """"V har gått från 17,2 till 27,2 procent i riksdagsvalet sedan 2006." är borttagen. Redaktionens
+    egen mening i konfigen står kvar som möjlighet."""
+    js = JS.read_text("utf-8")
+    kropp = js[js.index("function histMening("):]
+    kropp = kropp[:kropp.index("\n}\n")]
+    assert "har gått från" not in kropp, "den räknade meningen är borta"
+    assert "historikSerie" not in kropp and "andelTal" not in kropp, "inga tal räknas fram till meningen"
+    assert "KONFIG.historik" in kropp, "redaktionens egen mening går fortfarande att sätta"
+
+
+def test_etiketterna_i_bild_b_har_ingen_ledarlinje():
+    """Den korta flärpen ned från punkten till en isärskjuten etikett är borttagen: färgen knyter
+    etiketten till sin egen linje."""
+    js = JS.read_text("utf-8")
+    kropp = js[js.index("function histEtiketter("):]
+    kropp = kropp[:kropp.index("\n}\n")]
+    assert 's("line"' not in kropp, "ingen ledarlinje ritas"
+    assert "py" not in kropp, "punktens y behövs inte längre när linjen är borta"
+
+
+def test_rakneexemplet_ar_en_fotnot():
+    """Räkneexemplet under halvcirkeln är en förklaring ingen behöver läsa: minsta grad på sidan."""
+    css = CSS.read_text("utf-8")
+    rad = next((r for r in css.splitlines() if r.startswith(".mp-val #mandat-metod {")), None)
+    assert rad and "font-size: 13px" in rad, "räkneexemplet står mindre än de vanliga noterna"
+
+
+def test_arvaljare_i_varje_sektion_som_foljer_aret():
+    """Blocket ligger i en iframe hos Beehiiv, där position: sticky är verkningslöst. I stället står en
+    synkad väljare överst i varje sektion som följer året, så att året syns var läsaren än befinner sig."""
+    js = JS.read_text("utf-8")
+    markup = js[js.index("const MARKUP = `"):js.index("\n`;\n")]
+    assert markup.count('class="arval"') == 5, "sidhuvudet plus de fyra sektioner som följer året"
+    for sek in ("riksdag", "karta-sektion", "jamforelse", "rostdelning"):
+        bit = markup[markup.index('<section id="%s"' % sek):]
+        bit = bit[:bit.index("</section>")]
+        assert 'class="arval"' in bit, f"{sek} saknar årväljare"
+        assert 'class="arval-fel"' in bit, f"{sek} saknar felrad vid sin väljare"
+    hist = markup[markup.index('<section id="historik"'):]
+    assert 'class="arval"' not in hist[:hist.index("</section>")], \
+        "historiksektionen följer inte årväljaren, utom konturkartorna"
+    assert "function renderArval(" in js, "väljarna byggs på ett ställe"
+    kropp = js[js.index("async function byteAr("):]
+    kropp = kropp[:kropp.index("\n}\n")]
+    assert "arvalValjare()" in kropp, "alla väljare låses under laddningen, inte bara den som användes"
+    assert "arvalFelRuta" in kropp, "felet står vid den väljare läsaren använde"
+
+
+def test_omritade_distrikt_tonas_i_konturkartorna():
+    """Elva av 23 distrikt fick nya gränser mellan 2022 och 2026, men bitarna är så små att konturerna ser
+    lika ut. De tonas därför. Jämförelsen görs på distriktskod, area och omskrivande rektangel; två år utan
+    gemensamma koder har inget att jämföra och får ingen toning."""
+    js = JS.read_text("utf-8")
+    assert "function jamforDistrikt(" in js, "jämförelsen ligger i en egen hjälpare"
+    kropp = js[js.index("function jamforDistrikt("):]
+    kropp = kropp[:kropp.index("\n}\n")]
+    assert "area_km2" in kropp and "distriktRam" in kropp, "både area och ram jämförs"
+    assert "properties.kod" in kropp, "bara koder som finns i båda åren jämförs"
+    karta = js[js.index("function histKartor()"):]
+    karta = karta[:karta.index("\n}\n")]
+    assert "omritade.has" in karta, "de omritade distrikten får en ton i båda kartorna"
+    assert "tonade distrikten" in karta, "noten säger vad tonen betyder"
+    assert "omritade.size" in karta, "noten nämner tonen bara när något faktiskt är tonat"

@@ -163,7 +163,8 @@ def test_reserverade_hojder_i_sidhuvudet():
         rad = next((r for r in css.splitlines() if r.startswith(regel + " {")), None)
         assert rad and "min-height:" in rad, f"{regel} saknar reserverad höjd"
     assert "har-mening" not in js and "har-mening" not in css, "meningen har eget element, ingen klass på roten"
-    assert '$("#arval").hidden' in js, "årsknapparnas rad tar plats så snart konfigen är läst"
+    assert "for (const ruta of arvalRutor()) ruta.hidden" in js, \
+        "alla fem väljarrader tar plats så snart konfigen är läst, inte bara sidhuvudets"
     assert '$("#statusrad").hidden' in js, "en statusrad som ska tiga döljs redan när konfigen lästs"
 
 
@@ -743,5 +744,7 @@ def test_omritade_distrikt_tonas_i_konturkartorna():
     karta = js[js.index("function histKartor()"):]
     karta = karta[:karta.index("\n}\n")]
     assert "omritade.has" in karta, "de omritade distrikten får en ton i båda kartorna"
-    assert "tonade distrikten" in karta, "noten säger vad tonen betyder"
+    assert "i båda kartorna" in karta, "noten säger att samma distrikt tonas i båda kartorna"
+    assert "rakneord(omritade.size)" in karta, "små tal skrivs ut i löptext, inte som siffra"
+    assert 'är tonat" : "är tonade"' in karta, "noten böjer sig efter antalet"
     assert "omritade.size" in karta, "noten nämner tonen bara när något faktiskt är tonat"

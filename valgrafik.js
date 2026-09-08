@@ -348,7 +348,10 @@ async function start() {
   const mening = (KONFIG.toppsvar || {}).mening || "";
   $("#topp-mening").textContent = mening;
   $("#topp-mening").hidden = !mening;
-  $("#arval").hidden = (KONFIG.ar || []).length < 2;   // raden tar plats så snart konfigen är läst
+  // Alla fem väljarrader tar plats så snart konfigen är läst, inte bara sidhuvudets: sektionerna under
+  // syns från början med sina rubriker, och fyra rader som dyker upp när datan kommer flyttade allt
+  // därunder med 56 px styck.
+  for (const ruta of arvalRutor()) ruta.hidden = (KONFIG.ar || []).length < 2;
   $("#statusrad").hidden = !statusradKommer();
   try {
     // Ett svep efter konfigen, men bara för de år som behövs: standardåret och det år som står i URL:en.
@@ -1517,6 +1520,9 @@ function histDeltagande(val) {
     rader.push(`${histLista(genitiv.map((g, i) => i ? g.toLowerCase() : g))} ${genitiv.length > 1 ? "linjer" : "linje"} slutar ${ar} tills siffrorna för ${sistaAr} finns.`);
   notEl.textContent = rader.join(" ");
 }
+// Små tal skrivs ut i löptext, och noten under konturkartorna börjar med talet.
+const RAKNEORD = ["noll", "ett", "två", "tre", "fyra", "fem", "sex", "sju", "åtta", "nio", "tio", "elva", "tolv"];
+const rakneord = n => { const o = RAKNEORD[n] || String(n); return o[0].toUpperCase() + o.slice(1); };
 function distriktRam(f) {   // omskrivande rektangel ur ytterringen, i grader
   let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
   for (const [x, y] of f.geometry.coordinates[0]) {
@@ -1538,8 +1544,11 @@ function jamforDistrikt(gA, gB) {
     const m = andra.get(f.properties.kod);
     if (!m) continue;
     const ra = distriktRam(f), rb = distriktRam(m);
-    if (Math.abs((f.properties.area_km2 || 0) - (m.properties.area_km2 || 0)) > 1e-6
-        || ra.some((v, i) => Math.abs(v - rb[i]) > 1e-6)) ut.add(f.properties.kod);
+    // Arean jämförs bara när båda filerna har talet. Med ett fallback till noll hade en årsfil utan
+    // area_km2 gjort varje distrikt omritat, och noten hade påstått att hela indelningen ändrats.
+    const aA = f.properties.area_km2, aB = m.properties.area_km2;
+    const areaSkiljer = typeof aA === "number" && typeof aB === "number" && Math.abs(aA - aB) > 1e-6;
+    if (areaSkiljer || ra.some((v, i) => Math.abs(v - rb[i]) > 1e-6)) ut.add(f.properties.kod);
   }
   return ut;
 }
@@ -1578,7 +1587,8 @@ function histKartor() {
   // gränserna ändå är omritade, och det är omritningen bilden handlar om.
   etikettEl.textContent = "Samma yta, olika gränser";
   notEl.textContent = `Till vänster distrikten i valet ${arA}, till höger de som gällde ${arB}. `
-    + (omritade.size ? `De ${omritade.size} tonade distrikten har fått nya gränser. ` : "")
+    + (omritade.size ? rakneord(omritade.size) + ` distrikt har fått nya gränser `
+       + `och ${omritade.size === 1 ? "är tonat" : "är tonade"} i båda kartorna. ` : "")
     + "Gränserna dras om inför varje val, så ett kvarter kan byta distrikt utan att någon har flyttat. "
     + "Hur olika åldrar röstade går inte att veta - valhemligheten gäller per distrikt, inte per person.";
 }

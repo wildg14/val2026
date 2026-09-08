@@ -121,7 +121,7 @@ const oppenPunkt = c => c.fill === PAPPER && c.r === 3;
       // Toningen är lika i båda kartorna: samma distrikt bytte gränser, oavsett vilket år som ritas.
       [`${namn}: lika många tonade distrikt i båda kartorna`, u.kartFigurer.length === 2 && u.kartFigurer[0].tonade === u.kartFigurer[1].tonade],
       // Noten nämner toningen bara när något är tonat.
-      [`${namn}: noten följer toningen`, u.notKartor.includes('tonade distrikten') === (u.kartFigurer[0] || {}).tonade > 0],
+      [`${namn}: noten följer toningen`, u.notKartor.includes('i båda kartorna') === (u.kartFigurer[0] || {}).tonade > 0],
       [`${namn}: Om siffrorna har två punkter`, u.faktaLi === 2],
     ];
   };

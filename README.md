@@ -222,6 +222,8 @@ Bildlägena går också att öppna direkt i webbläsaren: `index.html?bild=jamfo
 
 I Beehiiv: lägg in bilden med alt-texten och länka den till sidan (`#jamforelse` landar på grafiken, `#karta-sektion` på kartan, `?distrikt=...` på ett kvarter). Kvadraten passar i själva brevet (Beehiiv visar 600 px på desktop och cirka 360 px på mobil), liggande som og:image och för Facebook.
 
+**Året måste vara påslaget på sidan.** Sidan laddar bara år som står i `ar` i `data/konfig.json` och faller annars tillbaka på standardåret, tyst, medan filnamnet och alt-texten räknas ur datafilen - en bild av 2022 kunde alltså få 2026 i namn och alt-text. Skriptet stoppar nu innan Chrome startar när `--ar` inte står i konfigen, och läser dessutom bildramens `data-ar` ur den renderade sidan innan det fotograferar. Kör `uppdatera_2026.py --valnatt` först, som lägger till året i konfigen i samma skrivning som den skriver valdatan. `--data` följer `--html`, så en kopia av sidan i en annan mapp läser sin egen data och inte repots.
+
 2026: jämförelsebilderna kräver aggregat för riket, Västra Götaland och Göteborg i `valdata_2026.json`. De finns när `uppdatera_2026.py` körts med Valmyndighetens filer, men inte när CSV-reservvägen använts. Kartan och distriktskortet på sidan fungerar däremot direkt på valnatten.
 
 ## Historiken
@@ -322,7 +324,9 @@ Första körningen, när `index.md5` finns:
 
 GitHub Pages bygger från grenen med en mjuk gräns på tio bygg per timme; pushar man tätare än så hinner sidan inte hänga med. Blir ett bygge strypt landar pushen ändå i git, men sidan uppdateras inte förrän nästa bygge går igenom - kontrollera då sidan innan nästa push.
 
-Har de tre filerna samma md5 som förra körningen skriver skriptet `Inget nytt att läsa in.` och avslutar med kod 3 utan att röra något; kedjan stannar där och ingenting committas. Alla filer skrivs atomiskt, så sidan kan aldrig läsa en halvskriven fil.
+Har de tre filerna samma md5 som förra körningen skriver skriptet `Inget nytt att läsa in.` och avslutar med kod 3 utan att röra något; kedjan stannar där och ingenting committas. Jämförelsen görs mot `hamtat.json` i körningens egen mapp, ett manifest med räkningstillfälle, filnamn och md5 för de tre filer som **faktiskt hämtades**. Ett byte från preliminär till slutlig räkning kan därför aldrig tystas: förut lästes hela `index.md5`, som listar både `./p/` och `./s/`, så en preliminär körning sparade de slutliga filernas md5 utan att ha hämtat dem och nästa `--tillfalle s` trodde att de redan var behandlade. En mapp utan manifest (från en körning före den ändringen) räknas som ny och hämtas om en gång. Alla filer skrivs atomiskt, så sidan kan aldrig läsa en halvskriven fil.
+
+**`Inget nytt att läsa in.` är bara lugnande om föregående körning gick hela vägen.** Manifestet säger vad som hämtades, inte att inläsningen sedan lyckades. Stannade förra körningen på ett `FEL:` efter hämtningen ger nästa `--hamta` samma `Inget nytt` så länge Valmyndigheten inte skrivit om filerna, och kedjan stannar utan att något publiceras. Vägen vidare efter ett `FEL:` är därför alltid `--valnatt-mapp data/valnatt/senaste` med samma `--status`, aldrig `--hamta` igen.
 
 Vallokalerna stänger 20.00 och det dröjer innan Majorna syns. En körning utan räknade Majornadistrikt är inte ett fel: filerna skrivs med 0 av 23 räknade, konfigen slås över i valnattsläge och sidan säger "inget distrikt räknat än" under en statusrad som räknar upp. Det är det normala läget den första timmen.
 
@@ -379,6 +383,10 @@ Preliminär räkning fortsätter till och med uppsamlingsräkningen på onsdagen
 .venv/bin/python scripts/uppdatera_2026.py --hamta --tillfalle s --status slutlig
 ```
 
+`--status slutlig` måste följa med: filens eget `rakningstillfalle` kontrolleras mot argumentet, och en preliminär fil importerad som slutlig stoppas. Den slutliga riksdagsfilen är stor - 237 MB uppackad i genrepet, mot 38 MB för den preliminära - och gränserna i `hamta_2026.py` är satta med marginal för det (600 MB per fil, 900 MB per zip).
+
+**Sluträkningen tar flera dagar.** Så länge alla 23 distrikt inte är räknade säger statusraden "Slutlig räkning pågår, N av 23 distrikt räknade." och behåller knappen "Ladda om"; det färdiga beskedet "Slutligt resultat, riksdagsvalet 2026." kommer först när allt är inne. Kör alltså kommandot ovan på samma sätt som under kvällen tills räkningen är klar.
+
 Sätt sedan `"valnatt": false` i `data/konfig.json` och skriv om `konfig.js`:
 
 ```bash
@@ -398,6 +406,7 @@ Hämtningen:
 - `FEL: data/valnatt/senaste är en katalog, inte en länk; flytta undan den` - `senaste` ska vara en symlänk.
 - Nätfel under `uppdatera_2026.py --hamta` ger två rader: `FEL: <url>: <orsak>` (samma meddelande hamta_2026.py själv hade skrivit, till exempel `FEL: https://resultat.val.se/...: [Errno 8] nodename nor servname provided, or not known`) följt av `FEL: hämtningen misslyckades, inget skrivet`. Inget är skrivet; vänta och kör igen.
 - `FEL: hämtningen avbröts med kod N` - hämtningen avslutades på ett sätt som inte fångades av dess egna felhantering (sällsynt). Kör igen.
+- `FEL: <fil>: N MB, större än gränsen 600 MB` och `FEL: zip-filen är N MB uppackat, större än gränsen 900 MB` - Valmyndighetens filer har vuxit långt över det uppmätta. Höj `STORLEKSGRANS` respektive `TOTALGRANS` i `scripts/hamta_2026.py` först efter att ha kontrollerat att filen är den väntade; gränserna finns som skydd mot zip-bomber.
 
 `--tvinga` låser upp tre spärrar på en gång: färre räknade distrikt, testdata över skarp data, och testdata till repots `data/` - inte bara den som utlöste stoppet. En `--genrep`-körning med standard-`--ut` följd av återstartskommandot med `--tvinga` skriver alltså testmärkt data till `data/` utan att stoppas. Se avsnittet Under kvällen.
 
@@ -410,6 +419,12 @@ Inläsningen:
 - `FEL: filerna är testdata (test: true) och --ut är repots data/` - torrkörningen saknar `--ut` till en annan mapp.
 - `FEL: <mapp>: inga av mapparna rd, rf, kf finns` - fel mapp angiven i `--valnatt-mapp`.
 - `FEL: <fil>: hittar inget blad vars namn börjar med 'roster_'` - fel xlsx-fil eller nytt format. Använd reservvägen.
+- `FEL: rd: filen gäller valdatum 2022-09-11, alltså inte valet 2026` - `--valnatt-mapp` pekar på fel mapp, till exempel en kvarglömd repetitionskörning. Kontrollera sökvägen; `--tvinga` låser inte upp den här spärren och ska inte göra det.
+- `FEL: kf: filen innehåller preliminär men --status säger slutlig` - argumentet motsäger filen. Rätta `--status`, eller hämta de slutliga filerna med `--tillfalle s`. Gäller även återhämtningskommandona nedan: de måste ha samma `--status` som den körning som stannade.
+- `FEL: kf: valdatum är ... men rd-filen säger ...` - de tre filerna hör inte ihop. Hämta om dem i en och samma körning.
+- `VARNING: rd: 14800533 (Sandarna) har omöjliga tal (röstande 1084 > röstberättigade 1083), markeras som oräknat` - Valmyndighetens fil innehåller ett tal som inte kan stämma. Talet når aldrig sidan, distriktet räknas som oräknat och de övriga går igenom; att ett distrikt fattas syns i statusraden. Kontrollera distriktet på val.se. Ett omöjligt tal stoppar alltså inte kvällen, till skillnad från en summa som inte går ihop - då kan vi läsa filen fel, och hela filen är misstänkt.
+- `FEL: '12,7' är inget heltal` - ett tal i filen har fel form, och då vet vi inte vad filen menar. Kontrollera och kör igen.
+- `VARNING: rd: okänt räkningstillfälle 'onsdagsräkning' i filen` - ordet i filen känns inte igen, så det går inte att kontrollera mot `--status`. Bara en varning: ett okänt ord är inget bevis för fel fil, och det finns ingen väg vidare om det stoppar.
 
 CSV-vägen:
 

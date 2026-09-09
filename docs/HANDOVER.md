@@ -1,6 +1,6 @@
 # Handover: Så röstade Majorna
 
-Skriven 2026-09-04 av den session som byggde grafiken, uppdaterad 2026-09-07 efter valnattsomgången, samma dag igen efter att historikplanen byggts klart (task 6 till 10), samma dag igen efter Daniels feedbackrunda på den publicerade sidan (grupp 1 och grupp 2), och 2026-09-08 efter grupp 3 och grupp 4. Läs den här filen i sin helhet innan du gör något. Valdagen är 2026-09-13.
+Skriven 2026-09-04 av den session som byggde grafiken, uppdaterad 2026-09-07 efter valnattsomgången, samma dag igen efter att historikplanen byggts klart (task 6 till 10), samma dag igen efter Daniels feedbackrunda på den publicerade sidan (grupp 1 och grupp 2), 2026-09-08 efter grupp 3 och grupp 4, och 2026-09-09 efter den andra externa granskningen. Läs den här filen i sin helhet innan du gör något. Valdagen är 2026-09-13.
 
 ## Läs i den här ordningen
 
@@ -139,7 +139,7 @@ Planen `docs/superpowers/plans/2026-09-05-valnatt-2026.md` är genomförd, task 
 
 **Torrkörningen är gjord** (2026-09-07, mot nätet): `uppdatera_2026.py --hamta --genrep --ut /tmp/torr --status preliminar` gav md5 och signatur ok för de tre filerna, 23/23 räknade distrikt i alla tre valen, 14 jämförbara mot 2022, en namnvarning (Sandarna mot Sandarne) och en TESTDATA-varning, inga FEL. En andra körning gav `Inget nytt att läsa in.` och kod 3. `hamta_2026.py --ut /tmp/torr2` mot den skarpa adressen gav `FEL: https://resultat.val.se/resultatfiler/val2026/index.md5 svarar 404: resultatfilerna publiceras först på valkvällen` och kod 1, som väntat. Testsidan byggd av torrkörningens data gav `TVÅÅRSKONTROLL OK`. Utskrifterna står som facit i `docs/valnatt-korschema.md`.
 
-**Av Codex-fynden om data** (listade i den tidigare startpunkten) är JSON-formatet, distriktsgeografin, CSV-mallen, swingens distriktsmängder, negativa röster och okända partikoder samt den tomma importen åtgärdade. Kvar är två (planens "Codex 16 och 17"): `scripts/kontrollera.py` täcker fortfarande bara distriktsraderna, inte aggregat och mandat, och `scripts/skapa_bilder.py` kan märka en bild med fel år. Ingen av de två filerna rördes i den här omgången.
+**Av Codex-fynden om data** (listade i den tidigare startpunkten) är JSON-formatet, distriktsgeografin, CSV-mallen, swingens distriktsmängder, negativa röster och okända partikoder samt den tomma importen åtgärdade. Kvar var två (planens "Codex 16 och 17"): `scripts/kontrollera.py` täcker fortfarande bara distriktsraderna, inte aggregat och mandat, och `scripts/skapa_bilder.py` kunde märka en bild med fel år. Ingen av de två filerna rördes i den omgången; **bildexporten är rättad 2026-09-09**, se statusavsnittet om den andra granskningen.
 
 ## Avvikelser från planen
 
@@ -299,6 +299,139 @@ Tre fynd avvisades av motgranskaren: att statusradens reserverade höjd tappas v
 - Elva av 23 distrikt har nya gränser mellan 2022 och 2026, uppmätt ur `area_km2` och omskrivande rektangel. Marieberg (+600 kvadratmeter) och Karl Johan (-500) räknas med: det är kvarteret på 533 kvadratmeter som bytte mellan dem.
 - Sidvikt vid start: **488 kB**, mot 460 kB utan `distrikt_2026.js`. Konturkartorna kostar alltså 28 kB före valdagen; på valnatten är filen redan laddad som årets egen och kostar inget extra.
 
+## Status 2026-09-09: den andra externa granskningens sju fynd
+
+Daniel lämnade in en andra djupaudit av den publicerade sidan (samma granskare som den första
+Codex-omgången, mot commit `e5ae776`). Sju fynd: två P1 och fem P2. **Alla sju är reproducerade och
+rättade**, i sex commits. Kontrollera med `git log --oneline e5ae776..origin/main`.
+
+**Så verifierades fynden innan något rättades.** De två P1-fynden reproducerade kontrollern själv mot
+Valmyndighetens genrep över nätet. De fem P2-fynden gick till fyra agenter på Sonnet, en per
+fyndområde, med instruktionen att bygga ett eget prov och att avvisa fyndet om det inte gick att
+reproducera. Alla sju bekräftades. Ett åttonde, orapporterat fel kom ut av samma arbete: strängen
+"12,7" i ett rösttal gav en okontrollerad ValueError i stället för en FEL-rad.
+
+**P1: den slutliga räkningen gick inte att hämta.** Båda fynden sitter i körschemats kommando
+`uppdatera_2026.py --hamta --tillfalle s --status slutlig`, och de träffar i tur och ordning.
+
+1. **Cachen skilde inte på räkningstillfällen.** `--hamta` bygger alltid in `--bara-om-nytt`, och
+   `ar_oforandrat` läste förra körningens sparade **hela** `index.md5`. Det indexet är hela landets och
+   listar både `./p/` och `./s/` (624 rader i genrepet), så en preliminär körning sparade de slutliga
+   filernas md5 utan att ha hämtat dem. Nästa körning med `--tillfalle s` gav `Inget nytt` och kod 3
+   utan att hämta något. Reproducerat med två körningar i samma mapp. Cachenyckeln är nu `hamtat.json`,
+   ett manifest per körning med räkningstillfälle, filnamn och md5 för de tre filer som **faktiskt
+   hämtades**. Saknat eller trasigt manifest räknas som nytt, så en mapp från före ändringen hämtar om
+   en gång - rätt håll att fela åt.
+2. **Storleksgränsen avvisade riksdagsfilen.** Gränsen var 200 MB per uppackad fil. Uppmätt ur genrepets
+   zip-filer: slutlig RD är **237,2 MB** i en fil och 248,2 MB uppackat totalt, mot 38,1 MB för den
+   preliminära; RF är 67,0 MB och KF 10,6 MB. Hela hämtningen avbröts alltså innan något slutresultat
+   gick att läsa, och eftersom cachefelet slår till först syntes det inte ens. Gränserna är nu 600 MB
+   per fil och 900 MB per zip (`STORLEKSGRANS`, `TOTALGRANS`), och kontrollen ligger i
+   `kontrollera_storlek` som går att testa utan att bygga en jättefil. Skyddet mot zip-bomber och mot
+   sökvägar i filnamn är orört.
+
+Resten av kedjan klarade filen hela tiden: `las_rostfordelning` läser de 237 MB på 1,6 sekunder med
+1,3 GB toppminne, och hela importen tar 2,4 sekunder. Efter rättningen går den dokumenterade kedjan
+igenom, preliminär och sedan slutlig i samma mapp, med 23 av 23 räknade distrikt i alla tre valen.
+
+**P2, i den ordning de rättades:**
+
+3. **Statusraden sade "Slutligt resultat" över en halvräknad karta** (fynd 3). `statusText()` räknade
+   fram `delvis` men den slutliga grenen använde det inte, och tog dessutom bort knappen "Ladda om" -
+   läsarens enda väg till nyare siffror. Sluträkningen tar flera dagar och körschemat slår om till
+   slutlig status redan när de första `s/`-filerna finns, så läget är inte hypotetiskt; i samma vy sade
+   rubriken över staplarna "Räknat hittills", alltså tvärtemot statusraden. Nu: **"Slutlig räkning
+   pågår, N av 23 distrikt räknade."** med "Ladda om" kvar, och det färdiga beskedet först när allt är
+   inne. Ingen tidsstämpel i den grenen: sluträkningen löper över flera dygn, och timme och minut utan
+   datum säger då mindre än inget. **Ordvalet är kontrollerns, inte Daniels** - en rad att titta på.
+4. **Tabellen tappade tangentbordsfokus** (fynd 7). Sortering och radval bygger om hela tabellen med
+   `replaceChildren`, så kontrollen läsaren tryckte på fanns inte kvar och fokus föll till sidans
+   början. `aterstallTabellFokus` lägger tillbaka det, efter samma mönster som kartans `valjDistrikt`.
+   Målet sätts av den kontroll som användes (`state.tabellFokus`), inte genom att läsa vad som råkar ha
+   fokus - dels så att en vanlig omrendering eller ett årsbyte aldrig drar fokus in i tabellen, dels så
+   att `DOCUMENT_TILLATNA` i `tests/test_inbaddning.py` står orörd. Det här är det enda fyndet som
+   drabbar en vanlig läsare varje dag.
+5. **JSON-vägen saknade CSV-vägens rimlighetskontroller** (fynd 5). Granskarens prov, V -10 och S 110,
+   summerar till samma 100 som två rimliga tal, så summakontrollen är blind för det. Negativa tal för
+   partier, giltiga, ogiltiga, röstande och röstberättigade, och röstande över röstberättigade, fångas nu
+   både i distrikten (`las_rostfordelning`), i jämförelseaggregaten (`_omrade`) och i riksdagens mandat
+   (`riksdag_verklig`). `_n` avvisar samtidigt bråktal och skräpsträngar i stället för att tyst trunkera.
+   Noll röstberättigade betyder fortfarande att fältet saknas i filen. **Ett omöjligt tal i ett distrikt
+   stoppar bara sitt eget distrikt**, se granskningen av rättningarna nedan.
+6. **Källfilens filhuvud jämfördes aldrig med uppdraget** (fynd 4). `meta.valdatum`,
+   `tidigare_valdatum` och `rakningstillfalle` lästes men användes inte; år, status och källtext byggdes
+   uteslutande ur kommandoradsargumenten. En fil med valdatum 2022-09-11 importerad med
+   `--status slutlig` gav kod 0 och en utdatafil märkt "slutlig rösträkning per valdistrikt 2026".
+   `kontrollera_kalla` stoppar nu på fel valdatum, på ett räkningstillfälle som motsäger `--status`, och
+   på att de tre filerna säger olika saker om valdatum, räkningstillfälle eller testflagga. Tomma fält
+   varnar bara. Kontrollen fångade direkt ett befintligt test som läste den slutliga KF-genrepfilen med
+   `--status preliminar`.
+7. **Bildexporten kunde märka en bild med fel år** (fynd 6, gamla Codex 17). Tre lager: `--data` följer
+   nu `--html` så att bild, alt-text och filnamn kommer ur samma mapp; `kontrollera_ar` stoppar innan
+   Chrome startar när året inte står i konfigens `ar`; och bildramen bär `data-ar` och `data-val` som
+   exporten läser ur den renderade sidan med `--dump-dom` innan den fotograferar. Konfigkontrollen är
+   ett antagande om vad sidan gör med adressen, avläsningen är vad den gjorde.
+
+**Rättningarna granskades i sin tur**, av tre agenter: en diffgranskare på Opus, en valnattsgranskare på
+Opus och en täckningsgranskare på Sonnet. Diffgranskaren backade varje rättning i en kopia och bekräftade
+att minst ett test faller för var och en, och hittade inget infört fel. Valnattsgranskaren gick igenom
+Valmyndighetens riktiga 2022-filer för Göteborg plus genrepets sex filer, tillsammans omkring 8 500
+distrikt, och ingen av de nya kontrollerna slår till på något av dem: uppsamlingsdistrikten har
+`antalRostberattigade` null och passerar tack vare nollvakten, minsta marginal mellan röstande och
+röstberättigade är 70 röster, och alla fält `_n` läser är heltal eller null. Fyra fynd rättades i en
+egen commit, och de handlade alla om vad som händer **när ett larm är befogat**:
+
+- **Ett omöjligt tal i ett distrikt fällde hela filen**, alla tre valen, utan väg vidare: `--tvinga`
+  låser inte upp kontrollen, och CSV-vägen läses först efter JSON-vägen, så den kan inte komplettera
+  distriktet. Nu blir bara det distriktet oräknat, med en varning; de andra 22 går igenom och talet når
+  aldrig sidan. Skillnaden mot en summa som inte går ihop är hur mycket man vet: går summorna inte ihop
+  kan vi läsa filen fel och hela filen är misstänkt, medan ett tal som är omöjligt på sitt eget ansikte
+  är ett dåligt värde i en fil vi läser rätt. Och till skillnad från den handskrivna CSV-filen går
+  Valmyndighetens fil inte att rätta från vår sida.
+- **Ett okänt ord i `rakningstillfalle` stoppade allt** utan väg vidare, och meddelandet blev "preliminär
+  räkning räkning". Ordet jämförs nu på sitt första ord; ett okänt ord varnar bara.
+- **Rimlighetskontrollerna saknades i aggregaten och mandaten**, som granskaren uttryckligen bad om.
+- **Manifestet skrevs före uppackningen**, så en avbruten körning lämnade ett manifest som påstod mer än
+  som hänt. Det skrivs nu sist, efter signaturkontrollen.
+
+Ett fynd lämnades medvetet: **`Inget nytt att läsa in.` är bara lugnande om föregående körning gick hela
+vägen.** Stannade den på ett `FEL:` efter hämtningen är filerna redan hämtade, och nästa `--hamta` säger
+`Inget nytt` fast ingenting publicerats. Det följer av att manifestet speglar hämtning och inte import,
+alltså av Daniels val nedan. Rättat i dokumentationen i stället: vägen vidare efter ett `FEL:` är alltid
+`--valnatt-mapp data/valnatt/senaste` med **samma `--status`**, aldrig `--hamta` igen. Det står nu i både
+README och körschemat, som också fått rättat att körschemats två återhämtningskommandon har
+`--status preliminar` skrivet och måste ha `slutlig` under sluträkningen.
+
+**Vad som inte gjordes av granskarens förslag.** Manifestet vet bara att filerna hämtades, inte att
+importen sedan lyckades - granskaren ville skilja "hämtad version" från "publicerbar version". En import
+som stoppas efter hämtningen kan alltså följas av `Inget nytt`; återhämtningsvägen står i körschemat
+(`--valnatt-mapp data/valnatt/senaste --tvinga`) och är oförändrad. Daniel valde det mindre ingreppet;
+det större kräver att `uppdatera_2026.py` skriver tillbaka i hämtningens mapp. Granskarens fynd om de
+äldre historikverktygen (`kedja_bygg.py` rad 293, returvärden i `granskning_*.py`) rördes inte: de hör
+till historikspåret, som en annan session äger.
+
+**Uppmätt efter omgången** (2026-09-09, i det här worktreet):
+
+- `.venv/bin/python -m pytest -q`: **411 passed, 2 skipped**, mot 374 och 2 före omgången. De två
+  överhoppade är signaturtesterna, som kräver pem-filerna. Trettiosju nya tester.
+- Den dokumenterade kedjan mot genrepet, preliminär och sedan slutlig i samma mapp: 23 av 23 räknade
+  distrikt i alla tre valen, 14 jämförbara mot 2022, inga FEL.
+- Statusraden vid 320 och 375 px containerbredd: 52 px hög, alltså exakt den reserverade höjden, och
+  ingen sidledsrullning. Den nya texten är kortare än den preliminära raden, som är den längsta sedan
+  tidigare.
+- Tangentbordsföljden Tab, Enter, Enter sorterar två gånger utan att leta upp knappen igen, både på
+  index och inuti `docs/beehiivtest.html`. Radval med Enter lämnar fokus på raden. Kartklick lägger
+  fortfarande fokus på distriktet.
+- Alla fem webbläsarkontroller gröna, körda mot testsidor byggda ur genrepets data: `bredd-check` 227
+  av 227, `historik-check`, `tvaar-check`, `skal-check` och `beehiiv-check`. `verktyg/node_modules`
+  saknades i worktreet och installerades om (`npm install puppeteer-core`).
+- Rösthjälpsrutans länk går till `https://hjalpmigrosta.se/` med `target="_top"`.
+- `kontrollera.py`: 1 149 kontroller plus 41 historikkontroller, 0 diffar.
+
+**Samtidigt, på Daniels begäran:** rösthjälpsrutan länkar till `hjalpmigrosta.se` i stället för
+`hjalpmigrosta.se/sv/start/`. Undersidan hoppade över sidans eget språkval. Roten svarar 200 utan
+omdirigering. `konfig.js` omskriven med `schema.skriv_konfig` och kontrollerad mot `konfig.json`.
+
 ## Så hänger det ihop tekniskt
 
 `valgrafik.js` börjar med `MARKUP` (hela sidans HTML som sträng), `KONFIG` (standardvärden), `PARTIER` (färger och namn), `SPEKTRUM` (halvcirkelns ordning V, S, MP, C, L, KD, M, SD) och `state`. `start()` monterar markupen i `.mp-main`, läser `konfig` först och sedan i ett svep `bakgrund`, `historik`, `distrikt_2006` och de år som behövs vid start: `KONFIG.standardAr`, året i URL-parametern `ar` om det är ett annat, och - bara när `KONFIG.valnatt` är sant - det största året under standardåret. Övriga år i `KONFIG.ar` laddas av `laddaAr(a)` när läsaren väljer dem i årväljaren. `laddaAr` hämtar `distrikt_<år>`, `valdata_<år>` och `swing_<år>` (saknad swingfil ger ingen swing), skriver in året i `state.geo`, `state.data` och `state.swing`, kör om `raknaSkalmax()` och cachar sitt löfte i `arLaddning`, så att ett år laddas en gång. Misslyckas geometrin eller valdatan tas året ur cachen igen, så att ett nytt försök går att göra, och `byteAr` visar felraden i stället för att byta vy. Därefter läser `start()` URL-parametrar (`distrikt`, `val`, `lage`, `parti`, `ar`, `inbaddad`, `bild`) och renderar allt. Sidan felar först när inget år alls kunde laddas. `renderKarta()` projicerar WGS84 till en viewBox 1000 enheter bred (ekvirektangulär med cos(lat), ram 0,045 i longitud och 0,16 i latitud), ritar bakgrund, distrikt, etiketter med kollisionskontroll, hållplatser, platsnamn och markering. `renderPanel()` fyller kortets skelett. `divergens()` bygger "Majorna mot Sverige". `renderBild()` bygger stillbildsramarna.
@@ -340,7 +473,7 @@ Att veta:
 
 **Först av allt, om det är valveckan:** `docs/valnatt-korschema.md` och README-avsnittet Valnatten. Torrkörningen är gjord 2026-09-07 och dess utskrifter står som facit i körschemat. Grenen `claude/valnattsplanen-superpowers-b46290` är mergad till `main` och pushad, så körschemats grenkontroll (första punkten under Lördag 12 september) är avklarad.
 
-**Daniels feedbackrunda är genomförd.** Grupp 1, 2 och 3 är byggda, mergade och pushade; grupp 4 är byggd och committad i den här grenen. Kontrollera alltid med `git log origin/main --oneline -1` innan du skriver eller säger något om publiceringsläget - grupp 4 kan vara opushad när du läser det här.
+**Daniels feedbackrunda är genomförd**, grupp 1 till 4. **Den andra externa granskningens sju fynd är rättade** 2026-09-09, se statusavsnittet om den. Kontrollera alltid med `git log origin/main --oneline -1` innan du skriver eller säger något om publiceringsläget - rättningarna kan vara opushade när du läser det här, och de två P1-fynden gäller valnattens hämtning, alltså det som ska fungera på söndag.
 
 **Nästa sak att bygga: självuppdatering på valnatten.** Daniel tog beslutet 2026-09-08 men bad om att vänta med bygget. Beslutet, ordagrant efter hans val: pollning i bakgrunden, men **vyn byts aldrig av sig själv** - när nya siffror finns dyker en diskret rad upp ("Nya siffror finns - visa") som läsaren själv trycker på, så att distrikt, rullning och fokus står kvar. Han godkände samtidigt att `document.visibilityState` läggs till i `DOCUMENT_TILLATNA` i `tests/test_inbaddning.py`, så att timern kan pausas när fliken ligger i bakgrunden. Underlaget:
 
@@ -359,7 +492,7 @@ Att veta:
 - Stillbilder av områdesserien i `scripts/skapa_bilder.py` (historikplanens Task 10-lucka; sektionen finns bara interaktivt i dag).
 - "Tre saker som skiljer Majorna" (specen `docs/superpowers/specs/2026-09-05-historik-2026-design.md`, avsnitt 11 punkt 6) - väntar på Daniels beslut, se Tankesmedjan nedan.
 - FI som nyckelparti i riksdagsvalet, om Daniel vill se Feministiskt initiativs 16,5 procent 2014 som eget parti i stället för i Övriga - kräver en ändring i `NYCKELPARTIER["rd"]` i hela schemat, även för 2022 och 2026 (Daniels beslut, se fyndet om FI 2014 ovan).
-- Codex 16 och 17: `scripts/kontrollera.py` täcker bara distriktsraderna, inte aggregat och mandat; `scripts/skapa_bilder.py` kan märka en bild med fel år.
+- Codex 16: `scripts/kontrollera.py` täcker bara distriktsraderna, inte aggregat och mandat. (Codex 17, bildexportens år, är rättad 2026-09-09.)
 - Refaktoreringarna: `main` i `scripts/uppdatera_2026.py` är lång och gör för mycket; `bygg()` läser modulglobalen `JAMFORBAR` i stället för att ta den som argument; xlsx-vägen och JSON-vägen dubblerar distriktsslingan i `uppdatera_2026.py`; `_kontrollera_valtyp` i `scripts/valnatt.py` godtar saknat eller null `valtyp`; halvcirkelns ingressmening står på ett ställe (konstant) men `MARKUP` och `renderRiksdag` delar fortfarande ansvar för sidhuvudets uppbyggnad; kartans skaldrift under tio procent vid stegvisa breddändringar (tröskeln i ResizeObservern).
 
 Modellval för subagenter: se minnesfilen `subagenter-modellval.md` (Sonnet på mekaniska tasks, Opus på JS-tasks med visuell granskning, ingen Fable).
@@ -465,6 +598,42 @@ Från grupp 4:
 - **Valårets geometri laddas bara när valåret inte står i `KONFIG.ar`.** Efter valet ligger 2026 i väljaren och `laddaAr` hämtar filen ändå; `histKartor()` läser därför `state.geo[valåret] || state.konturGeo`, i den ordningen. Byter man ordningen hämtas 28 kB i onödan på valnatten.
 - **Toningen i konturkartorna bygger på `area_km2` och omskrivande rektangel**, inte på polygonjämförelse: samma distrikt får olika hörnantal och olika startpunkt när geometrin byggs om mellan åren, så hörn för hörn är meningslöst. Ett byte av två exakt lika stora bitar som lämnar ytterkanten orörd skulle missas. `tests/test_geo.py` vaktar att det är elva distrikt mellan 2022 och 2026 och att de äldre åren inte delar koder med 2026 - faller det testet har Valmyndigheten ritat om indelningen igen, och det är talet i noten som ändrats, inte koden.
 - **Valdeltagandet finns inte längre som siffra på sidan.** Både kortets rad (grupp 1) och toppsvarets mening (grupp 4) är borta. Kvar är kurvan i "Majorna sedan 2006" och talen i dess `aria-label`. Vill man ha tillbaka en siffra är toppsvaret platsen, inte kortet.
+
+Från den andra granskningen (2026-09-09):
+
+- **`hamtat.json` är cachenyckeln, inte `index.md5`.** `index.md5` sparas fortfarande i körningens mapp
+  som bevis, men `ar_oforandrat` läser manifestet. Går man tillbaka till indexet kommer fyndet tillbaka:
+  indexet listar hela landet, alltså både `./p/` och `./s/`, och säger ingenting om vad körningen
+  hämtade. Ett manifest som saknas räknas som nytt, aldrig som oförändrat.
+- **Storleksgränserna är uppmätta, inte valda.** 600 MB per fil och 900 MB per zip står mot genrepets
+  237,2 respektive 248,2 MB. Växer Valmyndighetens filer måste talen mätas om, men höj dem inte utan att
+  först kontrollera att filen är den väntade: gränserna är skyddet mot zip-bomber.
+- **`kontrollera_kalla` är ett hårt stopp som `--tvinga` inte låser upp**, och ska inte göra det.
+  `--tvinga` handlar om att ersätta en befintlig fil, inte om att släppa igenom fel val. Träffar stoppet
+  på valnatten står felmeddelandena och vägen vidare i `docs/valnatt-korschema.md`.
+- **`_n` i `scripts/valnatt.py` är strikt.** Den avvisar bråktal och strängar som inte är heltal i stället
+  för att trunkera. Skriver Valmyndigheten någon gång ett tal som `12.0` går det fortfarande igenom, men
+  `12.7` och `"12,7"` gör det inte.
+- **Omöjliga tal stoppar ett distrikt, summor som inte går ihop stoppar filen.** Skillnaden är avsiktlig
+  och står i koden. Gör man om det omöjliga talet till ett `SummaFel` igen fäller ett enda distrikt hela
+  kvällen i alla tre valen, utan väg vidare: `--tvinga` låser inte upp kontrollen och CSV-vägen läses
+  först efter JSON-vägen.
+- **`Inget nytt att läsa in.` är inte bevis för att allt är bra.** Manifestet säger vad som hämtades, inte
+  att inläsningen lyckades. Efter ett `FEL:` är vägen vidare alltid `--valnatt-mapp data/valnatt/senaste`
+  med samma `--status`, aldrig `--hamta` igen.
+- **Statusradens slutliga gren avgörs av datan, inte av `--status`.** Blir ett distrikt aldrig markerat som
+  räknat i den slutliga filen står "Slutlig räkning pågår" kvar även efter att `valnatt` slagits av. Det är
+  rätt beteende - resultatet är inte färdigt - men det finns ingen spak för att tvinga fram det färdiga
+  beskedet, och en sådan vore ett redaktionellt beslut.
+- **Bildramens `data-ar` och `data-val` är ett kvitto som `scripts/skapa_bilder.py` läser.** Tar man bort
+  dem ur `renderBild` faller exporten med "sidan ritade ingen bildram". Året kommer ur `state.ar`, alltså
+  det år sidan faktiskt kunde ladda - inte ur adressen, som är just det som kan gå obesvarat.
+- **`state.tabellFokus` sätts av kontrollen som användes och nollställs i `aterstallTabellFokus`.** Sätter
+  man den någon annanstans, eller läser vad som råkar ha fokus i stället, drar en vanlig omrendering eller
+  ett årsbyte fokus in i tabellen - och `document.activeElement` hade dessutom krävt en ny post i
+  `DOCUMENT_TILLATNA`.
+- **Sluträkningen är inte ett färdigt resultat.** Statusradens slutliga gren har två utfall, `delvis` och
+  färdigt. Slår man ihop dem igen står "Slutligt resultat" över en halvräknad karta, utan "Ladda om".
 
 Från grupp 3:
 

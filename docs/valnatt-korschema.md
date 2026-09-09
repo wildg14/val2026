@@ -96,13 +96,17 @@ Vänta en minut, öppna majposten.se/val2026 med `?v=1` i adressen (för att kom
 
 GitHub Pages bygger från grenen med en mjuk gräns på tio bygg per timme. Blir ett bygge strypt landar pushen ändå i git, men sidan uppdateras inte förrän nästa bygge går igenom - kontrollera då sidan innan nästa push.
 
-Returkod 3 med `Inget nytt att läsa in.` betyder att Valmyndighetens tre filer är oförändrade: kedjan stannar, ingenting committas, allt är som det ska.
+Returkod 3 med `Inget nytt att läsa in.` betyder att Valmyndighetens tre filer är oförändrade: kedjan stannar, ingenting committas, allt är som det ska. **Med ett undantag:** stannade föregående körning på ett `FEL:` efter hämtningen är filerna redan hämtade, och nästa `--hamta` säger `Inget nytt` fast ingenting publicerats. Efter ett `FEL:` är vägen vidare därför alltid `--valnatt-mapp data/valnatt/senaste` med samma `--status`, aldrig `--hamta` igen.
 
 - [ ] Vid `FEL:`: läs meddelandet, åtgärda, kör igen. Ingenting är skrivet när ett FEL kommer. Vanliga fall:
   - Nätfel eller `md5 stämmer inte`: vänta någon minut och kör igen.
   - `färre räknade distrikt än i valdata_2026.json`: kör `.venv/bin/python scripts/uppdatera_2026.py --valnatt-mapp data/valnatt/senaste --tvinga --status preliminar`. Kom ihåg att `--tvinga` ersätter hela filen (val som saknas i den nya blir tomma) och samtidigt låser upp spärrarna mot testdata.
   - `har inte formen av en JSON-fil`: Valmyndigheten skrev filen medan vi läste. Kör igen.
   - Signaturfel: hämta om certifikatet. `--utan-signatur` är reservläge och bara efter att val.se bekräftat problemet: `.venv/bin/python scripts/uppdatera_2026.py --hamta --utan-signatur --status preliminar` ger utskriften "signatur ej kontrollerad".
+  - `filen gäller valdatum ..., alltså inte valet 2026`: `--valnatt-mapp` pekar på fel mapp. Kontrollera sökvägen. `--tvinga` låser inte upp den spärren.
+  - `filen innehåller preliminär men --status säger slutlig` (eller tvärtom): rätta `--status`, eller hämta rätt filer med eller utan `--tillfalle s`. **Återhämtningskommandona nedan har `--status preliminar` skrivet; under sluträkningen ska de ha `--status slutlig`.**
+  - `valdatum är ... men rd-filen säger ...`: de tre filerna hör inte ihop. Hämta om dem i en och samma körning.
+  - `'12,7' är inget heltal`: ett tal i filen har fel form. Kör igen. (Omöjliga tal i ett distrikt, till exempel fler röstande än röstberättigade, är däremot en **varning**: distriktet markeras som oräknat och de övriga går igenom.)
   - Ett val som fattas helt eller är trasigt: komplettera för hand med `.venv/bin/python scripts/uppdatera_2026.py --valnatt-mapp data/valnatt/senaste --csv valnatt.csv --status preliminar` (CSV:n vinner per distrikt och val, JSON-vägen fyller resten). Mallen: `.venv/bin/python scripts/uppdatera_2026.py --skriv-mall valnatt.csv`, 12 rader per distrikt, 276 tal för riksdagsvalet.
 - [ ] Halvfärdiga tidsstämpelmappar under `data/valnatt/` efter avbrutna körningar är ofarliga; `senaste` pekar bara på lyckade körningar. Mappen är gitignorerad.
 
@@ -115,18 +119,25 @@ Returkod 3 med `Inget nytt att läsa in.` betyder att Valmyndighetens tre filer 
 .venv/bin/python scripts/uppdatera_2026.py --hamta --tillfalle s --status slutlig
 ```
 
+  `--status slutlig` måste följa med: filens eget räkningstillfälle kontrolleras mot argumentet. Bytet från preliminär till slutlig ger aldrig `Inget nytt`, eftersom manifestet `hamtat.json` säger vilket räkningstillfälle förra körningen faktiskt hämtade. Den slutliga riksdagsfilen är stor, cirka 237 MB uppackad mot 38 MB för den preliminära, och hämtningen tar därför någon minut längre.
+
+- [ ] Kör kommandot ovan som under kvällen tills alla 23 distrikt är räknade. **Sluträkningen tar flera dagar.** Så länge något distrikt fattas säger statusraden "Slutlig räkning pågår, N av 23 distrikt räknade." och behåller "Ladda om"; det är avsiktligt, resultatet är inte färdigt än.
+  Raden avgörs av datan, inte av `--status`: blir ett distrikt av någon anledning aldrig markerat som räknat i den slutliga filen står raden kvar även efter att `valnatt` slagits av. Kontrollera då distriktet på val.se. Vill du visa det färdiga beskedet ändå är det ett redaktionellt beslut och kräver en kodändring; ingen sådan spak finns i dag.
+
 - [ ] När den slutliga räkningen ligger: sätt `"valnatt": false` i `data/konfig.json`, skriv om `konfig.js` med
 
 ```bash
 .venv/bin/python -c "from scripts import schema; schema.skriv_konfig('data', schema.las_konfig('data'))"
 ```
 
-och publicera. Statusraden blir då "Slutligt resultat, riksdagsvalet 2026." utan "Ladda om".
+och publicera. Statusraden blir då "Slutligt resultat, riksdagsvalet 2026." utan "Ladda om" - men bara när alla 23 distrikt är räknade, se punkten ovan.
 
 - [ ] Stillbilder till brevet:
 
 ```bash
 .venv/bin/python scripts/skapa_bilder.py --ar 2026 --etikett "Majposten · Valet 2026"
 ```
+
+  Kräver att 2026 står i `ar` i `data/konfig.json`, alltså att `--valnatt` körts. Annars stoppar skriptet med `året 2026 står inte i ...`: sidan hade ritat standardåret medan filnamn och alt-text sagt 2026.
 
 - [ ] Kontrollera sidan en sista gång i webbläsaren, med servern igång: `node verktyg/skal-check.js`, `node verktyg/beehiiv-check.js` och `node verktyg/bredd-check.js`. Den sista är den enda som mäter sidledsrullning och krockande axeletiketter, i sex bredder från 320 px och i varje år i årväljaren.

@@ -491,12 +491,17 @@ höger om SD. Placeringen är redaktionell och lätt att flytta.
 - Sidhuvudet växer cirka 36 px när läsaren byter till ett år med FI, eftersom toppsvaret får en stapel
   till. Det är det första fallet där toppsvarets radantal varierar mellan år.
 
-**Två saker som inte är utredda:**
+**Utrett samma dag: FI:s låga regionvalssiffra 2014 är riktig.** 240 röster i regionvalet mot 3 458 i
+riksdagsvalet såg ut som ett datafel, men mönstret finns på alla tre nivåer och är alltså inte
+Majornaspecifikt. FI i regionvalet 2014: Majorna 1,16 procent, Göteborg 0,69, riket 1,08 - mot
+riksdagsvalets 16,50, 6,48 och 3,12. FI:s framgång 2014 var alltså ett riksdagsfenomen; partiet stod
+mycket svagare i regionvalet överallt. Omsvängningen 2018, då Majorna har 3,24 i regionvalet mot 1,82 i
+riksdagsvalet, syns på samma sätt i Göteborg (1,41 mot 0,84). Talen är interna i databasen och behöver
+ingen åtgärd; skriv inget om orsaken utan källa.
 
-- **FI i regionvalet 2014 ser konstigt ut:** 240 röster, mot 3 458 i riksdagsvalet samma dag. 2018 är
-  tvärtom, 692 mot 386. Den inversionen bör redas ut innan någon text påstår något om FI i regionvalet.
-  Det är [KOLLA].
-- **Partikoden `1130`** i kommunvalet 2014 (2,17 procent) är oupplöst i databasen.
+**Kvar att utreda:** partikoden `1130` i kommunvalet 2014 saknar namn i tabellen `partier`. Den har 300
+rader och 6 070 röster i Göteborg, varav 458 i Majorna (2,17 procent). Rösterna räknas rätt - de ligger i
+Övriga - så inget publicerat tal är fel, men partiet går inte att namnge. Hör till historikspåret.
 
 Övriga partier som ligger i Övriga och är över 2 procent någonstans: K i regionvalet 2006 (2,25),
 SPVG i regionvalet 2010 (2,45), Vägvalet i kommunvalet 2010 och 2014 (3,48 och 3,39), och `1130` ovan.

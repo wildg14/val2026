@@ -1318,7 +1318,10 @@ function renderBild(typ) {
   const val = VALNAMN[q.get("val")] ? q.get("val") : "rd";
   rot.classList.add("bild");
   state.bild = true;   // gäller båda bilderna: ResizeObserver får inte rita om en karta som bildramen ersatt
-  const ram = h("div", { class: "bildram", "data-format": format });
+  // data-ar och data-val är bildlägets kvitto: skapa_bilder.py läser dem ur den renderade sidan innan
+  // den fotograferar, så att filnamn och alt-text inte kan beskriva ett annat val än bilden visar
+  // (granskningsfynd 6). state.ar är det år sidan faktiskt kunde ladda, inte det som stod i adressen.
+  const ram = h("div", { class: "bildram", "data-format": format, "data-ar": state.ar, "data-val": val });
   const vard = (() => { try { return new URL(KONFIG.adress).host; } catch (e) { return KONFIG.adress; } })();
   if (typ === "jamforelse") {
     const res = divergens(val, null, false, true);

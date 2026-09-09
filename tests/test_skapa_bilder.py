@@ -1,3 +1,4 @@
+import json
 import struct
 import subprocess
 import sys
@@ -49,3 +50,73 @@ def test_alttext_beraknas_ur_datan():
     from scripts import skapa_bilder as sb
     assert sb.alttext(ROT / "data" / "valdata_2022.json", "rd") == ALT_RD
     assert sb.alttext_karta(ROT / "data" / "valdata_2022.json", "rd") == ALT_KARTA_RD
+
+
+# --- Granskningsfynd 6: bilden och alt-texten kunde beskriva olika val ---
+# Sidan laddar bara år som står i konfigens ar-lista och faller annars tillbaka på standardåret, utan
+# att säga ifrån. Alt-texten och filnamnet räknades däremot ur den valda datafilen. En export med
+# --ar 2026 mot en konfig utan 2026 gav därför en bild av 2022 med 2026 i namn och alt-text, och OK.
+
+def _kopia(tmp_path, ar_lista):
+    """En isolerad kopia av sidan med en egen konfig, som granskarens felprov."""
+    from scripts import schema
+    kopia = tmp_path / "sida"
+    (kopia / "data").mkdir(parents=True)
+    for namn in ("index.html", "valgrafik.js", "valgrafik.css"):
+        (kopia / namn).write_bytes((ROT / namn).read_bytes())
+    for namn in ("valdata_2022.js", "distrikt_2022.js"):
+        (kopia / "data" / namn).write_bytes((ROT / "data" / namn).read_bytes())
+    (kopia / "data" / "valdata_2022.json").write_bytes((ROT / "data" / "valdata_2022.json").read_bytes())
+    konfig = json.loads((ROT / "data" / "konfig.json").read_text("utf-8"))
+    konfig["ar"] = ar_lista
+    konfig["standardAr"] = ar_lista[-1]
+    schema.skriv_konfig(kopia / "data", konfig)
+    return kopia
+
+
+def test_ar_utanfor_konfigen_avvisas(tmp_path):
+    from scripts import skapa_bilder as sb
+    kopia = _kopia(tmp_path, ["2010", "2014", "2018", "2022"])
+    with pytest.raises(ValueError) as ex:
+        sb.kontrollera_ar(kopia / "data" / "konfig.json", "2026")
+    assert "2026" in str(ex.value)
+    assert "2022" in str(ex.value), "meddelandet ska säga vilket år sidan hade ritat i stället"
+
+
+def test_ar_i_konfigen_gar_igenom(tmp_path):
+    from scripts import skapa_bilder as sb
+    sb.kontrollera_ar(ROT / "data" / "konfig.json", "2022")
+    kopia = _kopia(tmp_path, ["2022", "2026"])
+    sb.kontrollera_ar(kopia / "data" / "konfig.json", "2026")
+
+
+def test_hela_korningen_stoppas_av_fel_ar(tmp_path):
+    """Granskarens prov, hela vägen: OK och en felmärkt PNG blev det förut."""
+    kopia = _kopia(tmp_path, ["2018", "2022"])
+    r = subprocess.run([sys.executable, "scripts/skapa_bilder.py", "--ut", str(tmp_path / "bilder"),
+                        "--ar", "2026", "--val", "kf", "--typ", "karta", "--format", "liggande",
+                        "--html", str(kopia / "index.html")], cwd=ROT, capture_output=True, text=True)
+    assert r.returncode == 1, r.stdout + r.stderr
+    assert "2026" in r.stderr
+    assert not (tmp_path / "bilder").exists() or not list((tmp_path / "bilder").glob("*.png")), \
+        "ingen bild får skrivas när året inte går att rita"
+
+
+def test_datafilen_foljer_html_filen(tmp_path):
+    """Alt-texten läste repots data/ även när --html pekade på en kopia, alltså en annan sida än den
+    som fotograferades. Bild, alt-text och filnamn ska komma ur samma mapp."""
+    from scripts import skapa_bilder as sb
+    kopia = _kopia(tmp_path, ["2022"])
+    assert sb.datamapp(kopia / "index.html") == kopia / "data"
+    assert sb.datamapp(ROT / "index.html") == ROT / "data"
+
+
+@pytest.mark.skipif(not CHROME.exists(), reason="Chrome saknas")
+def test_sidan_talar_om_vilket_ar_den_ritade(tmp_path):
+    """Bildramen bär data-ar, och exporten läser det ur den renderade sidan innan den fotograferar.
+    Konfigkontrollen är ett antagande om vad sidan gör; det här är en avläsning av vad den gjorde."""
+    from scripts import skapa_bilder as sb
+    import urllib.parse
+    url = (ROT / "index.html").resolve().as_uri() + "?" + urllib.parse.urlencode(
+        {"bild": "karta", "val": "rd", "format": "liggande", "ar": "2022"})
+    assert sb.las_renderat_ar(str(CHROME), url) == "2022"

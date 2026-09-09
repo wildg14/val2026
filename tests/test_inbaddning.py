@@ -842,3 +842,14 @@ def test_statusraden_skiljer_pagaende_slutrakning_fran_fardigt_resultat():
         "Ladda om står kvar så länge räkningen pågår"
     pagar = slutlig[slutlig.index("if (delvis)"):slutlig.index("Slutligt resultat, riksdagsvalet")]
     assert "klockslag" not in pagar, "sluträkningen löper över flera dygn: timme och minut utan datum vilseleder"
+
+
+def test_bildramen_bar_aret_och_valet_den_ritades_med():
+    """Granskningsfynd 6. scripts/skapa_bilder.py läser data-ar ur den renderade sidan innan den
+    fotograferar, så att filnamn och alt-text inte kan beskriva ett annat val än bilden visar. Året
+    ska komma ur state.ar, alltså det år sidan faktiskt kunde ladda - inte ur adressen, som är just
+    det som kan gå obesvarat när året inte står i konfigens ar-lista."""
+    js = JS.read_text("utf-8")
+    rad = [r for r in js.splitlines() if 'class: "bildram"' in r]
+    assert rad, "bildramen byggs på ett ställe"
+    assert '"data-ar": state.ar' in rad[0] and '"data-val": val' in rad[0], rad[0]

@@ -9,7 +9,7 @@ Valdagen är söndag 13 september 2026. Vallokalerna stänger 20.00.
 - [ ] `git pull origin main`. Sedan grenkontroll: `git branch --show-current` svarar `main`, och `git log origin/main --oneline -1` visar samma commit som `git log --oneline -1`. Valnattsomgången är mergad och pushad sedan 2026-09-07, så den här punkten är bara en kontroll. Ligger något ogjort på en gren (se HANDOVER:s startpunkt): mergepusha i en lugn timme (GitHub Pages har en mjuk gräns på tio bygg per timme, se Under kvällen) och kontrollera sidan (majposten.se/val2026) igen tio minuter senare - Pages cache kan dröja så länge, och det är det som gör `data/distrikt.js`-övergångskopian meningsfull för läsare som hann in mellan pushen och ombygget.
 - [ ] Webbläsarverktygen behöver `puppeteer-core` i `verktyg/`, som är gitignorerat och alltså inte följer med en `git pull`. Saknas mappen faller sista punkten under Måndag till onsdag: `cd verktyg && npm init -y >/dev/null && npm install puppeteer-core --no-audit --no-fund`, sedan tillbaka till projektroten.
 - [ ] Certifikatet finns: `ls val-sign-pub.pem`. Saknas det: `curl -sSo val-sign-crt.pem https://resultat.val.se/keys/val-sign-crt.pem && openssl x509 -in val-sign-crt.pem -pubkey -noout > val-sign-pub.pem`. (Skriptet hämtar det annars själv vid första körningen.)
-- [ ] `.venv/bin/python -m pytest -q` grönt. Saknas pem-filerna hoppar sviten tyst över två signaturtester (`test_signatur_verifieras_med_valmyndighetens_nyckel` och `test_signatur_ger_false_vid_andrad_byte`) i stället för att fela - kör steget ovan först så att de räknas med.
+- [ ] `.venv/bin/python -m pytest -q` grönt: **413 passerade, inga överhoppade** (2026-09-09). Saknas pem-filerna hoppar sviten tyst över två signaturtester (`test_signatur_verifieras_med_valmyndighetens_nyckel` och `test_signatur_ger_false_vid_andrad_byte`) i stället för att fela - kör steget ovan först så att de räknas med. Står det 411 passerade och 2 överhoppade saknas pem-filerna fortfarande.
 - [ ] `.venv/bin/python scripts/uppdatera_2026.py --repetera` slutar med `REPETITION OK: 2022 års råfiler ger exakt samma valdata som valdata_2022.json (23 distrikt, 3 val, aggregat, mandat). Varningar: 35`.
 - [ ] Torrkörning mot simuleringarna, till en tillfällig mapp:
 
@@ -17,7 +17,7 @@ Valdagen är söndag 13 september 2026. Vallokalerna stänger 20.00.
 .venv/bin/python scripts/uppdatera_2026.py --hamta --genrep --ut /tmp/torr --status preliminar
 ```
 
-Facit, kört 2026-09-07 (klockslag och sökväg skiljer sig):
+Facit, kört 2026-09-07 och kontrollerat om 2026-09-09 (klockslag och sökväg skiljer sig):
 
 ```
 rd: Genrep_2026_preliminar_00_RD.zip 2109 kB, md5 ok, signatur ok, 3 json-filer
@@ -42,6 +42,14 @@ Nästa steg: kör med --valnatt för att slå på valnattsläget i data/konfig.j
 Skriptet vägrar skriva testdata (`meta.test`) till repots `data/` utan `--tvinga`: glöms `--ut` bort stoppar den spärren en torrkörning i stället för att skriva testmärkt data i skarp mapp.
 
 - [ ] Kör samma kommando en gång till: väntat `Inget nytt: de tre filerna har samma md5 som senaste körning`, `Inget nytt att läsa in.` och returkod 3.
+- [ ] **Övergången till slutlig räkning, i samma mapp.** Det här steget fanns inte före 2026-09-09, och det var precis där de två P1-fynden satt: cachen trodde att de slutliga filerna redan var hämtade, och storleksgränsen avvisade riksdagsfilen. Kör därför alltid det här efter de två stegen ovan, i **samma** `--ut`-mapp:
+
+```bash
+.venv/bin/python scripts/uppdatera_2026.py --hamta --genrep --tillfalle s --ut /tmp/torr --status slutlig --tvinga
+```
+
+Väntat: filerna hämtas (`Genrep_2026_slutlig_00_RD.zip 23245 kB, md5 ok, signatur ok`), `Räknade distrikt: Riksdag 23/23, Region 23/23, Kommun 23/23` och `Status: slutlig`. Får du `Inget nytt att läsa in.` här är cacherättningen borta. Får du `FEL: ... större än gränsen` är storleksgränsen för låg igen. Den slutliga riksdagsfilen är 237 MB uppackad, så steget tar någon minut längre än det preliminära. `--tvinga` behövs bara för att genrepets filer är testmärkta.
+- [ ] Kör det slutliga kommandot en gång till: väntat `Inget nytt att läsa in.` och returkod 3, alltså samma spärr som för det preliminära.
 - [ ] Testsidan med båda åren, med servern igång (`python3 -m http.server 8765 --bind 127.0.0.1` i projektroten):
 
 ```bash

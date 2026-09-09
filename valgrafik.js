@@ -140,7 +140,11 @@ const PARTIER = {
   K:  { namn: "Kommunistiska Partiet", farg: "#7A1F1F", text: "#fff" },
   "Övriga": { namn: "Övriga partier",  farg: "#A79C8E", text: "#2A241E" }
 };
-const SPEKTRUM = ["V", "S", "MP", "C", "L", "KD", "M", "SD"];
+// Vänster till höger. FI ligger längst till vänster och är med för historikens skull: partiet är
+// eget parti i riksdagsvalet till och med 2018 och fick 16,5 procent i Majorna 2014. Utan raden här
+// hade mandatOrdning lagt det sist, alltså till höger om SD. Partier som saknas ett år kostar
+// ingenting: både halvcirkeln och tabellen går på vad som finns i datan.
+const SPEKTRUM = ["FI", "V", "S", "MP", "C", "L", "KD", "M", "SD"];
 const VALNAMN = { rd: "Riksdagsvalet", rf: "Regionvalet", kf: "Kommunvalet" };
 const FARG = { papper: "#FAF6EE", black: "#2A241E", sten: "#6E6152", linje: "#E6DECF", gron: "#3F5A3A", ockra: "#C58A34", oraknat: "#DDD5C6" };
 

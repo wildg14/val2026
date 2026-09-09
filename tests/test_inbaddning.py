@@ -853,3 +853,13 @@ def test_bildramen_bar_aret_och_valet_den_ritades_med():
     rad = [r for r in js.splitlines() if 'class: "bildram"' in r]
     assert rad, "bildramen byggs på ett ställe"
     assert '"data-ar": state.ar' in rad[0] and '"data-val": val' in rad[0], rad[0]
+
+
+def test_fi_ligger_till_vanster_i_halvcirkelns_ordning():
+    """FI är eget parti i riksdagsvalet till och med 2018 och fick 16,5 procent i Majorna 2014, alltså
+    62 mandat i räkneexemplet. Utan FI i SPEKTRUM lägger mandatOrdning okända partier sist, vilket hade
+    placerat dem till höger om SD. Åren utan FI påverkas inte: både halvcirkeln och tabellen går på vad
+    som finns i datan, inte på listan."""
+    js = JS.read_text("utf-8")
+    rad = [r for r in js.splitlines() if r.startswith("const SPEKTRUM")][0]
+    assert rad.startswith('const SPEKTRUM = ["FI", "V", "S"'), rad

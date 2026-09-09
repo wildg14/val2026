@@ -10,8 +10,9 @@
 Databasen byggs om med scripts/historik/bygg_databas.py. Serien börjar 2006 (Daniels beslut 2026-09-05);
 2002 går inte att räkna om till dagens Majorna och tas inte med. Partikoden L täcker Folkpartiet till och
 med 2014. Alla tal räknas ur tabellerna, inget skrivs för hand. Varje post i serien har roster med exakt
-NYCKELPARTIER[val] plus Övriga (sidans partiuppsättning för valet); partier i tidsserien utanför den
-uppsättningen, till exempel FI i riksdagsvalet eller K i regionvalet, läggs i Övriga.
+nyckelpartier(val, år) plus Övriga (sidans partiuppsättning för valet det året); partier i tidsserien
+utanför den uppsättningen, till exempel K i regionvalet, läggs i Övriga. FI är eget parti i
+riksdagsvalet till och med 2018, se FI_SISTA_AR_RD.
 
 Ett nyckelparti som inte fanns ett visst år och val (till exempel D före 2018, FI i regionvalet 2006 och
 2010) får ingen egen nyckel i det årets distrikts- eller jämförelseposter - se partier_med_rader.
@@ -43,6 +44,16 @@ BAS_AR = 2018  # basår för swing_2022 (Task 2)
 # här spärren skrev "ar 2022" tidigare över den kanoniska filen, med annan `kalla`, innan körningen
 # dog på saknad geometri (distrikt_2022_majornaomradet.geojson finns inte i historikkatalogen).
 BYGGBARA_AR = [2006, 2010, 2014, 2018]
+# FI i riksdagsvalet är eget parti till och med 2018 och ligger i Övriga från 2022 (Daniels beslut
+# 2026-09-09). Partiet var Majornas tredje största i riksdagsvalet 2014 med 16,50 procent, mot 3,12 i
+# riket och 6,48 i Göteborg, och låg helt i Övriga - som därmed blev 17,95 procent och den näst största
+# posten i vyn, större än S. Läsaren såg alltså en grå klump som i praktiken var ett parti. Från 2022 är
+# talet 23 röster, 0,11 procent, och en egen stapel där hade sagt mindre än ingenting.
+#
+# Gränsen är också vad som gör ändringen liten: data/valdata_2022.json är den kanoniska filen ur den
+# kurerade xlsx:en och rörs inte, kontrollera.py --historik kan fortfarande stämma av seriens 2022-rad
+# mot den, och valnattens parsning läser valmyndigheten.NYCKELPARTIER som är oförändrad.
+FI_SISTA_AR_RD = 2018
 PARTIER = ["V", "S", "MP", "SD", "M", "C", "L", "KD", "D", "FI", "K", OVRIGA]
 ALLA_KODER = [p for p in PARTIER if p != OVRIGA]  # de elva namngivna partikoderna, oavsett vilket val de har egen kolumn i
 NIVAER = ["majorna", "goteborg", "riket"]
@@ -63,17 +74,36 @@ def oppna(path=DB):
     return con
 
 
-def _post(rader, val):
+
+def nyckelpartier(val, ar):
+    """Sidans partiuppsättning för ett val ett givet år. Se FI_SISTA_AR_RD.
+
+    Använd den här, inte NYCKELPARTIER[val], överallt i det här skriptet där det handlar om *röster*.
+    Undantaget är _mandat_riket_rd, som handlar om mandat och måste behålla den ursprungliga listan:
+    mandattabellen har en falsk residualrad, FI 349 år 2014, som filtreras bort just av att FI inte
+    står där."""
+    if val == "rd" and ar <= FI_SISTA_AR_RD:
+        return [*NYCKELPARTIER["rd"], "FI"]
+    return NYCKELPARTIER[val]
+
+
+def nyckelpartier_union(val):
+    """Alla partier som kan ha egen kolumn i valet någon gång i serien, till partier_per_val. Precis
+    som D före 2018 avgörs det av partier_med_rader vilka som faktiskt finns ett givet år."""
+    return list(dict.fromkeys([*nyckelpartier(val, AR[0]), *NYCKELPARTIER[val]]))
+
+
+def _post(rader, val, ar):
     """Rader ur tidsserie för ett (ar, val, niva) -> en post i serien.
 
-    roster får exakt nycklarna NYCKELPARTIER[val] plus Övriga (sidans partiuppsättning för
-    detta val). Partier i tidsserien utanför den uppsättningen, till exempel FI i riksdagsvalet
-    eller K i regionvalet, läggs i Övriga tillsammans med SUMMA_ÖVRIGA. Så blir raden identisk
-    med den kurerade valdata_<år>.json som redan följer sidans schema.
+    roster får exakt nycklarna nyckelpartier(val, ar) plus Övriga (sidans partiuppsättning för
+    detta val det året). Partier i tidsserien utanför den uppsättningen, till exempel K i
+    regionvalet, läggs i Övriga tillsammans med SUMMA_ÖVRIGA. Så blir raden identisk med den
+    kurerade valdata_<år>.json som redan följer sidans schema.
     """
     if not rader:
         return None
-    nycklar = NYCKELPARTIER[val]
+    nycklar = nyckelpartier(val, ar)
     roster = {p: 0 for p in nycklar}
     roster[OVRIGA] = 0
     giltiga_ar, rostande_ar, rostberattigade_ar, antal_ar = set(), set(), set(), set()
@@ -123,7 +153,7 @@ def omradespost(con, ar, val, niva):
     Task 2 använder den för basaggregatet 2018 (bas för swing_2022).
     """
     rader = con.execute("SELECT * FROM tidsserie WHERE ar=? AND val=? AND niva=? ORDER BY parti", (ar, val, niva)).fetchall()
-    return _post(rader, val)
+    return _post(rader, val, ar)
 
 
 def bygg_historik(con):
@@ -145,12 +175,13 @@ def bygg_historik(con):
             raise SystemExit(f"FEL: {ar}: metodsträngen skiljer sig mellan valen: {metod_per_val_ar[ar]}")
         metod_per_ar[str(ar)] = metoder.pop()
     return {"meta": {"byggd": dt.datetime.now().replace(microsecond=0).isoformat(), "kalla": KALLA, "ar": AR, "partier": PARTIER,
-                     "partier_per_val": {val: NYCKELPARTIER[val] + [OVRIGA] for val in VAL},
+                     "partier_per_val": {val: nyckelpartier_union(val) + [OVRIGA] for val in VAL},
                      "noter": ["Serien börjar 2006. Valdistrikten ritades om helt inför det valet, så 2002 går inte att räkna om till dagens Majorna.",
                                "Liberalerna hette Folkpartiet till och med 2014; serien använder koden L hela vägen.",
                                "Övriga är giltiga röster minus valets partier. Partiuppsättningen per val följer sidans schema: "
-                               "riksdagsvalet V, S, MP, SD, M, C, L, KD; regionvalet dessutom D och FI; kommunvalet dessutom D, FI och K. "
-                               "Partier utanför valets uppsättning, till exempel FI i riksdagsvalet, ingår i Övriga."],
+                               "riksdagsvalet V, S, MP, SD, M, C, L, KD, och FI till och med 2018; regionvalet dessutom D och FI; "
+                               "kommunvalet dessutom D, FI och K. Partier utanför valets uppsättning, till exempel K i "
+                               "regionvalet, ingår i Övriga. FI i riksdagsvalet ingår i Övriga från 2022."],
                      "metod": metod_per_ar},
             "serie": serie}
 
@@ -291,7 +322,7 @@ def bygg_swing_2022(con):
         extra = sorted(set(kedja_alla) - kod_2022_alla)
         raise SystemExit(f"FEL: kedjefilen täcker inte {ny['meta']['ar']} års distrikt: saknas {saknas}, extra {extra}")
     bas_koder = sorted(set(kedja_alla.values()))
-    bas_partier_per_val = {val: [p for p in NYCKELPARTIER[val] if p in partier_med_rader(con, BAS_AR, val, bas_koder)] for val in VAL}
+    bas_partier_per_val = {val: [p for p in nyckelpartier(val, BAS_AR) if p in partier_med_rader(con, BAS_AR, val, bas_koder)] for val in VAL}
     bas_distrikt = [distrikt_ur_db(con, BAS_AR, kod18, namn_2022[kod22], bas_partier_per_val) | {"kod": kod22}
                     for kod22, kod18 in kedja_alla.items()]
     bas_aggregat = {}
@@ -386,6 +417,8 @@ def _mandat_riket_rd(con, ar):
     verklig = {}
     for r in rader:
         p = r["parti"]
+        # NYCKELPARTIER, inte nyckelpartier(val, ar): den falska residualraden FI 349 år 2014 skulle
+        # annars släppas in och summan spricka. FI fick aldrig riksdagsmandat.
         if p not in NYCKELPARTIER["rd"]:
             continue
         m = int(r["mandat"])
@@ -395,6 +428,13 @@ def _mandat_riket_rd(con, ar):
     summa = sum(verklig.values())
     if summa != 349:
         raise SystemExit(f"FEL: {ar}: riksdagens verkliga mandat summerar till {summa}, inte 349 ({verklig})")
+    # Ett årets extraparti, i praktiken FI till och med 2018, får en uttrycklig nolla. Den är härledd,
+    # inte antagen: de åtta partierna ovan summerar redan till alla 349 mandat, så vad som helst utanför
+    # dem har med nödvändighet noll. Utan raden skulle sidan skriva "0" ändå, men ur ett `|| 0` i
+    # renderMandatTal - alltså en påhittad nolla av precis det slag som gav "K -1,0" en gång. Talet
+    # bär hela poängen med FI i historiken: noll mandat i riksdagen, 62 om Majorna bestämde.
+    for p in nyckelpartier("rd", ar):
+        verklig.setdefault(p, 0)
     return verklig
 
 
@@ -432,7 +472,7 @@ def _vgregion(con, ar, val):
     plats = f"{ar} {val} vgregion"
     sedda = set()
     giltiga_ar, rostande_ar, rostberattigade_ar = set(), set(), set()
-    roster = {p: 0 for p in NYCKELPARTIER[val] if p in {r["parti"] for r in rader}}
+    roster = {p: 0 for p in nyckelpartier(val, ar) if p in {r["parti"] for r in rader}}
     for r in rader:
         p = r["parti"]
         if p in sedda:
@@ -481,10 +521,10 @@ def bygg_valdata_ar(con, ar):
     partier_per_val = {}
     for val in VAL:
         finns = partier_med_rader(con, ar, val, majorna_koder)
-        for p in NYCKELPARTIER[val]:
+        for p in nyckelpartier(val, ar):
             if p not in finns:
                 print(f"VARNING: {ar} {val}: {p} har inga rader, utelämnas", file=sys.stderr)
-        partier_per_val[val] = [p for p in NYCKELPARTIER[val] if p in finns]
+        partier_per_val[val] = [p for p in nyckelpartier(val, ar) if p in finns]
     distrikt = [distrikt_ur_db(con, ar, r["kod"], geo.kort_namn(r["namn"]), partier_per_val) for r in medlemmar]
     for d in distrikt:
         saknas_val = [val for val in VAL if val not in d]

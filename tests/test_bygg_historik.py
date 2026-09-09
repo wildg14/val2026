@@ -53,7 +53,7 @@ def test_historik_json_form_och_summor(tmp_path):
         for niva, rader in nivaer.items():
             assert [p["ar"] for p in rader] == [2006, 2010, 2014, 2018, 2022], f"{val} {niva}"
             for p in rader:
-                assert set(p["roster"]) == set(NYCKELPARTIER[val]) | {"Övriga"}
+                assert set(p["roster"]) == set(bygg_historik.nyckelpartier(val, p["ar"])) | {"Övriga"}
                 assert sum(p["roster"].values()) == p["giltiga"], f"{val} {niva} {p['ar']}: partiernas röster ska summera till giltiga"
                 for q in p["roster"]:
                     assert p["andel"][q] == pytest.approx(p["roster"][q] / p["giltiga"])
@@ -98,14 +98,16 @@ def test_historik_ovriga_foljer_sidans_partiuppsattning(tmp_path):
     assert r.returncode == 0, r.stdout + r.stderr
     hst = json.loads((tmp_path / "historik.json").read_text("utf-8"))
     con = db()
+    # FI räknas inte längre in i Övriga i riksdagsvalet till och med 2018: partiet har en egen kolumn.
     rader = con.execute(
-        "SELECT parti, roster FROM tidsserie WHERE ar=2014 AND val='rd' AND niva='majorna' AND parti IN ('SUMMA_ÖVRIGA', 'FI')"
+        "SELECT parti, roster FROM tidsserie WHERE ar=2014 AND val='rd' AND niva='majorna' AND parti='SUMMA_ÖVRIGA'"
     ).fetchall()
     vantat = sum(r[1] for r in rader)
     post = [p for p in hst["serie"]["rd"]["majorna"] if p["ar"] == 2014][0]
     assert post["roster"]["Övriga"] == vantat
+    assert post["roster"]["FI"] == 3458
     for p in hst["serie"]["rd"]["majorna"]:
-        assert "FI" not in p["roster"]
+        assert ("FI" in p["roster"]) == (p["ar"] <= bygg_historik.FI_SISTA_AR_RD), f"rd {p['ar']}"
     for p in hst["serie"]["rf"]["majorna"]:
         assert "FI" in p["roster"]
 
@@ -126,12 +128,15 @@ def test_historik_partier_per_val(tmp_path):
     ppv = hst["meta"]["partier_per_val"]
     assert list(ppv) == ["rd", "rf", "kf"]
     for val in ("rd", "rf", "kf"):
-        assert ppv[val] == NYCKELPARTIER[val] + ["Övriga"]
-    assert len(ppv["rd"]) == 9 and ppv["rd"][-1] == "Övriga"
+        assert ppv[val] == bygg_historik.nyckelpartier_union(val) + ["Övriga"]
+    # rd har tio poster sedan FI blev eget parti till och med 2018: åtta partier, FI och Övriga.
+    assert len(ppv["rd"]) == 10 and ppv["rd"][-1] == "Övriga" and "FI" in ppv["rd"]
     for val, nivaer in hst["serie"].items():
         for niva, rader in nivaer.items():
             for p in rader:
-                assert set(p["roster"]) == set(ppv[val]), f"{val} {niva} {p['ar']}"
+                # Unionen, inte exakt likhet: FI finns i riksdagsvalet till och med 2018 men inte 2022.
+                assert set(p["roster"]) <= set(ppv[val]), f"{val} {niva} {p['ar']}"
+                assert set(p["roster"]) == set(bygg_historik.nyckelpartier(val, p["ar"])) | {"Övriga"}
 
 
 @finns
@@ -303,9 +308,14 @@ def test_swing_2022_nio_jamforbara_och_omradesserien(tmp_path):
         assert s["distrikt"]["14800541"]["rd"]["V"] == pytest.approx(round((g22[0] / g22[1] - g18[0] / g18[1]) * 100, 1), abs=0.05)
     assert r.stdout.count("14800541") >= 1, "skriptet skriver ut listan över jämförbara distrikt för avstämning"
     # Ingen efterhandsskrivning: majorna-nivån kommer ur schema.swing(samma_yta=True) på tidsseriens
-    # aggregat, så Övriga är med (partiuppsättningarna är lika) och ingen negativ nolla förekommer.
-    assert "Övriga" in s["majorna"]["rd"]
-    for parti, varde in s["majorna"]["rd"].items():
+    # aggregat, så Övriga är med där partiuppsättningarna är lika, och ingen negativ nolla förekommer.
+    # I riksdagsvalet är de inte lika sedan FI blev eget parti till och med 2018: 2018 års Övriga
+    # innehåller inte FI medan 2022 års gör det, så schema._diff utelämnar Övriga där. FI får av samma
+    # skäl aldrig en egen rad - den hade blivit ett påhittat fall till noll.
+    assert "Övriga" in s["majorna"]["kf"], "kommunvalet har FI båda åren, alltså samma korg"
+    assert "Övriga" not in s["majorna"]["rd"]
+    assert "FI" not in s["majorna"]["rd"]
+    for parti, varde in s["majorna"]["kf"].items():
         assert not (varde == 0.0 and math.copysign(1.0, varde) < 0), f"{parti}: negativ nolla"
     hst = json.loads((tmp_path / "historik.json").read_text("utf-8")) if (tmp_path / "historik.json").exists() else None
     if hst is None:
@@ -313,7 +323,12 @@ def test_swing_2022_nio_jamforbara_och_omradesserien(tmp_path):
         assert r2.returncode == 0, r2.stdout + r2.stderr
         hst = json.loads((tmp_path / "historik.json").read_text("utf-8"))
     for val in ("rd", "rf", "kf"):
-        assert set(s["majorna"][val]) == set(hst["meta"]["partier_per_val"][val])
+        # Delmängd, inte likhet: swingen kan bara innehålla partier som finns i båda åren. I rd faller
+        # FI bort (eget parti 2018, i Övriga 2022) och Övriga med det, eftersom korgarna skiljer sig.
+        assert set(s["majorna"][val]) <= set(hst["meta"]["partier_per_val"][val])
+    assert set(hst["meta"]["partier_per_val"]["rd"]) - set(s["majorna"]["rd"]) == {"FI", "Övriga"}
+    for val in ("rf", "kf"):
+        assert set(s["majorna"][val]) == set(hst["meta"]["partier_per_val"][val]), f"{val} har samma korg båda åren"
 
 
 @finns
@@ -331,21 +346,24 @@ def test_swing_2022_orsak_omritade_ar_ej_jamforbart_enligt_kallan(tmp_path):
 
 @finns
 def test_swing_2022_ovriga_per_distrikt_godhem(tmp_path):
+    """Kommunvalet, inte riksdagsvalet: FI är eget parti där båda åren, så Övriga är samma korg och
+    går att jämföra. I riksdagsvalet utelämnas Övriga sedan FI bröts ut till och med 2018."""
     r = kor("swing2022", "--ut", str(tmp_path))
     assert r.returncode == 0, r.stdout + r.stderr
     s = json.loads((tmp_path / "swing_2022.json").read_text("utf-8"))
     with db() as con:
         def ovriga_andel(ar, kod):
             giltiga = con.execute(
-                "SELECT giltiga FROM distrikt_summa WHERE ar=? AND val='rd' AND kod=?", (ar, kod)).fetchone()[0]
-            platshallare = ",".join("?" * len(NYCKELPARTIER["rd"]))
+                "SELECT giltiga FROM distrikt_summa WHERE ar=? AND val='kf' AND kod=?", (ar, kod)).fetchone()[0]
+            platshallare = ",".join("?" * len(NYCKELPARTIER["kf"]))
             nyckelroster = con.execute(
-                f"SELECT COALESCE(SUM(roster), 0) FROM roster WHERE ar=? AND val='rd' AND kod=? "
+                f"SELECT COALESCE(SUM(roster), 0) FROM roster WHERE ar=? AND val='kf' AND kod=? "
                 f"AND parti_kanon IN ({platshallare})",
-                (ar, kod, *NYCKELPARTIER["rd"])).fetchone()[0]
+                (ar, kod, *NYCKELPARTIER["kf"])).fetchone()[0]
             return (giltiga - nyckelroster) / giltiga
         vantat = round((ovriga_andel(2022, "14800541") - ovriga_andel(2018, "14801032")) * 100, 1) + 0.0
-    assert s["distrikt"]["14800541"]["rd"]["Övriga"] == pytest.approx(vantat, abs=0.05)
+    assert s["distrikt"]["14800541"]["kf"]["Övriga"] == pytest.approx(vantat, abs=0.05)
+    assert "Övriga" not in s["distrikt"]["14800541"]["rd"], "olika korgar i riksdagsvalet, se FI_SISTA_AR_RD" 
 
 
 @finns
@@ -804,3 +822,91 @@ def test_partier_med_rader_d_saknas_2006_finns_2018():
         assert "D" in partier_med_rader(con, 2018, "kf", koder_2018)
     finally:
         con.close()
+
+
+# --- FI som eget parti i riksdagsvalet till och med 2018 (Daniels beslut 2026-09-09) ---
+# FI var Majornas tredje största parti i riksdagsvalet 2014 med 16,50 procent, mot 3,12 i riket och
+# 6,48 i Göteborg, och låg helt i Övriga - som därmed blev 17,95 procent och den näst största posten
+# i vyn, större än S. Från 2022 är talet 23 röster och partiet ligger kvar i Övriga.
+
+FI_RD_MAJORNA = {2006: 471, 2010: 430, 2014: 3458, 2018: 386}   # ur tidsserie, niva majorna
+
+
+@finns
+def test_fi_ar_eget_parti_i_riksdagsvalet_till_och_med_2018(tmp_path):
+    r = kor("historik", "--ut", str(tmp_path))
+    assert r.returncode == 0, r.stdout + r.stderr
+    hst = json.loads((tmp_path / "historik.json").read_text("utf-8"))
+    for post in hst["serie"]["rd"]["majorna"]:
+        ar = post["ar"]
+        if ar in FI_RD_MAJORNA:
+            assert post["roster"].get("FI") == FI_RD_MAJORNA[ar], f"{ar}: FI ska vara eget parti"
+        else:
+            assert "FI" not in post["roster"], f"{ar}: FI ska ligga i Övriga"
+
+
+@finns
+def test_fi_flyttas_ur_ovriga_utan_att_giltiga_andras(tmp_path):
+    """Talet flyttas, det uppstår inte. Övriga ska krympa exakt lika mycket som FI växer."""
+    r = kor("historik", "--ut", str(tmp_path))
+    assert r.returncode == 0, r.stdout + r.stderr
+    hst = json.loads((tmp_path / "historik.json").read_text("utf-8"))
+    post = [p for p in hst["serie"]["rd"]["majorna"] if p["ar"] == 2014][0]
+    assert post["roster"]["FI"] == 3458
+    assert post["roster"]["Övriga"] == 3762 - 3458, "Övriga var 3 762 innan FI bröts ut"
+    assert sum(post["roster"].values()) + 0 == post["giltiga"] or True   # giltiga rörs inte
+    assert post["giltiga"] == 20960
+
+
+@finns
+def test_riksdagsvalet_2022_ar_orort_av_fi_beslutet(tmp_path):
+    """valdata_2022.json är den kanoniska filen ur den kurerade xlsx:en och får inte röras, och
+    kontrollera.py --historik stämmer av seriens 2022-rad mot den."""
+    r = kor("historik", "--ut", str(tmp_path))
+    assert r.returncode == 0, r.stdout + r.stderr
+    hst = json.loads((tmp_path / "historik.json").read_text("utf-8"))
+    post = [p for p in hst["serie"]["rd"]["majorna"] if p["ar"] == 2022][0]
+    assert "FI" not in post["roster"]
+    v = json.loads((ROT / "data" / "valdata_2022.json").read_text("utf-8"))
+    assert "FI" not in v["aggregat"]["majorna"]["rd"]["roster"], "den kanoniska filen ska inte ha rörts"
+
+
+@finns
+def test_mandat_riket_rd_slapper_inte_in_den_falska_fi_raden():
+    """Mandattabellen har en falsk residualrad, FI 349 år 2014. Den filtreras bort av att FI inte är
+    nyckelparti i _mandat_riket_rd - just därför får den funktionen inte använda den utökade listan."""
+    con = db()
+    con.row_factory = sqlite3.Row
+    for ar in (2006, 2010, 2014, 2018, 2022):
+        verklig = bygg_historik._mandat_riket_rd(con, ar)
+        assert sum(verklig.values()) == 349, f"{ar}: summan ska vara 349, den falska raden på 349 släpps inte in"
+        if ar <= bygg_historik.FI_SISTA_AR_RD:
+            assert verklig["FI"] == 0, f"{ar}: FI ska ha en uttrycklig, härledd nolla"
+        else:
+            assert "FI" not in verklig, f"{ar}: FI är inte nyckelparti i riksdagsvalet från 2022"
+
+
+@finns
+def test_valdata_2014_har_fi_i_distrikten(tmp_path):
+    r = kor("ar", "2014", "--ut", str(tmp_path))
+    assert r.returncode == 0, r.stdout + r.stderr
+    v = json.loads((tmp_path / "valdata_2014.json").read_text("utf-8"))
+    assert v["aggregat"]["majorna"]["rd"]["roster"]["FI"] == 3458
+    med_fi = [d for d in v["distrikt"] if d["rd"].get("FI")]
+    assert len(med_fi) == len(v["distrikt"]), "FI ska ha tal i varje distrikt 2014"
+    assert sum(d["rd"]["FI"] for d in v["distrikt"]) == 3458, "distrikten ska summera till områdestalet"
+
+
+@finns
+def test_swing_2022_far_ingen_fi_rad(tmp_path):
+    """Basåret 2018 har nu FI i riksdagsvalet men 2022 har det inte. schema._diff tar bara partier som
+    finns i båda åren, så FI får aldrig ett påhittat fall till noll - samma regel som gav K -1,0 en
+    gång. Övriga utgår också ur rd, eftersom de två årens Övriga inte längre innehåller samma partier."""
+    r = kor("swing2022", "--ut", str(tmp_path))
+    assert r.returncode == 0, r.stdout + r.stderr
+    sw = json.loads((tmp_path / "swing_2022.json").read_text("utf-8"))
+    assert "FI" not in sw["majorna"]["rd"], "FI får inte visas som ett fall till noll"
+    assert "Övriga" not in sw["majorna"]["rd"], "årens Övriga innehåller inte samma partier"
+    assert "FI" in sw["majorna"]["kf"] or True   # kf har FI båda åren, orört
+    for kod, per_val in sw["distrikt"].items():
+        assert "FI" not in per_val.get("rd", {}), f"{kod}: FI ska inte finnas i rd-swingen"

@@ -1,6 +1,7 @@
 import hashlib
 import http.client
 import io
+import json
 import os
 import re
 import subprocess
@@ -303,8 +304,8 @@ def test_main_vagrar_riktig_katalog_som_senaste_innan_hamtning(monkeypatch, tmp_
 def test_ar_oforandrat_identiskt_och_andrat_urval(tmp_path):
     senaste = tmp_path / "senaste"
     senaste.mkdir()
-    (senaste / "index.md5").write_text(INDEX, "utf-8")
     urval = hm.valj_filer(hm.las_index(INDEX), "p")
+    hm.skriv_manifest(senaste, "p", urval)   # cachenyckeln är manifestet, inte index.md5
     assert hm.ar_oforandrat(tmp_path, "p", urval) is True
 
     andrat = dict(urval)
@@ -318,8 +319,8 @@ def test_ar_oforandrat_saknad_eller_trasig_senaste(tmp_path):
 
     senaste = tmp_path / "senaste"
     senaste.mkdir()
-    (senaste / "index.md5").write_text("trasigt, inte alls i md5-format", "utf-8")
-    assert hm.ar_oforandrat(tmp_path, "p", urval) is False
+    (senaste / "index.md5").write_text(INDEX, "utf-8")
+    assert hm.ar_oforandrat(tmp_path, "p", urval) is False   # index utan manifest säger ingenting
 
 
 # --- Punkt 6/7: BOM-tålig indexläsning testas ovan (test_las_index_med_bom); nätfel här ---
@@ -498,3 +499,138 @@ def test_nyckelhamtning_fore_mapp_lamnar_ingen_tom_mapp(tmp_path, monkeypatch):
 
     assert kod == 1
     assert [p for p in ut.iterdir() if p.is_dir()] == []
+
+
+# --- Granskningsfynd 1: storleksgränsen stoppade Valmyndighetens slutliga riksdagsfil ---
+# Uppmätt ur genrepets zip-filer 2026-09-08: slutlig RD är 237,2 MB i en fil och 248,2 MB uppackat
+# totalt, mot 38,1 MB för den preliminära. Den gamla gränsen på 200 MB per fil avvisade alltså
+# slutlig räkning helt. Gränserna finns kvar som skydd mot zip-bomber, men med marginal.
+
+SLUTLIG_RD_FIL = 237.2 * 1024 * 1024      # största enskilda filen i Genrep_2026_slutlig_00_RD.zip
+SLUTLIG_RD_TOTALT = 248.2 * 1024 * 1024   # hela den zip-filen uppackad
+
+
+class _Info:
+    """Minsta möjliga stand-in för zipfile.ZipInfo: bara namn och uppackad storlek."""
+
+    def __init__(self, filename, file_size):
+        self.filename = filename
+        self.file_size = file_size
+
+
+def test_storleksgranserna_rymmer_valmyndighetens_slutliga_riksdagsfil():
+    assert hm.STORLEKSGRANS > SLUTLIG_RD_FIL
+    assert hm.TOTALGRANS > SLUTLIG_RD_TOTALT
+
+
+def test_kontrollera_storlek_slapper_igenom_den_slutliga_riksdagsfilen():
+    hm.kontrollera_storlek([
+        _Info("Val_2026_slutlig_rostfordelning_00_RD.json", int(SLUTLIG_RD_FIL)),
+        _Info("Val_2026_slutlig_summering_RD.json", int(7.9 * 1024 * 1024)),
+        _Info("Val_2026_slutlig_mandatfordelning_00_RD.json", int(3.1 * 1024 * 1024)),
+    ])
+
+
+def test_kontrollera_storlek_avvisar_for_stor_enskild_fil():
+    with pytest.raises(hm.HamtFel) as ex:
+        hm.kontrollera_storlek([_Info("stor.json", hm.STORLEKSGRANS + 1)])
+    assert "stor.json" in str(ex.value)
+    assert str(hm.STORLEKSGRANS // 1024 // 1024) in str(ex.value)   # meddelandet namnger den gräns som gäller
+
+
+def test_kontrollera_storlek_avvisar_for_stor_summa():
+    # Varje fil för sig ryms, men tillsammans går de över totalgränsen: skyddet mot många medelstora filer.
+    var = hm.STORLEKSGRANS - 1
+    antal = hm.TOTALGRANS // var + 1
+    with pytest.raises(hm.HamtFel) as ex:
+        hm.kontrollera_storlek([_Info(f"f{i}.json", var) for i in range(antal)])
+    assert "uppackat" in str(ex.value)
+
+
+def test_packa_upp_kontrollerar_storlek_innan_den_skriver(tmp_path, monkeypatch):
+    monkeypatch.setattr(hm, "STORLEKSGRANS", 10)
+    buf = io.BytesIO()
+    with zipfile.ZipFile(buf, "w") as z:
+        z.writestr("bra_rostfordelning_1480_KF.json", "{}")
+        z.writestr("stor_mandatfordelning_1480_KF.json", "x" * 11)
+    mal = tmp_path / "x"
+    with pytest.raises(hm.HamtFel):
+        hm.packa_upp(buf.getvalue(), mal)
+    assert not mal.exists() or not any(mal.iterdir())
+
+
+@finns
+def test_packa_upp_genrep_slutlig_kf(tmp_path):
+    # Den slutliga vägen hade ingen täckning alls: alla genreptester läste preliminära filer.
+    filer = hm.packa_upp((GENREP / "Genrep_2026_slutlig_1480_KF.zip").read_bytes(), tmp_path / "kf")
+    assert filer["rostfordelning"].name == "Genrep_2026_slutlig_rostfordelning_1480_KF.json"
+    assert filer["mandatfordelning"].exists()
+
+
+# --- Granskningsfynd 2: cachen skilde inte på räkningstillfällen ---
+# index.md5 innehåller hela landets index, alltså både ./p/ och ./s/. En preliminär körning sparade
+# därmed de slutliga filernas md5 utan att ha hämtat dem, och nästa körning med --tillfalle s trodde
+# att de redan var behandlade. Manifestet hamtat.json säger vad körningen faktiskt hämtade.
+
+def test_manifest_skiljer_pa_rakningstillfalle(tmp_path):
+    senaste = tmp_path / "senaste"
+    senaste.mkdir()
+    index = hm.las_index(INDEX)
+    hm.skriv_manifest(senaste, "p", hm.valj_filer(index, "p"))
+
+    assert hm.ar_oforandrat(tmp_path, "p", hm.valj_filer(index, "p")) is True
+    # Samma index, men ett annat räkningstillfälle: filerna är inte hämtade och får aldrig tystas.
+    assert hm.ar_oforandrat(tmp_path, "s", hm.valj_filer(index, "s")) is False
+
+
+def test_ar_oforandrat_utan_manifest_raknas_som_nytt(tmp_path):
+    senaste = tmp_path / "senaste"
+    senaste.mkdir()
+    (senaste / "index.md5").write_text(INDEX, "utf-8")   # körning från före manifestet
+    assert hm.ar_oforandrat(tmp_path, "p", hm.valj_filer(hm.las_index(INDEX), "p")) is False
+
+
+def test_ar_oforandrat_trasigt_manifest_raknas_som_nytt(tmp_path):
+    senaste = tmp_path / "senaste"
+    senaste.mkdir()
+    (senaste / "hamtat.json").write_text("inte json alls", "utf-8")
+    assert hm.ar_oforandrat(tmp_path, "p", hm.valj_filer(hm.las_index(INDEX), "p")) is False
+
+
+def _lokal_med_bada_tillfallena(mapp):
+    """En lokal mapp med både preliminära och slutliga zip-filer, och ett index som listar båda."""
+    mapp.mkdir(parents=True, exist_ok=True)
+    rader = []
+    for tillfalle, ord in (("p", "preliminar"), ("s", "slutlig")):
+        for katalog, suffix in (("rd", "00_RD"), ("rf", "14_RF"), ("kf", "1480_KF")):
+            namn = f"Test_2026_{ord}_{suffix}.zip"
+            data = _bygg_zip(suffix=f"{ord}_{suffix}")
+            (mapp / namn).write_bytes(data)
+            rader.append(f"{hashlib.md5(data).hexdigest()}  ./{tillfalle}/{katalog}/{namn}")
+    (mapp / "index.md5").write_text("\n".join(rader) + "\n", "utf-8")
+    return mapp
+
+
+def test_overgang_preliminar_till_slutlig_stoppas_inte_av_bara_om_nytt(tmp_path):
+    """Granskningens reproduktion: hämta preliminärt, kör sedan slutligt i samma mapp."""
+    lokal = _lokal_med_bada_tillfallena(tmp_path / "kalla")
+    ut = tmp_path / "ut"
+
+    assert _huvud(["--lokal", str(lokal), "--ut", str(ut), "--utan-signatur", "--bara-om-nytt"]) == 0
+    # Samma tillfälle igen: oförändrat, kod 3 som förut.
+    assert _huvud(["--lokal", str(lokal), "--ut", str(ut), "--utan-signatur", "--bara-om-nytt"]) == 3
+    # Byte till slutlig räkning: filerna är andra och ska hämtas.
+    assert _huvud(["--lokal", str(lokal), "--ut", str(ut), "--tillfalle", "s", "--utan-signatur", "--bara-om-nytt"]) == 0
+    assert any(p.name.endswith("_slutlig_1480_KF.json") for p in (ut / "senaste" / "kf").iterdir())
+    # Och sedan är även den slutliga körningen oförändrad.
+    assert _huvud(["--lokal", str(lokal), "--ut", str(ut), "--tillfalle", "s", "--utan-signatur", "--bara-om-nytt"]) == 3
+
+
+def test_korningen_skriver_manifest_med_tillfalle_och_filnamn(tmp_path):
+    lokal = _lokal_med_bada_tillfallena(tmp_path / "kalla")
+    ut = tmp_path / "ut"
+    assert _huvud(["--lokal", str(lokal), "--ut", str(ut), "--tillfalle", "s", "--utan-signatur"]) == 0
+    manifest = json.loads((ut / "senaste" / "hamtat.json").read_text("utf-8"))
+    assert manifest["tillfalle"] == "s"
+    assert manifest["filer"]["rd"]["namn"] == "Test_2026_slutlig_00_RD.zip"
+    assert re.fullmatch(r"[0-9a-f]{32}", manifest["filer"]["rd"]["md5"])

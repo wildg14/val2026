@@ -29,6 +29,7 @@ import datetime as dt
 import hashlib
 import http.client
 import io
+import json
 import os
 import re
 import subprocess
@@ -45,7 +46,12 @@ GENREP_URL = "https://resultat.val.se/resultatfiler/genrep2026/"
 CERT_URL = "https://resultat.val.se/keys/val-sign-crt.pem"
 FILER = {"rd": ("rd", "_00_RD.zip"), "rf": ("rf", "_14_RF.zip"), "kf": ("kf", "_1480_KF.zip")}
 DELAR = ("rostfordelning", "mandatfordelning", "summering")
-STORLEKSGRANS = 200 * 1024 * 1024
+# Uppmätt ur genrepets zip-filer 2026-09-08: den slutliga riksdagsfilen är 237,2 MB i en fil och
+# 248,2 MB uppackat totalt, mot 38,1 MB för den preliminära. Den gamla gränsen på 200 MB avvisade
+# alltså slutlig räkning helt (granskningsfynd 1). Gränserna finns kvar som skydd mot zip-bomber,
+# nu med marginal: knappt tre gånger den största fil Valmyndigheten hittills publicerat.
+STORLEKSGRANS = 600 * 1024 * 1024   # per uppackad fil
+TOTALGRANS = 900 * 1024 * 1024      # summan av alla filer i en zip
 PAUS_SEKUNDER = 3  # väntetid före det enda återförsöket, patchbar i tester
 
 
@@ -137,16 +143,36 @@ def valj_lokala_filer(lokal, tillfalle):
     return index_text, index, urval
 
 
+def skriv_manifest(mapp, tillfalle, urval):
+    """Skriver hamtat.json i mapp: vilket räkningstillfälle körningen hämtade, och vilka tre filer.
+    Det är den filen ar_oforandrat läser, inte index.md5 - se den funktionen för varför."""
+    Path(mapp).joinpath("hamtat.json").write_text(json.dumps({
+        "tillfalle": tillfalle,
+        "filer": {val: {"namn": Path(kalla).name, "md5": md5} for val, (kalla, md5) in sorted(urval.items())},
+    }, ensure_ascii=False, indent=1) + "\n", "utf-8")
+
+
 def ar_oforandrat(ut, tillfalle, urval):
-    """True om alla tre filerna i urval har samma md5 som i föregående körnings data/valnatt/senaste/index.md5.
-    Saknat eller trasigt senaste-index räknas som "nytt" (False), liksom en okänd md5 i det nya urvalet."""
+    """True om föregående körning hämtade samma räkningstillfälle och samma tre filer (md5), enligt
+    data/valnatt/senaste/hamtat.json.
+
+    Manifestet, inte index.md5, är cachenyckeln (granskningsfynd 2). index.md5 är hela landets index och
+    listar både ./p/ och ./s/, så en preliminär körning sparade de slutliga filernas md5 utan att ha
+    hämtat dem - och nästa körning med --tillfalle s drog slutsatsen att de redan var behandlade och
+    hoppade över hela slutliga räkningen. Manifestet säger bara vad körningen faktiskt hämtade.
+
+    Saknat eller trasigt manifest räknas som "nytt" (False), liksom ett annat räkningstillfälle eller
+    en okänd md5 i det nya urvalet. En körning från före manifestet hämtar alltså om en gång, vilket är
+    rätt håll att fela åt."""
     try:
-        text = (Path(ut) / "senaste" / "index.md5").read_text("utf-8-sig")
-        gammalt_urval = valj_filer(las_index(text), tillfalle)
-    except (OSError, HamtFel):
+        manifest = json.loads((Path(ut) / "senaste" / "hamtat.json").read_text("utf-8"))
+        gammalt = manifest["filer"] if manifest["tillfalle"] == tillfalle else None
+    except (OSError, ValueError, KeyError, TypeError):
+        return False
+    if gammalt is None:
         return False
     for val, (_, md5) in urval.items():
-        if md5 is None or gammalt_urval.get(val, (None, None))[1] != md5:
+        if md5 is None or gammalt.get(val, {}).get("md5") != md5:
             return False
     return True
 
@@ -173,10 +199,24 @@ def kontrollera_md5(data, md5):
         raise AndradUnderHamtning(f"md5 stämmer inte: {verklig} i filen, {md5} i index")
 
 
+def kontrollera_storlek(infolist):
+    """Höjer HamtFel om någon uppackad fil är större än STORLEKSGRANS, eller summan större än TOTALGRANS.
+    Tar zipfile.ZipInfo-poster, alltså den deklarerade storleken - kontrollen görs innan något skrivs."""
+    total = 0
+    for info in infolist:
+        if info.file_size > STORLEKSGRANS:
+            raise HamtFel(f"{info.filename}: {info.file_size / 1024 / 1024:.0f} MB, "
+                          f"större än gränsen {STORLEKSGRANS // 1024 // 1024} MB")
+        total += info.file_size
+    if total > TOTALGRANS:
+        raise HamtFel(f"zip-filen är {total / 1024 / 1024:.0f} MB uppackat, "
+                      f"större än gränsen {TOTALGRANS // 1024 // 1024} MB")
+
+
 def packa_upp(zip_bytes, mapp):
     """Packar upp en resultatzip till mapp. -> {"rostfordelning": Path, "mandatfordelning": Path, ["summering": Path],
-    "signaturer": {del: Path}}. Vägrar filnamn med sökvägar (zip slip) och filer över 200 MB. Validerar hela
-    namnlistan innan något skrivs till disk."""
+    "signaturer": {del: Path}}. Vägrar filnamn med sökvägar (zip slip) och för stora filer, se
+    kontrollera_storlek. Validerar hela namnlistan innan något skrivs till disk."""
     mapp = Path(mapp)
     try:
         with zipfile.ZipFile(io.BytesIO(zip_bytes)) as z:
@@ -185,8 +225,7 @@ def packa_upp(zip_bytes, mapp):
                 namn = info.filename
                 if "/" in namn or "\\" in namn or namn.startswith("..") or not namn:
                     raise HamtFel(f"zip-filen innehåller en sökväg, inte bara filnamn: {namn!r}")
-                if info.file_size > STORLEKSGRANS:
-                    raise HamtFel(f"{namn}: {info.file_size / 1024 / 1024:.0f} MB, större än gränsen 200 MB")
+            kontrollera_storlek(infolist)
             mapp.mkdir(parents=True, exist_ok=True)
             ut = {"signaturer": {}}
             for info in infolist:
@@ -302,6 +341,7 @@ def main():
             n += 1
         mapp.mkdir()
         (mapp / "index.md5").write_text(index_text, "utf-8")
+        skriv_manifest(mapp, a.tillfalle, urval)
 
         for val, (kalla, md5) in urval.items():
             if a.lokal:

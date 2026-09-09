@@ -146,7 +146,7 @@ const FARG = { papper: "#FAF6EE", black: "#2A241E", sten: "#6E6152", linje: "#E6
 
 const state = { ar: KONFIG.standardAr, val: "rd", lage: "storsta", parti: "V", vald: null,
                 mandatLage: "verklig", mandatEnhet: "mandat", mandatRort: false, data: {}, swing: {}, geo: {}, bakgrund: null,
-                sortering: { kol: "namn", fallande: false }, tabellOppen: false, skalmax: 0.5, jamforelseVal: "rd", bild: false,
+                sortering: { kol: "namn", fallande: false }, tabellOppen: false, tabellFokus: null, skalmax: 0.5, jamforelseVal: "rd", bild: false,
                 historik: null, historikGeo: null, konturGeo: null };
 // Lat laddning: ett år laddas en gång, och promisen sparas så att två snabba byten inte hämtar samma år
 // två gånger. Felraden under årväljaren står kvar tills nästa byte lyckas.
@@ -493,7 +493,17 @@ function statusText() {
     if (KONFIG.valnatt && arPreliminar()) return { text: `Preliminärt, ${raknade} av ${totalt} distrikt räknade. Uppdaterad ${klockslag(meta.uppdaterad)}.`, laddaOm: true };
     // Ett färdigräknat val före valdagen säger inget här: årväljaren och den redaktionella meningen
     // ovanför bär redan året och väntan, och raden blev en upprepning av båda.
-    if (!arPreliminar()) return { text: valdagAr > Number(meta.ar) ? "" : `Slutligt resultat, riksdagsvalet ${meta.ar}.`, laddaOm: false };
+    if (!arPreliminar()) {
+      if (valdagAr > Number(meta.ar)) return { text: "", laddaOm: false };
+      // Räkningstillfälle är inte samma sak som färdigt resultat. Sluträkningen tar flera dagar, och
+      // körschemat slår om till slutlig status redan när de första s-filerna finns. Utan den här grenen
+      // sade raden "Slutligt resultat" över en halvräknad karta och tog dessutom bort "Ladda om",
+      // alltså läsarens väg till nyare siffror. Rubriken över staplarna säger "Räknat hittills" i
+      // samma läge; de två motsade varandra. Ingen tidsstämpel här: sluträkningen löper över flera
+      // dygn, och timme och minut utan datum säger då mindre än inget.
+      if (delvis) return { text: `Slutlig räkning pågår, ${raknade} av ${totalt} distrikt räknade.`, laddaOm: true };
+      return { text: `Slutligt resultat, riksdagsvalet ${meta.ar}.`, laddaOm: false };
+    }
     return { text: `Preliminärt resultat ${meta.ar}` + (delvis ? `, ${raknade} av ${totalt} distrikt räknade.` : "."), laddaOm: false };
   };
   return Object.assign(rad(), { delvis });
@@ -1120,17 +1130,32 @@ function renderTabell() {
     const x = a[kol] ?? -1, y = b[kol] ?? -1;
     return (y - x) * (fallande ? 1 : -1);
   });
-  const sortera = kolNamn => { state.sortering = { kol: kolNamn, fallande: kol === kolNamn ? !fallande : kolNamn !== "namn" }; renderTabell(); };
+  const sortera = kolNamn => { state.sortering = { kol: kolNamn, fallande: kol === kolNamn ? !fallande : kolNamn !== "namn" }; state.tabellFokus = { sort: kolNamn }; renderTabell(); };
   const th = (kolNamn, text) => h("th", { scope: "col", "aria-sort": kol === kolNamn ? (fallande ? "descending" : "ascending") : "none" },
-    h("button", { type: "button", onclick: () => sortera(kolNamn) }, text));
-  const radTangent = (r, e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); valjDistrikt(r.kod); } };
+    h("button", { type: "button", "data-sort": kolNamn, onclick: () => sortera(kolNamn) }, text));
+  const valjRad = kod => { state.tabellFokus = { rad: kod }; valjDistrikt(kod); };
+  const radTangent = (r, e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); valjRad(r.kod); } };
   const tabell = h("table", { class: "distrikt" },
     h("caption", {}, `${VALNAMN[val]} ${state.ar}, andel av giltiga röster per distrikt. Tryck på en kolumn för att sortera, på en rad för att välja distrikt.`),
     h("thead", {}, h("tr", {}, th("namn", "Distrikt"), partier.map(p => th(p, p)), th("vd", "Valdelt."))),
-    h("tbody", {}, rader.map(r => h("tr", { class: r.kod === state.vald ? "vald" : "", tabindex: "0",
-      onclick: () => valjDistrikt(r.kod), onkeydown: e => radTangent(r, e) },
+    h("tbody", {}, rader.map(r => h("tr", { class: r.kod === state.vald ? "vald" : "", tabindex: "0", "data-kod": r.kod,
+      onclick: () => valjRad(r.kod), onkeydown: e => radTangent(r, e) },
       h("td", {}, r.namn), partier.map(p => h("td", {}, r.raknat ? procent(r[p]) : "-")), h("td", {}, r.vd !== null && r.raknat ? procent(r.vd) : "-")))));
   wrap.replaceChildren(h("div", { class: "tabell-wrap" }, tabell));
+  aterstallTabellFokus(wrap);
+}
+// Både sortering och radval bygger om hela tabellen, så den knapp eller rad läsaren just tryckte på
+// finns inte kvar efteråt och tangentbordsfokus faller till sidans början. Samma mönster som kartans
+// valjDistrikt: leta upp motsvarande nod i den nya tabellen och lägg tillbaka fokus där. Målet sätts av
+// den kontroll som användes, inte av vad som råkar ha fokus, så att ett årsbyte eller en vanlig
+// omrendering aldrig drar fokus in i tabellen - och så att koden slipper läsa vad som råkar ha fokus,
+// vilket hade krävt en ny post i tillåtlistan för dokumentmedlemmar i test_inbaddning.py.
+function aterstallTabellFokus(wrap) {
+  const f = state.tabellFokus;
+  state.tabellFokus = null;
+  if (!f) return;
+  const el = f.sort ? wrap.querySelector(`th button[data-sort="${f.sort}"]`) : wrap.querySelector(`tr[data-kod="${f.rad}"]`);
+  if (el) el.focus({ preventScroll: true });
 }
 
 /* ---- röstdelningen: riksdag, region och kommun för varje parti på en gemensam procentaxel */

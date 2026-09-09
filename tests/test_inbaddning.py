@@ -806,3 +806,39 @@ def test_alla_lankar_grafiken_bygger_har_target_top():
     for attr in ankare:
         assert "target" in attr, f"länk utan target: {attr.strip()[:80]}"
         assert "LANK_MAL" in attr, f"länk med eget målvärde i stället för konstanten: {attr.strip()[:80]}"
+
+
+def test_tabellen_lagger_tillbaka_fokus_efter_sortering_och_radval():
+    """Granskningsfynd 7. Sortering och radval bygger om hela tabellen med replaceChildren, så knappen
+    eller raden som läsaren tryckte på finns inte kvar och fokus föll till sidans början. Målet sätts av
+    den kontroll som användes, inte av document.activeElement: tillåtlistan i testet ovan står orörd, och
+    ett årsbyte eller en vanlig omrendering drar inte fokus in i tabellen."""
+    js = JS.read_text("utf-8")
+    assert "function aterstallTabellFokus(" in js
+    assert "aterstallTabellFokus(wrap);" in js, "anropas efter att tabellen ersatts"
+    assert "state.tabellFokus = { sort: kolNamn }" in js, "sorteringsknappen pekar ut sig själv"
+    assert "const valjRad = kod => { state.tabellFokus = { rad: kod }; valjDistrikt(kod); }" in js, \
+        "radval går via valjRad, som minns raden"
+    assert "onclick: () => valjDistrikt(r.kod)" not in js, "raden ska inte längre kalla valjDistrikt direkt"
+    assert '"data-sort": kolNamn' in js and '"data-kod": r.kod' in js, "noderna går att hitta igen"
+    assert "focus({ preventScroll: true })" in js[js.index("function aterstallTabellFokus("):], \
+        "fokus får inte rulla sidan"
+    assert "tabellFokus: null" in js, "nyckeln står i state, inte som en lös global"
+
+
+def test_statusraden_skiljer_pagaende_slutrakning_fran_fardigt_resultat():
+    """Granskningsfynd 3. Sluträkningen tar flera dagar och körschemat slår om till slutlig status redan
+    när de första s-filerna finns. Raden sade då Slutligt resultat över en halvräknad karta, och tog
+    dessutom bort Ladda om - läsarens enda väg till nyare siffror. Rubriken över staplarna sade Räknat
+    hittills i samma läge, alltså tvärtemot."""
+    js = JS.read_text("utf-8")
+    kropp = js[js.index("function statusText("):js.index("function renderToppsvar(")]
+    assert "Slutlig räkning pågår, ${raknade} av ${totalt} distrikt räknade." in kropp
+    slutlig = kropp[kropp.index("if (!arPreliminar())"):]
+    assert "if (delvis)" in slutlig, "den slutliga grenen använder delvis, som redan räknats fram"
+    assert slutlig.index("if (delvis)") < slutlig.index("Slutligt resultat, riksdagsvalet"), \
+        "det färdiga beskedet kommer först när allt är räknat"
+    assert "laddaOm: true" in slutlig[:slutlig.index("Slutligt resultat, riksdagsvalet")], \
+        "Ladda om står kvar så länge räkningen pågår"
+    pagar = slutlig[slutlig.index("if (delvis)"):slutlig.index("Slutligt resultat, riksdagsvalet")]
+    assert "klockslag" not in pagar, "sluträkningen löper över flera dygn: timme och minut utan datum vilseleder"

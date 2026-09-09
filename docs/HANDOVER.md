@@ -432,6 +432,76 @@ till historikspåret, som en annan session äger.
 `hjalpmigrosta.se/sv/start/`. Undersidan hoppade över sidans eget språkval. Roten svarar 200 utan
 omdirigering. `konfig.js` omskriven med `schema.skriv_konfig` och kontrollerad mot `konfig.json`.
 
+## Status 2026-09-09: FI som eget parti i riksdagsvalet till och med 2018
+
+Daniels beslut samma dag: "jag skiter i var FI landar i år, det är ju knappt ett parti längre. Jag vill
+åt just historiken." Ändringen är därför avsiktligt smal och rör bara historikbygget.
+
+**Varför.** FI låg i Övriga i riksdagsvalet, till skillnad från region- och kommunvalet där partiet redan
+hade egen kolumn. Följden var att Övriga i riksdagsvalet 2014 blev **17,95 procent och den näst största
+posten i hela vyn, större än S** - läsaren såg en grå klump som i praktiken var ett parti. FI var
+Majornas tredje största parti det året:
+
+| År | Majorna | Göteborg | Riket |
+|---|---:|---:|---:|
+| 2006 | 2,50 % | 1,26 % | 0,68 % |
+| 2010 | 2,10 % | 0,86 % | 0,40 % |
+| 2014 | **16,50 %** | 6,48 % | 3,12 % |
+| 2018 | 1,82 % | 0,84 % | 0,46 % |
+| 2022 | 0,11 % | 0,09 % | 0,05 % |
+
+Sidan visade alltså FI för samma valdag i kommunvalet (10,08 procent 2014) medan den gömde ett större
+FI-tal i riksdagsvalet. Riksdagsvalet var det enda valet som avvek.
+
+**Hur, och varför just så.** `bygg_historik.nyckelpartier(val, ar)` lägger till FI i riksdagsvalet till
+och med `FI_SISTA_AR_RD` (2018). Från 2022 ligger partiet kvar i Övriga: 23 röster, och en egen stapel
+där hade sagt mindre än ingenting. Gränsen är också vad som gör ändringen liten:
+
+- `data/valdata_2022.json` rörs inte. Den är den kanoniska filen ur den kurerade xlsx:en, och
+  `kontrollera.py --historik` stämmer fortfarande av seriens 2022-rad mot den (41 kontroller).
+- `valmyndigheten.NYCKELPARTIER` är oförändrad, så **valnattens parsning påverkas inte alls**. FI är
+  dessutom inte rapportparti i genrepets riksdagsfil för 2026 (M, C, L, KD, S, V, MP, SD, AFS, PV), så
+  ändringen hade inte synts på valnatten även om den gjorts globalt.
+- Sidan behövde ingen ändring alls utom halvcirkelns ordning: `partierIVal` läser partierna **ur datan**.
+
+**Två fällor som undveks, båda värda att komma ihåg.**
+
+1. **`_mandat_riket_rd` måste behålla den ursprungliga listan.** Mandattabellen i databasen har en falsk
+   residualrad, `FI 349 år 2014`, som filtreras bort just av att FI inte är nyckelparti där. Hade
+   funktionen fått den utökade listan hade den falska raden släppts in och summakontrollen på 349 sprungit.
+2. **Nollan i kolumnen "Riksdagen 2014" var påhittad.** `renderMandatTal` skriver `|| 0` för ett parti som
+   saknas i `riksdag_verklig`, alltså precis den sortens tal som gav "K -1,0" en gång. Den är nu härledd i
+   stället: de åtta partierna summerar redan till alla 349 mandat, så vad som helst utanför dem har med
+   nödvändighet noll, och `_mandat_riket_rd` skriver ut den nollan uttryckligen. Talet bär hela poängen -
+   **noll mandat i riksdagen, 62 om Majorna bestämde**.
+
+**FI ligger längst till vänster i `SPEKTRUM`**, annars hade `mandatOrdning` lagt partiet sist, alltså till
+höger om SD. Placeringen är redaktionell och lätt att flytta.
+
+**Uppmätt efter omgången:**
+
+- Giltiga röster oförändrade alla år, inga andra partitals ändrade, distrikten summerar till
+  områdestalen. Bara `valdata_2006/2010/2014/2018`, `historik` och `swing_2022` skrevs om; geometrin är orörd.
+- `swing_2022` får ingen FI-rad: `schema._diff` tar bara partier som finns i båda åren. Övriga utgår ur
+  riksdagsvalets swing, eftersom 2018 års Övriga inte innehåller FI medan 2022 års gör det - alltså inte
+  samma korg. Ingen synlig effekt: Övriga har ingen stapel, `partierIVal` filtrerar bort det.
+- Om Majorna bestämde 2014: V 73, S 66, **FI 62**, MP 55, M 46, SD 28, L 19. C och KD under spärren.
+- `pytest -q`: **420 passerade**, inga överhoppade. Alla fem webbläsarkontroller gröna, bredd-check 227
+  av 227 i alla sex bredder och varje år. `kontrollera.py`: 1 149 plus 41 kontroller, 0 diffar.
+- Sidhuvudet växer cirka 36 px när läsaren byter till ett år med FI, eftersom toppsvaret får en stapel
+  till. Det är det första fallet där toppsvarets radantal varierar mellan år.
+
+**Två saker som inte är utredda:**
+
+- **FI i regionvalet 2014 ser konstigt ut:** 240 röster, mot 3 458 i riksdagsvalet samma dag. 2018 är
+  tvärtom, 692 mot 386. Den inversionen bör redas ut innan någon text påstår något om FI i regionvalet.
+  Det är [KOLLA].
+- **Partikoden `1130`** i kommunvalet 2014 (2,17 procent) är oupplöst i databasen.
+
+Övriga partier som ligger i Övriga och är över 2 procent någonstans: K i regionvalet 2006 (2,25),
+SPVG i regionvalet 2010 (2,45), Vägvalet i kommunvalet 2010 och 2014 (3,48 och 3,39), och `1130` ovan.
+Ingen av dem är i närheten av FI 2014, men samma mekanism finns om de någon gång ska brytas ut.
+
 ## Så hänger det ihop tekniskt
 
 `valgrafik.js` börjar med `MARKUP` (hela sidans HTML som sträng), `KONFIG` (standardvärden), `PARTIER` (färger och namn), `SPEKTRUM` (halvcirkelns ordning V, S, MP, C, L, KD, M, SD) och `state`. `start()` monterar markupen i `.mp-main`, läser `konfig` först och sedan i ett svep `bakgrund`, `historik`, `distrikt_2006` och de år som behövs vid start: `KONFIG.standardAr`, året i URL-parametern `ar` om det är ett annat, och - bara när `KONFIG.valnatt` är sant - det största året under standardåret. Övriga år i `KONFIG.ar` laddas av `laddaAr(a)` när läsaren väljer dem i årväljaren. `laddaAr` hämtar `distrikt_<år>`, `valdata_<år>` och `swing_<år>` (saknad swingfil ger ingen swing), skriver in året i `state.geo`, `state.data` och `state.swing`, kör om `raknaSkalmax()` och cachar sitt löfte i `arLaddning`, så att ett år laddas en gång. Misslyckas geometrin eller valdatan tas året ur cachen igen, så att ett nytt försök går att göra, och `byteAr` visar felraden i stället för att byta vy. Därefter läser `start()` URL-parametrar (`distrikt`, `val`, `lage`, `parti`, `ar`, `inbaddad`, `bild`) och renderar allt. Sidan felar först när inget år alls kunde laddas. `renderKarta()` projicerar WGS84 till en viewBox 1000 enheter bred (ekvirektangulär med cos(lat), ram 0,045 i longitud och 0,16 i latitud), ritar bakgrund, distrikt, etiketter med kollisionskontroll, hållplatser, platsnamn och markering. `renderPanel()` fyller kortets skelett. `divergens()` bygger "Majorna mot Sverige". `renderBild()` bygger stillbildsramarna.
@@ -491,7 +561,7 @@ Att veta:
 - Play över åren: en knapp som stegar årväljaren framåt och låter kartan animera sig genom serien. Förbehåll: distriktskoderna byts nästan varje val (2006 börjar på 148059, 2010 på 148009, 2014 och 2018 på 148010, 2022 och 2026 på 148005), så det blir ett hopp mellan olika indelningar av samma yta, inte en mjuk övergång.
 - Stillbilder av områdesserien i `scripts/skapa_bilder.py` (historikplanens Task 10-lucka; sektionen finns bara interaktivt i dag).
 - "Tre saker som skiljer Majorna" (specen `docs/superpowers/specs/2026-09-05-historik-2026-design.md`, avsnitt 11 punkt 6) - väntar på Daniels beslut, se Tankesmedjan nedan.
-- FI som nyckelparti i riksdagsvalet, om Daniel vill se Feministiskt initiativs 16,5 procent 2014 som eget parti i stället för i Övriga - kräver en ändring i `NYCKELPARTIER["rd"]` i hela schemat, även för 2022 och 2026 (Daniels beslut, se fyndet om FI 2014 ovan).
+- ~~FI som nyckelparti i riksdagsvalet~~ **gjort 2026-09-09**, se statusavsnittet nedan. Lösningen blev inte en ändring i `NYCKELPARTIER["rd"]` utan `bygg_historik.nyckelpartier(val, år)`, alltså bara historiken.
 - Codex 16: `scripts/kontrollera.py` täcker bara distriktsraderna, inte aggregat och mandat. (Codex 17, bildexportens år, är rättad 2026-09-09.)
 - Refaktoreringarna: `main` i `scripts/uppdatera_2026.py` är lång och gör för mycket; `bygg()` läser modulglobalen `JAMFORBAR` i stället för att ta den som argument; xlsx-vägen och JSON-vägen dubblerar distriktsslingan i `uppdatera_2026.py`; `_kontrollera_valtyp` i `scripts/valnatt.py` godtar saknat eller null `valtyp`; halvcirkelns ingressmening står på ett ställe (konstant) men `MARKUP` och `renderRiksdag` delar fortfarande ansvar för sidhuvudets uppbyggnad; kartans skaldrift under tio procent vid stegvisa breddändringar (tröskeln i ResizeObservern).
 
@@ -634,6 +704,12 @@ Från den andra granskningen (2026-09-09):
   `DOCUMENT_TILLATNA`.
 - **Sluträkningen är inte ett färdigt resultat.** Statusradens slutliga gren har två utfall, `delvis` och
   färdigt. Slår man ihop dem igen står "Slutligt resultat" över en halvräknad karta, utan "Ladda om".
+
+- **`bygg_historik.nyckelpartier(val, ar)`, inte `NYCKELPARTIER[val]`, är rätt lista i historikbygget** -
+  utom i `_mandat_riket_rd`, som handlar om mandat och måste behålla den ursprungliga listan för att
+  filtrera bort den falska residualraden `FI 349 år 2014`. Det står som kommentar på båda ställena.
+- **`partier_per_val` i `historik.json` är en union, inte en exakt uppsättning.** Raderna kan sakna ett
+  parti: FI finns i riksdagsvalet till och med 2018 men inte 2022, precis som D saknas före 2018.
 
 Från grupp 3:
 

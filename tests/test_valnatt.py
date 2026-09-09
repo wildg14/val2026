@@ -405,3 +405,60 @@ def test_genrep_riksdag_verklig_avvisar_rf_och_kf():
 def test_genrep_riksdag_verklig_summerar_349():
     m = valnatt.riksdag_verklig(MANDAT_RD)
     assert sum(m.values()) == 349 and set(m) <= {"V", "S", "MP", "SD", "M", "C", "L", "KD"}
+
+
+# --- Granskningsfynd 5: rimlighetskontrollerna fanns i CSV-vägen men inte i JSON-vägen ---
+# CSV-vägen avvisar negativa tal, röstande under giltiga och röstande över röstberättigade
+# (scripts/uppdatera_2026.py). JSON-vägen kontrollerade bara att summan stämde, och granskarens
+# uppsättning tal klarade just den kontrollen: partisumman blev 100 trots att V var -10.
+
+def test_las_rostfordelning_avvisar_negativa_roster():
+    """Granskarens exakta prov: V -10 och S 110 ger partisumman 100 och passerade summakontrollen."""
+    d = distrikt("14800526", [("V", "Vänsterpartiet", -10), ("S", "Arbetarepartiet-Socialdemokraterna", 110)])
+    with pytest.raises(SummaFel) as ex:
+        valnatt.las_rostfordelning(fil("KF", [d]), koder=["14800526"])
+    assert "V" in str(ex.value) and "-10" in str(ex.value)
+
+
+def test_las_rostfordelning_avvisar_rostande_over_rostberattigade():
+    """100 röstande på 90 röstberättigade är 111 procents valdeltagande."""
+    d = distrikt("14800526", [("V", "Vänsterpartiet", 100)], rostberattigade=90)
+    with pytest.raises(SummaFel) as ex:
+        valnatt.las_rostfordelning(fil("KF", [d]), koder=["14800526"])
+    assert "röstberättigade" in str(ex.value)
+
+
+def test_las_rostfordelning_avvisar_negativa_ogiltiga_och_rostberattigade():
+    d = distrikt("14800526", [("V", "Vänsterpartiet", 100)], ogiltiga=-5)
+    with pytest.raises(SummaFel):
+        valnatt.las_rostfordelning(fil("KF", [d]), koder=["14800526"])
+    d2 = distrikt("14800527", [("V", "Vänsterpartiet", 100)], rostberattigade=-1)
+    with pytest.raises(SummaFel):
+        valnatt.las_rostfordelning(fil("KF", [d2]), koder=["14800527"])
+
+
+def test_las_rostfordelning_slapper_igenom_rostande_lika_med_rostberattigade():
+    """Gränsfallet är inte ett fel: alla röstberättigade kan ha röstat, och noll röstberättigade
+    betyder att fältet saknas i filen, inte att någon röstat för mycket."""
+    d = distrikt("14800526", [("V", "Vänsterpartiet", 100)], rostberattigade=100)
+    assert valnatt.las_rostfordelning(fil("KF", [d]), koder=["14800526"])["distrikt"]["14800526"]["rostande"] == 100
+    d2 = distrikt("14800527", [("V", "Vänsterpartiet", 100)], rostberattigade=0)
+    assert valnatt.las_rostfordelning(fil("KF", [d2]), koder=["14800527"])["distrikt"]["14800527"]["rostberattigade"] == 0
+
+
+def test_n_avvisar_brakstal_och_skrapstrangar_i_stallet_for_att_trunkera():
+    """int() gjorde 12.7 röster till 12 utan att någon märkte det, och strängen 12,7 kastade en
+    ValueError som ingen fångade - alltså en traceback i stället för en FEL-rad på valnatten."""
+    assert valnatt._n(None) == 0 and valnatt._n("") == 0 and valnatt._n(12) == 12
+    assert valnatt._n(12.0) == 12, "ett heltal skrivet som JSON-flyttal är fortfarande ett heltal"
+    assert valnatt._n("12") == 12
+    for trasigt in (12.7, "12,7", "tolv", []):
+        with pytest.raises(valnatt.FormatFel):
+            valnatt._n(trasigt)
+
+
+def test_las_rostfordelning_avvisar_brakstal_i_rostetal():
+    d = distrikt("14800526", [("V", "Vänsterpartiet", 100)])
+    d["rostfordelning"]["rosterPaverkaMandat"]["partiRoster"][0]["antalRoster"] = 12.7
+    with pytest.raises(valnatt.FormatFel):
+        valnatt.las_rostfordelning(fil("KF", [d]), koder=["14800526"])

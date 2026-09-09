@@ -26,7 +26,23 @@ def _s(v):
 
 
 def _n(v):
-    return int(v or 0)
+    """Ett heltal ur ett JSON-fält. None och tom sträng blir 0.
+
+    Bråktal och skräpsträngar avvisas i stället för att tyst bli något annat: int(12.7) gav 12 röster
+    utan att någon märkte det, och strängen "12,7" kastade en ValueError som ingen fångade, alltså en
+    traceback i stället för en FEL-rad mitt på valnatten (granskningsfynd 5)."""
+    if v is None or v == "":
+        return 0
+    if isinstance(v, bool):
+        raise FormatFel(f"{v!r} är inget tal")
+    if isinstance(v, int):
+        return v
+    if isinstance(v, float) and v.is_integer():
+        return int(v)
+    try:
+        return int(str(v).strip())
+    except (TypeError, ValueError):
+        raise FormatFel(f"{v!r} är inget heltal") from None
 
 
 def kort_namn(namn):
@@ -134,15 +150,25 @@ def las_rostfordelning(kalla, koder=MAJORNA_KODER, kommunkod=None):
             rpm = rf["rosterPaverkaMandat"]
             roster, okanda = _mappa_partiroster(rpm, val)
             giltiga = _n(rpm.get("antalRoster"))
-            if sum(roster.values()) != giltiga:
-                raise SummaFel(f"{kod} {post['namn']}: partiröster {sum(roster.values())} != giltiga {giltiga}")
             rostande = _n(d.get("totaltAntalRoster"))
             rem = rf.get("rosterEjPaverkaMandat") or {}
             if not isinstance(rem, dict):
                 raise FormatFel(f"{kod} {post['namn']}: rosterEjPaverkaMandat har fel form")
             ogiltiga = _n(rem.get("antalRoster"))
+            # Rimlighet före summor. CSV-vägen har haft de här tre kontrollerna hela tiden; JSON-vägen
+            # kontrollerade bara att partisumman stämde, och den kontrollen är blind för tecknet:
+            # V -10 och S 110 summerar till samma 100 som två rimliga tal (granskningsfynd 5).
+            for etikett, n in [*roster.items(), ("giltiga", giltiga), ("ogiltiga", ogiltiga),
+                               ("röstande", rostande), ("röstberättigade", post["rostberattigade"])]:
+                if n < 0:
+                    raise SummaFel(f"{kod} {post['namn']}: negativt tal för {etikett}: {n}")
+            if sum(roster.values()) != giltiga:
+                raise SummaFel(f"{kod} {post['namn']}: partiröster {sum(roster.values())} != giltiga {giltiga}")
             if giltiga + ogiltiga != rostande:
                 raise SummaFel(f"{kod} {post['namn']}: giltiga {giltiga} + ogiltiga {ogiltiga} != röstande {rostande}")
+            # Noll röstberättigade betyder att fältet saknas i filen, inte att ingen fick rösta.
+            if post["rostberattigade"] and rostande > post["rostberattigade"]:
+                raise SummaFel(f"{kod} {post['namn']}: röstande {rostande} > röstberättigade {post['rostberattigade']}")
             post.update(roster=roster, giltiga=giltiga, rostande=rostande, okanda=okanda)
         ut["distrikt"][kod] = post
     return ut

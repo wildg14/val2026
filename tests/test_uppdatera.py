@@ -624,14 +624,16 @@ def test_namnvarning_bara_en_gang_per_distrikt(tmp_path):
 @genrep_slutlig_kf_finns
 def test_okanda_partier_varnas_per_parti_inte_per_distrikt(tmp_path):
     """Genrep_2026_slutlig_1480_KF.zip saknar rd och rf (den finns bara för kf i slutligt läge), så
-    den packas upp för hand här i stället för via hamta_2026.py, till en mapp med bara kf/."""
+    den packas upp för hand här i stället för via hamta_2026.py, till en mapp med bara kf/.
+    --status slutlig, eftersom filen är den slutliga: sedan granskningsfynd 4 måste argumentet stämma
+    med filens eget räkningstillfälle."""
     mapp = tmp_path / "kf_mapp"
     kf = mapp / "kf"
     kf.mkdir(parents=True)
     with zipfile.ZipFile(GENREP_SLUTLIG_KF) as z:
         z.extractall(kf)
     ut = tmp_path / "data"
-    r = kor("--valnatt-mapp", str(mapp), "--ut", str(ut), "--ar", "2026")
+    r = kor("--valnatt-mapp", str(mapp), "--ut", str(ut), "--ar", "2026", "--status", "slutlig")
     assert r.returncode == 0, r.stdout + r.stderr
     rader = [rad for rad in (r.stdout + r.stderr).splitlines() if rad.startswith("VARNING: kf: okänt parti")]
     partier = {rad.split("'")[1] for rad in rader}
@@ -767,3 +769,69 @@ def test_hamta_bygger_argv_fullstandigt_och_nollstaller_globalt_tillstand(tmp_pa
         assert "hämtningen avbröts med kod 5" in utskrift.out + utskrift.err
     finally:
         sys.argv = sparat_argv
+
+
+# --- Granskningsfynd 4: valår och räkningstillfälle validerades inte mot källfilen ---
+# valnatt.py plockar ut valdatum, tidigare valdatum och räkningstillfälle ur varje fil, men ingenting
+# jämförde dem mot något: år, status och källtext byggdes uteslutande ur kommandoradsargumenten. En
+# fil från fel val eller fel räkningsomgång kunde alltså märkas om till 2026 och slutlig räkning.
+
+def _doktorera_meta(mapp, ut, **falt):
+    """Kopierar en valnattsmapp och skriver om fälten i filhuvudet på varje röstfördelningsfil."""
+    shutil.copytree(mapp, ut)
+    for path in sorted(ut.glob("*/*_rostfordelning_*.json")):
+        obj = json.loads(path.read_text("utf-8"))
+        obj.update(falt)
+        path.write_text(json.dumps(obj), "utf-8")
+    return ut
+
+
+@genrep_finns
+def test_fil_fran_fel_val_avvisas(tmp_path):
+    """Granskarens prov: valdatum 2022-09-11 importerat som 2026 gav kod 0 och en utdatafil märkt 2026."""
+    mapp = _doktorera_meta(hamta_lokalt(tmp_path), tmp_path / "fel", valdatum="2022-09-11", test=False)
+    r = kor("--valnatt-mapp", str(mapp), "--ut", str(tmp_path / "ut"), "--status", "preliminar")
+    assert r.returncode != 0, r.stdout + r.stderr
+    assert "2022-09-11" in r.stdout + r.stderr and "2026" in r.stdout + r.stderr
+    assert not (tmp_path / "ut" / "valdata_2026.json").exists(), "inget får skrivas när filen hör till fel val"
+
+
+@genrep_finns
+def test_rakningstillfalle_som_motsager_status_avvisas(tmp_path):
+    """Filen säger preliminär, operatören skriver --status slutlig. Ett uttryckligt statusargument ska
+    inte tyst kunna motsäga källan: sidan hade sagt Slutligt resultat om preliminära siffror."""
+    mapp = hamta_lokalt(tmp_path)   # genrepets preliminära filer
+    r = kor("--valnatt-mapp", str(mapp), "--ut", str(tmp_path / "ut"), "--status", "slutlig", "--tvinga")
+    assert r.returncode != 0, r.stdout + r.stderr
+    assert "preliminär" in (r.stdout + r.stderr) and "slutlig" in (r.stdout + r.stderr)
+
+
+@genrep_finns
+def test_preliminar_status_mot_preliminar_fil_gar_igenom(tmp_path):
+    """Kontrollen får inte stoppa det normala flödet."""
+    r = kor("--valnatt-mapp", str(hamta_lokalt(tmp_path)), "--ut", str(tmp_path / "ut"), "--status", "preliminar", "--tvinga")
+    assert r.returncode == 0, r.stdout + r.stderr
+    assert (tmp_path / "ut" / "valdata_2026.json").exists()
+
+
+@genrep_finns
+def test_filer_med_olika_valdatum_i_samma_korning_avvisas(tmp_path):
+    """Blandade filer: kommunvalet från ett annat valdatum än de två andra."""
+    mapp = shutil.copytree(hamta_lokalt(tmp_path), tmp_path / "blandat")
+    for path in sorted((mapp / "kf").glob("*_rostfordelning_*.json")):
+        obj = json.loads(path.read_text("utf-8"))
+        obj["valdatum"] = "2026-09-20"
+        path.write_text(json.dumps(obj), "utf-8")
+    r = kor("--valnatt-mapp", str(mapp), "--ut", str(tmp_path / "ut"), "--status", "preliminar", "--tvinga")
+    assert r.returncode != 0, r.stdout + r.stderr
+    assert "2026-09-20" in r.stdout + r.stderr
+
+
+@genrep_finns
+def test_tomt_valdatum_varnar_men_stoppar_inte(tmp_path):
+    """En fil utan valdatum är inte bevis för fel val. Den ska inte stoppa valnatten, bara märkas."""
+    mapp = _doktorera_meta(hamta_lokalt(tmp_path), tmp_path / "tomt", valdatum="", rakningstillfalle="")
+    r = kor("--valnatt-mapp", str(mapp), "--ut", str(tmp_path / "ut"), "--status", "preliminar", "--tvinga")
+    assert r.returncode == 0, r.stdout + r.stderr
+    ut = r.stdout + r.stderr
+    assert "saknar valdatum" in ut and "saknar räkningstillfälle" in ut, ut

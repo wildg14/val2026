@@ -264,8 +264,52 @@ def satt_jamforbar(kod, varde, kalla):
         JAMFORBAR[kod] = varde
 
 
-def las_valnattsmapp(mapp, distrikt, bas):
+# --status säger vad utdatan ska heta; filens rakningstillfalle säger vad den faktiskt innehåller.
+STATUSORD = {"preliminar": ("preliminär", "preliminar"), "slutlig": ("slutlig",)}
+
+
+def kontrollera_kalla(val, meta, ar, status, bas, sedda):
+    """Att en fil är äkta säger inte att den är rätt fil för det här uppdraget.
+
+    Signaturen visar vem som publicerat filen, inte vilket val eller vilken räkningsomgång den gäller.
+    År, status och källtext byggs ur kommandoradsargumenten, så utan den här kontrollen kunde en fil
+    från fel val eller fel räkningsomgång tyst märkas om till årets: en 2022-fil importerad med
+    --status slutlig gav en utdatafil som sade "Valmyndigheten, slutlig rösträkning per valdistrikt
+    2026" (granskningsfynd 4).
+
+    Tomma fält varnar bara. En fil utan valdatum är inget bevis för fel val, och valnatten ska inte
+    stanna av det. sedda bär det de tidigare filerna i samma körning sagt, så att de tre också jämförs
+    med varandra: blandade filer hör inte ihop även när var och en är rätt för sig.
+    """
+    valdatum = meta["valdatum"]
+    tillfalle = meta["rakningstillfalle"].strip().lower()
+    if not valdatum:
+        varning(f"{val}: filen saknar valdatum, går inte att kontrollera mot {ar}")
+    elif not valdatum.startswith(f"{ar}-"):
+        fel(f"{val}: filen gäller valdatum {valdatum}, alltså inte valet {ar}. Pekar --valnatt-mapp på rätt mapp?")
+    if not tillfalle:
+        varning(f"{val}: filen saknar räkningstillfälle, går inte att kontrollera mot --status {status}")
+    elif tillfalle not in STATUSORD[status]:
+        fel(f"{val}: filen innehåller {tillfalle} räkning men --status säger {status}. "
+            f"Sidan hade skrivit fel ord om resultatet.")
+    if bas and meta["tidigare_valdatum"] and not meta["tidigare_valdatum"].startswith(f"{bas['meta']['ar']}-"):
+        varning(f"{val}: filen jämför mot valdatum {meta['tidigare_valdatum']}, men swingens basår är "
+                f"{bas['meta']['ar']}. Förändringstalen jämför då mot ett annat val än filen gör.")
+    for nyckel, varde in (("valdatum", valdatum), ("räkningstillfälle", tillfalle), ("testflagga", meta["test"])):
+        if varde == "":
+            continue
+        forra_val, forra_varde = sedda.setdefault(nyckel, (val, varde))
+        if forra_varde != varde:
+            fel(f"{val}: {nyckel} är {varde!r} men {forra_val}-filen säger {forra_varde!r}. "
+                "Filerna hör inte ihop; hämta om dem i en och samma körning.")
+
+
+def las_valnattsmapp(mapp, distrikt, bas, ar, status):
     """Mappen från hamta_2026.py (rd/, rf/, kf/ med JSON). Fyller distrikt, returnerar jämförelseaggregat och riksdagens mandat.
+
+    ar och status är kommandoradens, och varje fils eget filhuvud kontrolleras mot dem, se
+    kontrollera_kalla. Kontrollen gäller de tre röstfördelningsfilerna; mandat- och summeringsfilerna
+    bär inte samma uppgifter.
 
     Fel i jämförelseaggregaten eller riksdagens mandat får aldrig stoppa distriktsimporten: de är bara
     jämförelsemarkörer, distrikten ligger i en annan fil. Ett sådant fel ger varning och lämnar
@@ -276,6 +320,7 @@ def las_valnattsmapp(mapp, distrikt, bas):
     jamforelser = {"goteborg": {}, "riket": {}}
     verklig = {}
     hittade = 0
+    sedda = {}   # bärs mellan de tre valen, se kontrollera_kalla
     for val in VAL:
         sub = mapp / val
         if not sub.is_dir():
@@ -305,6 +350,7 @@ def las_valnattsmapp(mapp, distrikt, bas):
             fel(f"{val}: {ex}")
         if ra["val"] != val:
             fel(f"{rost[0]}: filen gäller {ra['val'].upper()} men ligger i mappen {val}")
+        kontrollera_kalla(val, ra["meta"], ar, status, bas, sedda)
         if ra["meta"]["test"]:
             META_TEST = True
         if ra["meta"]["antal_i_omradet"] != GOTEBORG_DISTRIKT["json_2026"]:
@@ -573,7 +619,7 @@ def main():
             satt_jamforbar(kod, ok, "jämförelsefilen")
     try:
         if a.valnatt_mapp:
-            jamforelser, verklig = las_valnattsmapp(a.valnatt_mapp, distrikt, bas)
+            jamforelser, verklig = las_valnattsmapp(a.valnatt_mapp, distrikt, bas, a.ar, a.status)
         if filer:
             try:
                 jamforelser = las_rafiler(filer, distrikt, bas)

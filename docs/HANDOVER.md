@@ -1,6 +1,6 @@
 # Handover: Så röstade Majorna
 
-Skriven 2026-09-04 av den session som byggde grafiken, uppdaterad 2026-09-07 efter valnattsomgången, samma dag igen efter att historikplanen byggts klart (task 6 till 10), samma dag igen efter Daniels feedbackrunda på den publicerade sidan (grupp 1 och grupp 2), 2026-09-08 efter grupp 3 och grupp 4, och 2026-09-09 efter den andra externa granskningen. Läs den här filen i sin helhet innan du gör något. Valdagen är 2026-09-13.
+Skriven 2026-09-04 av den session som byggde grafiken, uppdaterad 2026-09-07 efter valnattsomgången, samma dag igen efter att historikplanen byggts klart (task 6 till 10), samma dag igen efter Daniels feedbackrunda på den publicerade sidan (grupp 1 och grupp 2), 2026-09-08 efter grupp 3 och grupp 4, och 2026-09-09 efter den andra externa granskningen och FI i historiken. Får du en granskning utifrån: läs avsnittet **Om du får en granskning utifrån** innan du rättar något den rapporterar. Läs den här filen i sin helhet innan du gör något. Valdagen är 2026-09-13.
 
 ## Läs i den här ordningen
 
@@ -263,7 +263,19 @@ Grupp 3 är resten av samma feedbackrunda: Daniels önskemål om en växel manda
 
 ## Status 2026-09-08: Daniels feedbackrunda, grupp 4
 
-Grupp 4 kom som löpande feedback samma dag, i tre omgångar, medan Daniel läste den publicerade sidan. Två commits: `a036648` (sidhuvudet) och `d59dd09` (väljare per sektion, historiken, konturkartorna). Besluten är hans, tagna i samtalet.
+Grupp 4 kom som löpande feedback under en hel dag, i sex omgångar, medan Daniel läste den publicerade sidan mellan varje. Sju commits, alla på `main` och pushade:
+
+| Commit | Vad |
+|---|---|
+| `a036648` | Sidhuvudet bantat, årväljaren högst upp |
+| `d59dd09` | Väljare per sektion, historiken bantad, konturkartorna omgjorda |
+| `9155ee1` | Rättelser efter första granskningen, plus dokumentationen |
+| `626848d` | Konturkartornas not: meningen om valhemligheten borttagen |
+| `2843438` | Rösthjälpsrutan påslagen, källraden kortad, länkar med `target="_top"` |
+| `ebb3d76` | Rösthjälpsrutan: Majornabon i texten, sista meningen kapad på mobil |
+| `e5ae776` | Hela resultatet på mobil, rutan bredvid resultatet, andra granskningens fynd |
+
+Besluten är Daniels, tagna i samtalet. Två granskningsomgångar kördes under dagen, båda med tre agenter.
 
 **Sidhuvudet bantat och omordnat.**
 
@@ -272,7 +284,7 @@ Grupp 4 kom som löpande feedback samma dag, i tre omgångar, medan Daniel läst
 3. Ordningen är etikett, rubrik, årväljare, redaktionell mening, statusrad, staplar. Meningen ligger i `#topp-mening` utanför toppsvaret och skrivs när konfigen lästs; klassen `har-mening` är därmed borta.
 4. "Riksdagsvalet ÅÅÅÅ i Majorna" är dämpad till sten, som statusraden var.
 5. Selecterna bär sidans papper och knapparnas mått i stället för en vit ruta.
-6. Reservationen ommätt sedan meningen flyttat ut: 170 px smalt och 314 px från 600 px, mot 208 och 352. Naturlig höjd uppmätt till 169,6 och 313,6.
+6. Reservationen ommätt sedan meningen flyttat ut: först 170 px smalt och 314 px från 600 px, mot 208 och 352. Sedan listan blev åtta partier i alla bredder (se nedan) är det ett enda tal, **314 px**, uppmätt naturlig höjd 313,6.
 7. `toppsvar.mening` lyder "Från cirka klockan 20 på valnatten kommer siffrorna löpande här."
 
 **Årväljaren står nu i varje sektion som följer året.** Daniel: "när jag väljer år högst upp så påverkar det HELA sidan. Det är INTE UX tydligt." Sticky är ingen väg - blocket ligger i en `iframe srcdoc` hos Beehiiv där `position: sticky` är verkningslöst (beslut 19), och `position: fixed` är förbjudet av både Beehiivs regler och CSS-lintet. Han valde en väljare per sektion. Fem synkade selecter byggs av `renderArval()` ur `.arval`-behållarna: sidhuvudet plus "Om Majorna bestämde", kartan, "Majorna mot Sverige" och "Röstdelningen". "Majorna sedan 2006" har ingen, eftersom sektionen inte följer året (utom konturkartorna). Alla låses tillsammans under en laddning, fokus går tillbaka till den som användes, och felraden talar bara vid den väljaren - fem levande regioner som alla säger samma sak hade lästs upp fem gånger.
@@ -292,10 +304,17 @@ Grupp 4 kom som löpande feedback samma dag, i tre omgångar, medan Daniel läst
 
 Tre fynd avvisades av motgranskaren: att statusradens reserverade höjd tappas vid årsbyte efter valet (beteendet är avsiktligt och dokumenterat), att `villKontur` skulle missa ett övergångsläge (`uppdatera_2026.py --valnatt` sätter `ar` och `standardAr` i samma skrivning, så läget uppstår inte), och att felraden hittas med `nextElementSibling` (kopplingen vaktas av ett test som kräver båda elementen i varje sektion).
 
+**Hela resultatet på mobil, och rutan bredvid det.** Sist på dagen bad Daniel om två saker till. Toppsvaret visar nu **alla partier utom Övriga i alla bredder**; kapningen till fyra på telefon (grupp 2, punkt 10) är upphävd, eftersom halva resultatet överst väckte fler frågor än det svarade på. Reservationen blev därmed ett enda tal, och `ResizeObserver` ritar inte längre om toppsvaret eftersom det inte beror på bredden. Rösthjälpsrutan står från 900 px containerbredd i högerspalten bredvid staplarna (`header.topp` i kolumn 1, `#rutor` i kolumn 2, samma rad, `align-self: end`), och under 900 px kvar under sidhuvudet.
+
+**Rösthjälpsrutan är påslagen** och pekar på hjalpmigrosta.se. Texten, källkontrollen och `target="_top"` står under beslut 18.
+
+**Den andra granskningen** (samma upplägg) gick på de två rösthjälpscommitarna och gav åtta fynd, sju bekräftade. Sex rättades: ordet "ideell" saknades mot sidans egen om-sida, `target="_top"` låg bara på rutans länk och inte på samarbetsradens, en tom `meta.kalla` gav raden "Källa: .", gränsen för den kapade meningen mätte sidans bredd i stället för rutans, `las_konfig` slog ihop bara på toppnivå, och två tester läste kodens formulering i stället för dess beteende. Det sjunde avgjordes med en mätning i stället för en ändring: granskaren invände att `_top`-slutsatsen vilade på `docs/beehiivtest.html`, vars iframe saknar `sandbox`, och att Beehiivs riktiga kunde ha en - kontrollerat på den publicerade sidan, Beehiivs iframe har heller ingen sandbox och klicket tar toppfönstret till målet.
+
 **Uppmätt efter omgången** (2026-09-08, i den här mappen):
 
-- `.venv/bin/python -m pytest -q`: **373 passed**, inga överhoppade. Grupp 4 lade till femton tester, tretton i `test_inbaddning.py` och två i `test_geo.py`.
-- `skal-check.js`, `tvaar-check.js`, `historik-check.js` och `bredd-check.js` gröna; bredd-check 227 av 227 kontroller.
+- `.venv/bin/python -m pytest -q`: **376 passed**, inga överhoppade. Grupp 4 lade till arton tester, sexton i `test_inbaddning.py` och två i `test_geo.py`.
+- `skal-check.js`, `beehiiv-check.js`, `tvaar-check.js`, `historik-check.js` och `bredd-check.js` gröna; bredd-check 227 av 227 kontroller. `skal-check` och `tvaar-check` vaktade båda de fyra raderna i toppsvaret och kontrollerar nu åtta.
+- Live på både wildg14.github.io/val2026 och majposten.se/val2026, i 390 och 1280 px, utan JS-fel. Filen på servern är byte-identisk med den committade.
 - Elva av 23 distrikt har nya gränser mellan 2022 och 2026, uppmätt ur `area_km2` och omskrivande rektangel. Marieberg (+600 kvadratmeter) och Karl Johan (-500) räknas med: det är kvarteret på 533 kvadratmeter som bytte mellan dem.
 - Sidvikt vid start: **488 kB**, mot 460 kB utan `distrikt_2026.js`. Konturkartorna kostar alltså 28 kB före valdagen; på valnatten är filen redan laddad som årets egen och kostar inget extra.
 
@@ -544,11 +563,110 @@ Att veta:
 - Att sektionen som blocket ligger i på Beehiiv är minst cirka 1 000 px bred, annars stannar desktopläget i en spalt.
 - `toppsvar.mening` i `data/konfig.json` är redaktionens egen mening under toppsvaret, tom som standard. Håll den till en rad, cirka 60 tecken.
 
+## Om du får en granskning utifrån
+
+Avsnittet skrevs 2026-09-08 inför att en utomstående granskare (ChatGPT, kallad "Astra") skulle gå igenom repot. Granskningen kom dagen därpå och är avklarad, se statusavsnittet om den - men reglerna nedan gäller varje ny granskning. Läs dem innan du börjar rätta något en rapport påstår.
+
+**Så här har projektet hanterat granskningar hela vägen, och det gäller även en utifrån:** ingen rapport rättas på sitt ord. Varje fynd reproduceras först i koden eller i webbläsaren, och först det som går att visa räknas. Under grupp 4 gav två granskningsomgångar sexton råa fynd; elva bekräftades och fem föll när någon försökte återskapa dem. Ett av de bekräftade visade sig dessutom vara rätt observation med fel slutsats.
+
+**Den externa granskningen 2026-09-09 gick annorlunda: alla sju fynden gick att reproducera.** Två av dem stoppade hela den slutliga räkningen. Skillnaden mot de interna omgångarna är värd att notera - granskaren hade kört koden mot Valmyndighetens riktiga filer, inte bara läst den. Ett fynd som kommer med ett reproduktionskommando är värt mer än ett som kommer med ett resonemang.
+
+**Och granskningen av rättningarna gav fyra fynd till**, alla om vad som händer *när ett larm är befogat*: nya hårda spärrar som inte hade någon väg vidare för operatören. Lägger du till en spärr i valnattens pipeline, granska den på den frågan, inte bara på om den larmar rätt.
+
+Andelen som faller är inte ett argument mot att granska - de bekräftade fynden var värdefulla - men den säger något om vad en rapport är värd innan den prövats.
+
+**En granskare utan projektets historia saknar tre saker**, och kommer därför att rapportera dem som fel:
+
+1. **Beehiivs begränsningar.** Blocket ligger i en `iframe srcdoc` hos Beehiiv. `position: sticky` är verkningslöst där, `position: fixed` är förbjudet, all CSS måste börja med `.mp-val`, `vh`-mått är förbjudna, och bara sex `document`-medlemmar får användas (tillåtlistan `DOCUMENT_TILLATNA` i `tests/test_inbaddning.py`). Mycket som ser omständligt ut i koden är den enda vägen som fungerar där.
+2. **Att talen är uppmätta, inte valda.** Brytpunkten 371 px för mandattabellens partinamn, 340 px för rutans avslutande mening, de reserverade höjderna 314 px och 52 px, marginalen 70 px i valdeltagandebilden, taket 200 px på konturkartorna - alla kommer ur mätningar som står i den här filen med sina tal. Ett förslag att "runda av till 350" är en regression, inte en förenkling.
+3. **Daniels redaktionella beslut.** Åtskilligt är borttaget för att han bad om det: valdeltagandemeningen, andelsdefinitionen, meningen om valhemligheten, den räknade meningen om V, partilinjediagrammet. Att en granskare saknar dem betyder inte att de ska tillbaka.
+
+**Så här prövar du ett fynd:**
+
+| Påstående handlar om | Kör det här |
+|---|---|
+| Python, schema, pipeline | `.venv/bin/python -m pytest -q` (**420 gröna**, inga överhoppade; 418 och 2 överhoppade betyder att pem-filerna saknas) |
+| Sidans kod som text, Beehiiv-reglerna | `.venv/bin/python -m pytest tests/test_inbaddning.py -q` |
+| Att sidan renderar och klick fungerar | `node verktyg/skal-check.js` |
+| Beteende inuti Beehiivs iframe | `node verktyg/beehiiv-check.js`, och vid tveksamhet den publicerade sidan |
+| Sidledsrullning, krockande etiketter, växeln | `node verktyg/bredd-check.js --sida=... --prel=... --partiell=... --slutlig=...` |
+| Historiksektionen i fyra lägen | `node verktyg/historik-check.js --sida=... --prel=... --partiell=... --slutlig=...` |
+| Valnatten med två år | `node verktyg/tvaar-check.js --sida=... --partiell=... --slutlig=...` |
+
+Testsidorna under `tmp/` byggs med `verktyg/forbered_tvaar.py` och innehåller **kopior** av `valgrafik.js` och `valgrafik.css`; bygg om dem efter varje ändring, annars kontrollerar verktygen gammal kod. Servern måste köra från worktreets rot på port 8765, och worktreet måste vara riggat (se Fallgropar) - annars hoppas tester tyst över i stället för att fela.
+
+### Medvetna beslut som ser ut som fel
+
+Listan nedan är inventerad 2026-09-08 av två agenter som fick i uppdrag att hitta just det som en utomstående granskare sannolikt rapporterar. Den är inte uttömmande, men täcker det som är lättast att missta för slarv. Kolumnen längst till höger säger var det riktiga skälet står.
+
+**Beehiiv, laddning och länkar**
+
+| Ser ut som | Men | Står i |
+|---|---|---|
+| `position: sticky` på resultatkortet, trots att sticky inte fungerar hos Beehiiv | Sidan visas även utanför Beehiiv (index.html, delningar, stillbilder) där den fungerar. Att kortet inte följer med hos Beehiiv är känt och accepterat | Beslut 19, Status 2026-09-05 |
+| Årväljaren duplicerad på fem ställen i markupen | Sticky är verkningslöst i iframen och `position: fixed` förbjudet, så upprepning är enda vägen. Alla fem byggs av samma `renderArval()` och är synkade | Grupp 4, Fallgropar |
+| `document.getElementsByClassName` i stället för `querySelector` | En tillåtlista begränsar vilka `document`-medlemmar koden får röra, så att den inte kan påverka värdsidan. `querySelector` på `document` står inte på listan | `DOCUMENT_TILLATNA` i `tests/test_inbaddning.py` |
+| Data laddas som `<script>` mot en global i stället för `fetch` | Sidan ska fungera via `file://` och i Beehiiv utan CORS. Varje fil skrivs både som `.json` och en identisk `.js`, och `kontrollera.py` jämför dem | Beslut 2 |
+| `laddaSkript("swing_<år>")` sväljer felet | Swingfilen är avsiktligt valfri: ett år utan den visas utan små tal. Saknad valdata eller geometri är däremot ett fel som ger felraden | Fallgropar |
+| Fyra år i konfigen men bara ett laddas vid start | Lat laddning: fyra år vid start hade kostat 576 kB i stället för 488. `KONFIG.ar` filtreras medvetet inte efter vad som gick att ladda | Grupp 2 punkt 8, Fallgropar |
+| Jämförelseåret hämtas extra när `KONFIG.valnatt` är sant | Kortets bakåtvända rad slår upp basåret bland de laddade åren. Utan det står kortet tomt den första timmen - en regression som redan inträffat en gång | Grupp 2, Fallgropar |
+| `target="_top"` på varje länk ser överdrivet ut | Utan det byter en länk ut grafiken mot målsidan **inuti** iframen; i praktiken hände ingenting alls vid klick. Uppmätt både i värdsimuleringen och på den publicerade sidan | Beslut 18 |
+
+**Sidhuvudet och hur tal presenteras**
+
+| Ser ut som | Men | Står i |
+|---|---|---|
+| Ett parti utan tal får tankstreck, och partier utan rader utelämnas helt | Att fylla med nollor gav påhittade förändringstal (K -1,0 procentenheter). Ett parti som inte redovisas är inte ett parti med noll röster | Beslut 21 |
+| Kartan skriver inga partibokstäver i läget Största parti | Daniels beslut i grupp 1: legenden ovanför bär den informationen, bokstäverna gjorde kartan plottrig | Grupp 1 punkt 3 |
+| Valdeltagandet finns inte som siffra någonstans, trots att datan har det | Borttaget i två steg på Daniels begäran: kortets rad i grupp 1, toppsvarets mening i grupp 4. Kvar är kurvan i historiksektionen | Grupp 1 punkt 1, grupp 4 |
+| Statusraden döljs på två ställen, både i `start()` och i `renderToppsvar()` | Det första reserverar plats ur konfigen innan datan kommit, det andra döljer raden när just den vyn är tyst. Tas det första bort hoppar sidhuvudet | Fallgropar Från grupp 4 |
+| Toppsvarets höjd är ett enda `min-height`, medan statusraden har två | Listan visar alla partier i alla bredder sedan grupp 4, så höjden beror inte på bredden. Statusraden blir däremot två rader på smala containrar. **Sedan 2026-09-09 varierar höjden mellan år:** riksdagsvalet har nio partier till och med 2018 och åtta från 2022, alltså cirka 36 px skillnad vid årsbyte. Reservationen gäller första laddningen, inte varje år | Grupp 4, beslut 29, FI-avsnittet |
+| Räknestatusen räknas om i sidan i stället för att läsas ur `meta.valnatt.raknade` | Metatalet räknar distrikt där **något** val är räknat, inte per val. Sidan visar ett val i taget och måste räkna per val | Fallgropar |
+| Textbredder mäts med formeln `längd × storlek × 0,56` | Grov men tillräcklig för att gallra etiketter i SVG, och den kräver ingen canvas eller layoutmätning per etikett. Där precisionen behövts har den riktiga bredden mätts i stället, och talet skrivits i CSS | Grupp 3, `glesaAxelEtiketter` |
+
+**Om Majorna bestämde**
+
+| Ser ut som | Men | Står i |
+|---|---|---|
+| Halvcirkelns `aria-label` räknar mandat även i procentläget | Enhetsväxeln styr bara tabellen. Halvcirkeln ritar mandat i båda lägena, eftersom det är mandat bilden visar | Fallgropar Från grupp 3 |
+| Procentläget visar röstandelar under en halvcirkel som visar mandat | Det är hela poängen: en mandatandel hade upprepat mandattalet, medan röstandelen förklarar fyraprocentsspärren. Därför byter kolumnrubrikerna namn med enheten | Grupp 3 |
+| Skärmläsarraden byggs ur tabellens DOM-celler i stället för ur datan | Just för att den inte ska kunna säga något annat än det som står på skärmen. Att den läste ur datan var precis felet granskningen hittade | Fallgropar Från grupp 3 |
+| Brytpunkten 371 px ser ut som ett magiskt tal | Uppmätt: tabellens naturliga bredd är 339 px och sektionen containerbredden minus 32, så namnet ryms först från 372 px. Ett gissat 380 var fel och rättades efter mätning | Grupp 3 rättelse 2 |
+| Både `overflow-x: auto` och en regel som döljer partinamnet | Behållaren är den yttre spärren mot sidledsrullning även om cellerna ändras; brytpunkten gör att rullningen aldrig behövs i praktiken | Grupp 3 |
+| Halvcirkeln byter fördelning av sig själv efter drygt en sekund | Avsiktlig övergång när sektionen kommer i bild, som visar vad växeln gör. Den kör en gång (`io.disconnect()`), hoppas över om läsaren själv rört fördelningen (`state.mandatRort`) och körs inte alls vid `prefers-reduced-motion` (`lugn()`) | `autoOvergang` |
+
+**Historiksektionen**
+
+| Ser ut som | Men | Står i |
+|---|---|---|
+| Konturkartornas toning jämför area och omskrivande rektangel, inte polygoner | Polygonerna räknas om mellan åren och får både andra hörnantal och annan startpunkt, så hörn för hörn är meningslöst. Ett test i `test_geo.py` vaktar att det blir elva distrikt | Grupp 4, `test_geo.py` |
+| Rutans avslutande mening styrs av 340 px, inte av sidans 600 och 900 | Gränsen mäter rutans egen innehållsbredd, inte sidans: rutan är 288 px på en telefon men 376 px i högerspalten på en 900 px-sida. Uppmätt där texten går från 7 till 6 rader | Grupp 4, beslut 18 |
+| Sektionen följer kartans val men inte kartans år | Sista punkten kommer ur det senast laddade året, så att bilden inte hoppar när läsaren byter år. Konturkartorna är den enda delen som följer årväljaren | Fallgropar Från historikplanen |
+| Ett halvräknat jämförelseområde ritas inte alls, fast talet finns | Hellre ingen punkt än en missvisande: ett område som är delvis räknat har inte sitt slutliga valdeltagande | `aretsPunkt`, `omradeDelvis` |
+| Riket ritas bara på desktop och bara i riksdagsvalet | Historikfilens riket i region- och kommunvalet är hela landets region- respektive kommunval, inte Västra Götaland, alltså inte Majornas jämförelse | Kodkommentar i `histDeltagande` |
+
+**Pipeline, data och tester**
+
+| Ser ut som | Men | Står i |
+|---|---|---|
+| `data/distrikt.js` är committad men inget skript skriver den | Övergångskopia åt läsare med en cachad gammal `valgrafik.js`. Statisk med flit, och ska tas bort efter valet | Fallgropar |
+| `uppdatera_2026.py` stoppar en körning med färre räknade distrikt | Avsiktlig spärr: en trasig fil ska inte kunna radera kvällens resultat. `--tvinga` är nödutgången | Beslut 31 |
+| `--tvinga` låser upp tre olika spärrar med ett flaggnamn | Medvetet en enda nödutgång, dokumenterad med sina risker. Den ersätter dessutom hela filen i stället för att slå ihop | Beslut 31, Fallgropar |
+| En import med 0 av 23 räknade distrikt publiceras som normalt läge | Mellan 20 och 21 är inget Majornadistrikt räknat. Tom import är en varning, inte ett fel, så att sidan är levande från början | Beslut 22 |
+| `test_geo.py` kräver byte-identitet, inte bara likvärdig JSON | De byggda geometrifilerna ska vara reproducerbara rakt ur skripten. En handredigering ska falla | `test_geo.py` |
+| Två signaturtester hoppas över tyst | Pem-filerna är gitignorerade; `hamta_2026.py` hämtar certifikatet själv vid första körningen. Rigga worktreet så räknas de med | Fallgropar |
+| `bredd-check.js` körs utan mobilemulering | Med `isMobile: true` blir `innerWidth` lika med layoutbredden, vilket döljer just den sidledsrullning verktyget finns för | Fallgropar Från grupp 3 |
+| `bygg_historik.py` vägrar bygga 2022 | `data/valdata_2022.json` är den kanoniska filen ur den kurerade xlsx:en och får inte skrivas över av databasen | Fallgropar Från historikplanen |
+| `distrikt_2006` är byggd men står inte i årväljaren | Geometrin är topologiskt förenklad enbart för de små konturkartorna och passar inte den stora kartan | Fallgropar |
+| Röstdelningen räknar ur en kohort i stället för de färdiga aggregaten | På valnatten har de tre valen olika många räknade distrikt. Aggregaten hade blandat olika distriktsmängder i samma bild | Beslut 17, beslut 28 |
+
 ## Startpunkt för nästa session
 
 **Först av allt, om det är valveckan:** `docs/valnatt-korschema.md` och README-avsnittet Valnatten. Torrkörningen är gjord 2026-09-07 och dess utskrifter står som facit i körschemat. Grenen `claude/valnattsplanen-superpowers-b46290` är mergad till `main` och pushad, så körschemats grenkontroll (första punkten under Lördag 12 september) är avklarad.
 
-**Daniels feedbackrunda är genomförd**, grupp 1 till 4. **Den andra externa granskningens sju fynd är rättade** 2026-09-09, se statusavsnittet om den. Kontrollera alltid med `git log origin/main --oneline -1` innan du skriver eller säger något om publiceringsläget - rättningarna kan vara opushade när du läser det här, och de två P1-fynden gäller valnattens hämtning, alltså det som ska fungera på söndag.
+**Daniels feedbackrunda är genomförd**, grupp 1 till 4. **Den andra externa granskningens sju fynd är rättade och publicerade** 2026-09-09, liksom **FI som eget parti i riksdagsvalet till och med 2018** - se de två statusavsnitten om dem. Kontrollera alltid med `git log origin/main --oneline -1` i stället för att lita på ett nedskrivet SHA.
+
+**En sak att veta innan du tittar själv:** GitHub Pages skickar `cache-control: max-age=600` på `valgrafik.js` och `valgrafik.css`. En vanlig omladdning räcker inte - webbläsaren håller kvar den gamla koden i upp till tio minuter. Använd Cmd+Shift+R eller ett privat fönster. Datafilerna har det inte problemet: `konfig.js` hämtas alltid med en millisekundnyckel och `valdata_*`/`swing_*` med en minutnyckel när `KONFIG.valnatt` är sant, och en fråga i adressen förbigår Pages kantcache (uppmätt `age: 0`). Konsekvensen för valnatten: **pusha inte kodändringar under kvällen**, bara data. Sista kodpushen bör ligga senast lördag 12 september.
 
 **Nästa sak att bygga: självuppdatering på valnatten.** Daniel tog beslutet 2026-09-08 men bad om att vänta med bygget. Beslutet, ordagrant efter hans val: pollning i bakgrunden, men **vyn byts aldrig av sig själv** - när nya siffror finns dyker en diskret rad upp ("Nya siffror finns - visa") som läsaren själv trycker på, så att distrikt, rullning och fokus står kvar. Han godkände samtidigt att `document.visibilityState` läggs till i `DOCUMENT_TILLATNA` i `tests/test_inbaddning.py`, så att timern kan pausas när fliken ligger i bakgrunden. Underlaget:
 

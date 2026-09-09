@@ -158,7 +158,7 @@ Två redaktionella block som styrs helt från `data/konfig.json`: en samarbetsra
 "hjalp":     { "visa": true, "rubrik": "Behöver du hjälp att rösta?",
                "text": "Majornabon och Majpostenläsaren Marcus Wernberger Jonsson har gjort hjalpmigrosta.se, en fristående, ideell och partipolitiskt obunden guide till valet på fjorton språk.",
                "extra": "Den går igenom röstkortet, valsedlarna, förtidsröstningen och hur det går till i vallokalen.",
-               "lank": "https://hjalpmigrosta.se/sv/start/", "lanktext": "Till hjalpmigrosta.se" }
+               "lank": "https://hjalpmigrosta.se", "lanktext": "Till hjalpmigrosta.se" }
 ```
 
 - `samarbete.visa` slår på raden "I samarbete med Majornas Bryggeri" i sidhuvudet, under toppsvaret. Raden visas inte i bildläget och inte när `inbaddad` är på, eftersom rubriken då är dold.

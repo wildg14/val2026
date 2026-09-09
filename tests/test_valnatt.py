@@ -412,29 +412,64 @@ def test_genrep_riksdag_verklig_summerar_349():
 # (scripts/uppdatera_2026.py). JSON-vägen kontrollerade bara att summan stämde, och granskarens
 # uppsättning tal klarade just den kontrollen: partisumman blev 100 trots att V var -10.
 
-def test_las_rostfordelning_avvisar_negativa_roster():
-    """Granskarens exakta prov: V -10 och S 110 ger partisumman 100 och passerade summakontrollen."""
+def test_las_rostfordelning_markerar_distrikt_med_negativa_roster_som_oraknat():
+    """Granskarens exakta prov: V -10 och S 110 ger partisumman 100 och passerade summakontrollen.
+
+    Ett omöjligt tal stoppar bara sitt eget distrikt, inte hela filen. Skälet står i las_rostfordelning:
+    Valmyndighetens fil går inte att rätta från vår sida, och att fälla hela kvällen på ett distrikt är
+    värre än att visa 22 av 23. Talet når aldrig sidan, och att ett distrikt fattas syns i statusraden."""
     d = distrikt("14800526", [("V", "Vänsterpartiet", -10), ("S", "Arbetarepartiet-Socialdemokraterna", 110)])
-    with pytest.raises(SummaFel) as ex:
-        valnatt.las_rostfordelning(fil("KF", [d]), koder=["14800526"])
-    assert "V" in str(ex.value) and "-10" in str(ex.value)
+    d2 = distrikt("14800527", [("V", "Vänsterpartiet", 300)])
+    ra = valnatt.las_rostfordelning(fil("KF", [d, d2]), koder=["14800526", "14800527"])
+    trasigt = ra["distrikt"]["14800526"]
+    assert trasigt["raknat"] is False and trasigt["roster"] == {} and trasigt["giltiga"] is None
+    assert "V" in trasigt["orimligt"] and "-10" in trasigt["orimligt"]
+    assert ra["distrikt"]["14800527"]["raknat"] is True, "de andra distrikten läses ändå"
 
 
-def test_las_rostfordelning_avvisar_rostande_over_rostberattigade():
+def test_las_rostfordelning_markerar_rostande_over_rostberattigade_som_oraknat():
     """100 röstande på 90 röstberättigade är 111 procents valdeltagande."""
     d = distrikt("14800526", [("V", "Vänsterpartiet", 100)], rostberattigade=90)
-    with pytest.raises(SummaFel) as ex:
-        valnatt.las_rostfordelning(fil("KF", [d]), koder=["14800526"])
-    assert "röstberättigade" in str(ex.value)
+    post = valnatt.las_rostfordelning(fil("KF", [d]), koder=["14800526"])["distrikt"]["14800526"]
+    assert post["raknat"] is False and "röstberättigade" in post["orimligt"]
 
 
-def test_las_rostfordelning_avvisar_negativa_ogiltiga_och_rostberattigade():
+def test_las_rostfordelning_markerar_negativa_ogiltiga_och_rostberattigade():
     d = distrikt("14800526", [("V", "Vänsterpartiet", 100)], ogiltiga=-5)
+    assert valnatt.las_rostfordelning(fil("KF", [d]), koder=["14800526"])["distrikt"]["14800526"]["raknat"] is False
+    d2 = distrikt("14800527", [("V", "Vänsterpartiet", 100)], rostberattigade=-1)
+    assert valnatt.las_rostfordelning(fil("KF", [d2]), koder=["14800527"])["distrikt"]["14800527"]["raknat"] is False
+
+
+def test_fel_summa_stoppar_fortfarande_hela_filen():
+    """Skillnaden mot ett omöjligt tal: går summorna inte ihop vet vi inte om vi läser filen rätt, och
+    då är hela filen misstänkt. Ett omöjligt tal är ett dåligt värde i en fil vi läser rätt."""
+    d = distrikt("14800526", [("V", "Vänsterpartiet", 300)])
+    d["rostfordelning"]["rosterPaverkaMandat"]["antalRoster"] = 301
     with pytest.raises(SummaFel):
         valnatt.las_rostfordelning(fil("KF", [d]), koder=["14800526"])
-    d2 = distrikt("14800527", [("V", "Vänsterpartiet", 100)], rostberattigade=-1)
-    with pytest.raises(SummaFel):
-        valnatt.las_rostfordelning(fil("KF", [d2]), koder=["14800527"])
+
+
+def test_omrade_avvisar_omojliga_tal():
+    """Jämförelseaggregaten går rakt ut i Majorna mot Sverige och i halvcirkelns förbehåll. Ett fel här
+    stoppar inte distriktsimporten (beslut 24) utan blir en varning och ett tomt aggregat."""
+    v = {"namn": "Riket", "totaltAntalRoster": 100, "antalRostberattigade": 90,
+         "antalValdistriktRaknade": 1, "antalValdistriktSomSkaRaknas": 1,
+         "rostfordelning": {"rosterPaverkaMandat": {"antalRoster": 100,
+                                                    "partiRoster": [post("V", "Vänsterpartiet", -10),
+                                                                    post("S", "Arbetarepartiet-Socialdemokraterna", 110)]}}}
+    with pytest.raises(SummaFel) as ex:
+        valnatt._omrade(v, "rd")
+    assert "V" in str(ex.value)
+
+
+def test_riksdag_verklig_avvisar_negativa_mandat():
+    obj = {"valtyp": "RD", "valomrade": {"mandatfordelning": {"partiLista": [
+        {"partiforkortning": "V", "partibeteckning": "Vänsterpartiet", "antalMandat": -5},
+        {"partiforkortning": "S", "partibeteckning": "Arbetarepartiet-Socialdemokraterna", "antalMandat": 354}]}}}
+    with pytest.raises(SummaFel) as ex:
+        valnatt.riksdag_verklig(obj)
+    assert "V" in str(ex.value)
 
 
 def test_las_rostfordelning_slapper_igenom_rostande_lika_med_rostberattigade():

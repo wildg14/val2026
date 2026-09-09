@@ -835,3 +835,48 @@ def test_tomt_valdatum_varnar_men_stoppar_inte(tmp_path):
     assert r.returncode == 0, r.stdout + r.stderr
     ut = r.stdout + r.stderr
     assert "saknar valdatum" in ut and "saknar räkningstillfälle" in ut, ut
+
+
+@genrep_finns
+def test_omojligt_tal_stoppar_bara_sitt_distrikt(tmp_path):
+    """Granskningen av rättningen: ett enda omöjligt tal fällde först hela kvällen, i alla tre valen,
+    utan väg vidare - `--tvinga` låser inte upp kontrollen och CSV-vägen läses först efter JSON-vägen.
+    Nu blir distriktet oräknat med en varning, och de andra 22 går igenom."""
+    mapp = shutil.copytree(hamta_lokalt(tmp_path), tmp_path / "orimligt")
+    for path in sorted((mapp / "rd").glob("*_rostfordelning_*.json")):
+        obj = json.loads(path.read_text("utf-8"))
+        for d in obj["valdistrikt"]:
+            if d.get("valdistriktskod") == "14800533":
+                d["antalRostberattigade"] = 1   # färre röstberättigade än röstande
+        path.write_text(json.dumps(obj), "utf-8")
+    r = kor("--valnatt-mapp", str(mapp), "--ut", str(tmp_path / "ut"), "--status", "preliminar", "--tvinga")
+    ut = r.stdout + r.stderr
+    assert r.returncode == 0, ut
+    assert "14800533" in ut and "omöjliga tal" in ut and "markeras som oräknat" in ut, ut
+    assert "Riksdag 22/23" in ut, ut
+    assert "Region 23/23" in ut and "Kommun 23/23" in ut, "de andra valen rörs inte"
+    v = json.loads((tmp_path / "ut" / "valdata_2026.json").read_text("utf-8"))
+    d = [x for x in v["distrikt"] if x["kod"] == "14800533"][0]
+    assert d["rd"] == {}, "det omöjliga talet får aldrig nå sidan"
+
+
+@genrep_finns
+def test_okant_rakningstillfalle_varnar_i_stallet_for_att_stoppa(tmp_path):
+    """Ett ord vi inte känner igen är inget bevis för fel fil, och operatören har ingen väg vidare om
+    det stoppar: varken --status eller --tvinga hjälper mot en text i Valmyndighetens egen fil."""
+    mapp = _doktorera_meta(hamta_lokalt(tmp_path), tmp_path / "okant", rakningstillfalle="onsdagsräkning")
+    r = kor("--valnatt-mapp", str(mapp), "--ut", str(tmp_path / "ut"), "--status", "preliminar", "--tvinga")
+    ut = r.stdout + r.stderr
+    assert r.returncode == 0, ut
+    assert "okänt räkningstillfälle" in ut and "onsdagsräkning" in ut, ut
+
+
+@genrep_finns
+def test_kant_men_motsagande_rakningstillfalle_stoppar_med_lasbart_fel(tmp_path):
+    """Ordet räkning ska inte upprepas i meddelandet, och ett känt ord som motsäger --status stoppar."""
+    mapp = _doktorera_meta(hamta_lokalt(tmp_path), tmp_path / "motsag", rakningstillfalle="preliminär räkning")
+    r = kor("--valnatt-mapp", str(mapp), "--ut", str(tmp_path / "ut"), "--status", "slutlig", "--tvinga")
+    ut = r.stdout + r.stderr
+    assert r.returncode != 0, ut
+    assert "preliminär räkning men --status säger slutlig" in ut, ut
+    assert "räkning räkning" not in ut, ut

@@ -144,7 +144,8 @@ def las_rostfordelning(kalla, koder=MAJORNA_KODER, kommunkod=None):
             forra = [forra]
         post = {"kod": kod, "namn": kort_namn(d.get("namn")) or kod, "raknat": ar_raknat(d),
                 "jamforbar": _s(d.get("statusJamforelse")) == STATUS_JAMFORBAR, "kod_forra": [_s(k) for k in (forra or []) if _s(k)],
-                "roster": {}, "giltiga": None, "rostande": None, "rostberattigade": _n(d.get("antalRostberattigade")), "okanda": {}}
+                "roster": {}, "giltiga": None, "rostande": None, "rostberattigade": _n(d.get("antalRostberattigade")),
+                "okanda": {}, "orimligt": ""}
         if post["raknat"]:
             rf = d["rostfordelning"]
             rpm = rf["rosterPaverkaMandat"]
@@ -155,20 +156,32 @@ def las_rostfordelning(kalla, koder=MAJORNA_KODER, kommunkod=None):
             if not isinstance(rem, dict):
                 raise FormatFel(f"{kod} {post['namn']}: rosterEjPaverkaMandat har fel form")
             ogiltiga = _n(rem.get("antalRoster"))
-            # Rimlighet före summor. CSV-vägen har haft de här tre kontrollerna hela tiden; JSON-vägen
+            # Rimlighet före summor. CSV-vägen har haft de här kontrollerna hela tiden; JSON-vägen
             # kontrollerade bara att partisumman stämde, och den kontrollen är blind för tecknet:
             # V -10 och S 110 summerar till samma 100 som två rimliga tal (granskningsfynd 5).
-            for etikett, n in [*roster.items(), ("giltiga", giltiga), ("ogiltiga", ogiltiga),
-                               ("röstande", rostande), ("röstberättigade", post["rostberattigade"])]:
-                if n < 0:
-                    raise SummaFel(f"{kod} {post['namn']}: negativt tal för {etikett}: {n}")
+            #
+            # Ett omöjligt tal stoppar bara sitt eget distrikt, till skillnad från en summa som inte går
+            # ihop. Skillnaden är hur mycket man vet: går summorna inte ihop kan vi läsa filen fel, och då
+            # är hela filen misstänkt; ett tal som är omöjligt på sitt eget ansikte är ett dåligt värde i
+            # en fil vi läser rätt. Och till skillnad från CSV-vägen, som är handskriven och går att rätta
+            # på plats, kommer den här filen från Valmyndigheten: att fälla hela kvällen på ett distrikt
+            # vore värre än att visa 22 av 23. Talet når aldrig sidan, distriktet blir oräknat, och att
+            # det fattas syns både i varningen och i statusraden.
+            orimligt = [f"{etikett} {n}" for etikett, n in
+                        [*roster.items(), ("giltiga", giltiga), ("ogiltiga", ogiltiga),
+                         ("röstande", rostande), ("röstberättigade", post["rostberattigade"])] if n < 0]
+            # Noll röstberättigade betyder att fältet saknas i filen, inte att ingen fick rösta.
+            if post["rostberattigade"] and rostande > post["rostberattigade"]:
+                orimligt.append(f"röstande {rostande} > röstberättigade {post['rostberattigade']}")
+            if orimligt:
+                post["raknat"] = False
+                post["orimligt"] = "; ".join(orimligt)
+                ut["distrikt"][kod] = post
+                continue
             if sum(roster.values()) != giltiga:
                 raise SummaFel(f"{kod} {post['namn']}: partiröster {sum(roster.values())} != giltiga {giltiga}")
             if giltiga + ogiltiga != rostande:
                 raise SummaFel(f"{kod} {post['namn']}: giltiga {giltiga} + ogiltiga {ogiltiga} != röstande {rostande}")
-            # Noll röstberättigade betyder att fältet saknas i filen, inte att ingen fick rösta.
-            if post["rostberattigade"] and rostande > post["rostberattigade"]:
-                raise SummaFel(f"{kod} {post['namn']}: röstande {rostande} > röstberättigade {post['rostberattigade']}")
             post.update(roster=roster, giltiga=giltiga, rostande=rostande, okanda=okanda)
         ut["distrikt"][kod] = post
     return ut
@@ -189,6 +202,12 @@ def _omrade(v, val, namn=None):
     if not giltiga:
         return None
     roster, _ = _mappa_partiroster(rpm, val)
+    # Samma rimlighetskontroll som för distrikten. Aggregaten går rakt ut i "Majorna mot Sverige" och i
+    # halvcirkelns förbehåll; ett fel här stoppar inte distriktsimporten (beslut 24) utan blir en varning
+    # och ett tomt aggregat för valet.
+    for etikett, n in roster.items():
+        if n < 0:
+            raise SummaFel(f"aggregat {namn or v.get('namn')}: negativt tal för {etikett}: {n}")
     if sum(roster.values()) != giltiga:
         raise SummaFel(f"aggregat {namn or v.get('namn')}: partiröster {sum(roster.values())} != giltiga {giltiga}")
     rostande = _n(v.get("totaltAntalRoster"))
@@ -199,6 +218,8 @@ def _omrade(v, val, namn=None):
             raise SummaFel(f"aggregat {namn or v.get('namn')}: giltiga {giltiga} + ogiltiga {ogiltiga} != röstande {rostande}")
     # nämnaren är röstberättigade i de räknade distrikten, annars blir valdeltagandet fel så länge räkningen pågår
     rostberattigade = _n(v.get("antalRostberattigadeIRaknadeValdistrikt")) or _n(v.get("antalRostberattigade"))
+    if rostberattigade and rostande > rostberattigade:
+        raise SummaFel(f"aggregat {namn or v.get('namn')}: röstande {rostande} > röstberättigade {rostberattigade}")
     return {"namn": namn or _s(v.get("namn")),
             "andel": {p: n / giltiga for p, n in roster.items() if p != OVRIGA},
             "valdeltagande": rostande / rostberattigade if rostberattigade else None,
@@ -282,6 +303,8 @@ def riksdag_verklig(kalla):
         if not isinstance(p, dict):
             continue
         n = _n(p.get("antalMandat"))
+        if n < 0:
+            raise SummaFel(f"riksdagens mandat: negativt tal för {parti_2026(p) or _s(p.get('partiforkortning'))}: {n}")
         if not n:
             continue
         kod = parti_2026(p) or _s(p.get("partiforkortning")) or _s(p.get("partibeteckning")) or _s(p.get("partikod"))

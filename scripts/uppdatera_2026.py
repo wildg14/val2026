@@ -287,10 +287,17 @@ def kontrollera_kalla(val, meta, ar, status, bas, sedda):
         varning(f"{val}: filen saknar valdatum, går inte att kontrollera mot {ar}")
     elif not valdatum.startswith(f"{ar}-"):
         fel(f"{val}: filen gäller valdatum {valdatum}, alltså inte valet {ar}. Pekar --valnatt-mapp på rätt mapp?")
+    # Ordet jämförs på sitt första ord, så att "preliminär räkning" och "preliminär" är samma sak. Ett ord
+    # vi inte känner igen varnar bara: det är inget bevis för fel fil, och operatören hade inte haft någon
+    # väg vidare - varken --status eller --tvinga rår på en text i Valmyndighetens egen fil.
+    forsta_ordet = tillfalle.split()[0] if tillfalle else ""
+    kanda = {o for lista in STATUSORD.values() for o in lista}
     if not tillfalle:
         varning(f"{val}: filen saknar räkningstillfälle, går inte att kontrollera mot --status {status}")
-    elif tillfalle not in STATUSORD[status]:
-        fel(f"{val}: filen innehåller {tillfalle} räkning men --status säger {status}. "
+    elif forsta_ordet not in kanda:
+        varning(f"{val}: okänt räkningstillfälle {tillfalle!r} i filen, går inte att kontrollera mot --status {status}")
+    elif forsta_ordet not in STATUSORD[status]:
+        fel(f"{val}: filen innehåller {tillfalle} men --status säger {status}. "
             f"Sidan hade skrivit fel ord om resultatet.")
     if bas and meta["tidigare_valdatum"] and not meta["tidigare_valdatum"].startswith(f"{bas['meta']['ar']}-"):
         varning(f"{val}: filen jämför mot valdatum {meta['tidigare_valdatum']}, men swingens basår är "
@@ -363,6 +370,9 @@ def las_valnattsmapp(mapp, distrikt, bas, ar, status):
             if post is None:
                 varning(f"{val}: distrikt {kod} ({distrikt[kod]['namn']}) saknas i filen, markeras som oräknat")
                 continue
+            if post["orimligt"]:
+                varning(f"{val}: {kod} ({distrikt[kod]['namn']}) har omöjliga tal ({post['orimligt']}), "
+                        "markeras som oräknat. Kontrollera distriktet på val.se.")
             satt_jamforbar(kod, post["jamforbar"], f"{val}-filen")
             if bas and post["namn"] != bas_namn(bas, kod) and kod not in NAMNVARNADE:
                 varning(f"{val}: {kod} heter '{post['namn']}' i filen men '{bas_namn(bas, kod)}' 2022")

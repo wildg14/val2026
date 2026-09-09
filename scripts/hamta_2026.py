@@ -341,7 +341,6 @@ def main():
             n += 1
         mapp.mkdir()
         (mapp / "index.md5").write_text(index_text, "utf-8")
-        skriv_manifest(mapp, a.tillfalle, urval)
 
         for val, (kalla, md5) in urval.items():
             if a.lokal:
@@ -363,6 +362,10 @@ def main():
             print(f"{val}: {Path(kalla).name} {len(data) / 1024:.0f} kB, md5 {'ok' if md5 else 'ej kontrollerad'}, "
                   f"signatur {'ok' if nyckel else 'ej kontrollerad'}, {len(filer) - 1} json-filer")
 
+        # Manifestet sist: en mapp med ett hamtat.json är en mapp där alla tre filerna packats upp och
+        # signaturerna gått igenom. Skrevs det tidigare kunde en avbruten körning lämna ett manifest som
+        # påstod mer än som hänt, vilket vilseleder den som felsöker i den enskilda mappen.
+        skriv_manifest(mapp, a.tillfalle, urval)
         peka_senaste(ut, mapp)
         print(f"MAPP: {mapp}")
         return 0

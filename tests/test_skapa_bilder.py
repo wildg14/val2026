@@ -112,6 +112,25 @@ def test_datafilen_foljer_html_filen(tmp_path):
 
 
 @pytest.mark.skipif(not CHROME.exists(), reason="Chrome saknas")
+def test_alttexten_kommer_ur_samma_mapp_som_bilden(tmp_path):
+    """Hela vägen, inte bara hjälpfunktionen: kopians egna siffror ska stå i .txt-filen. Läses datan ur
+    repots mapp medan bilden renderas ur kopians beskriver de två olika resultat."""
+    kopia = _kopia(tmp_path, ["2022"])
+    v = json.loads((kopia / "data" / "valdata_2022.json").read_text("utf-8"))
+    for d in v["distrikt"]:          # gör V störst i vartenda distrikt, vilket det inte är i repots data
+        if d.get("raknat", True) and d.get("rd"):
+            d["rd"]["V"] = max(d["rd"].values()) + 1000
+    (kopia / "data" / "valdata_2022.json").write_text(json.dumps(v), "utf-8")
+    r = subprocess.run([sys.executable, "scripts/skapa_bilder.py", "--ut", str(tmp_path / "bilder"),
+                        "--val", "rd", "--typ", "karta", "--format", "liggande",
+                        "--html", str(kopia / "index.html")], cwd=ROT, capture_output=True, text=True)
+    assert r.returncode == 0, r.stdout + r.stderr
+    alt = (tmp_path / "bilder" / "majorna-karta-rd-2022-1200x630.txt").read_text("utf-8").strip()
+    assert "Vänsterpartiet i 23" in alt, alt
+    assert alt != ALT_KARTA_RD, "repots egen alt-text säger V i 14, alltså lästes fel mapp"
+
+
+@pytest.mark.skipif(not CHROME.exists(), reason="Chrome saknas")
 def test_sidan_talar_om_vilket_ar_den_ritade(tmp_path):
     """Bildramen bär data-ar, och exporten läser det ur den renderade sidan innan den fotograferar.
     Konfigkontrollen är ett antagande om vad sidan gör; det här är en avläsning av vad den gjorde."""

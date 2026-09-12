@@ -32,3 +32,6 @@ data/historik/majorna_historik.sqlite
 data/valnatt/
 val-sign-crt.pem
 val-sign-pub.pem
+# valnattsslingans pid- och stoppfil (verktyg/valnatt-slinga.sh)
+valnatt-slinga.pid
+valnatt-slinga.stopp

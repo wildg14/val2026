@@ -86,6 +86,21 @@ FEL: index.md5 är tom eller har fel form (svarar adressen 404 än?)
 
 Vallokalerna stänger 20.00. De första distrikten i landet brukar komma strax efter; Majorna dröjer längre.
 
+### Slingan: sidan uppdaterar sig själv
+
+Beslut 2026-09-13: ingenting görs för hand under valnatten. `verktyg/valnatt-slinga.sh` kör körschemats varv om och om igen: väntar tills val.se öppnat (var annan minut), sedan `uppdatera_2026.py --hamta --status preliminar` (med `--valnatt` tills konfigen är i valnattsläge), och vid ny data `git add data`, commit och push - var tionde minut under kvällen, en gång i timmen från måndag. Den tar sig själv förbi de två fällorna nedan (`Inget nytt` efter ett FEL efter hämtningen via `--valnatt-mapp data/valnatt/senaste`, och en push som inte gick fram), men fattar inga beslut: `--tvinga`, `--utan-signatur`, byte till slutlig räkning och CSV för hand är fortfarande människans. Vid tre fel i rad kommer en macOS-notis; loggen är `~/valnatt-slinga.log`.
+
+Slingan körs som launchd-agent (`~/Library/LaunchAgents/se.majposten.valnatt.plist`, under `caffeinate -i`), startar när datorn loggas in och startas om av launchd om den kraschar. Datorn måste vara på med laddaren i och locket öppet.
+
+```bash
+tail -f ~/valnatt-slinga.log                                   # följa
+touch valnatt-slinga.stopp                                     # stoppa (slingan avslutar själv inom ett varv)
+launchctl unload ~/Library/LaunchAgents/se.majposten.valnatt.plist   # stoppa och stänga av agenten
+launchctl load ~/Library/LaunchAgents/se.majposten.valnatt.plist     # starta igen
+```
+
+Kör inga egna `uppdatera_2026.py`- eller git-kommandon i projektmappen medan slingan går: stoppa den först, annars kan två skrivare krocka. Stegen nedan är vad slingan gör, och vägen om den måste köras för hand.
+
 - [ ] Laddaren i och locket öppet hela kvällen: på batteri vilar datorn efter en minut, på nätström aldrig (`pmset -g custom`), och en vilande dator kör ingenting.
 - [ ] 20.05 och framåt: `.venv/bin/python scripts/hamta_2026.py --ut /tmp/kontroll` tills index finns (returkod 0). Det skriver ingen data i repot. Innan dess är svaret `FEL: index.md5 är tom eller har fel form` och returkod 1.
 - [ ] Första skarpa körningen:

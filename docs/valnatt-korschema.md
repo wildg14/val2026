@@ -9,9 +9,16 @@ Valdagen är söndag 13 september 2026. Vallokalerna stänger 20.00.
 - [ ] `git pull origin main`. Sedan grenkontroll: `git branch --show-current` svarar `main`, och `git log origin/main --oneline -1` visar samma commit som `git log --oneline -1`. Valnattsomgången är mergad och pushad sedan 2026-09-07, så den här punkten är bara en kontroll. Ligger något ogjort på en gren (se HANDOVER:s startpunkt): mergepusha i en lugn timme (GitHub Pages har en mjuk gräns på tio bygg per timme, se Under kvällen) och kontrollera sidan (majposten.se/val2026) igen tio minuter senare - Pages cache kan dröja så länge, och det är det som gör `data/distrikt.js`-övergångskopian meningsfull för läsare som hann in mellan pushen och ombygget.
 - [ ] Webbläsarverktygen behöver `puppeteer-core` i `verktyg/`, som är gitignorerat och alltså inte följer med en `git pull`. **Låg på plats i projektmappen 2026-09-09**, men kontrollera ändå. Saknas mappen faller sista punkten under Måndag till onsdag: `cd verktyg && npm init -y >/dev/null && npm install puppeteer-core --no-audit --no-fund`, sedan tillbaka till projektroten.
 - [ ] Certifikatet finns: `ls val-sign-pub.pem`. **Låg på plats i projektmappen 2026-09-09** och signaturkontrollen är provad skarpt mot genrepet i båda räkningstillfällena; kontrollera ändå. Saknas det: `curl -sSo val-sign-crt.pem https://resultat.val.se/keys/val-sign-crt.pem && openssl x509 -in val-sign-crt.pem -pubkey -noout > val-sign-pub.pem`. (Skriptet hämtar det annars själv vid första körningen.)
-- [ ] `.venv/bin/python -m pytest -q` grönt: **413 passerade, inga överhoppade** (2026-09-09). Saknas pem-filerna hoppar sviten tyst över två signaturtester (`test_signatur_verifieras_med_valmyndighetens_nyckel` och `test_signatur_ger_false_vid_andrad_byte`) i stället för att fela - kör steget ovan först så att de räknas med. Står det 411 passerade och 2 överhoppade saknas pem-filerna fortfarande.
+- [ ] `.venv/bin/python -m pytest -q` grönt: **420 passerade, inga överhoppade** (2026-09-09, kontrollerat om 2026-09-12). Saknas pem-filerna hoppar sviten tyst över två signaturtester (`test_signatur_verifieras_med_valmyndighetens_nyckel` och `test_signatur_ger_false_vid_andrad_byte`) i stället för att fela - kör steget ovan först så att de räknas med. Står det 418 passerade och 2 överhoppade saknas pem-filerna fortfarande.
 - [ ] `.venv/bin/python scripts/uppdatera_2026.py --repetera` slutar med `REPETITION OK: 2022 års råfiler ger exakt samma valdata som valdata_2022.json (23 distrikt, 3 val, aggregat, mandat). Varningar: 35`.
-- [ ] Torrkörning mot simuleringarna, till en tillfällig mapp:
+- [ ] Torrkörning mot simuleringarna, till en tillfällig mapp. **Sedan 2026-09-12 svarar `genrep2026/` hos val.se 404** (simuleringarna är borttagna inför valet), så `--hamta --genrep` fungerar inte längre. Kör i stället mot de sparade zip-filerna, i två steg:
+
+```bash
+.venv/bin/python scripts/hamta_2026.py --lokal "Historiska dokument/dl_webb/genrep2026" --ut /tmp/torr/valnatt
+.venv/bin/python scripts/uppdatera_2026.py --valnatt-mapp /tmp/torr/valnatt/senaste --ut /tmp/torr --status preliminar
+```
+
+Det ger samma facit som nedan, utom hämtningsraderna (`md5 ok, signatur ok` kontrolleras även på den lokala vägen). Den ursprungliga nätvägen, för den dag simuleringarna ligger uppe igen:
 
 ```bash
 .venv/bin/python scripts/uppdatera_2026.py --hamta --genrep --ut /tmp/torr --status preliminar
@@ -41,8 +48,8 @@ Nästa steg: kör med --valnatt för att slå på valnattsläget i data/konfig.j
 
 Skriptet vägrar skriva testdata (`meta.test`) till repots `data/` utan `--tvinga`: glöms `--ut` bort stoppar den spärren en torrkörning i stället för att skriva testmärkt data i skarp mapp.
 
-- [ ] Kör samma kommando en gång till: väntat `Inget nytt: de tre filerna har samma md5 som senaste körning`, `Inget nytt att läsa in.` och returkod 3.
-- [ ] **Övergången till slutlig räkning, i samma mapp.** Det här steget fanns inte före 2026-09-09, och det var precis där de två P1-fynden satt: cachen trodde att de slutliga filerna redan var hämtade, och storleksgränsen avvisade riksdagsfilen. Kör därför alltid det här efter de två stegen ovan, i **samma** `--ut`-mapp:
+- [ ] Kör samma kommando en gång till: väntat `Inget nytt: de tre filerna har samma md5 som senaste körning`, `Inget nytt att läsa in.` och returkod 3. (På den lokala vägen: `hamta_2026.py --lokal ... --bara-om-nytt` ger `Inget nytt` och returkod 3.)
+- [ ] **Övergången till slutlig räkning, i samma mapp.** Går bara mot nätet (den slutliga riksdagsfilen är inte sparad lokalt, bara den slutliga kommunfilen); sedan simuleringarna togs bort 2026-09-12 kan steget inte upprepas, och facit nedan från 2026-09-09 gäller. Det här steget fanns inte före 2026-09-09, och det var precis där de två P1-fynden satt: cachen trodde att de slutliga filerna redan var hämtade, och storleksgränsen avvisade riksdagsfilen. Kör därför alltid det här efter de två stegen ovan, i **samma** `--ut`-mapp:
 
 ```bash
 .venv/bin/python scripts/uppdatera_2026.py --hamta --genrep --tillfalle s --ut /tmp/torr --status slutlig --tvinga
@@ -59,16 +66,17 @@ node verktyg/tvaar-check.js
 
 Väntat: `TVÅÅRSKONTROLL OK`, inga JS-fel, och raden `valfria filer som saknas` med `tmp/tvaar/data/swing_2022.js` (den filen kommer först med historikplanen).
 
-- [ ] Skarpa adressen svarar 404 än:
+- [ ] Skarpa adressen är inte öppnad än:
 
 ```bash
 .venv/bin/python scripts/hamta_2026.py --ut /tmp/torr2
 ```
 
-Väntat, ordagrant, och returkod 1:
+Väntat: returkod 1 och en av de två raderna nedan. Fram till 2026-09-11 svarade adressen 404; från 2026-09-12 svarar den 200 med en tom md5-lista (`d41d8cd98f00b204e9800998ecf8427e  -`, md5-summan av en tom sträng), och då är det den andra raden:
 
 ```
 FEL: https://resultat.val.se/resultatfiler/val2026/index.md5 svarar 404: resultatfilerna publiceras först på valkvällen
+FEL: index.md5 är tom eller har fel form (svarar adressen 404 än?)
 ```
 
 - [ ] `git status` rent, `git pull origin main` uppdaterat, hosten svarar (öppna majposten.se/val2026).
@@ -78,7 +86,8 @@ FEL: https://resultat.val.se/resultatfiler/val2026/index.md5 svarar 404: resulta
 
 Vallokalerna stänger 20.00. De första distrikten i landet brukar komma strax efter; Majorna dröjer längre.
 
-- [ ] 20.05 och framåt: `.venv/bin/python scripts/hamta_2026.py --ut /tmp/kontroll` tills index finns (returkod 0). Det skriver ingen data i repot.
+- [ ] Laddaren i och locket öppet hela kvällen: på batteri vilar datorn efter en minut, på nätström aldrig (`pmset -g custom`), och en vilande dator kör ingenting.
+- [ ] 20.05 och framåt: `.venv/bin/python scripts/hamta_2026.py --ut /tmp/kontroll` tills index finns (returkod 0). Det skriver ingen data i repot. Innan dess är svaret `FEL: index.md5 är tom eller har fel form` och returkod 1.
 - [ ] Första skarpa körningen:
 
 ```bash
@@ -104,7 +113,7 @@ Vänta en minut, öppna majposten.se/val2026 med `?v=1` i adressen (för att kom
 
 GitHub Pages bygger från grenen med en mjuk gräns på tio bygg per timme. Blir ett bygge strypt landar pushen ändå i git, men sidan uppdateras inte förrän nästa bygge går igenom - kontrollera då sidan innan nästa push.
 
-Returkod 3 med `Inget nytt att läsa in.` betyder att Valmyndighetens tre filer är oförändrade: kedjan stannar, ingenting committas, allt är som det ska. **Med ett undantag:** stannade föregående körning på ett `FEL:` efter hämtningen är filerna redan hämtade, och nästa `--hamta` säger `Inget nytt` fast ingenting publicerats. Efter ett `FEL:` är vägen vidare därför alltid `--valnatt-mapp data/valnatt/senaste` med samma `--status`, aldrig `--hamta` igen.
+Returkod 3 med `Inget nytt att läsa in.` betyder att Valmyndighetens tre filer är oförändrade: kedjan stannar, ingenting committas, allt är som det ska. **Med ett undantag:** stannade föregående körning på ett `FEL:` efter hämtningen är filerna redan hämtade, och nästa `--hamta` säger `Inget nytt` fast ingenting publicerats. Efter ett `FEL:` är vägen vidare därför alltid `--valnatt-mapp data/valnatt/senaste` med samma `--status`, aldrig `--hamta` igen. **Samma sak om `git push` inte gick fram** (nät, GitHub): committen ligger kvar lokalt, och nästa varvs `Inget nytt` betyder inte att den är publicerad. Kör `git push origin main` igen för hand; `git rev-list --count origin/main..HEAD` ska vara 0.
 
 - [ ] Vid `FEL:`: läs meddelandet, åtgärda, kör igen. Ingenting är skrivet när ett FEL kommer. Vanliga fall:
   - Nätfel eller `md5 stämmer inte`: vänta någon minut och kör igen.
@@ -138,7 +147,13 @@ Returkod 3 med `Inget nytt att läsa in.` betyder att Valmyndighetens tre filer 
 .venv/bin/python -c "from scripts import schema; schema.skriv_konfig('data', schema.las_konfig('data'))"
 ```
 
-och publicera. Statusraden blir då "Slutligt resultat, riksdagsvalet 2026." utan "Ladda om" - men bara när alla 23 distrikt är räknade, se punkten ovan.
+och publicera:
+
+```bash
+git add data && git commit -qm "Valnatten: slutligt resultat" && git push origin main
+```
+
+Statusraden blir då "Slutligt resultat, riksdagsvalet 2026." utan "Ladda om" - men bara när alla 23 distrikt är räknade, se punkten ovan.
 
 - [ ] Stillbilder till brevet:
 

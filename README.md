@@ -52,7 +52,7 @@ scripts/mandat.py             jämkade uddatalsmetoden
 scripts/geo.py, schema.py     geodata respektive datafilernas schema
 verktyg/                      forbered_tvaar.py (bygger testsidor) och Puppeteer-kontrollerna (tvaar-check.js,
                               historik-check.js, bredd-check.js med flera), se verktyg/README.md
-tests/                        pytest, 358 tester
+tests/                        pytest, 420 tester
 docs/superpowers/             designspec och plan
 ```
 
@@ -391,6 +391,7 @@ Sätt sedan `"valnatt": false` i `data/konfig.json` och skriv om `konfig.js`:
 
 ```bash
 .venv/bin/python -c "from scripts import schema; schema.skriv_konfig('data', schema.las_konfig('data'))"
+git add data && git commit -qm "Valnatten: slutligt resultat" && git push origin main
 ```
 
 Stillbilder till brevet: `.venv/bin/python scripts/skapa_bilder.py --ar 2026 --etikett "Majposten · Valet 2026"`.

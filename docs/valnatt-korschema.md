@@ -90,9 +90,10 @@ Vallokalerna stänger 20.00. De första distrikten i landet brukar komma strax e
 
 Beslut 2026-09-13: ingenting görs för hand under valnatten. `verktyg/valnatt-slinga.sh` kör körschemats varv om och om igen: väntar tills val.se öppnat (var annan minut), sedan `uppdatera_2026.py --hamta --status preliminar` (med `--valnatt` tills konfigen är i valnattsläge), och vid ny data `git add data`, commit och push - var tionde minut under kvällen, en gång i timmen från måndag. Den tar sig själv förbi de två fällorna nedan (`Inget nytt` efter ett FEL efter hämtningen via `--valnatt-mapp data/valnatt/senaste`, och en push som inte gick fram), men fattar inga beslut: `--tvinga`, `--utan-signatur`, byte till slutlig räkning och CSV för hand är fortfarande människans. Vid tre fel i rad kommer en macOS-notis; loggen är `~/valnatt-slinga.log`.
 
-Slingan körs som launchd-agent (`~/Library/LaunchAgents/se.majposten.valnatt.plist`, under `caffeinate -i`), startar när datorn loggas in och startas om av launchd om den kraschar. Datorn måste vara på med laddaren i och locket öppet.
+Slingan körs som launchd-agent (`verktyg/se.majposten.valnatt.plist`, under `caffeinate -i`), startar när datorn loggas in och startas om av launchd om den kraschar. Datorn måste vara på med laddaren i och locket öppet. Installeras med raden nedan; det är det enda som görs för hand, och det görs före valkvällen.
 
 ```bash
+cp verktyg/se.majposten.valnatt.plist ~/Library/LaunchAgents/ && launchctl load ~/Library/LaunchAgents/se.majposten.valnatt.plist
 tail -f ~/valnatt-slinga.log                                   # följa
 touch valnatt-slinga.stopp                                     # stoppa (slingan avslutar själv inom ett varv)
 launchctl unload ~/Library/LaunchAgents/se.majposten.valnatt.plist   # stoppa och stänga av agenten

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- Valnattens slinga som launchd-agent. Installeras med
+       cp verktyg/se.majposten.valnatt.plist ~/Library/LaunchAgents/ && launchctl load ~/Library/LaunchAgents/se.majposten.valnatt.plist
+     Startar vid inloggning, startas om av launchd om skriptet kraschar (inte när det avslutas
+     själv via stoppfilen), och håller datorn vaken med caffeinate -i. Se docs/valnatt-korschema.md. -->
+<plist version="1.0">
+<dict>
+  <key>Label</key>
+  <string>se.majposten.valnatt</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/usr/bin/caffeinate</string>
+    <string>-i</string>
+    <string>/bin/bash</string>
+    <string>/Users/daniel/code/Temp/verktyg/valnatt-slinga.sh</string>
+  </array>
+  <key>WorkingDirectory</key>
+  <string>/Users/daniel/code/Temp</string>
+  <key>RunAtLoad</key>
+  <true/>
+  <key>KeepAlive</key>
+  <dict>
+    <key>SuccessfulExit</key>
+    <false/>
+  </dict>
+  <key>ThrottleInterval</key>
+  <integer>60</integer>
+  <key>StandardOutPath</key>
+  <string>/Users/daniel/valnatt-slinga.launchd.log</string>
+  <key>StandardErrorPath</key>
+  <string>/Users/daniel/valnatt-slinga.launchd.log</string>
+  <key>EnvironmentVariables</key>
+  <dict>
+    <key>LANG</key>
+    <string>sv_SE.UTF-8</string>
+  </dict>
+</dict>
+</plist>

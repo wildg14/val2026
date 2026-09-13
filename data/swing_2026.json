@@ -2,7 +2,21 @@
  "ar": 2026,
  "bas": 2022,
  "enhet": "procentenheter",
- "distrikt": {},
+ "distrikt": {
+  "14800526": {
+   "rd": {
+    "Övriga": 0.1,
+    "M": 0.0,
+    "C": 0.8,
+    "L": -1.1,
+    "KD": -0.5,
+    "S": 0.2,
+    "V": 2.0,
+    "MP": 2.6,
+    "SD": -4.0
+   }
+  }
+ },
  "ej_jamforbara": {
   "14800529": {
    "orsak": "ej jämförbart enligt källan",
@@ -51,16 +65,28 @@
   }
  },
  "majorna": {
-  "rd": {},
+  "rd": {
+   "Övriga": 0.1,
+   "M": 0.0,
+   "C": 0.8,
+   "L": -1.1,
+   "KD": -0.5,
+   "S": 0.2,
+   "V": 2.0,
+   "MP": 2.6,
+   "SD": -4.0
+  },
   "rf": {},
   "kf": {}
  },
  "kohort": {
   "rd": {
-   "antal": 0,
+   "antal": 1,
    "totalt": 23,
    "helomrade": false,
-   "koder": []
+   "koder": [
+    "14800526"
+   ]
   },
   "rf": {
    "antal": 0,

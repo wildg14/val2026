@@ -30,7 +30,8 @@ STATUS="${VALNATT_STATUS:-preliminar}"
 TILLFALLE="${VALNATT_TILLFALLE:-p}"
 LOKAL="${VALNATT_LOKAL:-}"
 GREN="${VALNATT_GREN:-main}"
-INTERVALL="${VALNATT_INTERVALL:-360}"           # var sjätte minut under kvällen: högst tio pushar i timmen, Pages mjuka gräns för byggen
+INTERVALL="${VALNATT_INTERVALL:-120}"           # varannan minut under kvällen. Pages har en mjuk gräns på tio byggen i timmen; över den köas eller stryps
+                                                # byggen, men det som byggs är alltid senaste committen, så tät pollning kan aldrig bli sämre än gränsens takt.
 INTERVALL_VANTAR="${VALNATT_INTERVALL_VANTAR:-120}"   # tills val.se öppnar
 INTERVALL_DAG="${VALNATT_INTERVALL_DAG:-3600}"  # måndag till onsdag: en gång i timmen räcker
 VALDAG="${VALNATT_VALDAG:-20260913}"
@@ -141,6 +142,7 @@ felrad() { printf '%s\n' "$UT" | grep -m1 '^FEL'; }
 logg "Slingan startar (pid $$, rot $ROT, gren $GREN, status $STATUS, tillfälle $TILLFALLE${LOKAL:+, LOKAL $LOKAL})."
 FEL_I_RAD=0
 PUBLICERAT=0
+[ -f "$ROT/data/valdata_2026.json" ] && PUBLICERAT=1   # en omstart mitt i kvällen ska inte kalla nästa varv "första resultaten"
 
 while :; do
   if [ -e "$STOPP" ]; then

@@ -2,7 +2,7 @@
  "meta": {
   "ar": 2026,
   "status": "preliminar",
-  "uppdaterad": "2026-09-13T21:52:35",
+  "uppdaterad": "2026-09-13T21:54:42",
   "kalla": "Valmyndigheten, preliminär rösträkning per valdistrikt 2026",
   "avgransning": "23 valdistrikt (14800526-14800548) i valkrets Västra Centrum = primärområdena Majorna, Stigberget, Kungsladugård och Sanna",
   "val": {
@@ -25,7 +25,7 @@
    "Övriga": "Övriga partier"
   },
   "valnatt": {
-   "raknade": 2,
+   "raknade": 4,
    "totalt": 23
   }
  },
@@ -286,13 +286,29 @@
   {
    "kod": "14800543",
    "namn": "Klareborgsgatan m fl",
-   "raknat": false,
-   "rd": {},
+   "raknat": true,
+   "rd": {
+    "Övriga": 14,
+    "M": 62,
+    "C": 40,
+    "L": 32,
+    "KD": 25,
+    "S": 252,
+    "V": 299,
+    "MP": 177,
+    "SD": 68
+   },
    "rf": {},
    "kf": {},
-   "giltiga": {},
-   "rostande": {},
-   "rostberattigade": {},
+   "giltiga": {
+    "rd": 969
+   },
+   "rostande": {
+    "rd": 978
+   },
+   "rostberattigade": {
+    "rd": 1162
+   },
    "jamforbar_mot_bas": true,
    "grans_andrad": false
   },
@@ -338,13 +354,29 @@
   {
    "kod": "14800547",
    "namn": "Hängmattan",
-   "raknat": false,
-   "rd": {},
+   "raknat": true,
+   "rd": {
+    "Övriga": 20,
+    "M": 95,
+    "C": 40,
+    "L": 42,
+    "KD": 23,
+    "S": 288,
+    "V": 201,
+    "MP": 102,
+    "SD": 120
+   },
    "rf": {},
    "kf": {},
-   "giltiga": {},
-   "rostande": {},
-   "rostberattigade": {},
+   "giltiga": {
+    "rd": 931
+   },
+   "rostande": {
+    "rd": 948
+   },
+   "rostberattigade": {
+    "rd": 1165
+   },
    "jamforbar_mot_bas": true,
    "grans_andrad": false
   },
@@ -366,19 +398,19 @@
   "majorna": {
    "rd": {
     "roster": {
-     "Övriga": 24,
-     "M": 128,
-     "C": 96,
-     "L": 74,
-     "KD": 50,
-     "S": 401,
-     "V": 399,
-     "MP": 285,
-     "SD": 130
+     "Övriga": 58,
+     "M": 285,
+     "C": 176,
+     "L": 148,
+     "KD": 98,
+     "S": 941,
+     "V": 899,
+     "MP": 564,
+     "SD": 318
     },
-    "giltiga": 1587,
-    "rostande": 1604,
-    "rostberattigade": 2061
+    "giltiga": 3487,
+    "rostande": 3530,
+    "rostberattigade": 4388
    },
    "rf": {
     "roster": {},
@@ -397,20 +429,20 @@
    "rd": {
     "namn": "Göteborg",
     "andel": {
-     "M": 0.1906071978588837,
-     "C": 0.07145527130276162,
-     "L": 0.06477175879547256,
-     "KD": 0.05209252254003379,
-     "S": 0.2634978543981101,
-     "V": 0.1294986618023056,
-     "MP": 0.0929710979201866,
-     "SD": 0.12185822580404002
+     "M": 0.18340702482033625,
+     "C": 0.0691395703721094,
+     "L": 0.06237038776069179,
+     "KD": 0.050279766795789806,
+     "S": 0.2678196449765883,
+     "V": 0.1376009182089708,
+     "MP": 0.0935816671231626,
+     "SD": 0.12230178294270323
     },
-    "valdeltagande": 0.7912409785359452,
-    "giltiga": 66881,
-    "rostande": 67534,
-    "rostberattigade": 85352,
-    "antal_distrikt": 77,
+    "valdeltagande": 0.7878979012584311,
+    "giltiga": 76671,
+    "rostande": 77448,
+    "rostberattigade": 98297,
+    "antal_distrikt": 88,
     "totalt_distrikt": 397
    }
   },
@@ -418,20 +450,20 @@
    "rd": {
     "namn": "Riket",
     "andel": {
-     "M": 0.1935889496598768,
-     "C": 0.0722403694792026,
-     "L": 0.05332488737407878,
-     "KD": 0.06448489890848583,
-     "S": 0.27184044700554505,
-     "V": 0.08379463082806643,
-     "MP": 0.06221678067135922,
-     "SD": 0.18307373038796262
+     "M": 0.19349831255500655,
+     "C": 0.07273771491535055,
+     "L": 0.053745296290393,
+     "KD": 0.06409952113983965,
+     "S": 0.27159808317336676,
+     "V": 0.08428389269651632,
+     "MP": 0.06253594916182147,
+     "SD": 0.18206214787146313
     },
-    "valdeltagande": 0.7994518422946553,
-    "giltiga": 1057705,
-    "rostande": 1071949,
-    "rostberattigade": 1340855,
-    "antal_distrikt": 1232,
+    "valdeltagande": 0.7994553462514906,
+    "giltiga": 1154408,
+    "rostande": 1169855,
+    "rostberattigade": 1463315,
+    "antal_distrikt": 1332,
     "totalt_distrikt": 6626
    }
   }
@@ -440,12 +472,12 @@
   "metod": "Räkneexempel: 4 %-spärr och jämkade uddatalsmetoden tillämpade på Majornas riksdagsröster 2026.",
   "riksdag_majorna": {
    "M": 30,
-   "C": 22,
-   "L": 17,
-   "S": 92,
-   "V": 92,
-   "MP": 66,
-   "SD": 30
+   "C": 18,
+   "L": 16,
+   "S": 99,
+   "V": 94,
+   "MP": 59,
+   "SD": 33
   }
  }
 }

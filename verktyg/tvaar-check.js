@@ -22,8 +22,8 @@ const partiellUrl = namngivet('partiell', null);          // valfri sida byggd m
 const riketDelvisUrl = namngivet('riketdelvis', null);    // valfri sida byggd med --valnatt --riket-delvis N, för förbehållet i båda enheterna
 const SVALEBO = '14800526';
 const snallt = text => { const e = new Error(text); e.snallt = true; return e; };
-// Statusraden gäller alltid riksdagsvalet, som är färdigräknat i testdatan - även på sidan där kf bara har 3 distrikt.
-const STATUS_2026 = 'Preliminärt, 23 av 23 distrikt räknade.';
+// Statusraden gäller alltid riksdagsvalet men bär inte längre talet: det står i mätaren under den.
+const STATUS_2026 = 'Preliminärt. Uppdaterad ';
 // Kohorten räknar distrikt som är både räknade och jämförbara: de tre första Majornadistrikten är alla
 // jämförbara mot 2022, så kf-sidan byggd med --kf-raknade 3 ska säga tre.
 const KOHORT_KF = 'räknat på 3 jämförbara distrikt av 23';
@@ -53,6 +53,9 @@ const KOHORT_KF = 'räknat på 3 jämförbara distrikt av 23';
                antalPaths: namn.length, harSandarna: namn.includes('Sandarna'), harSandarne: namn.includes('Sandarne'),
                statusrad: rot.querySelector('#statusrad').textContent, toppsvarRader: rot.querySelectorAll('.toppsvar-rad').length,
                laddaOm: !!rot.querySelector('#statusrad button.ladda-om'),
+               matare: [...rot.querySelectorAll('#matare .matare-rad')].map(r => r.textContent),
+               matareDold: rot.querySelector('#matare').hidden,
+               kartaMatare: (rot.querySelector('#karta-matare .matare-rad') || {}).textContent || '',
                ariaKarta: svg.getAttribute('aria-label'), viewBox: svg.getAttribute('viewBox') };
     });
     if (res.saknas) throw snallt(`kartan ritades inte på ${url}: ${res.saknas}.` + (res.felruta ? ` Sidans egen felruta: ${res.felruta}` : '')
@@ -87,6 +90,10 @@ const KOHORT_KF = 'räknat på 3 jämförbara distrikt av 23';
     ['alla partier utom Övriga i toppsvaret 2026', y2026.toppsvarRader === 8],
     ['statusraden räknar distrikten', y2026.statusrad.startsWith(STATUS_2026)],
     ['Ladda om finns på valnatten', y2026.laddaOm],
+    ['mätaren i toppen räknar Majorna', y2026.matare.length === 2 && y2026.matare[0].startsWith('Majorna') && y2026.matare[0].includes('23 av 23 distrikt räknade')],
+    ['mätaren i toppen räknar Sverige', y2026.matare[1].startsWith('Sverige') && /\d av \d/.test(y2026.matare[1]) && !y2026.matare[1].includes('distrikt')],
+    ['mätaren ovanför kartan följer valet', y2026.kartaMatare.startsWith('Riksdagsvalet') && y2026.kartaMatare.includes('23 av 23 distrikt räknade')],
+    ['ingen mätare på 2022', y2022.matareDold === true],
     ['statusraden för 2022 på valnatten', y2022.statusrad.startsWith('Slutligt resultat 2022.')],
     ['ingen valdagsmening i 2022-raden', !y2022.statusrad.includes('Valet 2026 är')],
     ['Ladda om leder tillbaka från 2022', y2022.laddaOm]
@@ -154,7 +161,7 @@ const KOHORT_KF = 'räknat på 3 jämförbara distrikt av 23';
       rot.querySelector('#panel-tillbaka').click();   // tillbaka till hela Majorna, kommunvalet kvar
       ut.kfMajornaKort = rot.querySelector('#panel').textContent;
       ut.kfMajornaNot = smaTalen();
-      ut.kfMajornaSub = rot.querySelector('#panel-sub').textContent;
+      ut.kfKartaMatare = rot.querySelector('#karta-matare .matare-rad').textContent;
       ut.statusrad = rot.querySelector('#statusrad').textContent;
       return ut;
     });
@@ -172,7 +179,7 @@ const KOHORT_KF = 'räknat på 3 jämförbara distrikt av 23';
   // Sex räknade distrikt men bara tre jämförbara: staplarna vilar på sex, de små talen på tre. Det är
   // fallet noten finns för, och kortets underrad ska säga sex medan noten säger tre.
   const kf6 = await kfSidan('kf6-sidan', kf6Url);
-  if (kf6) kontroller.push(['kf6: underraden räknar alla räknade distrikt', kf6.kfMajornaSub.includes('6 av 23 distrikt räknade')]);
+  if (kf6) kontroller.push(['kf6: mätaren ovanför kartan räknar alla räknade distrikt', kf6.kfKartaMatare.startsWith('Kommunvalet') && kf6.kfKartaMatare.includes('6 av 23 distrikt räknade')]);
 
   // Regeln "parti utan tal hoppas över": swingfilen på den här sidan saknar S helt.
   if (utanPartiUrl) {
@@ -201,11 +208,13 @@ const KOHORT_KF = 'räknat på 3 jämförbara distrikt av 23';
     const sida = await oppna(adress);
     const res = await sida.evaluate(() => {
       const rot = document.getElementById('valgrafik');
-      return { statusrad: rot.querySelector('#statusrad').textContent, laddaOm: !!rot.querySelector('#statusrad button.ladda-om') };
+      return { statusrad: rot.querySelector('#statusrad').textContent, laddaOm: !!rot.querySelector('#statusrad button.ladda-om'),
+               matareDold: rot.querySelector('#matare').hidden };
     });
     console.log(`${namn}-sidan:`, JSON.stringify(res));
     kontroller.push([`statusraden på ${namn}-sidan`, res.statusrad.trim() === vantad],
-                    [`inget Ladda om på ${namn}-sidan`, !res.laddaOm]);
+                    [`inget Ladda om på ${namn}-sidan`, !res.laddaOm],
+                    [`ingen mätare på ${namn}-sidan`, res.matareDold === true]);
     await sida.close();
   };
   await utanValnatt('slutlig', slutligUrl, 'Slutligt resultat, riksdagsvalet 2026.');
@@ -225,12 +234,16 @@ const KOHORT_KF = 'räknat på 3 jämförbara distrikt av 23';
       await new Promise(r => setTimeout(r, 500));
       return { hittade: true, kod: oraknad.getAttribute('data-kod'),
                not: rot.querySelector('#panel-not').textContent.trim(),
-               staplar: rot.querySelector('#panel-staplar').querySelectorAll('.stapel-rad').length };
+               staplar: rot.querySelector('#panel-staplar').querySelectorAll('.stapel-rad').length,
+               matare: rot.querySelector('#matare').textContent,
+               kartaMatare: rot.querySelector('#karta-matare').textContent };
     });
     console.log('partiell, oräknat distrikt:', JSON.stringify(bak));
     kontroller.push(['partiell: ett oräknat distrikt finns på kartan', bak.hittade === true],
                     ['partiell: kortet visar förra valets siffror utan årsbyte', /^Så röstade .+ 2022 \(riksdagsvalet, /.test(bak.not || '')],
-                    ['partiell: bakåtvända staplar ritas', (bak.staplar || 0) >= 5]);
+                    ['partiell: bakåtvända staplar ritas', (bak.staplar || 0) >= 5],
+                    ['partiell: mätaren i toppen säger 9 av 23', (bak.matare || '').includes('9 av 23 distrikt räknade')],
+                    ['partiell: mätaren ovanför kartan säger 9 av 23', (bak.kartaMatare || '').includes('9 av 23 distrikt räknade')]);
     await sida.close();
   } else {
     console.log('partiell-sidan: hoppas över (ingen adress angiven)');

@@ -90,6 +90,7 @@ const oppenPunkt = c => c.fill === PAPPER && c.r === 3;
       // väntetext är högerställda, etiketterna vid linjeslutet har ingen ankring alls.
       arAxelB: svgB ? [...svgB.querySelectorAll('text[text-anchor="middle"]')].map(t => t.textContent) : [],
       statusrad: (document.getElementById('statusrad') || {}).textContent || '',
+      matare: (document.getElementById('matare') || {}).textContent || '',
     };
   });
 
@@ -210,7 +211,7 @@ const oppenPunkt = c => c.fill === PAPPER && c.r === 3;
     kontroller.push(
       ['partiell: exakt en tom sten-ring i bild B', u.cirklarB.filter(tomRing).length === 1],
       ['partiell: inga preliminära sträckor', u.streckadeB65 === 0],
-      ['partiell: statusraden innehåller "9 av 23"', u.statusrad.includes('9 av 23')],
+      ['partiell: mätaren i toppen innehåller "9 av 23"', u.matare.includes('9 av 23')],
       ['partiell: "räknas just nu" i bild B', u.ringTextB.join() === 'räknas just nu'],
       ['partiell: bild B:s aria-label slutar "2026 räknas just nu."', (u.ariaB || '').endsWith('2026 räknas just nu.')],
     );

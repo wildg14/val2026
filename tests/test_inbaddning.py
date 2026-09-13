@@ -197,14 +197,15 @@ def test_kortet_behaller_de_sma_talen_och_omritningsmeningen():
 
 
 def test_kortets_underrad_utan_valdeltagande_och_giltiga_roster():
-    """Underraden i kortet säger inte längre valdeltagande eller antal giltiga röster. Kvar blir bara
-    räkneläget på valnatten, och raden döljs helt när det saknas."""
+    """Underraden i kortet säger inte längre valdeltagande eller antal giltiga röster. Räkneläget på
+    valnatten stod kvar där till 2026-09-13; sedan dess bär mätaren ovanför kartan det, och raden är
+    tom och dold."""
     js = JS.read_text("utf-8")
     kropp = js[js.index("function renderPanel()"):js.index("/* ---- tabellen */")]
     assert "${tal(m.giltiga)} giltiga röster" not in kropp and "${tal(d.giltiga[val])} giltiga röster" not in kropp
     assert "Valdeltagande ${procent" not in kropp, "valdeltagandet är borta ur kortet"
     assert "let vd" not in kropp and "vd + \". \"" not in kropp, "vd räknas inte längre"
-    assert "`${vn.raknade} av ${vn.totalt} distrikt räknade.`" in kropp, "valnattsprefixet står kvar"
+    assert "distrikt räknade" not in kropp, "räkneläget står i mätaren, inte i kortets underrad"
     assert "sub.hidden = !subText" in kropp, "tom rad döljs"
 
 
@@ -618,7 +619,8 @@ def test_statusraden_tiger_fore_valdagen():
     assert "datumText" not in js, "datumtexten hade bara valdagsmeningen som kund"
     kropp = js[js.index("function statusText()"):js.index("function renderToppsvar()")]
     assert "Valet ${valdagAr}" not in kropp, "valdagsmeningen är borta"
-    assert "Preliminärt, ${raknade} av ${totalt} distrikt räknade" in kropp, "valnattens räknestatus står kvar"
+    assert "Preliminärt. Uppdaterad ${klockslag(meta.uppdaterad)}." in kropp, "valnattens läge och klockslag står kvar"
+    assert "Preliminärt, ${raknade}" not in kropp, "talet står i mätaren sedan 2026-09-13, inte i raden"
     assert "Slutligt resultat, riksdagsvalet ${meta.ar}" in kropp, "raden efter sluträkningen står kvar"
     assert "laddaOm: true" in kropp, "Ladda om står kvar på valnatten"
 
@@ -833,7 +835,7 @@ def test_statusraden_skiljer_pagaende_slutrakning_fran_fardigt_resultat():
     hittills i samma läge, alltså tvärtemot."""
     js = JS.read_text("utf-8")
     kropp = js[js.index("function statusText("):js.index("function renderToppsvar(")]
-    assert "Slutlig räkning pågår, ${raknade} av ${totalt} distrikt räknade." in kropp
+    assert '"Slutlig räkning pågår."' in kropp, "talet står i mätaren sedan 2026-09-13, inte i raden"
     slutlig = kropp[kropp.index("if (!arPreliminar())"):]
     assert "if (delvis)" in slutlig, "den slutliga grenen använder delvis, som redan räknats fram"
     assert slutlig.index("if (delvis)") < slutlig.index("Slutligt resultat, riksdagsvalet"), \
@@ -863,3 +865,25 @@ def test_fi_ligger_till_vanster_i_halvcirkelns_ordning():
     js = JS.read_text("utf-8")
     rad = [r for r in js.splitlines() if r.startswith("const SPEKTRUM")][0]
     assert rad.startswith('const SPEKTRUM = ["FI", "V", "S"'), rad
+
+
+def test_raknemataren_finns_och_haller_beehiivs_regler():
+    """Räknemätaren (2026-09-13): två rader i toppen (Majorna och Sverige) och en ovanför kartan som följer
+    valet, i samma läge som ger statusraden Ladda om för det levande året. Spåret är bara bild och döljs
+    för skärmläsare; talet står i raden. Inga nya document-anrop, all CSS under .mp-val."""
+    js = JS.read_text("utf-8")
+    assert '<div id="matare" class="matare" hidden></div>' in js, "toppens block finns i MARKUP, dolt tills valnatten"
+    assert '<div id="karta-matare" class="matare matare-karta" hidden></div>' in js, "kartsektionens block finns i MARKUP"
+    kropp = js[js.index("function matarRad("):js.index("function renderMatare(")]
+    assert '"aria-hidden": "true"' in kropp, "spåret döljs för skärmläsare"
+    assert "distrikt räknade" in kropp, "talet i raden säger vad som räknas"
+    villkor = js[js.index("function matareVisas("):js.index("function renderMatare(")]
+    assert "KONFIG.valnatt" in villkor and "state.ar !== KONFIG.standardAr" in villkor, "bara det levande året på valnatten"
+    assert "arPreliminar() || raknade < totalt" in villkor, "kvar under pågående sluträkning, borta när allt är räknat och slutligt"
+    render = js[js.index("function renderMatare("):js.index("/* ---- ", js.index("function renderMatare("))]
+    assert 'matarRad("Majorna"' in render and 'matarRad("Sverige"' in render, "toppen räknar Majorna och Sverige"
+    assert "matarRad(VALNAMN[state.val]" in render, "kartsektionens rad följer valet"
+    assert js.count("renderMatare();") == 2, "anropas i det fulla svepet och vid valbyte"
+    css = CSS.read_text("utf-8")
+    for klass in (".matare {", ".matare-rad {", ".matare-spar {", ".matare-fyll {"):
+        assert ".mp-val " + klass in css, klass

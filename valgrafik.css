@@ -26,6 +26,15 @@
 .mp-val .ladda-om { font: inherit; color: var(--gron); background: none; border: 0; border-radius: 0; min-height: 0; padding: 0; text-decoration: underline; cursor: pointer; }
 .mp-val .topp-mening { margin: 0 0 12px; }
 .mp-val .toppsvar { min-height: 314px; margin: 0 0 16px; }   /* uppmätt: rubrik 25,6 + 6 marginal + åtta rader 282 = 313,6, samma i alla bredder */
+/* Räknemätaren på valnatten: hur många distrikt som är räknade, i toppen (Majorna och Sverige) och ovanför kartan (det visade
+   valet). Samma spår och fyllning som toppsvarets staplar men tunnare; talet står i raden, spåret är bara bild. Toppens block har
+   reserverad höjd (två rader) så att sidhuvudet inte hoppar när talen ändras. */
+.mp-val .matare { min-height: 90px; margin: 0 0 16px; }   /* uppmätt: två rader 25,6 + 4 marginal + två spår 10 + 10 marginal, den sista kollapsad = 89,2, samma i 320, 375 och 1280 px */
+.mp-val .matare-rad { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0 12px; font-size: 16px; color: var(--sten); margin: 0 0 4px; }
+.mp-val .matare-tal { font-variant-numeric: tabular-nums; white-space: nowrap; }
+.mp-val .matare-spar { display: block; height: 10px; background: var(--linje); border-radius: 2px; margin: 0 0 10px; }
+.mp-val .matare-fyll { display: block; height: 100%; background: var(--morkgron); border-radius: 2px; }
+.mp-val .matare-karta { min-height: 0; margin: 0 0 12px; }
 /* Årväljaren: i sidhuvudet och överst i varje sektion som följer året. Raden står tom tills konfigen lästs men tar plats från början; marginalen är den knappraden hade. */
 .mp-val .arval { min-height: 44px; margin: 0 0 12px; }
 /* Formulärkontroller ärver inte typsnitt: årväljaren får font, färg, bakgrund och ram uttryckligen, annars slår värdsidans eller webbläsarens standard igenom. */

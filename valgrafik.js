@@ -22,6 +22,7 @@ const MARKUP = `
     <p class="arval-fel" id="arval-fel" role="status" hidden></p>
     <p class="topp-mening" id="topp-mening" hidden></p>
     <p class="statusrad" id="statusrad"></p>
+    <div id="matare" class="matare" hidden></div>
     <div id="toppsvar" class="toppsvar"></div>
     <p class="samarbete" id="samarbete" hidden></p>
   </header>
@@ -51,6 +52,7 @@ const MARKUP = `
       <div class="knappar" role="radiogroup" aria-label="Färgläggning" id="lage"></div>
       <label class="partival" id="partival" hidden>Parti <select id="parti" aria-label="Välj parti"></select></label>
     </div>
+    <div id="karta-matare" class="matare matare-karta" hidden></div>
     <div id="karta-yta">
       <div id="karta-legend" class="karta-legend"></div>
       <div id="karta"></div>
@@ -410,7 +412,7 @@ async function start() {
 
 /* ===================================================================== render */
 function renderAllt() {
-  renderHuvud(); renderSamarbete(); renderRiksdag(); renderKontroller(); renderKarta(); renderPanel(); renderTabell(); renderRostdelning(); renderJamforelse(); renderFakta(); renderHistorik();
+  renderHuvud(); renderSamarbete(); renderRiksdag(); renderKontroller(); renderMatare(); renderKarta(); renderPanel(); renderTabell(); renderRostdelning(); renderJamforelse(); renderFakta(); renderHistorik();
 }
 function renderHuvud() {
   $("#topp-etikett").textContent = "Majposten · Valspecial";
@@ -493,8 +495,8 @@ function statusText() {
   const rad = () => {
     // På valnatten men i ett annat år än det levande: bara resultatraden, och "Ladda om" som väg tillbaka.
     if (KONFIG.valnatt && state.ar !== KONFIG.standardAr) return { text: `${arPreliminar() ? "Preliminärt" : "Slutligt"} resultat ${meta.ar}.`, laddaOm: true };
-    // Rubriken under raden säger redan att det är riksdagsvalet, så valnattsraden nämner inte valet.
-    if (KONFIG.valnatt && arPreliminar()) return { text: `Preliminärt, ${raknade} av ${totalt} distrikt räknade. Uppdaterad ${klockslag(meta.uppdaterad)}.`, laddaOm: true };
+    // Rubriken under raden säger redan att det är riksdagsvalet och mätaren under bär talet, så valnattsraden säger bara läge och klockslag.
+    if (KONFIG.valnatt && arPreliminar()) return { text: `Preliminärt. Uppdaterad ${klockslag(meta.uppdaterad)}.`, laddaOm: true };
     // Ett färdigräknat val före valdagen säger inget här: årväljaren och den redaktionella meningen
     // ovanför bär redan året och väntan, och raden blev en upprepning av båda.
     if (!arPreliminar()) {
@@ -505,7 +507,7 @@ function statusText() {
       // alltså läsarens väg till nyare siffror. Rubriken över staplarna säger "Räknat hittills" i
       // samma läge; de två motsade varandra. Ingen tidsstämpel här: sluträkningen löper över flera
       // dygn, och timme och minut utan datum säger då mindre än inget.
-      if (delvis) return { text: `Slutlig räkning pågår, ${raknade} av ${totalt} distrikt räknade.`, laddaOm: true };
+      if (delvis) return { text: "Slutlig räkning pågår.", laddaOm: true };
       return { text: `Slutligt resultat, riksdagsvalet ${meta.ar}.`, laddaOm: false };
     }
     return { text: `Preliminärt resultat ${meta.ar}` + (delvis ? `, ${raknade} av ${totalt} distrikt räknade.` : "."), laddaOm: false };
@@ -531,6 +533,32 @@ function renderToppsvar() {
     h("span", { class: "toppsvar-spar", "aria-hidden": "true" }, h("span", { class: "toppsvar-stapel", style: `width:${Math.min(100, a.andel / 0.4 * 100).toFixed(1)}%;background:${parti(a.p).farg}` })),
     h("span", { class: "toppsvar-tal", "aria-hidden": "true" }, procent(a.andel))));
   el.append(h("p", { class: "toppsvar-rubrik" }, st.delvis ? `Räknat hittills, riksdagsvalet ${meta.ar}` : `Riksdagsvalet ${meta.ar} i Majorna`), lista);
+}
+
+/* ---- räknemätaren: hur stor del av distrikten som är räknade, som spår och fyllning. Talet står i
+   raden och läses av skärmläsaren; spåret är bara bild. Visas i samma läge som ger statusraden
+   "Ladda om" för det levande året, och försvinner när valnattsläget slås av. */
+function matarRad(namn, raknade, totalt, medOrd) {
+  const andel = totalt ? Math.max(0, Math.min(100, raknade / totalt * 100)) : 0;
+  return [h("div", { class: "matare-rad" }, h("span", { class: "matare-namn" }, namn),
+            h("span", { class: "matare-tal" }, `${tal(raknade)} av ${tal(totalt)}` + (medOrd ? " distrikt räknade" : ""))),
+          h("span", { class: "matare-spar", "aria-hidden": "true" }, h("span", { class: "matare-fyll", style: `width:${andel.toFixed(1)}%` }))];
+}
+function matareVisas() {
+  if (!KONFIG.valnatt || state.ar !== KONFIG.standardAr) return false;
+  const { raknade, totalt } = raknadeIVal("rd");
+  return arPreliminar() || raknade < totalt;
+}
+function renderMatare() {
+  const topp = $("#matare"), karta = $("#karta-matare"), visas = matareVisas();
+  topp.hidden = karta.hidden = !visas;
+  topp.innerHTML = ""; karta.innerHTML = "";
+  if (!visas) return;
+  const maj = raknadeIVal("rd"), riket = jamforelse("riket", "rd");
+  topp.append(...matarRad("Majorna", maj.raknade, maj.totalt, true));
+  if (harRaknade(riket)) topp.append(...matarRad("Sverige", riket.antal_distrikt, riket.totalt_distrikt, false));
+  const v = raknadeIVal(state.val);
+  karta.append(...matarRad(VALNAMN[state.val], v.raknade, v.totalt, true));
 }
 
 /* ---- samarbete och rösthjälp: konfigstyrda block, avstängda tills redaktionen fyllt i texter och adresser */
@@ -746,7 +774,7 @@ function renderKontroller() {
   flikar.innerHTML = "";
   for (const [val, namn] of Object.entries(data().meta.val || { rd: "Riksdag", rf: "Region", kf: "Kommun" })) {
     flikar.append(h("button", { type: "button", role: "tab", "aria-selected": String(val === state.val), tabindex: val === state.val ? "0" : "-1", id: "flik-" + val,
-      onclick: () => { state.val = val; if (!partierIVal(val).includes(state.parti)) state.parti = partierIVal(val)[0]; renderKontroller(); renderKarta(); renderPanel(); renderTabell(); renderHistorik(); } }, namn));
+      onclick: () => { state.val = val; if (!partierIVal(val).includes(state.parti)) state.parti = partierIVal(val)[0]; renderKontroller(); renderMatare(); renderKarta(); renderPanel(); renderTabell(); renderHistorik(); } }, namn));
   }
   pilNavigering(flikar);
   const lage = $("#lage");
@@ -1097,10 +1125,8 @@ function renderPanel() {
       toppText = `${VALNAMN[val]} ${state.ar}: inget distrikt räknat än.`;
     } else {
       const omr = jamforelseOmrade(val), post = omr.post, swing = swingFor(null, val);
-      const rak = raknadeIVal(val), vn = rak.totalt ? rak : data().meta.valnatt;   // samma källa som statusraden, meta som reserv
       toppText = `${VALNAMN[val]} ${state.ar}: ${toppTre(m.roster, m.giltiga)}.`;
-      // Underraden bär bara räkneläget på valnatten. Före och efter den är den tom och döljs.
-      subText = KONFIG.valnatt && vn && vn.raknade < vn.totalt ? `${vn.raknade} av ${vn.totalt} distrikt räknade.` : "";
+      // Räkneläget står i mätaren ovanför kartan sedan 2026-09-13; underraden är tom och döljs.
       const markorer = [];
       if (post && post.andel) { markorer.push({ klass: "", namn: omr.namn, andelar: post.andel }); markorNot.push(h("span", {}, `Snittet i ${omr.namn}`)); }
       markorNot.push(...swingNot(swing, kohortFor(val)));   // områdets tal vilar på kohorten

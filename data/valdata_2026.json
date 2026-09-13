@@ -2,7 +2,7 @@
  "meta": {
   "ar": 2026,
   "status": "preliminar",
-  "uppdaterad": "2026-09-13T21:36:03",
+  "uppdaterad": "2026-09-13T21:38:07",
   "kalla": "Valmyndigheten, preliminär rösträkning per valdistrikt 2026",
   "avgransning": "23 valdistrikt (14800526-14800548) i valkrets Västra Centrum = primärområdena Majorna, Stigberget, Kungsladugård och Sanna",
   "val": {
@@ -25,7 +25,7 @@
    "Övriga": "Övriga partier"
   },
   "valnatt": {
-   "raknade": 1,
+   "raknade": 2,
    "totalt": 23
   }
  },
@@ -244,13 +244,29 @@
   {
    "kod": "14800541",
    "namn": "Godhem",
-   "raknat": false,
-   "rd": {},
+   "raknat": true,
+   "rd": {
+    "Övriga": 9,
+    "M": 70,
+    "C": 48,
+    "L": 42,
+    "KD": 30,
+    "S": 189,
+    "V": 210,
+    "MP": 154,
+    "SD": 62
+   },
    "rf": {},
    "kf": {},
-   "giltiga": {},
-   "rostande": {},
-   "rostberattigade": {},
+   "giltiga": {
+    "rd": 814
+   },
+   "rostande": {
+    "rd": 820
+   },
+   "rostberattigade": {
+    "rd": 1001
+   },
    "jamforbar_mot_bas": false,
    "grans_andrad": true
   },
@@ -350,19 +366,19 @@
   "majorna": {
    "rd": {
     "roster": {
-     "Övriga": 15,
-     "M": 58,
-     "C": 48,
-     "L": 32,
-     "KD": 20,
-     "S": 212,
-     "V": 189,
-     "MP": 131,
-     "SD": 68
+     "Övriga": 24,
+     "M": 128,
+     "C": 96,
+     "L": 74,
+     "KD": 50,
+     "S": 401,
+     "V": 399,
+     "MP": 285,
+     "SD": 130
     },
-    "giltiga": 773,
-    "rostande": 784,
-    "rostberattigade": 1060
+    "giltiga": 1587,
+    "rostande": 1604,
+    "rostberattigade": 2061
    },
    "rf": {
     "roster": {},
@@ -381,20 +397,20 @@
    "rd": {
     "namn": "Göteborg",
     "andel": {
-     "M": 0.1877453559431786,
-     "C": 0.06710105629527703,
-     "L": 0.06629163462705896,
-     "KD": 0.06034238536565624,
-     "S": 0.26921364684932614,
-     "V": 0.12036100206402525,
-     "MP": 0.08555587033064875,
-     "SD": 0.13055971508357278
+     "M": 0.18081892395706112,
+     "C": 0.06781513145207944,
+     "L": 0.06395834672494696,
+     "KD": 0.05724111332519123,
+     "S": 0.2718069036446616,
+     "V": 0.12402776885003536,
+     "MP": 0.09220929485119239,
+     "SD": 0.1292987079771164
     },
-    "valdeltagande": 0.7897333712875985,
-    "giltiga": 24709,
-    "rostande": 24969,
-    "rostberattigade": 31617,
-    "antal_distrikt": 29,
+    "valdeltagande": 0.7931669652544725,
+    "giltiga": 31114,
+    "rostande": 31434,
+    "rostberattigade": 39631,
+    "antal_distrikt": 36,
     "totalt_distrikt": 397
    }
   },
@@ -402,20 +418,20 @@
    "rd": {
     "namn": "Riket",
     "andel": {
-     "M": 0.188154835112977,
-     "C": 0.0708157182433242,
-     "L": 0.049579805221320515,
-     "KD": 0.06944155783821584,
-     "S": 0.2720079613278986,
-     "V": 0.07982111463480832,
-     "MP": 0.056910290798749076,
-     "SD": 0.19766881756186777
+     "M": 0.18817984746115235,
+     "C": 0.07138920992424519,
+     "L": 0.05032023723500288,
+     "KD": 0.06806997832207268,
+     "S": 0.2722884901141361,
+     "V": 0.08133618369845595,
+     "MP": 0.05918653095269237,
+     "SD": 0.19355966147268389
     },
-    "valdeltagande": 0.7918312312358194,
-    "giltiga": 408977,
-    "rostande": 414606,
-    "rostberattigade": 523604,
-    "antal_distrikt": 529,
+    "valdeltagande": 0.795005381407238,
+    "giltiga": 466373,
+    "rostande": 472742,
+    "rostberattigade": 594640,
+    "antal_distrikt": 596,
     "totalt_distrikt": 6626
    }
   }
@@ -423,13 +439,13 @@
  "mandat": {
   "metod": "Räkneexempel: 4 %-spärr och jämkade uddatalsmetoden tillämpade på Majornas riksdagsröster 2026.",
   "riksdag_majorna": {
-   "M": 27,
-   "C": 23,
-   "L": 15,
-   "S": 100,
-   "V": 90,
-   "MP": 62,
-   "SD": 32
+   "M": 30,
+   "C": 22,
+   "L": 17,
+   "S": 92,
+   "V": 92,
+   "MP": 66,
+   "SD": 30
   }
  }
 }

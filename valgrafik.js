@@ -523,7 +523,7 @@ function renderToppsvar() {
   if (st.laddaOm) status.append(" ", h("button", { type: "button", class: "ladda-om", onclick: laddaOm }, "Ladda om"));
   status.hidden = !st.text && !st.laddaOm;
   el.innerHTML = "";
-  if (!majornaRaknat(val)) { el.append(h("p", { class: "toppsvar-tom" }, `Riksdagsvalet ${meta.ar}: inget distrikt räknat än.`)); return; }
+  if (!majornaRaknat(val)) { el.append(h("p", { class: "toppsvar-tom" }, `Riksdagsvalet ${meta.ar} i Majorna: inget distrikt räknat än.`)); return; }
   // Alla partier utom Övriga, i alla bredder. Listan kapades till fyra på telefon fram till 2026-09-08;
   // halva resultatet överst på sidan väckte fler frågor än det svarade på.
   const utomOvriga = andelar(m.roster, m.giltiga).filter(a => a.p !== "Övriga");

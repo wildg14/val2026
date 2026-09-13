@@ -64,9 +64,15 @@ def test_las_index_och_valj_filer_preliminart_och_slutligt():
     assert s["rd"][0] == "./s/rd/Val_2026_slutlig_00_RD.zip"
 
 
-def test_valj_filer_kraver_exakt_en_traff():
+def test_valj_filer_hoppar_over_val_som_inte_publicerats_an(capsys):
+    """Valkvällen 2026-09-13 kl 20.34: Valmyndigheten publicerade riksdagsfilen först och region- och
+    kommunfilerna senare. Ett val utan fil i indexet hoppas över med en varning, så att det som finns
+    läses in; inget val alls är däremot ett fel, liksom två filer för samma val."""
+    urval = hm.valj_filer(hm.las_index(INDEX.replace("./p/rf/", "./p/rx/")), "p")
+    assert set(urval) == {"rd", "kf"}
+    assert "VARNING: rf: ingen fil i index matchar ./p/rf/*_14_RF.zip än" in capsys.readouterr().out
     with pytest.raises(hm.HamtFel):
-        hm.valj_filer(hm.las_index(INDEX.replace("./p/rd/", "./p/rx/")), "p")
+        hm.valj_filer(hm.las_index(INDEX.replace("./p/", "./x/")), "p")
     with pytest.raises(hm.HamtFel):
         hm.valj_filer(hm.las_index(INDEX + "ffffffffffffffffffffffffffffffff  ./p/rd/Val_2026_preliminar_2_00_RD.zip\n"), "p")
 

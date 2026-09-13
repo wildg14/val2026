@@ -85,15 +85,22 @@ def las_index(text):
 
 
 def valj_filer(index, tillfalle="p"):
-    """-> {val: (sökväg i index, md5)} för de tre filer Majorna behöver. Väljer på katalog och suffix, inte på prefix.
-    Fel antal träffar räknas som att filerna ändrats under hämtningen (AndradUnderHamtning), värt ett återförsök."""
+    """-> {val: (sökväg i index, md5)} för de filer Majorna behöver, upp till tre. Väljer på katalog och suffix, inte på prefix.
+    Ett val utan fil i indexet hoppas över med en varning: valkvällen 2026 publicerade Valmyndigheten riksdagsfilen
+    20.34 och region- och kommunfilerna senare, och det som finns ska läsas in. Inget val alls är ett fel, och två
+    filer för samma val räknas som att filerna ändrats under hämtningen (AndradUnderHamtning), värt ett återförsök."""
     ut = {}
     for val, (katalog, suffix) in FILER.items():
         traffar = [p for p in index if p.startswith(f"./{tillfalle}/{katalog}/") and p.endswith(suffix)]
-        if len(traffar) != 1:
+        if len(traffar) > 1:
             raise AndradUnderHamtning(
                 f"{val}: {len(traffar)} filer i index matchar ./{tillfalle}/{katalog}/*{suffix}, väntade exakt en")
+        if not traffar:
+            print(f"VARNING: {val}: ingen fil i index matchar ./{tillfalle}/{katalog}/*{suffix} än, valet hoppas över")
+            continue
         ut[val] = (traffar[0], index[traffar[0]])
+    if not ut:
+        raise AndradUnderHamtning(f"ingen av de tre filerna finns i index under ./{tillfalle}/")
     return ut
 
 

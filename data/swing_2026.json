@@ -42,6 +42,32 @@
     "SD": -1.8
    }
   },
+  "14800540": {
+   "rd": {
+    "Övriga": -0.5,
+    "M": 0.0,
+    "C": 1.2,
+    "L": -1.1,
+    "KD": 1.1,
+    "S": -2.0,
+    "V": -3.3,
+    "MP": 5.7,
+    "SD": -0.9
+   }
+  },
+  "14800542": {
+   "rd": {
+    "Övriga": 1.1,
+    "M": -2.2,
+    "C": 0.6,
+    "L": 1.3,
+    "KD": 0.3,
+    "S": 0.0,
+    "V": 1.0,
+    "MP": 1.0,
+    "SD": -3.0
+   }
+  },
   "14800543": {
    "rd": {
     "Övriga": 0.6,
@@ -131,7 +157,7 @@
   },
   "14800533": {
    "orsak": "ej jämförbart enligt källan",
-   "mening": "Gränserna för Sandarne ritades om till 2026. Siffrorna går inte att jämföra med 2022.",
+   "mening": "Gränserna för Sandarna ritades om till 2026. Siffrorna går inte att jämföra med 2022.",
    "omradesrad": true
   },
   "14800534": {
@@ -158,13 +184,13 @@
  "majorna": {
   "rd": {
    "Övriga": 0.2,
-   "M": 0.1,
-   "C": 0.6,
-   "L": 0.5,
-   "KD": 0.0,
-   "S": 0.5,
-   "V": -2.2,
-   "MP": 2.2,
+   "M": -0.2,
+   "C": 0.7,
+   "L": 0.4,
+   "KD": 0.2,
+   "S": 0.2,
+   "V": -2.0,
+   "MP": 2.4,
    "SD": -1.8
   },
   "rf": {},
@@ -172,13 +198,15 @@
  },
  "kohort": {
   "rd": {
-   "antal": 8,
+   "antal": 10,
    "totalt": 23,
    "helomrade": false,
    "koder": [
     "14800526",
     "14800536",
     "14800537",
+    "14800540",
+    "14800542",
     "14800543",
     "14800545",
     "14800546",

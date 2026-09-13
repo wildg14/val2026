@@ -2,7 +2,7 @@
  "meta": {
   "ar": 2026,
   "status": "preliminar",
-  "uppdaterad": "2026-09-13T22:21:56",
+  "uppdaterad": "2026-09-13T22:24:01",
   "kalla": "Valmyndigheten, preliminär rösträkning per valdistrikt 2026",
   "avgransning": "23 valdistrikt (14800526-14800548) i valkrets Västra Centrum = primärområdena Majorna, Stigberget, Kungsladugård och Sanna",
   "val": {
@@ -25,7 +25,7 @@
    "Övriga": "Övriga partier"
   },
   "valnatt": {
-   "raknade": 12,
+   "raknade": 15,
    "totalt": 23
   }
  },
@@ -155,14 +155,30 @@
   },
   {
    "kod": "14800533",
-   "namn": "Sandarne",
-   "raknat": false,
-   "rd": {},
+   "namn": "Sandarna",
+   "raknat": true,
+   "rd": {
+    "Övriga": 9,
+    "M": 95,
+    "C": 59,
+    "L": 26,
+    "KD": 18,
+    "S": 273,
+    "V": 249,
+    "MP": 200,
+    "SD": 82
+   },
    "rf": {},
    "kf": {},
-   "giltiga": {},
-   "rostande": {},
-   "rostberattigade": {},
+   "giltiga": {
+    "rd": 1011
+   },
+   "rostande": {
+    "rd": 1019
+   },
+   "rostberattigade": {
+    "rd": 1263
+   },
    "jamforbar_mot_bas": false,
    "grans_andrad": true
   },
@@ -311,13 +327,29 @@
   {
    "kod": "14800540",
    "namn": "Gråberget Östra",
-   "raknat": false,
-   "rd": {},
+   "raknat": true,
+   "rd": {
+    "Övriga": 13,
+    "M": 106,
+    "C": 67,
+    "L": 50,
+    "KD": 32,
+    "S": 243,
+    "V": 204,
+    "MP": 204,
+    "SD": 70
+   },
    "rf": {},
    "kf": {},
-   "giltiga": {},
-   "rostande": {},
-   "rostberattigade": {},
+   "giltiga": {
+    "rd": 989
+   },
+   "rostande": {
+    "rd": 1001
+   },
+   "rostberattigade": {
+    "rd": 1252
+   },
    "jamforbar_mot_bas": true,
    "grans_andrad": false
   },
@@ -353,13 +385,29 @@
   {
    "kod": "14800542",
    "namn": "Marieberg",
-   "raknat": false,
-   "rd": {},
+   "raknat": true,
+   "rd": {
+    "Övriga": 25,
+    "M": 49,
+    "C": 35,
+    "L": 37,
+    "KD": 25,
+    "S": 242,
+    "V": 291,
+    "MP": 182,
+    "SD": 67
+   },
    "rf": {},
    "kf": {},
-   "giltiga": {},
-   "rostande": {},
-   "rostberattigade": {},
+   "giltiga": {
+    "rd": 953
+   },
+   "rostande": {
+    "rd": 961
+   },
+   "rostberattigade": {
+    "rd": 1131
+   },
    "jamforbar_mot_bas": true,
    "grans_andrad": false
   },
@@ -526,19 +574,19 @@
   "majorna": {
    "rd": {
     "roster": {
-     "Övriga": 198,
-     "M": 950,
-     "C": 547,
-     "L": 444,
-     "KD": 275,
-     "S": 2960,
-     "V": 2852,
-     "MP": 1971,
-     "SD": 996
+     "Övriga": 245,
+     "M": 1200,
+     "C": 708,
+     "L": 557,
+     "KD": 350,
+     "S": 3718,
+     "V": 3596,
+     "MP": 2557,
+     "SD": 1215
     },
-    "giltiga": 11193,
-    "rostande": 11324,
-    "rostberattigade": 14233
+    "giltiga": 14146,
+    "rostande": 14305,
+    "rostberattigade": 17879
    },
    "rf": {
     "roster": {},
@@ -557,41 +605,41 @@
    "rd": {
     "namn": "Göteborg",
     "andel": {
-     "M": 0.18351677997194346,
-     "C": 0.0658843207078882,
-     "L": 0.06146001942376174,
-     "KD": 0.050507176000863276,
-     "S": 0.26640768317686414,
-     "V": 0.14517103701305709,
-     "MP": 0.09277004424301284,
-     "SD": 0.12031941297075645
+     "M": 0.18228322026562654,
+     "C": 0.0660468366245509,
+     "L": 0.061265141599703817,
+     "KD": 0.050064399055132894,
+     "S": 0.2660593514206901,
+     "V": 0.1463553263493818,
+     "MP": 0.09435113389267519,
+     "SD": 0.11960494960187305
     },
-    "valdeltagande": 0.7870239655809889,
-    "giltiga": 185340,
-    "rostande": 187318,
-    "rostberattigade": 238008,
-    "antal_distrikt": 209,
+    "valdeltagande": 0.7874622644959187,
+    "giltiga": 191773,
+    "rostande": 193811,
+    "rostberattigade": 246121,
+    "antal_distrikt": 216,
     "totalt_distrikt": 397
    },
    "kf": {
     "namn": "Göteborg",
     "andel": {
-     "M": 0.17300644509035765,
-     "C": 0.04789586755971187,
-     "L": 0.04018703399469228,
-     "KD": 0.04751674459749779,
-     "S": 0.28914444584860355,
-     "V": 0.1325666624541893,
-     "MP": 0.07582459244281561,
-     "SD": 0.09225325413875901,
-     "D": 0.08846202451661822,
-     "K": 0.0027802350562365725
+     "M": 0.17961770205692915,
+     "C": 0.0498649490961978,
+     "L": 0.04113858300436318,
+     "KD": 0.04519011011842925,
+     "S": 0.286307916060669,
+     "V": 0.1280905879908581,
+     "MP": 0.079160606690214,
+     "SD": 0.08975690837315603,
+     "D": 0.08757531685019738,
+     "K": 0.003220444629129441
     },
-    "valdeltagande": 0.7791488534784299,
-    "giltiga": 7913,
-    "rostande": 8019,
-    "rostberattigade": 10292,
-    "antal_distrikt": 9,
+    "valdeltagande": 0.7855934251873338,
+    "giltiga": 9626,
+    "rostande": 9750,
+    "rostberattigade": 12411,
+    "antal_distrikt": 11,
     "totalt_distrikt": 397
    }
   },
@@ -599,20 +647,20 @@
    "rd": {
     "namn": "Riket",
     "andel": {
-     "M": 0.19654593976089701,
-     "C": 0.07253397493579138,
-     "L": 0.05453083357791202,
-     "KD": 0.06252291245373162,
-     "S": 0.27502720825883986,
-     "V": 0.08341011133078398,
-     "MP": 0.06360371730932628,
-     "SD": 0.17658831906534747
+     "M": 0.19667789508361416,
+     "C": 0.07253049131187342,
+     "L": 0.0546114216754958,
+     "KD": 0.06237659007792735,
+     "S": 0.27514193204550264,
+     "V": 0.08310435212896367,
+     "MP": 0.06368139157045145,
+     "SD": 0.1765994708645382
     },
-    "valdeltagande": 0.8031439842545178,
-    "giltiga": 2790513,
-    "rostande": 2827878,
-    "rostberattigade": 3521010,
-    "antal_distrikt": 2979,
+    "valdeltagande": 0.8035073308655154,
+    "giltiga": 2938378,
+    "rostande": 2977668,
+    "rostberattigade": 3705838,
+    "antal_distrikt": 3123,
     "totalt_distrikt": 6626
    },
    "rf": {
@@ -643,9 +691,9 @@
    "M": 32,
    "C": 19,
    "S": 100,
-   "V": 97,
-   "MP": 67,
-   "SD": 34
+   "V": 96,
+   "MP": 69,
+   "SD": 33
   }
  }
 }

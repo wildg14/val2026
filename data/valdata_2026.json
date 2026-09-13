@@ -2,7 +2,7 @@
  "meta": {
   "ar": 2026,
   "status": "preliminar",
-  "uppdaterad": "2026-09-13T20:56:40",
+  "uppdaterad": "2026-09-13T21:06:48",
   "kalla": "Valmyndigheten, preliminär rösträkning per valdistrikt 2026",
   "avgransning": "23 valdistrikt (14800526-14800548) i valkrets Västra Centrum = primärområdena Majorna, Stigberget, Kungsladugård och Sanna",
   "val": {
@@ -356,20 +356,20 @@
    "rd": {
     "namn": "Riket",
     "andel": {
-     "M": 0.17557251908396945,
-     "C": 0.08605135322692574,
-     "L": 0.04250520471894518,
-     "KD": 0.08535739070090215,
-     "S": 0.23213046495489242,
-     "V": 0.06020124913254684,
-     "MP": 0.05586398334489938,
-     "SD": 0.24063150589868146
+     "M": 0.1784841075794621,
+     "C": 0.07980023929667586,
+     "L": 0.04567445247880143,
+     "KD": 0.08073661759350778,
+     "S": 0.2425219788794673,
+     "V": 0.061592883524944075,
+     "MP": 0.05368568901836342,
+     "SD": 0.23856838162617697
     },
-    "valdeltagande": 0.765748031496063,
-    "giltiga": 5764,
-    "rostande": 5835,
-    "rostberattigade": 7620,
-    "antal_distrikt": 14,
+    "valdeltagande": 0.7598469766170902,
+    "giltiga": 19223,
+    "rostande": 19465,
+    "rostberattigade": 25617,
+    "antal_distrikt": 38,
     "totalt_distrikt": 6626
    }
   }

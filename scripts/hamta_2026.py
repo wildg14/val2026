@@ -112,12 +112,27 @@ def hamta_urval(bas_url, tillfalle):
 
 
 def hamta_och_kontrollera(bas_url, urval):
-    """Hämtar de tre zip-filerna som urval pekar ut och kontrollerar md5 mot samma urval. -> {val: bytes}."""
+    """Hämtar zip-filerna som urval pekar ut och kontrollerar md5 mot urvalet. -> {val: bytes}.
+
+    Valmyndigheten skriver om filerna oftare än alla tre hinner hämtas (valkvällen 2026 föll tre varv i rad
+    på md5 mellan 22.11 och 22.15): filen är då nyare än indexet som lästes först. Vid avvikelse läses bara
+    index.md5 om, och filen godtas om dess md5 stämmer med det färska indexet - urvalet får då den md5:n så
+    att manifestet säger vad som faktiskt hämtades. Stämmer inte heller det är filerna ur fas på riktigt,
+    och AndradUnderHamtning ger anroparen sitt återförsök. Signaturkontrollen efteråt är oförändrad."""
     data = {}
     for val, (kalla, md5) in urval.items():
         innehall = hamta(bas_url + kalla[2:])
         if md5:
-            kontrollera_md5(innehall, md5)
+            try:
+                kontrollera_md5(innehall, md5)
+            except AndradUnderHamtning:
+                time.sleep(PAUS_SEKUNDER)
+                farskt = las_index(hamta(bas_url + "index.md5").decode("utf-8-sig"))
+                verklig = hashlib.md5(innehall).hexdigest()
+                if farskt.get(kalla) != verklig:
+                    raise
+                print(f"{val}: filen skrevs om under hämtningen, md5 stämmer mot det färska indexet")
+                urval[val] = (kalla, verklig)
         data[val] = innehall
     return data
 

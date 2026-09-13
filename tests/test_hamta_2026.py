@@ -229,7 +229,9 @@ def test_atermforsok_vid_andrade_filer(monkeypatch, tmp_path, capsys):
     kod = _huvud(["--bas-url", "https://example.invalid/", "--utan-signatur", "--ut", str(tmp_path)])
 
     assert kod == 0
-    assert tillstand["index"] == 2
+    # Tre indexläsningar: den första, omläsningen vid md5-avvikelsen (som inte heller stämmer, filen är fel
+    # på riktigt) och återförsökets.
+    assert tillstand["index"] == 3
     assert "Filerna ändrades under hämtningen, försöker igen" in capsys.readouterr().out
 
 
@@ -640,3 +642,35 @@ def test_korningen_skriver_manifest_med_tillfalle_och_filnamn(tmp_path):
     assert manifest["tillfalle"] == "s"
     assert manifest["filer"]["rd"]["namn"] == "Test_2026_slutlig_00_RD.zip"
     assert re.fullmatch(r"[0-9a-f]{32}", manifest["filer"]["rd"]["md5"])
+
+
+def test_md5_mot_farskt_index_nar_filen_skrivits_om_under_hamtningen(monkeypatch):
+    """Valkvällen 22.11-22.15: tre varv i rad föll på md5 stämmer inte. Valmyndigheten skriver om filerna
+    oftare än de tre hinner hämtas, så filen är nyare än indexet vi läste först. Vid avvikelse läses
+    index.md5 om och filen godtas om dess md5 stämmer med det färska indexet; urvalet får den md5:n så
+    att manifestet säger vad som faktiskt hämtades. Ett index som inte heller stämmer ger som förut
+    AndradUnderHamtning."""
+    ny = b"nytt innehall"
+    ny_md5 = hashlib.md5(ny).hexdigest()
+    gammalt_index = "00000000000000000000000000000000  ./p/rd/Val_2026_preliminar_00_RD.zip\n"
+    farskt_index = f"{ny_md5}  ./p/rd/Val_2026_preliminar_00_RD.zip\n"
+    anrop = []
+
+    def fake_hamta(url, **kw):
+        anrop.append(url)
+        if url.endswith("index.md5"):
+            return farskt_index.encode()
+        return ny
+    monkeypatch.setattr(hm, "hamta", fake_hamta)
+    monkeypatch.setattr(hm, "PAUS_SEKUNDER", 0)
+    urval = hm.valj_filer(hm.las_index(gammalt_index), "p")
+    data = hm.hamta_och_kontrollera("https://x/", urval)
+    assert data["rd"] == ny
+    assert urval["rd"][1] == ny_md5, "urvalet bär filens verkliga md5"
+    assert anrop.count("https://x/index.md5") == 1, "indexet lästes om en gång"
+
+    def envist_fel(url, **kw):
+        return gammalt_index.encode() if url.endswith("index.md5") else ny
+    monkeypatch.setattr(hm, "hamta", envist_fel)
+    with pytest.raises(hm.AndradUnderHamtning):
+        hm.hamta_och_kontrollera("https://x/", hm.valj_filer(hm.las_index(gammalt_index), "p"))

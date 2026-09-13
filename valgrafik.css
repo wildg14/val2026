@@ -35,6 +35,9 @@
 .mp-val .matare-spar { display: block; height: 10px; background: var(--linje); border-radius: 2px; margin: 0 0 10px; }
 .mp-val .matare-fyll { display: block; height: 100%; background: var(--morkgron); border-radius: 2px; }
 .mp-val .matare-karta { min-height: 0; margin: 0 0 12px; }
+/* Sveriges staplar på valnatten: samma rader som toppsvaret, under sidhuvudet på smala containrar och bredvid Majornas
+   staplar från 900 px (i rutornas cell, rutorna flyttar då ned en rad). */
+.mp-val .toppsvar-riket { margin: 0 0 24px; }
 /* Årväljaren: i sidhuvudet och överst i varje sektion som följer året. Raden står tom tills konfigen lästs men tar plats från början; marginalen är den knappraden hade. */
 .mp-val .arval { min-height: 44px; margin: 0 0 12px; }
 /* Formulärkontroller ärver inte typsnitt: årväljaren får font, färg, bakgrund och ram uttryckligen, annars slår värdsidans eller webbläsarens standard igenom. */
@@ -284,6 +287,10 @@
      nedre del i stället för bredvid rubriken. Rutorna staplas då under varandra i sin halva. */
   .mp-val header.topp { grid-column: 1; grid-row: 1; }
   .mp-val #rutor { grid-column: 2; grid-row: 1; align-self: end; }
+  /* Sveriges staplar bredvid Majornas: nedre kanten i höjd med sidhuvudets, så att raderna står jämsides (36 px = toppsvarets
+     marginal 16 + sidhuvudets nedre luft 20). Rutorna, om de visas samtidigt, tar nästa rad i samma spalt. */
+  .mp-val #toppsvar-riket { grid-column: 2; grid-row: 1; align-self: end; max-width: 680px; margin-bottom: 36px; }
+  .mp-val .mp-main:has(#toppsvar-riket:not([hidden])) #rutor { grid-row: 2; align-self: start; }
   .mp-val .rutor { grid-template-columns: 1fr; align-items: start; }
   .mp-val #riksdag { display: grid; grid-template-columns: 1fr 1fr; column-gap: 40px; align-items: center; }
   .mp-val #riksdag > * { grid-column: 1 / -1; }

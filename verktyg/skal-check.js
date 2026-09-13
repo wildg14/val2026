@@ -27,7 +27,8 @@ const valfriFil = m => /\/data\/swing_\d+\.js(\?|$)/.test((m.location() || {}).u
     ut.matareDold = rot.querySelector('#matare').hidden;
     ut.toppsvarRubrik = (rot.querySelector('.toppsvar-rubrik') || {}).textContent || '';
     ut.toppMening = (rot.querySelector('#topp-mening') || {}).textContent || '';
-    ut.toppsvarRader = rot.querySelectorAll('.toppsvar-rad').length;
+    ut.toppsvarRader = rot.querySelectorAll('#toppsvar .toppsvar-rad').length;
+    ut.riketDold = rot.querySelector('#toppsvar-riket').hidden;
     ut.konfig = window.MAJPOSTEN.data.konfig ? 'laddad' : 'saknas';
     ut.mpMain = !!rot.querySelector('.mp-main');
     ut.sektioner = [...rot.querySelectorAll('section h2')].map(h => h.textContent);
@@ -40,7 +41,7 @@ const valfriFil = m => /\/data\/swing_\d+\.js(\?|$)/.test((m.location() || {}).u
   // hårdkodas inte, kontrollen gäller varje år.
   // Åtta rader: alla partier utom Övriga i riksdagsvalet 2022 (V, S, MP, SD, M, C, L, KD). Listan kapades
   // till fyra på telefon fram till 2026-09-08; kontrollen körs i 390 px och skulle fånga en återgång.
-  if (res.toppsvarRader === 8 && res.statusrad === '' && res.statusradDold && res.matareDold
+  if (res.toppsvarRader === 8 && res.statusrad === '' && res.statusradDold && res.matareDold && res.riketDold
       && /^Riksdagsvalet \d{4} i Majorna$/.test(res.toppsvarRubrik) && res.toppMening.trim()) console.log('toppsvar ok');
   else { console.log('TOPPSVAR FEL'); brutet = true; }
   // riktigt musklick (inte dispatchEvent) mitt på Kusttorget: gator/hållplatser ligger ovanpå men ska ha pointer-events: none

@@ -51,7 +51,9 @@ const KOHORT_KF = 'räknat på 3 jämförbara distrikt av 23';
       const valj = rot.querySelector('#arval select');
       return { arval: valj ? [...valj.options].map(o => o.textContent) : [], aktivtAr: valj ? (valj.selectedOptions[0] || {}).textContent : null,
                antalPaths: namn.length, harSandarna: namn.includes('Sandarna'), harSandarne: namn.includes('Sandarne'),
-               statusrad: rot.querySelector('#statusrad').textContent, toppsvarRader: rot.querySelectorAll('.toppsvar-rad').length,
+               statusrad: rot.querySelector('#statusrad').textContent, toppsvarRader: rot.querySelectorAll('#toppsvar .toppsvar-rad').length,
+               riketRader: rot.querySelectorAll('#toppsvar-riket .toppsvar-rad').length, riketDold: rot.querySelector('#toppsvar-riket').hidden,
+               riketRubrik: (rot.querySelector('#toppsvar-riket .toppsvar-rubrik') || {}).textContent || '',
                laddaOm: !!rot.querySelector('#statusrad button.ladda-om'),
                matare: [...rot.querySelectorAll('#matare .matare-rad')].map(r => r.textContent),
                matareDold: rot.querySelector('#matare').hidden,
@@ -94,6 +96,8 @@ const KOHORT_KF = 'räknat på 3 jämförbara distrikt av 23';
     ['mätaren i toppen räknar Sverige', y2026.matare[1].startsWith('Sverige') && /\d av \d/.test(y2026.matare[1]) && !y2026.matare[1].includes('distrikt')],
     ['mätaren ovanför kartan följer valet', y2026.kartaMatare.startsWith('Riksdagsvalet') && y2026.kartaMatare.includes('23 av 23 distrikt räknade')],
     ['ingen mätare på 2022', y2022.matareDold === true],
+    ['Sveriges staplar bredvid Majornas på valnatten', !y2026.riketDold && y2026.riketRader === 8 && y2026.riketRubrik === 'Riksdagsvalet 2026 i Sverige'],
+    ['inga Sverigestaplar på 2022', y2022.riketDold === true],
     ['statusraden för 2022 på valnatten', y2022.statusrad.startsWith('Slutligt resultat 2022.')],
     ['ingen valdagsmening i 2022-raden', !y2022.statusrad.includes('Valet 2026 är')],
     ['Ladda om leder tillbaka från 2022', y2022.laddaOm]

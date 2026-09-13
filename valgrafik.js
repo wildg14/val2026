@@ -27,12 +27,14 @@ const MARKUP = `
     <p class="samarbete" id="samarbete" hidden></p>
   </header>
 
+  <div id="toppsvar-riket" class="toppsvar-riket" hidden></div>
   <div id="rutor" class="rutor" hidden></div>
 
   <section id="riksdag" aria-labelledby="riksdag-rubrik">
     <h2 id="riksdag-rubrik">Om Majorna bestämde</h2>
     <div class="arval" hidden></div>
     <p class="arval-fel" role="status" hidden></p>
+    <p class="toppsvar-tom" id="mandat-vantar" hidden></p>
     <p class="not" id="mandat-ingress"></p>
     <div class="knappar" role="radiogroup" aria-label="Välj fördelning" id="mandat-lage"></div>
     <div id="halvcirkel"></div>
@@ -412,7 +414,7 @@ async function start() {
 
 /* ===================================================================== render */
 function renderAllt() {
-  renderHuvud(); renderSamarbete(); renderRiksdag(); renderKontroller(); renderMatare(); renderKarta(); renderPanel(); renderTabell(); renderRostdelning(); renderJamforelse(); renderFakta(); renderHistorik();
+  renderHuvud(); renderToppsvarRiket(); renderSamarbete(); renderRiksdag(); renderKontroller(); renderMatare(); renderKarta(); renderPanel(); renderTabell(); renderRostdelning(); renderJamforelse(); renderFakta(); renderHistorik();
 }
 function renderHuvud() {
   $("#topp-etikett").textContent = "Majposten · Valspecial";
@@ -526,13 +528,30 @@ function renderToppsvar() {
   // halva resultatet överst på sidan väckte fler frågor än det svarade på.
   const utomOvriga = andelar(m.roster, m.giltiga).filter(a => a.p !== "Övriga");
   const rader = utomOvriga;
-  const lista = h("div", { class: "toppsvar-rader", role: "list", "aria-label": `${VALNAMN[val]} ${meta.ar}, de ${rader.length} största partierna i Majorna` });
-  // Raden har hela svaret i aria-label; innehållet döljs för skärmläsare så att talet inte läses två gånger.
+  const lista = toppsvarLista(rader, `${VALNAMN[val]} ${meta.ar}, de ${rader.length} största partierna i Majorna`);
+  el.append(h("p", { class: "toppsvar-rubrik" }, st.delvis ? `Räknat hittills, riksdagsvalet ${meta.ar}` : `Riksdagsvalet ${meta.ar} i Majorna`), lista);
+}
+// Raden har hela svaret i aria-label; innehållet döljs för skärmläsare så att talet inte läses två gånger.
+function toppsvarLista(rader, label) {
+  const lista = h("div", { class: "toppsvar-rader", role: "list", "aria-label": label });
   for (const a of rader) lista.append(h("div", { class: "toppsvar-rad", role: "listitem", "aria-label": `${parti(a.p).namn} ${procent(a.andel)}` },
     h("b", { class: "toppsvar-parti", "aria-hidden": "true" }, a.p),
     h("span", { class: "toppsvar-spar", "aria-hidden": "true" }, h("span", { class: "toppsvar-stapel", style: `width:${Math.min(100, a.andel / 0.4 * 100).toFixed(1)}%;background:${parti(a.p).farg}` })),
     h("span", { class: "toppsvar-tal", "aria-hidden": "true" }, procent(a.andel))));
-  el.append(h("p", { class: "toppsvar-rubrik" }, st.delvis ? `Räknat hittills, riksdagsvalet ${meta.ar}` : `Riksdagsvalet ${meta.ar} i Majorna`), lista);
+  return lista;
+}
+/* ---- Sveriges staplar bredvid Majornas på valnatten: riksdagsvalet i hela landet ur rikets aggregat i årets
+   fil, samma rader och skala som toppsvaret. Riket räknas i en annan takt än Majorna; talet står i mätaren
+   ovanför. Bara i valnattsläge för det levande året: övriga år bär "Majorna mot Sverige" jämförelsen. */
+function renderToppsvarRiket() {
+  const el = $("#toppsvar-riket"), meta = data().meta, andel = riketAndelar(), rike = jamforelse("riket", "rd");
+  const visa = matareVisas() && !!andel && !state.bild;
+  el.hidden = !visa;
+  el.innerHTML = "";
+  if (!visa) return;
+  const rader = Object.entries(andel).map(([p, a]) => ({ p, andel: a })).filter(a => a.p !== "Övriga" && a.andel > 0).sort((a, b) => b.andel - a.andel);
+  el.append(h("p", { class: "toppsvar-rubrik" }, omradeDelvis(rike) ? `Räknat hittills, riksdagsvalet ${meta.ar} i Sverige` : `Riksdagsvalet ${meta.ar} i Sverige`),
+            toppsvarLista(rader, `Riksdagsvalet ${meta.ar} i Sverige, ${rader.length} partier`));
 }
 
 /* ---- räknemätaren: hur stor del av distrikten som är räknade, som spår och fyllning. Talet står i
@@ -633,8 +652,20 @@ function renderRiksdag() {
   const sek = $("#riksdag"), m = data().mandat || {}, meta = data().meta;
   const verklig = m.riksdag_verklig && Object.keys(m.riksdag_verklig).length ? m.riksdag_verklig : null;
   const egen = m.riksdag_majorna && Object.keys(m.riksdag_majorna).length ? m.riksdag_majorna : null;
-  if (!egen && !verklig) { sek.hidden = true; return; }
+  const vantar = $("#mandat-vantar"), delar = ["mandat-ingress", "mandat-lage", "halvcirkel", "mandat-enhet", "mandat-legend", "mandat-metod", "mandat-forbehall"];
+  if (!egen && !verklig) {
+    // Valnatten innan de första distrikten i landet är räknade: sektionen står kvar med ett besked om vad som
+    // kommer, i stället för att försvinna och lämna läsaren att undra. Andra år utan mandat döljs den som förut.
+    const visa = matareVisas();
+    sek.hidden = !visa;
+    vantar.hidden = !visa;
+    vantar.textContent = "Riksdagens fördelning kommer när de första distrikten i landet är räknade, Majornas när Majornas distrikt är räknade.";
+    for (const id of delar) $("#" + id).hidden = true;
+    return;
+  }
   sek.hidden = false;
+  vantar.hidden = true;
+  for (const id of ["halvcirkel", "mandat-legend", "mandat-metod"]) $("#" + id).hidden = false;
   const lagen = [];
   if (verklig) lagen.push(["verklig", `Riksdagen ${meta.ar}`]);
   if (egen) lagen.push(["majorna", "Om Majorna bestämde"]);
@@ -675,6 +706,8 @@ function renderRiksdag() {
   // Orden gäller både mandat och röstandelar, så förbehållet står kvar oförändrat när enheten byts.
   forbehall.textContent = !preliminar ? ""
     : omradeDelvis(rike) ? `Preliminärt resultat, riket: ${raknadeText(rike)}.` : "Preliminärt resultat.";
+  // Riksdagen finns men Majorna inte än: säg att Majornas kolumn kommer, annars ser tabellen färdig ut med en kolumn.
+  if (!egen && matareVisas()) { forbehall.hidden = false; forbehall.textContent = `${forbehall.textContent} Majornas fördelning kommer när Majornas distrikt är räknade.`.trim(); }
 }
 // Skärmläsarraden byggs ur tabellens egna celler, så att den aldrig kan säga något annat än det som står
 // på skärmen: talen är mandat eller andelar beroende på enheten, och kolumnen följer vald fördelning.

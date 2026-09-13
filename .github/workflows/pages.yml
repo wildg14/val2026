@@ -1,0 +1,38 @@
+# Publicerar sidan till GitHub Pages med en egen workflow i stället för Pages inbyggda bygge från grenen.
+# Skälet (valkvällen 2026-09-13): det inbyggda bygget har en mjuk gräns på tio byggen i timmen, och på
+# valnatten pushar valnattsslingan ny data varannan minut. En egen workflow har ingen sådan gräns.
+# Bara det sidan serverar packas: index.html, valgrafik.js, valgrafik.css, data/ och bilder/.
+# Kräver att Pages källa är "GitHub Actions" (Settings > Pages > Source), annars felar deploy-steget.
+name: Publicera sidan
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+# En publicering i taget; en ny push avbryter en som köar, så att det alltid är senaste committen som går ut.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+jobs:
+  publicera:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Bara det sidan serverar
+        run: |
+          mkdir -p _site
+          cp index.html valgrafik.js valgrafik.css _site/
+          cp -R data _site/data
+          cp -R bilder _site/bilder
+          du -sh _site
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - id: deploy
+        uses: actions/deploy-pages@v4
